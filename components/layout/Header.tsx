@@ -71,14 +71,11 @@ export function Header() {
             <div className="container mx-auto px-4">
                 <div className="flex h-16 items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                        <Image
+                    <Link href="/" className="flex items-center hover:opacity-80 transition-opacity logo-container">
+                        <img
                             src="/images/segmento-logo.png"
-                            alt="Segmento"
-                            width={180}
-                            height={45}
-                            className="w-auto h-10 md:h-11"
-                            priority
+                            alt="Segmento Data Technologies"
+                            className="logo-image"
                         />
                     </Link>
 

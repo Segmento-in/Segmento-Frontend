@@ -126,8 +126,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                 <button
                                     onClick={() => setStructType('Structured Data')}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${structType === 'Structured Data'
-                                            ? 'bg-[#3E94560] text-white'
-                                            : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-[#3E94560] text-white'
+                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     Structured
@@ -135,8 +135,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                 <button
                                     onClick={() => setStructType('Unstructured Data')}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${structType === 'Unstructured Data'
-                                            ? 'bg-[#3E94560] text-white'
-                                            : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-[#3E94560] text-white'
+                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     Unstructured
@@ -181,8 +181,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                         setDbSource('PostgreSQL');
                                     }}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${dbType === 'Relational (SQL)'
-                                            ? 'bg-[#3E94560] text-white'
-                                            : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-[#3E94560] text-white'
+                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     SQL
@@ -193,8 +193,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                         setDbSource('MongoDB');
                                     }}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${dbType === 'Non-Relational (NoSQL)'
-                                            ? 'bg-[#3E94560] text-white'
-                                            : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-[#3E94560] text-white'
+                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     NoSQL
@@ -232,7 +232,7 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                             className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B]"
                         >
                             <option value="Google Drive">Google Drive</option>
-                            <option value="AWS S3">AWS S3</option>
+                            <option value="Amazon S3">Amazon S3</option>
                             <option value="Azure Blob Storage">Azure Blob Storage</option>
                             <option value="Google Cloud Storage">Google Cloud Storage</option>
                         </select>

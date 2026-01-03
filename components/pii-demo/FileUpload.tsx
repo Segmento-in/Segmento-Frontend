@@ -1,23 +1,36 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { apiClient, AnalysisResponse } from '@/lib/apiClient';
 
 interface FileUploadProps {
     fileType: string;
     onAnalysisComplete: (result: AnalysisResponse) => void;
     onLoading: (loading: boolean) => void;
+    onError?: (error: string) => void;
 }
 
 const FILE_SIZE_LIMIT = 1024 * 1024 * 1024; // 1GB
 
-export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComplete, onLoading }) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComplete, onLoading, onError }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [maskEnabled, setMaskEnabled] = useState(false);
     const [pdfPage, setPdfPage] = useState(0);
     const [error, setError] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Listen for PDF page change events from pagination buttons
+    useEffect(() => {
+        const handlePageChange = (e: any) => {
+            if (fileType === 'PDF' && selectedFile) {
+                handlePDFPageChange(e.detail.page);
+            }
+        };
+
+        window.addEventListener('pdf-page-change', handlePageChange);
+        return () => window.removeEventListener('pdf-page-change', handlePageChange);
+    }, [fileType, selectedFile, pdfPage]);
 
     const handleDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -39,10 +52,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
 
     const handleFileSelection = (file: File) => {
         setError('');
+        onError?.('');
 
         // Validate file size
         if (file.size > FILE_SIZE_LIMIT) {
-            setError(`File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds 1GB limit`);
+            const errorMsg = `File size (${(file.size / 1024 / 1024).toFixed(2)}MB) exceeds 1GB limit`;
+            setError(errorMsg);
+            onError?.(errorMsg);
             return;
         }
 
@@ -60,7 +76,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
         const fileExt = '.' + file.name.split('.').pop()?.toLowerCase();
 
         if (!extensions.includes(fileExt)) {
-            setError(`Invalid file type. Expected: ${extensions.join(', ')}`);
+            const errorMsg = `Invalid file type. Expected: ${extensions.join(', ')}`;
+            setError(errorMsg);
+            onError?.(errorMsg);
             return;
         }
 
@@ -78,6 +96,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
         if (!selectedFile) return;
 
         setError('');
+        onError?.('');
         onLoading(true);
 
         try {
@@ -108,7 +127,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
 
             onAnalysisComplete(result);
         } catch (err: any) {
-            setError(err.message || 'Failed to analyze file');
+            const errorMsg = err.message || 'Failed to analyze file';
+            setError(errorMsg);
+            onError?.(errorMsg);
         } finally {
             onLoading(false);
         }
@@ -119,11 +140,14 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
         setPdfPage(newPage);
 
         onLoading(true);
+        onError?.('');
         try {
             const result = await apiClient.uploadPDF(selectedFile, newPage);
             onAnalysisComplete(result);
         } catch (err: any) {
-            setError(err.message || 'Failed to load PDF page');
+            const errorMsg = err.message || 'Failed to load PDF page';
+            setError(errorMsg);
+            onError?.(errorMsg);
         } finally {
             onLoading(false);
         }
@@ -138,8 +162,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 className={`relative border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all ${isDragging
-                        ? 'border-[#B3945B] bg-[#B3945B]/10'
-                        : 'border-[#3E2F5B] hover:border-[#B3945B]/50 bg-[#3E2F5B]/5'
+                    ? 'border-[#B3945B] bg-[#B3945B]/10'
+                    : 'border-[#3E2F5B] hover:border-[#B3945B]/50 bg-[#3E2F5B]/5'
                     }`}
             >
                 <input

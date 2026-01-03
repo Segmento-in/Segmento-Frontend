@@ -6,6 +6,11 @@ import { FileUpload } from '@/components/pii-demo/FileUpload';
 import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
 import { Inspector } from '@/components/pii-demo/Inspector';
 import { ChessLoadingAnimation } from '@/components/pii-demo/ChessLoadingAnimation';
+import { DatabaseConnector } from '@/components/pii-demo/connectors/DatabaseConnector';
+import { CloudStorageConnector } from '@/components/pii-demo/connectors/CloudStorageConnector';
+import { SlackConnector } from '@/components/pii-demo/connectors/SlackConnector';
+import { ConfluenceConnector } from '@/components/pii-demo/connectors/ConfluenceConnector';
+import { GmailConnector } from '@/components/pii-demo/connectors/GmailConnector';
 import { AnalysisResponse } from '@/lib/apiClient';
 
 export default function PIIDemoPage() {
@@ -42,6 +47,7 @@ export default function PIIDemoPage() {
                             fileType={sourceConfig.fileSubType}
                             onAnalysisComplete={handleAnalysisComplete}
                             onLoading={setLoading}
+                            onError={handleError}
                         />
                     </div>
 
@@ -98,9 +104,42 @@ export default function PIIDemoPage() {
                             {/* PDF Image */}
                             {analysisResult.image && (
                                 <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                                    <h3 className="text-xl font-semibold text-[#B3945B] mb-4">
-                                        PDF Page {analysisResult.current_page! + 1} of {analysisResult.total_pages}
-                                    </h3>
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-semibold text-[#B3945B]">
+                                            PDF Page {analysisResult.current_page! + 1} of {analysisResult.total_pages}
+                                        </h3>
+
+                                        {/* Pagination Controls */}
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={() => {
+                                                    const newPage = (analysisResult.current_page || 0) - 1;
+                                                    if (newPage >= 0) {
+                                                        // Trigger re-upload with new page
+                                                        const event = new CustomEvent('pdf-page-change', { detail: { page: newPage } });
+                                                        window.dispatchEvent(event);
+                                                    }
+                                                }}
+                                                disabled={(analysisResult.current_page || 0) <= 0 || loading}
+                                                className="px-4 py-2 bg-[#3E2F5B] hover:bg-[#3E2F5B]/80 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                            >
+                                                ← Previous
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    const newPage = (analysisResult.current_page || 0) + 1;
+                                                    if (newPage < (analysisResult.total_pages || 0)) {
+                                                        const event = new CustomEvent('pdf-page-change', { detail: { page: newPage } });
+                                                        window.dispatchEvent(event);
+                                                    }
+                                                }}
+                                                disabled={(analysisResult.current_page || 0) >= (analysisResult.total_pages || 1) - 1 || loading}
+                                                className="px-4 py-2 bg-[#3E2F5B] hover:bg-[#3E2F5B]/80 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                            >
+                                                Next →
+                                            </button>
+                                        </div>
+                                    </div>
                                     <img
                                         src={analysisResult.image}
                                         alt="PDF Page"
@@ -135,7 +174,12 @@ export default function PIIDemoPage() {
                     <h2 className="text-2xl font-bold text-white mb-6">
                         Connect to {sourceConfig.source}
                     </h2>
-                    <DatabaseConnectorPlaceholder source={sourceConfig.source} />
+                    <DatabaseConnector
+                        databaseType={sourceConfig.source as 'PostgreSQL' | 'MySQL' | 'MongoDB'}
+                        onAnalysisComplete={handleAnalysisComplete}
+                        onLoading={setLoading}
+                        onError={handleError}
+                    />
                 </div>
             );
         }
@@ -147,19 +191,53 @@ export default function PIIDemoPage() {
                     <h2 className="text-2xl font-bold text-white mb-6">
                         {sourceConfig.source} Import
                     </h2>
-                    <CloudStoragePlaceholder source={sourceConfig.source} />
+                    <CloudStorageConnector
+                        sourceType={sourceConfig.source as 'Google Drive' | 'Amazon S3' | 'Azure Blob Storage' | 'Google Cloud Storage'}
+                        onAnalysisComplete={handleAnalysisComplete}
+                        onLoading={setLoading}
+                        onError={handleError}
+                    />
                 </div>
             );
         }
 
         // Enterprise Connectors
         if (sourceConfig.mainCategory === 'Enterprise Connectors') {
+            const connector = sourceConfig.source === 'Gmail' ? (
+                <GmailConnector
+                    onAnalysisComplete={handleAnalysisComplete}
+                    onLoading={setLoading}
+                    onError={handleError}
+                />
+            ) : sourceConfig.source === 'Slack' ? (
+                <SlackConnector
+                    onAnalysisComplete={handleAnalysisComplete}
+                    onLoading={setLoading}
+                    onError={handleError}
+                />
+            ) : sourceConfig.source === 'Confluence' ? (
+                <ConfluenceConnector
+                    onAnalysisComplete={handleAnalysisComplete}
+                    onLoading={setLoading}
+                    onError={handleError}
+                />
+            ) : (
+                <div className="text-center py-12">
+                    <p className="text-gray-400 mb-4">
+                        {sourceConfig.source} connector coming soon!
+                    </p>
+                    <p className="text-sm text-gray-500">
+                        Backend API ready. OAuth flow in progress.
+                    </p>
+                </div>
+            );
+
             return (
                 <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                     <h2 className="text-2xl font-bold text-white mb-6">
                         {sourceConfig.source} Scanner
                     </h2>
-                    <EnterpriseConnectorPlaceholder source={sourceConfig.source} />
+                    {connector}
                 </div>
             );
         }
