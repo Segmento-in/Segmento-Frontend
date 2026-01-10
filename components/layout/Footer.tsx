@@ -25,13 +25,13 @@ export function Footer() {
             { label: "Contact", href: "/contact" },
         ],
         social: [
-            { label: "X/Twitter", href: "https://twitter.com/segmento", icon: Twitter },
-            { label: "LinkedIn", href: "https://linkedin.com/company/segmento", icon: Linkedin },
-            { label: "YouTube", href: "https://youtube.com/@segmento", icon: Youtube },
-            { label: "Instagram", href: "https://instagram.com/segmento", icon: Instagram },
-            { label: "Facebook", href: "https://facebook.com/segmento", icon: Facebook },
-            { label: "GitHub", href: "https://github.com/segmento", icon: Github },
-            { label: "TikTok", href: "https://tiktok.com/@segmento", icon: TikTokIcon },
+            { label: "X/Twitter", href: "/404", icon: Twitter },
+            { label: "LinkedIn", href: "/404", icon: Linkedin },
+            { label: "YouTube", href: "/404", icon: Youtube },
+            { label: "Instagram", href: "/404", icon: Instagram },
+            { label: "Facebook", href: "/404", icon: Facebook },
+            { label: "GitHub", href: "/404", icon: Github },
+            { label: "TikTok", href: "/404", icon: TikTokIcon },
         ],
         legal: [
             { label: "Privacy Policy", href: "/privacy" },
@@ -97,8 +97,6 @@ export function Footer() {
                                     <Link
                                         href={link.href}
                                         className="text-sm text-gray-400 hover:text-primary-100 transition-colors flex items-center gap-2"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
                                     >
                                         {link.icon && <link.icon className="h-4 w-4" />}
                                         {link.label}

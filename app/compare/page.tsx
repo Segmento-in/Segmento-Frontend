@@ -104,11 +104,16 @@ export default function ComparePage() {
 
             {/* Comparison Matrix */}
             <section className="container mx-auto px-4 py-12 md:py-16">
-                <ComparisonTable
-                    selectedCompetitors={selectedCompetitors}
-                    onRemoveCompetitor={handleRemoveCompetitor}
-                />
+                <div className="flex flex-col gap-26">
+                    <div className="overflow-x-auto bg-white rounded-2xl shadow-lg border border-gray-200 p-4">
+                        <ComparisonTable
+                            selectedCompetitors={selectedCompetitors}
+                            onRemoveCompetitor={handleRemoveCompetitor}
+                        />
+                    </div>
+                </div>
             </section>
+
 
             {/* CTA Section */}
             <section className="bg-gradient-to-br from-primary-600 to-primary-500 text-white py-16">

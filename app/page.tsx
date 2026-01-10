@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Shield, Zap, TrendingUp, CheckCircle } from "lucide-react"
 import Chatbot from "./chatbot"
+import ProductPopup from "@/components/ProductPopup"
 
 export const metadata = {
     title: "Segmento | Secure Data. Smarter Insights.",
@@ -186,6 +187,9 @@ export default function HomePage() {
                     </div>
                 </div>
             </section>
+
+            {/* Product Popup */}
+            <ProductPopup />
 
             {/* Chatbot */}
             <Chatbot />
