@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { searchNews, type Article } from "@/lib/pulse/newsApi";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function SearchPage() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams.get('q') || '';

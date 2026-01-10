@@ -6,6 +6,9 @@ import Link from "next/link";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 import { Clock, ExternalLink } from "lucide-react";
 
+// Force dynamic rendering (required for useSearchParams and API calls)
+export const dynamic = 'force-dynamic';
+
 const categories = [
     { id: "ai", name: "AI" },
     { id: "data-security", name: "Data" },
@@ -61,8 +64,8 @@ export default function NewsPage() {
                         key={cat.id}
                         href={`/pulse/news?category=${cat.id}`}
                         className={`px-6 py-2 rounded-full transition-all ${activeCategory === cat.id
-                                ? "bg-blue-600 text-white shadow-lg"
-                                : "bg-gray-100 hover:bg-gray-200"
+                            ? "bg-blue-600 text-white shadow-lg"
+                            : "bg-gray-100 hover:bg-gray-200"
                             }`}
                     >
                         {cat.name}

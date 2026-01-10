@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 import { BookOpen, ExternalLink, Clock } from "lucide-react";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function MagazinesPage() {
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
