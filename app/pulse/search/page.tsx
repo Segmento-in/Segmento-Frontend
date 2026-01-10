@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search as SearchIcon, ExternalLink, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { searchNews, type Article } from "@/lib/pulse/newsApi";
 // Force dynamic rendering (for client components, only 'dynamic' is allowed)
 export const dynamic = 'force-dynamic';
 
-export default function SearchPage() {
+function SearchContent() {
     const searchParams = useSearchParams();
     const initialQuery = searchParams.get('q') || '';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
@@ -18,7 +18,7 @@ const categories = [
     { id: "magazines", name: "Magazines" },
 ];
 
-export default function NewsPage() {
+function NewsContent() {
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || 'ai';
 
@@ -121,5 +121,18 @@ export default function NewsPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function NewsPage() {
+    return (
+        <Suspense fallback={
+            <div className="container mx-auto px-4 py-20 text-center">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <p className="mt-4 text-muted-foreground">Loading...</p>
+            </div>
+        }>
+            <NewsContent />
+        </Suspense>
     );
 }
