@@ -23,8 +23,8 @@ export default function ContactPage() {
         {
             icon: Mail,
             label: "Email",
-            value: "hello@segmento.in",
-            href: "mailto:hello@segmento.in"
+            value: "info@segmento.in",
+            href: "mailto:info@segmento.in"
         },
         {
             icon: Phone,
