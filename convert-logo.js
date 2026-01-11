@@ -8,7 +8,7 @@ const outputPath = path.join(__dirname, 'public', 'images', 'logo.png');
 
 // Convert SVG to PNG
 sharp(svgPath)
-    .resize(800, 200)
+    .resize(800, 400)
     .png()
     .toFile(outputPath)
     .then(() => {

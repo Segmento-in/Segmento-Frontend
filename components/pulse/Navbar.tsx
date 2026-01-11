@@ -2,15 +2,17 @@
 
 import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import { Search, Menu, X, User } from "lucide-react";
+import { Search, Menu, X, User, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import '@/app/pulse/heartbeat.css';
 
 export default function PulseNavbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isDataDropdownOpen, setIsDataDropdownOpen] = useState(false);
     const router = useRouter();
 
     const timeoutRef = useRef<number | undefined>(undefined);
@@ -51,12 +53,17 @@ export default function PulseNavbar() {
         setSearchQuery("");
     };
 
+    const dataSubcategories = [
+        { name: "Data Engineering", path: "/pulse/news?category=data-engineering" },
+        { name: "Data Governance", path: "/pulse/news?category=data-governance" },
+        { name: "Data Privacy", path: "/pulse/news?category=data-privacy" },
+        { name: "Data Security", path: "/pulse/news?category=data-security" },
+    ];
+
     const navLinks = [
         { name: "Home", path: "/pulse" },
         { name: "AI", path: "/pulse/news?category=ai" },
-        { name: "Data", path: "/pulse/news?category=data-security" },
-        { name: "Security", path: "/pulse/news?category=cyber-security" },
-        { name: "Blockchain", path: "/pulse/news?category=blockchain" },
+        { name: "Data", path: "#", hasDropdown: true },
         { name: "Cloud", path: "/pulse/news?category=cloud-computing" },
         { name: "Magazines", path: "/pulse/magazines" },
     ];
@@ -66,10 +73,26 @@ export default function PulseNavbar() {
             <div className="container flex h-16 items-center justify-between">
                 {/* Logo */}
                 <Link href="/pulse" className="flex items-center gap-2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
-                        <span className="font-display text-lg font-bold text-white">
-                            S
-                        </span>
+                    {/* Animated Heartbeat Logo */}
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg heartbeat-glow"></div>
+                        <div className="relative w-9 h-9 flex items-center justify-center">
+                            <svg
+                                viewBox="0 0 100 50"
+                                className="w-full h-full text-blue-600"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M 0 25 L 15 25 L 18 12 L 22 38 L 26 18 L 30 25 L 45 25 L 48 12 L 52 38 L 56 18 L 60 25 L 75 25 L 78 12 L 82 38 L 86 18 L 90 25 L 100 25"
+                                    stroke="currentColor"
+                                    strokeWidth="3"
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="heartbeat-line"
+                                />
+                            </svg>
+                        </div>
                     </div>
                     <span className="font-display text-xl font-bold">
                         Segmento<span className="text-blue-600">Pulse</span>
@@ -79,13 +102,45 @@ export default function PulseNavbar() {
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center gap-1">
                     {navLinks.map((link) => (
-                        <Link
-                            key={link.name}
-                            href={link.path}
-                            className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
-                        >
-                            {link.name}
-                        </Link>
+                        link.hasDropdown ? (
+                            <div key={link.name} className="relative">
+                                <button
+                                    onClick={() => setIsDataDropdownOpen(!isDataDropdownOpen)}
+                                    onMouseEnter={() => setIsDataDropdownOpen(true)}
+                                    onMouseLeave={() => setIsDataDropdownOpen(false)}
+                                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                >
+                                    {link.name}
+                                    <ChevronDown className="w-4 h-4" />
+                                </button>
+                                {isDataDropdownOpen && (
+                                    <div
+                                        onMouseEnter={() => setIsDataDropdownOpen(true)}
+                                        onMouseLeave={() => setIsDataDropdownOpen(false)}
+                                        className="absolute top-full left-0 mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50"
+                                    >
+                                        {dataSubcategories.map((subcat) => (
+                                            <Link
+                                                key={subcat.name}
+                                                href={subcat.path}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setIsDataDropdownOpen(false)}
+                                            >
+                                                {subcat.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link
+                                key={link.name}
+                                href={link.path}
+                                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                            >
+                                {link.name}
+                            </Link>
+                        )
                     ))}
                 </nav>
 
@@ -180,14 +235,34 @@ export default function PulseNavbar() {
                 <div className="lg:hidden border-t">
                     <nav className="container py-4 flex flex-col gap-2">
                         {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.path}
-                                className="px-4 py-3 rounded-lg hover:bg-secondary"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                {link.name}
-                            </Link>
+                            link.hasDropdown ? (
+                                <div key={link.name}>
+                                    <div className="px-4 py-2 font-semibold text-gray-900">
+                                        {link.name}
+                                    </div>
+                                    <div className="pl-4">
+                                        {dataSubcategories.map((subcat) => (
+                                            <Link
+                                                key={subcat.name}
+                                                href={subcat.path}
+                                                className="block px-4 py-2 text-sm rounded-lg hover:bg-secondary"
+                                                onClick={() => setIsMenuOpen(false)}
+                                            >
+                                                {subcat.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <Link
+                                    key={link.name}
+                                    href={link.path}
+                                    className="px-4 py-3 rounded-lg hover:bg-secondary"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {link.name}
+                                </Link>
+                            )
                         ))}
 
                         <div className="mt-4 pt-4 border-t flex flex-col gap-2">
@@ -208,3 +283,4 @@ export default function PulseNavbar() {
         </header>
     );
 }
+

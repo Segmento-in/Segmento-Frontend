@@ -1,176 +1,242 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Zap } from "lucide-react";
+import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp } from "lucide-react";
+import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 
-// Force dynamic rendering (for client components, only 'dynamic' is allowed)
+// Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-interface NewsItem {
-    id: string;
-    title: string;
-    excerpt: string;
-    image: string;
-    category: string;
-    author: string;
-    date: string;
-    featured?: boolean;
-}
-
-const newsData: NewsItem[] = [
-    {
-        id: "1",
-        title: "AI Breakthrough: New Model Achieves Human-Level Reasoning",
-        excerpt:
-            "Researchers at MIT unveil revolutionary AI system that outperforms humans on complex reasoning tasks...",
-        image:
-            "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
-        category: "AI",
-        author: "Dr. Sarah Chen",
-        date: "Jan 8, 2026",
-        featured: true,
-    },
-    {
-        id: "2",
-        title: "Quantum Computing Milestone: Error Correction Achieved",
-        excerpt:
-            "Google Quantum AI team demonstrates breakthrough in quantum error correction...",
-        image:
-            "https://images.unsplash.com/photo-1612178289449-b426724797ec?w=400&h=300&fit=crop",
-        category: "Cloud Computing",
-        author: "James Park",
-        date: "Jan 7, 2026",
-    },
-    {
-        id: "3",
-        title: "Cybersecurity: Zero-Day Exploits Target Cloud Infrastructure",
-        excerpt:
-            "Critical vulnerabilities discovered in major cloud providers...",
-        image:
-            "https://images.unsplash.com/photo-1613977257592-6205e87d73a8?w=400&h=300&fit=crop",
-        category: "Cyber Security",
-        author: "Maria Lopez",
-        date: "Jan 6, 2026",
-    },
-];
-
-const categories = [
-    "AI",
-    "Data",
-    "Cyber Security",
-    "Cloud Computing",
-    "Magazines",
-];
-
 export default function PulsePage() {
-    const featuredNews = newsData.find((news) => news.featured);
-    const latestNews = newsData.filter((news) => !news.featured);
-    const trendingNews = newsData.slice(0, 5);
+    const [newsData, setNewsData] = useState<Record<string, Article[]>>({});
+    const [loading, setLoading] = useState(true);
 
-    return (
-        <>
-            {/* Hero Section */}
-            <section className="py-10">
-                <div className="container mx-auto px-4 max-w-7xl">
-                    <h1 className="text-4xl font-bold mb-2">Today's Headlines</h1>
-                    <p className="text-muted-foreground mb-6">
-                        Stay informed with the latest technology news
-                    </p>
+    useEffect(() => {
+        const fetchAllNews = async () => {
+            const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'cloud-computing', 'magazines'];
 
-                    {featuredNews && (
-                        <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <img
-                                src={featuredNews.image}
-                                alt={featuredNews.title}
-                                className="w-full h-72 object-cover rounded-xl mb-4"
-                            />
-                            <h2 className="text-2xl font-bold mb-2">{featuredNews.title}</h2>
-                            <p className="text-muted-foreground mb-4">{featuredNews.excerpt}</p>
-                            <span className="text-sm text-gray-500">
-                                {featuredNews.author} • {featuredNews.date}
-                            </span>
+            try {
+                const newsPromises = categories.map(async (cat) => {
+                    const articles = await fetchNewsByCategory(cat);
+                    return { category: cat, articles: articles.slice(0, 3) };
+                });
+
+                const results = await Promise.all(newsPromises);
+                const newsMap: Record<string, Article[]> = {};
+                results.forEach(({ category, articles }) => {
+                    newsMap[category] = articles;
+                });
+
+                setNewsData(newsMap);
+            } catch (error) {
+                console.error('Failed to fetch news:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAllNews();
+    }, []);
+
+    const getLatestNews = (category: string) => {
+        return newsData[category]?.[0];
+    };
+
+    const CategoryBox = ({
+        category,
+        title,
+        icon: Icon,
+        colSpan,
+        rowSpan = 1,
+        height,
+        fallbackGradient
+    }: {
+        category: string;
+        title: string;
+        icon: any;
+        colSpan: string;
+        rowSpan?: number;
+        height: string;
+        fallbackGradient: string;
+    }) => {
+        const news = getLatestNews(category);
+        const imageUrl = news?.image || '';
+
+        return (
+            <Link
+                href={`/pulse/news?category=${category}`}
+                className={`${colSpan} ${rowSpan > 1 ? 'row-span-2' : ''} group relative overflow-hidden rounded-2xl ${height} transition-all duration-500 hover:shadow-2xl hover:scale-[1.01]`}
+            >
+                {/* Background Image with Overlay */}
+                {imageUrl && !loading ? (
+                    <>
+                        <div
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                            style={{ backgroundImage: `url(${imageUrl})` }}
+                        ></div>
+                        <div className={`absolute inset-0 bg-gradient-to-br ${fallbackGradient} opacity-80 group-hover:opacity-70 transition-opacity duration-500`}></div>
+                    </>
+                ) : (
+                    <div className={`absolute inset-0 bg-gradient-to-br ${fallbackGradient}`}></div>
+                )}
+
+                {/* Grid Pattern Overlay */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
+
+                <div className="relative h-full flex flex-col justify-between p-6">
+                    <div>
+                        <div className="inline-block p-2.5 bg-white/20 backdrop-blur-sm rounded-xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <Icon className={`${rowSpan > 1 ? 'w-8 h-8' : 'w-6 h-6'} text-white`} />
+                        </div>
+                        <h3 className={`${rowSpan > 1 ? 'text-2xl md:text-3xl' : 'text-lg'} font-bold text-white mb-2`}>
+                            {title}
+                        </h3>
+
+                        {/* News Headline */}
+                        {loading ? (
+                            <div className="animate-pulse space-y-2">
+                                <div className="h-3 bg-white/20 rounded w-full"></div>
+                                <div className="h-3 bg-white/10 rounded w-4/5"></div>
+                            </div>
+                        ) : news ? (
+                            <div className="animate-fade-in">
+                                <p className={`text-white/90 ${rowSpan > 1 ? 'text-sm line-clamp-3' : 'text-xs line-clamp-2'} leading-relaxed`}>
+                                    {news.title}
+                                </p>
+                                {rowSpan > 1 && (
+                                    <div className="flex items-center gap-1.5 mt-3">
+                                        <TrendingUp className="w-3.5 h-3.5 text-white/80" />
+                                        <span className="text-xs text-white/80 font-medium">Latest Update</span>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <p className="text-white/70 text-xs">No news available</p>
+                        )}
+                    </div>
+
+                    {rowSpan > 1 && (
+                        <div className="flex items-center gap-2 text-white/80 group-hover:text-white transition-colors mt-4">
+                            <span className="text-sm font-medium">Explore More</span>
+                            <Sparkles className="w-4 h-4" />
                         </div>
                     )}
                 </div>
-            </section>
+            </Link>
+        );
+    };
 
-            {/* Categories */}
-            <section className="py-6 bg-gray-50">
-                <div className="container mx-auto px-4 max-w-7xl flex gap-3 overflow-x-auto">
-                    {categories.map((cat) => (
-                        <Link
-                            key={cat}
-                            href={`/pulse/news?category=${cat.toLowerCase()}`}
-                            className="px-4 py-2 bg-white border rounded-full text-sm hover:bg-blue-50 whitespace-nowrap"
-                        >
-                            {cat}
-                        </Link>
-                    ))}
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+            <div className="container mx-auto px-4 py-8 max-w-7xl">
+                {/* Hero Text */}
+                <div className="mb-8 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        Segmento Pulse
+                    </h1>
+                    <p className="text-base text-gray-600">
+                        Real-time technology insights
+                    </p>
                 </div>
-            </section>
 
-            {/* Latest News */}
-            <section className="py-12">
-                <div className="container mx-auto px-4 max-w-7xl">
-                    <div className="flex items-center gap-2 mb-6">
-                        <Zap className="text-yellow-500" />
-                        <h2 className="text-2xl font-bold">Latest News</h2>
-                    </div>
+                {/* Bento Grid */}
+                <div className="grid grid-cols-12 gap-3">
+                    {/* Large Box - AI */}
+                    <CategoryBox
+                        category="ai"
+                        title="Artificial Intelligence"
+                        icon={Brain}
+                        colSpan="col-span-12 md:col-span-5"
+                        rowSpan={2}
+                        height="h-[480px] md:h-[560px]"
+                        fallbackGradient="from-purple-500 to-blue-600"
+                    />
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {latestNews.map((news) => (
-                            <Link
-                                key={news.id}
-                                href={`/pulse/news/${news.id}`}
-                                className="block bg-white rounded-xl shadow hover:shadow-lg transition"
-                            >
-                                <img
-                                    src={news.image}
-                                    alt={news.title}
-                                    className="w-full h-48 object-cover rounded-t-xl"
-                                />
-                                <div className="p-4">
-                                    <h3 className="font-semibold mb-2">{news.title}</h3>
-                                    <p className="text-sm text-muted-foreground mb-3">{news.excerpt}</p>
-                                    <span className="text-xs text-gray-500">
-                                        {news.author} • {news.date}
-                                    </span>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                    {/* Data Security */}
+                    <CategoryBox
+                        category="data-security"
+                        title="Data Security"
+                        icon={Shield}
+                        colSpan="col-span-6 md:col-span-3"
+                        height="h-[230px]"
+                        fallbackGradient="from-red-500 to-pink-600"
+                    />
+
+                    {/* Data Governance */}
+                    <CategoryBox
+                        category="data-governance"
+                        title="Data Governance"
+                        icon={Database}
+                        colSpan="col-span-6 md:col-span-4"
+                        height="h-[230px]"
+                        fallbackGradient="from-emerald-500 to-teal-600"
+                    />
+
+                    {/* Data Privacy */}
+                    <CategoryBox
+                        category="data-privacy"
+                        title="Data Privacy"
+                        icon={Lock}
+                        colSpan="col-span-6 md:col-span-4"
+                        height="h-[230px]"
+                        fallbackGradient="from-amber-500 to-orange-600"
+                    />
+
+                    {/* Data Engineering */}
+                    <CategoryBox
+                        category="data-engineering"
+                        title="Data Engineering"
+                        icon={Workflow}
+                        colSpan="col-span-6 md:col-span-3"
+                        height="h-[230px]"
+                        fallbackGradient="from-indigo-500 to-purple-600"
+                    />
+
+                    {/* Cloud Computing */}
+                    <CategoryBox
+                        category="cloud-computing"
+                        title="Cloud Computing"
+                        icon={Cloud}
+                        colSpan="col-span-12 md:col-span-5"
+                        height="h-[180px]"
+                        fallbackGradient="from-cyan-500 to-blue-600"
+                    />
+
+                    {/* Magazines */}
+                    <CategoryBox
+                        category="magazines"
+                        title="Tech Magazines"
+                        icon={BookOpen}
+                        colSpan="col-span-12 md:col-span-7"
+                        height="h-[180px]"
+                        fallbackGradient="from-gray-700 to-gray-900"
+                    />
                 </div>
-            </section>
 
-            {/* Trending News */}
-            <section className="py-12 bg-gray-50">
-                <div className="container mx-auto px-4 max-w-7xl">
-                    <div className="flex items-center gap-2 mb-6">
-                        <TrendingUp className="text-green-500" />
-                        <h2 className="text-2xl font-bold">Trending Now</h2>
-                    </div>
-
-                    <div className="space-y-4">
-                        {trendingNews.map((news, i) => (
-                            <Link
-                                key={news.id}
-                                href={`/pulse/news/${news.id}`}
-                                className="flex gap-4 p-4 bg-white rounded-lg shadow hover:shadow-md transition"
-                            >
-                                <span className="h-10 w-10 flex items-center justify-center bg-blue-600 text-white rounded-full font-bold shrink-0">
-                                    {i + 1}
-                                </span>
-                                <div>
-                                    <h3 className="font-semibold">{news.title}</h3>
-                                    <p className="text-sm text-gray-500">
-                                        {news.category} • {news.date}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                {/* Footer Text */}
+                <div className="mt-8 text-center">
+                    <p className="text-gray-500 text-sm">
+                        Click any category to explore the latest news and insights
+                    </p>
                 </div>
-            </section>
-        </>
+            </div>
+
+            <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out;
+        }
+      `}</style>
+        </div>
     );
 }

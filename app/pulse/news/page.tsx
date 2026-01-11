@@ -9,13 +9,17 @@ import { Clock, ExternalLink } from "lucide-react";
 // Force dynamic rendering (for client components, only 'dynamic' is allowed)
 export const dynamic = 'force-dynamic';
 
-const categories = [
+const allCategories = [
     { id: "ai", name: "AI" },
-    { id: "data-security", name: "Data" },
-    { id: "cyber-security", name: "Security" },
-    { id: "blockchain", name: "Blockchain" },
-    { id: "cloud-computing", name: "Cloud" },
+    { id: "cloud-computing", name: "Cloud Computing" },
     { id: "magazines", name: "Magazines" },
+];
+
+const dataCategories = [
+    { id: "data-security", name: "Data Security" },
+    { id: "data-governance", name: "Data Governance" },
+    { id: "data-privacy", name: "Data Privacy" },
+    { id: "data-engineering", name: "Data Engineering" },
 ];
 
 function NewsContent() {
@@ -25,6 +29,10 @@ function NewsContent() {
     const [newsData, setNewsData] = useState<Record<string, Article[]>>({});
     const [activeCategory, setActiveCategory] = useState<string>(categoryParam);
     const [loading, setLoading] = useState<boolean>(false);
+
+    // Determine which categories to show based on current category
+    const isDataCategory = dataCategories.some(cat => cat.id === activeCategory);
+    const categoriesToShow = isDataCategory ? dataCategories : allCategories;
 
     useEffect(() => {
         setActiveCategory(categoryParam);
@@ -59,13 +67,13 @@ function NewsContent() {
         <div className="container mx-auto px-4 py-8">
             {/* Category Buttons */}
             <div className="flex gap-3 mb-8 flex-wrap justify-center">
-                {categories.map((cat) => (
+                {categoriesToShow.map((cat) => (
                     <Link
                         key={cat.id}
                         href={`/pulse/news?category=${cat.id}`}
                         className={`px-6 py-2 rounded-full transition-all ${activeCategory === cat.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-gray-100 hover:bg-gray-200"
+                                ? "bg-blue-600 text-white shadow-lg"
+                                : "bg-gray-100 hover:bg-gray-200"
                             }`}
                     >
                         {cat.name}

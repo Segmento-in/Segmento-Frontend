@@ -14,12 +14,13 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
-    // Map categories to search queries
+    // Map categories to search queries - specific terms for accurate results
     const categoryQueries: Record<string, string> = {
         'ai': 'artificial intelligence',
-        'data-security': 'data science',
-        'cyber-security': 'cybersecurity',
-        'blockchain': 'blockchain',
+        'data-security': '"data security" OR "data breach" OR "data protection"',
+        'data-governance': '"data governance" OR "data management" OR "data quality"',
+        'data-privacy': '"data privacy" OR "privacy regulation" OR GDPR OR CCPA',
+        'data-engineering': '"data engineering" OR "data pipeline" OR "data architecture"',
         'cloud-computing': 'cloud computing',
         'magazines': 'technology magazine',
     };
