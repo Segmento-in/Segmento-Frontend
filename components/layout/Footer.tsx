@@ -123,9 +123,9 @@ export function Footer() {
 
                 {/* Copyright */}
                 <div className="border-t border-gray-800 pt-8">
-                    <p className="text-sm text-gray-400 text-center">
+                    <div className="text-center text-sm text-gray-400">
                         Segmento © 2025. All rights reserved.
-                    </p>
+                    </div>
                 </div>
             </div>
         </footer>

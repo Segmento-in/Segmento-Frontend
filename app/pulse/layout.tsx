@@ -11,8 +11,10 @@ export default function PulseLayout({
             <main className="flex-1">
                 {children}
             </main>
-            <footer className="border-t py-6 text-center text-sm text-gray-500">
-                © 2026 SegmentoPulse. All rights reserved.
+            <footer className="border-t mt-auto">
+                <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
+                    © 2026 SegmentoPulse
+                </div>
             </footer>
         </div>
     );

@@ -66,6 +66,7 @@ export default function PulseNavbar() {
         { name: "Data", path: "#", hasDropdown: true },
         { name: "Cloud", path: "/pulse/news?category=cloud-computing" },
         { name: "Magazines", path: "/pulse/magazines" },
+        { name: "Segmento.in", path: "/" }, // Link back to main platform
     ];
 
     return (

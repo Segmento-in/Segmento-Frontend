@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
+import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -36,9 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="antialiased min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
         <Analytics />
       </body>
     </html>

@@ -127,8 +127,14 @@ function NewsContent() {
 
     useEffect(() => {
         const getNews = async () => {
-            // Skip if already loaded
-            if (newsData[activeCategory]) return;
+            // Skip if already loaded and cache is fresh (within 2 minutes)
+            const cached = newsData[activeCategory];
+            if (cached && cached.length > 0) {
+                const cacheAge = Date.now() - (cached as any)._timestamp;
+                if (cacheAge < 120000) { // 2 minutes
+                    return; // Use cached data
+                }
+            }
 
             try {
                 setLoading(true);
@@ -136,7 +142,7 @@ function NewsContent() {
 
                 setNewsData((prev) => ({
                     ...prev,
-                    [activeCategory]: articles,
+                    [activeCategory]: Object.assign(articles, { _timestamp: Date.now() }),
                 }));
             } catch (error) {
                 console.error("News fetch error:", error);
@@ -146,7 +152,7 @@ function NewsContent() {
         };
 
         getNews();
-    }, [activeCategory, newsData]);
+    }, [activeCategory]);
 
     const articles = newsData[activeCategory] || [];
 
@@ -154,18 +160,31 @@ function NewsContent() {
         <div className="container mx-auto px-4 py-8">
             {/* Category Buttons */}
             <div className="flex gap-3 mb-8 flex-wrap justify-center">
-                {categoriesToShow.map((cat) => (
-                    <Link
-                        key={cat.id}
-                        href={`/pulse/news?category=${cat.id}`}
-                        className={`px-6 py-2 rounded-full transition-all ${activeCategory === cat.id
-                            ? "bg-blue-600 text-white shadow-lg"
-                            : "bg-gray-100 hover:bg-gray-200"
-                            }`}
-                    >
-                        {cat.name}
-                    </Link>
-                ))}
+                {categoriesToShow.map((cat) => {
+                    // Check if this is a cloud provider category
+                    const isCloudProvider = cat.id.startsWith('cloud-') && cat.id !== 'cloud-computing';
+                    const providerName = cat.id.replace('cloud-', '');
+
+                    return (
+                        <Link
+                            key={cat.id}
+                            href={`/pulse/news?category=${cat.id}`}
+                            className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${activeCategory === cat.id
+                                    ? "bg-blue-600 text-white shadow-lg"
+                                    : "bg-gray-100 hover:bg-gray-200"
+                                }`}
+                        >
+                            {isCloudProvider && (
+                                <img
+                                    src={`/cloud-logos/${providerName}.svg`}
+                                    alt={`${cat.name} logo`}
+                                    className="w-5 h-5"
+                                />
+                            )}
+                            <span>{cat.name}</span>
+                        </Link>
+                    );
+                })}
             </div>
 
             {/* Content */}

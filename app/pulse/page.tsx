@@ -13,13 +13,19 @@ export default function PulsePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchAllNews = async () => {
+        const fetchFirstNews = async () => {
             const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'cloud-computing', 'magazines'];
 
             try {
+                // Fetch all categories in parallel but only take first article
                 const newsPromises = categories.map(async (cat) => {
-                    const articles = await fetchNewsByCategory(cat);
-                    return { category: cat, articles: articles.slice(0, 3) };
+                    try {
+                        const articles = await fetchNewsByCategory(cat);
+                        return { category: cat, articles: articles.slice(0, 1) }; // Only first article
+                    } catch (error) {
+                        console.error(`Failed to fetch ${cat}:`, error);
+                        return { category: cat, articles: [] }; // Return empty on error
+                    }
                 });
 
                 const results = await Promise.all(newsPromises);
@@ -36,7 +42,7 @@ export default function PulsePage() {
             }
         };
 
-        fetchAllNews();
+        fetchFirstNews();
     }, []);
 
     const getLatestNews = (category: string) => {

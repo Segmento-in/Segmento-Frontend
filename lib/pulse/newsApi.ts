@@ -6,54 +6,35 @@ export interface Article {
     url: string;
     image: string;
     publishedAt: string;
-    source?: string;
-    author?: string;
+    source: string;
+    author: string;
 }
 
-export const fetchNewsByCategory = async (category: string): Promise<Article[]> => {
+export async function fetchNewsByCategory(category: string): Promise<Article[]> {
     try {
-        // Use RSS feeds for all cloud-related categories (real-time updates from providers)
-        if (category === 'cloud-computing' || category.startsWith('cloud-')) {
-            const res = await fetch(`/api/pulse/rss?category=${category}`);
-            if (!res.ok) {
-                console.error('Failed to fetch RSS:', await res.text());
-                // Fallback to NewsAPI if RSS fails
-                const fallback = await fetch(`/api/pulse/news?category=${category}`);
-                if (!fallback.ok) return [];
-                const data = await fallback.json();
-                return data.articles || [];
-            }
-            const data = await res.json();
+        // Check if it's a cloud category - use existing RSS API route
+        if (category.startsWith('cloud-') || category === 'cloud-computing') {
+            const response = await fetch(`/api/pulse/rss?category=${category}`, {
+                cache: 'no-store',
+            });
+            const data = await response.json();
             return data.articles || [];
         }
 
-        // Use NewsAPI for other categories
-        const res = await fetch(`/api/pulse/news?category=${category}`);
-        if (!res.ok) {
-            console.error('Failed to fetch news:', await res.text());
+        // For non-cloud categories, use Google News RSS API route
+        const response = await fetch(`/api/pulse/google-news?category=${category}`, {
+            cache: 'no-store',
+        });
+
+        if (!response.ok) {
+            console.error('Failed to fetch Google News:', response.statusText);
             return [];
         }
-        const data = await res.json();
+
+        const data = await response.json();
         return data.articles || [];
     } catch (error) {
-        console.error('Failed to fetch API:', error);
+        console.error('Error fetching news:', error);
         return [];
     }
-};
-
-export const searchNews = async (query: string): Promise<Article[]> => {
-    if (!query) return [];
-
-    try {
-        const res = await fetch(`/api/pulse/search?q=${encodeURIComponent(query)}`);
-        if (!res.ok) {
-            console.error('Failed to search news:', await res.text());
-            return [];
-        }
-        const data = await res.json();
-        return data.articles || [];
-    } catch (error) {
-        console.error('Search failed:', error);
-        return [];
-    }
-};
+}

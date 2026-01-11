@@ -35,7 +35,7 @@ export function Header() {
             isDropdown: true,
             items: [
                 { href: "/products/data-classification", label: "Data Classification (Segmento Sense)" },
-                { href: "/products/segmento-pulse", label: "Segmento Pulse*" },
+                { href: "/products/segmento-pulse", label: "Segmento Pulse" },
             ],
         },
         {
