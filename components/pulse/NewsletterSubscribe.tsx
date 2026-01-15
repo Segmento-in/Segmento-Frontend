@@ -9,6 +9,7 @@ export default function NewsletterSubscribe() {
         name: ''
     });
     const [loading, setLoading] = useState(false);
+    const [isPolicyAccepted, setIsPolicyAccepted] = useState(false);
     const [status, setStatus] = useState<{
         type: 'success' | 'error' | null;
         message: string;
@@ -43,6 +44,7 @@ export default function NewsletterSubscribe() {
                     message: data.message || 'Successfully subscribed! Check your email for confirmation.'
                 });
                 setFormData({ email: '', name: '' });
+                setIsPolicyAccepted(false);
             } else {
                 setStatus({
                     type: 'error',
@@ -130,6 +132,27 @@ export default function NewsletterSubscribe() {
                         />
                     </div>
 
+                    {/* Policy Consent Checkbox */}
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                        <div className="flex items-start gap-3">
+                            <input
+                                type="checkbox"
+                                id="policyConsent"
+                                checked={isPolicyAccepted}
+                                onChange={(e) => setIsPolicyAccepted(e.target.checked)}
+                                className="mt-1 w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2 cursor-pointer"
+                            />
+                            <div className="flex-1">
+                                <label htmlFor="policyConsent" className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                                    By filling this form I accept the policy.
+                                </label>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    <em>I agree that Segmento Pulse is collecting my email and personal information, and I am agreeing to receive promotional emails and newsletters.</em>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Topics Info */}
                     <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -150,12 +173,12 @@ export default function NewsletterSubscribe() {
                     {/* Submit Button */}
                     <motion.button
                         type="submit"
-                        disabled={loading}
-                        whileHover={{ scale: loading ? 1 : 1.02 }}
-                        whileTap={{ scale: loading ? 1 : 0.98 }}
-                        className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${loading
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
+                        disabled={loading || !isPolicyAccepted}
+                        whileHover={{ scale: (loading || !isPolicyAccepted) ? 1 : 1.02 }}
+                        whileTap={{ scale: (loading || !isPolicyAccepted) ? 1 : 0.98 }}
+                        className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${(loading || !isPolicyAccepted)
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
                             }`}
                     >
                         {loading ? (
@@ -177,8 +200,8 @@ export default function NewsletterSubscribe() {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             className={`p-4 rounded-lg ${status.type === 'success'
-                                    ? 'bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700'
-                                    : 'bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700'
+                                ? 'bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700'
+                                : 'bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700'
                                 }`}
                         >
                             <div className="flex items-start">
@@ -194,8 +217,8 @@ export default function NewsletterSubscribe() {
                                     )}
                                 </div>
                                 <p className={`ml-3 text-sm font-medium ${status.type === 'success'
-                                        ? 'text-green-800 dark:text-green-200'
-                                        : 'text-red-800 dark:text-red-200'
+                                    ? 'text-green-800 dark:text-green-200'
+                                    : 'text-red-800 dark:text-red-200'
                                     }`}>
                                     {status.message}
                                 </p>
