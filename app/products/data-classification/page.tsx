@@ -19,13 +19,13 @@ export default function DataClassificationPage() {
   return (
     <>
       <HeroSection />
+      <ComparisonCTA />
       <CounterSection />
       <DocumentFeatures />
       <FeaturesOverview />
       <IndustryUseCases />
       <ProcessFlow />
       <FeatureGrid />
-      <ComparisonCTA />
       <EnterpriseSection />
       <FAQSection />
       <CTASection />
