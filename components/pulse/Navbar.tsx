@@ -305,19 +305,31 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                     <div className="sub-options">
                                         <div
                                             className={`sub-option ${dailyTime === 'morning' ? 'selected' : ''}`}
-                                            onClick={() => setDailyTime('morning')}
+                                            onClick={() => {
+                                                setDailyTime('morning');
+                                                setIsSubscribeDropdownOpen(false);
+                                                if (onSubscribeClick) onSubscribeClick();
+                                            }}
                                         >
                                             🌅 Morning
                                         </div>
                                         <div
                                             className={`sub-option ${dailyTime === 'afternoon' ? 'selected' : ''}`}
-                                            onClick={() => setDailyTime('afternoon')}
+                                            onClick={() => {
+                                                setDailyTime('afternoon');
+                                                setIsSubscribeDropdownOpen(false);
+                                                if (onSubscribeClick) onSubscribeClick();
+                                            }}
                                         >
                                             ☀️ Afternoon
                                         </div>
                                         <div
                                             className={`sub-option ${dailyTime === 'evening' ? 'selected' : ''}`}
-                                            onClick={() => setDailyTime('evening')}
+                                            onClick={() => {
+                                                setDailyTime('evening');
+                                                setIsSubscribeDropdownOpen(false);
+                                                if (onSubscribeClick) onSubscribeClick();
+                                            }}
                                         >
                                             🌙 Evening
                                         </div>
@@ -328,8 +340,10 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                 <div
                                     className={`subscription-option ${subscriptionType === 'weekly' ? 'active' : ''}`}
                                     onClick={() => {
-                                        setSubscriptionType(subscriptionType === 'weekly' ? null : 'weekly');
-                                        setDailyTime(null); // Clear daily time when switching to weekly
+                                        setSubscriptionType('weekly');
+                                        setDailyTime(null);
+                                        setIsSubscribeDropdownOpen(false);
+                                        if (onSubscribeClick) onSubscribeClick();
                                     }}
                                 >
                                     📆 Weekly
