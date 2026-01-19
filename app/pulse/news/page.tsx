@@ -362,7 +362,7 @@ function NewsContent() {
                     <p className="text-gray-500">No news available for this category</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {articles.map((article, i) => (
                         <a
                             key={i}
@@ -371,7 +371,7 @@ function NewsContent() {
                             rel="noopener noreferrer"
                             className="group block bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden"
                         >
-                            <div className="relative h-48">
+                            <div className="relative h-32">
                                 <img
                                     src={article.image}
                                     alt={article.title}
@@ -381,11 +381,11 @@ function NewsContent() {
                                     <ExternalLink className="w-4 h-4 text-blue-600" />
                                 </div>
                             </div>
-                            <div className="p-4">
-                                <h3 className="font-bold text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                            <div className="p-3">
+                                <h3 className="font-bold text-base mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                     {article.title}
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                                <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                                     {article.description}
                                 </p>
                                 <div className="flex items-center gap-2 text-xs text-gray-500 flex-wrap">

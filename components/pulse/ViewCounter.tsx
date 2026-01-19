@@ -14,17 +14,40 @@ export default function ViewCounter({ articleUrl, className = '' }: ViewCounterP
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch initial view count
-        getArticleViewCount(articleUrl).then((count) => {
-            setViewCount(count);
-            setLoading(false);
-        });
-    }, [articleUrl]);
+        let isMounted = true;
 
-    const handleClick = async (e: React.MouseEvent) => {
-        // Increment view count when article is clicked
-        await incrementArticleView(articleUrl);
-    };
+        const initializeCounter = async () => {
+            try {
+                // Fetch current view count
+                const count = await getArticleViewCount(articleUrl);
+
+                if (isMounted) {
+                    setViewCount(count);
+                    setLoading(false);
+                }
+
+                // Increment view count (article is now visible)
+                // This happens in background, user sees current count immediately
+                const newCount = await incrementArticleView(articleUrl);
+
+                // Update to new count after increment completes
+                if (isMounted && newCount !== undefined) {
+                    setViewCount(count + 1);
+                }
+            } catch (error) {
+                console.error('ViewCounter error:', error);
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        initializeCounter();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [articleUrl]);
 
     if (loading) {
         return (
@@ -36,10 +59,7 @@ export default function ViewCounter({ articleUrl, className = '' }: ViewCounterP
     }
 
     return (
-        <div
-            className={`flex items-center gap-1 text-xs text-gray-500 ${className}`}
-            onClick={handleClick}
-        >
+        <div className={`flex items-center gap-1 text-xs text-gray-500 ${className}`}>
             <Eye className="w-3 h-3" />
             <span>{viewCount.toLocaleString()}</span>
         </div>

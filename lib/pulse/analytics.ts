@@ -20,7 +20,7 @@ export interface ArticleViewData {
 /**
  * Increment view count for an article
  */
-export async function incrementArticleView(articleUrl: string): Promise<void> {
+export async function incrementArticleView(articleUrl: string): Promise<number> {
     try {
         // Use article URL as key (sanitized)
         const articleId = btoa(articleUrl).replace(/[^a-zA-Z0-9]/g, '').substring(0, 100);
@@ -35,6 +35,10 @@ export async function incrementArticleView(articleUrl: string): Promise<void> {
                 viewCount: increment(1),
                 lastUpdated: serverTimestamp(),
             });
+
+            // Get updated count
+            const updatedSnapshot = await get(articleRef);
+            return updatedSnapshot.val().viewCount || 1;
         } else {
             // Create new entry
             await set(articleRef, {
@@ -42,9 +46,11 @@ export async function incrementArticleView(articleUrl: string): Promise<void> {
                 viewCount: 1,
                 lastUpdated: serverTimestamp(),
             });
+            return 1;
         }
     } catch (error) {
         console.error('Failed to increment view count:', error);
+        return 0;
     }
 }
 

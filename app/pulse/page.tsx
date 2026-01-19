@@ -160,17 +160,17 @@ export default function PulsePage() {
                         fallbackGradient="from-purple-500 to-blue-600"
                     />
 
-                    {/* Data Security */}
+                    {/* Data Engineering - Foundation */}
                     <CategoryBox
-                        category="data-security"
-                        title="Data Security"
-                        icon={Shield}
+                        category="data-engineering"
+                        title="Data Engineering"
+                        icon={Workflow}
                         colSpan="col-span-6 md:col-span-3"
                         height="h-[230px]"
-                        fallbackGradient="from-red-500 to-pink-600"
+                        fallbackGradient="from-indigo-500 to-purple-600"
                     />
 
-                    {/* Data Governance */}
+                    {/* Data Governance - Rules */}
                     <CategoryBox
                         category="data-governance"
                         title="Data Governance"
@@ -180,24 +180,44 @@ export default function PulsePage() {
                         fallbackGradient="from-emerald-500 to-teal-600"
                     />
 
-                    {/* Data Privacy */}
+                    {/* Business Intelligence - Insights */}
+                    <CategoryBox
+                        category="business-intelligence"
+                        title="Business Intelligence"
+                        icon={TrendingUp}
+                        colSpan="col-span-6 md:col-span-4"
+                        height="h-[230px]"
+                        fallbackGradient="from-blue-500 to-cyan-600"
+                    />
+
+                    {/* Data Privacy - Compliance */}
                     <CategoryBox
                         category="data-privacy"
                         title="Data Privacy"
                         icon={Lock}
-                        colSpan="col-span-6 md:col-span-4"
+                        colSpan="col-span-6 md:col-span-3"
                         height="h-[230px]"
                         fallbackGradient="from-amber-500 to-orange-600"
                     />
 
-                    {/* Data Engineering */}
+                    {/* Data Security - Protection */}
                     <CategoryBox
-                        category="data-engineering"
-                        title="Data Engineering"
-                        icon={Workflow}
+                        category="data-security"
+                        title="Data Security"
+                        icon={Shield}
+                        colSpan="col-span-6 md:col-span-4"
+                        height="h-[230px]"
+                        fallbackGradient="from-red-500 to-pink-600"
+                    />
+
+                    {/* Data Centers - Infrastructure */}
+                    <CategoryBox
+                        category="data-centers"
+                        title="Data Centers"
+                        icon={Database}
                         colSpan="col-span-6 md:col-span-3"
                         height="h-[230px]"
-                        fallbackGradient="from-indigo-500 to-purple-600"
+                        fallbackGradient="from-gray-600 to-slate-700"
                     />
 
                     {/* Cloud Computing */}

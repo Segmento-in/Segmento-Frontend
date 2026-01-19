@@ -20,6 +20,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
     const router = useRouter();
 
     const timeoutRef = useRef<number | undefined>(undefined);
+    const closeTimeoutRef = useRef<number | undefined>(undefined);
 
     // Listen to auth state changes
     useEffect(() => {
@@ -74,6 +75,20 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
         }
         setIsSearchOpen(false);
         setSearchQuery("");
+    };
+
+    // Hover handlers with delay to prevent flicker
+    const handleDropdownMouseEnter = () => {
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+        }
+        setIsDataDropdownOpen(true);
+    };
+
+    const handleDropdownMouseLeave = () => {
+        closeTimeoutRef.current = window.setTimeout(() => {
+            setIsDataDropdownOpen(false);
+        }, 150); // 150ms delay prevents tunnel issue
     };
 
     const dataSubcategories = [
@@ -134,18 +149,18 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                             <div key={link.name} className="relative">
                                 <button
                                     onClick={() => setIsDataDropdownOpen(!isDataDropdownOpen)}
-                                    onMouseEnter={() => setIsDataDropdownOpen(true)}
-                                    onMouseLeave={() => setIsDataDropdownOpen(false)}
-                                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                    onMouseEnter={handleDropdownMouseEnter}
+                                    onMouseLeave={handleDropdownMouseLeave}
+                                    className="px-4 py-2 pb-3 text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
                                 >
                                     {link.name}
                                     <ChevronDown className="w-4 h-4" />
                                 </button>
                                 {isDataDropdownOpen && (
                                     <div
-                                        onMouseEnter={() => setIsDataDropdownOpen(true)}
-                                        onMouseLeave={() => setIsDataDropdownOpen(false)}
-                                        className="absolute top-full left-0 mt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50"
+                                        onMouseEnter={handleDropdownMouseEnter}
+                                        onMouseLeave={handleDropdownMouseLeave}
+                                        className="absolute top-full left-0 -mt-1 pt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 overflow-y-auto max-h-96"
                                     >
                                         {dataSubcategories.map((subcat) => (
                                             <Link
