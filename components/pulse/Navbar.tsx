@@ -98,6 +98,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
 
     const dataSubcategories = [
         { name: "Data Engineering", path: "/pulse/news?category=data-engineering" },
+        { name: "Data Management", path: "/pulse/news?category=data-management" },
         { name: "Data Governance", path: "/pulse/news?category=data-governance" },
         { name: "Data Privacy", path: "/pulse/news?category=data-privacy" },
         { name: "Data Security", path: "/pulse/news?category=data-security" },

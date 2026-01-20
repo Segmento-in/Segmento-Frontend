@@ -14,7 +14,7 @@ export default function PulsePage() {
 
     useEffect(() => {
         const fetchFirstNews = async () => {
-            const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'cloud-computing', 'magazines'];
+            const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'data-management', 'cloud-computing', 'magazines'];
 
             try {
                 // Fetch all categories in parallel but only take first article
@@ -234,12 +234,21 @@ export default function PulsePage() {
                         />
                     </div>
 
-                    {/* Bottom Row: Cloud + Magazines */}
+                    {/* Bottom Row: Data Management + Cloud + Magazines */}
+                    <CategoryBox
+                        category="data-management"
+                        title="Data Management"
+                        icon={Database}
+                        colSpan="col-span-12 md:col-span-4"
+                        height="h-[180px]"
+                        fallbackGradient="from-green-500 to-emerald-600"
+                    />
+
                     <CategoryBox
                         category="cloud-computing"
                         title="Cloud Computing"
                         icon={Cloud}
-                        colSpan="col-span-12 md:col-span-5"
+                        colSpan="col-span-12 md:col-span-4"
                         height="h-[180px]"
                         fallbackGradient="from-cyan-500 to-blue-600"
                     />
@@ -248,7 +257,7 @@ export default function PulsePage() {
                         category="magazines"
                         title="Tech Magazines"
                         icon={BookOpen}
-                        colSpan="col-span-12 md:col-span-7"
+                        colSpan="col-span-12 md:col-span-4"
                         height="h-[180px]"
                         fallbackGradient="from-gray-700 to-gray-900"
                     />
