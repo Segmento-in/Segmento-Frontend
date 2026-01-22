@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, Menu, X, User, ChevronDown, LogOut, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +12,14 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import '@/app/pulse/heartbeat.css';
 import './rainbow-shimmer.css';
 import './navbar-compact.css';
+import './navbar-animations.css';
 
 export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: () => void }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [isDataDropdownOpen, setIsDataDropdownOpen] = useState(false);
+    const [isCloudDropdownOpen, setIsCloudDropdownOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isSubscribeDropdownOpen, setIsSubscribeDropdownOpen] = useState(false);
@@ -93,27 +96,40 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
     const handleDropdownMouseLeave = () => {
         closeTimeoutRef.current = window.setTimeout(() => {
             setIsDataDropdownOpen(false);
+            setIsCloudDropdownOpen(false);
         }, 150); // 150ms delay prevents tunnel issue
     };
 
     const dataSubcategories = [
-        { name: "Data Engineering", path: "/pulse/news?category=data-engineering" },
-        { name: "Data Management", path: "/pulse/news?category=data-management" },
-        { name: "Data Governance", path: "/pulse/news?category=data-governance" },
-        { name: "Data Privacy", path: "/pulse/news?category=data-privacy" },
-        { name: "Data Security", path: "/pulse/news?category=data-security" },
-        { name: "Business Intelligence", path: "/pulse/news?category=business-intelligence" },
-        { name: "Business Analytics", path: "/pulse/news?category=business-analytics" },
-        { name: "Customer Data Platform", path: "/pulse/news?category=customer-data-platform" },
-        { name: "Data Centers", path: "/pulse/news?category=data-centers" },
+        { name: "Data Engineering", path: "/pulse/news?category=data-engineering", icon: "🔧" },
+        { name: "Data Management", path: "/pulse/news?category=data-management", icon: "📊" },
+        { name: "Data Governance", path: "/pulse/news?category=data-governance", icon: "⚖️" },
+        { name: "Data Privacy", path: "/pulse/news?category=data-privacy", icon: "🔒" },
+        { name: "Data Security", path: "/pulse/news?category=data-security", icon: "🛡️" },
+        { name: "Business Intelligence", path: "/pulse/news?category=business-intelligence", icon: "💡" },
+        { name: "Business Analytics", path: "/pulse/news?category=business-analytics", icon: "📈" },
+        { name: "Customer Data Platform", path: "/pulse/news?category=customer-data-platform", icon: "👥" },
+        { name: "Data Centers", path: "/pulse/news?category=data-centers", icon: "🏢" },
+    ];
+
+    const cloudSubcategories = [
+        { name: "Cloud Computing", path: "/pulse/news?category=cloud-computing", icon: "☁️", isEmoji: true },
+        { name: "AWS", path: "/pulse/news?category=aws", icon: "/cloud-logos/aws.svg", isEmoji: false },
+        { name: "Azure", path: "/pulse/news?category=azure", icon: "/cloud-logos/azure.svg", isEmoji: false },
+        { name: "Google Cloud", path: "/pulse/news?category=google-cloud", icon: "/cloud-logos/gcp.svg", isEmoji: false },
+        { name: "IBM Cloud", path: "/pulse/news?category=ibm-cloud", icon: "/cloud-logos/ibm.svg", isEmoji: false },
+        { name: "Oracle Cloud", path: "/pulse/news?category=oracle-cloud", icon: "/cloud-logos/oracle.svg", isEmoji: false },
+        { name: "Cloudflare", path: "/pulse/news?category=cloudflare", icon: "/cloud-logos/cloudflare.svg", isEmoji: false },
+        { name: "DigitalOcean", path: "/pulse/news?category=digitalocean", icon: "/cloud-logos/digitalocean.svg", isEmoji: false },
     ];
 
     const navLinks = [
         { name: "Home", path: "/pulse" },
         { name: "AI", path: "/pulse/news?category=ai" },
-        { name: "Data", path: "#", hasDropdown: true },
-        { name: "Cloud", path: "/pulse/news?category=cloud-computing" },
+        { name: "Data", path: "#", hasDropdown: true, dropdownType: "data" },
+        { name: "Cloud", path: "#", hasDropdown: true, dropdownType: "cloud" },
         { name: "Medium Articles", path: "/pulse/news?category=medium-article" },
+        { name: "LinkedIn Articles", path: "/pulse/news?category=linkedin-article" },
         { name: "Magazines", path: "/pulse/magazines" },
     ];
 
@@ -148,36 +164,105 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                     </span>
                 </Link>
 
-                {/* Desktop Navigation */}
-                <nav className="hidden lg:flex items-center gap-1">
+                {/* Desktop Navigation - Enhanced with Premium Animations */}
+                <nav className="hidden lg:flex items-center gap-0.5">
                     {navLinks.map((link) => (
                         link.hasDropdown ? (
-                            <div key={link.name} className="relative">
+                            <div key={link.name} className="relative group">
                                 <button
-                                    onClick={() => setIsDataDropdownOpen(!isDataDropdownOpen)}
-                                    onMouseEnter={handleDropdownMouseEnter}
+                                    onClick={() => {
+                                        if (link.dropdownType === 'data') {
+                                            setIsDataDropdownOpen(!isDataDropdownOpen);
+                                            setIsCloudDropdownOpen(false);
+                                        } else if (link.dropdownType === 'cloud') {
+                                            setIsCloudDropdownOpen(!isCloudDropdownOpen);
+                                            setIsDataDropdownOpen(false);
+                                        }
+                                    }}
+                                    onMouseEnter={() => {
+                                        if (link.dropdownType === 'data') {
+                                            clearTimeout(closeTimeoutRef.current);
+                                            setIsDataDropdownOpen(true);
+                                            setIsCloudDropdownOpen(false);
+                                        } else if (link.dropdownType === 'cloud') {
+                                            clearTimeout(closeTimeoutRef.current);
+                                            setIsCloudDropdownOpen(true);
+                                            setIsDataDropdownOpen(false);
+                                        }
+                                    }}
                                     onMouseLeave={handleDropdownMouseLeave}
-                                    className="px-4 py-2 pb-3 text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                    className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg flex items-center gap-1 transition-all duration-300 ease-in-out hover:bg-gray-50 hover:scale-105"
                                 >
-                                    {link.name}
-                                    <ChevronDown className="w-4 h-4" />
+                                    <span className="relative z-10">{link.name}</span>
+                                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${(link.dropdownType === 'data' && isDataDropdownOpen) ||
+                                        (link.dropdownType === 'cloud' && isCloudDropdownOpen)
+                                        ? 'rotate-180' : ''
+                                        }`} />
+                                    {/* Animated underline */}
+                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                                 </button>
-                                {isDataDropdownOpen && (
+
+                                {/* Data Dropdown */}
+                                {link.dropdownType === 'data' && isDataDropdownOpen && (
                                     <div
-                                        onMouseEnter={handleDropdownMouseEnter}
+                                        onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
                                         onMouseLeave={handleDropdownMouseLeave}
-                                        className="absolute top-full left-0 -mt-1 pt-1 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50 overflow-y-auto max-h-96"
+                                        className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-dropdown-in"
                                     >
-                                        {dataSubcategories.map((subcat) => (
-                                            <Link
-                                                key={subcat.name}
-                                                href={subcat.path}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsDataDropdownOpen(false)}
-                                            >
-                                                {subcat.name}
-                                            </Link>
-                                        ))}
+                                        <div className="p-4">
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {dataSubcategories.map((subcat, index) => (
+                                                    <Link
+                                                        key={subcat.name}
+                                                        href={subcat.path}
+                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
+                                                        style={{ animationDelay: `${index * 30}ms` }}
+                                                        onClick={() => setIsDataDropdownOpen(false)}
+                                                    >
+                                                        <span className="text-2xl group-hover:scale-110 transition-transform duration-200">{subcat.icon}</span>
+                                                        <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{subcat.name}</span>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Cloud Dropdown */}
+                                {link.dropdownType === 'cloud' && isCloudDropdownOpen && (
+                                    <div
+                                        onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+                                        onMouseLeave={handleDropdownMouseLeave}
+                                        className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-dropdown-in"
+                                    >
+                                        <div className="p-4">
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {cloudSubcategories.map((subcat, index) => (
+                                                    <Link
+                                                        key={subcat.name}
+                                                        href={subcat.path}
+                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
+                                                        style={{ animationDelay: `${index * 30}ms` }}
+                                                        onClick={() => setIsCloudDropdownOpen(false)}
+                                                    >
+                                                        {subcat.isEmoji ? (
+                                                            <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
+                                                                {subcat.icon}
+                                                            </span>
+                                                        ) : (
+                                                            <Image
+                                                                src={subcat.icon}
+                                                                alt={subcat.name}
+                                                                width={24}
+                                                                height={24}
+                                                                className="group-hover:scale-110 transition-transform duration-200"
+                                                            />
+                                                        )}
+                                                        <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{subcat.name}</span>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -185,17 +270,19 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                             <Link
                                 key={link.name}
                                 href={link.path}
-                                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                                className="relative px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-50 hover:scale-105 group"
                             >
-                                {link.name}
+                                <span className="relative z-10">{link.name}</span>
+                                {/* Animated underline */}
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                             </Link>
                         )
                     ))}
 
-                    {/* Get back to Segmento button */}
+                    {/* Get back to Segmento button - Enhanced */}
                     <Link
                         href="/"
-                        className="ml-2 px-4 py-2 text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                        className="ml-2 px-4 py-2 text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 active:scale-95"
                     >
                         Get back to Segmento
                     </Link>
@@ -235,8 +322,9 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setIsSearchOpen(true)}
+                                className="hover:scale-110 transition-transform duration-300"
                             >
-                                <Search className="h-4 w-4" />
+                                <Search className="h-4 w-4 hover:rotate-12 transition-transform duration-300" />
                             </Button>
                         )}
                     </div>

@@ -5,16 +5,13 @@ import Link from "next/link";
 import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp } from "lucide-react";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
-
 export default function PulsePage() {
     const [newsData, setNewsData] = useState<Record<string, Article[]>>({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchFirstNews = async () => {
-            const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'data-management', 'cloud-computing', 'magazines'];
+            const categories = ['ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering', 'business-intelligence', 'data-management', 'cloud-computing', 'magazines', 'business-analytics', 'customer-data-platform', 'data-centers'];
 
             try {
                 // Fetch all categories in parallel but only take first article
