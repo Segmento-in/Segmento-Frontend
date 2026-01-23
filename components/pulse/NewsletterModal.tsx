@@ -117,7 +117,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                                 {/* Animated Background Gradient */}
                                 <div className={`
                                     absolute inset-0 opacity-20
-                                    bg-gradient-to-br ${theme.gradient}
+                                    bg-gradient-to-br ${theme.cardGradient}
                                     animate-pulse
                                 `} />
 
@@ -140,7 +140,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                                             className={`
                                                 inline-flex items-center justify-center
                                                 w-20 h-20 rounded-2xl mb-4
-                                                bg-gradient-to-br ${theme.gradient}
+                                                bg-gradient-to-br ${theme.cardGradient}
                                                 shadow-lg
                                             `}
                                         >
@@ -240,7 +240,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                                                 transition-all duration-200 shadow-lg
                                                 ${(loading || !isPolicyAccepted)
                                                     ? 'bg-gray-400 cursor-not-allowed'
-                                                    : `bg-gradient-to-r ${theme.gradient} hover:shadow-2xl`
+                                                    : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-2xl`
                                                 }
                                             `}
                                         >
