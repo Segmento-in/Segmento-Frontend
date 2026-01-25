@@ -114,6 +114,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
         { name: "Business Analytics", path: "/pulse/news?category=business-analytics", icon: "📈" },
         { name: "Customer Data Platform", path: "/pulse/news?category=customer-data-platform", icon: "👥" },
         { name: "Data Centers", path: "/pulse/news?category=data-centers", icon: "🏢" },
+        { name: "Data Laws", path: "/pulse/news?category=data-laws", icon: "⚖️" },
     ];
 
     const cloudSubcategories = [
