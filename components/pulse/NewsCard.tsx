@@ -15,7 +15,7 @@ export default function NewsCard({ article }: NewsCardProps) {
     const freshness = getFreshnessTag(article.publishedAt);
 
     // Construct the article URL params
-    const safeImage = article.image && article.image !== "None" ? article.image : "/placeholder-news.jpg";
+    const safeImage = article.image && article.image !== "None" ? article.image : "/placeholder-news.svg";
     const articleLink = `/pulse/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.publishedAt)}&source=${encodeURIComponent(article.source)}`;
 
     return (
@@ -26,8 +26,8 @@ export default function NewsCard({ article }: NewsCardProps) {
             {/* Image Section */}
             <div className="relative h-32">
                 <img
-                    src={article.image && article.image !== "None" ? article.image : "/placeholder-news.jpg"}
-                    onError={(e) => { e.currentTarget.src = "/placeholder-news.jpg"; }}
+                    src={article.image && article.image !== "None" ? article.image : "/placeholder-news.svg"}
+                    onError={(e) => { e.currentTarget.src = "/placeholder-news.svg"; }}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
