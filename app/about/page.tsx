@@ -90,7 +90,7 @@ export default function AboutPage() {
             <section className="mb-20">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
                             Who Are We
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground">
@@ -108,14 +108,14 @@ export default function AboutPage() {
             </section>
 
             {/* Director */}
-            <section className="py-16 bg-gradient-to-br from-primary/5 to-purple-50">
+            <section className="py-16 bg-linear-to-br from-primary/5 to-purple-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
                         Meet Our Executive Director
                     </h2>
                     <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-border/50 shadow-xl p-8 md:p-12">
                         <div className="flex flex-col md:flex-row gap-8 items-start">
-                            <div className="flex-shrink-0 flex flex-col items-center gap-4">
+                            <div className="shrink-0 flex flex-col items-center gap-4">
                                 <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-primary/20">
                                     <Image src={director.image} alt={director.name} fill className="object-cover" />
                                 </div>
@@ -173,7 +173,7 @@ export default function AboutPage() {
             </section>
 
             {/* Mission & Vision */}
-            <section className="py-16 bg-gradient-to-br from-primary/5 to-purple-50">
+            <section className="py-16 bg-linear-to-br from-primary/5 to-purple-50">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                         {missions.map((mission) => (
@@ -182,7 +182,7 @@ export default function AboutPage() {
                                 className="bg-white rounded-2xl border border-border/50 shadow-lg p-8"
                             >
                                 <div className="text-5xl mb-4">{mission.icon}</div>
-                                <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                                <h3 className="text-2xl font-bold mb-6 bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
                                     {mission.title}
                                 </h3>
                                 <ul className="space-y-3">

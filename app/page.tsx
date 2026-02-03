@@ -1,3 +1,4 @@
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -8,19 +9,19 @@ import PulseSideBanner from "@/components/PulseSideBanner"
 export const metadata = {
     title: "Segmento | Secure Data. Smarter Insights.",
     description: "Privacy-first, AI-driven data products that solve real enterprise challenges. Transform how you protect and analyze sensitive information.",
-}
+} 
 
 export default function HomePage() {
     return (
         <div className="flex flex-col">
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32">
+            <section className="relative bg-linear-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
                         <div className="inline-block mb-4 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20">
                             <p className="text-sm font-semibold text-primary">Segmento Platform</p>
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-liner-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
                             AI-Driven Solutions for Modern Enterprises
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
@@ -91,7 +92,7 @@ export default function HomePage() {
             </section>
 
             {/* Products Section */}
-            <section  className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-purple-50">
+            <section  className="py-16 md:py-24 bg-linear-to-br from-primary/5 to-purple-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Products</h2>
@@ -104,29 +105,29 @@ export default function HomePage() {
                         {/* Segmento Pulse - First Product */}
                         <div className="bg-white rounded-2xl shadow-xl p-8 border border-border/50 hover:shadow-2xl transition-shadow">
                             <div className="flex flex-col h-full">
-                                <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                     Segmento Pulse
                                 </h3>
                                 <p className="text-lg text-muted-foreground mb-6">
                                     Stay ahead with real-time data intelligence. Get the latest news, insights,
                                     and trends curated for your data and tech needs.
                                 </p>
-                                <ul className="space-y-3 mb-6 flex-grow">
+                                <ul className="space-y-3 mb-6 grow">
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
                                         <span>Curated tech & data news</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
                                         <span>Real-time insights & trends</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
                                         <span>Multi-category coverage</span>
                                     </li>
                                 </ul>
                                 <Link href="/pulse">
-                                    <Button size="lg" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                                    <Button size="lg" className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                                         Explore Pulse <ArrowRight className="ml-2 h-5 w-5" />
                                     </Button>
                                 </Link>
@@ -143,17 +144,17 @@ export default function HomePage() {
                                     Our flagship enterprise solution. Built for organizations that demand
                                     the highest levels of intelligence and security for their most sensitive assets.
                                 </p>
-                                <ul className="space-y-3 mb-6 flex-grow">
+                                <ul className="space-y-3 mb-6 grow">
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                                         <span>Advanced AI-powered technology</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                                         <span>Enterprise-grade security</span>
                                     </li>
                                     <li className="flex items-start gap-2">
-                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                                        <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
                                         <span>Trusted by leading organizations</span>
                                     </li>
                                 </ul>
@@ -193,7 +194,7 @@ export default function HomePage() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 md:py-24 bg-gradient-to-r from-primary to-purple-600 text-white">
+            <section className="py-16 md:py-24 bg-linear-to-r from-primary to-purple-600 text-white">
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">
                         Ready to Transform Your Data Security?
