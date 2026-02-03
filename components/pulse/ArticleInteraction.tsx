@@ -1,85 +1,95 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ThumbsUp, ThumbsDown, MessageCircle } from 'lucide-react';
-import { getArticleStats, toggleLike, toggleDislike, subscribeToArticleStats } from '@/lib/pulse/analytics';
+import { Heart, ThumbsDown, Eye, Share2 } from 'lucide-react';
+import { useEngagement } from '@/hooks/useEngagement';
 
 interface ArticleInteractionProps {
     articleUrl: string;
+    articleTitle?: string;
     onCommentClick?: () => void;
 }
 
-export default function ArticleInteraction({ articleUrl, onCommentClick }: ArticleInteractionProps) {
-    const [likes, setLikes] = useState(0);
-    const [dislikes, setDislikes] = useState(0);
-    const [userAction, setUserAction] = useState<'like' | 'dislike' | null>(null);
+export default function ArticleInteraction({
+    articleUrl,
+    articleTitle,
+    onCommentClick
+}: ArticleInteractionProps) {
+    const { stats, loading, like, dislike, error } = useEngagement(articleUrl, true);
 
-    // Subscribe to real-time stats
-    useEffect(() => {
-        const unsubscribe = subscribeToArticleStats(articleUrl, (stats) => {
-            // Only update counts if we haven't manipulated them locally recently 
-            // (Simpler: just always update, but local state might drift properly if we just add/sub locally)
-            // For true optimistic UI, we typically ignore server updates while we are 'dirty' or merge them logiclaly.
-            // Here we'll just accept server updates but userAction keeps local highlight.
-            setLikes(stats.likeCount);
-            setDislikes(stats.dislikeCount);
-        });
-        return () => unsubscribe();
-    }, [articleUrl]);
-
-    const handleLike = async () => {
-        const isLiking = userAction !== 'like';
-
-        // Optimistic update
-        setLikes(prev => isLiking ? prev + 1 : prev - 1);
-        if (userAction === 'dislike') setDislikes(prev => prev - 1);
-
-        setUserAction(isLiking ? 'like' : null);
-
-        // API Call
-        await toggleLike(articleUrl, isLiking);
-        if (userAction === 'dislike') await toggleDislike(articleUrl, false); // Remove dislike if previously disliked
-    };
-
-    const handleDislike = async () => {
-        const isDisliking = userAction !== 'dislike';
-
-        // Optimistic update
-        setDislikes(prev => isDisliking ? prev + 1 : prev - 1);
-        if (userAction === 'like') setLikes(prev => prev - 1);
-
-        setUserAction(isDisliking ? 'dislike' : null);
-
-        // API Call
-        await toggleDislike(articleUrl, isDisliking);
-        if (userAction === 'like') await toggleLike(articleUrl, false); // Remove like if previously liked
+    // Share functionality
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: articleTitle || "Check out this article",
+                    url: articleUrl,
+                });
+            } catch (err) {
+                console.debug("Share cancelled:", err);
+            }
+        } else {
+            // Fallback: copy to clipboard
+            try {
+                await navigator.clipboard.writeText(articleUrl);
+                alert("Link copied to clipboard!");
+            } catch (err) {
+                console.error("Failed to copy:", err);
+            }
+        }
     };
 
     return (
         <div className="flex items-center gap-6 py-4 border-y border-gray-100 my-6">
+            {/* Like Button */}
             <button
-                onClick={handleLike}
-                className={`flex items-center gap-2 transition-colors ${userAction === 'like' ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'}`}
+                onClick={like}
+                disabled={loading}
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-red-500 disabled:opacity-50 group"
+                aria-label="Like article"
             >
-                <ThumbsUp className={`w-5 h-5 ${userAction === 'like' ? 'fill-current' : ''}`} />
-                <span className="font-medium text-sm">{likes}</span>
+                <Heart
+                    className="w-5 h-5 group-hover:scale-110 transition-transform"
+                />
+                <span className="font-medium text-sm">
+                    {loading ? "..." : (stats?.likes || 0)}
+                </span>
             </button>
 
+            {/* Dislike Button */}
             <button
-                onClick={handleDislike}
-                className={`flex items-center gap-2 transition-colors ${userAction === 'dislike' ? 'text-red-600' : 'text-gray-500 hover:text-red-600'}`}
+                onClick={dislike}
+                disabled={loading}
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-blue-600 disabled:opacity-50 group"
+                aria-label="Dislike article"
             >
-                <ThumbsDown className={`w-5 h-5 ${userAction === 'dislike' ? 'fill-current' : ''}`} />
-                <span className="font-medium text-sm">{dislikes}</span>
+                <ThumbsDown className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="font-medium text-sm">
+                    {loading ? "..." : (stats?.dislikes || 0)}
+                </span>
             </button>
 
+            {/* Views Display */}
+            <div className="flex items-center gap-2 text-gray-500">
+                <Eye className="w-5 h-5" />
+                <span className="font-medium text-sm">
+                    {loading ? "..." : (stats?.views || 0)}
+                </span>
+            </div>
+
+            {/* Share Button */}
             <button
-                onClick={onCommentClick}
-                className="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors ml-auto"
+                onClick={handleShare}
+                className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto"
+                aria-label="Share article"
             >
-                <MessageCircle className="w-5 h-5" />
-                <span className="font-medium text-sm">Comments</span>
+                <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <span className="font-medium text-sm">Share</span>
             </button>
+
+            {/* Error Display (development only) */}
+            {error && process.env.NODE_ENV === 'development' && (
+                <span className="text-xs text-red-500 ml-2">⚠️ {error}</span>
+            )}
         </div>
     );
 }
