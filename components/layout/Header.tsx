@@ -11,8 +11,10 @@ type NavLink =
     | { label: string; isDropdown: true; items: Array<{ href: string; label: string }> }
 
 // Type guard function
-function isDropdown(link: NavLink): link is { label: string; isDropdown: true; items: Array<{ href: string; label: string }> } {
-    return 'isDropdown' in link && link.isDropdown === true
+function isDropdown(
+    link: NavLink
+): link is { label: string; isDropdown: true; items: Array<{ href: string; label: string }> } {
+    return "isDropdown" in link && link.isDropdown === true
 }
 
 export function Header() {
@@ -55,9 +57,7 @@ export function Header() {
         {
             label: "Resources",
             isDropdown: true,
-            items: [
-                { href: "/blog", label: "Blog" },
-            ],
+            items: [{ href: "/blog", label: "Blog" }],
         },
         { href: "/pricing", label: "Pricing" },
         { href: "/careers", label: "Careers" },
@@ -66,32 +66,33 @@ export function Header() {
 
     return (
         <header
-            className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled
-                ? "bg-white/80 backdrop-blur-md border-b border-border/40"
-                : "bg-transparent"
-                }`}
+            className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+                isScrolled
+                    ? "bg-white/80 backdrop-blur-md border-b border-border/40"
+                    : "bg-transparent"
+            }`}
         >
             <div className="container mx-auto px-4">
-                <div className="flex h-20 items-center justify-between">
+                <div className="flex h-20 items-center">
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
                         <Image
-                            src="/images/segmento_logo.png"
+                            src="/images/logo-final.png"
                             alt="Segmento"
-                            width={240}
-                            height={80}
-                            className="h-12 md:h-14 lg:h-16 w-auto"
+                            width={400}
+                            height={140}
+                            className="h-20 md:h-24 lg:h-28 w-auto"
                             priority
                         />
                     </Link>
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center space-x-6">
+                    {/* Desktop Navigation (CENTERED + SPACED) */}
+                    <nav className="hidden md:flex items-center space-x-4 mx-auto">
                         {navLinks.map((link) => {
                             if (isDropdown(link)) {
                                 return (
                                     <div key={link.label} className="relative group">
-                                        <button className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
+                                        <button className="px-3 py-2 text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1 rounded-md">
                                             {link.label}
                                             <span className="text-xs">▼</span>
                                         </button>
@@ -115,7 +116,7 @@ export function Header() {
                                 <Link
                                     key={link.label}
                                     href={link.href}
-                                    className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors"
+                                    className="px-3 py-2 text-sm font-medium text-foreground/60 hover:text-foreground transition-colors rounded-md"
                                 >
                                     {link.label}
                                 </Link>
@@ -123,16 +124,9 @@ export function Header() {
                         })}
                     </nav>
 
-                    {/* Desktop CTA Buttons */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Link href="/contact">
-                            <Button size="sm">Get Started</Button>
-                        </Link>
-                    </div>
-
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden"
+                        className="md:hidden ml-auto"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Toggle menu"
                     >
@@ -161,7 +155,7 @@ export function Header() {
                                                 <Link
                                                     key={item.href}
                                                     href={item.href}
-                                                    className="block text-sm text-foreground/60 hover:text-foreground transition-colors"
+                                                    className="block px-2 py-1 text-sm text-foreground/60 hover:text-foreground transition-colors"
                                                     onClick={() => setIsMobileMenuOpen(false)}
                                                 >
                                                     {item.label}
@@ -175,18 +169,13 @@ export function Header() {
                                 <Link
                                     key={link.label}
                                     href={link.href}
-                                    className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors"
+                                    className="px-2 py-1 text-sm font-medium text-foreground/60 hover:text-foreground transition-colors"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     {link.label}
                                 </Link>
                             )
                         })}
-                        <div className="flex flex-col space-y-2 pt-4 border-t">
-                            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button className="w-full">Get Started</Button>
-                            </Link>
-                        </div>
                     </nav>
                 </div>
             )}
