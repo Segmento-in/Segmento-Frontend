@@ -9,7 +9,7 @@ import PulseSideBanner from "@/components/PulseSideBanner"
 export const metadata = {
     title: "Segmento | Secure Data. Smarter Insights.",
     description: "Privacy-first, AI-driven data products that solve real enterprise challenges. Transform how you protect and analyze sensitive information.",
-} 
+}
 
 export default function HomePage() {
     return (

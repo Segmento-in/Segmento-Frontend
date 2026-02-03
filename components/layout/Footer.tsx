@@ -34,7 +34,7 @@ export function Footer() {
     ],
     social: [
       { label: "X/Twitter", href: "/404", icon: Twitter },
-      { label: "LinkedIn", href: "/404", icon: Linkedin },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/segmento-pte-ltd/", icon: Linkedin },
       { label: "YouTube", href: "/404", icon: Youtube },
       { label: "Instagram", href: "/404", icon: Instagram },
       { label: "Facebook", href: "/404", icon: Facebook },
