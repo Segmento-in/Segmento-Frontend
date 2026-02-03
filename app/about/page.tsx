@@ -35,21 +35,21 @@ const team = [
         role: "Data Developer",
         bio: "Thambabattula Mohan is a Data Developer at Segmento, focused on designing and building robust data pipelines, databases, and analytical systems that support data-driven decision-making. He specializes in processing, structuring, and optimizing large datasets using modern data technologies and frameworks. With a strong understanding of data architecture and performance optimization, Mohan ensures data is accurate, scalable, and reliable across platforms. He excels at transforming raw data into structured, actionable formats, contributing to Segmento’s mission of delivering intelligent, privacy-centric data solutions.",
         image: "/images/mohan.png",
-        linkedin: "www.linkedin.com/in/mohan-thambabattula",
+        linkedin: "http://www.linkedin.com/in/mohan-thambabattula",
     },
     {
         name: "Maddila Vijayalakshmi",
         role: "Full Stack Developer",
-        bio: "Maddila Vijayalakshmi is a Full Stack Developer at Segmento, responsible for building and maintaining scalable web applications. She specializes in both frontend and backend development, ensuring seamless integration of user interfaces with robust server-side functionality. Her expertise spans modern frameworks and tools that support efficient, secure, and high-performance web solutions across Segmento’s platforms.",
+        bio: "Maddila Vijayalakshmi is a Full Stack Developer at Segmento, specializing in building robust, scalable, and high-performance web applications. She works across both frontend and backend technologies to transform complex requirements into seamless, end-to-end solutions. With strong expertise in modern frameworks, APIs, and database systems, she ensures applications are secure, efficient, and maintainable. Vijayalakshmi has a problem-solving mindset and a deep understanding of system architecture, enabling her to deliver reliable products that align with Segmento’s data-driven vision. Her ability to balance functionality, performance, and user experience plays a key role in creating powerful platforms that make data intelligence accessible and impactful.",
         image: "/images/vijayalakshmi.png",
-        linkedin: "www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
+        linkedin: "http://www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
     },
     {
         name: "Vedhagiri Thejesh Naidu",
         role: "Intern",
-        bio: "Vedhagiri Thejesh Naidu is an Intern at Segmento, contributing to various projects and gaining hands-on experience in data analysis and software development. He supports the team in building and maintaining scalable web applications, learning best practices in full-stack development and data engineering.",
+        bio: "Vedhagiri Thejesh Naidu is a Intern at Segmento, focused on learning and supporting data analysis, processing, and visualization tasks. He assists in working with datasets, performing data cleaning, exploratory analysis, and supporting the development of data-driven insights. With a strong curiosity for data and analytics, Thejesh is developing skills in data tools, databases, and analytical workflows. His attention to detail, eagerness to learn, and analytical mindset enable him to contribute effectively while growing in alignment with Segmento’s mission of making data intelligence accessible and actionable.",
         image: "/images/thejesh.png",
-        linkedin: "www.linkedin.com/in/thejesh-naidu-4439a0304",
+        linkedin: "http://www.linkedin.com/in/thejesh-naidu-4439a0304",
     },
 ]
 
@@ -207,7 +207,7 @@ export default function AboutPage() {
                         We're building the future of data intelligence. Explore our products or join our team.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/products/data-classification">
+                        <Link href="#products">
                             <button className="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors">
                                 Explore Products
                             </button>
