@@ -1,4 +1,3 @@
-
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -21,7 +20,7 @@ export default function HomePage() {
                         <div className="inline-block mb-4 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20">
                             <p className="text-sm font-semibold text-primary">Segmento Platform</p>
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-liner-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
                             AI-Driven Solutions for Modern Enterprises
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">

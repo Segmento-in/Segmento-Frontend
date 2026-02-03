@@ -233,42 +233,70 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                 )}
 
                                 {/* Cloud Dropdown */}
-                                {link.dropdownType === 'cloud' && isCloudDropdownOpen && (
-                                    <div
-                                        onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
-                                        onMouseLeave={handleDropdownMouseLeave}
-                                        className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 animate-dropdown-in"
-                                    >
-                                        <div className="p-4">
-                                            <div className="grid grid-cols-2 gap-2">
-                                                {cloudSubcategories.map((subcat, index) => (
-                                                    <Link
-                                                        key={subcat.name}
-                                                        href={subcat.path}
-                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-linear-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
-                                                        style={{ animationDelay: `${index * 30}ms` }}
-                                                        onClick={() => setIsCloudDropdownOpen(false)}
-                                                    >
-                                                        {subcat.isEmoji ? (
-                                                            <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
-                                                                {subcat.icon}
-                                                            </span>
-                                                        ) : (
-                                                            <Image
-                                                                src={subcat.icon}
-                                                                alt={subcat.name}
-                                                                width={24}
-                                                                height={24}
-                                                                className="group-hover:scale-110 transition-transform duration-200"
-                                                            />
-                                                        )}
-                                                        <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">{subcat.name}</span>
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
+                                {/* Cloud Dropdown */}
+{link.dropdownType === "cloud" && isCloudDropdownOpen && (
+    <div
+        onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+        onMouseLeave={handleDropdownMouseLeave}
+        className="absolute top-full left-1/2 -translate-x-1/2 mt-3
+                   w-[720px] bg-white/95 backdrop-blur-xl
+                   rounded-2xl shadow-2xl border border-gray-200
+                   z-50 animate-dropdown-in"
+    >
+        <div className="p-5">
+            <div className="grid grid-cols-4 gap-3">
+                {cloudSubcategories.map((subcat, index) => {
+                    const isActive =
+                        typeof window !== "undefined" &&
+                        window.location.search.includes(subcat.path.split("?")[1]);
+
+                    return (
+                        <Link
+                            key={subcat.name}
+                            href={subcat.path}
+                            onClick={() => setIsCloudDropdownOpen(false)}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-xl
+                                transition-all duration-200 group animate-dropdown-item
+                                ${
+                                    isActive
+                                        ? "bg-blue-600 text-white shadow-lg"
+                                        : "hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50"
+                                }`}
+                            style={{ animationDelay: `${index * 30}ms` }}
+                        >
+                            {subcat.isEmoji ? (
+                                <span className="text-2xl group-hover:scale-110 transition-transform">
+                                    {subcat.icon}
+                                </span>
+                            ) : (
+                                <Image
+                                    src={subcat.icon}
+                                    alt={subcat.name}
+                                    width={26}
+                                    height={26}
+                                    className={`transition-transform group-hover:scale-110 ${
+                                        isActive ? "brightness-200" : ""
+                                    }`}
+                                />
+                            )}
+
+                            <span
+                                className={`text-sm font-semibold ${
+                                    isActive
+                                        ? "text-white"
+                                        : "text-gray-700 group-hover:text-gray-900"
+                                }`}
+                            >
+                                {subcat.name}
+                            </span>
+                        </Link>
+                    );
+                })}
+            </div>
+        </div>
+    </div>
+)}
+
                             </div>
                         ) : (
                             <Link
