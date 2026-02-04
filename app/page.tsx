@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col bg-[#F4F0FF]"> {/* Soft Lavender background added */}
+        <div className="flex flex-col">
             {/* Hero Section */}
             <section className="relative bg-linear-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32">
                 <div className="container mx-auto px-4">
