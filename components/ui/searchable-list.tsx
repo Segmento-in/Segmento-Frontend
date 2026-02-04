@@ -58,7 +58,7 @@ export function SearchableList({
                 )}
             </div>
 
-            <div className="max-h-[400px] overflow-y-auto">
+            <div className="max-h-100 overflow-y-auto">
                 {filteredItems.length === 0 ? (
                     <div className="text-center py-8 text-muted-foreground">
                         {emptyMessage}

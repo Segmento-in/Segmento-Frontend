@@ -24,12 +24,12 @@ export function FeatureCard({ iconName, title, description, stat }: FeatureCardP
             className="group relative bg-white rounded-2xl border border-border/50 p-8 shadow-lg hover:shadow-2xl transition-all duration-300"
         >
             {/* Gradient Background on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-purple-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
             {/* Content */}
             <div className="relative space-y-4">
                 {/* Icon */}
-                <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-primary/10 to-purple-100 group-hover:from-primary/20 group-hover:to-purple-200 transition-colors">
+                <div className="inline-flex p-4 rounded-xl bg-linear-to-br from-primary/10 to-purple-100 group-hover:from-primary/20 group-hover:to-purple-200 transition-colors">
                     <Icon className="w-8 h-8 text-primary" />
                 </div>
 
@@ -44,8 +44,8 @@ export function FeatureCard({ iconName, title, description, stat }: FeatureCardP
                 </p>
 
                 {/* Stat Badge */}
-                <div className="inline-flex px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-purple-100 border border-primary/20">
-                    <span className="text-sm font-semibold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                <div className="inline-flex px-4 py-2 rounded-full bg-linear-to-r from-primary/10 to-purple-100 border border-primary/20">
+                    <span className="text-sm font-semibold bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
                         {stat}
                     </span>
                 </div>
