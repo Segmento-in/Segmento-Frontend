@@ -1,90 +1,97 @@
+// Newsletter Theme Configuration – Segmento Pulse
+// Dark glassmorphism + exact colors from design
+
+import {
+  Coffee,
+  Briefcase,
+  Moon,
+  Calendar,
+  FileText,
+  LucideIcon,
+} from "lucide-react"
+
 export type PreferenceKey =
-  | 'Morning'
-  | 'Afternoon'
-  | 'Evening'
-  | 'Weekly'
-  | 'Monthly';
+  | "Morning"
+  | "Afternoon"
+  | "Evening"
+  | "Weekly"
+  | "Monthly"
 
 export interface NewsletterTheme {
-  id: PreferenceKey;
-  title: string;
-  frequency: string;
-  deliveryTime: string;
-  emoji: string;
-  cardGradient: string;
-  textColor: string;
-  successMessage: string;
+  id: PreferenceKey
+  title: string
+  frequency: string
+  deliveryTime: string
+  icon: LucideIcon        // ✅ FIXED
+  emoji: string
+  cardGradient: string
+  textColor: string
 }
 
 export const NEWSLETTER_THEMES: Record<PreferenceKey, NewsletterTheme> = {
   Morning: {
-    id: 'Morning',
-    title: 'Morning Brief',
-    frequency: 'Daily, Mon-Fri',
-    deliveryTime: '7:00 AM IST',
-    emoji: '☕',
-    cardGradient:
-      'from-[#F6A15B] via-[#F39C5E] to-[#ED8A4C]',
-    textColor: 'text-white',
-    successMessage: 'Morning Brief subscribed'
+    id: "Morning",
+    title: "Morning Brief",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "7:00 AM IST",
+    icon: Coffee,
+    emoji: "☕",
+    cardGradient: "from-orange-400 via-orange-500 to-orange-600",
+    textColor: "text-white",
   },
 
   Afternoon: {
-    id: 'Afternoon',
-    title: 'Midday Update',
-    frequency: 'Daily, Mon-Fri',
-    deliveryTime: '2:00 PM IST',
-    emoji: '💼',
-    cardGradient:
-      'from-[#7EC8E3] via-[#6BB7E0] to-[#5BA6D8]',
-    textColor: 'text-white',
-    successMessage: 'Midday Update subscribed'
+    id: "Afternoon",
+    title: "Midday Update",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "2:00 PM IST",
+    icon: Briefcase,
+    emoji: "💼",
+    cardGradient: "from-sky-400 via-blue-500 to-blue-600",
+    textColor: "text-white",
   },
 
   Evening: {
-    id: 'Evening',
-    title: 'Evening Digest',
-    frequency: 'Daily, Mon-Fri',
-    deliveryTime: '7:00 PM IST',
-    emoji: '🌙',
-    cardGradient:
-      'from-[#4B2E83] via-[#3E1F6B] to-[#321455]',
-    textColor: 'text-white',
-    successMessage: 'Evening Digest subscribed'
+    id: "Evening",
+    title: "Evening Digest",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "7:00 PM IST",
+    icon: Moon,
+    emoji: "🌙",
+    cardGradient: "from-purple-600 via-indigo-700 to-purple-800",
+    textColor: "text-white",
   },
 
   Weekly: {
-    id: 'Weekly',
-    title: 'Weekend Digest',
-    frequency: 'Weekly',
-    deliveryTime: 'Sunday, 9:00 AM IST',
-    emoji: '📅',
-    cardGradient:
-      'from-[#2F9E9E] via-[#238A8A] to-[#1B7070]',
-    textColor: 'text-white',
-    successMessage: 'Weekend Digest subscribed'
+    id: "Weekly",
+    title: "Weekend Digest",
+    frequency: "Weekly",
+    deliveryTime: "Sunday, 7:00 AM IST",
+    icon: Calendar,
+    emoji: "📅",
+    cardGradient: "from-teal-500 via-emerald-600 to-teal-700",
+    textColor: "text-white",
   },
 
   Monthly: {
-    id: 'Monthly',
-    title: 'Monthly Intelligence',
-    frequency: 'Monthly',
-    deliveryTime: '1st of every month, 9:00 AM IST',
-    emoji: '📊',
-    cardGradient:
-      'from-[#B33A3A] via-[#9E2F2F] to-[#842424]',
-    textColor: 'text-white',
-    successMessage: 'Monthly Intelligence subscribed'
-  }
-};
-
-export const getTheme = (preference: PreferenceKey) =>
-  NEWSLETTER_THEMES[preference];
+    id: "Monthly",
+    title: "Monthly Intelligence",
+    frequency: "Monthly",
+    deliveryTime: "1st of every month, 9:00 AM IST",
+    icon: FileText,
+    emoji: "📊",
+    cardGradient: "from-rose-500 via-red-600 to-rose-700",
+    textColor: "text-white",
+  },
+}
 
 export const ALL_PREFERENCES: PreferenceKey[] = [
-  'Morning',
-  'Afternoon',
-  'Evening',
-  'Weekly',
-  'Monthly'
-];
+  "Morning",
+  "Afternoon",
+  "Evening",
+  "Weekly",
+  "Monthly",
+]
+
+export const getTheme = (key: PreferenceKey): NewsletterTheme =>
+  NEWSLETTER_THEMES[key]
