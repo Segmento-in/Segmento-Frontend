@@ -11,14 +11,17 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const tabBase =
+    "px-4 py-2 text-sm font-medium rounded-lg border border-transparent transition-all duration-300"
+
   const tabStyle =
-    "px-5 py-2 rounded-full text-sm font-medium text-white bg-gradient-to-r from-purple-600 via-pink-500 to-fuchsia-500 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+    `${tabBase} text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-500 hover:shadow-md`
 
   const dropdownBox =
-    "absolute left-0 mt-3 w-60 rounded-2xl bg-gray-900/95 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden"
+    "absolute left-1/2 -translate-x-1/2 mt-3 w-64 rounded-xl bg-gray-900 border border-white/10 shadow-2xl overflow-hidden"
 
   const dropdownItem =
-    "block px-5 py-3 text-sm text-gray-200 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-500 transition-all"
+    "block px-5 py-3 text-sm text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-500 transition-all"
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
@@ -36,7 +39,7 @@ export function Header() {
           </Link>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden md:flex items-center gap-4">
+          <nav className="hidden md:flex items-center gap-2">
             <Link href="/" className={tabStyle}>Home</Link>
             <Link href="/about" className={tabStyle}>About</Link>
 
@@ -47,7 +50,7 @@ export function Header() {
               onMouseLeave={() => setOpenDropdown(null)}
             >
               <button className={`${tabStyle} flex items-center gap-1`}>
-                Products <ChevronDown size={16} />
+                Products <ChevronDown size={14} />
               </button>
 
               {openDropdown === "products" && (
@@ -72,7 +75,7 @@ export function Header() {
               onMouseLeave={() => setOpenDropdown(null)}
             >
               <button className={`${tabStyle} flex items-center gap-1`}>
-                Solutions <ChevronDown size={16} />
+                Solutions <ChevronDown size={14} />
               </button>
 
               {openDropdown === "solutions" && (
@@ -106,7 +109,7 @@ export function Header() {
               onMouseLeave={() => setOpenDropdown(null)}
             >
               <button className={`${tabStyle} flex items-center gap-1`}>
-                Resources <ChevronDown size={16} />
+                Resources <ChevronDown size={14} />
               </button>
 
               {openDropdown === "resources" && (
@@ -123,14 +126,6 @@ export function Header() {
             <Link href="/contact" className={tabStyle}>Contact</Link>
           </nav>
 
-          {/* CTA */}
-          <Link
-            href="/contact"
-            className="hidden md:block px-7 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 shadow-xl hover:scale-105 transition"
-          >
-            Get a Demo
-          </Link>
-
           {/* MOBILE BUTTON */}
           <button
             className="md:hidden"
@@ -143,7 +138,7 @@ export function Header() {
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="md:hidden bg-gray-950 px-6 py-6 space-y-4">
+        <div className="md:hidden bg-gray-950 px-6 py-6 space-y-3">
           {[
             ["Home", "/"],
             ["About", "/about"],
@@ -154,7 +149,7 @@ export function Header() {
             <Link
               key={label}
               href={href}
-              className="block w-full text-center py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+              className="block w-full text-center py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white"
               onClick={() => setMobileOpen(false)}
             >
               {label}
