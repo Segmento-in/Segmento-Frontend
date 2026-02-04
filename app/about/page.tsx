@@ -100,10 +100,10 @@ export default function AboutPage() {
             <section className="py-16 bg-linear-to-br from-purple-50 to-indigo-50">
                 <div className="container mx-auto px-4">
                     <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Meet Our Executive Director</h2>
-                    <div className="max-w-4xl mx-auto bg-white rounded-2xl border-4 border-purple-500 shadow-lg hover:shadow-xl p-8 md:p-12 transition-all duration-500">
+                    <div className="max-w-4xl mx-auto bg-white rounded-2xl border-4 border-[#1A1B2E] shadow-lg hover:shadow-xl p-8 md:p-12 transition-all duration-500">
                         <div className="flex flex-col md:flex-row gap-8 items-start">
                             <div className="shrink-0 flex flex-col items-center gap-4">
-                                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-purple-400">
+                                <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-[#1A1B2E]">
                                     <Image src={director.image} alt={director.name} fill className="object-cover" />
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ export default function AboutPage() {
                                         <LinkedinIcon />
                                     </Link>
                                 </div>
-                                <p className="text-purple-600 font-semibold mb-4">{director.role}</p>
+                                <p className="text-[#5B2C6F] font-semibold mb-4">{director.role}</p>
                                 <p className="text-muted-foreground mb-6 leading-relaxed text-justify">
                                     {director.bio}
                                 </p>
@@ -131,10 +131,10 @@ export default function AboutPage() {
                         {team.map((member) => (
                             <div
                                 key={member.name}
-                                className="bg-white rounded-2xl border-4 border-purple-400 shadow-lg p-6 hover:shadow-2xl transition-all duration-500"
+                                className="bg-white rounded-2xl border border-purple-900 shadow-lg p-6 transition-all duration-300"
                             >
                                 <div className="flex flex-col items-center gap-4 mb-6">
-                                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-purple-300">
+                                    <div className="relative w-32 h-32 rounded-full overflow-hidden border border-purple-800">
                                         <Image src={member.image} alt={member.name} fill className="object-cover" />
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                                             <LinkedinIcon />
                                         </Link>
                                     </div>
-                                    <p className="text-purple-600 text-sm font-semibold mb-3">{member.role}</p>
+                                    <p className="text-purple-900 text-sm font-semibold mb-3">{member.role}</p>
                                     <p className="text-muted-foreground text-sm text-justify">{member.bio}</p>
                                 </div>
                             </div>
