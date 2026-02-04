@@ -6,16 +6,12 @@ import Link from "next/link";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 import NewsCard from "@/components/pulse/NewsCard";
 
-// Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-/* =========================
-   SHARED CATEGORY GROUPS
-========================= */
+/* ---------------- CATEGORY RELATIONSHIPS ---------------- */
 
-// Cloud categories (defined ONCE)
-const cloudCategories = [
-  { id: "cloud", name: "All Cloud" },
+const CLOUD_SUBCATEGORIES = [
+  { id: "cloud-computing", name: "All Cloud" },
   { id: "cloud-aws", name: "AWS" },
   { id: "cloud-gcp", name: "GCP" },
   { id: "cloud-azure", name: "Azure" },
@@ -29,8 +25,7 @@ const cloudCategories = [
   { id: "cloud-cloudflare", name: "Cloudflare" },
 ];
 
-// Data categories (defined ONCE)
-const dataCategories = [
+const DATA_SUBCATEGORIES = [
   { id: "data-laws", name: "Data Laws" },
   { id: "business-analytics", name: "Business Analytics" },
   { id: "business-intelligence", name: "Business Intelligence" },
@@ -43,49 +38,16 @@ const dataCategories = [
   { id: "data-security", name: "Data Security" },
 ];
 
-/* =========================
-   CATEGORY RELATIONSHIPS
-========================= */
+const categoryRelationships: Record<string, Array<{ id: string; name: string }>> = {
+  ...Object.fromEntries(DATA_SUBCATEGORIES.map(d => [d.id, DATA_SUBCATEGORIES])),
+  ...Object.fromEntries(CLOUD_SUBCATEGORIES.map(c => [c.id, CLOUD_SUBCATEGORIES])),
 
-const categoryRelationships: Record<
-  string,
-  Array<{ id: string; name: string }>
-> = {
-  // DATA (all behave the same)
-  "data-laws": dataCategories,
-  "business-analytics": dataCategories,
-  "business-intelligence": dataCategories,
-  "customer-data-platform": dataCategories,
-  "data-centers": dataCategories,
-  "data-engineering": dataCategories,
-  "data-governance": dataCategories,
-  "data-management": dataCategories,
-  "data-privacy": dataCategories,
-  "data-security": dataCategories,
-
-  // CLOUD (all behave the same)
-  "cloud": cloudCategories,
-  "cloud-aws": cloudCategories,
-  "cloud-gcp": cloudCategories,
-  "cloud-azure": cloudCategories,
-  "cloud-ibm": cloudCategories,
-  "cloud-oracle": cloudCategories,
-  "cloud-digitalocean": cloudCategories,
-  "cloud-salesforce": cloudCategories,
-  "cloud-alibaba": cloudCategories,
-  "cloud-tencent": cloudCategories,
-  "cloud-huawei": cloudCategories,
-  "cloud-cloudflare": cloudCategories,
-
-  // Others
-  "ai": [{ id: "ai", name: "AI" }],
+  ai: [{ id: "ai", name: "AI" }],
   "medium-article": [{ id: "medium-article", name: "Medium Article" }],
-  "magazines": [{ id: "magazines", name: "Magazines" }],
+  magazines: [{ id: "magazines", name: "Magazines" }],
 };
 
-/* =========================
-   PAGE CONTENT
-========================= */
+/* ---------------- PAGE CONTENT ---------------- */
 
 function NewsContent() {
   const searchParams = useSearchParams();
@@ -94,9 +56,17 @@ function NewsContent() {
   const [activeCategory, setActiveCategory] = useState(categoryParam);
   const [newsData, setNewsData] = useState<Record<string, Article[]>>({});
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState<Record<string, number>>({});
+  const [hasMore, setHasMore] = useState<Record<string, boolean>>({});
+
+  // ✅ CRITICAL FIX
+  const normalizedCategory =
+    activeCategory.startsWith("cloud-")
+      ? "cloud-computing"
+      : activeCategory;
 
   const categoriesToShow =
-    categoryRelationships[activeCategory] || [
+    categoryRelationships[normalizedCategory] || [
       { id: activeCategory, name: activeCategory },
     ];
 
@@ -105,80 +75,85 @@ function NewsContent() {
   }, [categoryParam]);
 
   useEffect(() => {
-    const loadNews = async () => {
-      try {
-        setLoading(true);
-        const articles = await fetchNewsByCategory(activeCategory, 1, 20);
-        setNewsData((prev) => ({ ...prev, [activeCategory]: articles }));
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    const load = async () => {
+      setLoading(true);
+      const articles = await fetchNewsByCategory(activeCategory, 1, 20);
+
+      setNewsData(prev => ({ ...prev, [activeCategory]: articles }));
+      setPage(prev => ({ ...prev, [activeCategory]: 1 }));
+      setHasMore(prev => ({ ...prev, [activeCategory]: articles.length >= 20 }));
+      setLoading(false);
     };
 
-    loadNews();
+    load();
   }, [activeCategory]);
+
+  const loadMore = async () => {
+    const next = (page[activeCategory] || 1) + 1;
+    const more = await fetchNewsByCategory(activeCategory, next, 20);
+
+    setNewsData(prev => ({
+      ...prev,
+      [activeCategory]: [...(prev[activeCategory] || []), ...more],
+    }));
+
+    setPage(prev => ({ ...prev, [activeCategory]: next }));
+    setHasMore(prev => ({ ...prev, [activeCategory]: more.length >= 20 }));
+  };
 
   const articles = newsData[activeCategory] || [];
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* CATEGORY BUTTONS */}
-      <div className="flex gap-3 mb-8 flex-wrap justify-center">
-        {categoriesToShow.map((cat) => {
-          const isCloudProvider =
-            cat.id.startsWith("cloud-") && cat.id !== "cloud";
-          const providerName = cat.id.replace("cloud-", "");
-
-          return (
-            <Link
-              key={cat.id}
-              href={`/pulse/news?category=${cat.id}`}
-              className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${
-                activeCategory === cat.id
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "bg-gray-100 hover:bg-gray-200"
-              }`}
-            >
-              {isCloudProvider && (
-                <img
-                  src={`/cloud-logos/${providerName}.svg`}
-                  alt={cat.name}
-                  className="w-5 h-5 object-contain"
-                />
-              )}
-              <span>{cat.name}</span>
-            </Link>
-          );
-        })}
+      {/* Categories */}
+      <div className="flex flex-wrap gap-3 justify-center mb-8">
+        {categoriesToShow.map(cat => (
+          <Link
+            key={cat.id}
+            href={`/pulse/news?category=${cat.id}`}
+            className={`px-6 py-2 rounded-full ${
+              activeCategory === cat.id
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 hover:bg-gray-200"
+            }`}
+          >
+            {cat.name}
+          </Link>
+        ))}
       </div>
 
-      {/* CONTENT */}
+      {/* Content */}
       {loading ? (
-        <div className="text-center py-20">Loading news...</div>
+        <p className="text-center py-20">Loading…</p>
       ) : articles.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">
+        <p className="text-center py-20 text-gray-500">
           No news available
-        </div>
+        </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {articles.map((article, i) => (
-            <NewsCard key={i} article={article} />
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {articles.map((a, i) => (
+            <NewsCard key={i} article={a} />
           ))}
+        </div>
+      )}
+
+      {hasMore[activeCategory] && (
+        <div className="text-center mt-8">
+          <button
+            onClick={loadMore}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg"
+          >
+            Load more
+          </button>
         </div>
       )}
     </div>
   );
 }
 
-/* =========================
-   PAGE EXPORT
-========================= */
-
 export default function NewsPage() {
   return (
-    <Suspense fallback={<div className="text-center py-20">Loading...</div>}>
+    <Suspense fallback={<p className="text-center py-20">Loading…</p>}>
       <NewsContent />
     </Suspense>
   );
