@@ -21,6 +21,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "firebase": "^12.8.0",
+    "framer-motion": "^12.31.1",
     "git": "^0.1.5",
     "lucide-react": "^0.562.0",
     "mysql2": "^3.16.0",
