@@ -1,11 +1,12 @@
+'use client';
+
 import Link from "next/link"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion" // Added for animations
 
-export const metadata = {
-    title: "Pricing - Segmento",
-    description: "Simple, transparent pricing for enterprise data security",
-}
+
+
 
 const tiers = [
     {
@@ -76,10 +77,10 @@ export default function PricingPage() {
     return (
         <div className="min-h-screen py-20">
             {/* Hero */}
-          <section className="mb-16">
-  <div className="container mx-auto px-4">
-    <div className="max-w-4xl mx-auto text-center">
-      <h1 className="
+            <section className="mb-16">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h1 className="
         text-4xl 
         sm:text-5xl 
         lg:text-6xl 
@@ -93,28 +94,35 @@ export default function PricingPage() {
         bg-clip-text 
         text-transparent
       ">
-        Simple, Transparent<br className="hidden sm:block" />
-        Pricing
-      </h1>
+                            Simple, Transparent<br className="hidden sm:block" />
+                            Pricing
+                        </h1>
 
-      <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
-        Choose the plan that fits your organization&apos;s needs
-      </p>
-    </div>
-  </div>
-</section>
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
+                            Choose the plan that fits your organization&apos;s needs
+                        </p>
+                    </div>
+                </div>
+            </section>
 
 
             {/* Pricing Tiers */}
             <section className="mb-20">
                 <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
                         {tiers.map((tier) => (
-                            <div
+                            <motion.div
                                 key={tier.name}
-                                className={`rounded-2xl border p-8 ${tier.featured
-                                    ? "border-primary shadow-2xl scale-105 bg-linear-to-br from-primary/5 to-purple-50"
-                                    : "border-border/50 bg-white shadow-lg"
+                                // Animation Logic:
+                                // Cards will scale up and increase shadow depth on hover
+                                whileHover={{ 
+                                    scale: 1.05,
+                                    transition: { duration: 0.2 }
+                                }}
+                                initial={tier.featured ? { scale: 1.05 } : { scale: 1 }}
+                                className={`rounded-2xl border p-8 transition-shadow duration-300 ${tier.featured
+                                    ? "border-primary shadow-2xl bg-linear-to-br from-primary/5 to-purple-50 z-10"
+                                    : "border-border/50 bg-white shadow-lg hover:shadow-2xl"
                                     }`}
                             >
                                 {tier.featured && (
@@ -154,7 +162,7 @@ export default function PricingPage() {
                                         {tier.price === "Custom" ? "Contact Sales" : "Get Started"}
                                     </Button>
                                 </Link>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>

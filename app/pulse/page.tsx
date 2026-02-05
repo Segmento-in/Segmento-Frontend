@@ -51,7 +51,7 @@ export default function PulsePage() {
     icon: Icon,
     colSpan,
     height,
-    customClass,
+    gradient,
     staticLabel
   }: {
     category: string;
@@ -59,7 +59,7 @@ export default function PulsePage() {
     icon: any;
     colSpan: string;
     height: string;
-    customClass: string;
+    gradient: string;
     staticLabel: string;
   }) => {
     const news = getLatestNews(category);
@@ -67,126 +67,132 @@ export default function PulsePage() {
     return (
       <Link
         href={`/pulse/news?category=${category}`}
-        className={`${colSpan} ${height} ${customClass} relative group overflow-hidden rounded-2xl transition-all duration-500 transform hover:scale-[1.01] shadow-lg`}
+        className={`${colSpan} ${height} relative group overflow-hidden rounded-3xl transition-all duration-500 transform hover:scale-[1.02] shadow-xl hover:shadow-2xl border border-white/10`}
       >
+        {/* Background Gradient */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} transition-transform duration-700 group-hover:scale-110`}></div>
+        
+        {/* Abstract Pattern Overlay for texture */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+
         {/* Content Overlay */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6 text-left">
+        <div className="relative z-10 h-full flex flex-col justify-between p-7 text-left">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <Icon className="w-8 h-8 text-white opacity-90" />
-              <h3 className="text-2xl font-bold text-white tracking-tight">{title}</h3>
+            <div className="inline-flex items-center justify-center p-3 bg-white/20 backdrop-blur-md rounded-2xl mb-6 group-hover:bg-white/30 transition-colors">
+              <Icon className="w-7 h-7 text-white" />
             </div>
+            <h3 className="text-2xl font-extrabold text-white tracking-tight mb-3 drop-shadow-md">{title}</h3>
             
-            <div className="mt-8">
-              <h4 className="text-lg font-semibold text-white mb-2 leading-tight">
-                {loading ? "Loading..." : (news?.title || staticLabel)}
-              </h4>
+            <div className="mt-2">
+              <p className="text-base font-medium text-white/90 leading-snug line-clamp-3">
+                {loading ? (
+                  <span className="inline-block w-full h-4 bg-white/20 animate-pulse rounded"></span>
+                ) : (
+                  news?.title || staticLabel
+                )}
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-white/90 font-medium text-sm group-hover:gap-3 transition-all">
-            <span>Explore More</span>
-            <Sparkles className="w-4 h-4" />
+          <div className="flex items-center gap-2 text-white font-bold text-sm uppercase tracking-widest group-hover:gap-4 transition-all">
+            <span>Explore</span>
+            <Sparkles className="w-5 h-5 animate-pulse" />
           </div>
         </div>
 
         {/* Glossy Overlay Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/10 opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/20 opacity-40 group-hover:opacity-60 transition-opacity"></div>
       </Link>
     );
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center">
-      <div className="container mx-auto px-4 py-12 max-w-6xl text-center">
-        {/* Hero Area - Keeping your original heading and subheading */}
-        <div className="mb-12">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center">
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        {/* Hero Area */}
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent leading-tight tracking-tighter">
             Segmento Pulse
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 font-medium">
+          <p className="text-xl md:text-2xl text-gray-500 font-semibold tracking-tight">
             Real-time technology insights
           </p>
         </div>
 
-        {/* --- EXACT GRID LAYOUT FROM IMAGE --- */}
-        <div className="grid grid-cols-12 gap-5">
+        {/* --- GRID LAYOUT --- */}
+        <div className="grid grid-cols-12 gap-6">
           
-          {/* Top Left: AI (Large Purple/Pink Card) */}
+          {/* Top Left: AI */}
           <CategoryBox 
             category="ai" 
             title="Artificial Intelligence" 
             icon={Brain} 
             colSpan="col-span-12 md:col-span-5" 
-            height="h-[320px]" 
+            height="h-[360px]" 
             staticLabel="AI Breakthrough in Healthcare Innovations"
-            customClass="bg-gradient-to-br from-[#5D3FD3] via-[#A020F0] to-[#E30B5C]" 
+            gradient="from-[#8E2DE2] to-[#4A00E0]" 
           />
 
-          {/* Top Right Cluster: Nested grid to match Data Eng, Data Gov, and Data Privacy */}
-          <div className="col-span-12 md:col-span-7 grid grid-cols-2 gap-5">
+          {/* Top Right Cluster */}
+          <div className="col-span-12 md:col-span-7 grid grid-cols-2 gap-6">
             <CategoryBox 
               category="data-engineering" 
               title="Data Engineering" 
               icon={Workflow} 
               colSpan="col-span-1" 
-              height="h-[150px]" 
-              staticLabel="Building Scalable Data Pipelines"
-              customClass="bg-[#1E40AF] bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')]" 
+              height="h-[170px]" 
+              staticLabel="Scaling Modern Pipelines"
+              gradient="from-[#1e3c72] to-[#2a5298]" 
             />
             <CategoryBox 
               category="data-governance" 
               title="Data Governance" 
               icon={Database} 
               colSpan="col-span-1" 
-              height="h-[150px]" 
-              staticLabel="New Compliance Frameworks"
-              customClass="bg-gradient-to-b from-[#064E3B] to-[#065F46]" 
+              height="h-[170px]" 
+              staticLabel="New Frameworks 2026"
+              gradient="from-[#11998e] to-[#38ef7d]" 
             />
-            
-            {/* Wide Data Privacy Card inside the Right Cluster */}
             <CategoryBox 
               category="data-privacy" 
               title="Data Privacy" 
               icon={Lock} 
               colSpan="col-span-2" 
-              height="h-[150px]" 
-              staticLabel="Navigating Global Privacy Laws"
-              customClass="bg-gradient-to-r from-[#F59E0B] to-[#EA580C]" 
+              height="h-[166px]" 
+              staticLabel="Navigating Global Privacy Laws & Ethics"
+              gradient="from-[#f12711] to-[#f5af19]" 
             />
           </div>
 
-          {/* Middle Row Start */}
+          {/* Middle Row */}
           <CategoryBox 
             category="business-intelligence" 
             title="Business Intelligence" 
             icon={TrendingUp} 
             colSpan="col-span-12 md:col-span-3" 
-            height="h-[240px]" 
-            staticLabel="Top BI Trends 2024"
-            customClass="bg-gradient-to-br from-[#1D4ED8] to-[#1E40AF]" 
+            height="h-[280px]" 
+            staticLabel="Data-Driven Strategy Trends"
+            gradient="from-[#00c6ff] to-[#0072ff]" 
           />
 
-          {/* Tech Magazines (Cover Image Style) */}
           <CategoryBox 
             category="magazines" 
             title="Tech Magazines" 
             icon={BookOpen} 
             colSpan="col-span-12 md:col-span-4" 
-            height="h-[240px]" 
-            staticLabel="Top Reads This Month"
-            customClass="bg-gray-800 bg-[url('https://images.unsplash.com/photo-1504270997636-07ddfbd48945?auto=format&fit=crop&q=80')] bg-cover bg-center" 
+            height="h-[280px]" 
+            staticLabel="Curated Reads for Leaders"
+            gradient="from-[#30E8BF] to-[#FF8235]" 
           />
 
-          {/* Data Security (Hacker Visual Style) */}
           <CategoryBox 
             category="data-security" 
             title="Data Security" 
             icon={Shield} 
             colSpan="col-span-12 md:col-span-5" 
-            height="h-[240px]" 
-            staticLabel="Protecting Sensitive Data"
-            customClass="bg-black bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80')] bg-cover bg-center" 
+            height="h-[280px]" 
+            staticLabel="Cyber Resilience Strategies"
+            gradient="from-[#ee0979] to-[#ff6a00]" 
           />
 
           {/* Bottom Row */}
@@ -195,9 +201,9 @@ export default function PulsePage() {
             title="Data Management" 
             icon={Database} 
             colSpan="col-span-12 md:col-span-7" 
-            height="h-[200px]" 
-            staticLabel="Mastering Data Integration"
-            customClass="bg-gradient-to-r from-[#059669] to-[#10B981]" 
+            height="h-[220px]" 
+            staticLabel="Mastering Hybrid Cloud Integration"
+            gradient="from-[#DA22FF] to-[#9733EE]" 
           />
 
           <CategoryBox 
@@ -205,14 +211,16 @@ export default function PulsePage() {
             title="Cloud Computing" 
             icon={Cloud} 
             colSpan="col-span-12 md:col-span-5" 
-            height="h-[200px]" 
-            staticLabel="The Future of Cloud Services"
-            customClass="bg-gradient-to-br from-[#0284C7] to-[#0369A1]" 
+            height="h-[220px]" 
+            staticLabel="The Future of Serverless Tech"
+            gradient="from-[#0575E6] to-[#021B79]" 
           />
         </div>
 
-        <div className="mt-12 text-gray-400 text-sm font-medium">
-          Click any category to explore the latest news and insights
+        <div className="mt-16 text-center">
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+            Tap to reveal the future
+          </p>
         </div>
       </div>
     </div>
