@@ -45,7 +45,7 @@ export default function CommentSection({ articleUrl }: CommentSectionProps) {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Share your thoughts..."
-                    className="w-full p-4 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none bg-white min-h-[100px]"
+                    className="w-full p-4 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none bg-white min-h-25"
                 />
                 <button
                     type="submit"
@@ -63,7 +63,7 @@ export default function CommentSection({ articleUrl }: CommentSectionProps) {
                 ) : (
                     comments.map((comment) => (
                         <div key={comment.id} className="flex gap-4">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs shrink-0">
                                 {comment.userName.charAt(0)}
                             </div>
                             <div className="flex-1">

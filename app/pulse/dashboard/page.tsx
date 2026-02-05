@@ -82,6 +82,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     {/* Subscription Manager */}
                     <div className="relative">
                         {/* Wrapper for z-index context if needed */}
@@ -106,6 +107,15 @@ export default function DashboardPage() {
                                 >
                                     Subscribe to access preferences
                                 </button>
+=======
+                    {/* Subscription Card */}
+                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-linear-to-br from-purple-50 to-blue-50 rounded-bl-full z-0"></div>
+
+                        <div className="flex items-center gap-4 mb-6 relative z-10">
+                            <div className={`h-12 w-12 rounded-full flex items-center justify-center ${subscription?.subscribed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'}`}>
+                                <Calendar className="h-6 w-6" />
+>>>>>>> production/release/prod-update
                             </div>
                         )}
                     </div>

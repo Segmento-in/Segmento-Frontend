@@ -44,7 +44,7 @@ export const PulseLogo: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md'
     return (
         <div className="relative inline-flex items-center justify-center">
             {/* Pulsing background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
 
             {/* Heartbeat icon */}
             <div className={`relative ${sizes[size]} text-blue-600`}>

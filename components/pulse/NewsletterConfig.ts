@@ -1,107 +1,121 @@
-// Newsletter Theme Configuration - Soft Glassmorphism Design
-// Inspired by modern Bento grid layouts with soft gradients
-
 import {
-    Coffee,
-    Briefcase,
-    Moon,
-    Calendar,
-    BarChart2
-} from 'lucide-react';
+  Coffee,
+  Briefcase,
+  Moon,
+  Calendar,
+  FileText,
+  LucideIcon,
+} from "lucide-react"
 
-export type PreferenceKey = 'Morning' | 'Afternoon' | 'Evening' | 'Weekly' | 'Monthly';
+export type PreferenceKey =
+  | "Morning"
+  | "Afternoon"
+  | "Evening"
+  | "Weekly"
+  | "Monthly"
 
 export interface NewsletterTheme {
-    id: PreferenceKey;
-    title: string;
-    frequency: string; // "Daily, Mon-Fri" etc.
-    deliveryTime: string;
-    scope: string;
-    icon: typeof Coffee;
-    // Soft, light gradients for glass cards
-    cardGradient: string;
-    // Text should be white on colored backgrounds
-    textColor: string;
-    buttonGradient: string;
-    successMessage: string;
-    emoji: string;
+  id: PreferenceKey
+  title: string
+  frequency: string
+  deliveryTime: string
+  scope: string
+  icon: LucideIcon
+  emoji: string
+
+  /* UI styling */
+  cardGradient: string
+  buttonGradient: string   // ✅ REQUIRED by NewsletterModal
+  textColor: string
+
+  /* Messaging */
+  successMessage: string
 }
 
 export const NEWSLETTER_THEMES: Record<PreferenceKey, NewsletterTheme> = {
-    Morning: {
-        id: 'Morning',
-        title: 'Morning Brief',
-        frequency: 'Daily, Mon-Fri',
-        deliveryTime: '7:00 AM IST',
-        scope: 'Last 12 hours of news (since 7 PM yesterday)',
-        icon: Coffee,
-        emoji: '☕',
-        // Vibrant Orange Gradient
-        cardGradient: 'bg-linear-to-br from-orange-500 to-amber-500',
-        textColor: 'text-white',
-        buttonGradient: 'bg-linear-to-r from-orange-500 to-amber-500',
-        successMessage: '🌅 Perfect! You\'ll receive your Morning Brief at 7:00 AM IST every weekday.'
-    },
-    Afternoon: {
-        id: 'Afternoon',
-        title: 'Midday Update',
-        frequency: 'Daily, Mon-Fri',
-        deliveryTime: '2:00 PM IST',
-        scope: 'Last 6 hours of breaking news',
-        icon: Briefcase,
-        emoji: '💼',
-        // Vibrant Blue Gradient
-        cardGradient: 'bg-linear-to-br from-blue-500 to-sky-500',
-        textColor: 'text-white',
-        buttonGradient: 'bg-linear-to-r from-blue-500 to-sky-500',
-        successMessage: '☀️ Great choice! Midday updates will arrive at 2:00 PM IST on weekdays.'
-    },
-    Evening: {
-        id: 'Evening',
-        title: 'Evening Digest',
-        frequency: 'Daily, Mon-Fri',
-        deliveryTime: '7:00 PM IST',
-        scope: 'Comprehensive daily roundup (last 24 hours)',
-        icon: Moon,
-        emoji: '🌙',
-        // Deep Purple Gradient
-        cardGradient: 'bg-linear-to-br from-purple-600 to-indigo-600',
-        textColor: 'text-white',
-        buttonGradient: 'bg-linear-to-r from-purple-600 to-indigo-600',
-        successMessage: '🌆 Subscribed! Your Evening Digest will arrive at 7:00 PM IST daily.'
-    },
-    Weekly: {
-        id: 'Weekly',
-        title: 'Weekend Digest',
-        frequency: 'Weekly',
-        deliveryTime: 'Sunday, 7:00 AM IST', // Updated time
-        scope: 'Best stories from the past 7 days',
-        icon: Calendar,
-        emoji: '📅',
-        // Vibrant Teal/Green Gradient
-        cardGradient: 'bg-linear-to-br from-emerald-500 to-teal-500',
-        textColor: 'text-white',
-        buttonGradient: 'bg-linear-to-r from-emerald-500 to-teal-500',
-        successMessage: '🎉 Awesome! Weekly roundups will arrive every Sunday at 7:00 AM IST.'
-    },
-    Monthly: {
-        id: 'Monthly',
-        title: 'Monthly Intelligence',
-        frequency: 'Monthly',
-        deliveryTime: '1st of every month, 9:00 AM IST',
-        scope: 'Top 25 stories from the past 30 days',
-        icon: BarChart2, // Changed to BarChart
-        emoji: '📊',
-        // Vibrant Pink/Rose Gradient
-        cardGradient: 'bg-linear-to-br from-pink-500 to-rose-500',
-        textColor: 'text-white',
-        buttonGradient: 'bg-linear-to-r from-pink-500 to-rose-500',
-        successMessage: '📈 Subscribed! Monthly insights will arrive on the 1st at 9:00 AM IST.'
-    }
-};
+  Morning: {
+    id: "Morning",
+    title: "Morning Brief",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "7:00 AM IST",
+    scope: "Top stories from the last 12 hours",
+    icon: Coffee,
+    emoji: "☕",
+    cardGradient: "from-orange-400 via-orange-500 to-orange-600",
+    buttonGradient: "from-orange-500 to-amber-500",
+    textColor: "text-white",
+    successMessage:
+      "☕ You’re all set! Your Morning Brief arrives every weekday at 7:00 AM IST.",
+  },
 
-export const getTheme = (preference: PreferenceKey): NewsletterTheme => {
-    return NEWSLETTER_THEMES[preference];
-};
+  Afternoon: {
+    id: "Afternoon",
+    title: "Midday Update",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "2:00 PM IST",
+    scope: "Breaking updates from the last 6 hours",
+    icon: Briefcase,
+    emoji: "💼",
+    cardGradient: "from-sky-400 via-blue-500 to-blue-600",
+    buttonGradient: "from-sky-500 to-blue-600",
+    textColor: "text-white",
+    successMessage:
+      "💼 Midday Updates will reach you at 2:00 PM IST on weekdays.",
+  },
 
-export const ALL_PREFERENCES: PreferenceKey[] = ['Morning', 'Afternoon', 'Evening', 'Weekly', 'Monthly'];
+  Evening: {
+    id: "Evening",
+    title: "Evening Digest",
+    frequency: "Daily, Mon–Fri",
+    deliveryTime: "7:00 PM IST",
+    scope: "Complete daily roundup of key stories",
+    icon: Moon,
+    emoji: "🌙",
+    cardGradient: "from-purple-600 via-indigo-700 to-purple-800",
+    buttonGradient: "from-purple-600 to-indigo-700",
+    textColor: "text-white",
+    successMessage:
+      "🌙 Evening Digest will be delivered every weekday at 7:00 PM IST.",
+  },
+
+  Weekly: {
+    id: "Weekly",
+    title: "Weekend Digest",
+    frequency: "Weekly",
+    deliveryTime: "Sunday, 7:00 AM IST",
+    scope: "Best stories from the past 7 days",
+    icon: Calendar,
+    emoji: "📅",
+    cardGradient: "from-teal-500 via-emerald-600 to-teal-700",
+    buttonGradient: "from-teal-500 to-emerald-600",
+    textColor: "text-white",
+    successMessage:
+      "📅 You’ll receive the Weekend Digest every Sunday morning.",
+  },
+
+  Monthly: {
+    id: "Monthly",
+    title: "Monthly Intelligence",
+    frequency: "Monthly",
+    deliveryTime: "1st of every month, 9:00 AM IST",
+    scope: "Top insights and trends from the past 30 days",
+    icon: FileText,
+    emoji: "📊",
+    cardGradient: "from-rose-500 via-pink-600 to-rose-700",
+    buttonGradient: "from-rose-500 to-pink-600",
+    textColor: "text-white",
+    successMessage:
+      "📊 Monthly Intelligence arrives on the 1st at 9:00 AM IST.",
+  },
+}
+
+export const ALL_PREFERENCES: PreferenceKey[] = [
+  "Morning",
+  "Afternoon",
+  "Evening",
+  "Weekly",
+  "Monthly",
+]
+
+export const getTheme = (key: PreferenceKey): NewsletterTheme =>
+  NEWSLETTER_THEMES[key]

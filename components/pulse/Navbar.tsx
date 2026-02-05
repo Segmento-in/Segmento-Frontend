@@ -144,7 +144,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                 <Link href="/pulse" className="flex items-center gap-2">
                     {/* Animated Heartbeat Logo */}
                     <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg heartbeat-glow"></div>
+                        <div className="absolute inset-0 bg-linear-to-r from-blue-500 to-purple-600 rounded-lg heartbeat-glow"></div>
                         <div className="relative w-9 h-9 flex items-center justify-center">
                             <svg
                                 viewBox="0 0 100 50"
@@ -202,7 +202,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                         ? 'rotate-180' : ''
                                         }`} />
                                     {/* Animated underline */}
-                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                                 </button>
 
                                 {/* Data Dropdown */}
@@ -218,7 +218,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                                     <Link
                                                         key={subcat.name}
                                                         href={subcat.path}
-                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
+                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-linear-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
                                                         style={{ animationDelay: `${index * 30}ms` }}
                                                         onClick={() => setIsDataDropdownOpen(false)}
                                                     >
@@ -244,7 +244,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                                     <Link
                                                         key={subcat.name}
                                                         href={subcat.path}
-                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
+                                                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-linear-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group animate-dropdown-item"
                                                         style={{ animationDelay: `${index * 30}ms` }}
                                                         onClick={() => setIsCloudDropdownOpen(false)}
                                                     >
@@ -277,7 +277,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                             >
                                 <span className="relative z-10">{link.name}</span>
                                 {/* Animated underline */}
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                             </Link>
                         )
                     ))}
@@ -285,7 +285,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                     {/* Get back to Segmento button - Enhanced */}
                     <Link
                         href="/"
-                        className="ml-2 px-4 py-2 text-sm font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 active:scale-95"
+                        className="ml-2 px-4 py-2 text-sm font-medium bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 active:scale-95"
                     >
                         Get back to Segmento
                     </Link>

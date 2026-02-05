@@ -1,195 +1,170 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronDown, Menu, X } from "lucide-react"
 
-type NavLink =
-    | { href: string; label: string; external?: boolean }
-    | { label: string; isDropdown: true; items: Array<{ href: string; label: string }> }
-
-// Type guard function
-function isDropdown(link: NavLink): link is { label: string; isDropdown: true; items: Array<{ href: string; label: string }> } {
-    return 'isDropdown' in link && link.isDropdown === true
-}
+type DropdownKey = "products" | "solutions" | "resources" | null
 
 export function Header() {
-    const [isScrolled, setIsScrolled] = useState(false)
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10)
-        }
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
+  /* TAB STYLE */
+  const tabStyle =
+    "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-500 hover:shadow-md"
 
-    const navLinks: NavLink[] = [
-        { href: "/", label: "Home" },
-        { href: "/about", label: "About" },
-        {
-            label: "Products",
-            isDropdown: true,
-            items: [
-                { href: "/pulse", label: "Segmento Pulse" },
-                { href: "/products/data-classification", label: "Segmento Sense" },
-            ],
-        },
-        {
-            label: "Solutions",
-            isDropdown: true,
-            items: [
-                { href: "/solutions#ecommerce", label: "eCommerce" },
-                { href: "/solutions#finance", label: "Finance" },
-                { href: "/solutions#healthcare", label: "Healthcare" },
-                { href: "/solutions#higher-education", label: "Higher Education" },
-                { href: "/solutions#manufacturing", label: "Manufacturing" },
-                { href: "/solutions#telecommunication", label: "Telecommunication" },
-                { href: "/solutions#media", label: "Media" },
-                { href: "/solutions#banking", label: "Banking" },
-            ],
-        },
-        {
-            label: "Resources",
-            isDropdown: true,
-            items: [
-                { href: "/blog", label: "Blog" },
-            ],
-        },
-        { href: "/pricing", label: "Pricing" },
-        { href: "/careers", label: "Careers" },
-        { href: "/contact", label: "Contact" },
-    ]
+  /* DROPDOWN */
+  const dropdownWrapper = "absolute left-1/2 -translate-x-1/2 pt-4"
+  const dropdownBox =
+    "w-64 rounded-xl bg-gradient-to-br from-purple-700 via-fuchsia-600 to-pink-600 shadow-2xl border border-white/20 overflow-hidden"
+  const dropdownItem =
+    "block px-5 py-3 text-sm text-white/90 hover:bg-white/10 transition-all"
 
-    return (
-        <header
-            className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled
-                ? "bg-white/80 backdrop-blur-md border-b border-border/40"
-                : "bg-transparent"
-                }`}
-        >
-            <div className="container mx-auto px-4">
-                <div className="flex h-20 items-center justify-between">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center">
-                        <Image
-                            src="/images/segmento_logo.png"
-                            alt="Segmento"
-                            width={240}
-                            height={80}
-                            className="h-12 md:h-14 lg:h-16 w-auto"
-                            priority
-                        />
-                    </Link>
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* HEADER ROW */}
+        <div className="flex items-center h-20">
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden md:flex items-center space-x-6">
-                        {navLinks.map((link) => {
-                            if (isDropdown(link)) {
-                                return (
-                                    <div key={link.label} className="relative group">
-                                        <button className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-1">
-                                            {link.label}
-                                            <span className="text-xs">▼</span>
-                                        </button>
-                                        <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-border/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                                            <div className="py-2">
-                                                {link.items.map((item) => (
-                                                    <Link
-                                                        key={item.href}
-                                                        href={item.href}
-                                                        className="block px-4 py-2 text-sm text-foreground/60 hover:text-foreground hover:bg-primary/5 transition-colors"
-                                                    >
-                                                        {item.label}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                            return (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
-                            )
-                        })}
-                    </nav>
+          {/* LEFT: LOGO (UNCHANGED) */}
+          <Link href="/" className="flex items-center shrink-0">
+            <Image
+              src="/images/logo-final.png"
+              alt="Segmento"
+              width={220}
+              height={70}
+              priority
+            />
+          </Link>
 
-                    {/* Desktop CTA Buttons */}
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Link href="/contact">
-                            <Button size="sm">Get Started</Button>
-                        </Link>
+          {/* CENTER: NAV TABS (PERFECTLY CENTERED) */}
+          <div className="flex-1 hidden md:flex justify-center">
+            <nav className="flex items-center gap-2">
+              <Link href="/" className={tabStyle}>Home</Link>
+              <Link href="/about" className={tabStyle}>About</Link>
+
+              {/* PRODUCTS */}
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDropdown("products")}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <button className={`${tabStyle} flex items-center gap-1`}>
+                  Products <ChevronDown size={14} />
+                </button>
+
+                {openDropdown === "products" && (
+                  <div className={dropdownWrapper}>
+                    <div className={dropdownBox}>
+                      <Link href="/pulse" className={dropdownItem}>
+                        Segmento Pulse
+                      </Link>
+                      <Link
+                        href="/products/data-classification"
+                        className={dropdownItem}
+                      >
+                        Segmento Sense
+                      </Link>
                     </div>
+                  </div>
+                )}
+              </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        {isMobileMenuOpen ? (
-                            <X className="h-6 w-6" />
-                        ) : (
-                            <Menu className="h-6 w-6" />
-                        )}
-                    </button>
-                </div>
-            </div>
+              {/* SOLUTIONS */}
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDropdown("solutions")}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <button className={`${tabStyle} flex items-center gap-1`}>
+                  Solutions <ChevronDown size={14} />
+                </button>
 
-            {/* Mobile Menu */}
-            {isMobileMenuOpen && (
-                <div className="md:hidden border-t bg-background">
-                    <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-                        {navLinks.map((link) => {
-                            if (isDropdown(link)) {
-                                return (
-                                    <div key={link.label} className="space-y-2">
-                                        <div className="font-semibold text-sm text-foreground">
-                                            {link.label}
-                                        </div>
-                                        <div className="pl-4 space-y-2">
-                                            {link.items.map((item) => (
-                                                <Link
-                                                    key={item.href}
-                                                    href={item.href}
-                                                    className="block text-sm text-foreground/60 hover:text-foreground transition-colors"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    {item.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )
-                            }
-                            return (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="text-sm font-medium text-foreground/60 hover:text-foreground transition-colors"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    {link.label}
-                                </Link>
-                            )
-                        })}
-                        <div className="flex flex-col space-y-2 pt-4 border-t">
-                            <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                                <Button className="w-full">Get Started</Button>
-                            </Link>
-                        </div>
-                    </nav>
-                </div>
-            )}
-        </header>
-    )
+                {openDropdown === "solutions" && (
+                  <div className={dropdownWrapper}>
+                    <div className={dropdownBox}>
+                      {[
+                        ["ecommerce", "eCommerce"],
+                        ["finance", "Finance"],
+                        ["healthcare", "Healthcare"],
+                        ["higher-education", "Higher Education"],
+                        ["manufacturing", "Manufacturing"],
+                        ["telecommunication", "Telecommunication"],
+                        ["media", "Media"],
+                        ["banking", "Banking"],
+                      ].map(([id, label]) => (
+                        <Link
+                          key={id}
+                          href={`/solutions#${id}`}
+                          className={dropdownItem}
+                        >
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* RESOURCES */}
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenDropdown("resources")}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <button className={`${tabStyle} flex items-center gap-1`}>
+                  Resources <ChevronDown size={14} />
+                </button>
+
+                {openDropdown === "resources" && (
+                  <div className={dropdownWrapper}>
+                    <div className={dropdownBox}>
+                      <Link href="/blog" className={dropdownItem}>
+                        Blog
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link href="/pricing" className={tabStyle}>Pricing</Link>
+              <Link href="/careers" className={tabStyle}>Careers</Link>
+              <Link href="/contact" className={tabStyle}>Contact</Link>
+            </nav>
+          </div>
+
+          {/* RIGHT: MOBILE BUTTON */}
+          <div className="flex justify-end md:hidden">
+            <button onClick={() => setMobileOpen(!mobileOpen)}>
+              {mobileOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
+      {mobileOpen && (
+        <div className="md:hidden bg-gray-950 px-6 py-6 space-y-3">
+          {[
+            ["Home", "/"],
+            ["About", "/about"],
+            ["Pricing", "/pricing"],
+            ["Careers", "/careers"],
+            ["Contact", "/contact"],
+          ].map(([label, href]) => (
+            <Link
+              key={label}
+              href={href}
+              className="block text-center py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white"
+              onClick={() => setMobileOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </header>
+  )
 }

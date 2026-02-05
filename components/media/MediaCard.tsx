@@ -26,7 +26,7 @@ export function MediaCard({ iconName, publication, headline, link }: MediaCardPr
             className="group bg-white rounded-2xl border border-border/50 p-8 shadow-lg hover:shadow-2xl transition-all duration-300"
         >
             {/* Icon */}
-            <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-primary/10 to-purple-100 group-hover:from-primary/20 group-hover:to-purple-200 transition-colors mb-6">
+            <div className="inline-flex p-4 rounded-xl bg-linear-to-br from-primary/10 to-purple-100 group-hover:from-primary/20 group-hover:to-purple-200 transition-colors mb-6">
                 <Icon className="w-8 h-8 text-primary" />
             </div>
 

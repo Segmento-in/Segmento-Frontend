@@ -110,14 +110,14 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                             {/* Glassmorphism Container with Theme */}
                             <div className={`
                                 relative rounded-3xl overflow-hidden
-                                bg-gradient-to-br ${theme.cardGradient}
+                                bg-linear-to-br ${theme.cardGradient}
                                 border border-white/20 dark:border-gray-700/30
                                 backdrop-blur-xl shadow-2xl
                             `}>
                                 {/* Animated Background Gradient */}
                                 <div className={`
                                     absolute inset-0 opacity-20
-                                    bg-gradient-to-br ${theme.cardGradient}
+                                    bg-linear-to-br ${theme.cardGradient}
                                     animate-pulse
                                 `} />
 
@@ -140,7 +140,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                                             className={`
                                                 inline-flex items-center justify-center
                                                 w-20 h-20 rounded-2xl mb-4
-                                                bg-gradient-to-br ${theme.cardGradient}
+                                                bg-linear-to-br ${theme.cardGradient}
                                                 shadow-lg
                                             `}
                                         >
@@ -238,7 +238,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
                                                 transition-all duration-200 shadow-lg
                                                 ${(loading || !isPolicyAccepted)
                                                     ? 'bg-gray-400 cursor-not-allowed'
-                                                    : `bg-gradient-to-r ${theme.buttonGradient} hover:shadow-2xl`
+                                                    : `bg-linear-to-r ${theme.buttonGradient} hover:shadow-2xl`
                                                 }
                                             `}
                                         >

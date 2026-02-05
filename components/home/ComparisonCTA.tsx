@@ -6,22 +6,22 @@ import { Button } from "@/components/ui/button"
 
 export function ComparisonCTA() {
     return (
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-primary-50/30 to-purple-50 py-16 md:py-20">
+        <section className="relative overflow-hidden bg-linear-to-br from-blue-50 via-primary-50/30 to-purple-50 py-16 md:py-20">
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
 
             <div className="container relative mx-auto px-4">
                 <div className="mx-auto max-w-4xl">
                     <div className="flex flex-col md:flex-row items-center gap-8">
                         {/* Icon */}
-                        <div className="flex-shrink-0">
-                            <div className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 shadow-xl">
-                                <BarChart3 className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                        <div className="shrink-0">
+                            <div className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-linear-to-br from-primary-500 to-primary-600 shadow-xl">
+                                <BarChart3 className="w-10 h-10 md:w-12 md:h-12 text-primary" />
                             </div>
                         </div>
 
                         {/* Content */}
                         <div className="flex-1 text-center md:text-left">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary-700 to-primary-500 bg-clip-text text-transparent">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-linear-to-r from-primary-700 to-primary-500 bg-clip-text text-primary ">
                                 How Does Segmento Stack Up?
                             </h2>
                             <p className="text-lg text-muted-foreground mb-6">

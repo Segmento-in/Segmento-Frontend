@@ -1,11 +1,15 @@
-import Image from "next/image"
-import Link from "next/link"
+'use client';
 
+<<<<<<< HEAD
 export const metadata = {
     title: "About Us - Segmento",
     description:
         "Segmento helps businesses unlock the real value of their customer data. Founded in 2025, we turn complex data into actionable insights.",
 }
+=======
+import Image from "next/image";
+import Link from "next/link";
+>>>>>>> production/release/prod-update
 
 const director = {
     name: "Geetha Reddy K",
@@ -13,7 +17,7 @@ const director = {
     bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
     image: "/images/director1.png",
     linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3/",
-}
+};
 
 const team = [
     {
@@ -26,7 +30,11 @@ const team = [
     {
         name: "Adam Shafi",
         role: "Data and Ai Technologies Developer",
+<<<<<<< HEAD
         bio: "Adam Shafi is a Data & AI Technologies Engineer at Segmento, focused on building intelligent, data-driven solutions that solve real-world business problems. She specializes in developing AI-powered systems and machine learning models using modern frameworks and technologies. With a strong focus on precision and innovation, he ensures every solution is scalable, efficient, and aligned with Segmento's privacy-first vision. Shafi excels at working on complex data challenges, creating intelligent automation, and delivering products that transform how enterprises handle sensitive information, driving Segmento's commitment to privacy-centric AI innovation.",
+=======
+        bio: "Adam Shafi is a Data & AI Technologies Engineer at Segmento, focused on building intelligent, data-driven solutions that solve real-world business problems. He specializes in developing AI-powered systems and machine learning models using modern frameworks and technologies. With a strong focus on precision and innovation, he ensures every solution is scalable, efficient, and aligned with Segmento's privacy-first vision. Shafi excels at working on complex data challenges, creating intelligent automation, and delivering products that transform how enterprises handle sensitive information, driving Segmento's commitment to privacy-centric AI innovation.",
+>>>>>>> production/release/prod-update
         image: "/images/shafi-profile.jpg",
         linkedin: "http://www.linkedin.com/in/shafisk",
     },
@@ -51,7 +59,11 @@ const team = [
         image: "/images/thejesh.png",
         linkedin: "http://www.linkedin.com/in/thejesh-naidu-4439a0304",
     },
+<<<<<<< HEAD
 ]
+=======
+];
+>>>>>>> production/release/prod-update
 
 const missions = [
     {
@@ -73,7 +85,7 @@ const missions = [
             "Create a privacy-first ecosystem for enterprise data security"
         ],
     },
-]
+];
 
 const LinkedinIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-6 h-6">
@@ -82,7 +94,7 @@ const LinkedinIcon = () => (
             fill="#0A66C2"
         />
     </svg>
-)
+);
 
 export default function AboutPage() {
     return (
@@ -91,7 +103,11 @@ export default function AboutPage() {
             <section className="mb-20">
                 <div className="container mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">
+<<<<<<< HEAD
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+=======
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-purple-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">
+>>>>>>> production/release/prod-update
                             Who Are We
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground">
@@ -101,6 +117,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
+<<<<<<< HEAD
             {/* Team Title */}
             <section className="mb-12">
                 <div className="container mx-auto px-4">
@@ -132,6 +149,34 @@ export default function AboutPage() {
                                 <p className="text-muted-foreground mb-6 leading-relaxed text-justify">
                                     {director.bio}
                                 </p>
+=======
+            {/* Director Section */}
+            <section className="py-16 bg-linear-to-br from-purple-50 to-indigo-50">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Meet Our Executive Director</h2>
+                    <div className="relative max-w-4xl mx-auto rounded-2xl p-1">
+                        {/* Colorful gradient border */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-500 rounded-2xl blur opacity-60"></div>
+                        <div className="relative bg-white rounded-2xl shadow-lg p-8 md:p-12">
+                            <div className="flex flex-col md:flex-row gap-8 items-start">
+                                <div className="shrink-0 flex flex-col items-center gap-4">
+                                    <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-transparent">
+                                        <Image src={director.image} alt={director.name} fill className="object-cover" />
+                                    </div>
+                                </div>
+                                <div className="flex-1 text-center md:text-left">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <h3 className="text-2xl md:text-3xl font-bold">{director.name}</h3>
+                                        <Link href={director.linkedin} target="_blank" rel="noopener noreferrer">
+                                            <LinkedinIcon />
+                                        </Link>
+                                    </div>
+                                    <p className="text-purple-700 font-semibold mb-4">{director.role}</p>
+                                    <p className="text-muted-foreground mb-6 leading-relaxed text-justify">
+                                        {director.bio}
+                                    </p>
+                                </div>
+>>>>>>> production/release/prod-update
                             </div>
                         </div>
                     </div>
@@ -145,26 +190,34 @@ export default function AboutPage() {
                         {team.map((member) => (
                             <div
                                 key={member.name}
-                                className="bg-white rounded-2xl border border-border/50 shadow-lg p-6 hover:shadow-xl transition-shadow"
+                                className="bg-white rounded-2xl border border-purple-900 shadow-lg p-6 transition-all duration-300"
                             >
                                 <div className="flex flex-col items-center gap-4 mb-6">
+<<<<<<< HEAD
                                     <div className="relative w-32 h-32 rounded-full overflow-hidden">
+=======
+                                    <div className="relative w-32 h-32 rounded-full overflow-hidden border border-purple-800">
+>>>>>>> production/release/prod-update
                                         <Image src={member.image} alt={member.name} fill className="object-cover" />
                                     </div>
                                 </div>
                                 <div className="text-center">
                                     <div className="flex justify-center items-center mb-2">
                                         <h3 className="text-xl font-bold">{member.name}</h3>
+<<<<<<< HEAD
                                         <Link
                                             href={member.linkedin}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="ml-2"
                                         >
+=======
+                                        <Link href={member.linkedin} target="_blank" rel="noopener noreferrer" className="ml-2">
+>>>>>>> production/release/prod-update
                                             <LinkedinIcon />
                                         </Link>
                                     </div>
-                                    <p className="text-primary text-sm font-semibold mb-3">{member.role}</p>
+                                    <p className="text-purple-900 text-sm font-semibold mb-3">{member.role}</p>
                                     <p className="text-muted-foreground text-sm text-justify">{member.bio}</p>
                                 </div>
                             </div>
@@ -174,22 +227,30 @@ export default function AboutPage() {
             </section>
 
             {/* Mission & Vision */}
+<<<<<<< HEAD
             <section className="py-16 bg-linear-to-br from-primary/5 to-purple-50">
+=======
+            <section className="py-16 bg-linear-to-br from-purple-50 to-indigo-50">
+>>>>>>> production/release/prod-update
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                         {missions.map((mission) => (
                             <div
                                 key={mission.title}
-                                className="bg-white rounded-2xl border border-border/50 shadow-lg p-8"
+                                className="bg-white rounded-2xl border-2 border-purple-400 shadow-lg p-8 transform hover:-translate-y-2 transition-all duration-500 animate-fade-in"
                             >
                                 <div className="text-5xl mb-4">{mission.icon}</div>
+<<<<<<< HEAD
                                 <h3 className="text-2xl font-bold mb-6 bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+=======
+                                <h3 className="text-2xl font-bold mb-6 bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+>>>>>>> production/release/prod-update
                                     {mission.title}
                                 </h3>
                                 <ul className="space-y-3">
                                     {mission.points.map((point, i) => (
                                         <li key={i} className="flex items-start gap-3">
-                                            <span className="text-primary mt-1 font-bold">−</span>
+                                            <span className="text-purple-600 mt-1 font-bold">−</span>
                                             <span className="text-muted-foreground">{point}</span>
                                         </li>
                                     ))}
@@ -208,19 +269,35 @@ export default function AboutPage() {
                         We're building the future of data intelligence. Explore our products or join our team.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/products/data-classification">
-                            <button className="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                        <Link href="products/data-classification">
+                            <button className="px-8 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors">
                                 Explore Products
                             </button>
                         </Link>
                         <Link href="/careers">
-                            <button className="px-8 py-3 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/5 transition-colors">
+                            <button className="px-8 py-3 border-2 border-purple-600 text-purple-600 rounded-lg font-semibold hover:bg-purple-50 transition-colors">
                                 View Careers
                             </button>
                         </Link>
                     </div>
                 </div>
             </section>
+
+            <style jsx>{`
+                @keyframes fade-in {
+                    from {
+                        opacity: 0;
+                        transform: translateY(10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                .animate-fade-in {
+                    animation: fade-in 0.6s ease-out;
+                }
+            `}</style>
         </div>
-    )
+    );
 }

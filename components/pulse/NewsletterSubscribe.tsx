@@ -74,7 +74,7 @@ export default function NewsletterSubscribe() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 shadow-xl border border-purple-100 dark:border-gray-700"
+                className="bg-linear-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 shadow-xl border border-purple-100 dark:border-gray-700"
             >
                 {/* Header */}
                 <div className="text-center mb-6">
@@ -82,7 +82,7 @@ export default function NewsletterSubscribe() {
                         initial={{ scale: 0.9 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.3 }}
-                        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full mb-4"
+                        className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-purple-500 to-blue-600 rounded-full mb-4"
                     >
                         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -178,7 +178,7 @@ export default function NewsletterSubscribe() {
                         whileTap={{ scale: (loading || !isPolicyAccepted) ? 1 : 0.98 }}
                         className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${(loading || !isPolicyAccepted)
                             ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
+                            : 'bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
                             }`}
                     >
                         {loading ? (
@@ -205,7 +205,7 @@ export default function NewsletterSubscribe() {
                                 }`}
                         >
                             <div className="flex items-start">
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     {status.type === 'success' ? (
                                         <svg className="h-5 w-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
