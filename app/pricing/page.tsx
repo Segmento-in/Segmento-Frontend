@@ -91,22 +91,20 @@ export default function PricingPage() {
             {/* Pricing Tiers */}
             <section className="mb-20">
                 <div className="container mx-auto px-4">
-                    {/* items-stretch ensures all grid children are the same height */}
-                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
+                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
                         {tiers.map((tier) => (
                             <motion.div
                                 key={tier.name}
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                // Added h-full and flex flex-col to make content expand
-                                className={`group relative rounded-3xl border p-8 transition-all duration-300 cursor-pointer bg-white flex flex-col h-full
+                                className={`group relative rounded-3xl border p-8 transition-all duration-300 cursor-pointer bg-white
                                     ${tier.featured 
-                                        ? "border-purple-500 shadow-[0_20px_50px_rgba(147,51,234,0.15)] ring-2 ring-purple-500/20 z-10" 
+                                        ? "border-purple-500 shadow-[0_20px_50px_rgba(147,51,234,0.15)] ring-2 ring-purple-500/20" 
                                         : "border-transparent shadow-xl hover:border-purple-500 hover:shadow-[0_20px_50px_rgba(147,51,234,0.15)] hover:ring-2 hover:ring-purple-500/20"
                                     }`}
                             >
                                 {tier.featured && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-purple-600 text-white text-sm font-bold shadow-lg z-20">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-purple-600 text-white text-sm font-bold shadow-lg z-10">
                                         Most Popular
                                     </div>
                                 )}
@@ -128,8 +126,7 @@ export default function PricingPage() {
                                     )}
                                 </div>
 
-                                {/* flex-grow ensures the feature list takes up remaining space, pushing the button down */}
-                                <ul className="space-y-4 mb-10 flex-grow">
+                                <ul className="space-y-4 mb-10">
                                     {tier.features.map((feature) => (
                                         <li key={feature} className="flex items-start gap-3">
                                             <div className="mt-1 rounded-full bg-purple-100 p-0.5 group-hover:bg-purple-600 transition-colors">
@@ -140,20 +137,18 @@ export default function PricingPage() {
                                     ))}
                                 </ul>
 
-                                <div className="mt-auto">
-                                    <Link href="/contact">
-                                        <Button
-                                            className={`w-full py-6 text-lg font-bold rounded-xl transition-all duration-300 border-none
-                                                ${tier.featured 
-                                                    ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-200" 
-                                                    : "bg-gray-100 hover:bg-purple-600 hover:text-white text-gray-900"
-                                                }`}
-                                            variant="default"
-                                        >
-                                            {tier.price === "Custom" ? "Contact Sales" : "Get Started"}
-                                        </Button>
-                                    </Link>
-                                </div>
+                                <Link href="/contact">
+                                    <Button
+                                        className={`w-full py-6 text-lg font-bold rounded-xl transition-all duration-300 border-none
+                                            ${tier.featured 
+                                                ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-200" 
+                                                : "bg-gray-100 hover:bg-purple-600 hover:text-white text-gray-900"
+                                            }`}
+                                        variant="default"
+                                    >
+                                        {tier.price === "Custom" ? "Contact Sales" : "Get Started"}
+                                    </Button>
+                                </Link>
                             </motion.div>
                         ))}
                     </div>
