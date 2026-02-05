@@ -85,10 +85,7 @@ export default function PulsePage() {
                 href={`/pulse/news?category=${category}`}
                 className={`${colSpan} ${rowSpan > 1 ? 'row-span-2' : ''} group relative overflow-hidden rounded-2xl ${height} transition-all duration-500 hover:shadow-2xl hover:scale-[1.01]`}
             >
-<<<<<<< HEAD
-=======
                 {/* Background Image with Dark Overlay */}
->>>>>>> production/release/prod-update
                 {imageUrl && !loading ? (
                     <>
                         <div
@@ -101,12 +98,8 @@ export default function PulsePage() {
                     <div className={`absolute inset-0 bg-linear-to-br ${fallbackGradient}`}></div>
                 )}
 
-<<<<<<< HEAD
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0ZXJuPjw8L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20"></div>
-=======
                 {/* Grid Pattern Overlay */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0ZXJuPjw2ZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-20"></div>
->>>>>>> production/release/prod-update
 
                 <div className="relative h-full flex flex-col justify-between p-6">
                     <div>
@@ -175,101 +168,6 @@ export default function PulsePage() {
                         fallbackGradient="from-purple-400 via-pink-500 to-indigo-600"
                     />
 
-<<<<<<< HEAD
-                    {/* Right Column */}
-                    <div className="col-span-12 md:col-span-7 grid grid-cols-7 gap-3">
-                        <CategoryBox
-                            category="data-engineering"
-                            title="Data Engineering"
-                            icon={Workflow}
-                            colSpan="col-span-7 md:col-span-3"
-                            height="h-[170px]"
-                            fallbackGradient="from-indigo-400 to-purple-500"
-                        />
-                        <CategoryBox
-                            category="data-governance"
-                            title="Data Governance"
-                            icon={Database}
-                            colSpan="col-span-7 md:col-span-4"
-                            height="h-[170px]"
-                            fallbackGradient="from-green-400 to-teal-500"
-                        />
-                        <CategoryBox
-                            category="business-intelligence"
-                            title="Business Intelligence"
-                            icon={TrendingUp}
-                            colSpan="col-span-7 md:col-span-3"
-                            height="h-[170px]"
-                            fallbackGradient="from-blue-400 to-cyan-500"
-                        />
-                        <CategoryBox
-                            category="data-privacy"
-                            title="Data Privacy"
-                            icon={Lock}
-                            colSpan="col-span-7 md:col-span-4"
-                            height="h-[170px]"
-                            fallbackGradient="from-amber-400 to-orange-500"
-                        />
-                        <CategoryBox
-                            category="data-security"
-                            title="Data Security"
-                            icon={Shield}
-                            colSpan="col-span-7 md:col-span-3"
-                            height="h-[170px]"
-                            fallbackGradient="from-red-400 to-pink-500"
-                        />
-                        <CategoryBox
-                            category="data-centers"
-                            title="Data Centers"
-                            icon={Database}
-                            colSpan="col-span-7 md:col-span-4"
-                            height="h-[170px]"
-                            fallbackGradient="from-gray-600 to-slate-700"
-                        />
-                        <CategoryBox
-                            category="business-analytics"
-                            title="Business Analytics"
-                            icon={TrendingUp}
-                            colSpan="col-span-7 md:col-span-3"
-                            height="h-[170px]"
-                            fallbackGradient="from-violet-400 to-purple-600"
-                        />
-                        <CategoryBox
-                            category="customer-data-platform"
-                            title="Customer Data Platform"
-                            icon={Database}
-                            colSpan="col-span-7 md:col-span-4"
-                            height="h-[170px]"
-                            fallbackGradient="from-pink-400 to-rose-500"
-                        />
-                    </div>
-
-                    {/* Bottom Row */}
-                    <CategoryBox
-                        category="data-management"
-                        title="Data Management"
-                        icon={Database}
-                        colSpan="col-span-12 md:col-span-4"
-                        height="h-[180px]"
-                        fallbackGradient="from-green-400 to-emerald-500"
-                    />
-                    <CategoryBox
-                        category="cloud-computing"
-                        title="Cloud Computing"
-                        icon={Cloud}
-                        colSpan="col-span-12 md:col-span-4"
-                        height="h-[180px]"
-                        fallbackGradient="from-cyan-400 to-blue-500"
-                    />
-                    <CategoryBox
-                        category="magazines"
-                        title="Tech Magazines"
-                        icon={BookOpen}
-                        colSpan="col-span-12 md:col-span-4"
-                        height="h-[180px]"
-                        fallbackGradient="from-gray-700 to-gray-900"
-                    />
-=======
                     {/* Right Column Nested Grid */}
                     <div className="col-span-12 md:col-span-7 grid grid-cols-7 gap-3">
                         <CategoryBox category="data-engineering" title="Data Engineering" icon={Workflow} colSpan="col-span-7 md:col-span-3" height="h-[170px]" fallbackGradient="from-indigo-500 to-purple-600" />
@@ -289,7 +187,6 @@ export default function PulsePage() {
                     <CategoryBox category="data-management" title="Data Management" icon={Database} colSpan="col-span-12 md:col-span-4" height="h-[180px]" fallbackGradient="from-green-500 to-emerald-600" />
                     <CategoryBox category="cloud-computing" title="Cloud Computing" icon={Cloud} colSpan="col-span-12 md:col-span-4" height="h-[180px]" fallbackGradient="from-cyan-500 to-blue-600" />
                     <CategoryBox category="magazines" title="Tech Magazines" icon={BookOpen} colSpan="col-span-12 md:col-span-4" height="h-[180px]" fallbackGradient="from-gray-700 to-gray-900" />
->>>>>>> production/release/prod-update
                 </div>
 
                 {/* Footer Text */}
@@ -302,25 +199,10 @@ export default function PulsePage() {
 
             <style jsx>{`
                 @keyframes fade-in {
-<<<<<<< HEAD
-                    from {
-                        opacity: 0;
-                        transform: translateY(10px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .animate-fade-in {
-                    animation: fade-in 0.5s ease-out;
-                }
-=======
                     from { opacity: 0; transform: translateY(10px); }
                     to { opacity: 1; transform: translateY(0); }
                 }
                 .animate-fade-in { animation: fade-in 0.5s ease-out; }
->>>>>>> production/release/prod-update
             `}</style>
         </div>
     );
