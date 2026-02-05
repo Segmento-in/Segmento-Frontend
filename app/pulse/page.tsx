@@ -14,7 +14,6 @@ export default function PulsePage() {
       const categories = [
         'ai','data-security','data-governance','data-privacy','data-engineering',
         'business-intelligence','data-management','cloud-computing','magazines',
-        'business-analytics','customer-data-platform','data-centers'
       ];
 
       try {
@@ -47,7 +46,7 @@ export default function PulsePage() {
 
   const getLatestNews = (category: string) => newsData[category]?.[0];
 
-  // Interactive Gradient Card
+  // Category Card Component
   const CategoryBox = ({
     category,
     title,
@@ -71,17 +70,17 @@ export default function PulsePage() {
         href={`/pulse/news?category=${category}`}
         className={`${colSpan} relative group overflow-hidden rounded-2xl ${height} transition-all duration-500 transform hover:scale-[1.02]`}
       >
-        {/* Background Gradient / Image */}
+        {/* Background Image / Gradient */}
         {imageUrl && !loading ? (
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
             style={{ backgroundImage: `url(${imageUrl})` }}
           />
         ) : (
-          <div className={`absolute inset-0 bg-linear-to-br ${fallbackGradient}`}></div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${fallbackGradient}`}></div>
         )}
 
-        {/* Overlay for readability */}
+        {/* Overlay */}
         <div className="absolute inset-0 bg-black/25 group-hover:bg-black/20 transition-colors duration-500"></div>
 
         {/* Content */}
@@ -116,7 +115,7 @@ export default function PulsePage() {
       <div className="container mx-auto px-4 py-8 max-w-7xl text-center">
         {/* Hero */}
         <div className="mb-8">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-3 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
             Segmento Pulse
           </h1>
           <p className="text-lg md:text-xl text-gray-600">
@@ -124,31 +123,18 @@ export default function PulsePage() {
           </p>
         </div>
 
-        {/* Grid - Interactive Gradient Style */}
-       <div className="grid grid-cols-12 gap-4 auto-rows-auto">
-  <CategoryBox category="ai" title="Artificial Intelligence" icon={Brain} colSpan="col-span-12 md:col-span-6" height="h-[320px]" fallbackGradient="from-purple-500 to-pink-500" />
-  
-  <CategoryBox category="data-engineering" title="Data Engineering" icon={Workflow} colSpan="col-span-6 md:col-span-3" height="h-[220px]" fallbackGradient="from-indigo-500 to-blue-500" />
-  
-  <CategoryBox category="data-governance" title="Data Governance" icon={Database} colSpan="col-span-6 md:col-span-3" height="h-[280px]" fallbackGradient="from-green-500 to-teal-500" />
-  
-  <CategoryBox category="business-intelligence" title="Business Intelligence" icon={TrendingUp} colSpan="col-span-12 md:col-span-4" height="h-[180px]" fallbackGradient="from-blue-500 to-cyan-500" />
-  
-  <CategoryBox category="data-privacy" title="Data Privacy" icon={Lock} colSpan="col-span-12 md:col-span-4" height="h-[280px]" fallbackGradient="from-amber-500 to-orange-500" />
-  
-  <CategoryBox category="data-security" title="Data Security" icon={Shield} colSpan="col-span-12 md:col-span-4" height="h-[220px]" fallbackGradient="from-red-500 to-pink-500" />
-  
-  <CategoryBox category="cloud-computing" title="Cloud Computing" icon={Cloud} colSpan="col-span-12 md:col-span-6" height="h-[250px]" fallbackGradient="from-cyan-500 to-blue-600" />
-  
-  <CategoryBox category="magazines" title="Tech Magazines" icon={BookOpen} colSpan="col-span-12 md:col-span-6" height="h-[180px]" fallbackGradient="from-gray-700 to-gray-900" />
-  
-  <CategoryBox category="data-management" title="Data Management" icon={Database} colSpan="col-span-12 md:col-span-4" height="h-[280px]" fallbackGradient="from-green-500 to-emerald-600" />
-  
-  <CategoryBox category="customer-data-platform" title="Customer Data Platform" icon={Database} colSpan="col-span-12 md:col-span-8" height="h-[200px]" fallbackGradient="from-purple-400 to-indigo-500" />
-  
-  <CategoryBox category="data-centers" title="Data Centers" icon={Database} colSpan="col-span-12 md:col-span-4" height="h-[220px]" fallbackGradient="from-gray-500 to-gray-700" />
-</div>
-
+        {/* Grid */}
+        <div className="grid grid-cols-12 gap-4">
+          <CategoryBox category="ai" title="Artificial Intelligence" icon={Brain} colSpan="col-span-12 md:col-span-4" height="h-[280px]" fallbackGradient="from-purple-500 to-pink-500" />
+          <CategoryBox category="data-engineering" title="Data Engineering" icon={Workflow} colSpan="col-span-6 md:col-span-4" height="h-[280px]" fallbackGradient="from-indigo-500 to-blue-500" />
+          <CategoryBox category="data-governance" title="Data Governance" icon={Database} colSpan="col-span-6 md:col-span-4" height="h-[280px]" fallbackGradient="from-green-500 to-teal-500" />
+          <CategoryBox category="business-intelligence" title="Business Intelligence" icon={TrendingUp} colSpan="col-span-12 md:col-span-3" height="h-[220px]" fallbackGradient="from-blue-500 to-cyan-500" />
+          <CategoryBox category="data-privacy" title="Data Privacy" icon={Lock} colSpan="col-span-12 md:col-span-3" height="h-[220px]" fallbackGradient="from-amber-500 to-orange-500" />
+          <CategoryBox category="data-security" title="Data Security" icon={Shield} colSpan="col-span-12 md:col-span-3" height="h-[220px]" fallbackGradient="from-red-500 to-pink-500" />
+          <CategoryBox category="cloud-computing" title="Cloud Computing" icon={Cloud} colSpan="col-span-12 md:col-span-3" height="h-[220px]" fallbackGradient="from-cyan-500 to-blue-600" />
+          <CategoryBox category="magazines" title="Tech Magazines" icon={BookOpen} colSpan="col-span-12 md:col-span-6" height="h-[220px]" fallbackGradient="from-gray-700 to-gray-900" />
+          <CategoryBox category="data-management" title="Data Management" icon={Database} colSpan="col-span-12 md:col-span-6" height="h-[220px]" fallbackGradient="from-green-500 to-emerald-600" />
+        </div>
 
         {/* Footer */}
         <div className="mt-8 text-center">
@@ -157,14 +143,6 @@ export default function PulsePage() {
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fade-in 0.5s ease-out; }
-      `}</style>
     </div>
   );
 }
