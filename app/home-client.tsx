@@ -215,35 +215,46 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-16 md:py-24 bg-linear-to-r from-primary to-purple-600 text-white overflow-hidden">
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
-                    className="container mx-auto px-4 text-center"
-                >
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Ready to Transform Your Data Security?
-                    </h2>
-                    <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
-                        Join enterprises worldwide who trust Segmento to protect their most sensitive data
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact">
-                            <Button size="lg" variant="secondary" className="text-lg px-8">
-                                Get Started Today
-                            </Button>
-                        </Link>
-                        <Link href="/products/data-classification">
-                            <Button size="lg" variant="outline" className="text-lg px-8 bg-transparent text-white border-white hover:bg-white/10">
-                                View Demo
-                            </Button>
-                        </Link>
-                    </div>
-                </motion.div>
-            </section>
+           {/* CTA Section – SAME UI AS HERO */}
+      <section className="relative bg-linear-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <div className="inline-block mb-4 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20">
+              <p className="text-sm font-semibold text-primary">
+                Get Started with Segmento
+              </p>
+            </div>
+
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              Ready to Transform Your Data Security?
+            </h2>
+
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Join enterprises worldwide who trust Segmento to protect their most sensitive data
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact">
+                <Button size="lg" className="text-lg px-8">
+                  Get Started Today
+                </Button>
+              </Link>
+
+              <Link href="/products/data-classification">
+                <Button size="lg" variant="outline" className="text-lg px-8">
+                  View Demo
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
             <PulseSideBanner />
             <Chatbot />
