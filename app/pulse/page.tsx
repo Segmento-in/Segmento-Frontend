@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp, Zap } from "lucide-react";
-// Assuming fetchNewsByCategory is your custom internal API
+import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp } from "lucide-react";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 
 export default function PulsePage() {
@@ -53,7 +52,8 @@ export default function PulsePage() {
     colSpan,
     height,
     gradient,
-    staticLabel
+    staticLabel,
+    bgImage
   }: {
     category: string;
     title: string;
@@ -62,35 +62,39 @@ export default function PulsePage() {
     height: string;
     gradient: string;
     staticLabel: string;
+    bgImage: string;
   }) => {
     const news = getLatestNews(category);
 
     return (
       <Link
         href={`/pulse/news?category=${category}`}
-        className={`${colSpan} ${height} relative group overflow-hidden rounded-3xl transition-all duration-500 transform hover:scale-[1.02] shadow-xl hover:shadow-2xl border border-white/10`}
+        className={`${colSpan} ${height} relative group overflow-hidden rounded-2xl transition-all duration-500 transform hover:scale-[1.01] shadow-lg hover:shadow-2xl border border-white/10`}
       >
-        {/* Background Gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} transition-transform duration-700 group-hover:scale-110`}></div>
+        {/* Actual Image Layer */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+          style={{ backgroundImage: `url(${bgImage})` }}
+        ></div>
         
-        {/* Animated Data "Pulse" Overlay - This creates the GIF-like interesting effect */}
-        <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-transparent animate-[pulse_3s_ease-in-out_infinite] transform -skew-y-12 translate-y-full group-hover:translate-y-[-100%] transition-transform duration-[2000ms]"></div>
-        </div>
+        {/* Gradient Overlay to match the image styling */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-85 group-hover:opacity-75 transition-opacity`}></div>
+        
+        {/* Visual Texture Overlay */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
 
         {/* Content Overlay */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-7 text-left">
+        <div className="relative z-10 h-full flex flex-col justify-between p-6 text-left">
           <div>
-            <div className="inline-flex items-center justify-center p-3 bg-white/20 backdrop-blur-md rounded-2xl mb-6 group-hover:bg-white/30 transition-colors">
-              <Icon className="w-7 h-7 text-white" />
+            <div className="flex items-center gap-3 mb-4">
+              <Icon className="w-8 h-8 text-white drop-shadow-md" />
+              <h3 className="text-xl font-bold text-white tracking-tight drop-shadow-md">{title}</h3>
             </div>
-            <h3 className="text-2xl font-extrabold text-white tracking-tight mb-3 drop-shadow-md">{title}</h3>
             
-            <div className="mt-2">
-              <p className="text-base font-medium text-white/90 leading-snug line-clamp-3">
+            <div className="mt-4 border-t border-white/20 pt-4">
+              <p className="text-lg font-bold text-white leading-tight line-clamp-2 drop-shadow-lg">
                 {loading ? (
-                  <span className="inline-block w-full h-4 bg-white/20 animate-pulse rounded"></span>
+                  <span className="inline-block w-full h-5 bg-white/20 animate-pulse rounded"></span>
                 ) : (
                   news?.title || staticLabel
                 )}
@@ -98,43 +102,35 @@ export default function PulsePage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-white font-bold text-sm uppercase tracking-widest group-hover:gap-4 transition-all">
-            <span>Explore</span>
-            <Sparkles className="w-5 h-5 animate-pulse text-yellow-300" />
+          <div className="flex items-center gap-2 text-white/90 font-bold text-sm group-hover:gap-3 transition-all">
+            <span>Explore More</span>
+            <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
           </div>
         </div>
 
-        {/* Glossy Overlay Effect */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-white/20 opacity-40 group-hover:opacity-60 transition-opacity"></div>
+        {/* Glossy Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/10 opacity-30 group-hover:opacity-10 transition-opacity"></div>
       </Link>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] flex flex-col items-center">
-      <div className="container mx-auto px-4 py-16 max-w-6xl">
-        
-        {/* Hero Area with "Pulse" Text Effect */}
-        <div className="text-center mb-16 relative">
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-600/20 blur-[100px] rounded-full animate-pulse"></div>
-          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight tracking-tighter">
+    <div className="min-h-screen bg-white flex flex-col items-center">
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
+        {/* Hero Area */}
+        <div className="text-center mb-12">
+          <h1 className="text-6xl md:text-7xl font-black mb-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
             Segmento Pulse
           </h1>
-          <div className="flex items-center justify-center gap-2">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-            </span>
-            <p className="text-xl md:text-2xl text-gray-400 font-semibold tracking-tight">
-              Real-time technology insights
-            </p>
-          </div>
+          <p className="text-lg md:text-xl text-gray-500 font-medium">
+            Real-time technology insights
+          </p>
         </div>
 
         {/* --- GRID LAYOUT --- */}
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-5">
           
-          {/* Top Left: AI */}
+          {/* AI - Large Card */}
           <CategoryBox 
             category="ai" 
             title="Artificial Intelligence" 
@@ -142,19 +138,21 @@ export default function PulsePage() {
             colSpan="col-span-12 md:col-span-5" 
             height="h-[360px]" 
             staticLabel="AI Breakthrough in Healthcare Innovations"
-            gradient="from-[#8E2DE2] to-[#4A00E0]" 
+            gradient="from-purple-600 to-indigo-900" 
+            bgImage="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80"
           />
 
           {/* Top Right Cluster */}
-          <div className="col-span-12 md:col-span-7 grid grid-cols-2 gap-6">
+          <div className="col-span-12 md:col-span-7 grid grid-cols-2 gap-5">
             <CategoryBox 
               category="data-engineering" 
               title="Data Engineering" 
               icon={Workflow} 
               colSpan="col-span-1" 
               height="h-[170px]" 
-              staticLabel="Scaling Modern Pipelines"
-              gradient="from-[#1e3c72] to-[#2a5298]" 
+              staticLabel="Building Scalable Data Pipelines"
+              gradient="from-blue-600 to-blue-800"
+              bgImage="https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80"
             />
             <CategoryBox 
               category="data-governance" 
@@ -162,8 +160,9 @@ export default function PulsePage() {
               icon={Database} 
               colSpan="col-span-1" 
               height="h-[170px]" 
-              staticLabel="New Frameworks 2026"
-              gradient="from-[#11998e] to-[#38ef7d]" 
+              staticLabel="New Compliance Frameworks"
+              gradient="from-green-600 to-emerald-900"
+              bgImage="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80"
             />
             <CategoryBox 
               category="data-privacy" 
@@ -171,8 +170,9 @@ export default function PulsePage() {
               icon={Lock} 
               colSpan="col-span-2" 
               height="h-[166px]" 
-              staticLabel="Navigating Global Privacy Laws & Ethics"
-              gradient="from-[#f12711] to-[#f5af19]" 
+              staticLabel="Navigating Global Privacy Laws"
+              gradient="from-orange-500 to-amber-600"
+              bgImage="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80"
             />
           </div>
 
@@ -183,19 +183,20 @@ export default function PulsePage() {
             icon={TrendingUp} 
             colSpan="col-span-12 md:col-span-3" 
             height="h-[280px]" 
-            staticLabel="Data-Driven Strategy Trends"
-            gradient="from-[#00c6ff] to-[#0072ff]" 
+            staticLabel="Top BI Trends 2024"
+            gradient="from-blue-400 to-blue-600"
+            bgImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
           />
 
-          <CategoryBox 
-            category="magazines" 
-            title="Tech Magazines" 
-            icon={BookOpen} 
-            colSpan="col-span-12 md:col-span-4" 
-            height="h-[280px]" 
-            staticLabel="Curated Reads for Leaders"
-            gradient="from-[#30E8BF] to-[#FF8235]" 
-          />
+          {/* Placeholder/Empty spacer image to match the gap in your reference */}
+          <div className="col-span-12 md:col-span-4 h-[280px] rounded-2xl overflow-hidden shadow-lg relative">
+             <img 
+               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80" 
+               className="w-full h-full object-cover" 
+               alt="City Background" 
+             />
+             <div className="absolute inset-0 bg-orange-900/20"></div>
+          </div>
 
           <CategoryBox 
             category="data-security" 
@@ -203,43 +204,50 @@ export default function PulsePage() {
             icon={Shield} 
             colSpan="col-span-12 md:col-span-5" 
             height="h-[280px]" 
-            staticLabel="Cyber Resilience Strategies"
-            gradient="from-[#ee0979] to-[#ff6a00]" 
+            staticLabel="Protecting Sensitive Data"
+            gradient="from-red-700/80 to-black/90"
+            bgImage="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80"
           />
 
           {/* Bottom Row */}
           <CategoryBox 
+            category="magazines" 
+            title="Tech Magazines" 
+            icon={BookOpen} 
+            colSpan="col-span-12 md:col-span-4" 
+            height="h-[220px]" 
+            staticLabel="Top Reads This Month"
+            gradient="from-stone-700/60 to-stone-900/90"
+            bgImage="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80"
+          />
+
+          <CategoryBox 
             category="data-management" 
             title="Data Management" 
             icon={Database} 
-            colSpan="col-span-12 md:col-span-7" 
+            colSpan="col-span-12 md:col-span-4" 
             height="h-[220px]" 
-            staticLabel="Mastering Hybrid Cloud Integration"
-            gradient="from-[#DA22FF] to-[#9733EE]" 
+            staticLabel="Mastering Data Integration"
+            gradient="from-emerald-600 to-green-800"
+            bgImage="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80"
           />
 
           <CategoryBox 
             category="cloud-computing" 
             title="Cloud Computing" 
             icon={Cloud} 
-            colSpan="col-span-12 md:col-span-5" 
+            colSpan="col-span-12 md:col-span-4" 
             height="h-[220px]" 
-            staticLabel="The Future of Serverless Tech"
-            gradient="from-[#0575E6] to-[#021B79]" 
+            staticLabel="The Future of Cloud Services"
+            gradient="from-sky-600 to-indigo-900"
+            bgImage="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80"
           />
         </div>
 
-        {/* Final Interactive Footer */}
-        <div className="mt-20 text-center group cursor-default">
-          <div className="inline-flex flex-col items-center">
-             <Zap className="w-8 h-8 text-yellow-400 animate-bounce mb-2" />
-             <h2 className="text-2xl font-black text-white group-hover:text-purple-400 transition-colors uppercase tracking-[0.3em]">
-               Segmento Pulse
-             </h2>
-             <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mt-2">
-               Powered by Real-Time Data Intelligence
-             </p>
-          </div>
+        <div className="mt-16 text-center">
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+            Tap to reveal the future
+          </p>
         </div>
       </div>
     </div>
