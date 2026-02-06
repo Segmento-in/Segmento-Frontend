@@ -6,6 +6,13 @@ import { Footer } from "@/components/layout/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { LayoutWrapper } from "@/components/layout/LayoutWrapper";
 
+
+export const metadata: Metadata = {
+  title: "Segmento | Secure Data. Smarter Insights.",
+  description:
+    "Segmento provides enterprise-grade AI-driven solutions for data intelligence and security. Explore Segmento Pulse and Segmento Sense.",
+};
+
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
@@ -18,16 +25,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Segmento Sense | Enterprise PII Detection & Data Security",
-  description: "Discover, classify, and protect personally identifiable information with industry-leading accuracy. Enterprise-grade PII detection for compliance and data security.",
-  keywords: ["PII detection", "data security", "GDPR compliance", "HIPAA", "data privacy", "data classification"],
-  openGraph: {
-    title: "Segmento Sense | Enterprise PII Detection & Data Security",
-    description: "Discover, classify, and protect personally identifiable information with industry-leading accuracy.",
-    type: "website",
-  },
-};
+
 
 export default function RootLayout({
   children,
