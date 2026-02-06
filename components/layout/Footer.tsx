@@ -34,7 +34,11 @@ export function Footer() {
     ],
     social: [
       { label: "X/Twitter", href: "/404", icon: Twitter },
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/segmento-pte-ltd/", icon: Linkedin },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/segmento-pte-ltd/",
+        icon: Linkedin,
+      },
       { label: "YouTube", href: "/404", icon: Youtube },
       { label: "Instagram", href: "/404", icon: Instagram },
       { label: "Facebook", href: "/404", icon: Facebook },
@@ -49,12 +53,12 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-linear-to-b from-slate-900 to-black text-white">
+    <footer className="bg-linear-to-b from-[#7C3AED] via-[#6D28D9] to-[#4C1D95] text-white">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           <div className="lg:col-span-2">
             <h3 className="text-lg font-bold mb-4">Segmento</h3>
-            <p className="text-sm text-gray-400 leading-relaxed mb-6">
+            <p className="text-sm text-gray-200 leading-relaxed mb-6">
               Privacy-first, AI-driven data products that solve real enterprise challenges.
               Transform how you protect and analyze sensitive information.
             </p>
@@ -67,7 +71,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-primary-100 transition-colors"
+                    className="text-sm text-gray-200 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -83,7 +87,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-primary-100 transition-colors"
+                    className="text-sm text-gray-200 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -99,7 +103,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-primary-100 transition-colors flex items-center gap-2"
+                    className="text-sm text-gray-200 hover:text-white transition-colors flex items-center gap-2"
                   >
                     {link.icon && <link.icon className="h-4 w-4" />}
                     {link.label}
@@ -114,7 +118,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-primary-100 transition-colors"
+                    className="text-sm text-gray-200 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -124,8 +128,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
-          <div className="text-center text-sm text-gray-400">
+        <div className="border-t border-white/20 pt-8">
+          <div className="text-center text-sm text-gray-200">
             Segmento © 2025. All rights reserved.
           </div>
         </div>
