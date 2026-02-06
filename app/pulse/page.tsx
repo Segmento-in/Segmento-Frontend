@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp } from "lucide-react";
+import { Sparkles, Database, Cloud, BookOpen, Brain, Shield, Workflow, Lock, TrendingUp, Zap } from "lucide-react";
+// Assuming fetchNewsByCategory is your custom internal API
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
 
 export default function PulsePage() {
@@ -72,8 +73,11 @@ export default function PulsePage() {
         {/* Background Gradient */}
         <div className={`absolute inset-0 bg-gradient-to-br ${gradient} transition-transform duration-700 group-hover:scale-110`}></div>
         
-        {/* Abstract Pattern Overlay for texture */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        {/* Animated Data "Pulse" Overlay - This creates the GIF-like interesting effect */}
+        <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-transparent animate-[pulse_3s_ease-in-out_infinite] transform -skew-y-12 translate-y-full group-hover:translate-y-[-100%] transition-transform duration-[2000ms]"></div>
+        </div>
 
         {/* Content Overlay */}
         <div className="relative z-10 h-full flex flex-col justify-between p-7 text-left">
@@ -96,7 +100,7 @@ export default function PulsePage() {
 
           <div className="flex items-center gap-2 text-white font-bold text-sm uppercase tracking-widest group-hover:gap-4 transition-all">
             <span>Explore</span>
-            <Sparkles className="w-5 h-5 animate-pulse" />
+            <Sparkles className="w-5 h-5 animate-pulse text-yellow-300" />
           </div>
         </div>
 
@@ -107,16 +111,24 @@ export default function PulsePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center">
+    <div className="min-h-screen bg-[#0a0a0c] flex flex-col items-center">
       <div className="container mx-auto px-4 py-16 max-w-6xl">
-        {/* Hero Area */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent leading-tight tracking-tighter">
+        
+        {/* Hero Area with "Pulse" Text Effect */}
+        <div className="text-center mb-16 relative">
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-600/20 blur-[100px] rounded-full animate-pulse"></div>
+          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight tracking-tighter">
             Segmento Pulse
           </h1>
-          <p className="text-xl md:text-2xl text-gray-500 font-semibold tracking-tight">
-            Real-time technology insights
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+            </span>
+            <p className="text-xl md:text-2xl text-gray-400 font-semibold tracking-tight">
+              Real-time technology insights
+            </p>
+          </div>
         </div>
 
         {/* --- GRID LAYOUT --- */}
@@ -217,10 +229,17 @@ export default function PulsePage() {
           />
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
-            Tap to reveal the future
-          </p>
+        {/* Final Interactive Footer */}
+        <div className="mt-20 text-center group cursor-default">
+          <div className="inline-flex flex-col items-center">
+             <Zap className="w-8 h-8 text-yellow-400 animate-bounce mb-2" />
+             <h2 className="text-2xl font-black text-white group-hover:text-purple-400 transition-colors uppercase tracking-[0.3em]">
+               Segmento Pulse
+             </h2>
+             <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] mt-2">
+               Powered by Real-Time Data Intelligence
+             </p>
+          </div>
         </div>
       </div>
     </div>

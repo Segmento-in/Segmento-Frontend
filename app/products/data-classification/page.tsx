@@ -10,10 +10,7 @@ import { EnterpriseSection } from "@/components/home/EnterpriseSection"
 import { FAQSection } from "@/components/home/FAQSection"
 import { CTASection } from "@/components/home/CTASection"
 
-export const metadata = {
-  title: "Segmento Sense | Enterprise PII Detection & Data Classification",
-  description: "AI-powered data classification and PII detection platform. Part of Segmento.",
-}
+
 
 export default function DataClassificationPage() {
   return (
