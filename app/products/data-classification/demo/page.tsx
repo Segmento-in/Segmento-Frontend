@@ -39,7 +39,7 @@ export default function PIIDemoPage() {
         if (sourceConfig.mainCategory === 'File System' && sourceConfig.fileSubType) {
             return (
                 <div className="space-y-6">
-                    <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                    <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                         <h2 className="text-2xl font-bold text-white mb-6">
                             Upload {sourceConfig.fileSubType} File
                         </h2>
@@ -65,7 +65,7 @@ export default function PIIDemoPage() {
 
                             {/* Data Display */}
                             {analysisResult.data && analysisResult.data.length > 0 && (
-                                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                                     <h3 className="text-xl font-semibold text-[#B3945B] mb-4">
                                         Scanned Results
                                     </h3>
@@ -103,7 +103,7 @@ export default function PIIDemoPage() {
 
                             {/* PDF Image */}
                             {analysisResult.image && (
-                                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                                     <div className="flex items-center justify-between mb-4">
                                         <h3 className="text-xl font-semibold text-[#B3945B]">
                                             PDF Page {analysisResult.current_page! + 1} of {analysisResult.total_pages}
@@ -150,7 +150,7 @@ export default function PIIDemoPage() {
 
                             {/* OCR Image */}
                             {analysisResult.original_image && (
-                                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                                     <h3 className="text-xl font-semibold text-[#B3945B] mb-4">
                                         Original Image
                                     </h3>
@@ -170,7 +170,7 @@ export default function PIIDemoPage() {
         // Databases
         if (sourceConfig.mainCategory === 'Databases') {
             return (
-                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                     <h2 className="text-2xl font-bold text-white mb-6">
                         Connect to {sourceConfig.source}
                     </h2>
@@ -187,7 +187,7 @@ export default function PIIDemoPage() {
         // Cloud Storage
         if (sourceConfig.mainCategory === 'Cloud Storage') {
             return (
-                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                     <h2 className="text-2xl font-bold text-white mb-6">
                         {sourceConfig.source} Import
                     </h2>
@@ -233,7 +233,7 @@ export default function PIIDemoPage() {
             );
 
             return (
-                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
+                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
                     <h2 className="text-2xl font-bold text-white mb-6">
                         {sourceConfig.source} Scanner
                     </h2>
@@ -246,7 +246,7 @@ export default function PIIDemoPage() {
     };
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-[#141E30] via-[#1A1A1A] to-[#141E30]">
+        <div className="flex min-h-screen bg-linear-to-br from-[#141E30] via-[#1A1A1A] to-[#141E30]">
             {/* Loading Animation */}
             {loading && <ChessLoadingAnimation message="Analyzing your data with AI models..." />}
 

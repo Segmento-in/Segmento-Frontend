@@ -134,7 +134,7 @@ export default function SolutionsPage() {
       <section className="mb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
               Industry Solutions
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground">
@@ -151,12 +151,12 @@ export default function SolutionsPage() {
           <section
             key={industry.id}
             id={industry.id}
-            className={`py-12 ${index % 2 === 1 ? "bg-gradient-to-br from-primary/5 to-purple-50" : ""}`}
+            className={`py-12 ${index % 2 === 1 ? "bg-linear-to-br from-primary/5 to-purple-50" : ""}`}
           >
             <div className="container mx-auto px-4">
               <div className="max-w-5xl mx-auto">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-primary/10 to-purple-100">
+                  <div className="p-4 rounded-xl bg-linear-to-br from-primary/10 to-purple-100">
                     <Icon className="w-10 h-10 text-primary" />
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold">{industry.title}</h2>
@@ -205,7 +205,7 @@ export default function SolutionsPage() {
       })}
 
       {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-primary to-purple-600 text-white mt-16">
+      <section className="py-16 bg-linear-to-r from-primary to-purple-600 text-white mt-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to secure your industry's data?

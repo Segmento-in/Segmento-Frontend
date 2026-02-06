@@ -169,7 +169,7 @@ export function Header() {
             <Link
               key={label}
               href={href}
-              className="block text-center py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+              className="block text-center py-3 rounded-lg bg-linear-to-r from-purple-600 to-pink-600 text-white"
               onClick={() => setMobileOpen(false)}
             >
               {label}
