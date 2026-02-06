@@ -225,11 +225,7 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="max-w-4xl mx-auto text-center"
           >
-            <div className="inline-block mb-4 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20">
-              <p className="text-sm font-semibold text-primary">
-                Get Started with Segmento
-              </p>
-            </div>
+           
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
               Ready to Transform Your Data Security?
