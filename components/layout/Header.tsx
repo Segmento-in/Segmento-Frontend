@@ -13,7 +13,7 @@ export function Header() {
   const [mobileDropdown, setMobileDropdown] = useState<DropdownKey>(null)
 
   const tabStyle =
-    "px-5 py-2 text-sm font-medium rounded-full text-white bg-gradient-to-r from-purple-600 to-pink-500 shadow-md hover:scale-105 transition"
+    "px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-pink-500 shadow-md hover:scale-105 transition"
 
   const dropdownWrapper = "absolute left-1/2 -translate-x-1/2 pt-4"
   const dropdownBox =
