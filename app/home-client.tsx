@@ -39,7 +39,7 @@ export default function HomePage() {
             {/* Hero Section */}
            <section
   className="relative py-20 md:py-32 overflow-hidden
-             bg-[url('/hero-bg.png')] bg-cover bg-center"
+             bg-[url('/image/hero-bg.png')] bg-cover bg-center"
 >
   {/* Overlay for readability */}
   <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
