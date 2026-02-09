@@ -24,17 +24,18 @@ const staggerContainer = {
 
 export default function HomePage() {
 
-    // ✅ SAME PAGE SCROLL
     const scrollToProducts = () => {
         const section = document.getElementById("products")
         if (section) {
-            section.scrollIntoView({ behavior: "smooth" })
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            })
         }
     }
 
     return (
         <div className="flex flex-col bg-[#F4F0FF]">
-
             {/* Hero Section */}
             <section className="relative bg-linear-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32 overflow-hidden">
                 <div className="container mx-auto px-4">
@@ -53,24 +54,21 @@ export default function HomePage() {
                         </h1>
 
                         <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-                            Segmento is a robust platform delivering cutting-edge AI products that solve real enterprise challenges.
+                            Segmento is a robust platform delivering cutting-edge AI products that solve real enterprise challenges. From real-time data intelligence to advanced security solutions.
                         </p>
 
                         <p className="text-base text-muted-foreground mb-8 max-w-2xl mx-auto font-medium">
-                            Explore our suite of products: <span className="text-blue-600 font-bold">Segmento Pulse</span> for intelligent news & insights, and{" "}
-                            <span className="text-primary font-bold">Segmento Sense</span> for enterprise-grade data security.
+                            Explore our suite of products: <span className="text-blue-600 font-bold">Segmento Pulse</span> for intelligent news & insights, and <span className="text-primary font-bold">Segmento Sense</span> for enterprise-grade data security.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
-                            {/* ✅ UPDATED BUTTON (NO LINK) */}
+                            {/* ✅ FIXED BUTTON */}
                             <Button
                                 size="lg"
                                 className="text-lg px-8"
                                 onClick={scrollToProducts}
                             >
-                                Explore Our Products
-                                <ArrowRight className="ml-2 h-5 w-5" />
+                                Explore Our Products <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
 
                             <Link href="/contact">
@@ -93,7 +91,7 @@ export default function HomePage() {
                         </p>
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         variants={staggerContainer}
                         initial="initial"
                         whileInView="whileInView"
@@ -117,7 +115,7 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* ✅ PRODUCTS SECTION TARGET */}
+            {/* Products Section */}
             <section
                 id="products"
                 className="py-16 md:py-24 bg-linear-to-br from-primary/5 to-purple-50"
@@ -130,7 +128,135 @@ export default function HomePage() {
                         </p>
                     </motion.div>
 
-                    {/* 🔹 REST OF YOUR PRODUCT CODE IS UNCHANGED */}
+                    <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                        {/* Segmento Pulse */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="bg-white rounded-2xl shadow-xl p-8 border border-border/50 hover:shadow-2xl transition-shadow"
+                        >
+                            <div className="flex flex-col h-full">
+                                <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    Segmento Pulse
+                                </h3>
+                                <p className="text-lg text-muted-foreground mb-6">
+                                    Stay ahead with real-time data intelligence. Get the latest news, insights,
+                                    and trends curated for your data and tech needs.
+                                </p>
+
+                                <ul className="space-y-3 mb-6 grow">
+                                    {["Curated tech & data news", "Real-time insights & trends", "Multi-category coverage"].map((t, i) => (
+                                        <li key={i} className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                                            <span>{t}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <Link href="/pulse">
+                                    <Button size="lg" className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                                        Explore Pulse <ArrowRight className="ml-2 h-5 w-5" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </motion.div>
+
+                        {/* Segmento Sense */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="bg-white rounded-2xl shadow-xl p-8 border border-border/50 hover:shadow-2xl transition-shadow"
+                        >
+                            <div className="flex flex-col h-full">
+                                <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                                    Segmento Sense
+                                </h3>
+                                <p className="text-lg text-muted-foreground mb-6">
+                                    Our flagship enterprise solution. Built for organizations that demand
+                                    the highest levels of intelligence and security for their most sensitive assets.
+                                </p>
+
+                                <ul className="space-y-3 mb-6 grow">
+                                    {["Advanced AI-powered technology", "Enterprise-grade security", "Trusted by leading organizations"].map((t, i) => (
+                                        <li key={i} className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+                                            <span>{t}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <Link href="/products/data-classification">
+                                    <Button size="lg" className="w-full">
+                                        Learn More <ArrowRight className="ml-2 h-5 w-5" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="py-16 md:py-24">
+                <div className="container mx-auto px-4">
+                    <motion.div
+                        variants={staggerContainer}
+                        initial="initial"
+                        whileInView="whileInView"
+                        viewport={{ once: true }}
+                        className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center"
+                    >
+                        {[
+                            { val: "99.99%", lab: "Uptime SLA", col: "text-primary" },
+                            { val: "1M+", lab: "Records/Second", col: "text-purple-600" },
+                            { val: "95%", lab: "AI Accuracy", col: "text-blue-600" },
+                            { val: "Zero", lab: "Data Breaches", col: "text-green-600" }
+                        ].map((stat, i) => (
+                            <motion.div key={i} variants={fadeInUp}>
+                                <div className={`text-4xl md:text-5xl font-bold ${stat.col} mb-2`}>{stat.val}</div>
+                                <div className="text-muted-foreground">{stat.lab}</div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="relative bg-linear-to-br from-primary/5 via-purple-50 to-blue-50 py-20 md:py-32 overflow-hidden">
+                <div className="container mx-auto px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="max-w-4xl mx-auto text-center"
+                    >
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                            Ready to Transform Your Data Security?
+                        </h2>
+
+                        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                            Join enterprises worldwide who trust Segmento to protect their most sensitive data
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link href="/contact">
+                                <Button size="lg" className="text-lg px-8">
+                                    Get Started Today
+                                </Button>
+                            </Link>
+
+                            <Link href="/products/data-classification">
+                                <Button size="lg" variant="outline" className="text-lg px-8">
+                                    View Demo
+                                </Button>
+                            </Link>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 
