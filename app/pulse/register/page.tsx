@@ -27,6 +27,24 @@ export default function RegisterPage() {
                 throw new Error("Authentication service not available");
             }
             await createUserWithEmailAndPassword(pulseAuth, email, password);
+
+            // Auto-subscribe to Weekly Newsletter (Default)
+            try {
+                await fetch(`${process.env.NEXT_PUBLIC_PULSE_API_URL}/api/subscription/subscribe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        name: name,
+                        preference: "Weekly",
+                        topics: ["news", "tech"]
+                    })
+                });
+            } catch (subError) {
+                console.error("Auto-subscription failed:", subError);
+                // Non-blocking: Proceed to redirect even if sub fails
+            }
+
             router.push("/pulse");
         } catch (err: any) {
             setError(err.message || "Failed to create account");

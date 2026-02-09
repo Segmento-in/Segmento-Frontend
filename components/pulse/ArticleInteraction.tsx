@@ -6,15 +6,23 @@ import { useEngagement } from '@/hooks/useEngagement';
 interface ArticleInteractionProps {
     articleUrl: string;
     articleTitle?: string;
+    category?: string; // NEW: Pass category for strict routing
+    articleId?: string; // NEW: Direct ID from backend
     onCommentClick?: () => void;
+    autoTrackView?: boolean;
 }
 
 export default function ArticleInteraction({
     articleUrl,
     articleTitle,
-    onCommentClick
+    category,
+    articleId,
+    onCommentClick,
+    autoTrackView = true
 }: ArticleInteractionProps) {
-    const { stats, loading, like, dislike, error } = useEngagement(articleUrl, true);
+    // Pass category, title, and image to hook to ensure backend can create article if missing
+    // Pass articleId to bypass local generation if available
+    const { stats, loading, like, dislike, error } = useEngagement(articleUrl, category, articleTitle, undefined, autoTrackView, articleId);
 
     // Share functionality
     const handleShare = async () => {

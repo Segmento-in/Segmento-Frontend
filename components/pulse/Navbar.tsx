@@ -118,13 +118,17 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
 
     const cloudSubcategories = [
         { name: "Cloud Computing", path: "/pulse/news?category=cloud-computing", icon: "☁️", isEmoji: true },
-        { name: "AWS", path: "/pulse/news?category=aws", icon: "/cloud-logos/aws.svg", isEmoji: false },
-        { name: "Azure", path: "/pulse/news?category=azure", icon: "/cloud-logos/azure.svg", isEmoji: false },
-        { name: "Google Cloud", path: "/pulse/news?category=google-cloud", icon: "/cloud-logos/gcp.svg", isEmoji: false },
-        { name: "IBM Cloud", path: "/pulse/news?category=ibm-cloud", icon: "/cloud-logos/ibm.svg", isEmoji: false },
-        { name: "Oracle Cloud", path: "/pulse/news?category=oracle-cloud", icon: "/cloud-logos/oracle.svg", isEmoji: false },
-        { name: "Cloudflare", path: "/pulse/news?category=cloudflare", icon: "/cloud-logos/cloudflare.svg", isEmoji: false },
-        { name: "DigitalOcean", path: "/pulse/news?category=digitalocean", icon: "/cloud-logos/digitalocean.svg", isEmoji: false },
+        { name: "AWS", path: "/pulse/news?category=cloud-aws", icon: "/cloud-logos/aws.svg", isEmoji: false },
+        { name: "Azure", path: "/pulse/news?category=cloud-azure", icon: "/cloud-logos/azure.svg", isEmoji: false },
+        { name: "Google Cloud", path: "/pulse/news?category=cloud-gcp", icon: "/cloud-logos/gcp.svg", isEmoji: false },
+        { name: "IBM Cloud", path: "/pulse/news?category=cloud-ibm", icon: "/cloud-logos/ibm.svg", isEmoji: false },
+        { name: "Oracle Cloud", path: "/pulse/news?category=cloud-oracle", icon: "/cloud-logos/oracle.svg", isEmoji: false },
+        { name: "Cloudflare", path: "/pulse/news?category=cloud-cloudflare", icon: "/cloud-logos/cloudflare.svg", isEmoji: false },
+        { name: "DigitalOcean", path: "/pulse/news?category=cloud-digitalocean", icon: "/cloud-logos/digitalocean.svg", isEmoji: false },
+        { name: "Salesforce", path: "/pulse/news?category=cloud-salesforce", icon: "/cloud-logos/salesforce.svg", isEmoji: false },
+        { name: "Alibaba Cloud", path: "/pulse/news?category=cloud-alibaba", icon: "/cloud-logos/alibaba.svg", isEmoji: false },
+        { name: "Tencent Cloud", path: "/pulse/news?category=cloud-tencent", icon: "/cloud-logos/tencent.svg", isEmoji: false },
+        { name: "Huawei Cloud", path: "/pulse/news?category=cloud-huawei", icon: "/cloud-logos/huawei.svg", isEmoji: false },
     ];
 
     const navLinks = [
@@ -132,7 +136,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
         { name: "AI", path: "/pulse/news?category=ai" },
         { name: "Data", path: "#", hasDropdown: true, dropdownType: "data" },
         { name: "Cloud", path: "#", hasDropdown: true, dropdownType: "cloud" },
-        { name: "Articles", path: "/pulse/articles" },
+        { name: "Articles", path: "/pulse/articles/medium" },
         { name: "Magazines", path: "/pulse/magazines" },
         { name: "Upcoming", path: "/pulse/upcoming" },
     ];

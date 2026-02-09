@@ -11,12 +11,14 @@ interface NewsCardProps {
     article: Article;
 }
 
+import AudioPlayer from "@/components/pulse/AudioPlayer";
+
 export default function NewsCard({ article }: NewsCardProps) {
-    const freshness = getFreshnessTag(article.publishedAt);
+    const freshness = getFreshnessTag(article.published_at);
 
     // Construct the article URL params
-    const safeImage = article.image && article.image !== "None" ? article.image : "/placeholder-news.svg";
-    const articleLink = `/pulse/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.publishedAt)}&source=${encodeURIComponent(article.source)}`;
+    const safeImage = article.image_url && article.image_url !== "None" ? article.image_url : "/placeholder-news.svg";
+    const articleLink = `/pulse/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.published_at)}&source=${encodeURIComponent(article.source)}&id=${article.$id || ''}&category=${article.category || ''}`;
 
     return (
         <Link
@@ -26,7 +28,7 @@ export default function NewsCard({ article }: NewsCardProps) {
             {/* Image Section */}
             <div className="relative h-32">
                 <img
-                    src={article.image && article.image !== "None" ? article.image : "/placeholder-news.svg"}
+                    src={article.image_url && article.image_url !== "None" ? article.image_url : "/placeholder-news.svg"}
                     onError={(e) => { e.currentTarget.src = "/placeholder-news.svg"; }}
                     alt={article.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -61,8 +63,26 @@ export default function NewsCard({ article }: NewsCardProps) {
                     {article.description}
                 </p>
                 <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
-                    <TimeDisplay timestamp={article.publishedAt} />
-                    <CardEngagementStats articleUrl={article.url} />
+                    <div className="flex items-center gap-2">
+                        <AudioPlayer
+                            articleId={article.$id || article.url}
+                            articleUrl={article.url}
+                            initialAudioUrl={article.audio_url}
+                            title={article.title}
+                            image={safeImage}
+                            category={article.category || ''}
+                        />
+                        <TimeDisplay timestamp={article.published_at} />
+                    </div>
+                    <CardEngagementStats
+                        articleUrl={article.url}
+                        articleId={article.$id}  // NEW: Use authoritative backend ID
+                        initialStats={{
+                            viewCount: article.views || 0,
+                            likeCount: article.likes || 0,
+                            dislikeCount: article.dislikes || 0
+                        }}
+                    />
                 </div>
             </div>
         </Link>

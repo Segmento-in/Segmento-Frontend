@@ -6,7 +6,7 @@
  * Automatically generates SHA-256 IDs from article URLs.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { generateArticleId } from '@/lib/idGenerator';
 
 export interface EngagementStats {
@@ -48,15 +48,25 @@ export interface UseEngagementReturn {
  */
 export function useEngagement(
     articleUrl: string,
-    autoTrackView: boolean = true
+    category?: string,
+    title?: string,
+    image?: string,
+    autoTrackView: boolean = true,
+    initialArticleId?: string
 ): UseEngagementReturn {
-    const [articleId, setArticleId] = useState<string>('');
+    // ... (state) ...
+    const [articleId, setArticleId] = useState<string>(initialArticleId || '');
     const [stats, setStats] = useState<EngagementStats | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Generate article ID from URL
+    // ... (useEffect for ID generation) ...
     useEffect(() => {
+        if (initialArticleId) {
+            setArticleId(initialArticleId);
+            return;
+        }
+
         if (articleUrl) {
             generateArticleId(articleUrl)
                 .then(setArticleId)
@@ -67,7 +77,18 @@ export function useEngagement(
         }
     }, [articleUrl]);
 
-    // Fetch engagement stats
+    // Base API URL
+    const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+
+    // Helper to get request body
+    const getRequestBody = () => ({
+        url: articleUrl,
+        title: title || "Unknown Article",
+        image: image || "",
+        category: category || "wildcard"
+    });
+
+    // Fetch engagement stats (GET request, no body needed)
     const fetchStats = useCallback(async () => {
         if (!articleId) return;
 
@@ -75,9 +96,22 @@ export function useEngagement(
         setError(null);
 
         try {
-            const response = await fetch(`/api/engagement/articles/${articleId}/stats`);
+            // Append category to help backend route to correct collection
+            const queryParams = category ? `?category=${encodeURIComponent(category)}` : '';
+            const response = await fetch(`${API_BASE}/api/engagement/articles/${articleId}/stats${queryParams}`);
 
             if (!response.ok) {
+                // If 404, it just means no stats yet, return 0s
+                if (response.status === 404) {
+                    setStats({
+                        article_id: articleId,
+                        likes: 0,
+                        dislikes: 0,
+                        views: 0,
+                        success: true
+                    });
+                    return;
+                }
                 throw new Error(`Failed to fetch stats: ${response.statusText}`);
             }
 
@@ -87,8 +121,7 @@ export function useEngagement(
             const errorMessage = err instanceof Error ? err.message : 'Unknown error';
             console.error('Failed to fetch engagement stats:', errorMessage);
             setError(errorMessage);
-
-            // Set default stats on error
+            // Non-blocking error for stats
             setStats({
                 article_id: articleId,
                 likes: 0,
@@ -99,90 +132,63 @@ export function useEngagement(
         } finally {
             setLoading(false);
         }
-    }, [articleId]);
+    }, [articleId, API_BASE]);
 
     // Like article
     const like = useCallback(async () => {
-        if (!articleId) {
-            console.warn('Cannot like: article ID not generated yet');
-            return;
-        }
+        if (!articleId) return;
 
         try {
-            const response = await fetch(`/api/engagement/articles/${articleId}/like`, {
+            const response = await fetch(`${API_BASE}/api/engagement/articles/${articleId}/like`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(getRequestBody()),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to like article');
-            }
-
+            if (!response.ok) throw new Error('Failed to like article');
             const data = await response.json();
-
-            // Update stats optimistically
-            setStats((prev) =>
-                prev ? { ...prev, likes: data.likes } : null
-            );
+            setStats((prev) => prev ? { ...prev, likes: data.likes } : null);
         } catch (err) {
             console.error('Failed to like article:', err);
             setError('Failed to like article');
         }
-    }, [articleId]);
+    }, [articleId, API_BASE, articleUrl, title, image, category]);
 
     // Dislike article
     const dislike = useCallback(async () => {
-        if (!articleId) {
-            console.warn('Cannot dislike: article ID not generated yet');
-            return;
-        }
+        if (!articleId) return;
 
         try {
-            const response = await fetch(`/api/engagement/articles/${articleId}/dislike`, {
+            const response = await fetch(`${API_BASE}/api/engagement/articles/${articleId}/dislike`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(getRequestBody()),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to dislike article');
-            }
-
+            if (!response.ok) throw new Error('Failed to dislike article');
             const data = await response.json();
-
-            // Update stats optimistically
-            setStats((prev) =>
-                prev ? { ...prev, dislikes: data.dislikes } : null
-            );
+            setStats((prev) => prev ? { ...prev, dislikes: data.dislikes } : null);
         } catch (err) {
             console.error('Failed to dislike article:', err);
             setError('Failed to dislike article');
         }
-    }, [articleId]);
+    }, [articleId, API_BASE, articleUrl, title, image, category]);
 
-    // Track view (silent - doesn't update UI)
+    // Track view
     const trackView = useCallback(async () => {
         if (!articleId) return;
 
         try {
-            await fetch(`/api/engagement/articles/${articleId}/view`, {
+            await fetch(`${API_BASE}/api/engagement/articles/${articleId}/view`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(getRequestBody()),
             });
-
-            // Don't update UI for views (happens in background)
-            // Refetch stats instead to get latest count
             await fetchStats();
         } catch (err) {
-            // Silent failure for view tracking
-            console.debug('Failed to track view (non-critical):', err);
+            console.debug('Failed to track view:', err);
         }
-    }, [articleId, fetchStats]);
+    }, [articleId, API_BASE, fetchStats, articleUrl, title, image, category]);
 
     // Auto-fetch stats when article ID is ready
     useEffect(() => {
@@ -192,11 +198,22 @@ export function useEngagement(
     }, [articleId, fetchStats]);
 
     // Auto-track view on mount
+    // Auto-track view on mount (deduplicated)
+    const viewTrackedRef = useRef(false);
+
     useEffect(() => {
-        if (articleId && autoTrackView) {
+        // Reset tracker if articleId changes
+        viewTrackedRef.current = false;
+    }, [articleId]);
+
+    useEffect(() => {
+        if (articleId && autoTrackView && !viewTrackedRef.current) {
             // Track view after a small delay to avoid tracking bots
             const timer = setTimeout(() => {
-                trackView();
+                if (!viewTrackedRef.current) {
+                    trackView();
+                    viewTrackedRef.current = true;
+                }
             }, 1000);
 
             return () => clearTimeout(timer);
@@ -232,11 +249,12 @@ export function useBatchEngagement(articleUrls: string[]) {
             setLoading(true);
             const newStatsMap = new Map<string, EngagementStats>();
 
+            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
             await Promise.all(
                 articleUrls.map(async (url) => {
                     try {
                         const articleId = await generateArticleId(url);
-                        const response = await fetch(`/api/engagement/articles/${articleId}/stats`);
+                        const response = await fetch(`${API_BASE}/api/engagement/articles/${articleId}/stats`);
 
                         if (response.ok) {
                             const data = await response.json();

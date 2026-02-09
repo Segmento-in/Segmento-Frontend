@@ -20,30 +20,36 @@ export async function fetchUserSubscription(email: string): Promise<UserSubscrip
     if (!database || !email) return null;
 
     try {
-        // 1. Normalize email
-        const normalizedEmail = email.trim().toLowerCase();
+        // Use Backend API (Single Source of Truth)
+        const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
 
-        // 2. Hash email (SHA-256)
-        const encoder = new TextEncoder();
-        const data = encoder.encode(normalizedEmail);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        try {
+            const response = await fetch(`${API_BASE}/api/subscription/status?email=${encodeURIComponent(email)}`, {
+                cache: 'no-store', // Always fetch fresh data
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        // 3. Truncate to 16 chars (matching backend logic in firebase_service.py)
-        const shortHash = hashHex.substring(0, 16);
+            if (!response.ok) {
+                // 404 means not subscribed, which returns valid null
+                if (response.status === 404) return null;
+                console.error(`Status check failed: ${response.status}`);
+                return null;
+            }
 
-        // 4. Fetch from Realtime Database
-        const subscriberRef = ref(database, `pulse/subscribers/${shortHash}`);
-        const snapshot = await get(subscriberRef);
+            const data = await response.json();
 
-        if (snapshot.exists()) {
-            return snapshot.val() as UserSubscription;
+            // If API returns mock data for non-subscriber (subscribed: false), return it
+            // The dashboard handles "subscribed: false" correctly
+            return data as UserSubscription;
+
+        } catch (error) {
+            console.error("Error fetching user subscription from API:", error);
+            return null;
         }
-
-        return null;
     } catch (error) {
-        console.error("Error fetching user subscription:", error);
+        console.error("Error in outer try-catch block:", error);
         return null;
     }
 }

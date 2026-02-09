@@ -9,6 +9,7 @@ import ArticleInteraction from '@/components/pulse/ArticleInteraction';
 import CommentSection from '@/components/pulse/CommentSection';
 import ViewCounter from '@/components/pulse/ViewCounter';
 import { incrementArticleView } from '@/lib/pulse/analytics';
+import AudioPlayer from '@/components/pulse/AudioPlayer';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,8 @@ function ArticleContent() {
     const image = searchParams.get('image') || '';
     const date = searchParams.get('date') || new Date().toISOString();
     const source = searchParams.get('source') || 'Unknown Source';
+    const category = searchParams.get('category') || '';
+    const id = searchParams.get('id') || ''; // NEW: Get authoritative ID from URL
 
     // CRITICAL: View Count Fix
     // Use a ref to ensure we strictly only increment once per mount per URL
@@ -30,9 +33,11 @@ function ArticleContent() {
     useEffect(() => {
         if (url && !hasIncrementedRef.current) {
             hasIncrementedRef.current = true;
-            incrementArticleView(url);
+            // Pass full metadata to ensure article creation on backend
+            // NEW: Pass authoritative ID from query params
+            incrementArticleView(url, title, image, category, id);
         }
-    }, [url]);
+    }, [url, title, image, category, id]);
 
     if (!url) {
         return (
@@ -72,7 +77,11 @@ function ArticleContent() {
                             <TimeDisplay timestamp={date} className="text-white/90" />
                             <div className="flex items-center gap-1">
                                 <span className="w-1 h-1 rounded-full bg-white/60"></span>
-                                <ViewCounter articleUrl={url} className="text-white/90" />
+                                <ViewCounter
+                                    articleUrl={url}
+                                    articleId={id}
+                                    className="text-white/90"
+                                />
                             </div>
                         </div>
                         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight">
@@ -86,7 +95,7 @@ function ArticleContent() {
                         {description}
                     </p>
 
-                    <div className="flex justify-center mb-8">
+                    <div className="flex justify-center mb-8 flex-col items-center gap-4">
                         <a
                             href={url}
                             target="_blank"
@@ -96,9 +105,30 @@ function ArticleContent() {
                             <span>Read Full Article at Source</span>
                             <ExternalLink className="w-4 h-4" />
                         </a>
+
+                        {/* Audio Player Integration */}
+                        <div className="w-full max-w-md bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <div className="text-center mb-2 text-sm font-medium text-gray-500">Listen to Summary</div>
+                            <div className="flex justify-center">
+                                <AudioPlayer
+                                    articleId={id || url}
+                                    articleUrl={url}
+                                    initialAudioUrl={searchParams.get('audio_url') || undefined}
+                                    title={title}
+                                    image={image}
+                                    category={category}
+                                />
+                            </div>
+                        </div>
                     </div>
 
-                    <ArticleInteraction articleUrl={url} />
+                    <ArticleInteraction
+                        articleUrl={url}
+                        articleTitle={title}
+                        category={category}
+                        articleId={id}
+                        autoTrackView={false}
+                    />
 
                     <CommentSection articleUrl={url} />
                 </div>

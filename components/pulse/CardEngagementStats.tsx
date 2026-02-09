@@ -6,21 +6,27 @@ import { getArticleStats, type ArticleStats } from '@/lib/pulse/analytics';
 
 interface CardEngagementStatsProps {
     articleUrl: string;
+    articleId?: string;  // NEW: Authoritative ID from backend (recommended)
     className?: string;
+    initialStats?: ArticleStats;
 }
 
-export default function CardEngagementStats({ articleUrl, className = '' }: CardEngagementStatsProps) {
-    const [stats, setStats] = useState<ArticleStats>({ viewCount: 0, likeCount: 0, dislikeCount: 0 });
+export default function CardEngagementStats({ articleUrl, articleId, className = '', initialStats }: CardEngagementStatsProps) {
+    const [stats, setStats] = useState<ArticleStats>(initialStats || { viewCount: 0, likeCount: 0, dislikeCount: 0 });
 
     useEffect(() => {
+        // If we have initial stats, don't fetch immediately
+        // We could optionally set up a subscription or poll later
+        if (initialStats) return;
+
         let isMounted = true;
         const fetchStats = async () => {
-            const data = await getArticleStats(articleUrl);
+            const data = await getArticleStats(articleUrl, articleId);
             if (isMounted) setStats(data);
         };
         fetchStats();
         return () => { isMounted = false; };
-    }, [articleUrl]);
+    }, [articleUrl, articleId, initialStats]);
 
     return (
         <div className={`flex items-center gap-3 text-xs text-gray-500 ${className}`}>

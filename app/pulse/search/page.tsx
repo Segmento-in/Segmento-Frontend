@@ -82,9 +82,10 @@ function SearchContent() {
                                 >
                                     <div className="flex gap-4">
                                         <img
-                                            src={article.image}
+                                            src={article.image_url}
                                             alt={article.title}
                                             className="w-32 h-24 object-cover rounded shrink-0"
+                                            onError={(e) => { e.currentTarget.src = "/placeholder-news.svg"; }}
                                         />
                                         <div className="flex-1 min-w-0">
                                             <h3 className="font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors line-clamp-2">
@@ -96,7 +97,7 @@ function SearchContent() {
                                             </p>
                                             <div className="flex items-center gap-2 text-xs text-gray-500">
                                                 <Clock className="w-3 h-3" />
-                                                <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+                                                <span>{new Date(article.published_at).toLocaleDateString()}</span>
                                                 {article.source && <span>• {article.source}</span>}
                                             </div>
                                         </div>

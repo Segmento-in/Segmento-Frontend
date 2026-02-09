@@ -5,10 +5,16 @@ export interface Article {
     title: string;
     description: string;
     url: string;
-    image: string;
-    publishedAt: string;
+    image_url: string;
+    published_at: string;
     source: string;
     author?: string;
+    likes?: number;
+    dislikes?: number;
+    views?: number;
+    audio_url?: string;
+    category?: string;
+    $id?: string;
 }
 
 export async function fetchNewsByCategory(

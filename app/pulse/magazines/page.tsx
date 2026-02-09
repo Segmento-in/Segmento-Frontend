@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { fetchNewsByCategory, type Article } from "@/lib/pulse/newsApi";
-import { BookOpen, ExternalLink, Clock } from "lucide-react";
+import { BookOpen } from "lucide-react";
+import NewsCard from "@/components/pulse/NewsCard";
 
 // Force dynamic rendering (for client components, only 'dynamic' is allowed)
 export const dynamic = 'force-dynamic';
@@ -44,39 +45,9 @@ export default function MagazinesPage() {
                         <p className="text-gray-500">No magazines available</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {articles.map((article, i) => (
-                            <a
-                                key={i}
-                                href={article.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group block bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden"
-                            >
-                                <div className="relative h-64">
-                                    <img
-                                        src={article.image}
-                                        alt={article.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
-                                    <div className="absolute top-4 right-4 bg-white/90 rounded-full p-2">
-                                        <ExternalLink className="w-5 h-5 text-blue-600" />
-                                    </div>
-                                </div>
-                                <div className="p-6">
-                                    <h2 className="font-bold text-xl mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                                        {article.title}
-                                    </h2>
-                                    <p className="text-gray-600 mb-4 line-clamp-3">
-                                        {article.description}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                                        <Clock className="w-4 h-4" />
-                                        <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
-                                        {article.source && <span>• {article.source}</span>}
-                                    </div>
-                                </div>
-                            </a>
+                            <NewsCard key={i} article={article} />
                         ))}
                     </div>
                 )}

@@ -35,21 +35,7 @@ export async function generateArticleId(url: string): Promise<string> {
     return hashHex.substring(0, 32);
 }
 
-/**
- * Legacy base64 ID generation (for reference only).
- * DO NOT USE - kept for backwards compatibility testing.
- * 
- * @deprecated Use generateArticleId instead
- */
-export function generateArticleIdLegacy(url: string): string {
-    if (typeof window === 'undefined') {
-        // Server-side (Node.js)
-        return Buffer.from(url).toString('base64').replace(/=/g, '');
-    } else {
-        // Client-side (browser)
-        return btoa(url).replace(/=/g, '');
-    }
-}
+
 
 /**
  * Batch generate IDs for multiple URLs.
