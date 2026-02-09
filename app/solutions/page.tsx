@@ -142,7 +142,7 @@ export default function SolutionsPage() {
             </p>
           </div>
         </div>
-      </section>
+      </section> 
 
       {/* Industries */}
       {industries.map((industry, index) => {

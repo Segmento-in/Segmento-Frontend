@@ -14,7 +14,7 @@ import './rainbow-shimmer.css';
 import './navbar-compact.css';
 import './navbar-animations.css';
 
-export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: () => void }) {
+export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: () => void }) {  
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
