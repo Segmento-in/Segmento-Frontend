@@ -12,19 +12,22 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileDropdown, setMobileDropdown] = useState<DropdownKey>(null)
 
-  /* TAB STYLE - hover colors applied permanently */
   const tabStyle =
-    "px-5 py-2 text-sm font-medium transition-all duration-300 text-white bg-gradient-to-r from-purple-600 to-pink-500 shadow-md"
+    "px-5 py-2 text-sm font-medium rounded-full text-white bg-gradient-to-r from-purple-600 to-pink-500 shadow-md hover:scale-105 transition"
 
-  /* DROPDOWN STYLES */
   const dropdownWrapper = "absolute left-1/2 -translate-x-1/2 pt-4"
   const dropdownBox =
     "w-64 rounded-xl bg-gradient-to-br from-purple-700 via-fuchsia-600 to-pink-600 shadow-2xl border border-white/20 overflow-hidden"
   const dropdownItem =
-    "block px-5 py-3 text-sm text-white/90 hover:bg-white/10 transition-all"
+    "block px-5 py-3 text-sm text-white/90 hover:bg-white/10 transition"
 
   const toggleMobileDropdown = (key: DropdownKey) => {
     setMobileDropdown(prev => (prev === key ? null : key))
+  }
+
+  const closeMobileMenu = () => {
+    setMobileOpen(false)
+    setMobileDropdown(null)
   }
 
   return (
@@ -32,7 +35,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center h-20">
 
-          {/* LEFT: LOGO */}
+          {/* LOGO */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
               src="/images/logo-final.png"
@@ -43,7 +46,7 @@ export function Header() {
             />
           </Link>
 
-          {/* CENTER: NAV TABS (DESKTOP UNCHANGED) */}
+          {/* DESKTOP NAV */}
           <div className="flex-1 hidden md:flex justify-center">
             <nav className="flex items-center gap-4">
               <Link href="/" className={tabStyle}>Home</Link>
@@ -88,10 +91,6 @@ export function Header() {
                         ["ecommerce", "eCommerce"],
                         ["finance", "Finance"],
                         ["healthcare", "Healthcare"],
-                        ["higher-education", "Higher Education"],
-                        ["manufacturing", "Manufacturing"],
-                        ["telecommunication", "Telecommunication"],
-                        ["media", "Media"],
                         ["banking", "Banking"],
                       ].map(([id, label]) => (
                         <Link key={id} href={`/solutions#${id}`} className={dropdownItem}>
@@ -128,61 +127,82 @@ export function Header() {
             </nav>
           </div>
 
-          {/* RIGHT: MOBILE BUTTON */}
-          <div className="flex justify-end md:hidden">
+          {/* MOBILE TOGGLE */}
+          <div className="md:hidden ml-auto">
             <button onClick={() => setMobileOpen(!mobileOpen)}>
-              {mobileOpen ? <X /> : <Menu />}
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* MOBILE MENU (ONLY ADDITION) */}
+      {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="md:hidden bg-gray-950 px-6 py-6 space-y-4 text-white">
+        <div className="md:hidden bg-gray-950 text-white px-6 py-6 space-y-4">
 
-          <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
-          <Link href="/about" onClick={() => setMobileOpen(false)}>About</Link>
+          <Link href="/" onClick={closeMobileMenu}>Home</Link>
+          <Link href="/about" onClick={closeMobileMenu}>About</Link>
 
           {/* MOBILE PRODUCTS */}
-          <button onClick={() => toggleMobileDropdown("products")} className="flex w-full justify-between">
-            Products <ChevronDown />
+          <button
+            onClick={() => toggleMobileDropdown("products")}
+            className="flex w-full justify-between items-center font-medium"
+          >
+            Products
+            <ChevronDown
+              className={`transition ${mobileDropdown === "products" ? "rotate-180" : ""}`}
+            />
           </button>
+
           {mobileDropdown === "products" && (
-            <div className="pl-4 space-y-2 text-sm text-gray-300">
-              <Link href="/pulse">Segmento Pulse</Link>
-              <Link href="/products/data-classification">Segmento Sense</Link>
+            <div className="ml-4 mt-2 space-y-2 text-sm text-gray-300">
+              <Link href="/pulse" onClick={closeMobileMenu}>Segmento Pulse</Link>
+              <Link href="/products/data-classification" onClick={closeMobileMenu}>Segmento Sense</Link>
               <p>Segmento Resolve [upcoming]</p>
               <p>Segmento Collect [upcoming]</p>
             </div>
           )}
 
           {/* MOBILE SOLUTIONS */}
-          <button onClick={() => toggleMobileDropdown("solutions")} className="flex w-full justify-between">
-            Solutions <ChevronDown />
+          <button
+            onClick={() => toggleMobileDropdown("solutions")}
+            className="flex w-full justify-between items-center font-medium"
+          >
+            Solutions
+            <ChevronDown
+              className={`transition ${mobileDropdown === "solutions" ? "rotate-180" : ""}`}
+            />
           </button>
+
           {mobileDropdown === "solutions" && (
-            <div className="pl-4 space-y-2 text-sm text-gray-300">
-              <Link href="/solutions#ecommerce">eCommerce</Link>
-              <Link href="/solutions#finance">Finance</Link>
-              <Link href="/solutions#healthcare">Healthcare</Link>
-              <Link href="/solutions#banking">Banking</Link>
+            <div className="ml-4 mt-2 space-y-2 text-sm text-gray-300">
+              <Link href="/solutions#ecommerce" onClick={closeMobileMenu}>eCommerce</Link>
+              <Link href="/solutions#finance" onClick={closeMobileMenu}>Finance</Link>
+              <Link href="/solutions#healthcare" onClick={closeMobileMenu}>Healthcare</Link>
+              <Link href="/solutions#banking" onClick={closeMobileMenu}>Banking</Link>
             </div>
           )}
 
           {/* MOBILE RESOURCES */}
-          <button onClick={() => toggleMobileDropdown("resources")} className="flex w-full justify-between">
-            Resources <ChevronDown />
+          <button
+            onClick={() => toggleMobileDropdown("resources")}
+            className="flex w-full justify-between items-center font-medium"
+          >
+            Resources
+            <ChevronDown
+              className={`transition ${mobileDropdown === "resources" ? "rotate-180" : ""}`}
+            />
           </button>
+
           {mobileDropdown === "resources" && (
-            <div className="pl-4 text-sm text-gray-300">
-              <Link href="/blog">Blog</Link>
+            <div className="ml-4 mt-2 text-sm text-gray-300">
+              <Link href="/blog" onClick={closeMobileMenu}>Blog</Link>
             </div>
           )}
 
-          <Link href="/pricing" onClick={() => setMobileOpen(false)}>Pricing</Link>
-          <Link href="/careers" onClick={() => setMobileOpen(false)}>Careers</Link>
-          <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+          <Link href="/pricing" onClick={closeMobileMenu}>Pricing</Link>
+          <Link href="/careers" onClick={closeMobileMenu}>Careers</Link>
+          <Link href="/contact" onClick={closeMobileMenu}>Contact</Link>
         </div>
       )}
     </header>
