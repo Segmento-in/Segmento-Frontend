@@ -41,49 +41,37 @@ export default function HomePage() {
   <div className="absolute inset-0 bg-linear-to-br from-white/80 via-purple-50/80 to-blue-50/80 backdrop-blur-sm" />
 
   <div className="relative container mx-auto px-6">
-    {/* Reduced gap between sections */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
       {/* LEFT SECTION */}
       <motion.div
-        initial={{ opacity: 0, x: -80 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.4 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pl-6 sm:pl-10 lg:pl-16"
+        initial={{ opacity: 0, x: -70 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.9, ease: "easeOut" }}
       >
-        {/* Headline */}
-        <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-tight">
-          <span className="block text-black mb-1">
+        {/* Headline (reduced & adjusted) */}
+        <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-snug">
+          <span className="block text-black">
             AI-Driven
           </span>
-
-          <span className="block bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-1">
-            Solutions for
-          </span>
-
-          <span className="block bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent mb-1">
-            Modern
-          </span>
-
           <span className="block bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Enterprises
+            Solutions for Modern Enterprises
           </span>
         </h1>
       </motion.div>
 
       {/* RIGHT SECTION */}
       <motion.div
-        initial={{ opacity: 0, x: 80 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.4 }}
-        transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-        className="max-w-xl -ml-2 sm:-ml-4"
+        initial={{ opacity: 0, x: 70 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
+        className="max-w-xl"
       >
-        {/* Segmento Platform Badge */}
+        {/* Segmento Platform Badge (moved here) */}
         <motion.div
+          initial={{ y: 0 }}
           animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 1.4, repeat: Infinity }}
+          transition={{ duration: 1.2, repeat: Infinity }}
           className="inline-block mb-6 px-4 py-2 bg-white/80 backdrop-blur rounded-full border border-primary/20"
         >
           <p className="text-sm font-semibold text-primary">
@@ -91,7 +79,7 @@ export default function HomePage() {
           </p>
         </motion.div>
 
-        {/* Sub heading */}
+        {/* Small Heading */}
         <div className="flex items-center gap-3 mb-4">
           <span className="h-0.5 w-10 bg-primary" />
           <h3 className="text-lg font-semibold text-primary">
@@ -108,30 +96,43 @@ export default function HomePage() {
 
         <p className="text-base text-muted-foreground mb-8 font-medium">
           Explore our suite of products:{" "}
-          <span className="text-blue-600 font-bold">Segmento Pulse</span>{" "}
+          <span className="text-blue-600 font-bold">
+            Segmento Pulse
+          </span>{" "}
           for intelligent news & insights, and{" "}
-          <span className="text-primary font-bold">Segmento Sense</span>{" "}
+          <span className="text-primary font-bold">
+            Segmento Sense
+          </span>{" "}
           for enterprise-grade data security.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <Button size="lg" className="text-lg px-8">
-            Explore Our Products
-          </Button>
+  <Button
+    size="lg"
+    className="text-lg px-8 flex items-center gap-2"
+    onClick={scrollToProducts}
+  >
+    Explore Our Products
+    <ArrowRight className="h-5 w-5" />
+  </Button>
 
-          <Link href="/contact">
-            <Button size="lg" variant="outline" className="text-lg px-8">
-              Contact Sales
-            </Button>
-          </Link>
-        </div>
+  <Link href="/contact">
+    <Button
+      size="lg"
+      variant="outline"
+      className="text-lg px-8"
+    >
+      Contact Sales
+    </Button>
+  </Link>
+</div>
+
       </motion.div>
 
     </div>
   </div>
 </section>
-
 
 
       {/* Value Proposition */}
