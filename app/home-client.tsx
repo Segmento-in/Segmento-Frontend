@@ -48,15 +48,14 @@ export default function HomePage() {
         initial={{ opacity: 0, x: -70 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.9, ease: "easeOut" }}
+        className="flex justify-center"
       >
-        {/* Headline (reduced & adjusted) */}
-        <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-snug">
-          <span className="block text-black">
-            AI-Driven
-          </span>
-          <span className="block bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
-            Solutions for Modern Enterprises
-          </span>
+        {/* HEADLINE — EXACT like image */}
+        <h1 className="text-4xl md:text-5xl xl:text-6xl font-semibold text-black text-center leading-relaxed space-y-6">
+          <span className="block">AI-Driven</span>
+          <span className="block">Solutions for</span>
+          <span className="block">Modern</span>
+          <span className="block">Enterprises</span>
         </h1>
       </motion.div>
 
@@ -67,7 +66,7 @@ export default function HomePage() {
         transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
         className="max-w-xl"
       >
-        {/* Segmento Platform Badge (moved here) */}
+        {/* Segmento Platform Badge */}
         <motion.div
           initial={{ y: 0 }}
           animate={{ y: [0, -6, 0] }}
@@ -96,33 +95,21 @@ export default function HomePage() {
 
         <p className="text-base text-muted-foreground mb-8 font-medium">
           Explore our suite of products:{" "}
-          <span className="text-blue-600 font-bold">
-            Segmento Pulse
-          </span>{" "}
-          for intelligent news & insights, and{" "}
-          <span className="text-primary font-bold">
-            Segmento Sense
-          </span>{" "}
-          for enterprise-grade data security.
+          <span className="text-blue-600 font-bold">Segmento Pulse</span> for
+          intelligent news & insights, and{" "}
+          <span className="text-primary font-bold">Segmento Sense</span> for
+          enterprise-grade data security.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <Button
-            size="lg"
-            className="text-lg px-8"
-            onClick={scrollToProducts}
-          >
+          <Button size="lg" className="text-lg px-8" onClick={scrollToProducts}>
             Explore Our Products
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
 
           <Link href="/contact">
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8"
-            >
+            <Button size="lg" variant="outline" className="text-lg px-8">
               Contact Sales
             </Button>
           </Link>
@@ -132,6 +119,7 @@ export default function HomePage() {
     </div>
   </div>
 </section>
+
 
 
       {/* Value Proposition */}
