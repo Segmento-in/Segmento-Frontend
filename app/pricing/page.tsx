@@ -106,8 +106,8 @@ export default function PricingPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 className={`group relative rounded-3xl border p-8 transition-all duration-300 cursor-pointer bg-white flex flex-col h-full
-                                    ${tier.featured 
-                                        ? "border-purple-500 shadow-[0_20px_50px_rgba(147,51,234,0.15)] ring-2 ring-purple-500/20" 
+                                    ${tier.featured
+                                        ? "border-purple-500 shadow-[0_20px_50px_rgba(147,51,234,0.15)] ring-2 ring-purple-500/20"
                                         : "border-transparent shadow-xl hover:border-purple-500 hover:shadow-[0_20px_50px_rgba(147,51,234,0.15)] hover:ring-2 hover:ring-purple-500/20"
                                     }`}
                             >
@@ -116,7 +116,7 @@ export default function PricingPage() {
                                         Most Popular
                                     </div>
                                 )}
-                                
+
                                 <div className="mb-6">
                                     <h3 className="text-2xl font-bold mb-2 group-hover:text-purple-600 transition-colors">{tier.name}</h3>
                                     <p className="text-muted-foreground text-sm">{tier.subtitle}</p>
@@ -148,8 +148,8 @@ export default function PricingPage() {
                                 <Link href="/contact" className="mt-auto">
                                     <Button
                                         className={`w-full py-6 text-lg font-bold rounded-xl transition-all duration-300 border-none
-                                            ${tier.featured 
-                                                ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-200" 
+                                            ${tier.featured
+                                                ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-200"
                                                 : "bg-gray-100 hover:bg-purple-600 hover:text-white text-gray-900"
                                             }`}
                                         variant="default"
