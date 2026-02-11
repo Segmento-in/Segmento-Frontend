@@ -13,6 +13,7 @@ export interface Article {
     dislikes?: number;
     views?: number;
     audio_url?: string;
+    text_summary?: string;
     category?: string;
     $id?: string;
 }

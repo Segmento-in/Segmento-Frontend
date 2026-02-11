@@ -101,7 +101,9 @@ export default function AudioPlayer({ articleId, articleUrl, initialAudioUrl, ti
                     setIsPlaying(true);
                 }
             } else {
-                console.error("Audio generation failed", data.message);
+                // Handle both FastAPI error format (detail) and custom format (message)
+                const errorMsg = data.message || data.detail || "Unknown error occurred";
+                console.error("Audio generation failed", errorMsg);
             }
 
         } catch (error) {

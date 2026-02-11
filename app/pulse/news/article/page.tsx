@@ -24,7 +24,8 @@ function ArticleContent() {
     const date = searchParams.get('date') || new Date().toISOString();
     const source = searchParams.get('source') || 'Unknown Source';
     const category = searchParams.get('category') || '';
-    const id = searchParams.get('id') || ''; // NEW: Get authoritative ID from URL
+    const id = searchParams.get('id') || '';
+    const text_summary = searchParams.get('text_summary') || undefined;
 
     // CRITICAL: View Count Fix
     // Use a ref to ensure we strictly only increment once per mount per URL
@@ -111,6 +112,7 @@ function ArticleContent() {
                             articleId={id || url}
                             articleUrl={url}
                             initialAudioUrl={searchParams.get('audio_url') || undefined}
+                            initialTextSummary={text_summary}
                             title={title}
                             image={image}
                             category={category}

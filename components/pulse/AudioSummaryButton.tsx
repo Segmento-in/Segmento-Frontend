@@ -8,6 +8,7 @@ interface AudioSummaryButtonProps {
     articleId: string;
     articleUrl: string;
     initialAudioUrl?: string;
+    initialTextSummary?: string;
     title: string;
     image: string;
     category: string;
@@ -39,6 +40,7 @@ export default function AudioSummaryButton({
     articleId,
     articleUrl,
     initialAudioUrl,
+    initialTextSummary,
     title,
     image,
     category,
@@ -153,6 +155,37 @@ export default function AudioSummaryButton({
         });
     };
 
+    const [textSummary, setTextSummary] = useState<string | null>(initialAudioUrl && initialTextSummary ? initialTextSummary : null);
+
+    // If initialAudioUrl is present, set textSummary if provided
+    useEffect(() => {
+        if (initialAudioUrl && initialTextSummary) {
+            setTextSummary(initialTextSummary);
+        }
+    }, [initialAudioUrl, initialTextSummary]);
+
+    // Check status on mount if data is missing (Automatic Retrieval)
+    useEffect(() => {
+        if (!initialAudioUrl && !initialTextSummary) {
+            const checkStatus = async () => {
+                try {
+                    const encodedUrl = encodeURIComponent(articleUrl);
+                    const encodedCategory = category ? encodeURIComponent(category) : '';
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_PULSE_API_URL}/api/audio/status?article_url=${encodedUrl}&category=${encodedCategory}`);
+                    const data = await res.json();
+
+                    if (data.success) {
+                        if (data.audio_url) setAudioUrl(data.audio_url);
+                        if (data.text_summary) setTextSummary(data.text_summary);
+                    }
+                } catch (err) {
+                    console.error("Failed to check audio status", err);
+                }
+            };
+            checkStatus();
+        }
+    }, [articleUrl, category, initialAudioUrl, initialTextSummary]);
+
     const handleClick = async (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -205,6 +238,8 @@ export default function AudioSummaryButton({
 
             if (data.success && data.audio_url) {
                 setAudioUrl(data.audio_url);
+                if (data.text_summary) setTextSummary(data.text_summary);
+
                 if (audioRef.current) {
                     audioRef.current.src = data.audio_url;
                     await audioRef.current.play();
@@ -316,6 +351,17 @@ export default function AudioSummaryButton({
                 <Volume2 className="w-3.5 h-3.5 animate-gentle-bob" />
                 <span>Tap to listen • 5 min summary</span>
             </div>
+
+            {/* Text Summary Box */}
+            {textSummary && (
+                <div className="w-full max-w-md mt-4 p-5 rounded-xl bg-purple-50/60 border border-purple-100/50 backdrop-blur-sm text-sm text-gray-700 leading-relaxed max-h-60 overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 shadow-sm">
+                    <h4 className="font-semibold text-purple-900 mb-3 flex items-center gap-2 text-xs uppercase tracking-wider">
+                        <span className="text-base">📝</span>
+                        Quick Summary
+                    </h4>
+                    <p className="whitespace-pre-wrap">{textSummary}</p>
+                </div>
+            )}
         </div>
     );
 }
