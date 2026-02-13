@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Headphones, Loader2, Volume2 } from 'lucide-react';
+import { Headphones, Loader2, Volume2, Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
 
 interface AudioSummaryButtonProps {
     articleId: string;
@@ -323,13 +324,22 @@ export default function AudioSummaryButton({
                     <div className={cn(isLoading ? "animate-spin" : "animate-gentle-bob")}>
                         {isLoading ? (
                             <Loader2 className="w-5 h-5" />
+                        ) : isPlaying ? (
+                            <Pause className="w-5 h-5" />
+                        ) : audioUrl ? ( // If audio is ready but paused/stopped
+                            <Play className="w-5 h-5" />
                         ) : (
                             <Headphones className="w-5 h-5" />
                         )}
                     </div>
 
                     {/* Text */}
-                    <span>{isLoading ? "Generating..." : "Audio Summary"}</span>
+                    <span>
+                        {isLoading ? "Generating..." :
+                            isPlaying ? "Pause" :
+                                audioUrl ? "Resume" :
+                                    "Audio Summary"}
+                    </span>
 
                     {/* Equalizer Bars */}
                     {!isLoading && (
@@ -349,7 +359,7 @@ export default function AudioSummaryButton({
             {/* Bottom Sub-label */}
             <div className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-gray-500 mt-1">
                 <Volume2 className="w-3.5 h-3.5 animate-gentle-bob" />
-                <span>Tap to listen • 5 min summary</span>
+                <span>Tap to listen 150 words summary</span>
             </div>
 
             {/* Text Summary Box */}
