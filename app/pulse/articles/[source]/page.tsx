@@ -17,6 +17,16 @@ function ArticlesContent() {
 
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const LIMIT = 12; // Adjusted limit for better grid layout
+
+    // Reset state when tab changes
+    useEffect(() => {
+        setArticles([]);
+        setPage(1);
+        setHasMore(true);
+    }, [activeTab]);
 
     useEffect(() => {
         // If invalid source, redirect to medium
@@ -29,18 +39,44 @@ function ArticlesContent() {
             setLoading(true);
             try {
                 // Map logical tab to API category
-                // CRITICAL: Ensure exact mapping to Backend Category
                 const category = activeTab === 'medium' ? 'medium-article' : 'linkedin-article';
-                const data = await fetchNewsByCategory(category, 1, 20);
+                // Initial load: page 1
+                const data = await fetchNewsByCategory(category, 1, LIMIT);
                 setArticles(data);
+                setHasMore(data.length >= LIMIT);
             } catch (error) {
                 console.error("Failed to fetch articles:", error);
             } finally {
                 setLoading(false);
             }
         };
+
+        // Only load if articles are empty (initial load after tab switch)
         loadArticles();
     }, [activeTab, source, router]);
+
+    const loadMore = async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const category = activeTab === 'medium' ? 'medium-article' : 'linkedin-article';
+            const nextPage = page + 1;
+            const data = await fetchNewsByCategory(category, nextPage, LIMIT);
+
+            if (data.length > 0) {
+                setArticles(prev => [...prev, ...data]);
+                setPage(nextPage);
+                setHasMore(data.length >= LIMIT);
+            } else {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error("Failed to load more articles:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -83,21 +119,35 @@ function ArticlesContent() {
                         We are working on bringing you the best professional insights directly from top LinkedIn creators. Stay tuned!
                     </p>
                 </div>
-            ) : loading ? (
-                <div className="text-center py-20">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    <p className="mt-4 text-muted-foreground">Loading expert insights...</p>
-                </div>
-            ) : articles.length === 0 ? (
+            ) : articles.length === 0 && !loading ? (
                 <div className="text-center py-20 bg-gray-50 rounded-2xl">
                     <p className="text-gray-500">No articles found for this section yet.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {articles.map((article, i) => (
-                        <NewsCard key={i} article={article} />
-                    ))}
-                </div>
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {articles.map((article, i) => (
+                            <NewsCard key={`${article.url}-${i}`} article={article} />
+                        ))}
+                    </div>
+
+                    {/* Pagination / Load More */}
+                    <div className="flex justify-center mt-12">
+                        {loading ? (
+                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        ) : hasMore ? (
+                            <button
+                                onClick={loadMore}
+                                className="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-full shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-200 flex items-center gap-2 group"
+                            >
+                                <span>Load More Articles</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform"><path d="m6 9 6 6 6-6" /></svg>
+                            </button>
+                        ) : (
+                            <p className="text-gray-400 text-sm">You've reached the end</p>
+                        )}
+                    </div>
+                </>
             )}
         </div>
     );
