@@ -138,7 +138,7 @@ function ArticlesContent() {
                         ) : hasMore ? (
                             <button
                                 onClick={loadMore}
-                                className="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-full shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-200 flex items-center gap-2 group"
+                                className="px-8 py-3 bg-blue-600 text-white font-medium rounded-full shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group"
                             >
                                 <span>Load More Articles</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform"><path d="m6 9 6 6 6-6" /></svg>

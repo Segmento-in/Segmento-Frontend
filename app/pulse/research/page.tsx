@@ -162,7 +162,7 @@ function ResearchContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {articles.map((article) => (
                         <div key={article.id || article.$id || article.url} className="h-full">
-                            <ResearchCard article={article} />
+                            <ResearchCard article={article} sourceCategory={activeCategory} />
                         </div>
                     ))}
                 </div>
@@ -187,9 +187,10 @@ function ResearchContent() {
                 {hasMore && (
                     <div className="mt-12 text-center">
                         <button
+                            type="button"
                             onClick={loadMore}
                             disabled={loading}
-                            className="px-6 py-3 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors shadow-sm disabled:opacity-50"
+                            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50"
                         >
                             {loading ? 'Loading...' : 'Load More Papers'}
                         </button>

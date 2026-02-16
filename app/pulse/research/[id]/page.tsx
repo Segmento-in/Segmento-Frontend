@@ -15,6 +15,11 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ id: s
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
+    // Get category from URL query params for "Back" button history
+    // We need to use useSearchParams to get the query string
+    const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    const category = searchParams ? searchParams.get('category') : null;
+
     useEffect(() => {
         const loadPaper = async () => {
             try {
@@ -76,8 +81,8 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ id: s
                 source: paper.source || 'Research'
             }}
             isModal={false}
-            backLink="/pulse/research"
-            backLabel="Back to Research Papers"
+            backLink={`/pulse/research${category ? `?category=${category}` : ''}`}
+            backLabel={category ? "Back to Category" : "Back to Research Papers"}
         />
     );
 }

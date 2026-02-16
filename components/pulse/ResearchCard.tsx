@@ -12,6 +12,7 @@ import ArticleDetailView from "@/components/pulse/ArticleDetailView";
 
 interface ResearchCardProps {
     article: Article;
+    sourceCategory?: string;
 }
 
 const getCategoryIcon = (category: string) => {
@@ -30,10 +31,15 @@ const getCategoryColor = (category: string) => {
     return "bg-gray-100 border-gray-200";
 };
 
-export default function ResearchCard({ article }: ResearchCardProps) {
+export default function ResearchCard({ article, sourceCategory }: ResearchCardProps) {
     const freshness = getFreshnessTag(article.published_at);
     // Use PDF URL if available, fallback to article url
     const pdfUrl = article.url;
+
+    const linkHref = {
+        pathname: `/pulse/research/${article.id || article.$id}`,
+        query: sourceCategory ? { category: sourceCategory } : undefined
+    };
 
     // Modal State
     const [showModal, setShowModal] = useState(false);
@@ -69,7 +75,7 @@ export default function ResearchCard({ article }: ResearchCardProps) {
     return (
         <>
             <Link
-                href={`/pulse/research/${article.id || article.$id}`}
+                href={linkHref}
                 className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-100 h-full flex flex-col relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
