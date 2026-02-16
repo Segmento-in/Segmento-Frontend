@@ -13,7 +13,8 @@ export default function PulsePage() {
     const fetchFirstNews = async () => {
       const categories = [
         'ai', 'data-security', 'data-governance', 'data-privacy', 'data-engineering',
-        'business-intelligence', 'data-management', 'cloud-computing', 'magazines'
+        'business-intelligence', 'data-management', 'cloud-computing', 'magazines',
+        'research'
       ];
 
       try {
@@ -53,7 +54,8 @@ export default function PulsePage() {
     height,
     gradient,
     staticLabel,
-    bgImage
+    bgImage,
+    customHref
   }: {
     category: string;
     title: string;
@@ -63,12 +65,13 @@ export default function PulsePage() {
     gradient: string;
     staticLabel: string;
     bgImage: string;
+    customHref?: string;
   }) => {
     const news = getLatestNews(category);
 
     return (
       <Link
-        href={`/pulse/news?category=${category}`}
+        href={customHref || `/pulse/news?category=${category}`}
         className={`${colSpan} ${height} relative group overflow-hidden rounded-2xl transition-all duration-500 transform hover:scale-[1.01] shadow-lg hover:shadow-2xl border border-white/10`}
       >
         <div
@@ -187,10 +190,14 @@ export default function PulsePage() {
             bgImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80"
           />
 
-          <div className="col-span-12 md:col-span-4 h-70p rounded-2xl overflow-hidden shadow-lg relative">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80" className="w-full h-full object-cover" alt="City Background" />
-            <div className="absolute inset-0 bg-black/20"></div>
-          </div>
+          <CategoryBox
+            category="research" title="Research Papers" icon={BookOpen}
+            colSpan="col-span-12 md:col-span-4" height="h-[280px]"
+            staticLabel="Discover groundbreaking academic studies"
+            gradient="from-teal-600 to-cyan-900"
+            bgImage="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80"
+            customHref="/pulse/research"
+          />
 
           <CategoryBox
             category="data-security" title="Data Security" icon={Shield}
