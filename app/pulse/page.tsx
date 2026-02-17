@@ -191,6 +191,22 @@ export default function PulsePage() {
           />
 
           <CategoryBox
+            category="data-security" title="Data Security" icon={Shield}
+            colSpan="col-span-12 md:col-span-5" height="h-[280px]"
+            staticLabel="Protecting Sensitive Data"
+            gradient="from-red-700/80 to-black/90"
+            bgImage="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80"
+          />
+
+          <CategoryBox
+            category="data-management" title="Data Management" icon={Database}
+            colSpan="col-span-12 md:col-span-4" height="h-[280px]"
+            staticLabel="Mastering Data Integration"
+            gradient="from-emerald-600 to-green-800"
+            bgImage="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80"
+          />
+
+          <CategoryBox
             category="research" title="Research Papers" icon={BookOpen}
             colSpan="col-span-12 md:col-span-4" height="h-[280px]"
             staticLabel="Discover groundbreaking academic studies"
@@ -200,32 +216,16 @@ export default function PulsePage() {
           />
 
           <CategoryBox
-            category="data-security" title="Data Security" icon={Shield}
-            colSpan="col-span-12 md:col-span-5" height="h-[280px]"
-            staticLabel="Protecting Sensitive Data"
-            gradient="from-red-700/80 to-black/90"
-            bgImage="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80"
-          />
-
-          <CategoryBox
             category="magazines" title="Tech Magazines" icon={BookOpen}
-            colSpan="col-span-12 md:col-span-4" height="h-[220px]"
+            colSpan="col-span-12 md:col-span-4" height="h-[280px]"
             staticLabel="Top Reads This Month"
             gradient="from-stone-700/60 to-stone-900/90"
             bgImage="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80"
           />
 
           <CategoryBox
-            category="data-management" title="Data Management" icon={Database}
-            colSpan="col-span-12 md:col-span-4" height="h-[220px]"
-            staticLabel="Mastering Data Integration"
-            gradient="from-emerald-600 to-green-800"
-            bgImage="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&q=80"
-          />
-
-          <CategoryBox
             category="cloud-computing" title="Cloud Computing" icon={Cloud}
-            colSpan="col-span-12 md:col-span-4" height="h-[220px]"
+            colSpan="col-span-12 md:col-span-4" height="h-[280px]"
             staticLabel="The Future of Cloud Services"
             gradient="from-sky-600 to-indigo-900"
             bgImage="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80"
