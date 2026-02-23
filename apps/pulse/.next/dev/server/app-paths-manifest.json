@@ -1,4 +1,6 @@
 {
+  "/(pulse)/news/page": "app/(pulse)/news/page.js",
   "/(pulse)/page": "app/(pulse)/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/api/[...path]/route": "app/api/[...path]/route.js"
 }

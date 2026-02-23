@@ -1,5 +1,30 @@
-[00:00:05.885] Server  LOG     ✓ Ready in 4.4s
-[00:00:10.324] Server  LOG     ○ Compiling / ...
-[00:00:30.989] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:37.115] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:37.115] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3001/pulse color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3001/pulse","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771845459015}
+[00:00:02.802] Server  LOG     ✓ Ready in 2.1s
+[00:01:49.196] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:52.699] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/data-privacy?page=1&limit=20: TypeError: fetch failed
+[00:01:52.958] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/data-governance?page=1&limit=20: TypeError: fetch failed
+[00:01:53.127] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/ai?page=1&limit=20: TypeError: fetch failed
+[00:01:53.278] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/data-security?page=1&limit=20: TypeError: fetch failed
+[00:01:53.437] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/data-engineering?page=1&limit=20: TypeError: fetch failed
+[00:01:53.627] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/business-intelligence?page=1&limit=20: TypeError: fetch failed
+[00:01:54.125] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/data-management?page=1&limit=20: TypeError: fetch failed
+[00:01:54.551] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/cloud-computing?page=1&limit=20: TypeError: fetch failed
+[00:01:55.056] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/magazines?page=1&limit=20: TypeError: fetch failed
+[00:01:55.366] Server  ERROR   [Proxy] Failed to reach backend at http://localhost:8000/api/news/research?page=1&limit=20: TypeError: fetch failed
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:01:56.241] Browser ERROR   Failed to fetch news: Bad Gateway
+[00:02:08.212] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:02:08.213] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3001/pulse color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3001/pulse","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771852605987} /_vercel/insights/view
+[00:03:06.852] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:09.915] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:03:09.915] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3001/pulse color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3001/pulse","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771852667907} /_vercel/insights/view
+[00:04:37.729] Server  LOG     ○ Compiling /news ...
+[00:04:44.229] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:04:44.229] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3001/pulse/news?category=ai color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3001/pulse/news?category=ai","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771852762599} /_vercel/insights/view
