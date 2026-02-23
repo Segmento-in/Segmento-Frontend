@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Dell/Desktop/Segmento-app-website-dev/frontend/apps/sense/app/layout.tsx"],"sourcesContent":["import \"./globals.css\";\r\n\r\nexport default function MainLayout({\r\n    children,\r\n}: {\r\n    children: React.ReactNode;\r\n}) {\r\n    return (\r\n        <html lang=\"en\">\r\n            <body>\r\n                <main className=\"grow\">{children}</main>\r\n            </body>\r\n        </html>\r\n    );\r\n}\r\n"],"names":[],"mappings":";;;;;;;AAEe,SAAS,WAAW,EAC/B,QAAQ,EAGX;IACG,qBACI,8OAAC;QAAK,MAAK;kBACP,cAAA,8OAAC;sBACG,cAAA,8OAAC;gBAAK,WAAU;0BAAQ;;;;;;;;;;;;;;;;AAIxC"}},
+    {"offset": {"line": 38, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Dell/Desktop/Segmento-app-website-dev/frontend/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4HACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
+}

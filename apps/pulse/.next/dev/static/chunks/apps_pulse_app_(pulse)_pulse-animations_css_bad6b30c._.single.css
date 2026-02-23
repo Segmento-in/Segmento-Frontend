@@ -1,0 +1,145 @@
+/* [project]/apps/pulse/app/(pulse)/pulse-animations.css [app-client] (css) */
+:root {
+  --gradient-audio: linear-gradient(135deg, #fff9e6, #ffebd6, #f7dee7, #ede2f3, #e0eef5);
+  --gradient-audio-hover: linear-gradient(135deg, #fff2cc, #ffdebd, #f5c7d6, #e3cdee, #cae4f2);
+}
+
+@keyframes float-note {
+  0% {
+    opacity: 0;
+    transform: translate(0)scale(.3)rotate(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--float-x), calc(var(--float-y) * -1)) scale(.4) rotate(var(--float-rotate));
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: .6;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes eq-bar {
+  0%, 100% {
+    height: 4px;
+  }
+
+  25% {
+    height: 16px;
+  }
+
+  50% {
+    height: 8px;
+  }
+
+  75% {
+    height: 14px;
+  }
+}
+
+@keyframes bounce-icon {
+  0%, 100% {
+    transform: translateY(0)scale(1);
+  }
+
+  50% {
+    transform: translateY(-3px)scale(1.1);
+  }
+}
+
+@keyframes gentle-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes sound-wave {
+  0%, 100% {
+    height: 6px;
+  }
+
+  25% {
+    height: 20px;
+  }
+
+  50% {
+    height: 10px;
+  }
+
+  75% {
+    height: 24px;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: .2;
+    transform: scale(1.25);
+  }
+
+  50% {
+    opacity: .35;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes button-breathe {
+  0%, 100% {
+    box-shadow: 0 4px 6px #0000000d, 0 10px 15px #9d17a01a;
+  }
+
+  50% {
+    box-shadow: 0 6px 8px #00000012, 0 12px 20px #9d17a026;
+  }
+}
+
+.animate-float-note {
+  animation: 2s ease-out forwards float-note;
+}
+
+.animate-pulse-ring {
+  animation: 1s ease-out forwards pulse-ring;
+}
+
+.animate-eq-bar {
+  animation: 1.2s ease-in-out infinite eq-bar;
+}
+
+.animate-bounce-icon {
+  animation: .6s ease-out bounce-icon;
+}
+
+.animate-gentle-bob {
+  animation: 3s ease-in-out infinite gentle-bob;
+}
+
+.animate-sound-wave {
+  animation: 1.5s ease-in-out infinite sound-wave;
+}
+
+.animate-glow-pulse {
+  animation: 3s ease-in-out infinite glow-pulse;
+}
+
+.animate-button-breathe {
+  animation: 4s ease-in-out infinite button-breathe;
+}
+
+/*# sourceMappingURL=apps_pulse_app_%28pulse%29_pulse-animations_css_bad6b30c._.single.css.map*/

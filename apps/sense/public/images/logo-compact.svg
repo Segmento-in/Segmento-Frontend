@@ -1,0 +1,45 @@
+<svg width="800" height="200" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Compact version for header -->
+  <g id="icon">
+    <!-- Shield with segments -->
+    <path d="M100 30 L140 45 L140 110 C140 140 120 160 100 175 C80 160 60 140 60 110 L60 45 Z" 
+          fill="#9d17a0" opacity="0.1"/>
+    
+    <!-- Top segment -->
+    <path d="M100 30 L140 45 L128 60 L100 48 L72 60 L60 45 Z" 
+          fill="#9d17a0"/>
+    
+    <!-- Side segments -->
+    <path d="M60 55 L72 70 L72 105 L60 105 Z" 
+          fill="#9d17a0" opacity="0.8"/>
+    <path d="M140 55 L128 70 L128 105 L140 105 Z" 
+          fill="#9d17a0" opacity="0.8"/>
+    
+    <!-- Bottom segment -->
+    <path d="M72 115 L100 175 L128 115 L100 125 Z" 
+          fill="#9d17a0"/>
+    
+    <!-- Data nodes -->
+    <circle cx="100" cy="85" r="5" fill="#9d17a0"/>
+    <circle cx="85" cy="95" r="4" fill="#9d17a0" opacity="0.7"/>
+    <circle cx="115" cy="95" r="4" fill="#9d17a0" opacity="0.7"/>
+    <circle cx="100" cy="105" r="4" fill="#9d17a0" opacity="0.7"/>
+    
+    <!-- Connections -->
+    <line x1="100" y1="85" x2="85" y2="95" stroke="#9d17a0" stroke-width="1.5" opacity="0.5"/>
+    <line x1="100" y1="85" x2="115" y2="95" stroke="#9d17a0" stroke-width="1.5" opacity="0.5"/>
+    <line x1="85" y1="95" x2="100" y2="105" stroke="#9d17a0" stroke-width="1.5" opacity="0.5"/>
+    <line x1="115" y1="95" x2="100" y2="105" stroke="#9d17a0" stroke-width="1.5" opacity="0.5"/>
+  </g>
+  
+  <!-- Compact text -->
+  <text x="170" y="115" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="56" font-weight="800" fill="#1a1a1a" letter-spacing="-1.5">
+    SEGMENTO
+  </text>
+  
+  <text x="170" y="160" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" 
+        font-size="38" font-weight="600" fill="#9d17a0" letter-spacing="-0.5">
+    SENSE
+  </text>
+</svg>

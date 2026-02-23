@@ -1,0 +1,39 @@
+{
+    "name": "@segmento/sense",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev -p 3002",
+        "build": "next build",
+        "start": "next start -p 3002",
+        "lint": "eslint"
+    },
+    "dependencies": {
+        "@radix-ui/react-accordion": "^1.2.3",
+        "@radix-ui/react-dialog": "^1.1.6",
+        "@radix-ui/react-slot": "^1.1.2",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "framer-motion": "^12.4.1",
+        "lucide-react": "^0.474.0",
+        "next": "^16.1.1",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "react-markdown": "^9.0.3",
+        "recharts": "^2.15.1",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss-animate": "^1.0.7"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3",
+        "@tailwindcss/postcss": "^4.0.0",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "eslint": "^9",
+        "eslint-config-next": "16.1.1",
+        "postcss": "^8",
+        "tailwindcss": "^4.0.0",
+        "typescript": "^5"
+    }
+}

@@ -1,0 +1,57 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon: Segmented Shield with Data Nodes -->
+  <g id="icon">
+    <!-- Shield outline made of segments -->
+    <path d="M150 50 L200 70 L200 150 C200 190 175 220 150 240 C125 220 100 190 100 150 L100 70 Z" 
+          fill="#9d17a0" opacity="0.1"/>
+    
+    <!-- Top segment -->
+    <path d="M150 50 L200 70 L185 90 L150 75 L115 90 L100 70 Z" 
+          fill="#9d17a0"/>
+    
+    <!-- Middle left segment -->
+    <path d="M100 90 L115 110 L115 150 L100 150 Z" 
+          fill="#9d17a0" opacity="0.8"/>
+    
+    <!-- Middle right segment -->
+    <path d="M200 90 L185 110 L185 150 L200 150 Z" 
+          fill="#9d17a0" opacity="0.8"/>
+    
+    <!-- Bottom segment -->
+    <path d="M115 160 L150 240 L185 160 L150 175 Z" 
+          fill="#9d17a0"/>
+    
+    <!-- Central data nodes (hexagons) -->
+    <circle cx="150" cy="120" r="8" fill="#9d17a0"/>
+    <circle cx="130" cy="135" r="6" fill="#9d17a0" opacity="0.7"/>
+    <circle cx="170" cy="135" r="6" fill="#9d17a0" opacity="0.7"/>
+    <circle cx="150" cy="150" r="6" fill="#9d17a0" opacity="0.7"/>
+    
+    <!-- Connection lines between nodes -->
+    <line x1="150" y1="120" x2="130" y2="135" stroke="#9d17a0" stroke-width="2" opacity="0.5"/>
+    <line x1="150" y1="120" x2="170" y2="135" stroke="#9d17a0" stroke-width="2" opacity="0.5"/>
+    <line x1="130" y1="135" x2="150" y2="150" stroke="#9d17a0" stroke-width="2" opacity="0.5"/>
+    <line x1="170" y1="135" x2="150" y2="150" stroke="#9d17a0" stroke-width="2" opacity="0.5"/>
+  </g>
+  
+  <!-- Text: SEGMENTO SENSE -->
+  <g id="wordmark">
+    <!-- SEGMENTO -->
+    <text x="280" y="145" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" 
+          font-size="72" font-weight="800" fill="#1a1a1a" letter-spacing="-2">
+      SEGMENTO
+    </text>
+    
+    <!-- SENSE -->
+    <text x="280" y="215" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" 
+          font-size="54" font-weight="600" fill="#9d17a0" letter-spacing="-1">
+      SENSE
+    </text>
+    
+    <!-- Tagline -->
+    <text x="280" y="250" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" 
+          font-size="20" font-weight="400" fill="#666666" letter-spacing="2">
+      PII DETECTION & DATA SECURITY
+    </text>
+  </g>
+</svg>
