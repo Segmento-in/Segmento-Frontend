@@ -37,7 +37,7 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
     const pdfUrl = article.url;
 
     const linkHref = {
-        pathname: `/pulse/research/${article.id || article.$id}`,
+        pathname: `/research/${article.id || article.$id}`,
         query: sourceCategory ? { category: sourceCategory } : undefined
     };
 

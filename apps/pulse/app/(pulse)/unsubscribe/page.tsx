@@ -25,7 +25,7 @@ function UnsubscribeContent() {
         const handleUnsubscribe = async () => {
             try {
                 // Determine API URL (Local vs Prod)
-                const apiUrl = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+                const apiUrl = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
 
                 // Construct URL with query params
                 let endpoint = `${apiUrl}/api/subscription/unsubscribe?token=${encodeURIComponent(token)}`;

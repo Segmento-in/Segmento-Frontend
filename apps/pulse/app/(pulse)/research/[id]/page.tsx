@@ -81,7 +81,7 @@ export default function ResearchDetailPage({ params }: { params: Promise<{ id: s
                 source: paper.source || 'Research'
             }}
             isModal={false}
-            backLink={`/pulse/research${category ? `?category=${category}` : ''}`}
+            backLink={`/research${category ? `?category=${category}` : ''}`}
             backLabel={category ? "Back to Category" : "Back to Research Papers"}
         />
     );

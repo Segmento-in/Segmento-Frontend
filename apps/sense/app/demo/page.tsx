@@ -13,7 +13,6 @@ import { ConfluenceConnector } from '@/components/pii-demo/connectors/Confluence
 import { GmailConnector } from '@/components/pii-demo/connectors/GmailConnector';
 import { AnalysisResponse } from '@/lib/apiClient';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 
 export default function PIIDemoPage() {
     const [sourceConfig, setSourceConfig] = useState<SourceConfig>({
@@ -257,17 +256,6 @@ export default function PIIDemoPage() {
 
             {/* Main Content */}
             <div className="flex-1 p-8 overflow-y-auto">
-                {/* Back to Sense Info Button */}
-                <div className="mb-6">
-                    <Link
-                        href="/"
-                        className="inline-flex items-center text-sm font-medium text-slate-400 hover:text-white transition-colors"
-                    >
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Sense Info
-                    </Link>
-                </div>
-
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-white mb-2">

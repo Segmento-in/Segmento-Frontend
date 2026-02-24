@@ -10,18 +10,14 @@ __turbopack_context__.s([
     "searchNews",
     ()=>searchNews
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 // News API for Pulse
 // All requests use relative paths (/api/*) which are proxied server-side
 // by apps/pulse/app/api/[...path]/route.ts to avoid CORS issues.
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 function getApiBase() {
-    // In the browser: use relative path starting with basePath (same origin, no CORS)
-    // In SSR/server context: use the full backend URL directly
-    if ("TURBOPACK compile-time truthy", 1) {
-        return '/pulse'; // Must match next.config.ts basePath
-    }
-    //TURBOPACK unreachable
-    ;
+    // Both client and server can use the direct endpoint based on the robust .env config
+    return ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
 }
 async function fetchNewsByCategory(category, page = 1, limit = 20) {
     try {

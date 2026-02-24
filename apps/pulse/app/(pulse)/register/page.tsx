@@ -30,7 +30,7 @@ export default function RegisterPage() {
 
             // Auto-subscribe to Weekly Newsletter (Default)
             try {
-                const API_BASE = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+                const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
                 await fetch(`${API_BASE}/api/subscription/subscribe`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

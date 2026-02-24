@@ -15,11 +15,8 @@ __turbopack_context__.s([
 // by apps/pulse/app/api/[...path]/route.ts to avoid CORS issues.
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 function getApiBase() {
-    // In the browser: use relative path starting with basePath (same origin, no CORS)
-    // In SSR/server context: use the full backend URL directly
-    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-    ;
-    return ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+    // Both client and server can use the direct endpoint based on the robust .env config
+    return ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
 }
 async function fetchNewsByCategory(category, page = 1, limit = 20) {
     try {
@@ -210,7 +207,7 @@ __turbopack_context__.s([
  * Performance optimized: Reduced polling frequency for better backend responsiveness
  */ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$shared$2f$src$2f$idGenerator$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/shared/src/idGenerator.ts [app-ssr] (ecmascript)");
 ;
-const API_BASE_URL = ("TURBOPACK compile-time value", "http://localhost:8000") || 'https://workwithshafisk-segmentopulse-backend.hf.space';
+const API_BASE_URL = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'https://workwithshafisk-segmentopulse-backend.hf.space';
 // Simple cache to reduce redundant API calls
 const statsCache = new Map();
 const CACHE_TTL = 60000; // 60 seconds cache (increased from 5s for better performance)
@@ -616,7 +613,7 @@ function AudioPlayer({ articleId, articleUrl, initialAudioUrl, title, image, cat
         // Need to generate audio
         setIsLoading(true);
         try {
-            const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: {
@@ -796,7 +793,7 @@ function useEngagement(articleUrl, category, title, image, autoTrackView = true,
         articleUrl
     ]);
     // Base API URL
-    const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+    const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
     // Helper to get request body
     const getRequestBody = ()=>({
             url: articleUrl,
@@ -982,7 +979,7 @@ function useBatchEngagement(articleUrls) {
         const fetchBatchStats = async ()=>{
             setLoading(true);
             const newStatsMap = new Map();
-            const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             await Promise.all(articleUrls.map(async (url)=>{
                 try {
                     const articleId = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$shared$2f$src$2f$idGenerator$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["generateArticleId"])(url);
@@ -1575,7 +1572,7 @@ function AudioSummaryButton({ articleId, articleUrl, initialAudioUrl, initialTex
                 try {
                     const encodedUrl = encodeURIComponent(articleUrl);
                     const encodedCategory = category ? encodeURIComponent(category) : '';
-                    const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+                    const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
                     const res = await fetch(`${API_BASE}/api/audio/status?article_url=${encodedUrl}&category=${encodedCategory}`);
                     const data = await res.json();
                     if (data.success) {
@@ -1628,7 +1625,7 @@ function AudioSummaryButton({ articleId, articleUrl, initialAudioUrl, initialTex
         // Generate audio
         setIsLoading(true);
         try {
-            const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: {
@@ -2224,7 +2221,7 @@ function NewsCard({ article }) {
         showModal
     ]);
     // Construct the article URL params (legacy link)
-    const articleLink = `/pulse/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.published_at)}&source=${encodeURIComponent(article.source)}&id=${article.$id || ''}&category=${article.category || ''}&audio_url=${encodeURIComponent(article.audio_url || '')}&text_summary=${encodeURIComponent(article.text_summary || '')}`;
+    const articleLink = `/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.published_at)}&source=${encodeURIComponent(article.source)}&id=${article.$id || ''}&category=${article.category || ''}&audio_url=${encodeURIComponent(article.audio_url || '')}&text_summary=${encodeURIComponent(article.text_summary || '')}`;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {

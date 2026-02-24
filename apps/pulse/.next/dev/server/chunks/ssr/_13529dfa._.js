@@ -15,11 +15,8 @@ __turbopack_context__.s([
 // by apps/pulse/app/api/[...path]/route.ts to avoid CORS issues.
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 function getApiBase() {
-    // In the browser: use relative path starting with basePath (same origin, no CORS)
-    // In SSR/server context: use the full backend URL directly
-    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-    ;
-    return ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+    // Both client and server can use the direct endpoint based on the robust .env config
+    return ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
 }
 async function fetchNewsByCategory(category, page = 1, limit = 20) {
     try {

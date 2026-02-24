@@ -1581,7 +1581,7 @@ function NewsletterModal({ isOpen, onClose, theme }) {
             message: ''
         });
         try {
-            const API_BASE = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : ("TURBOPACK compile-time value", "http://localhost:8000") || 'http://localhost:8000';
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/subscription/subscribe`, {
                 method: 'POST',
                 headers: {

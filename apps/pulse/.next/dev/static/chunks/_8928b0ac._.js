@@ -10,18 +10,14 @@ __turbopack_context__.s([
     "searchNews",
     ()=>searchNews
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 // News API for Pulse
 // All requests use relative paths (/api/*) which are proxied server-side
 // by apps/pulse/app/api/[...path]/route.ts to avoid CORS issues.
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 function getApiBase() {
-    // In the browser: use relative path starting with basePath (same origin, no CORS)
-    // In SSR/server context: use the full backend URL directly
-    if ("TURBOPACK compile-time truthy", 1) {
-        return '/pulse'; // Must match next.config.ts basePath
-    }
-    //TURBOPACK unreachable
-    ;
+    // Both client and server can use the direct endpoint based on the robust .env config
+    return ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
 }
 async function fetchNewsByCategory(category, page = 1, limit = 20) {
     try {
@@ -225,7 +221,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
  * Performance optimized: Reduced polling frequency for better backend responsiveness
  */ var __TURBOPACK__imported__module__$5b$project$5d2f$packages$2f$shared$2f$src$2f$idGenerator$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/packages/shared/src/idGenerator.ts [app-client] (ecmascript)");
 ;
-const API_BASE_URL = ("TURBOPACK compile-time value", "http://localhost:8000") || 'https://workwithshafisk-segmentopulse-backend.hf.space';
+const API_BASE_URL = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'https://workwithshafisk-segmentopulse-backend.hf.space';
 // Simple cache to reduce redundant API calls
 const statsCache = new Map();
 const CACHE_TTL = 60000; // 60 seconds cache (increased from 5s for better performance)
@@ -582,6 +578,7 @@ __turbopack_context__.s([
     "default",
     ()=>AudioPlayer
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$headphones$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Headphones$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/headphones.js [app-client] (ecmascript) <export default as Headphones>");
@@ -662,7 +659,7 @@ function AudioPlayer({ articleId, articleUrl, initialAudioUrl, title, image, cat
         // Need to generate audio
         setIsLoading(true);
         try {
-            const API_BASE = ("TURBOPACK compile-time truthy", 1) ? '/pulse' : "TURBOPACK unreachable";
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: {
@@ -817,6 +814,7 @@ __turbopack_context__.s([
     "useEngagement",
     ()=>useEngagement
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 /**
  * Engagement Hook - Article Interactions
  * =======================================
@@ -855,7 +853,7 @@ function useEngagement(articleUrl, category, title, image, autoTrackView = true,
         articleUrl
     ]);
     // Base API URL
-    const API_BASE = ("TURBOPACK compile-time truthy", 1) ? '/pulse' : "TURBOPACK unreachable";
+    const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
     // Helper to get request body
     const getRequestBody = ()=>({
             url: articleUrl,
@@ -1067,7 +1065,7 @@ function useBatchEngagement(articleUrls) {
                 "useBatchEngagement.useEffect.fetchBatchStats": async ()=>{
                     setLoading(true);
                     const newStatsMap = new Map();
-                    const API_BASE = ("TURBOPACK compile-time truthy", 1) ? '/pulse' : "TURBOPACK unreachable";
+                    const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
                     await Promise.all(articleUrls.map({
                         "useBatchEngagement.useEffect.fetchBatchStats": async (url)=>{
                             try {
@@ -1551,6 +1549,7 @@ __turbopack_context__.s([
     "default",
     ()=>AudioSummaryButton
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$headphones$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Headphones$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/headphones.js [app-client] (ecmascript) <export default as Headphones>");
@@ -1758,7 +1757,7 @@ function AudioSummaryButton({ articleId, articleUrl, initialAudioUrl, initialTex
                         try {
                             const encodedUrl = encodeURIComponent(articleUrl);
                             const encodedCategory = category ? encodeURIComponent(category) : '';
-                            const API_BASE = ("TURBOPACK compile-time truthy", 1) ? '/pulse' : "TURBOPACK unreachable";
+                            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
                             const res = await fetch(`${API_BASE}/api/audio/status?article_url=${encodedUrl}&category=${encodedCategory}`);
                             const data = await res.json();
                             if (data.success) {
@@ -1813,7 +1812,7 @@ function AudioSummaryButton({ articleId, articleUrl, initialAudioUrl, initialTex
         // Generate audio
         setIsLoading(true);
         try {
-            const API_BASE = ("TURBOPACK compile-time truthy", 1) ? '/pulse' : "TURBOPACK unreachable";
+            const API_BASE = ("TURBOPACK compile-time value", "https://workwithshafisk-segmentopulse-backend.hf.space") || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: {
@@ -2435,7 +2434,7 @@ function NewsCard({ article }) {
         showModal
     ]);
     // Construct the article URL params (legacy link)
-    const articleLink = `/pulse/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.published_at)}&source=${encodeURIComponent(article.source)}&id=${article.$id || ''}&category=${article.category || ''}&audio_url=${encodeURIComponent(article.audio_url || '')}&text_summary=${encodeURIComponent(article.text_summary || '')}`;
+    const articleLink = `/news/article?url=${encodeURIComponent(article.url)}&title=${encodeURIComponent(article.title)}&description=${encodeURIComponent(article.description || '')}&image=${encodeURIComponent(safeImage)}&date=${encodeURIComponent(article.published_at)}&source=${encodeURIComponent(article.source)}&id=${article.$id || ''}&category=${article.category || ''}&audio_url=${encodeURIComponent(article.audio_url || '')}&text_summary=${encodeURIComponent(article.text_summary || '')}`;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {

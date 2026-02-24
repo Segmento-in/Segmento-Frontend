@@ -4,11 +4,7 @@
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 
 function getApiBase(): string {
-    // In the browser: use relative path starting with basePath (same origin, no CORS)
-    // In SSR/server context: use the full backend URL directly
-    if (typeof window !== 'undefined') {
-        return '/pulse'; // Must match next.config.ts basePath
-    }
+    // Both client and server can use the direct endpoint based on the robust .env config
     return process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
 }
 

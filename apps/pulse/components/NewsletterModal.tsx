@@ -29,7 +29,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
         setStatus({ type: null, message: '' });
 
         try {
-            const API_BASE = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
             const response = await fetch(
                 `${API_BASE}/api/subscription/subscribe`,
                 {

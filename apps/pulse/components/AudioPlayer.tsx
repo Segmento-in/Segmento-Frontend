@@ -80,7 +80,7 @@ export default function AudioPlayer({ articleId, articleUrl, initialAudioUrl, ti
         // Need to generate audio
         setIsLoading(true);
         try {
-            const API_BASE = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

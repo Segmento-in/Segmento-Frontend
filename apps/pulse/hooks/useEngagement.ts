@@ -78,7 +78,7 @@ export function useEngagement(
     }, [articleUrl]);
 
     // Base API URL
-    const API_BASE = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+    const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
 
     // Helper to get request body
     const getRequestBody = () => ({
@@ -249,7 +249,7 @@ export function useBatchEngagement(articleUrls: string[]) {
             setLoading(true);
             const newStatsMap = new Map<string, EngagementStats>();
 
-            const API_BASE = typeof window !== 'undefined' ? '/pulse' : (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000');
+            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
             await Promise.all(
                 articleUrls.map(async (url) => {
                     try {
