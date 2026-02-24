@@ -1,0 +1,118 @@
+[00:00:03.472] Server  LOG     ✓ Ready in 2.6s
+[00:13:58.793] Server  LOG       Reload env: .env
+[00:14:21.896] Server  LOG     ○ Compiling / ...
+[00:14:30.219] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:46.888] Server  LOG       Reload env: .env
+[00:25:00.234] Server  LOG     ✓ Compiled in 1219ms
+[00:25:00.247] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:02.741] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:03.014] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:04.089] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:04.318] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:20.716] Server  LOG     ✓ Compiled in 568ms
+[00:25:23.234] Server  LOG     ✓ Compiled in 871ms
+[00:25:30.806] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:31.278] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:36.098] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:25:36.190] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:44.070] Server  LOG     ✓ Compiled in 600ms
+[00:25:47.607] Server  WARN    ⚠ ./apps/sense/tailwind.config.js:4:28
+Parsing ecmascript source code failed
+  2 | module.exports = {
+  3 |     darkMode: ["class"],
+> 4 |     './pages/**/*.{ts,tsx}',
+    |                            ^
+  5 |     './components/**/*.{ts,tsx}',
+  6 |     './app/**/*.{ts,tsx}',
+  7 |     './src/**/*.{ts,tsx}',
+
+Unexpected token `,`. Expected identifier
+
+
+[00:26:47.067] Server  LOG     ✓ Compiled in 3.4s
+[00:30:43.351] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:47:11.538] Server  LOG     ✓ Compiled in 260ms

@@ -1,0 +1,28 @@
+
+> @segmento/sense@0.1.0 lint
+> eslint
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Dell\Desktop\Segmento-app-website-dev\frontend\apps\sense\node_modules\eslint-config-next\core-web-vitals' imported from C:\Users\Dell\Desktop\Segmento-app-website-dev\frontend\apps\sense\eslint.config.mjs
+Did you mean to import "eslint-config-next/core-web-vitals.js"?
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:718:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:735:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:764:52)
+    at #resolve (node:internal/modules/esm/loader:700:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:620:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:143:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:228:17)
+npm error Lifecycle script `lint` failed with error:
+npm error code 2
+npm error path C:\Users\Dell\Desktop\Segmento-app-website-dev\frontend\apps\sense
+npm error workspace @segmento/sense@0.1.0
+npm error location C:\Users\Dell\Desktop\Segmento-app-website-dev\frontend\apps\sense
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c eslint

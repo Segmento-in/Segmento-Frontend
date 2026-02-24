@@ -1,0 +1,86 @@
+/* [project]/apps/pulse/app/(pulse)/heartbeat.css [app-client] (css) */
+@keyframes heartbeat-realistic {
+  0% {
+    stroke-dasharray: 0 200;
+    opacity: .7;
+  }
+
+  10% {
+    stroke-dasharray: 40 200;
+    opacity: .9;
+  }
+
+  15% {
+    stroke-dasharray: 80 200;
+    opacity: 1;
+  }
+
+  20% {
+    stroke-dasharray: 120 200;
+    opacity: 1;
+  }
+
+  30% {
+    stroke-dasharray: 200 0;
+    opacity: .8;
+  }
+
+  40% {
+    stroke-dasharray: 200 0;
+    opacity: .6;
+  }
+
+  50% {
+    stroke-dasharray: 0 200;
+    opacity: .7;
+  }
+
+  60% {
+    stroke-dasharray: 40 200;
+    opacity: .9;
+  }
+
+  65% {
+    stroke-dasharray: 80 200;
+    opacity: 1;
+  }
+
+  70% {
+    stroke-dasharray: 120 200;
+    opacity: 1;
+  }
+
+  80% {
+    stroke-dasharray: 200 0;
+    opacity: .8;
+  }
+
+  100% {
+    stroke-dasharray: 200 0;
+    opacity: .6;
+  }
+}
+
+.heartbeat-line {
+  animation: 2.5s ease-in-out infinite heartbeat-realistic;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: .2;
+  }
+
+  15%, 65% {
+    opacity: .4;
+  }
+
+  30%, 80% {
+    opacity: .15;
+  }
+}
+
+.heartbeat-glow {
+  animation: 2.5s ease-in-out infinite glow-pulse;
+}
+
+/*# sourceMappingURL=apps_pulse_app_%28pulse%29_heartbeat_css_bad6b30c._.single.css.map*/

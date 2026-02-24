@@ -1,0 +1,441 @@
+/* [project]/apps/pulse/app/(pulse)/heartbeat.css [app-client] (css) */
+@keyframes heartbeat-realistic {
+  0% {
+    stroke-dasharray: 0 200;
+    opacity: .7;
+  }
+
+  10% {
+    stroke-dasharray: 40 200;
+    opacity: .9;
+  }
+
+  15% {
+    stroke-dasharray: 80 200;
+    opacity: 1;
+  }
+
+  20% {
+    stroke-dasharray: 120 200;
+    opacity: 1;
+  }
+
+  30% {
+    stroke-dasharray: 200 0;
+    opacity: .8;
+  }
+
+  40% {
+    stroke-dasharray: 200 0;
+    opacity: .6;
+  }
+
+  50% {
+    stroke-dasharray: 0 200;
+    opacity: .7;
+  }
+
+  60% {
+    stroke-dasharray: 40 200;
+    opacity: .9;
+  }
+
+  65% {
+    stroke-dasharray: 80 200;
+    opacity: 1;
+  }
+
+  70% {
+    stroke-dasharray: 120 200;
+    opacity: 1;
+  }
+
+  80% {
+    stroke-dasharray: 200 0;
+    opacity: .8;
+  }
+
+  100% {
+    stroke-dasharray: 200 0;
+    opacity: .6;
+  }
+}
+
+.heartbeat-line {
+  animation: 2.5s ease-in-out infinite heartbeat-realistic;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: .2;
+  }
+
+  15%, 65% {
+    opacity: .4;
+  }
+
+  30%, 80% {
+    opacity: .15;
+  }
+}
+
+.heartbeat-glow {
+  animation: 2.5s ease-in-out infinite glow-pulse;
+}
+
+/* [project]/apps/pulse/components/rainbow-shimmer.css [app-client] (css) */
+.rainbow-shimmer-btn {
+  color: #1a1a1a;
+  cursor: pointer;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: .375rem;
+  justify-content: center;
+  align-items: center;
+  gap: .375rem;
+  padding: .375rem .75rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  transition: all .3s;
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.rainbow-shimmer-btn:hover {
+  border-color: #0000;
+  box-shadow: 0 0 0 2px #3b82f633;
+}
+
+.rainbow-shimmer-btn:before {
+  content: "";
+  z-index: -1;
+  opacity: .15;
+  background: linear-gradient(90deg, #0000 0%, #ff0080 15%, #f0f 25%, #8000ff 35%, #0080ff 45%, #0ff 55%, #00ff80 65%, #ff0 75%, #ff8000 85%, #0000 100%);
+  width: 200%;
+  height: 100%;
+  animation: 2s linear infinite rainbow-travel;
+  position: absolute;
+  top: 0;
+  left: -100%;
+}
+
+.rainbow-shimmer-btn:hover:before {
+  opacity: .25;
+}
+
+@keyframes rainbow-travel {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+.rainbow-shimmer-btn:active {
+  transform: scale(.98);
+}
+
+.rainbow-shimmer-btn:focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid #3b82f6;
+}
+
+.rainbow-shimmer-btn svg {
+  width: .875rem;
+  height: .875rem;
+}
+
+.subscription-dropdown {
+  z-index: 50;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: .5rem;
+  min-width: 180px;
+  margin-top: .5rem;
+  padding: .5rem;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  box-shadow: 0 4px 6px -1px #0000001a, 0 2px 4px -1px #0000000f;
+}
+
+.subscription-option {
+  color: #1f2937;
+  cursor: pointer;
+  border-radius: .375rem;
+  align-items: center;
+  padding: .5rem .75rem;
+  font-size: .875rem;
+  transition: background-color .15s;
+  display: flex;
+}
+
+.subscription-option:hover {
+  background-color: #f3f4f6;
+}
+
+.subscription-option.active {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+.sub-options {
+  border-left: 2px solid #e5e7eb;
+  margin-top: .25rem;
+  margin-left: 1.5rem;
+  padding-left: .75rem;
+}
+
+.sub-option {
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+  font-size: .8125rem;
+  transition: all .15s;
+}
+
+.sub-option:hover {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.sub-option.selected {
+  color: #1e40af;
+  background-color: #dbeafe;
+  font-weight: 500;
+}
+
+/* [project]/apps/pulse/components/navbar-compact.css [app-client] (css) */
+.pulse-nav-link {
+  padding: .375rem .625rem !important;
+  font-size: .875rem !important;
+}
+
+.pulse-nav-link + .pulse-nav-link {
+  margin-left: .125rem;
+}
+
+button[variant="outline"] {
+  padding: .375rem .75rem !important;
+  font-size: .8125rem !important;
+}
+
+.rainbow-shimmer-btn {
+  gap: .25rem !important;
+  padding: .375rem .625rem !important;
+  font-size: .75rem !important;
+}
+
+.rainbow-shimmer-btn svg {
+  width: .75rem !important;
+  height: .75rem !important;
+}
+
+.h-4.w-px.bg-gray-300 {
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+/* [project]/apps/pulse/components/navbar-animations.css [app-client] (css) */
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-item {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-dropdown-in {
+  animation: .2s ease-out forwards dropdown-in;
+}
+
+.animate-dropdown-item {
+  opacity: 0;
+  animation: .3s ease-out forwards dropdown-item;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #0000000d;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #6366f14d;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #6366f180;
+}
+
+/* [project]/apps/pulse/app/(pulse)/pulse-animations.css [app-client] (css) */
+:root {
+  --gradient-audio: linear-gradient(135deg, #fff9e6, #ffebd6, #f7dee7, #ede2f3, #e0eef5);
+  --gradient-audio-hover: linear-gradient(135deg, #fff2cc, #ffdebd, #f5c7d6, #e3cdee, #cae4f2);
+}
+
+@keyframes float-note {
+  0% {
+    opacity: 0;
+    transform: translate(0)scale(.3)rotate(0);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--float-x), calc(var(--float-y) * -1)) scale(.4) rotate(var(--float-rotate));
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: .6;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes eq-bar {
+  0%, 100% {
+    height: 4px;
+  }
+
+  25% {
+    height: 16px;
+  }
+
+  50% {
+    height: 8px;
+  }
+
+  75% {
+    height: 14px;
+  }
+}
+
+@keyframes bounce-icon {
+  0%, 100% {
+    transform: translateY(0)scale(1);
+  }
+
+  50% {
+    transform: translateY(-3px)scale(1.1);
+  }
+}
+
+@keyframes gentle-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes sound-wave {
+  0%, 100% {
+    height: 6px;
+  }
+
+  25% {
+    height: 20px;
+  }
+
+  50% {
+    height: 10px;
+  }
+
+  75% {
+    height: 24px;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: .2;
+    transform: scale(1.25);
+  }
+
+  50% {
+    opacity: .35;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes button-breathe {
+  0%, 100% {
+    box-shadow: 0 4px 6px #0000000d, 0 10px 15px #9d17a01a;
+  }
+
+  50% {
+    box-shadow: 0 6px 8px #00000012, 0 12px 20px #9d17a026;
+  }
+}
+
+.animate-float-note {
+  animation: 2s ease-out forwards float-note;
+}
+
+.animate-pulse-ring {
+  animation: 1s ease-out forwards pulse-ring;
+}
+
+.animate-eq-bar {
+  animation: 1.2s ease-in-out infinite eq-bar;
+}
+
+.animate-bounce-icon {
+  animation: .6s ease-out bounce-icon;
+}
+
+.animate-gentle-bob {
+  animation: 3s ease-in-out infinite gentle-bob;
+}
+
+.animate-sound-wave {
+  animation: 1.5s ease-in-out infinite sound-wave;
+}
+
+.animate-glow-pulse {
+  animation: 3s ease-in-out infinite glow-pulse;
+}
+
+.animate-button-breathe {
+  animation: 4s ease-in-out infinite button-breathe;
+}
+
+/*# sourceMappingURL=apps_pulse_047bd6ef._.css.map*/
