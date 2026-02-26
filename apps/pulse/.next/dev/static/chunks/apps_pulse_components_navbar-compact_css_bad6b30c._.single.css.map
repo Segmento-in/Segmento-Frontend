@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/apps/pulse/components/navbar-compact.css"],"sourcesContent":["/* Compact Navbar Spacing Overrides */\r\n\r\n/* Reduce nav link padding */\r\n.pulse-nav-link {\r\n    padding: 0.375rem 0.625rem !important;\r\n    font-size: 0.875rem !important;\r\n}\r\n\r\n/* Compact dropdown spacing */\r\n.pulse-nav-link+.pulse-nav-link {\r\n    margin-left: 0.125rem;\r\n}\r\n\r\n/* Smaller Sign In button */\r\nbutton[variant=\"outline\"] {\r\n    padding: 0.375rem 0.75rem !important;\r\n    font-size: 0.8125rem !important;\r\n}\r\n\r\n/* Compact Subscribe button */\r\n.rainbow-shimmer-btn {\r\n    padding: 0.375rem 0.625rem !important;\r\n    font-size: 0.75rem !important;\r\n    gap: 0.25rem !important;\r\n}\r\n\r\n.rainbow-shimmer-btn svg {\r\n    width: 0.75rem !important;\r\n    height: 0.75rem !important;\r\n}\r\n\r\n/* Remove divider margins */\r\n.h-4.w-px.bg-gray-300 {\r\n    margin-left: 0.25rem;\r\n    margin-right: 0.25rem;\r\n}"],"names":[],"mappings":"AAGA;;;;;AAMA;;;;AAKA;;;;;AAMA;;;;;;AAMA;;;;;AAMA"}}]
-}

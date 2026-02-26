@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "regexp": "^\\/pulse(?:\\/(_next\\/data\\/[^/]{1,}))?\\/admin\\/dashboard(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
+    "originalSource": "/admin/dashboard/:path*"
+  }
+]

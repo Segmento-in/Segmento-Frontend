@@ -1,5 +1,0 @@
-1:"$Sreact.fragment"
-2:I[97367,["/products/data-classification/_next/static/chunks/48e67ec06de7a1eb.js","/products/data-classification/_next/static/chunks/cdad36853a3d0cf6.js"],"ViewportBoundary"]
-3:I[97367,["/products/data-classification/_next/static/chunks/48e67ec06de7a1eb.js","/products/data-classification/_next/static/chunks/cdad36853a3d0cf6.js"],"MetadataBoundary"]
-4:"$Sreact.suspense"
-0:{"buildId":"SmU4a_I2TYTu0REOe3sHo","rsc":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Segmento Sense | Intelligent Data Classification"}],["$","meta","1",{"name":"description","content":"Automate Data Classification with AI"}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}

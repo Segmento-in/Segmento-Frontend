@@ -1,29 +1,232 @@
-[00:00:01.676] Server  LOG     ✓ Ready in 1262ms
-[00:00:32.665] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:33.317] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:00:33.669] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:33.670] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771914394418} /_vercel/insights/view
-[00:06:35.554] Server  LOG       Reload env: .env
-[00:06:38.129] Server  LOG     ✓ Compiled in 1928ms
-[00:16:49.145] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:16:50.020] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:16:50.021] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:16:50.021] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"http://localhost:3002/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771915370827} /_vercel/insights/view
-[00:44:18.599] Server  LOG     ○ Compiling /compare ...
-[00:44:25.680] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:26.024] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:44:26.024] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:44:26.024] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/compare color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/compare","r":"http://localhost:3002/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771917026835} /_vercel/insights/view
-[00:45:44.344] Server  ERROR   (node:25508) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-[00:45:58.066] Server  LOG     ○ Compiling /contact ...
-[00:46:00.694] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[00:46:00.694] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/contact color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/contact","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771917121382} /_vercel/insights/view
-[00:46:12.399] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/about","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771917132647} /_vercel/insights/view
-[00:46:13.895] Browser WARN    Image with src "/images/mohan.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:13.895] Browser WARN    Image with src "/images/mem2.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:13.895] Browser WARN    Image with src "/images/director1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:14.040] Browser WARN    Image with src "/images/vijayalakshmi.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:14.173] Browser WARN    Image with src "/images/shafi-profile.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:21.733] Browser WARN    Image with src "/images/thejesh.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:46:25.879] Browser LOG     %c[Vercel Web Analytics]%c [view] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1771917146584} /_vercel/insights/view
+[00:00:03.748] Server  LOG     ✓ Ready in 3s
+[00:00:15.861] Server  LOG     ○ Compiling / ...
+[00:00:27.681] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:27.681] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:27.744] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:27.744] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772018573640}
+[00:03:04.216] Server  LOG     ✓ Compiled in 2.9s
+[00:05:49.257] Server  LOG     ✓ Compiled in 2s
+[00:11:29.652] Server  LOG     ✓ Compiled in 1916ms
+[00:12:14.357] Server  LOG     ✓ Compiled in 399ms
+[00:16:06.692] Server  LOG     ✓ Compiled in 3.7s
+[00:16:42.039] Server  LOG     ✓ Compiled in 960ms
+[00:20:30.886] Server  LOG     ✓ Compiled in 3s
+[00:21:07.182] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:09.191] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:21:09.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772019814403}
+[00:21:24.749] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:26:21.334] Server  LOG     ✓ Compiled in 6.5s
+[00:31:56.901] Server  LOG     ✓ Compiled in 4.1s
+[00:32:24.352] Server  LOG     ✓ Compiled in 537ms
+[00:34:34.892] Server  LOG     ✓ Compiled in 9.4s
+[00:34:48.800] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:50.867] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:34:50.867] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:34:50.867] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772020636663}
+[00:39:47.930] Server  LOG     ✓ Compiled in 2s
+[00:52:42.123] Server  LOG     ✓ Compiled in 8.5s
+[01:16:18.320] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:16:20.091] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:16:21.470] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:16:21.470] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772023126766}
+[01:19:30.469] Server  LOG     ✓ Compiled in 7.3s
+[01:24:40.686] Server  LOG     ✓ Compiled in 4.2s
+[01:34:11.706] Server  LOG     ✓ Compiled in 1791ms
+[01:35:20.678] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:35:21.606] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[01:35:21.985] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[01:35:21.985] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772024267757}
+[01:41:20.688] Server  LOG     ✓ Compiled in 6.8s
+[01:43:49.461] Server  LOG     ✓ Compiled in 2.6s
+[01:49:56.064] Server  LOG     ✓ Compiled in 1493ms
+[01:51:00.339] Server  LOG     ✓ Compiled in 2.7s
+[01:51:38.106] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:51:38.106] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/about","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772025243443}
+[01:51:40.620] Browser WARN    Image with src "/images/mohan.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:51:40.620] Browser WARN    Image with src "/images/mem2.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:51:40.620] Browser WARN    Image with src "/images/thejesh.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:51:40.959] Browser WARN    Image with src "/images/director1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:51:40.960] Browser WARN    Image with src "/images/shafi-profile.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:51:40.960] Browser WARN    Image with src "/images/vijayalakshmi.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:58:22.648] Server  LOG     ✓ Compiled in 19.8s
+[01:58:31.591] Server  LOG     ✓ Finished writing to filesystem cache in 17.7s
+[01:58:32.236] Server  ERROR   ⨯ ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+
+
+[01:58:32.360] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:58:32.388] Server  ERROR   ⨯ ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+
+
+[01:58:37.659] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:58:37.659] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:58:37.659] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:58:43.649] Browser ERROR   uncaughtError: Error: ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+
+
+[01:58:46.548] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:58:48.203] Browser ERROR   ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx:313:10
+Parsing ecmascript source code failed
+  311 |             </section>
+  312 |
+> 313 |         </div>
+      |          ^^^^^
+  314 |     );
+  315 | }
+  316 |
+
+Unterminated regexp literal
+
+Import trace:
+  Server Component:
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/about-client.tsx
+    ./Desktop/segmento-frontend/Segmento-Frontend/apps/main-site/app/(main)/about/page.tsx
+[01:59:13.806] Server  LOG     ✓ Compiled in 6s
+[01:59:44.282] Server  LOG     ✓ Finished writing to filesystem cache in 27.9s
+[01:59:47.327] Server  LOG     ○ Compiling /about ...
+[02:00:13.814] Server  LOG     ✓ Finished filesystem cache database compaction in 30.5s
+[02:00:22.647] Server  LOG     ✓ Finished writing to filesystem cache in 32.2s
+[02:00:23.625] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:31.185] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:00:31.185] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/about","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772025776443}
+[02:02:35.580] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[02:02:35.616] Browser WARN    Image with src "/images/director1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:35.625] Browser WARN    Image with src "/images/mem2.jpeg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:35.626] Browser WARN    Image with src "/images/shafi-profile.jpg" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:35.626] Browser WARN    Image with src "/images/mohan.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:35.626] Browser WARN    Image with src "/images/vijayalakshmi.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:35.626] Browser WARN    Image with src "/images/thejesh.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[02:02:46.444] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:02:46.444] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772025909754}
+[02:06:30.581] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/about","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772026135611}
+[02:09:03.797] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772026288932}
+[02:09:20.074] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/about color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/about","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772026305667}
+[02:10:04.827] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772026350577}
+[02:14:49.124] Server  LOG     ✓ Compiled in 825ms
+[02:21:33.812] Server  LOG     ✓ Compiled in 1293ms
+[02:22:22.586] Server  LOG     ✓ Compiled in 646ms
+[02:23:04.931] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:23:06.815] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:23:06.815] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"o":"http://localhost:3000/","sdkn":"@vercel/analytics/react","sdkv":"1.6.1","sv":"0.1.3","ts":1772027132406}
+[02:23:06.816] Browser WARN    Image with src "/images/logo-final.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[02:28:03.882] Server  LOG     ✓ Compiled in 769ms
+[02:30:03.462] Server  LOG     ✓ Compiled in 1053ms
