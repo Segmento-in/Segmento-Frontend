@@ -1,7 +1,5 @@
 "use client"
 
-import { push, ref } from "firebase/database"
-import { db } from "@/app/(main)/lib/firebase"
 import { triggerWelcomeEmail } from "@/app/(main)/lib/emailService"
 import { useState } from "react"
 import { Button } from "@/ui/button"
@@ -44,32 +42,30 @@ export default function ContactPage() {
         e.preventDefault()
 
         try {
-            // Check if Firebase is initialized (client-side only)
-            if (!db) {
-                alert("Database not initialized. Please try again.")
-                return
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                // Fire-and-forget welcome email — does not block user experience
+                triggerWelcomeEmail(formData.name, formData.email)
+
+                setSubmitted(true)
+                setFormData({
+                    name: "",
+                    email: "",
+                    company: "",
+                    message: "",
+                })
+            } else {
+                alert(data.error || "Failed to send message. Please try again.")
             }
-
-            // Step 1: Save to Firebase (existing logic)
-            await push(ref(db, "contacts"), {
-                name: formData.name,
-                email: formData.email,
-                company: formData.company,
-                message: formData.message,
-                createdAt: Date.now(),
-            })
-
-            // Step 2: Trigger welcome email via backend (NEW - Push Architecture)
-            // Fire-and-forget: doesn't block user experience
-            triggerWelcomeEmail(formData.name, formData.email)
-
-            setSubmitted(true)
-            setFormData({
-                name: "",
-                email: "",
-                company: "",
-                message: "",
-            })
         } catch (error) {
             console.error(error)
             alert("Failed to send message")
