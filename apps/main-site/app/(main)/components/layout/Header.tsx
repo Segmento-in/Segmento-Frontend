@@ -17,12 +17,13 @@ export function Header() {
   const navItem =
     "relative px-5 py-2 text-sm font-semibold text-gray-800 transition-all duration-300 rounded-md"
 
+  // ✅ EXACT COLOR MATCH (NOT TOO DARK)
   const hoverEffect =
-    "hover:text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-500 hover:shadow-lg"
+    "hover:text-white hover:bg-gradient-to-r hover:from-[#1B2B6F] hover:via-[#1F3A8A] hover:to-[#2745B5] hover:shadow-md"
 
   const dropdownWrapper = "absolute left-1/2 -translate-x-1/2 pt-4"
   const dropdownBox =
-    "w-64 rounded-xl bg-gradient-to-br from-purple-700 via-fuchsia-600 to-pink-600 shadow-2xl border border-white/20 overflow-hidden"
+    "w-64 rounded-xl bg-gradient-to-br from-[#1B2B6F] via-[#1F3A8A] to-[#2745B5] shadow-xl border border-white/20 overflow-hidden"
   const dropdownItem =
     "block px-5 py-3 text-sm text-white/90 hover:bg-white/10 transition-all"
 
@@ -64,6 +65,7 @@ export function Header() {
                     <Link href="/products/data-classification" className={dropdownItem}>Segmento Sense</Link>
                     <span className={dropdownItem}>Segmento Resolve (Upcoming)</span>
                     <span className={dropdownItem}>Segmento Collect (Upcoming)</span>
+                     <span className={dropdownItem}>Segmento Enrich (Upcoming)</span>
                   </div>
                 </div>
               )}
@@ -125,7 +127,7 @@ export function Header() {
             <Link href="/contact" className={`${navItem} ${hoverEffect}`}>Contact</Link>
           </nav>
 
-          {/* ================= MOBILE TOGGLE ================= */}
+          {/* MOBILE TOGGLE */}
           <button
             className="md:hidden text-gray-800"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -137,82 +139,9 @@ export function Header() {
 
       {/* ================= MOBILE MENU ================= */}
       {mobileOpen && (
-        <div className="md:hidden bg-gray-950 text-white px-6 py-6 space-y-4">
-
+        <div className="md:hidden bg-[#1B2B6F] text-white px-6 py-6 space-y-4">
           <Link href="/" onClick={() => setMobileOpen(false)} className="block">Home</Link>
           <Link href="/about" onClick={() => setMobileOpen(false)} className="block">About</Link>
-
-          {/* PRODUCTS */}
-          <button
-            className="flex w-full justify-between items-center"
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "products" ? null : "products")
-            }
-          >
-            Products <ChevronDown size={16} />
-          </button>
-
-          {mobileDropdown === "products" && (
-            <div className="bg-gray-900 rounded-lg p-4 space-y-2 text-sm">
-              <Link href="/pulse" onClick={() => setMobileOpen(false)} className="block">Segmento Pulse</Link>
-              <Link href="/products/data-classification" onClick={() => setMobileOpen(false)} className="block">Segmento Sense</Link>
-              <p className="opacity-70">Resolve (Upcoming)</p>
-              <p className="opacity-70">Collect (Upcoming)</p>
-            </div>
-          )}
-
-          {/* SOLUTIONS */}
-          <button
-            className="flex w-full justify-between items-center"
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")
-            }
-          >
-            Solutions <ChevronDown size={16} />
-          </button>
-
-          {mobileDropdown === "solutions" && (
-            <div className="bg-gray-900 rounded-lg p-4 space-y-2 text-sm">
-              {[
-                ["ecommerce", "eCommerce"],
-                ["finance", "Finance"],
-                ["healthcare", "Healthcare"],
-                ["higher-education", "Higher Education"],
-                ["manufacturing", "Manufacturing"],
-                ["telecommunication", "Telecommunication"],
-                ["media", "Media"],
-                ["banking", "Banking"],
-              ].map(([id, label]) => (
-                <Link
-                  key={id}
-                  href={`/solutions#${id}`}
-                  onClick={() => setMobileOpen(false)}
-                  className="block"
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {/* ✅ RESOURCES (FIXED) */}
-          <button
-            className="flex w-full justify-between items-center"
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "resources" ? null : "resources")
-            }
-          >
-            Resources <ChevronDown size={16} />
-          </button>
-
-          {mobileDropdown === "resources" && (
-            <div className="bg-gray-900 rounded-lg p-4 text-sm">
-              <Link href="/blog" onClick={() => setMobileOpen(false)} className="block">
-                Blog
-              </Link>
-            </div>
-          )}
-
           <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block">Pricing</Link>
           <Link href="/careers" onClick={() => setMobileOpen(false)} className="block">Careers</Link>
           <Link href="/contact" onClick={() => setMobileOpen(false)} className="block">Contact</Link>

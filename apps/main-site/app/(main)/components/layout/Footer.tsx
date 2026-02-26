@@ -34,7 +34,11 @@ export function Footer() {
     ],
     social: [
       { label: "X/Twitter", href: "/404", icon: Twitter },
-      { label: "LinkedIn", href: "https://www.linkedin.com/company/segmento-pte-ltd/", icon: Linkedin },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/segmento-pte-ltd/",
+        icon: Linkedin,
+      },
       { label: "YouTube", href: "/404", icon: Youtube },
       { label: "Instagram", href: "/404", icon: Instagram },
       { label: "Facebook", href: "/404", icon: Facebook },
@@ -49,25 +53,32 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-linear-to-b from-[#8E2DE2] to-[#4A00E0] text-white">
+    <footer className="bg-white border-t border-[#0B1C2D]/15 text-[#0B1C2D]">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+
+          {/* Brand */}
           <div className="lg:col-span-2">
-            <h3 className="text-lg font-bold mb-4">Segmento</h3>
-            <p className="text-sm text-gray-200 leading-relaxed mb-6">
+            <h3 className="text-lg font-bold mb-4 text-[#0B1C2D]">
+              Segmento
+            </h3>
+            <p className="text-sm text-[#0B1C2D]/70 leading-relaxed mb-6 max-w-md">
               Privacy-first, AI-driven data products that solve real enterprise challenges.
               Transform how you protect and analyze sensitive information.
             </p>
           </div>
 
+          {/* Products */}
           <div>
-            <h4 className="text-sm font-semibold mb-4">Products</h4>
+            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+              Products
+            </h4>
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-200 hover:text-white transition-colors"
+                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -76,14 +87,17 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold mb-4">Company</h4>
+            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+              Company
+            </h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-200 hover:text-white transition-colors"
+                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -92,10 +106,13 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* Social + Legal */}
           <div>
-            <h4 className="text-sm font-semibold mb-4">Social</h4>
+            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+              Social
+            </h4>
 
-            {/* ✅ ICONS ONLY WITH ANIMATION */}
+            {/* Icons */}
             <div className="flex flex-wrap gap-4 mb-6">
               {footerLinks.social.map((link) => (
                 <Link
@@ -105,27 +122,29 @@ export function Footer() {
                   className="
                     group inline-flex items-center justify-center
                     w-10 h-10 rounded-full
-                    bg-white/10
-                    hover:bg-white/20
+                    bg-[#0B1C2D]/5
+                    hover:bg-[#0B1C2D]/10
                     transition-all duration-300 ease-out
                     hover:-translate-y-1 hover:scale-110
-                    hover:shadow-lg
+                    hover:shadow-md
                   "
                 >
                   {link.icon && (
-                    <link.icon className="h-5 w-5 text-white transition-transform duration-300 group-hover:rotate-6" />
+                    <link.icon className="h-5 w-5 text-[#0B1C2D] transition-transform duration-300 group-hover:rotate-6" />
                   )}
                 </Link>
               ))}
             </div>
 
-            <h4 className="text-sm font-semibold mb-4">Legal</h4>
+            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+              Legal
+            </h4>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-200 hover:text-white transition-colors"
+                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -135,8 +154,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/20 pt-8">
-          <div className="text-center text-sm text-gray-300">
+        {/* Bottom */}
+        <div className="border-t border-[#0B1C2D]/15 pt-8">
+          <div className="text-center text-sm text-[#0B1C2D]/60">
             Segmento © 2025. All rights reserved.
           </div>
         </div>
