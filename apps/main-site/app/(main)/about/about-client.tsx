@@ -100,24 +100,29 @@ export default function AboutClient() {
     return (
         <div className="min-h-screen py-20 overflow-x-hidden">
             {/* Hero */}
-            <motion.section
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                className="mb-20"
-            >
-                <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-purple-600 via-indigo-600 to-pink-500 bg-clip-text text-transparent">
-                            Who Are We
-                        </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground">
-                            Segmento helps businesses unlock the real value of their customer data. Founded in 2025, we turn complex data into actionable insights that fuel growth, engagement, and smarter strategies.
-                        </p>
-                    </div>
-                </div>
-            </motion.section>
+<motion.section
+  initial="initial"
+  whileInView="animate"
+  viewport={{ once: true }}
+  variants={fadeInUp}
+  className="mb-20 bg-[#0b0f3b] py-24"
+>
+  <div className="container mx-auto px-4">
+    <div className="max-w-3xl mx-auto text-center">
+      {/* Heading */}
+      <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+        <span className="text-white">Who Are We</span>
+      </h1>
+
+      {/* Paragraph */}
+      <p className="text-lg md:text-xl text-slate-300 font-medium leading-relaxed">
+        Segmento helps businesses unlock the real value of their customer data.
+        Founded in 2025, we turn complex data into actionable insights that fuel
+        growth, engagement, and smarter strategies.
+      </p>
+    </div>
+  </div>
+</motion.section>
 
             {/* Director Section */}
             <section className="py-16 bg-linear-to-br from-purple-50 to-indigo-50">
