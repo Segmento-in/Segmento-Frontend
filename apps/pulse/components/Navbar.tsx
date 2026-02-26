@@ -104,16 +104,19 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
     };
 
     const dataSubcategories = [
+        // "All Data Articles" is the master button — same role as "Cloud Computing" in the Cloud menu.
+        // It routes to the data_articles collection so users see everything in one place.
+        { name: "All Data Articles", path: "/news?category=data-articles", icon: "🗂️" },
         { name: "Data Engineering", path: "/news?category=data-engineering", icon: "🔧" },
-        { name: "Data Management", path: "/news?category=data-management", icon: "📊" },
         { name: "Data Governance", path: "/news?category=data-governance", icon: "⚖️" },
+        { name: "Data Management", path: "/news?category=data-management", icon: "📊" },
         { name: "Data Privacy", path: "/news?category=data-privacy", icon: "🔒" },
         { name: "Data Security", path: "/news?category=data-security", icon: "🛡️" },
+        { name: "Data Laws", path: "/news?category=data-laws", icon: "📜" },
+        { name: "Customer Data Platform", path: "/news?category=customer-data-platform", icon: "👥" },
         { name: "Business Intelligence", path: "/news?category=business-intelligence", icon: "💡" },
         { name: "Business Analytics", path: "/news?category=business-analytics", icon: "📈" },
-        { name: "Customer Data Platform", path: "/news?category=customer-data-platform", icon: "👥" },
         { name: "Data Centers", path: "/news?category=data-centers", icon: "🏢" },
-        { name: "Data Laws", path: "/news?category=data-laws", icon: "⚖️" },
     ];
 
     const cloudSubcategories = [
@@ -133,7 +136,9 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
 
     const navLinks = [
         { name: "Home", path: "/" },
-        { name: "AI", path: "/news?category=ai" },
+        // Display label changed to 'Artificial Intelligence' — the route /news?category=ai
+        // is unchanged so no backend API calls are affected.
+        { name: "Artificial Intelligence", path: "/news?category=ai" },
         { name: "Data", path: "#", hasDropdown: true, dropdownType: "data" },
         { name: "Cloud", path: "#", hasDropdown: true, dropdownType: "cloud" },
         { name: "Articles", path: "/articles/medium" },
