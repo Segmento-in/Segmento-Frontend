@@ -171,157 +171,214 @@ export default function SolutionsPage() {
   }
 
   return (
-    <div className="min-h-screen py-20">
-      {/* Hero */}
-      <section className="mb-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.h1
-              variants={headlineVariants}
-              initial="hidden"
-              animate="visible"
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent"
-            >
-              Industry Solutions
-            </motion.h1>
-            <motion.p
-              variants={headlineVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground"
-            >
-              Tailored data security and intelligence solutions for your industry
-            </motion.p>
-          </div>
+    <div className="min-h-screen overflow-x-hidden bg-[#0b0f3b]">
+  {/* Hero Section */}
+  <motion.section
+    variants={headlineVariants}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    className="mb-15 py-20"
+  >
+    <div className="container mx-auto px-4 text-center">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight leading-tight bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-400 bg-clip-text text-transparent">
+        Industry Solutions
+      </h1>
+      <p className="text-base md:text-lg text-slate-300 font-medium leading-relaxed max-w-3xl mx-auto">
+        Tailored data security and intelligence solutions for your industry
+      </p>
+    </div>
+  </motion.section>
+
+{/* Industries Section */}
+{industries.map((industry, index) => {
+  const Icon = industry.icon
+  // index % 2 === 0 makes the FIRST section (index 0) LIGHT (White)
+  const isDark = index % 2 !== 0
+
+  return (
+    <section
+      key={industry.id}
+      id={industry.id}
+      className={`py-20 relative overflow-hidden ${
+        isDark 
+          ? "bg-[#0b0f3b] text-white" 
+          : "bg-white text-slate-900"
+      }`}
+    >
+      {/* Subtle mesh background for white sections */}
+      {!isDark && (
+        <div className="absolute inset-0 opacity-40 pointer-events-none">
+          <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-indigo-50 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 -right-1/4 w-1/2 h-1/2 bg-purple-50 rounded-full blur-[120px]" />
         </div>
-      </section>
+      )}
 
-      {/* Industries */}
-      {industries.map((industry, index) => {
-        const Icon = industry.icon
-        return (
-          <section
-            key={industry.id}
-            id={industry.id}
-            className={`py-12 ${index % 2 === 1 ? "bg-linear-to-br from-primary/5 to-purple-50" : ""}`}
-          >
-            <div className="container mx-auto px-4">
-              <div className="max-w-5xl mx-auto">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-4 rounded-xl bg-linear-to-br from-primary/10 to-purple-100">
-                    <Icon className="w-10 h-10 text-primary" />
-                  </div>
-                  <motion.h2
-                    variants={headlineVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-4xl font-bold"
-                  >
-                    {industry.title}
-                  </motion.h2>
-                </div>
-                <motion.p
-                  variants={headlineVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  className="text-lg text-muted-foreground mb-8"
-                >
-                  {industry.intro}
-                </motion.p>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Challenges */}
-                  <motion.div
-                    variants={headlineVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    <h3 className="text-xl font-bold mb-4">Key Challenges</h3>
-                    <ul className="space-y-3">
-                      {industry.challenges.map((challenge, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-destructive mt-1">•</span>
-                          <span className="text-muted-foreground">{challenge}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-
-                  {/* Solutions */}
-                  <div>
-                    <motion.h3
-                      variants={headlineVariants}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
-                      className="text-xl font-bold mb-4"
-                    >
-                      Our Solutions
-                    </motion.h3>
-                    <div className="space-y-4">
-                      {industry.solutions.map((solution, i) => (
-                        <motion.div
-                          key={i}
-                          className="bg-white rounded-lg p-4 border border-border/50 shadow-sm hover:shadow-lg"
-                          variants={cardVariants}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true }}
-                          custom={i}
-                        >
-                          <div className="font-semibold text-primary mb-1">{solution.title}</div>
-                          <div className="text-sm text-muted-foreground">{solution.desc}</div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          {/* Header */}
+          <div className="flex items-center gap-5 mb-8">
+            <div className={`p-4 rounded-2xl shadow-sm ${
+              isDark 
+                ? "bg-white/10" 
+                : "bg-indigo-600"
+            }`}>
+              <Icon className={`w-8 h-8 ${isDark ? "text-cyan-400" : "text-white"}`} />
             </div>
-          </section>
-        )
-      })}
+            <motion.h2
+              variants={headlineVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="text-2xl md:text-3xl font-bold tracking-tight"
+            >
+              {industry.title}
+            </motion.h2>
+          </div>
 
-      {/* CTA */}
-      <section className="py-16 bg-linear-to-r from-primary to-purple-600 text-white mt-16">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h2
-            variants={headlineVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            Ready to secure your industry's data?
-          </motion.h2>
           <motion.p
             variants={headlineVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg mb-8 max-w-2xl mx-auto opacity-90"
+            className={`text-base md:text-lg mb-12 leading-relaxed max-w-3xl ${
+              isDark ? "text-slate-300" : "text-slate-600"
+            }`}
           >
-            Contact us to learn how Segmento can protect your organization
+            {industry.intro}
           </motion.p>
-          <motion.div
-            variants={headlineVariants}
+
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
+            {/* Challenges Column */}
+            <motion.div
+              variants={headlineVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <h3 className={`text-lg md:text-xl font-bold mb-6 flex items-center gap-2 ${
+                isDark ? "text-cyan-400" : "text-indigo-600"
+              }`}>
+                <span className="w-8 h-[2px] bg-current opacity-30" />
+                Key Challenges
+              </h3>
+              <ul className="space-y-4">
+                {industry.challenges.map((challenge, i) => (
+                  <li key={i} className="flex items-start gap-3 group">
+                    <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${
+                      isDark ? "bg-red-400" : "bg-red-500"
+                    }`} />
+                    <span className={`text-sm md:text-base transition-colors ${
+                      isDark ? "text-slate-300 group-hover:text-white" : "text-slate-600 group-hover:text-slate-900"
+                    }`}>
+                      {challenge}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Solutions Column */}
+            <div>
+              <motion.h3
+                variants={headlineVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className={`text-lg md:text-xl font-bold mb-6 flex items-center gap-2 ${
+                  isDark ? "text-cyan-400" : "text-indigo-600"
+                }`}
+              >
+                <span className="w-8 h-[2px] bg-current opacity-30" />
+                Our Solutions
+              </motion.h3>
+              <div className="grid gap-4">
+                {industry.solutions.map((solution, i) => (
+                  <motion.div
+                    key={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    custom={i}
+                    className={`rounded-xl p-5 border transition-all duration-300 hover:-translate-y-1 ${
+                      isDark 
+                        ? "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 shadow-lg" 
+                        : "bg-white border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-100"
+                    }`}
+                  >
+                    <div className={`font-bold mb-1.5 text-sm md:text-base ${
+                      isDark ? "text-white" : "text-slate-900"
+                    }`}>
+                      {solution.title}
+                    </div>
+                    <div className={`text-xs md:text-sm leading-relaxed ${
+                      isDark ? "text-slate-400" : "text-slate-500"
+                    }`}>
+                      {solution.desc}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+})}
+
+    
+
+{/* Final CTA Section - Dark Aesthetic Card UI */}
+<section className="bg-white py-24">
+    <div className="container mx-auto px-4 text-center">
+        <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-          >
-            <Link href="/contact">
-              <Button size="lg" variant="secondary" className="text-lg px-8">
-                Get Started
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+            variants={headlineVariants}
+            className="max-w-5xl mx-auto p-12 md:p-16 [3rem] bg-[#0f172a] border border-slate-800 shadow-2xl relative overflow-hidden"
+        >
+            {/* Decorative glows to match branding */}
+            <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full" />
+            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full" />
+
+            <motion.h2
+                variants={headlineVariants}
+                className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500 relative z-10 tracking-tight"
+            >
+                Ready to secure your industry's data?
+            </motion.h2>
+            
+            <motion.p
+                variants={headlineVariants}
+                transition={{ delay: 0.2 }}
+                className="text-slate-400 mb-10 font-medium text-lg max-w-2xl mx-auto relative z-10 leading-relaxed"
+            >
+                Contact us to learn how Segmento can protect your organization with tailored intelligence.
+            </motion.p>
+
+            <motion.div 
+                variants={headlineVariants}
+                className="flex flex-col sm:flex-row gap-6 justify-center relative z-10 items-center w-full"
+            >
+                <Link 
+                    href="/contact" 
+                    className="px-10 py-4 bg-linear-to-r from-cyan-500 via-blue-500 to-indigo-500 text-white rounded-xl font-bold shadow-xl shadow-blue-900/20 transition-transform hover:scale-105 active:scale-95 text-center min-w-[200px]"
+                >
+                    Get Started
+                </Link>
+                <Link 
+                    href="/careers" 
+                    className="px-10 py-4 border-2 border-cyan-400/50 text-cyan-400 rounded-xl font-bold hover:bg-cyan-400/10 transition-all shadow-lg hover:border-cyan-400 text-center min-w-[200px]"
+                >
+                    View Careers
+                </Link>
+            </motion.div>
+        </motion.div>
+    </div>
+</section>
     </div>
   )
 }

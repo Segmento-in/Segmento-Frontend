@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link"
-import { Check } from "lucide-react"
+import { Check, HelpCircle } from "lucide-react"
 import { Button } from "@/ui/button"
 import { motion, easeOut } from "framer-motion"
 
@@ -70,89 +70,90 @@ const faqs = [
     },
 ]
 
-// FAQ Animation Variants
-const faqFadeUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, ease: easeOut }
-}
-
 export default function PricingPage() {
     return (
-        <div className="min-h-screen py-20 bg-gray-50/50">
-            {/* Hero */}
-            <section className="mb-16">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 bg-linear-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
-                            Simple, Transparent<br className="hidden sm:block" />
+        <div className="min-h-screen bg-white selection:bg-purple-500/30">
+            {/* Hero Section - Matching "Who Are We" exactly */}
+            <section className="relative bg-[#020617] py-20 lg:py-28 overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-purple-600/15 blur-[120px] rounded-full" />
+                
+                <div className="container mx-auto px-4 relative z-10 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="max-w-4xl mx-auto"
+                    >
+                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-transparent bg-clip-text bg-linear-to-r from-[#a855f7] to-[#7c3aed]">
                             Pricing
                         </h1>
-                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground">
-                            Choose the plan that fits your organization&apos;s needs
+                        <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium opacity-90">
+                            Segmento helps businesses unlock the real value of their customer data. 
+                            Choose a plan that scales with your growth.
                         </p>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* Pricing Tiers */}
-            <section className="mb-20">
+            {/* Pricing Tiers - Dark Cards, No Overlap */}
+            <section className="py-24 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-                        {tiers.map((tier) => (
+                    <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
+                        {tiers.map((tier, idx) => (
                             <motion.div
                                 key={tier.name}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                className={`group relative rounded-3xl border p-8 transition-all duration-300 cursor-pointer bg-white flex flex-col h-full
-                                    ${tier.featured
-                                        ? "border-purple-500 shadow-[0_20px_50px_rgba(147,51,234,0.15)] ring-2 ring-purple-500/20"
-                                        : "border-transparent shadow-xl hover:border-purple-500 hover:shadow-[0_20px_50px_rgba(147,51,234,0.15)] hover:ring-2 hover:ring-purple-500/20"
-                                    }`}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                                className={`relative flex flex-col bg-[#0f172a] rounded-[2rem] p-8 md:p-10 shadow-xl border border-slate-800 transition-all duration-300 hover:shadow-2xl hover:border-purple-500/30 ${
+                                    tier.featured ? "ring-2 ring-purple-600/20" : ""
+                                }`}
                             >
                                 {tier.featured && (
-                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-purple-600 text-white text-sm font-bold shadow-lg z-10">
+                                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-purple-600 to-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] py-2 px-5 rounded-full shadow-lg">
                                         Most Popular
                                     </div>
                                 )}
 
-                                <div className="mb-6">
-                                    <h3 className="text-2xl font-bold mb-2 group-hover:text-purple-600 transition-colors">{tier.name}</h3>
-                                    <p className="text-muted-foreground text-sm">{tier.subtitle}</p>
+                                <div className="mb-8">
+                                    <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+                                    <p className="text-slate-400 font-medium text-sm leading-relaxed">{tier.subtitle}</p>
                                 </div>
 
-                                <div className="mb-8">
-                                    {tier.price === "Custom" || tier.price === "Free" ? (
-                                        <div className="text-5xl font-extrabold tracking-tight">{tier.price}</div>
-                                    ) : (
-                                        <div className="flex items-baseline">
-                                            <span className="text-3xl font-bold text-gray-400">$</span>
-                                            <span className="text-6xl font-extrabold tracking-tight">{tier.price}</span>
-                                            <span className="text-muted-foreground ml-2 font-medium">{tier.period}</span>
-                                        </div>
+                                <div className="mb-10 flex items-baseline gap-1">
+                                    {tier.price !== "Custom" && tier.price !== "Free" && (
+                                        <span className="text-2xl font-bold text-purple-500">$</span>
+                                    )}
+                                    <span className="text-5xl font-bold text-white tracking-tighter">
+                                        {tier.price}
+                                    </span>
+                                    {tier.period && (
+                                        <span className="text-slate-500 font-bold ml-1 text-sm">{tier.period}</span>
                                     )}
                                 </div>
 
-                                <ul className="space-y-4 mb-10 flex-1">
+                                <div className="space-y-4 mb-12 flex-1">
                                     {tier.features.map((feature) => (
-                                        <li key={feature} className="flex items-start gap-3">
-                                            <div className="mt-1 rounded-full bg-purple-100 p-0.5 group-hover:bg-purple-600 transition-colors">
-                                                <Check className="w-4 h-4 text-purple-600 group-hover:text-white transition-colors" />
+                                        <div key={feature} className="flex items-start gap-3 group">
+                                            <div className="shrink-0 mt-1">
+                                                <Check className="w-4 h-4 text-purple-500 stroke-[3px]" />
                                             </div>
-                                            <span className="text-sm font-medium text-gray-600">{feature}</span>
-                                        </li>
+                                            <span className="text-slate-300 font-medium text-sm leading-relaxed group-hover:text-white transition-colors">
+                                                {feature}
+                                            </span>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
 
-                                <Link href="/contact" className="mt-auto">
-                                    <Button
-                                        className={`w-full py-6 text-lg font-bold rounded-xl transition-all duration-300 border-none
-                                            ${tier.featured
-                                                ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-200"
-                                                : "bg-gray-100 hover:bg-purple-600 hover:text-white text-gray-900"
-                                            }`}
-                                        variant="default"
+                                <Link href="/contact" className="w-full mt-auto">
+                                    <Button 
+                                        className={`w-full py-7 rounded-xl text-base font-bold transition-all duration-300 ${
+                                            tier.featured 
+                                            ? "bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-900/20" 
+                                            : "bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
+                                        }`}
                                     >
                                         {tier.price === "Custom" ? "Contact Sales" : "Get Started"}
                                     </Button>
@@ -163,32 +164,41 @@ export default function PricingPage() {
                 </div>
             </section>
 
-            {/* FAQ */}
-            <section className="py-20 bg-white border-t">
+            {/* FAQ - Dark Section */}
+            <section className="bg-[#020617] py-24 border-t border-slate-900">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 tracking-tight">
-                        Frequently Asked Questions
-                    </h2>
-                    <div className="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-                        {faqs.map((faq, index) => (
-                            <motion.div
-                                key={faq.q}
-                                initial="initial"
-                                whileInView="whileInView"
-                                viewport={{ once: true }}
-                                variants={{
-                                    initial: { opacity: 0, y: 20 },
-                                    whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.1, ease: easeOut } }
-                                }}
-                                className="group p-2"
-                            >
-                                <h3 className="font-bold text-lg mb-3 group-hover:text-purple-600 transition-colors">{faq.q}</h3>
-                                <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
-                            </motion.div>
-                        ))}
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl font-bold text-white mb-6 tracking-tight">
+                                Frequently Asked Questions
+                            </h2>
+                            <div className="h-1 w-16 bg-purple-600 mx-auto rounded-full opacity-80" />
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+                            {faqs.map((faq, index) => (
+                                <motion.div
+                                    key={faq.q}
+                                    initial={{ opacity: 0, y: 15 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                                    className="p-8 rounded-[2rem] bg-[#0f172a] border border-slate-800 hover:border-slate-700 transition-colors group"
+                                >
+                                    <h3 className="text-white font-bold text-lg mb-4 group-hover:text-purple-400 transition-colors">
+                                        {faq.q}
+                                    </h3>
+                                    <p className="text-slate-400 leading-relaxed text-sm font-medium">
+                                        {faq.a}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
+
+            
         </div>
     )
 }
