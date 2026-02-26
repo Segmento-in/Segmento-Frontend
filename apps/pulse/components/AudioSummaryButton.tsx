@@ -159,18 +159,21 @@ export default function AudioSummaryButton({
         });
     };
 
-    const [textSummary, setTextSummary] = useState<string | null>(initialAudioUrl && initialTextSummary ? initialTextSummary : null);
+    // BUG FIX: Initialize from initialTextSummary alone — do NOT require initialAudioUrl to be present too.
+    const [textSummary, setTextSummary] = useState<string | null>(initialTextSummary || null);
 
-    // If initialAudioUrl is present, set textSummary if provided
+    // If props update, sync the text summary state
     useEffect(() => {
-        if (initialAudioUrl && initialTextSummary) {
+        if (initialTextSummary) {
             setTextSummary(initialTextSummary);
         }
-    }, [initialAudioUrl, initialTextSummary]);
+    }, [initialTextSummary]);
 
-    // Check status on mount if data is missing (Automatic Retrieval)
+    // BUG FIX: Check status on mount if audio is missing.
+    // Previously this only fired when BOTH initialAudioUrl AND initialTextSummary were absent,
+    // which meant that if text_summary was present but audio_url was empty, we'd skip the fetch entirely.
     useEffect(() => {
-        if (!initialAudioUrl && !initialTextSummary) {
+        if (!initialAudioUrl) {
             const checkStatus = async () => {
                 try {
                     const encodedUrl = encodeURIComponent(articleUrl);
@@ -181,7 +184,8 @@ export default function AudioSummaryButton({
 
                     if (data.success) {
                         if (data.audio_url) setAudioUrl(data.audio_url);
-                        if (data.text_summary) setTextSummary(data.text_summary);
+                        // Only update text summary from backend if we don't have one already
+                        if (data.text_summary && !initialTextSummary) setTextSummary(data.text_summary);
                     }
                 } catch (err) {
                     console.error("Failed to check audio status", err);
