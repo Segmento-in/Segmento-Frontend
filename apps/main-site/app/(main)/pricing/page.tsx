@@ -74,7 +74,7 @@ export default function PricingPage() {
     return (
         <div className="min-h-screen bg-white selection:bg-purple-500/30">
             {/* Hero Section - Matching "Who Are We" exactly */}
-            <section className="relative bg-[#020617] py-20 lg:py-28 overflow-hidden">
+            <section className="relative bg-[#0b0f3b] py-20 lg:py-28 overflow-hidden">
                 <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-purple-600/15 blur-[120px] rounded-full" />
                 
                 <div className="container mx-auto px-4 relative z-10 text-center">
@@ -84,8 +84,8 @@ export default function PricingPage() {
                         transition={{ duration: 0.6 }}
                         className="max-w-4xl mx-auto"
                     >
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-transparent bg-clip-text bg-linear-to-r from-[#a855f7] to-[#7c3aed]">
-                            Pricing
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight leading-tight bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-400 bg-clip-text text-transparent">
+                            Transparent Pricing
                         </h1>
                         <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium opacity-90">
                             Segmento helps businesses unlock the real value of their customer data. 

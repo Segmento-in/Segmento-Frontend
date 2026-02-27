@@ -259,7 +259,7 @@ export default function SolutionsPage() {
               <h3 className={`text-lg md:text-xl font-bold mb-6 flex items-center gap-2 ${
                 isDark ? "text-cyan-400" : "text-indigo-600"
               }`}>
-                <span className="w-8 h-[2px] bg-current opacity-30" />
+                
                 Key Challenges
               </h3>
               <ul className="space-y-4">
@@ -289,7 +289,7 @@ export default function SolutionsPage() {
                   isDark ? "text-cyan-400" : "text-indigo-600"
                 }`}
               >
-                <span className="w-8 h-[2px] bg-current opacity-30" />
+                
                 Our Solutions
               </motion.h3>
               <div className="grid gap-4">

@@ -85,7 +85,7 @@ export default function HomePage() {
 
           {/* Description */}
           <p className="text-lg text-slate-400 mb-6 leading-relaxed">
-            Segmento is a robust platform delivering cutting-edge AI products that
+            Segmento is a robust data platform delivering cutting-edge AI products that
             solve real enterprise challenges. From real-time data intelligence to
             advanced security solutions.
           </p>
@@ -135,15 +135,15 @@ export default function HomePage() {
     </div>
   </section>
 
-  {/* Value Proposition */}
-<section className="py-20 md:py-28 bg-gradient-to-b from-[#F8FAFC] to-white">
+{/* Value Proposition */}
+<section className="py-20 md:py-28 bg-white">
   <div className="container mx-auto px-6">
 
     {/* Heading */}
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: easeOut }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
       className="max-w-3xl mx-auto text-center mb-20"
     >
@@ -158,9 +158,15 @@ export default function HomePage() {
 
     {/* Cards */}
     <motion.div
-      variants={staggerContainer}
-      initial="initial"
-      whileInView="whileInView"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: 0.2 }
+        }
+      }}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true }}
       className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto"
     >
@@ -186,14 +192,16 @@ export default function HomePage() {
       ].map((item, i) => (
         <motion.div
           key={i}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: i * 0.15, ease: easeOut }}
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: { opacity: 1, y: 0 }
+          }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="
-            group bg-white rounded-2xl p-10 text-center
-            border border-[#0B1C2D]/20
-            hover:border-[#0B1C2D]
-            hover:shadow-xl
+            group bg-[#0A1622] rounded-2xl p-10 text-center
+            border border-[#1E3A5F]
+            hover:border-[#38bdf8]
+            hover:shadow-2xl hover:shadow-sky-500/10
             transition-all duration-300
           "
         >
@@ -207,26 +215,25 @@ export default function HomePage() {
           </div>
 
           {/* Title */}
-          <h3 className="text-xl font-semibold text-slate-900 mb-3">
+          <h3 className="text-xl font-bold text-white mb-3">
             {item.title}
           </h3>
 
           {/* Description */}
-          <p className="text-slate-600 leading-relaxed">
+          <p className="text-slate-300 leading-relaxed">
             {item.desc}
           </p>
         </motion.div>
       ))}
     </motion.div>
-
   </div>
 </section>
 
-   {/* Products Section */}
+   
+{/* Products Section */}
 <section
   id="products"
-  className="py-16 md:py-24
-             bg-gradient-to-br from-[#0B0F3B] via-[#141863] to-[#0B0F3B]"
+  className="py-16 md:py-24 bg-[#040C14]" // Dark navy background
 >
   <div className="container mx-auto px-4">
 
@@ -235,7 +242,8 @@ export default function HomePage() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: easeOut }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
         className="text-3xl md:text-4xl font-extrabold mb-4 text-white"
       >
         Our Products
@@ -244,7 +252,8 @@ export default function HomePage() {
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.8, ease: easeOut }}
+        transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
         className="text-lg text-slate-300"
       >
         Powerful solutions for modern enterprise data challenges
@@ -258,12 +267,12 @@ export default function HomePage() {
         initial={{ opacity: 0, x: -30 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: easeOut }}
-        className="bg-white/5 backdrop-blur-xl
-                   rounded-2xl p-8
-                   border border-white/10
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="bg-[#0A1622] rounded-2xl p-8
+                   border border-[#1E3A5F]
                    hover:border-indigo-400/40
-                   transition-all"
+                   hover:shadow-2xl hover:shadow-indigo-500/10
+                   transition-all duration-300"
       >
         <div className="flex flex-col h-full">
           <h3
@@ -306,17 +315,17 @@ export default function HomePage() {
         </div>
       </motion.div>
 
-      {/* Segmento Sense (Styled SAME as Pulse) */}
+      {/* Segmento Sense */}
       <motion.div
         initial={{ opacity: 0, x: 30 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: easeOut }}
-        className="bg-white/5 backdrop-blur-xl
-                   rounded-2xl p-8
-                   border border-white/10
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="bg-[#0A1622] rounded-2xl p-8
+                   border border-[#1E3A5F]
                    hover:border-indigo-400/40
-                   transition-all"
+                   hover:shadow-2xl hover:shadow-indigo-500/10
+                   transition-all duration-300"
       >
         <div className="flex flex-col h-full">
           <h3
@@ -358,7 +367,6 @@ export default function HomePage() {
           </Link>
         </div>
       </motion.div>
-
     </div>
   </div>
 </section>
@@ -427,13 +435,13 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="max-w-5xl mx-auto p-12 md:p-16 [3rem] bg-[#0f172a] border border-slate-800 shadow-2xl relative overflow-hidden"
+            className="max-w-6xl mx-auto p-12 md:p-16 [3rem] bg-[#0f172a] border border-slate-800 shadow-2xl relative overflow-hidden"
         >
             {/* Decorative glows to match branding */}
-            <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full" />
+            <div className="absolute -top-20 -left-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full" />
             <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full" />
 
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500 relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500 relative z-10">
                 Ready to Transform Your Data Security?
             </h2>
             

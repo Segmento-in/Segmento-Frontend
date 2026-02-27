@@ -7,6 +7,7 @@ import { Input } from "@/ui/input"
 import { Textarea } from "@/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card"
 import { Mail, Phone, MapPin } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({
@@ -53,9 +54,7 @@ export default function ContactPage() {
             const data = await response.json()
 
             if (response.ok) {
-                // Fire-and-forget welcome email — does not block user experience
                 triggerWelcomeEmail(formData.name, formData.email)
-
                 setSubmitted(true)
                 setFormData({
                     name: "",
@@ -82,19 +81,41 @@ export default function ContactPage() {
         }
     }
 
+    // --- STYLING CONSTANTS ---
+    const heroBg = "bg-[#0b0f3b]"; // Dark navy for hero
+    const pageBg = "bg-white"; // White for rest of page
+    
+    // Dark Card Styles
+    const cardBg = "bg-[#0A1622]"; 
+    const cardBorder = "border-[#1E3A5F]";
+    // Small card class (reduced padding/size)
+    const cardClass = `shadow-lg border ${cardBorder} ${cardBg} h-fit`;
+    
+    // Reduced Font Sizes (by 1 level)
+    const heroTitleClass = "text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight leading-tight bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-400 bg-clip-text text-transparent";
+    const heroSubtitleClass = "text-base md:text-lg text-slate-300 font-medium leading-relaxed max-w-3xl mx-auto";
+    const cardTitleClass = "text-lg font-bold text-white mb-1"; // Reduced from xl
+    const cardDescriptionClass = "text-xs text-slate-400"; // Reduced from sm
+    const labelClass = `block text-xs font-semibold text-slate-200 mb-1`; // Reduced from sm
+    
+    // Inputs inside Dark Cards (Smaller h)
+    const inputBg = "bg-[#040C14]";
+    const inputClass = `h-9 px-3 ${inputBg} border ${cardBorder} rounded-lg text-white placeholder:text-slate-600 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all text-xs`;
+    const textareaClass = `px-3 py-2 ${inputBg} border ${cardBorder} rounded-lg text-white placeholder:text-slate-600 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all text-xs`;
+
     if (submitted) {
         return (
-            <div className="py-20 min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-slate-50 to-indigo-50">
+            <div className={`py-16 min-h-[60vh] flex items-center justify-center ${pageBg}`}>
                 <div className="container mx-auto px-4">
-                    <Card className="max-w-md mx-auto text-center shadow-xl">
+                    <Card className={`${cardClass} max-w-sm mx-auto text-center p-4`}>
                         <CardHeader>
-                            <CardTitle className="text-3xl text-indigo-600">Thank you!</CardTitle>
-                            <CardDescription className="text-lg">
+                            <CardTitle className="text-xl text-cyan-400">Thank you!</CardTitle>
+                            <CardDescription className="text-xs text-slate-400">
                                 We've received your message and will get back to you within 24 hours.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Button onClick={() => setSubmitted(false)} className="w-full">
+                            <Button onClick={() => setSubmitted(false)} className="w-full h-9 text-xs bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600">
                                 Send another message
                             </Button>
                         </CardContent>
@@ -105,145 +126,162 @@ export default function ContactPage() {
     }
 
     return (
-        <div className="py-20 bg-gradient-to-br from-slate-50 to-indigo-50">
-            <div className="container mx-auto px-4">
-                {/* Hero Title */}
-                <div className="text-center mb-20 max-w-4xl mx-auto">
-                    <h1 className="font-serif text-5xl md:text-6xl font-bold mb-6 text-gray-900 drop-shadow-lg">
-                        Get in touch
-                    </h1>
-                    <p className="text-xl text-gray-600 font-medium max-w-2xl mx-auto leading-relaxed">
-                        Request a demo, start a free trial, or ask us anything. Our team is here to help.
-                    </p>
-                </div>
+        <div className={pageBg}>
+            {/* --- DARK HERO SECTION (Gradient Text) --- */}
+           {/* Hero Section */}
+<motion.section
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    className={`py-28 lg:py-38 ${heroBg} relative overflow-hidden`}
+>
+    {/* Atmospheric blur effects included inside the hero background */}
+    <div className="absolute top-0 right-0 -mt-20 -mr-18 w-90 h-90 bg-purple-600/15 blur-[120px] rounded-full" />
+    <div className="absolute bottom-0 left-0 -mb-20 -ml-18 w-72 h-70 bg-blue-600/10 blur-[100px] rounded-full" />
 
-                {/* TWO COLUMN LAYOUT: Left Contact Info | Right Contact Form */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-start">
+    {/* Increased container size using max-w-7xl or max-w-full */}
+    <div className="container mx-auto px-8 text-center max-w-8xl relative z-10">
+        <div className="container mx-auto px-8 text-center max-w-9xl relative z-10"></div>
+        <h1 className={heroTitleClass}>
+            Get in touch
+        </h1>
+        <p className={heroSubtitleClass}>
+            Request a demo, start a free trial, or ask us anything. Our team is here to help.
+        </p>
+    </div>
+</motion.section>
 
-                    {/* LEFT: Contact Information Cards */}
-                    <div>
-                        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white h-fit">
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-3 text-2xl font-bold text-gray-900 mb-2">
-                                    <Mail className="w-10 h-10 text-indigo-600" />
-                                    Contact Information
-                                </CardTitle>
-                                <CardDescription className="text-lg text-gray-600">
-                                    Reach out to us directly through any channel
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="pt-4 space-y-4">
-                                {contactDetails.map((detail, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-start gap-4 p-6 rounded-2xl bg-gradient-to-r from-indigo-50 to-blue-50 hover:bg-indigo-100 cursor-pointer transition-all duration-300 border hover:border-indigo-200 hover:shadow-md hover:-translate-y-1 group"
-                                        onClick={() => handleContactClick(detail.href)}
-                                    >
-                                        <div className="p-3 bg-indigo-100 rounded-xl flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                                            <detail.icon className="w-6 h-6 text-indigo-600" />
+            {/* --- WHITE CONTENT SECTION --- */}
+            <div className={`py-16 ${pageBg}`}>
+                <div className="container mx-auto px-4">
+                    {/* TWO COLUMN LAYOUT */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-start">
+
+                        {/* LEFT: Contact Information Cards (Small) */}
+                        <div>
+                            <Card className={`${cardClass} p-4`}>
+                                <CardHeader className="p-2 pb-4">
+                                    <CardTitle className={`flex items-center gap-2 ${cardTitleClass}`}>
+                                        <Mail className="w-5 h-5 text-cyan-400" />
+                                        Contact Information
+                                    </CardTitle>
+                                    <CardDescription className={cardDescriptionClass}>
+                                        Reach out directly
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="p-2 space-y-3">
+                                    {contactDetails.map((detail, index) => (
+                                        <div
+                                            key={index}
+                                            className={`flex items-start gap-3 p-4 rounded-xl ${inputBg} hover:bg-slate-900 cursor-pointer transition-all duration-300 border ${cardBorder} hover:border-cyan-500 group`}
+                                            onClick={() => handleContactClick(detail.href)}
+                                        >
+                                            <div className="p-2 bg-indigo-950 rounded-lg flex-shrink-0 mt-0.5">
+                                                <detail.icon className="w-4 h-4 text-cyan-400" />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-[10px] font-semibold uppercase tracking-wide text-cyan-300 mb-0.5">
+                                                    {detail.label}
+                                                </p>
+                                                <p className="text-xs font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-1">
+                                                    {detail.value}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-semibold uppercase tracking-wide text-indigo-700 mb-2">
-                                                {detail.label}
-                                            </p>
-                                            <p className="text-lg font-semibold text-gray-900 hover:text-indigo-600 transition-colors line-clamp-2">
-                                                {detail.value}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </CardContent>
-                        </Card>
-                    </div>
+                                    ))}
+                                </CardContent>
+                            </Card>
+                        </div>
 
-                    {/* RIGHT: Contact Form */}
-                    <div>
-                        <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-white h-fit">
-                            <CardHeader>
-                                <CardTitle className="text-2xl font-bold text-gray-900">
-                                    Contact Sales
-                                </CardTitle>
-                                <CardDescription className="text-lg text-gray-600">
-                                    Fill out the form below and our team will reach out to you shortly.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="pt-6">
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    {/* Name and Email Row */}
-                                    <div className="grid md:grid-cols-2 gap-4">
+                        {/* RIGHT: Contact Form (Small) */}
+                        <div>
+                            <Card className={`${cardClass} p-4`}>
+                                <CardHeader className="p-2 pb-4">
+                                    <CardTitle className={cardTitleClass}>
+                                        Contact 
+                                    </CardTitle>
+                                    <CardDescription className={cardDescriptionClass}>
+                                        Fill out the form below.
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="p-2">
+                                    <form onSubmit={handleSubmit} className="space-y-4">
+                                        {/* Name and Email Row */}
+                                        <div className="grid md:grid-cols-2 gap-3">
+                                            <div>
+                                                <label htmlFor="name" className={labelClass}>
+                                                    Name *
+                                                </label>
+                                                <Input
+                                                    id="name"
+                                                    name="name"
+                                                    required
+                                                    value={formData.name}
+                                                    onChange={handleChange}
+                                                    placeholder="John Doe"
+                                                    className={inputClass}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="email" className={labelClass}>
+                                                    Email *
+                                                </label>
+                                                <Input
+                                                    id="email"
+                                                    name="email"
+                                                    type="email"
+                                                    required
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    placeholder="john@company.com"
+                                                    className={inputClass}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Company */}
                                         <div>
-                                            <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                                                Name *
+                                            <label htmlFor="company" className={labelClass}>
+                                                Company
                                             </label>
                                             <Input
-                                                id="name"
-                                                name="name"
-                                                required
-                                                value={formData.name}
+                                                id="company"
+                                                name="company"
+                                                value={formData.company}
                                                 onChange={handleChange}
-                                                placeholder="John Doe"
-                                                className="h-12 px-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 hover:border-indigo-300 transition-all"
+                                                placeholder="Acme Inc."
+                                                className={inputClass}
                                             />
                                         </div>
+
+                                        {/* Message */}
                                         <div>
-                                            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                                                Email *
+                                            <label htmlFor="message" className={labelClass}>
+                                                Message *
                                             </label>
-                                            <Input
-                                                id="email"
-                                                name="email"
-                                                type="email"
+                                            <Textarea
+                                                id="message"
+                                                name="message"
                                                 required
-                                                value={formData.email}
+                                                value={formData.message}
                                                 onChange={handleChange}
-                                                placeholder="john@company.com"
-                                                className="h-12 px-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-100 hover:border-purple-300 transition-all"
+                                                placeholder="Tell us about your needs..."
+                                                rows={3}
+                                                className={textareaClass}
                                             />
                                         </div>
-                                    </div>
 
-                                    {/* Company */}
-                                    <div>
-                                        <label htmlFor="company" className="block text-sm font-semibold text-gray-700 mb-2">
-                                            Company
-                                        </label>
-                                        <Input
-                                            id="company"
-                                            name="company"
-                                            value={formData.company}
-                                            onChange={handleChange}
-                                            placeholder="Acme Inc."
-                                            className="h-12 px-4 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 hover:border-indigo-300 transition-all"
-                                        />
-                                    </div>
-
-                                    {/* Message */}
-                                    <div>
-                                        <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-                                            Message *
-                                        </label>
-                                        <Textarea
-                                            id="message"
-                                            name="message"
-                                            required
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            placeholder="Tell us about your needs..."
-                                            rows={5}
-                                            className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-100 hover:border-purple-300 transition-all min-h-[140px]"
-                                        />
-                                    </div>
-
-                                    {/* Submit Button */}
-                                    <Button
-                                        type="submit"
-                                        className="w-full h-14 text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                                    >
-                                        Send message →
-                                    </Button>
-                                </form>
-                            </CardContent>
-                        </Card>
+                                        {/* Submit Button */}
+                                        <Button
+                                            type="submit"
+                                            className="w-full h-10 text-sm font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 text-white rounded-lg shadow-md transition-all duration-300"
+                                        >
+                                            Send message →
+                                        </Button>
+                                    </form>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </div>

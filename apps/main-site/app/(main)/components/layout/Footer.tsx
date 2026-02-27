@@ -25,6 +25,9 @@ export function Footer() {
     product: [
       { label: "Segmento Pulse", href: "/pulse" },
       { label: "Segmento Sense", href: "/products/data-classification" },
+      { label: "Segmento Resolve(upcoming)", href: "" },
+      { label: "Segmento Collect(upcoming) ", href: "" },
+      { label: "Segmento Enrich(upcoming)", href: "" },
     ],
     company: [
       { label: "About", href: "/about" },
@@ -53,16 +56,16 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-white border-t border-[#0B1C2D]/15 text-[#0B1C2D]">
+    <footer className="bg-[#020617] border-t border-slate-800 text-white">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
 
           {/* Brand */}
           <div className="lg:col-span-2">
-            <h3 className="text-lg font-bold mb-4 text-[#0B1C2D]">
+            <h3 className="text-lg font-bold mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
               Segmento
             </h3>
-            <p className="text-sm text-[#0B1C2D]/70 leading-relaxed mb-6 max-w-md">
+            <p className="text-sm text-slate-400 leading-relaxed mb-6 max-w-md">
               Privacy-first, AI-driven data products that solve real enterprise challenges.
               Transform how you protect and analyze sensitive information.
             </p>
@@ -70,7 +73,7 @@ export function Footer() {
 
           {/* Products */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+            <h4 className="text-sm font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
               Products
             </h4>
             <ul className="space-y-3">
@@ -78,7 +81,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -89,7 +92,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+            <h4 className="text-sm font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
               Company
             </h4>
             <ul className="space-y-3">
@@ -97,7 +100,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -108,7 +111,7 @@ export function Footer() {
 
           {/* Social + Legal */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+            <h4 className="text-sm font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
               Social
             </h4>
 
@@ -122,21 +125,21 @@ export function Footer() {
                   className="
                     group inline-flex items-center justify-center
                     w-10 h-10 rounded-full
-                    bg-[#0B1C2D]/5
-                    hover:bg-[#0B1C2D]/10
+                    bg-slate-900 border border-slate-700
+                    hover:bg-slate-800
                     transition-all duration-300 ease-out
                     hover:-translate-y-1 hover:scale-110
                     hover:shadow-md
                   "
                 >
                   {link.icon && (
-                    <link.icon className="h-5 w-5 text-[#0B1C2D] transition-transform duration-300 group-hover:rotate-6" />
+                    <link.icon className="h-5 w-5 text-slate-400 group-hover:text-cyan-400 transition-colors duration-300" />
                   )}
                 </Link>
               ))}
             </div>
 
-            <h4 className="text-sm font-semibold mb-4 text-[#0B1C2D]">
+            <h4 className="text-sm font-semibold mb-4 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
               Legal
             </h4>
             <ul className="space-y-3">
@@ -144,7 +147,7 @@ export function Footer() {
                 <li key={`${link.label}-${link.href}`}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[#0B1C2D]/70 hover:text-[#0B1C2D] transition-colors"
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -155,9 +158,9 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-[#0B1C2D]/15 pt-8">
-          <div className="text-center text-sm text-[#0B1C2D]/60">
-            Segmento © 2025. All rights reserved.
+        <div className="border-t border-slate-800 pt-8">
+          <div className="text-center text-sm text-slate-500">
+            Segmento © {new Date().getFullYear()}. All rights reserved.
           </div>
         </div>
       </div>
