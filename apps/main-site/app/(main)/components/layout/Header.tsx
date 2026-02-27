@@ -142,6 +142,61 @@ export function Header() {
         <div className="md:hidden bg-[#1B2B6F] text-white px-6 py-6 space-y-4">
           <Link href="/" onClick={() => setMobileOpen(false)} className="block">Home</Link>
           <Link href="/about" onClick={() => setMobileOpen(false)} className="block">About</Link>
+          {/* PRODUCTS */}
+          <button
+            onClick={() =>
+              setMobileDropdown(mobileDropdown === "products" ? null : "products")
+            }
+            className="flex justify-between w-full font-medium"
+          >
+            Products <ChevronDown size={16} />
+          </button>
+
+          {mobileDropdown === "products" && (
+            <div className="ml-4 space-y-2 text-sm text-white/90">
+              <Link href="/pulse" onClick={() => setMobileOpen(false)}>Segmento Pulse</Link>
+              <Link href="/products/data-classification" onClick={() => setMobileOpen(false)}>Segmento Sense</Link>
+              <span className="block opacity-70">Segmento Resolve (Upcoming)</span>
+              <span className="block opacity-70">Segmento Collect (Upcoming)</span>
+              <span className="block opacity-70">Segmento Enrich (Upcoming)</span>
+            </div>
+          )}
+
+          {/* SOLUTIONS */}
+          <button
+            onClick={() =>
+              setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")
+            }
+            className="flex justify-between w-full font-medium"
+          >
+            Solutions <ChevronDown size={16} />
+          </button>
+
+          {mobileDropdown === "solutions" && (
+            <div className="ml-4 space-y-2 text-sm text-white/90">
+              <Link href="/solutions#ecommerce" onClick={() => setMobileOpen(false)}>eCommerce</Link>
+              <Link href="/solutions#finance" onClick={() => setMobileOpen(false)}>Finance</Link>
+              <Link href="/solutions#healthcare" onClick={() => setMobileOpen(false)}>Healthcare</Link>
+              <Link href="/solutions#banking" onClick={() => setMobileOpen(false)}>Banking</Link>
+            </div>
+          )}
+
+          {/* RESOURCES */}
+          <button
+            onClick={() =>
+              setMobileDropdown(mobileDropdown === "resources" ? null : "resources")
+            }
+            className="flex justify-between w-full font-medium"
+          >
+            Resources <ChevronDown size={16} />
+          </button>
+
+          {mobileDropdown === "resources" && (
+            <div className="ml-4 space-y-2 text-sm text-white/90">
+              <Link href="/blog" onClick={() => setMobileOpen(false)}>Blog</Link>
+            </div>
+          )}
+
           <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block">Pricing</Link>
           <Link href="/careers" onClick={() => setMobileOpen(false)} className="block">Careers</Link>
           <Link href="/contact" onClick={() => setMobileOpen(false)} className="block">Contact</Link>

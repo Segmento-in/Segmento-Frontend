@@ -30,114 +30,111 @@ export default function HomePage() {
   }
 
   return (
-  <div className="flex flex-col bg-[#0B0F1A]">
-    {/* Hero Section */}
-    <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('/image/hero-bg.png')" }}
-    >
-      {/* Dark Premium Overlay */}
-      <div className="absolute inset-0 bg-linear-to-br from-[#0B0F1A]/90 via-[#0E1330]/85 to-[#0A1A3F]/90 backdrop-blur-sm" />
+  <div className="flex flex-col bg-[#020617] selection:bg-cyan-500/30">
+  {/* Hero Section */}
+  <section
+    className="relative min-h-[90vh] flex items-center overflow-hidden bg-cover bg-center"
+    style={{ backgroundImage: "url('/image/hero-bg.png')" }}
+  >
+    {/* Deep Premium Overlay - Swapped to Slate-950 and Indigo-950 for true dark feel */}
+    <div className="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#020617]/95 to-[#0f172a]/90 backdrop-blur-[2px]" />
 
-      <div className="relative container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    {/* Subtle Radial Glow to add depth behind text */}
+    <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-          {/* LEFT SECTION */}
+    <div className="relative container mx-auto px-6 z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+        {/* LEFT SECTION */}
+        <motion.div
+          initial={{ opacity: 0, x: -80 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="lg:pl-12 xl:pl-20"
+        >
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-[1.1] tracking-tight">
+            <span className="block text-white mb-2">
+              AI-Driven
+            </span>
+            <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+              Data Solutions for Modern Enterprises
+            </span>
+          </h1>
+        </motion.div>
+
+        {/* RIGHT SECTION */}
+        <motion.div
+          initial={{ opacity: 0, x: 80 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+          className="max-w-xl lg:pr-12 xl:pr-20"
+        >
+          {/* Platform Badge */}
           <motion.div
-            initial={{ opacity: 0, x: -120 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            className="lg:pl-20 xl:pl-28"
+            initial={{ y: 0 }}
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-block mb-6 px-4 py-1.5 bg-cyan-500/10 backdrop-blur-md rounded-full border border-cyan-500/20"
           >
-            <h1 className="text-4xl md:text-5xl xl:text-6xl font-extrabold leading-snug tracking-tight">
-              <span className="block text-white">
-                AI-Driven
-              </span>
-              <span className="block bg-linear-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-                Solutions for Modern Enterprises
-              </span>
-            </h1>
+            <p className="text-xs md:text-sm font-bold text-cyan-400 uppercase tracking-widest">
+              Data intelligence Platform
+            </p>
           </motion.div>
 
-          {/* RIGHT SECTION */}
-          <motion.div
-            initial={{ opacity: 0, x: 120 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: "easeOut", delay: 0.1 }}
-            className="max-w-xl lg:pr-20 xl:pr-28"
-          >
-            {/* Platform Badge */}
-            <motion.div
-              initial={{ y: 0 }}
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 1.2, repeat: Infinity }}
-              className="inline-block mb-6 px-4 py-2 bg-white/10 backdrop-blur rounded-full border border-cyan-400/30"
-            >
-              <p className="text-sm font-semibold text-cyan-400 tracking-wide">
-                Data intelligence Platform
+          {/* Description */}
+          <p className="text-lg text-slate-400 mb-6 leading-relaxed">
+            Segmento is a robust platform delivering cutting-edge AI products that
+            solve real enterprise challenges. From real-time data intelligence to
+            advanced security solutions.
+          </p>
+
+          <div className="space-y-4 mb-10">
+            <div className="flex gap-3 items-start">
+              <div className="mt-1.5 h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+              <p className="text-slate-300">
+                <strong className="text-white">1. Segmento Pulse</strong> – Intelligent trends & AI-powered insights.
               </p>
-            </motion.div>
+            </div>
+            <div className="flex gap-3 items-start">
+              <div className="mt-1.5 h-2 w-2 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+              <p className="text-slate-300">
+                <strong className="text-white">2. Segmento Sense</strong> – Enterprise-grade data security & protection.
+              </p>
+            </div>
+          </div>
 
-            
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              size="lg"
+              className="text-lg px-8 py-6 flex items-center gap-2
+                bg-gradient-to-r from-cyan-600 to-blue-600
+                hover:from-cyan-500 hover:to-blue-500
+                text-white shadow-[0_10px_20px_-10px_rgba(6,182,212,0.5)] transition-all duration-300"
+              onClick={scrollToProducts}
+            >
+              Explore Our Products
+              <ArrowRight className="h-5 w-5" />
+            </Button>
 
-            {/* Description */}
-            <p className="text-lg text-slate-300 mb-4 leading-relaxed">
-              Segmento is a robust platform delivering cutting-edge AI products that
-              solve real enterprise challenges. From real-time data intelligence to
-              advanced security solutions.
-            </p>
-
-            <p className="text-base text-slate-400 mb-8 font-medium leading-relaxed">
-  Explore our suite of products:
-  <br />
-
-  <span className="block">
-    <span className="text-cyan-400 font-bold">
-      1. Segmento Pulse
-    </span>{" "}
-    – Intelligent news, trends, and AI-powered insights tailored for modern professionals.
-  </span>
-
-
-  <span className="block">
-    <span className="text-indigo-400 font-bold">
-      2. Segmento Sense
-    </span>{" "}
-    – Enterprise-grade data security and protection built for scalable and secure systems.
-  </span>
-</p>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <Link href="/contact" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="text-lg px-8 flex items-center gap-2
-                  bg-linear-to-r from-cyan-500 via-blue-500 to-indigo-500
-                  hover:from-cyan-400 hover:via-blue-400 hover:to-indigo-400
-                  text-white shadow-lg shadow-blue-500/30"
-                onClick={scrollToProducts}
+                variant="outline"
+                className="w-full text-lg px-8 py-6 border-slate-700 text-slate-300 hover:bg-white/5 hover:text-white transition-all"
               >
-                Explore Our Products
-                <ArrowRight className="h-5 w-5" />
+                Contact Sales
               </Button>
+            </Link>
+          </div>
+        </motion.div>
 
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8 border-cyan-400/40 text-cyan-300 hover:bg-cyan-400/10"
-                >
-                  Contact Sales
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-
-        </div>
       </div>
-    </section>
+    </div>
+  </section>
+
   {/* Value Proposition */}
 <section className="py-20 md:py-28 bg-gradient-to-b from-[#F8FAFC] to-white">
   <div className="container mx-auto px-6">
@@ -422,76 +419,44 @@ export default function HomePage() {
   </div>
 </section>
 
-      {/* CTA Section */}
-<section className="relative py-20 md:py-32 overflow-hidden
-                    bg-gradient-to-br from-[#050B2C] via-[#0B1C4D] to-[#020617]">
-  
-  {/* Soft Glow Background */}
-  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.15),_transparent_60%)]" />
+ {/* CTA Section - Dark Aesthetic Card UI */}
+<section className="bg-white py-24">
+    <div className="container mx-auto px-4 text-center">
+        <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-5xl mx-auto p-12 md:p-16 [3rem] bg-[#0f172a] border border-slate-800 shadow-2xl relative overflow-hidden"
+        >
+            {/* Decorative glows to match branding */}
+            <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full" />
+            <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full" />
 
-  <div className="relative container mx-auto px-4">
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: easeOut }}
-      className="max-w-4xl mx-auto text-center"
-    >
-      {/* Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: easeOut }}
-        className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-5
-                   bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500
-                   bg-clip-text text-transparent"
-      >
-        Ready to Transform Your Data Security?
-      </motion.h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500 relative z-10">
+                Ready to Transform Your Data Security?
+            </h2>
+            
+            <p className="text-slate-400 mb-10 font-medium text-lg max-w-2xl mx-auto relative z-10 leading-relaxed">
+                Join enterprises worldwide who trust Segmento to protect their most sensitive data.
+            </p>
 
-      {/* Description */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8, ease: easeOut }}
-        className="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto"
-      >
-        Join enterprises worldwide who trust Segmento to protect their most sensitive data
-      </motion.p>
-
-      {/* CTA Buttons */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8, ease: easeOut }}
-        className="flex flex-col sm:flex-row gap-4 justify-center"
-      >
-        <Link href="/contact">
-          <Button
-            size="lg"
-            className="text-lg px-8
-                       bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500
-                       hover:from-cyan-400 hover:via-blue-400 hover:to-indigo-400
-                       text-white shadow-lg shadow-blue-500/30"
-          >
-            Get Started Today
-          </Button>
-        </Link>
-
-        <Link href="/products/data-classification">
-          <Button
-            size="lg"
-            variant="outline"
-            className="text-lg px-8
-                       border-cyan-400/40 text-cyan-300
-                       hover:bg-cyan-400/10 hover:text-cyan-200"
-          >
-            View Demo
-          </Button>
-        </Link>
-      </motion.div>
-    </motion.div>
-  </div>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10">
+                <Link 
+                    href="/contact" 
+                    className="px-10 py-4 bg-linear-to-r from-cyan-500 via-blue-500 to-indigo-500 text-white rounded-xl font-bold shadow-xl shadow-blue-900/20 transition-transform hover:scale-105 active:scale-95 text-center flex items-center justify-center"
+                >
+                    Get Started Today
+                </Link>
+                <Link 
+                    href="/products/data-classification" 
+                    className="px-10 py-4 border-2 border-cyan-400/50 text-cyan-400 rounded-xl font-bold hover:bg-cyan-400/10 transition-all shadow-lg hover:border-cyan-400 text-center flex items-center justify-center"
+                >
+                    View Demo
+                </Link>
+            </div>
+        </motion.div>
+    </div>
 </section>
 
       <Chatbot />

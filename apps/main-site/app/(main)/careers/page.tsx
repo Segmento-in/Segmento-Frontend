@@ -1,11 +1,9 @@
-'use client'; // Added for animations
+'use client';
 
 import Link from "next/link"
-import { Rocket, Brain, Users, Heart } from "lucide-react"
-import { Button } from "@/ui/button"
-import { motion } from "framer-motion" // Import Framer Motion
+import { Rocket, Brain, Users, Heart, MapPin, Clock, Briefcase, ArrowRight } from "lucide-react"
+import { motion } from "framer-motion"
 
-// Animation variants for staggered lists
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -22,36 +20,44 @@ const containerVariants = {
 
 export default function CareersPage() {
     return (
-        <div className="min-h-screen py-20">
-            {/* Hero */}
-            <section className="mb-16">
-                <div className="container mx-auto px-4">
+        <div className="min-h-screen bg-white selection:bg-purple-500/30">
+            {/* Hero Section */}
+            <section className="relative bg-[#020617] py-24 lg:py-32 overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-purple-600/15 blur-[120px] rounded-full" />
+                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-blue-600/10 blur-[100px] rounded-full" />
+                
+                <div className="container mx-auto px-4 relative z-10 text-center">
                     <motion.div 
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="max-w-3xl mx-auto text-center"
+                        className="max-w-4xl mx-auto"
                     >
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-transparent bg-clip-text bg-linear-to-r from-[#a855f7] to-[#7c3aed]">
                             Join Our Mission
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground">
-                            Build the future of data privacy and intelligence with Segmento
+                        <p className="text-xl text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium opacity-90">
+                            Build the future of data privacy and intelligence with Segmento. 
+                            We're looking for passionate minds to redefine how the world handles data.
                         </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Why Join */}
-            <section className="py-16 bg-gradient-to-br from-primary/5 to-purple-50">
+            {/* Why Join - Dark Cards */}
+            <section className="py-24 bg-white relative z-20">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Why Segmento?</h2>
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">Why Segmento?</h2>
+                        <div className="h-1.5 w-20 bg-purple-600 mx-auto rounded-full" />
+                    </div>
+
                     <motion.div 
                         variants={containerVariants}
                         initial="initial"
                         whileInView="animate"
                         viewport={{ once: true }}
-                        className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+                        className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
                     >
                         {values.map((value) => {
                             const Icon = value.icon
@@ -59,13 +65,14 @@ export default function CareersPage() {
                                 <motion.div 
                                     variants={fadeInUp}
                                     key={value.title} 
-                                    className="text-center group"
+                                    whileHover={{ y: -10 }}
+                                    className="p-8 rounded-[2.5rem] bg-[#0f172a] border border-slate-800 shadow-xl group transition-all duration-300"
                                 >
-                                    <div className="inline-flex p-4 rounded-xl bg-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110">
-                                        <Icon className="w-8 h-8 text-primary" />
+                                    <div className="inline-flex p-4 rounded-2xl bg-slate-800 mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:bg-purple-600/20">
+                                        <Icon className="w-8 h-8 text-purple-400 group-hover:text-purple-300" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                                    <p className="text-muted-foreground text-sm">{value.description}</p>
+                                    <h3 className="text-xl font-bold mb-3 text-white">{value.title}</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed font-medium">{value.description}</p>
                                 </motion.div>
                             )
                         })}
@@ -73,66 +80,108 @@ export default function CareersPage() {
                 </div>
             </section>
 
-            {/* Open Positions */}
-            <section className="py-16">
+            {/* Open Positions - Dark Theme Cards */}
+            <section className="py-24 bg-slate-50">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Open Positions</h2>
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">Open Positions</h2>
+                        <p className="text-slate-500 font-medium italic">Find your next challenge in our dark-themed roles</p>
+                    </div>
+
                     <motion.div 
                         variants={containerVariants}
                         initial="initial"
                         whileInView="animate"
                         viewport={{ once: true }}
-                        className="space-y-6 max-w-4xl mx-auto"
+                        className="space-y-8 max-w-5xl mx-auto"
                     >
                         {jobs.map((job) => (
                             <motion.div 
                                 variants={fadeInUp}
-                                whileHover={{ y: -4 }}
                                 key={job.title} 
-                                className="bg-white rounded-xl border border-border/50 p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+                                whileHover={{ scale: 1.01 }}
+                                className="group bg-[#0f172a] rounded-[2.5rem] border border-slate-800 p-8 md:p-10 shadow-2xl transition-all duration-300 relative overflow-hidden"
                             >
-                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                                    <div>
-                                        <h3 className="text-xl font-bold mb-2">{job.title}</h3>
-                                        <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-                                            <span>📍 {job.location}</span>
-                                            <span>🕒 {job.type}</span>
-                                            <span>💼 {job.department}</span>
+                                {/* Subtle internal glow for card */}
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/5 blur-3xl rounded-full" />
+
+                                <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 relative z-10">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="h-2 w-2 rounded-full bg-purple-500 animate-pulse" />
+                                            <h3 className="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                                                {job.title}
+                                            </h3>
                                         </div>
+                                        
+                                        <div className="flex flex-wrap gap-3 mb-6">
+                                            <span className="flex items-center gap-1.5 text-slate-300 bg-slate-800/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-slate-700">
+                                                <MapPin className="w-3.5 h-3.5 text-purple-400" /> {job.location}
+                                            </span>
+                                            <span className="flex items-center gap-1.5 text-slate-300 bg-slate-800/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-slate-700">
+                                                <Clock className="w-3.5 h-3.5 text-purple-400" /> {job.type}
+                                            </span>
+                                            <span className="flex items-center gap-1.5 text-slate-300 bg-slate-800/50 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-slate-700">
+                                                <Briefcase className="w-3.5 h-3.5 text-purple-400" /> {job.department}
+                                            </span>
+                                        </div>
+                                        
+                                        <p className="text-slate-400 leading-relaxed font-medium text-sm md:text-base max-w-2xl">
+                                            {job.description}
+                                        </p>
                                     </div>
-                                    <Link href="/contact">
-                                        <Button className="hover:scale-105 transition-transform">Apply Now</Button>
-                                    </Link>
+
+                                    <div className="shrink-0 pt-2">
+                                        <Link 
+                                            href="/contact"
+                                            className="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-purple-600 to-indigo-600 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300 group/btn"
+                                        >
+                                            Apply Now
+                                            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                                        </Link>
+                                    </div>
                                 </div>
-                                <p className="text-muted-foreground">{job.description}</p>
                             </motion.div>
                         ))}
                     </motion.div>
+                </div>
+            </section>
 
+            {/* Resume Drop Section */}
+            <section className="bg-white py-24">
+                <div className="container mx-auto px-4 text-center">
                     <motion.div 
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="text-center mt-12"
+                        className="max-w-6xl mx-auto p-12 md:p-16 -[3rem] bg-[#0f172a] border border-slate-800 shadow-2xl relative overflow-hidden"
                     >
-                        <p className="text-muted-foreground mb-4">
-                            Don't see a perfect fit? We're always looking for talented people.
+                        <div className="absolute -top-24 -left-24 w-64 h-64 bg-purple-600/10 blur-[100px] rounded-full" />
+                        
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10">
+                            Don't see a perfect fit?
+                        </h2>
+                        <p className="text-slate-400 mb-8 font-medium text-lg relative z-10 leading-relaxed">
+                            We're always looking for talented people. Send your resume to us directly and we'll keep you in mind for future roles.
                         </p>
-                        <p className="text-lg font-semibold mb-4">
-                            Send your resume to{" "}
+                        
+                        <div className="relative z-10 space-y-8">
                             <a
                                 href="mailto:hr@segmento.in"
-                                className="text-primary hover:underline"
+                                className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-blue-400 hover:to-purple-300 transition-all"
                             >
                                 hr@segmento.in
                             </a>
-                        </p>
-                        <Link href="/contact">
-                            <Button size="lg" variant="outline" className="hover:bg-primary hover:text-white transition-colors">
-                                Contact Us
-                            </Button>
-                        </Link>
+                            
+                            <div className="pt-4">
+                                <Link 
+                                    href="/contact"
+                                    className="px-12 py-5 border-2 border-purple-500/50 text-purple-400 rounded-full font-bold hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all shadow-lg text-lg inline-block"
+                                >
+                                    Contact Us
+                                </Link>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -144,22 +193,22 @@ const values = [
     {
         icon: Rocket,
         title: "Early-Stage Impact",
-        description: "Join a fast-growing startup where your work directly shapes our products and company culture",
+        description: "Join a fast-growing startup where your work directly shapes our products and company culture.",
     },
     {
         icon: Brain,
         title: "Cutting-Edge Tech",
-        description: "Work with AI, machine learning, and modern data architectures solving real enterprise challenges",
+        description: "Work with AI, machine learning, and modern data architectures solving real enterprise challenges.",
     },
     {
         icon: Users,
         title: "Amazing Team",
-        description: "Collaborate with talented engineers, designers, and data scientists who are passionate about privacy",
+        description: "Collaborate with talented engineers, designers, and data scientists who are passionate about privacy.",
     },
     {
         icon: Heart,
         title: "Work-Life Balance",
-        description: "Flexible remote work, generous PTO, and a culture that values your well-being",
+        description: "Flexible remote work, generous PTO, and a culture that values your well-being.",
     },
 ]
 
