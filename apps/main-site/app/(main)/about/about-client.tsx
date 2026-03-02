@@ -134,7 +134,7 @@ export default function AboutClient() {
       variants={fadeInUp}
       className="mb-20 py-28"
     >
-      <div className="container mx-auto px-4 text-center">
+      <div className="container mx-auto px- text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 tracking-tight leading-tight bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-400 bg-clip-text text-transparent">
             Who Are We
           </h1>
@@ -222,28 +222,28 @@ export default function AboutClient() {
     </section>
 
     {/* Mission & Vision Section */}
-    <section className="py-16 bg-gradient-to-br from-purple-50 to-indigo-50">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {missions.map((mission) => (
-            <div key={mission.title} className="bg-white rounded-2xl border-2 border-purple-400 shadow-lg p-8">
-              <div className="text-5xl mb-4">{mission.icon}</div>
-              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                {mission.title}
-              </h3>
-              <ul className="space-y-3">
-                {mission.points.map((point, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="text-purple-600 mt-1 font-bold">−</span>
-                    <span className="text-muted-foreground">{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+<section className="py-16 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+      {missions.map((mission) => (
+        <div key={mission.title} className="bg-slate-900 rounded-2xl border border-slate-700 shadow-lg p-8 hover:border-indigo-500 transition-colors duration-300">
+          <div className="text-5xl mb-4">{mission.icon}</div>
+          <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-indigo-500 bg-clip-text text-transparent">
+            {mission.title}
+          </h3>
+          <ul className="space-y-3">
+            {mission.points.map((point, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span className="text-cyan-400 mt-1 font-bold">−</span>
+                <span className="text-slate-300">{point}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-    </section>
+      ))}
+    </div>
+  </div>
+</section>
 
     {/* CTA Section */}
    

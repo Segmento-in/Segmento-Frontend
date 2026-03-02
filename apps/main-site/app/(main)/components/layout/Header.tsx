@@ -19,11 +19,11 @@ export function Header() {
 
   // ✅ EXACT COLOR MATCH (NOT TOO DARK)
   const hoverEffect =
-    "hover:text-white hover:bg-gradient-to-r hover:from-[#1B2B6F] hover:via-[#1F3A8A] hover:to-[#2745B5] hover:shadow-md"
+    "hover:text-white hover:bg-gradient-to-r hover:from-[#1B2B6F] hover:via-[#1F3A8A] hover:to-[#020617] hover:shadow-md"
 
   const dropdownWrapper = "absolute left-1/2 -translate-x-1/2 pt-4"
   const dropdownBox =
-    "w-64 rounded-xl bg-gradient-to-br from-[#1B2B6F] via-[#1F3A8A] to-[#2745B5] shadow-xl border border-white/20 overflow-hidden"
+    "w-64 rounded-xl bg-gradient-to-br from-[#1B2B6F] via-[#1F3A8A] to-[#020617] shadow-xl border border-white/20 overflow-hidden"
   const dropdownItem =
     "block px-5 py-3 text-sm text-white/90 hover:bg-white/10 transition-all"
 
@@ -138,70 +138,76 @@ export function Header() {
       </div>
 
       {/* ================= MOBILE MENU ================= */}
-      {mobileOpen && (
-        <div className="md:hidden bg-[#1B2B6F] text-white px-6 py-6 space-y-4">
-          <Link href="/" onClick={() => setMobileOpen(false)} className="block">Home</Link>
-          <Link href="/about" onClick={() => setMobileOpen(false)} className="block">About</Link>
-          {/* PRODUCTS */}
-          <button
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "products" ? null : "products")
-            }
-            className="flex justify-between w-full font-medium"
-          >
-            Products <ChevronDown size={16} />
-          </button>
+     {mobileOpen && (
+  <div className="md:hidden bg-[#020617] text-white px-6 py-6 space-y-4 border-t border-slate-800">
+    {/* Added py-2 for vertical spacing on links */}
+    <Link href="/" onClick={() => setMobileOpen(false)} className="block py-2">Home</Link>
+    <Link href="/about" onClick={() => setMobileOpen(false)} className="block py-2">About</Link>
+    
+    {/* PRODUCTS */}
+    <button
+      onClick={() =>
+        setMobileDropdown(mobileDropdown === "products" ? null : "products")
+      }
+      className="flex justify-between items-center w-full font-medium py-2"
+    >
+      Products <ChevronDown size={16} className={`transition-transform ${mobileDropdown === "products" ? "rotate-180" : ""}`} />
+    </button>
 
-          {mobileDropdown === "products" && (
-            <div className="ml-4 space-y-2 text-sm text-white/90">
-              <Link href="/pulse" onClick={() => setMobileOpen(false)}>Segmento Pulse</Link>
-              <Link href="/products/data-classification" onClick={() => setMobileOpen(false)}>Segmento Sense</Link>
-              <span className="block opacity-70">Segmento Resolve (Upcoming)</span>
-              <span className="block opacity-70">Segmento Collect (Upcoming)</span>
-              <span className="block opacity-70">Segmento Enrich (Upcoming)</span>
-            </div>
-          )}
+    {mobileDropdown === "products" && (
+      <div className="ml-4 space-y-2 text-sm text-slate-300 pb-2">
+        <Link href="/pulse" onClick={() => setMobileOpen(false)} className="block py-1">Segmento Pulse</Link>
+        <Link href="/products/data-classification" onClick={() => setMobileOpen(false)} className="block py-1">Segmento Sense</Link>
+        <span className="block opacity-50 py-1">Segmento Resolve (Upcoming)</span>
+        <span className="block opacity-50 py-1">Segmento Collect (Upcoming)</span>
+        <span className="block opacity-50 py-1">Segmento Enrich (Upcoming)</span>
+      </div>
+    )}
 
-          {/* SOLUTIONS */}
-          <button
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")
-            }
-            className="flex justify-between w-full font-medium"
-          >
-            Solutions <ChevronDown size={16} />
-          </button>
+    {/* SOLUTIONS */}
+    <button
+      onClick={() =>
+        setMobileDropdown(mobileDropdown === "solutions" ? null : "solutions")
+      }
+      className="flex justify-between items-center w-full font-medium py-2"
+    >
+      Solutions <ChevronDown size={16} className={`transition-transform ${mobileDropdown === "solutions" ? "rotate-180" : ""}`} />
+    </button>
 
-          {mobileDropdown === "solutions" && (
-            <div className="ml-4 space-y-2 text-sm text-white/90">
-              <Link href="/solutions#ecommerce" onClick={() => setMobileOpen(false)}>eCommerce</Link>
-              <Link href="/solutions#finance" onClick={() => setMobileOpen(false)}>Finance</Link>
-              <Link href="/solutions#healthcare" onClick={() => setMobileOpen(false)}>Healthcare</Link>
-              <Link href="/solutions#banking" onClick={() => setMobileOpen(false)}>Banking</Link>
-            </div>
-          )}
+    {mobileDropdown === "solutions" && (
+      <div className="ml-4 space-y-2 text-sm text-slate-300 pb-2">
+        <Link href="/solutions#ecommerce" onClick={() => setMobileOpen(false)} className="block py-1">eCommerce</Link>
+        <Link href="/solutions#finance" onClick={() => setMobileOpen(false)} className="block py-1">Finance</Link>
+        <Link href="/solutions#healthcare" onClick={() => setMobileOpen(false)} className="block py-1">Healthcare</Link>
+        <Link href="/solutions#higher-education" onClick={() => setMobileOpen(false)} className="block py-1">Higher Education</Link>
+        <Link href="/solutions#manufacturing" onClick={() => setMobileOpen(false)} className="block py-1">Manufacturing</Link>
+        <Link href="/solutions#telecommunication" onClick={() => setMobileOpen(false)} className="block py-1">Telecommunication</Link>
+        <Link href="/solutions#media" onClick={() => setMobileOpen(false)} className="block py-1">Media</Link>
+        <Link href="/solutions#banking" onClick={() => setMobileOpen(false)} className="block py-1">Banking</Link>
+      </div>
+    )}
 
-          {/* RESOURCES */}
-          <button
-            onClick={() =>
-              setMobileDropdown(mobileDropdown === "resources" ? null : "resources")
-            }
-            className="flex justify-between w-full font-medium"
-          >
-            Resources <ChevronDown size={16} />
-          </button>
+    {/* RESOURCES */}
+    <button
+      onClick={() =>
+        setMobileDropdown(mobileDropdown === "resources" ? null : "resources")
+      }
+      className="flex justify-between items-center w-full font-medium py-2"
+    >
+      Resources <ChevronDown size={16} className={`transition-transform ${mobileDropdown === "resources" ? "rotate-180" : ""}`} />
+    </button>
 
-          {mobileDropdown === "resources" && (
-            <div className="ml-4 space-y-2 text-sm text-white/90">
-              <Link href="/blog" onClick={() => setMobileOpen(false)}>Blog</Link>
-            </div>
-          )}
+    {mobileDropdown === "resources" && (
+      <div className="ml-4 space-y-2 text-sm text-slate-300 pb-2">
+        <Link href="/blog" onClick={() => setMobileOpen(false)} className="block py-1">Blog</Link>
+      </div>
+    )}
 
-          <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block">Pricing</Link>
-          <Link href="/careers" onClick={() => setMobileOpen(false)} className="block">Careers</Link>
-          <Link href="/contact" onClick={() => setMobileOpen(false)} className="block">Contact</Link>
-        </div>
-      )}
+    <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block py-2">Pricing</Link>
+    <Link href="/careers" onClick={() => setMobileOpen(false)} className="block py-2">Careers</Link>
+    <Link href="/contact" onClick={() => setMobileOpen(false)} className="block py-2">Contact</Link>
+  </div>
+)}
     </header>
   )
 }
