@@ -25,7 +25,7 @@ export default function ViewCounter({ articleUrl, articleId, className = '' }: V
     }, [articleUrl, articleId]);
 
     return (
-        <div className={`flex items-center gap-1 text-xs text-gray-500 ${className}`}>
+        <div className={`flex items-center gap-1 text-xs text-gray-400 ${className}`}>
             <Eye className="w-3 h-3" />
             <span>{viewCount.toLocaleString()}</span>
         </div>

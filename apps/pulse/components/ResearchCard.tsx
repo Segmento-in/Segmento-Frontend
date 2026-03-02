@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { FileText, ExternalLink, Cpu, Cloud, Database, Brain, X } from "lucide-react";
+import { FileText, Cpu, Cloud, Database, Brain, X, Volume2 } from "lucide-react";
 import TimeDisplay from "@/components/TimeDisplay";
 import CardEngagementStats from "@/components/CardEngagementStats";
 import { getFreshnessTag } from "@/lib/dateUtils";
@@ -15,20 +15,22 @@ interface ResearchCardProps {
     sourceCategory?: string;
 }
 
+// Updated Icons for Dark Theme Visibility
 const getCategoryIcon = (category: string) => {
     const cat = category.toLowerCase();
-    if (cat.includes('ai') || cat.includes('ml')) return <Brain className="w-8 h-8 text-purple-600" />;
-    if (cat.includes('cloud')) return <Cloud className="w-8 h-8 text-blue-600" />;
-    if (cat.includes('data')) return <Database className="w-8 h-8 text-green-600" />;
-    return <FileText className="w-8 h-8 text-gray-600" />;
+    if (cat.includes('ai') || cat.includes('ml')) return <Brain className="w-8 h-8 text-purple-400" />;
+    if (cat.includes('cloud')) return <Cloud className="w-8 h-8 text-blue-400" />;
+    if (cat.includes('data')) return <Database className="w-8 h-8 text-cyan-400" />;
+    return <FileText className="w-8 h-8 text-slate-400" />;
 };
 
+// Updated Colors for Dark Theme
 const getCategoryColor = (category: string) => {
     const cat = category.toLowerCase();
-    if (cat.includes('ai') || cat.includes('ml')) return "bg-purple-100 border-purple-200";
-    if (cat.includes('cloud')) return "bg-blue-100 border-blue-200";
-    if (cat.includes('data')) return "bg-green-100 border-green-200";
-    return "bg-gray-100 border-gray-200";
+    if (cat.includes('ai') || cat.includes('ml')) return "bg-purple-500/10 border-purple-500/20";
+    if (cat.includes('cloud')) return "bg-blue-500/10 border-blue-500/20";
+    if (cat.includes('data')) return "bg-cyan-500/10 border-cyan-500/20";
+    return "bg-slate-500/10 border-slate-500/20";
 };
 
 export default function ResearchCard({ article, sourceCategory }: ResearchCardProps) {
@@ -46,7 +48,7 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Hover Logic
+    // Hover Logic (Unchanged)
     const handleMouseEnter = () => {
         timerRef.current = setTimeout(() => {
             setShowModal(true);
@@ -76,53 +78,60 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
         <>
             <Link
                 href={linkHref}
-                className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-100 h-full flex flex-col relative"
+                // Updated Card Background to Deep Navy
+                className="group block bg-[#1e293b]rounded-2xl shadow-xl hover:shadow-indigo-500/10 transition-all overflow-hidden border border-white/5 h-full flex flex-col relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
+                {/* --- NEW: Gradient Top Bar --- */}
+                <div className="h-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600"></div>
+
                 <div className="p-5 flex flex-col h-full">
                     {/* Header: Icon + Category + Freshness */}
                     <div className="flex justify-between items-start mb-4">
-                        <div className={`p-3 rounded-lg ${getCategoryColor(article.category || '')}`}>
+                        <div className={`p-3 rounded-2xl border ${getCategoryColor(article.category || '')}`}>
                             {getCategoryIcon(article.category || '')}
                         </div>
+                        {/* Updated Freshness Tag Style */}
                         <div className={`px-2 py-1 rounded-md text-[10px] font-bold shadow-sm ${freshness.className}`}>
                             {freshness.text}
                         </div>
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-bold text-lg mb-2 text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                    <h3 className="font-bold text-lg mb-2 text-white group-hover:text-cyan-400 transition-colors line-clamp-2">
                         {article.title}
                     </h3>
 
                     {/* Authors */}
                     {article.author && (
-                        <p className="text-sm text-gray-600 mb-3 italic">
+                        <p className="text-sm text-slate-400 mb-3 italic">
                             By {article.author}
                         </p>
                     )}
 
                     {/* Abstract/Summary (Truncated) */}
-                    <p className="text-sm text-gray-500 mb-4 line-clamp-3 flex-grow">
+                    <p className="text-sm text-slate-300 mb-4 line-clamp-3 flex-grow">
                         {article.text_summary || article.description}
                     </p>
 
                     {/* Footer: Read PDF + Stats */}
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
                         <div
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 window.open(pdfUrl, '_blank');
                             }}
-                            className="flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer z-10"
+                            className="flex items-center gap-1 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer z-10"
                         >
                             <FileText className="w-4 h-4" />
                             Read PDF
                         </div>
 
-                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                        <div className="flex items-center gap-3 text-xs text-slate-500">
+                            {/* --- NEW: Audio Icon to match Screenshot --- */}
+                            <Volume2 className="w-4 h-4 text-slate-600" />
                             <TimeDisplay timestamp={article.published_at} />
                             <CardEngagementStats
                                 articleUrl={article.url}
@@ -140,16 +149,17 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
             </Link>
 
 
-            {/* Portal for Hover Modal */}
+            {/* Portal for Hover Modal (Unchanged) */}
             {
                 showModal && typeof window !== 'undefined' && createPortal(
                     <div
-                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200"
                         onClick={closeModal}
                     >
                         <div
                             ref={modalRef}
-                            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+                            // Updated Modal Card Style
+                            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020617] rounded-3xl border border-white/10 shadow-2xl animate-in zoom-in-95 duration-200"
                             onClick={(e) => e.stopPropagation()}
                             onMouseLeave={() => setTimeout(closeModal, 500)}
                         >

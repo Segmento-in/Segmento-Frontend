@@ -304,7 +304,7 @@ function NewsContent() {
     const articles = newsData[activeCategory] || [];
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 bg-[#020617]">
             {/* Category Buttons */}
             <div className="flex gap-3 mb-8 flex-wrap justify-center">
                 {categoriesToShow.map((cat) => {
@@ -317,8 +317,8 @@ function NewsContent() {
                             key={cat.id}
                             href={`/news?category=${cat.id}`}
                             className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${activeCategory === cat.id
-                                ? "bg-blue-600 text-white shadow-lg"
-                                : "bg-gray-100 hover:bg-gray-200"
+                                ? "bg-blue-700 text-white shadow-lg"
+                                : "bg-blue-200 hover:bg-gray-300"
                                 }`}
                         >
                             {isCloudProvider && (

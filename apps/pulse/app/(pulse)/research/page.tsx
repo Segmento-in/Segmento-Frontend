@@ -98,9 +98,9 @@ function ResearchContent() {
     }, [activeCategory, router, searchParams]);
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20">
+        <div className=" bg-gray-50 ">
             {/* Header / Sub-Nav */}
-            <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div className="bg-[#020617] border-b border-gray-200 sticky top-0 z-30 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
 
@@ -109,7 +109,7 @@ function ResearchContent() {
                             <div className="bg-blue-600 p-2 rounded-lg text-white">
                                 <BookOpen className="w-5 h-5" />
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-900">Research Papers</h1>
+                            <h1 className="text-2xl font-bold text-blue-600">Research Papers</h1>
                         </div>
 
                         {/* Category Pills */}
@@ -122,7 +122,7 @@ function ResearchContent() {
                                         px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200
                                         ${activeCategory === cat.id
                                             ? "bg-blue-600 text-white shadow-md active:scale-95"
-                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                                            : "bg-gray-300 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                                         }
                                     `}
                                 >
@@ -135,11 +135,11 @@ function ResearchContent() {
             </div>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-9xl bg-[#020617] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
                 {/* Intro Text */}
                 <div className="mb-8">
-                    <p className="text-gray-600 max-w-3xl">
+                    <p className="text-gray-400 max-w-3xl">
                         Curated academic papers from ArXiv, categorized for easy discovery.
                         Stay ahead with the latest research in AI, Cloud, and Data Engineering.
                     </p>
@@ -185,7 +185,7 @@ function ResearchContent() {
 
                 {/* Load More Trigger */}
                 {hasMore && (
-                    <div className="mt-12 text-center">
+                    <div className="mt-6 text-center">
                         <button
                             type="button"
                             onClick={loadMore}

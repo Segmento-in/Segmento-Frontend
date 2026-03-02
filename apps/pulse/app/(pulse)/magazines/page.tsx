@@ -56,11 +56,11 @@ export default function MagazinesPage() {
     };
 
     return (
-        <div className="container mx-auto px-3 xs:px-4 sm:px-4 lg:px-6 py-6 sm:py-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="container mx-auto bg-[#020617] px-3 xs:px-4 sm:px-4 lg:px-6 py-6 sm:py-8">
+            <div className="max-w-10xl mx-auto">
                 <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
                     <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />
-                    <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold">Tech Magazines</h1>
+                    <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-blue-600">Tech Magazines</h1>
                 </div>
 
                 {loading ? (

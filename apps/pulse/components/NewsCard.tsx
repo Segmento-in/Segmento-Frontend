@@ -62,50 +62,40 @@ export default function NewsCard({ article }: NewsCardProps) {
             <div
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className="group block bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden relative"
+                // THEME: Deep Navy Base #020617 with Subtle Indigo Glow
+                className="group block bg-[#020617] rounded-2xl overflow-hidden relative border border-indigo-500/30 shadow-[0_0_30px_rgba(99,102,241,0.15)] hover:shadow-[0_0_45px_rgba(168,85,247,0.35)] transition-all duration-300"
             >
-                {/* Wrap content in Link but handle click to avoid double nav if desired? 
-                      Actually, clicking should still go to page if modal hasn't opened yet.
-                  */}
                 <Link href={articleLink} className="block h-full">
-                    {/* Image Section */}
-                    <div className="relative h-32">
-                        <img
-                            src={safeImage}
-                            onError={(e) => { e.currentTarget.src = "/pulse/placeholder-news.svg"; }}
-                            alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-
-                        {/* Freshness Tag */}
-                        <div className={`absolute top-2 left-2 px-2 py-1 rounded-md text-[10px] font-bold shadow-sm ${freshness.className}`}>
-                            {freshness.text}
+                    {/* HEADER: Purple to Blue Gradient Overlay */}
+                    <div className="relative h-28">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-indigo-500 to-cyan-400 z-10 opacity-90" />
+                        
+                        {/* Branding text often seen in your reference images */}
+                        <div className="absolute inset-0 flex items-center justify-center z-20">
+                            <h3 className="text-white font-bold text-lg tracking-tight">Segmento Pulse</h3>
                         </div>
 
-                        {/* External Link Icon */}
-                        <div className="absolute top-2 right-2 bg-white/90 rounded-full p-2">
-                            <ExternalLink className="w-4 h-4 text-blue-600" />
-                        </div>
+                        {/* Top UI Elements */}
+                        <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-30">
+                            {/* Tag: Soft Mint / Cyan */}
+                            <span className="px-3 py-1 text-[10px] font-bold rounded-full bg-emerald-200 text-emerald-900">
+                                Today's News
+                            </span>
 
-                        {/* Source Overlay on Hover */}
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="bg-white px-4 py-2 rounded-lg shadow-lg">
-                                <span className="font-bold text-gray-900 text-sm whitespace-nowrap">
-                                    Source: {article.source}
-                                </span>
+                            {/* External: White/Blur circle with icon */}
+                            <div className="bg-white/20 backdrop-blur-md rounded-full p-2">
+                                <ExternalLink className="w-3.5 h-3.5 text-white" />
                             </div>
                         </div>
                     </div>
 
-                    {/* Content Section */}
-                    <div className="p-3">
-                        <h3 className="font-bold text-base mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                    {/* BODY: Indigo to Navy Gradient #1b1464 -> #0b102a */}
+                    <div className="p-4 bg-gradient-to-b from-[#1b1464] via-[#1a1f6b] to-[#0b102a] space-y-3">
+                        <h4 className="text-white font-semibold text-base line-clamp-2 group-hover:text-cyan-300 transition-colors">
                             {article.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                            {article.description}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
+                        </h4>
+                        
+                        <div className="flex items-center justify-between text-sm text-blue-600 pt-2 border-t border-white/5">
                             <div className="flex items-center gap-2">
                                 <AudioPlayer
                                     articleId={article.$id || article.url}
@@ -115,41 +105,44 @@ export default function NewsCard({ article }: NewsCardProps) {
                                     image={safeImage}
                                     category={article.category || ''}
                                 />
-                                <TimeDisplay timestamp={article.published_at} />
+                                <div className="text-[11px] opacity-80">
+                                    <TimeDisplay timestamp={article.published_at} />
+                                </div>
                             </div>
-                            <CardEngagementStats
-                                articleUrl={article.url}
-                                articleId={article.$id}  // NEW: Use authoritative backend ID
-                                initialStats={{
-                                    viewCount: article.views || 0,
-                                    likeCount: article.likes || 0,
-                                    dislikeCount: article.dislikes || 0
-                                }}
-                            />
+
+                            <div className="scale-90 origin-right">
+                                <CardEngagementStats
+                                    articleUrl={article.url}
+                                    articleId={article.$id}
+                                    initialStats={{
+                                        viewCount: article.views || 0,
+                                        likeCount: article.likes || 0,
+                                        dislikeCount: article.dislikes || 0
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </Link>
             </div>
 
-            {/* Portal for Hover Modal */}
+            {/* Portal for Hover Modal - Using the requested Navy/Indigo theme */}
             {showModal && typeof window !== 'undefined' && createPortal(
                 <div
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
-                    onClick={closeModal} // Close on backdrop click
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200"
+                    onClick={closeModal}
                 >
                     <div
                         ref={modalRef}
-                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
-                        onClick={(e) => e.stopPropagation()} // Prevent click from closing when clicking inside
+                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#1b1464] to-[#020617] rounded-2xl shadow-2xl border border-indigo-500/30 animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
                         onMouseLeave={() => {
-                            // Grace period close on mouse leave from MODAL itself?
-                            // User requirement: "Mouse leave the Modal Area ... closes it after a short grace period (0.5s)"
                             setTimeout(closeModal, 500);
                         }}
                     >
                         <button
                             onClick={closeModal}
-                            className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+                            className="absolute top-4 right-4 z-50 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>

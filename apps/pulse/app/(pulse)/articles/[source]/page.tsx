@@ -79,14 +79,14 @@ function ArticlesContent() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container bg-[#020617] mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-purple-600">
                 Curated Articles
             </h1>
 
             {/* Filter Tabs - Now using Links for Explicit Routing */}
             <div className="flex justify-center mb-10">
-                <div className="bg-gray-100 p-1 rounded-xl inline-flex">
+                <div className="bg-gray-300 p-1 rounded-xl inline-flex">
                     <Link
                         href="/articles/medium"
                         className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'medium'
@@ -110,7 +110,7 @@ function ArticlesContent() {
 
             {/* Content Grid */}
             {activeTab === 'linkedin' ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <div className="flex flex-col items-center justify-center py-20 bg-gray-300 rounded-2xl border-2 border-dashed border-gray-200">
                     <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
                         💼
                     </div>
