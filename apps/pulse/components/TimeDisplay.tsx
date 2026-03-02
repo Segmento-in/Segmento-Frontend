@@ -23,7 +23,7 @@ export default function TimeDisplay({ timestamp, className = "" }: TimeDisplayPr
     }
 
     return (
-        <div className={`flex items-center gap-2 text-sm text-gray-500 ${className}`}>
+        <div className={`flex items-center gap-2 text-sm text-gray-400 ${className}`}>
             <Clock className="w-4 h-4" />
             <span>{formattedTime} IST</span>
         </div>

@@ -113,7 +113,7 @@ export default function PulsePage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center">
+    <div className="min-h-screen bg-[#020617] flex flex-col items-center">
       {/* GIF Effect CSS */}
       <style jsx global>{`
         @keyframes scan {
@@ -122,7 +122,7 @@ export default function PulsePage() {
         }
         @keyframes pulse-opacity {
           0%, 100% { opacity: 0.9; }
-          50% { opacity: 1; filter: brightness(1.1); }
+          50% { opacity: 1; filter: brightness(1.2); }
         }
         .animate-scan {
           animation: scan 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -134,16 +134,16 @@ export default function PulsePage() {
 
       <div className="container mx-auto px-4 py-12 max-w-6xl">
 
-        {/* --- SMALLER HEADER WITH GIF EFFECT --- */}
+        {/* --- HEADER WITH GIF EFFECT --- */}
         <div className="text-center mb-10">
           <div className="relative inline-block overflow-hidden px-2 py-1">
-            <h1 className="text-4xl md:text-5xl font-bold mb-1 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight animate-pulse-soft">
+            <h1 className="text-4xl md:text-5xl font-bold mb-1 bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight animate-pulse-soft">
               Segmento Pulse
             </h1>
             {/* Shimmer effect beam */}
-            <div className="absolute top-0 left-0 w-20 h-full bg-linear-to-r from-transparent via-white/25 to-transparent animate-scan pointer-events-none"></div>
+            <div className="absolute top-0 left-0 w-24 h-full bg-linear-to-r from-transparent via-white/10 to-transparent animate-scan pointer-events-none"></div>
           </div>
-          <p className="text-base md:text-lg text-gray-400 font-medium tracking-wide">
+          <p className="text-base md:text-lg text-slate-400 font-medium tracking-wide">
             Real-time technology insights
           </p>
         </div>
@@ -233,7 +233,7 @@ export default function PulsePage() {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">
             Tap to reveal the future
           </p>
         </div>

@@ -1,4 +1,4 @@
-﻿'use client';
+﻿﻿'use client';
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -298,7 +298,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                         href="https://segmento.in"
                         className="ml-2 px-4 py-2 text-sm font-medium bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 active:scale-95"
                     >
-                        Get back to Segmento
+                         back to Segmento
                     </Link>
                 </nav>
 
@@ -548,7 +548,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     <Link href="https://segmento.in">
-                                        Get back to Segmento
+                                         back to Segmento
                                     </Link>
                                 </Button>
                             </div>
