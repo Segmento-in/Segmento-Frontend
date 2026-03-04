@@ -20,7 +20,7 @@ export default function PulseLayout({
                 {children}
             </main>
             {/* border-t adds the top line, border-slate-800 makes it subtle */}
-<footer className="border-t border-slate-700 mt-auto bg-[#020617]">
+<footer className="border-t border-slate-700 mt-auto bg-black">
     <div className="container mx-auto px-4 py-6 text-center text-sm text-white">
         © 2026 Segmento
     </div>

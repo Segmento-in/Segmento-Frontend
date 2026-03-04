@@ -113,7 +113,7 @@ export default function PulsePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] flex flex-col items-center">
+    <div className="min-h-screen bg-[#F9F7F2] flex flex-col items-center">
       {/* GIF Effect CSS */}
       <style jsx global>{`
         @keyframes scan {
@@ -137,13 +137,13 @@ export default function PulsePage() {
         {/* --- HEADER WITH GIF EFFECT --- */}
         <div className="text-center mb-10">
           <div className="relative inline-block overflow-hidden px-2 py-1">
-            <h1 className="text-4xl md:text-5xl font-bold mb-1 bg-linear-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight animate-pulse-soft">
+            <h1 className="text-4xl md:text-5xl font-bold mb-1 bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight animate-pulse-soft">
               Segmento Pulse
             </h1>
             {/* Shimmer effect beam */}
             <div className="absolute top-0 left-0 w-24 h-full bg-linear-to-r from-transparent via-white/10 to-transparent animate-scan pointer-events-none"></div>
           </div>
-          <p className="text-base md:text-lg text-slate-400 font-medium tracking-wide">
+          <p className="text-base md:text-lg text-slate-500 font-medium tracking-wide">
             Real-time technology insights
           </p>
         </div>

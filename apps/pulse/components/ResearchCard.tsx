@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { FileText, Cpu, Cloud, Database, Brain, X, Volume2 } from "lucide-react";
+import { FileText, Cpu, Cloud, Database, Brain, X, Volume2, ArrowRight } from "lucide-react";
 import TimeDisplay from "@/components/TimeDisplay";
 import CardEngagementStats from "@/components/CardEngagementStats";
 import { getFreshnessTag } from "@/lib/dateUtils";
@@ -15,27 +15,22 @@ interface ResearchCardProps {
     sourceCategory?: string;
 }
 
-// Updated Icons for Dark Theme Visibility
+// UI FIX: Sophisticated, muted icon colors for Paper White theme
 const getCategoryIcon = (category: string) => {
     const cat = category.toLowerCase();
-    if (cat.includes('ai') || cat.includes('ml')) return <Brain className="w-8 h-8 text-purple-400" />;
-    if (cat.includes('cloud')) return <Cloud className="w-8 h-8 text-blue-400" />;
-    if (cat.includes('data')) return <Database className="w-8 h-8 text-cyan-400" />;
-    return <FileText className="w-8 h-8 text-slate-400" />;
+    if (cat.includes('ai') || cat.includes('ml')) return <Brain className="w-5 h-5 text-[#1A1A1A]" />;
+    if (cat.includes('cloud')) return <Cloud className="w-5 h-5 text-[#1A1A1A]" />;
+    if (cat.includes('data')) return <Database className="w-5 h-5 text-[#1A1A1A]" />;
+    return <FileText className="w-5 h-5 text-[#1A1A1A]" />;
 };
 
-// Updated Colors for Dark Theme
+// UI FIX: Minimalist border-based colors instead of neon glows
 const getCategoryColor = (category: string) => {
-    const cat = category.toLowerCase();
-    if (cat.includes('ai') || cat.includes('ml')) return "bg-purple-500/10 border-purple-500/20";
-    if (cat.includes('cloud')) return "bg-blue-500/10 border-blue-500/20";
-    if (cat.includes('data')) return "bg-cyan-500/10 border-cyan-500/20";
-    return "bg-slate-500/10 border-slate-500/20";
+    return "bg-[#F0EEE6] border-[#E5E2DA]";
 };
 
 export default function ResearchCard({ article, sourceCategory }: ResearchCardProps) {
     const freshness = getFreshnessTag(article.published_at);
-    // Use PDF URL if available, fallback to article url
     const pdfUrl = article.url;
 
     const linkHref = {
@@ -43,16 +38,14 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
         query: sourceCategory ? { category: sourceCategory } : undefined
     };
 
-    // Modal State
     const [showModal, setShowModal] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Hover Logic (Unchanged)
     const handleMouseEnter = () => {
         timerRef.current = setTimeout(() => {
             setShowModal(true);
-        }, 2000); // 2s delay
+        }, 2000);
     };
 
     const handleMouseLeave = () => {
@@ -78,96 +71,120 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
         <>
             <Link
                 href={linkHref}
-                // Updated Card Background to Deep Navy
-                className="group block bg-[#1e293b]rounded-2xl shadow-xl hover:shadow-indigo-500/10 transition-all overflow-hidden border border-white/5 h-full flex flex-col relative"
+                // UI FIX: Clean White Background with Sharp Charcoal Borders
+                className="group block bg-white border border-[#E5E2DA] hover:border-[#1A1A1A] transition-all duration-500 h-full flex flex-col relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                {/* --- NEW: Gradient Top Bar --- */}
-                <div className="h-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600"></div>
+                {/* --- UI FIX: Minimal Editorial Accent Bar --- */}
+                <div className="h-[1px] w-0 group-hover:w-full bg-[#1A1A1A] transition-all duration-700"></div>
 
-                <div className="p-5 flex flex-col h-full">
-                    {/* Header: Icon + Category + Freshness */}
-                    <div className="flex justify-between items-start mb-4">
-                        <div className={`p-3 rounded-2xl border ${getCategoryColor(article.category || '')}`}>
+                <div className="p-6 flex flex-col h-full">
+                    {/* Header: Label + Freshness */}
+                    <div className="flex justify-between items-center mb-6">
+                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border ${getCategoryColor(article.category || '')}`}>
                             {getCategoryIcon(article.category || '')}
+                            <span className="text-[9px] font-bold uppercase tracking-widest text-[#1A1A1A]">
+                                {article.category || 'Research'}
+                            </span>
                         </div>
-                        {/* Updated Freshness Tag Style */}
-                        <div className={`px-2 py-1 rounded-md text-[10px] font-bold shadow-sm ${freshness.className}`}>
+                        
+                        <div className={`text-[9px] font-bold uppercase tracking-tighter px-2 py-0.5 rounded border border-current ${freshness.className}`}>
                             {freshness.text}
                         </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="font-bold text-lg mb-2 text-white group-hover:text-cyan-400 transition-colors line-clamp-2">
+                    {/* Title: Editorial Serif Feel */}
+                    <h3 className="font-serif italic text-xl mb-3 text-[#1A1A1A] group-hover:underline decoration-1 underline-offset-4 transition-all line-clamp-2">
                         {article.title}
                     </h3>
 
-                    {/* Authors */}
+                    {/* Authors: Clean Sans */}
                     {article.author && (
-                        <p className="text-sm text-slate-400 mb-3 italic">
-                            By {article.author}
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#999] mb-4">
+                            Authored by {article.author}
                         </p>
                     )}
 
-                    {/* Abstract/Summary (Truncated) */}
-                    <p className="text-sm text-slate-300 mb-4 line-clamp-3 flex-grow">
+                    {/* Abstract: Increased line-height for readability */}
+                    <p className="text-sm text-[#666] leading-relaxed mb-6 line-clamp-3 flex-grow">
                         {article.text_summary || article.description}
                     </p>
 
-                    {/* Footer: Read PDF + Stats */}
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                        <div
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                window.open(pdfUrl, '_blank');
-                            }}
-                            className="flex items-center gap-1 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer z-10"
-                        >
-                            <FileText className="w-4 h-4" />
-                            Read PDF
-                        </div>
+                    
+                 {/* Footer: Modern Minimalist */}
+<div 
+    className="flex flex-col sm:flex-row items-center justify-between mt-auto bg-[#A66152] 
+               /* Vertical size increased via padding */
+               p-6 
+               /* Negative margins to pull the color to the card edges */
+               -mx-6 -mb-6 
+               border-t border-[#F0EEE6] 
+               transition-all duration-300"
+>
+    {/* Left Side: PDF Manuscript */}
+    <div
+        onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(pdfUrl, '_blank');
+        }}
+        className="flex items-center gap-3 text-[8px] font-bold uppercase tracking-[0.2em] text-white hover:text-[#1A1A1A] transition-colors cursor-pointer z-10"
+    >
+        <FileText className="w-5 h-5" />
+        <span>PDF Manuscript</span>
+    </div>
 
-                        <div className="flex items-center gap-3 text-xs text-slate-500">
-                            {/* --- NEW: Audio Icon to match Screenshot --- */}
-                            <Volume2 className="w-4 h-4 text-slate-600" />
-                            <TimeDisplay timestamp={article.published_at} />
-                            <CardEngagementStats
-                                articleUrl={article.url}
-                                articleId={article.id || article.$id}
-                                category={article.category}
-                                initialStats={{
-                                    viewCount: article.views || 0,
-                                    likeCount: article.likes || 0,
-                                    dislikeCount: article.dislikes || 0
-                                }}
-                            />
-                        </div>
-                    </div>
+    {/* Right Side: Stats & Audio */}
+    <div className="flex items-center gap-6 text-[11px] text-white font-bold mt-4 sm:mt-0">
+    <div className="flex items-center gap-2">
+        {/* Increased brightness for the icon to stand out on #A66152 */}
+        <Volume2 className="w-4 h-4 text-white brightness-200" />
+        
+        {/* Ensure TimeDisplay component accepts a className or has white text internally */}
+        <div className="text-white!">
+            <TimeDisplay timestamp={article.published_at} />
+        </div>
+    </div>
+
+    {/* Stats wrapper to force white icons/text on the Engagement component */}
+    <div className="text-white [&_svg]:text-white [&_span]:text-white">
+        <CardEngagementStats
+            articleUrl={article.url}
+            articleId={article.id || article.$id}
+            category={article.category}
+            initialStats={{
+                viewCount: article.views || 0,
+                likeCount: article.likes || 0,
+                dislikeCount: article.dislikes || 0
+            }}
+        />
+    </div>
+</div>
+</div>
                 </div>
             </Link>
 
 
-            {/* Portal for Hover Modal (Unchanged) */}
+            {/* Portal for Hover Modal */}
             {
                 showModal && typeof window !== 'undefined' && createPortal(
                     <div
-                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#F9F7F2]/90 backdrop-blur-md p-4 animate-in fade-in duration-300"
                         onClick={closeModal}
                     >
                         <div
                             ref={modalRef}
-                            // Updated Modal Card Style
-                            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#020617] rounded-3xl border border-white/10 shadow-2xl animate-in zoom-in-95 duration-200"
+                            // UI FIX: Modal matches the Paper White theme
+                            className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-[#F9F7F2] rounded-none border border-[#1A1A1A] shadow-[20px_20px_0px_rgba(26,26,26,0.05)] animate-in zoom-in-95 duration-300"
                             onClick={(e) => e.stopPropagation()}
                             onMouseLeave={() => setTimeout(closeModal, 500)}
                         >
                             <button
                                 onClick={closeModal}
-                                className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+                                className="absolute top-6 right-6 z-50 p-2 hover:bg-[#1A1A1A] hover:text-white border border-[#1A1A1A] text-[#1A1A1A] transition-all"
                             >
-                                <X className="w-5 h-5" />
+                                <X className="w-4 h-4" />
                             </button>
 
                             <ArticleDetailView
@@ -176,7 +193,7 @@ export default function ResearchCard({ article, sourceCategory }: ResearchCardPr
                                     id: article.$id || '',
                                     image_url: article.image_url || '/pulse/placeholder-news.svg',
                                     category: article.category || 'Research',
-                                    description: article.text_summary || article.description || '', // Handle varied fields
+                                    description: article.text_summary || article.description || '',
                                 }}
                                 isModal={true}
                             />
