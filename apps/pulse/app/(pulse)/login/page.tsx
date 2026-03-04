@@ -35,81 +35,84 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#020617] flex items-center justify-center px-4 relative overflow-hidden">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[120px] rounded-full"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full"></div>
+        /* UI FIX: Background changed to Paper White (#F9F7F2) */
+        <div className="min-h-screen bg-[#F9F7F2] flex items-center justify-center px-4 relative overflow-hidden">
+            
+            {/* UI FIX: Subtle Terracotta Ambient Glows */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#A66152]/5 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#1A1A1A]/5 blur-[120px] rounded-full"></div>
 
             <div className="w-full max-w-md relative z-10">
                 {/* Logo / Branding Area */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 mb-4 shadow-lg shadow-purple-500/20">
-                        <ShieldCheck className="w-8 h-8 text-white" />
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white border border-[#E5E2DA] mb-6 shadow-sm">
+                        <ShieldCheck className="w-10 h-10 text-[#A66152]" />
                     </div>
-                    <h1 className="text-3xl font-black text-white tracking-tight">Segmento Pulse</h1>
-                    <p className="text-slate-400 mt-2">Sign in to your secure data portal</p>
+                    {/* UI FIX: font-serif italic for editorial look */}
+                    <h1 className="text-4xl font-serif italic text-[#1A1A1A] tracking-tight">Segmento Pulse</h1>
+                    <p className="text-[#666] mt-3 font-light tracking-wide uppercase text-[10px]">Secure Data Research Portal</p>
                 </div>
 
-                <div className="bg-white/[0.03] backdrop-blur-xl rounded-[28px] border border-white/10 shadow-2xl p-8">
-                    <form onSubmit={handleLogin} className="space-y-6">
+                {/* UI FIX: Card changed to White Paper with sharp borders */}
+                <div className="bg-white border border-[#E5E2DA] shadow-[20px_20px_0px_rgba(166,97,82,0.05)] rounded-sm p-10">
+                    <form onSubmit={handleLogin} className="space-y-8">
                         <div>
-                            <label className="block text-sm font-semibold text-slate-300 mb-2 ml-1">Email Address</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] mb-3 ml-1">Email Address</label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors w-5 h-5" />
+                                <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-[#AAA] group-focus-within:text-[#A66152] transition-colors w-4 h-4" />
                                 <Input
                                     type="email"
                                     placeholder="name@company.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="pl-12 bg-white/[0.05] border-white/10 text-white placeholder:text-slate-600 h-12 rounded-xl focus:bg-white/[0.08] transition-all"
+                                    className="pl-8 bg-transparent border-t-0 border-x-0 border-b border-[#E5E2DA] focus:border-[#A66152] text-[#1A1A1A] placeholder:text-[#BBB] h-12 rounded-none transition-all shadow-none ring-0 focus-visible:ring-0"
                                     required
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-slate-300 mb-2 ml-1">Password</label>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] mb-3 ml-1">Password</label>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors w-5 h-5" />
+                                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 text-[#AAA] group-focus-within:text-[#A66152] transition-colors w-4 h-4" />
                                 <Input
                                     type="password"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="pl-12 bg-white/[0.05] border-white/10 text-white placeholder:text-slate-600 h-12 rounded-xl focus:bg-white/[0.08] transition-all"
+                                    className="pl-8 bg-transparent border-t-0 border-x-0 border-b border-[#E5E2DA] focus:border-[#A66152] text-[#1A1A1A] placeholder:text-[#BBB] h-12 rounded-none transition-all shadow-none ring-0 focus-visible:ring-0"
                                     required
                                 />
                             </div>
                         </div>
 
                         {error && (
-                            <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-sm animate-in fade-in slide-in-from-top-1">
+                            <div className="bg-[#A66152]/10 border-l-4 border-[#A66152] text-[#A66152] px-4 py-3 text-[11px] font-bold uppercase tracking-wider animate-in fade-in">
                                 {error}
                             </div>
                         )}
 
+                        {/* UI FIX: Solid Terracotta Button */}
                         <Button 
                             type="submit" 
-                            className="w-full h-12 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-[0.98]" 
+                            className="w-full h-14 bg-[#A66152] hover:bg-[#8e5246] text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-none shadow-md transition-all active:scale-[0.98]" 
                             disabled={loading}
                         >
-                            {loading ? "Verifying..." : "Sign In to Pulse"}
+                            {loading ? "Verifying Access..." : "Sign In to Pulse"}
                         </Button>
                     </form>
 
-                    <div className="mt-8 pt-6 border-t border-white/5 text-center">
-                        <p className="text-slate-400 text-sm">
+                    <div className="mt-10 pt-8 border-t border-[#F0EEE6] text-center">
+                        <p className="text-[#999] text-[11px] font-medium tracking-wide">
                             New to the platform?{" "}
-                            <Link href="/register" className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors">
+                            <Link href="/register" className="text-[#A66152] hover:underline font-bold transition-all">
                                 Create Account
                             </Link>
                         </p>
                     </div>
                 </div>
                 
-                <p className="text-center mt-8 text-slate-600 text-xs tracking-widest uppercase">
-                    &copy; 2026 Segmento Data Systems
-                </p>
+               
             </div>
         </div>
     );

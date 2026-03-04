@@ -213,7 +213,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                         ? 'rotate-180' : ''
                                         }`} />
                                     {/* Animated underline */}
-                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-[#A66152] to-[#1A1A1A] rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                                 </button>
 
                                 {/* Data Dropdown */}
@@ -288,7 +288,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                             >
                                 <span className="relative z-10">{link.name}</span>
                                 {/* Animated underline */}
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-[#A66152] to-[#1A1A1A] rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                             </Link>
                         )
                     ))}
