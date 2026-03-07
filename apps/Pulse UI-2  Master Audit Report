@@ -1,0 +1,228 @@
+# UI-2 Master Audit Report
+**Target System:** `frontend/apps/pulse-ui-2`
+
+This is the consolidated microscopic visual map of the new presentation layer. It currently contains no backend code and operates entirely synthetically via mock data maps and standalone CSS/ThreeJS behaviors.
+
+---
+
+## Phase 1: Component Inventory Report
+
+### 1. Atomic & Layout Components
+
+**Atomic Fundamentals (`components/atoms/`):**
+* **PrimaryActionButton:** A polymorphic Radix `<Slot>` wrapper capable of shifting from `<button>` to `<a>` dynamically.
+* **CategoryBadge:** A highly defensive tag renderer with an 8px circular colored dot. Failsafe built-in: Maps any missing tag (null/undefined/blank) to a default "News Articles".
+* **AuthorMetaBlock:** Inlines Author avatar with dynamically generated deterministic color hashes based on their name initials.
+
+**Organisms & Layouts (`components/organisms/`):**
+* **HeroSection:** A massive 3-column CSS Grid (`200px 1fr 220px`). Divides the viewport into stacked cards, a large featured hero, and a numbered popularity list (01-06).
+* **ArticlesByTopic:** A scrollable tab-row (`overflow-x-auto`) featuring circular custom pagination arrows (`←`, `→`) executing direct `scrollBy` logic.
+* **NavBar & NewsletterCTA:** Modern layout bands functioning as the sticky `z-50` anchor and the footer cap.
+
+**3D Scenes (`components/three/`):**
+* **HeroScene:** Complex WebGL rendering block housing a Large Cube, Teal Cube, Purple Sphere, Orange Ring, and a Grid Floor.
+* **CardScene:** Lightweight thumbnail WebGL. Exists in six distinct variants (A-F) mapped by standard specific color palettes (e.g., Variant A: Orange Circuit, Variant E: Purple Violet).
+* **ThreeLoaders:** Anticipated WebGL boundary fallback components.
+
+**Major Structural Wrapper (`app/page.tsx`):**
+* Stripped of a traditional footer.
+* Stacks linear section elements: `NavBar` → `HeroSection` → `Topic Sections` (A unique CSS layout where the sticky header takes 25% width and the 3-col article grid takes 75%) → `NewsletterCTA` → `ArticlesByTopic`.
+
+### 2. Visual Purpose Definition (The "Premium" Distinction)
+
+Unlike UI-1 which relied on simple CSS transitions and flat DOM nodes, UI-2 pivots to an aggressive 3D Glassmorphism & Isometric Art Direction.
+
+* **The 3D WebGL Bounding Boxes (`HeroScene`, `CardScene`):** Instead of static `.png` files, the new UI heavily utilizes `@react-three/fiber` canvases. This means the visual art is actually being calculated via GPU WebGL on the fly. It achieves a "premium" dynamic state by allowing geometric shapes (Tetrahedrons, Dodecahedrons, and Spheres) to passively rotate and drift on the Z-axis relative to the camera.
+* **Static Isometric Vector Integration (`HeroSection`):** Where true 3D Canvas isn't used, the UI fetches vast layered SVG files from a dedicated Prismic CDN (`prismic-main.cdn.prismic.io`). These SVGs represent isometric scenes (e.g., developers at desks, server stacks), layered over a flat `#F6F7FB` background grid to establish massive depth of field.
+* **Deterministic Color Hashing:** Badges and Author avatars don't rely on random generation. They parse the string (e.g., tag or author name), converting charCodes to calculate a specific `hsl(hue, 60%, 48%)`. This visually grounds the UI so an author or tag is always instantly recognizable by the exact same color.
+
+### 3. Behavior & Animation Extraction (The "Magic")
+
+**Framer Motion Variants & ThreeJS Logic:**
+* **WebGL useFrame Matrix Mutations:** Inside the `CardScene` and `HeroScene`, continuous animations are driven strictly by the hook `useFrame((_s, delta) => { ref.current.rotation.y += delta * 0.25 })`. Objects are permanently spinning on their local axis decoupled from React re-renders.
+* **ThreeJS `<Float>` Wrapper (`@react-three/drei`):** Hovering/drifting geometries use `<Float speed={1.5} floatIntensity={0.3} rotationIntensity={0.15}>` to simulate gravity-defying bouncy suspension globally without CSS keyframes.
+
+**Tailwind CSS v4 & Native JS Interactions:**
+* **Tactile Click Physics (`PrimaryActionButton`):**
+  * Hover: Transitions via inline styling to `transform: var(--pulse-btn-hover-scale)` (typically 0.98x scale).
+  * `onMouseDown`: Enforces a hard `scale(0.96)` to replicate real-world physical switch compression.
+* **Card Hover Matrix Elevations (`HeroSection`):** Rather than standard CSS `:hover` states, UI-2 cards intercept native JS mouse events to dynamically inject specific box-shadows:
+  * `onMouseEnter`: Triggers `onEnter("0 6px 24px rgba(0,0,0,0.09)")` and `translateY(-2px)`.
+  * `onMouseLeave`: Resets smoothly to `box-shadow: none` and `transform: translateY(0)`.
+* **Opacity Fades (`Right Col List`):** Popularity items utilize a 140ms ease `transition: "opacity 140ms"`. Hovering drops opacity precisely to `0.72` rather than arbitrary gray levels.
+* **Line Clamping (`-webkit-line-clamp`):** Instead of JavaScript truncation (`substring`), native CSS is leveraged (`WebkitBoxOrient: "vertical", WebkitLineClamp: 3`) to elegantly fade-out multi-line card titles.
+
+---
+
+## Phase 2: The "Empty Buckets" (TypeScript Props & Interfaces)
+
+This section maps the exact data shapes, strictly typed interfaces, and WebGL prop requirements expected by the newly designed premium components so they can be integrated flawlessly with real backend payloads.
+
+### 1. Interface Extraction & Data Mapping
+
+**The Main Macro Shape (`Article` | `TopicArticle`):** 
+Across the large wrappers like `app/page.tsx` (Homepage) and `CategoryPage.tsx`, the UI expects a uniform, flattened article object structure to drive the grid loops.
+
+```typescript
+type Article = {
+   id: string;        // Unique identifier
+   tag: string;       // "Tech Stack", "AI"
+   title: string;     // Full article title
+   author: string;    // "John Doe"
+   date: string;      // "Feb 28, 2026"
+   views: number;     // Integer (only in broader lists, not in Topics grid)
+   imgSrc: string;    // Prismic CDN URL string
+   imgAlt: string;    // Accessibility text
+};
+```
+
+**The Atomic Interfaces:**
+
+```typescript
+export interface AuthorMetaBlockProps {
+   authorName?: string | null;
+   avatarUrl?: string | null;
+   date?: string | Date | null;
+   style?: CSSProperties;
+   className?: string;
+}
+
+export interface CategoryBadgeProps {
+   tag?: string | null;
+   showDot?: boolean;
+   style?: CSSProperties;
+   className?: string;
+}
+```
+
+### 2. 3D Canvas Prop Handling (WebGL)
+
+A major discovery from mapping the 3D components (`<Canvas>`) is that **they completely decouple UI presentation from backend cover images.**
+
+* **Image Textures are NOT Extracted:** Neither `HeroScene.tsx` nor `CardScene.tsx` expect an `imgSrc` or `textureUrl`. The UI-2 team bypassed the complexity of loading remote images into WebGL textures. Instead, the scenes are composed exclusively of native Three.js polygonal meshes (`boxGeometry`, `sphereGeometry`) and solid hex materials.
+* **HeroSceneProps:**
+  * **Requires:** ONLY an optional `style?: React.CSSProperties;` object to position the container. It runs entirely autonomously via internal `useFrame` animations.
+* **CardSceneProps:**
+  * **Requires:** `variant: "A" | "B" | "C" | "D" | "E" | "F"`.
+  * This is a STRICTly required prop by TypeScript, determining which of the 6 hardcoded 3D object arrangements (and background gradients) to render inside the thumbnail box.
+  * **Integration Insight:** Since the backend doesn't supply a "Variant A-F", we will need to inject a deterministic frontend hash (e.g., hash the article ID or title to randomly but consistently assign an A-F variant) to drive these 3D cards.
+
+### 3. Shape Analysis (Strict vs. Optional)
+
+* **Macro Arrays (Currently Strict):** The top-level dummy data structures (`ARTICLES_DATA`, `LEFT_CARDS`, `TOPIC_SECTIONS`) are surprisingly strict. They *demand* that `imgSrc`, `author`, `title`, and `tag` are present. If we simply pipe a real backend payload into the macro arrays right now and an article is missing an image, the TypeScript compilations will fail, and the UI might crash due to lacking optional (`?`) chains.
+* **Atomic Components (Incredibly Defensive):** While the macro grid is strict, the atomic components nested inside are built like fortresses anticipating messy real-world data:
+  * **Missing `tag`:** Handled by `.resolveTag()`, instantly substituting with `"News Articles"` without crashing.
+  * **Missing `authorName`:** Handled by returning `"Unknown Author"`.
+  * **Missing `avatarUrl`:** Reacts perfectly by generating a highly styled SVGs "Initial" circle derived from the author string's hash, completely bypassing broken `<img>` tags.
+  * **Missing `date`:** Gracefully aborts rendering the native `Intl.DateTimeFormat` element instead of throwing an `Invalid Date` DOM error.
+* **Integration Strategy:** When the backend bridge is built, we must write a "Payload Sanitizer" in the frontend data-fetcher. The sanitizer must map the raw Appwrite backend objects into the strict `Article` interface required by `CategoryPage.tsx` and `app/page.tsx`, ensuring missing images are replaced with a generic `/placeholder.png` at the top level before they even reach the grid.
+
+---
+
+## Phase 3: Mock Data & Hardcoded State Locations
+
+This is the exact map of the "fake data" landscape. To enable real backend integration, the items listed below must be carefully unhooked and deleted.
+
+### 1. Mock Data Tracing (The Dummy Arrays)
+
+The UI-2 codebase heavily relies on top-level constant arrays to populate its props. These act as hardcoded databases.
+
+* **File: `app/page.tsx` (Homepage)**
+  * **Loc:** Lines 29-150 (`const TOPIC_SECTIONS = [...]`)
+  * **What:** Contains the massive nested array powering the lower half of the homepage. It hardcodes IDs (`ts1`, `w1`), categories, and raw Prismic SVG CDN links for 4 articles across 5 distinct topics.
+* **File: `components/organisms/HeroSection.tsx`**
+  * **Loc:** Lines 31-118
+  * **What:** Three massive arrays controlling the Hero layout:
+    * `const LEFT_CARDS = [...]` (3 articles)
+    * `const CENTER_FEATURED = {...}` (1 article)
+    * `const CENTER_BOTTOM = [...]` (3 articles)
+    * `const RIGHT_LIST = [...]` (The numbered popularity chart, containing fake `views` and `trend` data).
+* **File: `components/organisms/ArticlesByTopic.tsx`**
+  * **Loc:** Lines 8-52
+  * **What:**
+    * `const TOPICS = [...]` (Hardcodes the tab names, hex colors, and SVG path icons).
+    * `const ARTICLES_DATA = {...}` (A Record mapping topic IDs to specific array content).
+* **File: `app/latest-articles/page.tsx`**
+  * **Loc:** Lines 8-88
+  * **What:** `const FEATURED_ARTICLES = [...]`, `const LIST_ARTICLES = [...]`, and `const TAGS = [...]`.
+* **File: `app/category/[slug]/page.tsx` (Dynamic Route Handler)**
+  * **Loc:** Lines 10-156
+  * **What:**
+    * `const sharedListArticles = [...]`
+    * `const CATEGORIES: Record<string, CategoryData> = {...}` (This is a massive object that maps the URL slug (e.g., `performance-and-ux`) to hardcoded hero background colors, specific SVG icons, and featured articles. This entire object must be replaced by a backend query).
+
+### 2. Static Text Isolation
+
+Beyond arrays, some components contain literal hardcoded text strings baked into the HTML structure.
+
+* **File: `components/organisms/NewsletterCTA.tsx`**
+  * **Loc:** Lines 58-69
+  * **What:** The CTA phrasing is permanently baked in: *"Deliver a fast website with a visual Page Builder..."* and *"Get the Segmento Pulse newsletter..."*.
+  * **Loc:** Line 80
+  * **What:** The success message is static: *"✓ You're on the list! Check your inbox for the next edition."*
+* **File: `components/organisms/ArticlesByTopic.tsx`**
+  * **Loc:** Lines 70-75
+  * **What:** The section header *"Articles by topic"* and sub-text *"Dive into our top content categories..."* are hardcoded JSX.
+
+### 3. Fake State Mapping (The Illusion of Latency)
+
+Interestingly, **UI-2 currently has almost zero "fake latency" built in.**
+
+* **No `setTimeout` network simulations:** A comprehensive grep search confirms there are no artificial setTimeouts acting as fake fetch delays.
+* **No Skeleton Screens:** Because the data is loaded from local `const` files, the Next.js static renderer computes it instantly. There are no `<Skeleton />` loaders or `isLoading` tertiary operators (`isLoading ? <Skeleton /> : <Card />`) in the codebase.
+* **Missing Empty States:** If the `ARTICLES_DATA` array inside `ArticlesByTopic.tsx` is emptied, the UI simply renders a blank white section. There is no `if (data.length === 0)` handling returning an "Oops, no articles found" visual yet.
+* **Integration Warning:** When we connect the real Appwrite backend, the instant rendering will vanish. We will need to actively build and design loading states (e.g., Skeleton wrappers for the CSS Grids) and empty state illustrations that do not currently exist in UI-2.
+
+---
+
+## Phase 4: Visual Client-Side Logic Map
+
+This concludes the master audit of UI-2 by mapping exactly how the presentation layer animates, handles logic, and manages client states.
+
+### 1. Visual State Hooks (React)
+
+The presentation layer relies on extremely shallow, localized React state. There is no complex globally managed visual state (like context API for dark mode).
+
+* **Tabs & Interactions (`useState`):**
+  * `ArticlesByTopic.tsx`: Uses `const [activeTab, setActiveTab] = useState("whats-next")` to filter the dummy arrays on the fly.
+  * `NewsletterCTA.tsx`: Uses `useState("")` for the email input and `useState(false)` to conditionally render the success confirmation box.
+* **DOM Manipulation (`useRef`):**
+  * `ArticlesByTopic.tsx`: Uses a `useRef<HTMLDivElement>` attached to the topic cards wrapper. It manually executes `.scrollBy({ left: 320, behavior: "smooth" })` when the circular pagination arrows are clicked, bypassing complex slider libraries for native mobile-friendly horizontal scrolling.
+* **WebGL Rotation:** Countless `useRef<THREE.Mesh>` hooks exist inside `CardScene` and `HeroScene` purely to latch onto the 3D geometries so they can be mutated every frame.
+
+### 2. Complex Event Handlers (The "Magic" Inline Engine)
+
+UI-2 relies almost entirely on React Synthetic JavaScript events directly editing the DOM (`style.transform` and `style.boxShadow`) rather than using Tailwind classes (like `group-hover:translate-y`). This creates a highly specific, javascript-bound behavior layer.
+
+* **3D Hover Physics (`onMouseEnter` & `onMouseLeave`):**
+  * `HeroSection.tsx` and `CategoryPage.tsx` use predefined `onEnter` and `onLeave` handler functions passed to almost every card.
+  * Example: `onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(0,0,0,0.09)"; }}`
+  * *Why this matters:* When we integrate real data, we must ensure these native JS event listeners remain attached to the outermost `<a href>` wrappers, or the premium 3D lift effect will instantly break.
+* **Click Physics (`onMouseDown` & `onMouseUp`):**
+  * `PrimaryActionButton.tsx` intercepts mousedowns to execute `.style.transform = "scale(0.96)"`. It mimics the physical compression of an isometric button.
+* **ThreeJS WebGL (`useFrame`):**
+  * The canvases ignore mouse tracking entirely. There is no `onMouseMove` parallax on the 3D objects.
+  * Instead, they rely exclusively on `@react-three/fiber`'s `useFrame` hook to perpetually spin the objects:
+    ```javascript
+    useFrame((_state, delta) => {
+        if (ref.current) ref.current.rotation.y += delta * 0.25;
+    });
+    ```
+
+### 3. Framer Motion Lifecycle (A Surprising Discovery)
+
+**Conclusion: Framer Motion is NOT Used.**
+
+Despite being installed in `package.json` (`"framer-motion": "^12.31.1"`), a microscopic scan of the exact `pulse-ui-2` directories revealed that **not a single component is currently utilizing `<motion.div>`**.
+* There are no `AnimatePresence` tags.
+* There are no layout morphs or stagger physics.
+* All visual flair is currently handled by pure CSS transitions (`transition: all 0.2s`), React synthetic events directly editing inline styles, and the Three.js canvas engines.
+
+**Integration Strategy:** 
+When the backend is wired up, we do *not* have to worry about complex `exit={opacity: 0}` teardowns breaking. Because there is no Framer Motion presence hierarchy, React will simply hot-swap the DOM nodes instantly. We will, however, need to build our own loading states since there are no generic entry animations currently built in.
+
+---
+
+### Master Audit Completion Statement
+
+With Phase 4 mapped, the microscopic audits of both `frontend/apps/pulse` (UI-1) and `frontend/apps/pulse-ui-2` (UI-2) are now **100% Complete**. We have extracted their exact endpoints, component inventories, 3D WebGL requirements, mock data locations, and client logic maps. We are fully prepared to build the integration bridge.
