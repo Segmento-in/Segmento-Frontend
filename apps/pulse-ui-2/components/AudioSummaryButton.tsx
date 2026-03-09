@@ -279,16 +279,16 @@ export default function AudioSummaryButton({
                 <div className="absolute -top-14 -right-12 hidden md:block z-20"> {/* Hidden on mobile, top-right position */}
                     <div
                         className={cn(
-                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400",
+                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400 dark:border-purple-700 dark:from-purple-900 dark:to-pink-900",
                             isFading ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
                         )}
                     >
-                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap dark:text-gray-300">
                             {CATCHY_MESSAGES[messageIndex]}
                         </p>
                     </div>
                     {/* Triangular tail pointing down-left to the button */}
-                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform" />
+                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform dark:from-pink-900 dark:to-purple-900 dark:border-purple-700" />
                 </div>
 
                 {/* Ambient Glow Layer */}
@@ -324,7 +324,7 @@ export default function AudioSummaryButton({
                     onMouseLeave={() => setIsHovered(false)}
                     disabled={isResearch}
                     className={cn(
-                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-200/50",
+                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-200/50 dark:text-gray-200 dark:border-purple-700/50",
                         "transition-all duration-300 ease-out",
                         "hover:scale-105 hover:-translate-y-0.5",
                         "active:scale-100 active:translate-y-0",

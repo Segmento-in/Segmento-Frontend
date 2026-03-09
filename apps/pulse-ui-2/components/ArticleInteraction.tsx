@@ -47,12 +47,12 @@ export default function ArticleInteraction({
     };
 
     return (
-        <div className="flex items-center gap-6 py-4 border-y border-gray-100 my-6">
+        <div className="flex items-center gap-6 py-4 border-y border-gray-100 my-6 dark:border-gray-700">
             {/* Like Button */}
             <button
                 onClick={like}
                 disabled={loading}
-                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-red-500 disabled:opacity-50 group"
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-red-500 disabled:opacity-50 group dark:text-gray-400 dark:hover:text-red-400"
                 aria-label="Like article"
             >
                 <Heart
@@ -67,7 +67,7 @@ export default function ArticleInteraction({
             <button
                 onClick={dislike}
                 disabled={loading}
-                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-blue-600 disabled:opacity-50 group"
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-blue-600 disabled:opacity-50 group dark:text-gray-400 dark:hover:text-blue-400"
                 aria-label="Dislike article"
             >
                 <ThumbsDown className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -77,7 +77,7 @@ export default function ArticleInteraction({
             </button>
 
             {/* Views Display */}
-            <div className="flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                 <Eye className="w-5 h-5" />
                 <span className="font-medium text-sm">
                     {loading ? "..." : (stats?.views || 0)}
@@ -87,7 +87,7 @@ export default function ArticleInteraction({
             {/* Share Button */}
             <button
                 onClick={handleShare}
-                className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto"
+                className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto dark:text-gray-400 dark:hover:text-green-400"
                 aria-label="Share article"
             >
                 <Share2 className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -96,7 +96,7 @@ export default function ArticleInteraction({
 
             {/* Error Display (development only) */}
             {error && process.env.NODE_ENV === 'development' && (
-                <span className="text-xs text-red-500 ml-2">⚠️ {error}</span>
+                <span className="text-xs text-red-500 ml-2 dark:text-red-400">⚠️ {error}</span>
             )}
         </div>
     );

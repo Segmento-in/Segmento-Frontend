@@ -84,7 +84,7 @@ export function NewsletterCTA() {
                             borderRadius: "9999px", padding: "4px 14px", marginBottom: "20px",
                         }}>
                             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
-                            <span style={{ fontSize: "12px", fontWeight: 600, color: "#9CA3AF" }}>Newsletter · 3× Daily</span>
+                            <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--pulse-color-text-muted)" }}>Newsletter · 3× Daily</span>
                         </div>
 
                         <h2 style={{
@@ -96,7 +96,7 @@ export function NewsletterCTA() {
                             Get the weekly Pulse digest delivered straight to your inbox.
                         </h2>
 
-                        <p style={{ color: "#9CA3AF", fontSize: "15px", marginBottom: "32px", lineHeight: "1.6" }}>
+                        <p style={{ color: "var(--pulse-color-text-muted)", fontSize: "15px", marginBottom: "32px", lineHeight: "1.6" }}>
                             Curated AI, Cloud, and Data intelligence from Segmento Pulse.
                         </p>
 
@@ -106,7 +106,7 @@ export function NewsletterCTA() {
                                 background: "rgba(16,185,129,0.15)",
                                 borderRadius: "var(--pulse-radius-card)",
                                 border: "1px solid rgba(16,185,129,0.3)",
-                                color: "#6EE7B7",
+                                color: "var(--pulse-color-accent-green)",
                                 fontSize: "14px", fontWeight: 600,
                             }}>
                                 ✓ You&apos;re on the list! Check your inbox for the next edition.
@@ -131,7 +131,7 @@ export function NewsletterCTA() {
                                         style={{
                                             flex: 1, padding: "14px 20px",
                                             border: "none", outline: "none",
-                                            fontSize: "14px", color: "var(--pulse-color-text-primary)",
+                                            fontSize: "14px", color: "#111827",
                                             background: "transparent", minWidth: 0,
                                         }}
                                         aria-label="Email address for newsletter"
@@ -146,11 +146,11 @@ export function NewsletterCTA() {
                                     </PrimaryActionButton>
                                 </div>
                                 {error && (
-                                    <p style={{ fontSize: "13px", color: "#EF4444", marginTop: "8px", fontWeight: 500 }}>
+                                    <p style={{ fontSize: "13px", color: "var(--pulse-color-accent-red)", marginTop: "8px", fontWeight: 500 }}>
                                         {error}
                                     </p>
                                 )}
-                                <p style={{ fontSize: "12px", color: "#6B7280", marginTop: "12px" }}>
+                                <p style={{ fontSize: "12px", color: "var(--pulse-color-text-muted)", marginTop: "12px" }}>
                                     No spam, ever. Unsubscribe in one click.
                                 </p>
                             </form>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import TimeDisplay from '@/components/TimeDisplay';
@@ -31,6 +32,7 @@ interface ArticleDetailViewProps {
 }
 
 export default function ArticleDetailView({ article, isModal = false, onClose, ...props }: ArticleDetailViewProps) {
+    const { theme } = useTheme();
     const hasIncrementedRef = useRef(false);
 
     useEffect(() => {
@@ -48,12 +50,13 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
     }, [article, isModal]);
 
     return (
-        <div className={`container mx-auto px-3 xs:px-4 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-4xl ${isModal ? 'bg-white rounded-2xl' : ''}`}>
+        <div className={theme === 'dark' ? 'dark' : ''}>
+            <div className={`container mx-auto px-3 xs:px-4 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-4xl bg-white dark:bg-gray-900 ${isModal ? 'dark:bg-gray-800 rounded-2xl' : ''}`}>
             {/* Back Button - Only show if NOT a modal */}
             {!isModal && (
                 <Link
                     href={props.backLink || "/news"}
-                    className="inline-flex items-center gap-2 text-gray-500 hover:text-blue-600 mb-8 transition-colors"
+                    className="inline-flex items-center gap-2 text-gray-500 hover:text-blue-600 mb-8 transition-colors dark:text-gray-400 dark:hover:text-blue-400"
                 >
                     <ArrowLeft className="w-4 h-4" />
                     <span>{props.backLabel || "Back to News"}</span>
@@ -61,7 +64,7 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
             )}
 
             {/* Article Header */}
-            <article className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${isModal ? 'shadow-none border-none' : ''}`}>
+            <article className={`rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden ${isModal ? 'shadow-none border-none bg-transparent' : 'bg-white dark:bg-gray-800'}`}>
                 <div className="relative h-[250px] xs:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] w-full">
                     <img
                         src={article.image_url}
@@ -71,7 +74,7 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
                         <div className="flex items-center gap-3 text-white/90 mb-3 text-sm">
-                            <span className="bg-blue-600 px-3 py-1 rounded-full text-xs font-bold text-white">
+                            <span className="bg-blue-600 dark:bg-blue-500 px-3 py-1 rounded-full text-xs font-bold text-white">
                                 {article.source}
                             </span>
                             <TimeDisplay timestamp={article.published_at} className="text-white/90" />
@@ -91,7 +94,7 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                 </div>
 
                 <div className="p-8">
-                    <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-6 sm:mb-8">
+                    <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-6 sm:mb-8 dark:text-gray-300">
                         {article.description}
                     </p>
 
@@ -100,7 +103,7 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                             href={article.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full xs:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-blue-500/20 inline-flex items-center justify-center gap-2 transform hover:-translate-y-1 min-h-touch"
+                            className="w-full xs:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-blue-500/20 inline-flex items-center justify-center gap-2 transform hover:-translate-y-1 min-h-touch dark:bg-blue-500 dark:hover:bg-blue-600"
                             onClick={(e) => {
                                 // If in modal, maybe we want to close it when they go to source?
                                 // For now, let's keep it open or let default behavior happen
@@ -138,6 +141,7 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                     <CommentSection articleUrl={article.url} />
                 </div>
             </article>
+            </div>
         </div>
     );
 }

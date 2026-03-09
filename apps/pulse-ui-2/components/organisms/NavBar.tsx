@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { pulseAuth } from "@/lib/firebase";
+import ThemeToggle from "../atoms/ThemeToggle";
 
 // ── Main navigation items (Tier 1) ──────────────────────────
 const MAIN_NAV = [
@@ -67,8 +68,8 @@ export function NavBar() {
                 position: "sticky",
                 top: 0,
                 zIndex: 100,
-                background: "#ffffff",
-                borderBottom: "1px solid #E5E7EB",
+                background: "var(--pulse-color-card-bg)",
+                borderBottom: "1px solid var(--pulse-color-border-subtle)",
             }}
         >
             {/* ── TIER 1: Brand + Main nav ── */}
@@ -100,7 +101,7 @@ export function NavBar() {
                         style={{
                             width: "28px",
                             height: "28px",
-                            background: "#1A1A1A",
+                            background: "var(--pulse-color-brand-accent)",
                             borderRadius: "6px",
                             display: "flex",
                             alignItems: "center",
@@ -109,13 +110,13 @@ export function NavBar() {
                         }}
                     >
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                            <rect x="1" y="1" width="5" height="5" rx="1" fill="#fff" />
-                            <rect x="8" y="1" width="5" height="5" rx="1" fill="#fff" />
-                            <rect x="1" y="8" width="5" height="5" rx="1" fill="#fff" />
-                            <rect x="8" y="8" width="5" height="5" rx="1" fill="rgba(255,255,255,0.4)" />
+                            <rect x="1" y="1" width="5" height="5" rx="1" fill="var(--pulse-color-text-inverse)" />
+                            <rect x="8" y="1" width="5" height="5" rx="1" fill="var(--pulse-color-text-inverse)" />
+                            <rect x="1" y="8" width="5" height="5" rx="1" fill="var(--pulse-color-text-inverse)" />
+                            <rect x="8" y="8" width="5" height="5" rx="1" fill="var(--pulse-color-text-inverse)" />
                         </svg>
                     </span>
-                    <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em" }}>
+                    <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--pulse-color-text-primary)" }}>
                         Segmento Pulse
                     </span>
                 </Link>
@@ -125,55 +126,59 @@ export function NavBar() {
 
                 {/* Right actions */}
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
-                    {user ? (
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                            {user.photoURL ? (
-                                <img src={user.photoURL} alt="User" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
-                            ) : (
-                                <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "#4F46E5", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "bold" }}>
-                                    {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
-                                </div>
-                            )}
-                            <a href="#" onClick={handleLogout} style={{ fontSize: "13px", fontWeight: 500, color: "#6B7280", textDecoration: "none", marginLeft: "4px" }}>
-                                Sign Out
-                            </a>
-                        </div>
-                    ) : (
-                        <a
-                            href="#"
-                            style={{
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                color: "#374151",
-                                textDecoration: "none",
-                            }}
-                        >
-                            Sign In
-                        </a>
-                    )}
-                    <a
-                        href="#"
-                        style={{
-                            padding: "8px 18px",
-                            background: "#111827",
-                            color: "#fff",
-                            borderRadius: "9999px",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            textDecoration: "none",
-                            whiteSpace: "nowrap",
-                            transition: "opacity 150ms",
-                        }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
-                        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = "1")}
-                    >
-                        Subscribe
-                    </a>
+
+    <ThemeToggle />
+
+    {user ? (
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {user.photoURL ? (
+                <img src={user.photoURL} alt="User" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
+            ) : (
+                <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "var(--pulse-color-brand-purple)", color: "var(--pulse-color-text-inverse)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "bold" }}>
+                    {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
                 </div>
+            )}
+            <a href="#" onClick={handleLogout} style={{ fontSize: "13px", fontWeight: 500, color: "var(--pulse-color-text-secondary)", textDecoration: "none", marginLeft: "4px" }}>
+                Sign Out
+            </a>
+        </div>
+    ) : (
+        <a
+            href="#"
+            style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "var(--pulse-color-text-primary)",
+                textDecoration: "none",
+            }}
+        >
+            Sign In
+        </a>
+    )}
+
+    <a
+        href="#"
+        style={{
+            padding: "8px 18px",
+            background: "var(--pulse-color-brand-accent)",
+            color: "var(--pulse-color-text-inverse)",
+            borderRadius: "9999px",
+            fontSize: "14px",
+            fontWeight: 600,
+            textDecoration: "none",
+            whiteSpace: "nowrap",
+            transition: "opacity 150ms",
+        }}
+        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
+        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+    >
+        Subscribe
+    </a>
+</div>
             </div>
 
             {/* ── TIER 2: Category subnav ── */}
-            <div style={{ borderTop: "1px solid #F3F4F6" }}>
+            <div style={{ borderTop: "1px solid var(--pulse-color-border-subtle)" }}>
                 <div
                     style={{
                         maxWidth: "1200px",
@@ -200,20 +205,20 @@ export function NavBar() {
                                         height: "44px",
                                         fontSize: "13px",
                                         fontWeight: isActive ? 600 : 400,
-                                        color: isActive ? "#111827" : "#6B7280",
+                                        color: isActive ? "var(--pulse-color-text-primary)" : "var(--pulse-color-text-secondary)",
                                         textDecoration: "none",
                                         background: "transparent",
-                                        borderBottom: isActive ? "2px solid #111827" : "2px solid transparent",
+                                        borderBottom: isActive ? "2px solid var(--pulse-color-text-primary)" : "2px solid transparent",
                                         whiteSpace: "nowrap",
                                         transition: "color 120ms, border-color 120ms",
                                     }}
                                     onMouseEnter={e => {
                                         if (!isActive)
-                                            (e.currentTarget as HTMLElement).style.color = "#374151";
+                                            (e.currentTarget as HTMLElement).style.color = "var(--pulse-color-text-primary)";
                                     }}
                                     onMouseLeave={e => {
                                         if (!isActive)
-                                            (e.currentTarget as HTMLElement).style.color = "#6B7280";
+                                            (e.currentTarget as HTMLElement).style.color = "var(--pulse-color-text-secondary)";
                                     }}
                                 >
                                     {cat.label}
@@ -236,18 +241,18 @@ export function NavBar() {
                             border: "none",
                             borderRadius: "6px",
                             cursor: "pointer",
-                            color: "#6B7280",
+                            color: "var(--pulse-color-text-secondary)",
                             transition: "background 120ms, color 120ms",
                         }}
                         onMouseEnter={e => {
                             const el = e.currentTarget as HTMLElement;
-                            el.style.background = "#F3F4F6";
-                            el.style.color = "#111827";
+                            el.style.background = "var(--pulse-color-bg-hover)";
+                            el.style.color = "var(--pulse-color-text-primary)";
                         }}
                         onMouseLeave={e => {
                             const el = e.currentTarget as HTMLElement;
                             el.style.background = "transparent";
-                            el.style.color = "#6B7280";
+                            el.style.color = "var(--pulse-color-text-secondary)";
                         }}
                     >
                         <svg

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
@@ -20,6 +21,7 @@ const TOPICS = [
 ];
 
 export function ArticlesByTopic() {
+    const { theme } = useTheme();
     const [activeTab, setActiveTab] = useState("ai");
     const [articlesData, setArticlesData] = useState<Record<string, Article[]>>({});
     const [loading, setLoading] = useState(false);
@@ -82,14 +84,14 @@ export function ArticlesByTopic() {
     };
 
     return (
-        <section style={{ paddingBlock: "80px", borderTop: "1px solid #E5E7EB", background: "#ffffff" }}>
+        <section style={{ paddingBlock: "80px", borderTop: "1px solid var(--pulse-color-border-subtle)", background: "var(--pulse-color-bg-canvas)" }}>
             <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
 
                 {/* Section Header */}
-                <h2 style={{ fontSize: "32px", fontWeight: 800, letterSpacing: "-0.02em", color: "#111827", marginBottom: "12px" }}>
+                <h2 style={{ fontSize: "32px", fontWeight: 800, letterSpacing: "-0.02em", color: "var(--pulse-color-text-primary)", marginBottom: "12px" }}>
                     Articles by topic
                 </h2>
-                <p style={{ fontSize: "15px", color: "#6B7280", maxWidth: "600px", lineHeight: "1.6", marginBottom: "40px" }}>
+                <p style={{ fontSize: "15px", color: "var(--pulse-color-text-secondary)", maxWidth: "600px", lineHeight: "1.6", marginBottom: "40px" }}>
                     Dive into our top content categories like headless CMS, Jamstack, CSS frameworks, technical SEO, and more - learn from industry experts.
                 </p>
 
@@ -105,13 +107,13 @@ export function ArticlesByTopic() {
                                     display: "flex", alignItems: "center", gap: "8px",
                                     padding: "10px 16px",
                                     borderRadius: "8px",
-                                    border: isActive ? `1px solid ${topic.tagColor}` : "1px solid #E5E7EB",
-                                    background: isActive ? "#ffffff" : "#ffffff",
+                                    border: isActive ? `1px solid ${topic.tagColor}` : "1px solid var(--pulse-color-border-subtle)",
+                                    background: "var(--pulse-color-card-bg)",
                                     boxShadow: isActive ? "0 2px 8px rgba(0,0,0,0.06)" : "none",
                                     cursor: "pointer",
                                     fontWeight: isActive ? 600 : 500,
                                     fontSize: "13px",
-                                    color: isActive ? "#111827" : "#4B5563",
+                                    color: isActive ? "var(--pulse-color-text-primary)" : "var(--pulse-color-text-secondary)",
                                     flexShrink: 0,
                                     transition: "all 0.2s"
                                 }}
@@ -119,8 +121,8 @@ export function ArticlesByTopic() {
                                 <div style={{
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     width: "20px", height: "20px",
-                                    color: isActive ? topic.tagColor : "#9CA3AF",
-                                    background: isActive ? `${topic.tagColor}15` : "#F3F4F6",
+                                    color: isActive ? topic.tagColor : "var(--pulse-color-text-muted)",
+                                    background: isActive ? `${topic.tagColor}15` : "var(--pulse-color-bg-canvas)",
                                     borderRadius: "4px"
                                 }}>
                                     <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
@@ -144,7 +146,7 @@ export function ArticlesByTopic() {
                         </button>
                         <button style={{
                             background: "none", border: "none", fontSize: "14px", fontWeight: 600,
-                            color: "#9CA3AF", cursor: "pointer"
+                            color: "var(--pulse-color-text-muted)", cursor: "pointer"
                         }}>
                             AI
                         </button>
@@ -157,11 +159,11 @@ export function ArticlesByTopic() {
                                 onClick={() => scrollCards(arrow === "←" ? "left" : "right")}
                                 style={{
                                     width: "32px", height: "32px",
-                                    border: "1px solid #E5E7EB", borderRadius: "50%",
-                                    background: arrow === "←" ? "#F9FAFB" : "#fff",
+                                    border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "50%",
+                                    background: arrow === "←" ? "var(--pulse-color-bg-canvas)" : "var(--pulse-color-card-bg)",
                                     cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                     display: "flex", alignItems: "center", justifyContent: "center",
-                                    color: arrow === "←" ? "#D1D5DB" : "#111827",
+                                    color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
                                     fontFamily: "inherit",
                                 }}
                             >
@@ -181,16 +183,16 @@ export function ArticlesByTopic() {
                             transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
                             key={art.$id || idx} href={art.url || "#"} target="_blank" rel="noopener noreferrer" style={{
                                 display: "block", width: "280px", flexShrink: 0,
-                                border: "1px solid #E5E7EB", borderRadius: "10px", overflow: "hidden",
-                                textDecoration: "none", background: "#fff",
+                                border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "10px", overflow: "hidden",
+                                textDecoration: "none", background: "var(--pulse-color-card-bg)", color: "var(--pulse-color-text-primary)",
                                 transition: "box-shadow 0.2s",
                             }} onMouseEnter={e => { ((e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"); handleMouseEnterModal(art); }}
                             onMouseLeave={e => { ((e.currentTarget as HTMLElement).style.boxShadow = "none"); handleMouseLeaveModal(); }}>
 
                             <div style={{
-                                height: "160px", background: idx % 2 === 0 ? "#E0F2FE" : "#F3E8FF",
+                                height: "160px", background: "var(--pulse-color-bg-canvas)",
                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                borderBottom: "1px solid #E5E7EB"
+                                borderBottom: "1px solid var(--pulse-color-border-subtle)"
                             }}>
                                 {/* Simulating the specific grid + 3d cube vector pattern */}
                                 <img src={art.imgSrc} alt={art.title} style={{ width: "80%", height: "80%", objectFit: "contain" }} />
@@ -200,21 +202,21 @@ export function ArticlesByTopic() {
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
                                     <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                         <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#F97316" }} />
-                                        <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#4B5563" }}>{art.tag?.substring(0, 15)}</span>
+                                        <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--pulse-color-text-secondary)" }}>{art.tag?.substring(0, 15)}</span>
                                     </div>
-                                    <span style={{ fontSize: "11px", color: "#9CA3AF", fontWeight: 500 }}>{art.date ? new Date(art.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Today"}</span>
+                                    <span style={{ fontSize: "11px", color: "var(--pulse-color-text-muted)", fontWeight: 500 }}>{art.date ? new Date(art.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Today"}</span>
                                 </div>
                                 <h3 style={{
-                                    fontSize: "15px", fontWeight: 700, color: "#111827", lineHeight: 1.4, marginBottom: "20px",
+                                    fontSize: "15px", fontWeight: 700, color: "var(--pulse-color-text-primary)", lineHeight: 1.4, marginBottom: "20px",
                                     display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden"
                                 }}>
                                     {art.title}
                                 </h3>
                                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                     <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "#111827", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
                                     </div>
-                                    <span style={{ fontSize: "12px", color: "#4B5563", fontWeight: 500 }}>By {art.author}</span>
+                                    <span style={{ fontSize: "12px", color: "var(--pulse-color-text-secondary)", fontWeight: 500 }}>By {art.author}</span>
                                 </div>
                             </div>
                         </motion.a>
@@ -230,22 +232,22 @@ export function ArticlesByTopic() {
                         style={{
                             display: "flex", flexDirection: "column", justifyContent: "space-between",
                             width: "280px", flexShrink: 0, padding: "24px",
-                            border: "1px solid #FFEDD5", borderRadius: "10px",
-                            background: "#FFF7ED", textDecoration: "none"
+                            border: "1px solid var(--pulse-color-accent-orange-light)", borderRadius: "10px",
+                            background: "var(--pulse-color-accent-orange-bg)", textDecoration: "none", color: "var(--pulse-color-accent-orange)"
                         }}>
                         <div>
                             <div style={{
-                                width: "32px", height: "32px", borderRadius: "8px", background: "#FFEDD5",
-                                display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px", color: "#F97316"
+                                width: "32px", height: "32px", borderRadius: "8px", background: "var(--pulse-color-accent-orange-light)",
+                                display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "16px", color: "var(--pulse-color-accent-orange)"
                             }}>
                                 <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                             </div>
-                            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#111827", lineHeight: 1.4 }}>
+                            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--pulse-color-accent-orange)", lineHeight: 1.4 }}>
                                 Explore more articles about What&apos;s next
                             </h3>
                         </div>
                         <div style={{
-                            background: "#111827", color: "#fff", display: "inline-block",
+                            background: "var(--pulse-color-accent-orange)", color: "#fff", display: "inline-block",
                             padding: "8px 16px", borderRadius: "99px", fontSize: "12px",
                             fontWeight: 600, width: "max-content"
                         }}>
@@ -258,11 +260,11 @@ export function ArticlesByTopic() {
             {/* OVERLAY PORTAL FOR ARTICLE MODAL */}
             {hoveredArticle && typeof window !== 'undefined' && createPortal(
                 <div
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                    className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200 ${theme === 'dark' ? 'dark' : ''}`}
                     onClick={() => setHoveredArticle(null)}
                 >
                     <div
-                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button

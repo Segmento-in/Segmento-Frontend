@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "next-themes";
 
 /**
  * Inter font loaded via next/font/google.
@@ -40,9 +41,15 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return (
-        <html lang="en" className={inter.variable}>
-            <body>{children}</body>
-        </html>
-    );
+   
+
+return (
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+        <body className="bg-white text-gray-900 dark:bg-black dark:text-white transition-colors duration-300">
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                {children}
+            </ThemeProvider>
+        </body>
+    </html>
+);
 }
