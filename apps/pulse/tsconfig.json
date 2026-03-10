@@ -25,18 +25,6 @@
         "paths": {
             "@/*": [
                 "./*"
-            ],
-            "@/ui": [
-                "../../packages/ui/src"
-            ],
-            "@/ui/*": [
-                "../../packages/ui/src/*"
-            ],
-            "@/shared": [
-                "../../packages/shared/src"
-            ],
-            "@/shared/*": [
-                "../../packages/shared/src/*"
             ]
         }
     },
