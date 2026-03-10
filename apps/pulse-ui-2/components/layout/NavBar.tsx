@@ -328,25 +328,23 @@ export function NavBar() {
                     onClick={() => setIsNewsletterHubOpen(false)}
                 >
                     <div
+                        onClick={e => e.stopPropagation()}
+                        className="relative w-full max-w-6xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-[32px] shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-800"
                     >
-                        <div
-                            onClick={e => e.stopPropagation()}
-                            className="relative w-full max-w-6xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-[32px] shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-800"
+                        <button
+                            onClick={() => setIsNewsletterHubOpen(false)}
+                            className="absolute top-6 right-6 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 z-10 transition-colors"
                         >
-                            <button
-                                onClick={() => setIsNewsletterHubOpen(false)}
-                                className="absolute top-6 right-6 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 z-10 transition-colors"
-                            >
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M18 6L6 18M6 6l12 12" />
-                                </svg>
-                            </button>
-                            <div className="pt-4">
-                                <NewsletterHub />
-                            </div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M18 6L6 18M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <div className="pt-4">
+                            <NewsletterHub />
                         </div>
                     </div>
-                )}
-                </header>
-            );
+                </div>
+            )}
+        </header>
+    );
 }

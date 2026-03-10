@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 /**
- * HeroSection — Exact Prismic Blog Hero Replica
+ * HeroSection ΓÇö Exact Prismic Blog Hero Replica
  *
  * Layout: 3-column CSS Grid [200px | 1fr | 220px]
  *
@@ -8,13 +8,13 @@
  *                    illustration from Prismic's CDN.
  * Column B (1fr):    1 large featured card (SVG illustration top, full
  *                    text metadata below) + 3-card bottom row.
- * Column C (220px):  Numbered popularity list (01–06) with view counts
+ * Column C (220px):  Numbered popularity list (01ΓÇô06) with view counts
  *                    and trend arrows.
  *
  * Section background: #F6F7FB (light blue-gray, confirmed from live page)
  * Card background:    #FFFFFF with 1px solid #E5E7EB border
- * Page label:         "The Segmento Pulse Blog" — color #7C3AED (purple)
- * H1:                 "Nail your workflow." — ~52px, weight 900, tight tracking
+ * Page label:         "The Segmento Pulse Blog" ΓÇö color #7C3AED (purple)
+ * H1:                 "Nail your workflow." ΓÇö ~52px, weight 900, tight tracking
  *
  * Illustrations:      Static SVG assets via plain <img> tags
  *                     Hosted on: prismic-main.cdn.prismic.io (publicly accessible)
@@ -26,16 +26,15 @@ import { createPortal } from "react-dom";
 import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
-import { CategoryBadge } from "@/components/shared/CategoryBadge";
+import { CategoryBadge } from "@/components/atoms/CategoryBadge";
 import ArticleDetailView from "@/components/ArticleDetailView";
-import { formatDate } from "@/components/shared/AuthorMetaBlock";
 
-// ── BASE CDN ─────────────────────────────────────────────────
+// ΓöÇΓöÇ BASE CDN ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
 
-// ── ARTICLE DATA ────────────────────────────────────────────
+// ΓöÇΓöÇ ARTICLE DATA ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
-/** Left column — 3 stacked cards (no excerpt, illustration + badge + title) */
+/** Left column ΓÇö 3 stacked cards (no excerpt, illustration + badge + title) */
 const LEFT_CARDS = [
     {
         id: "lc1",
@@ -63,7 +62,7 @@ const LEFT_CARDS = [
     },
 ];
 
-/** Center — 1 large featured card */
+/** Center ΓÇö 1 large featured card */
 const CENTER_FEATURED = {
     id: "cf1",
     tag: "CLOUD",
@@ -77,7 +76,7 @@ const CENTER_FEATURED = {
     imgAlt: "Next.js Cache Components illustration",
 };
 
-/** Center — 3 cards in bottom row */
+/** Center ΓÇö 3 cards in bottom row */
 const CENTER_BOTTOM = [
     {
         id: "cb1",
@@ -114,7 +113,7 @@ const CENTER_BOTTOM = [
     },
 ];
 
-/** Right column — numbered popularity ranking */
+/** Right column ΓÇö numbered popularity ranking */
 const RIGHT_LIST = [
     { id: "r1", title: "OpenAI Announces GPT-5: A New Era of Reasoning", views: 2584, trend: "up" },
     { id: "r2", title: "AWS Introduces Next-Gen Graviton Processors", views: 2000, trend: "up" },
@@ -131,7 +130,7 @@ export interface HeroSectionProps {
     rightList?: any[];
 }
 
-// ── SMALL SHARED COMPONENTS ──────────────────────────────────
+// ΓöÇΓöÇ SMALL SHARED COMPONENTS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
 /** Author avatar + name */
 function AuthorAvatar({ name }: { name: string }) {
@@ -209,26 +208,40 @@ function TrendArrow({ dir }: { dir: string }) {
     );
 }
 
-// ── HOVER HELPERS ────────────────────────────────────────────────
-const CARD_BASE_CLASSES = "block bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700/50 rounded-2xl overflow-hidden text-slate-900 dark:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10";
+// ΓöÇΓöÇ HOVER HELPERS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+const onEnter = (sh: string) => (e: React.MouseEvent) => {
+    const el = e.currentTarget as HTMLElement;
+    el.style.boxShadow = sh;
+    el.style.transform = "translateY(-2px)";
+};
+const onLeave = (e: React.MouseEvent) => {
+    const el = e.currentTarget as HTMLElement;
+    el.style.boxShadow = "none";
+    el.style.transform = "translateY(0)";
+};
 
-const aestheticColors = [
-    "bg-sky-50 dark:bg-sky-900/30",
-    "bg-purple-50 dark:bg-purple-900/30",
-    "bg-amber-50 dark:bg-amber-900/30",
-    "bg-emerald-50 dark:bg-emerald-900/30",
-    "bg-rose-50 dark:bg-rose-900/30"
-];
+// ΓöÇΓöÇ SHARED CARD STYLE ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+const CARD_BASE: React.CSSProperties = {
+    display: "block",
+    background: "var(--pulse-color-card-bg)",
+    border: "1px solid var(--pulse-color-border-subtle)",
+    borderRadius: "10px",
+    overflow: "hidden",
+    textDecoration: "none",
+    color: "inherit",
+    transition: "box-shadow 180ms ease, transform 180ms ease",
+};
 
-// ── MAIN COMPONENT ───────────────────────────────────────────
+// ΓöÇΓöÇ MAIN COMPONENT ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 export function HeroSection({
-    leftCards = [],
-    centerFeatured = null,
-    centerBottom = [],
-    rightList = []
+    leftCards = LEFT_CARDS,
+    centerFeatured = CENTER_FEATURED,
+    centerBottom = CENTER_BOTTOM,
+    rightList = RIGHT_LIST
 }: HeroSectionProps = {}) {
     const { theme } = useTheme();
     const [hoveredArticle, setHoveredArticle] = useState<any | null>(null);
+
     const handleClickModal = (art: any) => {
         setHoveredArticle(art);
     };
@@ -258,7 +271,7 @@ export function HeroSection({
                     padding: "0 24px",
                 }}
             >
-                {/* ── Page label ── */}
+                {/* ΓöÇΓöÇ Page label ΓöÇΓöÇ */}
                 <p
                     style={{
                         fontSize: "13px",
@@ -271,7 +284,7 @@ export function HeroSection({
                     The Segmento Pulse Blog
                 </p>
 
-                {/* ── H1 ── */}
+                {/* ΓöÇΓöÇ H1 ΓöÇΓöÇ */}
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -288,7 +301,7 @@ export function HeroSection({
                     Real-time tech insights<br />and deep-dive analysis.
                 </motion.h1>
 
-                {/* ── 3-Column grid ── */}
+                {/* ΓöÇΓöÇ 3-Column grid ΓöÇΓöÇ */}
                 <div
                     style={{
                         display: "grid",
@@ -297,10 +310,10 @@ export function HeroSection({
                         alignItems: "start",
                     }}
                 >
-                    {/* ═══════════════════════════════════════════
-              COL A — 3 stacked small cards
+                    {/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+              COL A ΓÇö 3 stacked small cards
               Each: SVG illustration (4:3) + badge + title
-              ═══════════════════════════════════════════ */}
+              ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -311,24 +324,28 @@ export function HeroSection({
                             <a
                                 key={card.id || idx}
                                 href={card.href || card.url || "#"}
-                                className={`${CARD_BASE_CLASSES} min-h-[260px] flex flex-col bg-white dark:bg-slate-800`}
+                                style={{ ...CARD_BASE, minHeight: "260px" }}
                                 onClick={(e) => { e.preventDefault(); handleClickModal(card); }}
+                                onMouseEnter={(e) => { onEnter("0 4px 16px rgba(0,0,0,0.08)")(e); }}
+                                onMouseLeave={onLeave}
                             >
-                                {/* Illustration — taller 3:2 aspect ratio */}
-                                <div className={`aspect-[3/2] overflow-hidden flex items-center justify-center ${aestheticColors[idx % 5]}`}>
+                                {/* Illustration ΓÇö taller 3:2 aspect ratio */}
+                                <div style={{ aspectRatio: "3/2", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}>
                                     <img
-                                        src={card.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
-                                        alt={card.imgAlt || "Article"}
-                                        className="w-full h-full object-cover block"
-                                        loading="lazy"
-                                        onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
+                                        src={card.imgSrc}
+                                        alt={card.imgAlt}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            display: "block",
                                         }}
+                                        loading="lazy"
                                     />
                                 </div>
 
                                 {/* Card body */}
-                                <div className="p-4 flex-1 flex flex-col justify-between">
+                                <div style={{ padding: "16px 16px 18px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                                     <div>
                                         <CategoryBadge
                                             tag={card.tag}
@@ -336,7 +353,17 @@ export function HeroSection({
                                             style={{ marginBottom: "8px" }}
                                         />
                                         <p
-                                            className="text-[13px] font-semibold leading-tight text-slate-900 dark:text-white line-clamp-3"
+                                            style={{
+                                                fontSize: "13px",
+                                                fontWeight: 600,
+                                                lineHeight: 1.4,
+                                                color: "var(--pulse-color-text-primary)",
+                                                /* line-clamp via -webkit- */
+                                                overflow: "hidden",
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 3,
+                                                WebkitBoxOrient: "vertical" as const,
+                                            }}
                                         >
                                             {card.title}
                                         </p>
@@ -346,9 +373,9 @@ export function HeroSection({
                         ))}
                     </motion.div>
 
-                    {/* ═══════════════════════════════════════════
-              COL B — Large featured card + 3-card row
-              ═══════════════════════════════════════════ */}
+                    {/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+              COL B ΓÇö Large featured card + 3-card row
+              ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.96 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -357,72 +384,81 @@ export function HeroSection({
                     >
 
                         {/* Large featured card */}
-                        {/* Large featured card */}
-                        {centerFeatured && (
-                            <a
-                                href={centerFeatured.href || centerFeatured.url || "#"}
-                                className={`${CARD_BASE_CLASSES} bg-white dark:bg-slate-800`}
-                                onClick={(e) => { e.preventDefault(); handleClickModal(centerFeatured); }}
-                            >
-                                {/* Full-width SVG illustration — 16:9 */}
-                                <div className={`aspect-[16/9] overflow-hidden flex items-center justify-center ${aestheticColors[3]}`}>
-                                    <img
-                                        src={centerFeatured.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
-                                        alt={centerFeatured.imgAlt || "Featured Article"}
-                                        className="w-full h-full object-cover block"
-                                        loading="eager"
-                                        fetchPriority="high"
-                                        onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
-                                        }}
-                                    />
+                        <a
+                            href={centerFeatured.href || centerFeatured.url || "#"}
+                            style={CARD_BASE}
+                            onClick={(e) => { e.preventDefault(); handleClickModal(centerFeatured); }}
+                            onMouseEnter={(e) => { onEnter("0 6px 24px rgba(0,0,0,0.09)")(e); }}
+                            onMouseLeave={onLeave}
+                        >
+                            {/* Full-width SVG illustration ΓÇö 16:9 */}
+                            <div style={{ aspectRatio: "16/9", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}>
+                                <img
+                                    src={centerFeatured.imgSrc}
+                                    alt={centerFeatured.imgAlt}
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                                    loading="eager"
+                                    fetchPriority="high"
+                                />
+                            </div>
+
+                            {/* Card body */}
+                            <div style={{ padding: "18px 20px 20px" }}>
+                                {/* Badge + date on the same row (exact Prismic layout) */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "12px",
+                                        marginBottom: "11px",
+                                    }}
+                                >
+                                    <CategoryBadge tag={centerFeatured.tag || "News"} showDot />
+                                    <span style={{ fontSize: "13px", color: "var(--pulse-color-text-secondary)" }}>
+                                        {centerFeatured.date || "Just now"}
+                                    </span>
                                 </div>
 
-                                {/* Card body */}
-                                <div className="p-5">
-                                    {/* Badge + date on the same row (exact Prismic layout) */}
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            gap: "12px",
-                                            marginBottom: "11px",
-                                        }}
-                                    >
-                                        <CategoryBadge tag={centerFeatured.tag || "News"} showDot />
-                                        <span style={{ fontSize: "13px", color: "var(--pulse-color-text-secondary)" }}>
-                                            {formatDate(centerFeatured.date || centerFeatured.published_at) || "Just now"}
-                                        </span>
-                                    </div>
+                                {/* Title */}
+                                <h2
+                                    style={{
+                                        fontSize: "21px",
+                                        fontWeight: 800,
+                                        lineHeight: 1.25,
+                                        letterSpacing: "-0.02em",
+                                        color: "var(--pulse-color-text-primary)",
+                                        marginBottom: "9px",
+                                    }}
+                                >
+                                    {centerFeatured.title}
+                                </h2>
 
-                                    {/* Title */}
-                                    <h2
-                                        className="text-xl font-extrabold leading-tight tracking-tight text-slate-900 dark:text-white mb-2"
-                                    >
-                                        {centerFeatured.title}
-                                    </h2>
+                                {/* Excerpt */}
+                                <p
+                                    style={{
+                                        fontSize: "14px",
+                                        color: "var(--pulse-color-text-secondary)",
+                                        lineHeight: 1.6,
+                                        marginBottom: "16px",
+                                        overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const
+                                    }}
+                                >
+                                    {centerFeatured.excerpt || centerFeatured.description}
+                                </p>
 
-                                    {/* Excerpt */}
-                                    <p
-                                        className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4 line-clamp-2"
-                                    >
-                                        {centerFeatured.excerpt || centerFeatured.description}
-                                    </p>
-
-                                    {/* Author + view count */}
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
-                                        <AuthorAvatar name={centerFeatured.author || centerFeatured.source || "Pulse Staff"} />
-                                        <ViewCount count={centerFeatured.views || 0} />
-                                    </div>
+                                {/* Author + view count */}
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "space-between",
+                                    }}
+                                >
+                                    <AuthorAvatar name={centerFeatured.author || "Pulse Staff"} />
+                                    <ViewCount count={centerFeatured.views || 0} />
                                 </div>
-                            </a>
-                        )}
+                            </div>
+                        </a>
 
                         {/* 3-card bottom row */}
                         <div
@@ -436,31 +472,42 @@ export function HeroSection({
                                 <a
                                     key={card.id || idx}
                                     href={card.href || card.url || "#"}
-                                    className={`${CARD_BASE_CLASSES} bg-white dark:bg-slate-800`}
+                                    style={CARD_BASE}
                                     onClick={(e) => { e.preventDefault(); handleClickModal(card); }}
+                                    onMouseEnter={(e) => { onEnter("0 4px 14px rgba(0,0,0,0.08)")(e); }}
+                                    onMouseLeave={onLeave}
                                 >
-                                    {/* Small illustration — 4:3 */}
-                                    <div className={`aspect-[4/3] overflow-hidden flex items-center justify-center ${aestheticColors[(idx + 1) % 5]}`}>
+                                    {/* Small illustration ΓÇö 4:3 */}
+                                    <div
+                                        style={{ aspectRatio: "4/3", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}
+                                    >
                                         <img
-                                            src={card.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
-                                            alt={card.imgAlt || "Article"}
-                                            className="w-full h-full object-cover block"
+                                            src={card.imgSrc}
+                                            alt={card.imgAlt}
+                                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                                             loading="lazy"
-                                            onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
-                                            }}
                                         />
                                     </div>
 
                                     {/* Card body */}
-                                    <div className="p-3">
+                                    <div style={{ padding: "9px 11px 12px" }}>
                                         <CategoryBadge
                                             tag={card.tag}
                                             showDot
                                             style={{ marginBottom: "5px" }}
                                         />
                                         <p
-                                            className="text-xs font-semibold leading-tight text-slate-900 dark:text-white mb-2 line-clamp-2"
+                                            style={{
+                                                fontSize: "12px",
+                                                fontWeight: 600,
+                                                lineHeight: 1.4,
+                                                color: "var(--pulse-color-text-primary)",
+                                                marginBottom: "8px",
+                                                overflow: "hidden",
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 2,
+                                                WebkitBoxOrient: "vertical" as const,
+                                            }}
                                         >
                                             {card.title}
                                         </p>
@@ -487,39 +534,73 @@ export function HeroSection({
                         </div>
                     </motion.div>
 
-                    {/* ═══════════════════════════════════════════
-              COL C — Numbered popularity list
-              01–06, title + view count + trend arrow
-              ═══════════════════════════════════════════ */}
+                    {/* ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+              COL C ΓÇö Numbered popularity list
+              01ΓÇô06, title + view count + trend arrow
+              ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ */}
                     <motion.aside
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
                     >
-                        {rightList && rightList.map((item, idx) => (
+                        {RIGHT_LIST.map((item, idx) => (
                             <a
                                 key={item.id}
-                                href={item.url || item.href || "#"}
-                                className={`${CARD_BASE_CLASSES} flex items-start gap-3 p-3 py-2.5 mb-2.5 bg-white dark:bg-slate-800`}
-                                onClick={(e) => { e.preventDefault(); handleClickModal(item); }}
+                                href="#"
+                                style={{
+                                    display: "flex",
+                                    alignItems: "flex-start",
+                                    gap: "14px",
+                                    padding: "16px 0",
+                                    borderBottom: idx < RIGHT_LIST.length - 1
+                                        ? "1px solid var(--pulse-color-border-subtle)"
+                                        : "none",
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                    transition: "opacity 140ms",
+                                }}
+                                onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = "0.72")}
+                                onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = "1")}
                             >
                                 {/* Index number */}
                                 <span
-                                    className="text-xs font-bold text-slate-400 dark:text-slate-500 pt-1 shrink-0 min-w-[20px]"
+                                    style={{
+                                        fontSize: "11px",
+                                        fontWeight: 700,
+                                        color: "var(--pulse-color-text-muted)",
+                                        minWidth: "20px",
+                                        paddingTop: "2px",
+                                        flexShrink: 0,
+                                        lineHeight: 1,
+                                    }}
                                 >
                                     {String(idx + 1).padStart(2, "0")}
                                 </span>
 
                                 {/* Title */}
                                 <p
-                                    className="flex-1 text-[13px] font-semibold leading-relaxed text-slate-900 dark:text-white line-clamp-2"
+                                    style={{
+                                        flex: 1,
+                                        fontSize: "13px",
+                                        fontWeight: 600,
+                                        lineHeight: 1.4,
+                                        color: "var(--pulse-color-text-primary)",
+                                        minWidth: 0,
+                                    }}
                                 >
                                     {item.title}
                                 </p>
 
                                 {/* View count + trend */}
                                 <div
-                                    className="flex flex-col items-end gap-1 shrink-0 min-w-[36px]"
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "flex-end",
+                                        gap: "3px",
+                                        flexShrink: 0,
+                                        minWidth: "36px",
+                                    }}
                                 >
                                     <span
                                         style={{
@@ -528,9 +609,9 @@ export function HeroSection({
                                             color: "var(--pulse-color-text-primary)",
                                         }}
                                     >
-                                        {(item.views || 0).toLocaleString()}
+                                        {item.views.toLocaleString()}
                                     </span>
-                                    <TrendArrow dir={item.trend || "up"} />
+                                    <TrendArrow dir={item.trend} />
                                 </div>
                             </a>
                         ))}

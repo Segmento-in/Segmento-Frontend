@@ -35,27 +35,15 @@ export type CategoryPageProps = {
     subCategories?: Array<{ id: string; name: string }>;
 };
 
-const CARD_BASE: React.CSSProperties = {
-    display: "block",
-    background: "#ffffff",
-    border: "1px solid #E5E7EB",
-    borderRadius: "10px",
-    overflow: "hidden",
-    textDecoration: "none",
-    color: "inherit",
-    transition: "box-shadow 180ms ease, transform 180ms ease",
-};
+const CARD_BASE_CLASSES = "block bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700/50 rounded-[10px] overflow-hidden transition-all duration-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)] hover:-translate-y-1 cursor-pointer text-inherit no-underline";
 
-const onEnter = (e: React.MouseEvent) => {
-    const el = e.currentTarget as HTMLElement;
-    el.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
-    el.style.transform = "translateY(-2px)";
-};
-const onLeave = (e: React.MouseEvent) => {
-    const el = e.currentTarget as HTMLElement;
-    el.style.boxShadow = "none";
-    el.style.transform = "translateY(0)";
-};
+const aestheticColors = [
+    "bg-sky-50 dark:bg-sky-900/20",
+    "bg-purple-50 dark:bg-purple-900/20",
+    "bg-amber-50 dark:bg-amber-900/20",
+    "bg-emerald-50 dark:bg-emerald-900/20",
+    "bg-rose-50 dark:bg-rose-900/20",
+];
 
 function AuthorAvatar({ name }: { name: string }) {
     const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
@@ -277,12 +265,10 @@ export function CategoryPageTemplate({
                                     gap: "24px", marginBottom: "24px",
                                 }}
                             >
-                                {featuredArticles.map((art) => (
-                                    <a key={art.id} href={art.url || "#"} style={CARD_BASE}
-                                        onClick={(e) => handleClickModal(e, art)}
-                                        onMouseEnter={(e) => { onEnter(e); }}
-                                        onMouseLeave={(e) => { onLeave(e); }}>
-                                        <div style={{ aspectRatio: "16/10", background: "#f9fafb", overflow: "hidden" }}>
+                                {featuredArticles.map((art, idx) => (
+                                    <a key={art.id} href={art.url || "#"} className={CARD_BASE_CLASSES}
+                                        onClick={(e) => handleClickModal(e, art)}>
+                                        <div className={`aspect-[16/10] overflow-hidden ${aestheticColors[idx % aestheticColors.length]}`}>
                                             <img
                                                 src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -312,12 +298,10 @@ export function CategoryPageTemplate({
 
                             {/* ── LIST ARTICLES (Horizontal Row Cards) ── */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
-                                {clientListArticles.map((art) => (
-                                    <a key={art.id} href={art.url || "#"} style={{ ...CARD_BASE, display: "flex", flexDirection: "row", height: "180px" }}
-                                        onClick={(e) => handleClickModal(e, art)}
-                                        onMouseEnter={(e) => { onEnter(e); }}
-                                        onMouseLeave={(e) => { onLeave(e); }}>
-                                        <div style={{ width: "35%", height: "100%", background: "#f9fafb", overflow: "hidden", borderRight: "1px solid #E5E7EB" }}>
+                                {clientListArticles.map((art, idx) => (
+                                    <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex flex-row h-[180px]`}
+                                        onClick={(e) => handleClickModal(e, art)}>
+                                        <div className={`w-[35%] h-full overflow-hidden border-r border-gray-100 dark:border-slate-700/50 ${aestheticColors[(idx + featuredArticles.length) % aestheticColors.length]}`}>
                                             <img
                                                 src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -387,7 +371,7 @@ export function CategoryPageTemplate({
                     onClick={() => setHoveredArticle(null)}
                 >
                     <div
-                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button

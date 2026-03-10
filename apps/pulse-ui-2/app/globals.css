@@ -5,6 +5,7 @@
  */
 
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
 :root {
     /* Chromatic Architecture — PRD §Phase 1.1 */

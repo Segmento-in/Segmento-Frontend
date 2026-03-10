@@ -1,14 +1,13 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
-import { CategoryBadge } from "@/components/shared/CategoryBadge";
+import { CategoryBadge } from "@/components/atoms/CategoryBadge";
 import { fetchNewsByCategory, type Article } from "@/lib/newsApi";
 import ArticleDetailView from "@/components/ArticleDetailView";
-import { formatDate } from "@/components/shared/AuthorMetaBlock";
 
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
 
@@ -21,16 +20,6 @@ const TOPICS = [
     { id: "research-papers", label: "RESEARCH PAPERS", tagColor: "#8B5CF6", icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> }
 ];
 
-const CARD_BASE_CLASSES = "block w-[280px] shrink-0 bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700/50 rounded-2xl overflow-hidden text-slate-900 dark:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10";
-
-const aestheticColors = [
-    "bg-sky-50 dark:bg-sky-900/30",
-    "bg-purple-50 dark:bg-purple-900/30",
-    "bg-amber-50 dark:bg-amber-900/30",
-    "bg-emerald-50 dark:bg-emerald-900/30",
-    "bg-rose-50 dark:bg-rose-900/30"
-];
-
 export function ArticlesByTopic() {
     const { theme } = useTheme();
     const [activeTab, setActiveTab] = useState("ai");
@@ -40,9 +29,18 @@ export function ArticlesByTopic() {
     // Modal Hover State Handlers
     const [hoveredArticle, setHoveredArticle] = useState<Article | null>(null);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-    const handleClickModal = (e: React.MouseEvent, art: Article) => {
-        e.preventDefault();
-        setHoveredArticle(art);
+
+    const handleMouseEnterModal = (art: Article) => {
+        timerRef.current = setTimeout(() => {
+            setHoveredArticle(art);
+        }, 2000);
+    };
+
+    const handleMouseLeaveModal = () => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
     };
 
     useEffect(() => {
@@ -155,17 +153,17 @@ export function ArticlesByTopic() {
                     </div>
                     {/* Circular pagination arrows */}
                     <div style={{ display: "flex", gap: "8px" }}>
-                        {["←", "→"].map(arrow => (
+                        {["ΓåÉ", "ΓåÆ"].map(arrow => (
                             <button
                                 key={arrow}
-                                onClick={() => scrollCards(arrow === "←" ? "left" : "right")}
+                                onClick={() => scrollCards(arrow === "ΓåÉ" ? "left" : "right")}
                                 style={{
                                     width: "32px", height: "32px",
                                     border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "50%",
-                                    background: arrow === "←" ? "var(--pulse-color-bg-canvas)" : "var(--pulse-color-card-bg)",
+                                    background: arrow === "ΓåÉ" ? "var(--pulse-color-bg-canvas)" : "var(--pulse-color-card-bg)",
                                     cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                     display: "flex", alignItems: "center", justifyContent: "center",
-                                    color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
+                                    color: arrow === "ΓåÉ" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
                                     fontFamily: "inherit",
                                 }}
                             >
@@ -183,13 +181,21 @@ export function ArticlesByTopic() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: idx * 0.1, ease: "easeOut" }}
-                            key={art.$id || idx} href={art.url || "#"} target="_blank" rel="noopener noreferrer"
-                            className={CARD_BASE_CLASSES}
-                            onClick={(e) => handleClickModal(e, art)}>
+                            key={art.$id || idx} href={art.url || "#"} target="_blank" rel="noopener noreferrer" style={{
+                                display: "block", width: "280px", flexShrink: 0,
+                                border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "10px", overflow: "hidden",
+                                textDecoration: "none", background: "var(--pulse-color-card-bg)", color: "var(--pulse-color-text-primary)",
+                                transition: "box-shadow 0.2s",
+                            }} onMouseEnter={e => { ((e.currentTarget as HTMLElement).style.boxShadow = "0 8px 24px rgba(0,0,0,0.08)"); handleMouseEnterModal(art); }}
+                            onMouseLeave={e => { ((e.currentTarget as HTMLElement).style.boxShadow = "none"); handleMouseLeaveModal(); }}>
 
-                            <div className={`h-[160px] w-full flex items-center justify-center border-b border-gray-100 dark:border-slate-700/50 ${aestheticColors[idx % 5]}`}>
+                            <div style={{
+                                height: "160px", background: "var(--pulse-color-bg-canvas)",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                borderBottom: "1px solid var(--pulse-color-border-subtle)"
+                            }}>
                                 {/* Simulating the specific grid + 3d cube vector pattern */}
-                                <img src={art.imgSrc} alt={art.title} className="w-[80%] h-[80%] object-contain" />
+                                <img src={art.imgSrc} alt={art.title} style={{ width: "80%", height: "80%", objectFit: "contain" }} />
                             </div>
 
                             <div style={{ padding: "20px" }}>
@@ -198,7 +204,7 @@ export function ArticlesByTopic() {
                                         <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#F97316" }} />
                                         <span style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--pulse-color-text-secondary)" }}>{art.tag?.substring(0, 15)}</span>
                                     </div>
-                                    <span style={{ fontSize: "11px", color: "var(--pulse-color-text-muted)", fontWeight: 500 }}>{art.date ? formatDate(art.date) : "Today"}</span>
+                                    <span style={{ fontSize: "11px", color: "var(--pulse-color-text-muted)", fontWeight: 500 }}>{art.date ? new Date(art.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Today"}</span>
                                 </div>
                                 <h3 style={{
                                     fontSize: "15px", fontWeight: 700, color: "var(--pulse-color-text-primary)", lineHeight: 1.4, marginBottom: "20px",
@@ -222,7 +228,7 @@ export function ArticlesByTopic() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
-                        href={`/category/${activeTab}`}
+                        href="/latest-articles"
                         style={{
                             display: "flex", flexDirection: "column", justifyContent: "space-between",
                             width: "280px", flexShrink: 0, padding: "24px",

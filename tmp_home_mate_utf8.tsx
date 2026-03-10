@@ -1,16 +1,16 @@
-"use client";
+﻿"use client";
 /**
- * Segmento Pulse — Blog Homepage
+ * Segmento Pulse ΓÇö Blog Homepage
  *
  * Component-by-component replica of https://prismic.io/blog
  * Hero section built with real Prismic CDN SVG illustration assets.
  *
  * Page sections (top to bottom):
- *   1. NavBar          — Two-tier sticky nav (brand + subnav)
- *   2. HeroSection     — 3-col: stacked cards | large featured + 3-row | popularity list
- *   3. YouTube strip   — Dark horizontal scroll of video cards
- *   4–6. Topic sections — Sticky header (25%) + 3-col article grid (75%)
- *   7. NewsletterCTA   — Email signup band
+ *   1. NavBar          ΓÇö Two-tier sticky nav (brand + subnav)
+ *   2. HeroSection     ΓÇö 3-col: stacked cards | large featured + 3-row | popularity list
+ *   3. YouTube strip   ΓÇö Dark horizontal scroll of video cards
+ *   4ΓÇô6. Topic sections ΓÇö Sticky header (25%) + 3-col article grid (75%)
+ *   7. NewsletterCTA   ΓÇö Email signup band
  *   8. Articles by topic
  *   9. Changelog strip
  *  10. Bottom CTA band
@@ -26,7 +26,7 @@ import { CategoryBadge } from "@/components/shared/CategoryBadge";
 import { ArticlesByTopic } from "@/components/layout/ArticlesByTopic";
 import { formatDate } from "@/components/shared/AuthorMetaBlock";
 
-// ── TOPIC SECTIONS DATA ─────────────────────────────────────────────
+// ΓöÇΓöÇ TOPIC SECTIONS DATA ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
 
 type TopicArticle = {
@@ -209,7 +209,7 @@ const DEFAULT_TOPIC_SECTIONS: Array<{
         },
     ];
 
-// ── YOUTUBE VIDEOS ─────────────────────────────────────────────
+// ΓöÇΓöÇ YOUTUBE VIDEOS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const YOUTUBE_VIDEOS = [
     { id: "y1", title: "They hacked web fonts?", views: "218", date: "Mar 6, 2026", tag: "CLOUD", imgSrc: `${CDN}/5ad3b8c6-fe07-46d1-8fcf-f0742ec3f650_headless.svg`, bg: "#f0f9ff" },
     { id: "y2", title: "AI Bots are turning against devs - OpenClaw", views: "555", date: "Feb 21, 2026", tag: "AI", imgSrc: `${CDN}/1dea46fd-52ba-49cb-958e-338b0cfdc15e_AI+Tools+for+Dev+Productivity.svg`, bg: "#f5f3ff" },
@@ -218,19 +218,27 @@ const YOUTUBE_VIDEOS = [
     { id: "y5", title: "Did Cursor copy Webflow?", views: "964", date: "Dec 23, 2025", tag: "CLOUD", imgSrc: `${CDN}/3e264149-6310-4972-b382-a7eda0e98c5d_what-is-jamstack.svg`, bg: "#fdf2f8" },
 ];
 
-// ── SHARED ─────────────────────────────────────────────────────
-const CARD_BASE_CLASSES = "block bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700/50 rounded-2xl overflow-hidden text-slate-900 dark:text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10";
+// ΓöÇΓöÇ SHARED ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+const CARD_BASE: React.CSSProperties = {
+    display: "block",
+    background: "#ffffff",
+    border: "1px solid #E5E7EB",
+    borderRadius: "10px",
+    overflow: "hidden",
+    textDecoration: "none",
+    color: "inherit",
+    transition: "box-shadow 180ms, transform 180ms",
+};
+const onEnter = (e: React.MouseEvent) => {
+    (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+    (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+};
+const onLeave = (e: React.MouseEvent) => {
+    (e.currentTarget as HTMLElement).style.boxShadow = "none";
+    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+};
 
-// Fun aesthetic color combos for article image backgrounds
-const aestheticColors = [
-    "bg-sky-50 dark:bg-sky-900/30",
-    "bg-purple-50 dark:bg-purple-900/30",
-    "bg-amber-50 dark:bg-amber-900/30",
-    "bg-emerald-50 dark:bg-emerald-900/30",
-    "bg-rose-50 dark:bg-rose-900/30"
-];
-
-// ── PAGE ───────────────────────────────────────────────────────
+// ΓöÇΓöÇ PAGE ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 export function PulseBlogHomeClient({
     heroLeft,
     heroCenter,
@@ -257,11 +265,11 @@ export function PulseBlogHomeClient({
 
     return (
         <>
-            {/* ━━━ 1. NAV ━━━ */}
+            {/* ΓöüΓöüΓöü 1. NAV ΓöüΓöüΓöü */}
             <NavBar />
 
             <main>
-                {/* ━━━ 2. HERO (3-column, real SVG assets) ━━━ */}
+                {/* ΓöüΓöüΓöü 2. HERO (3-column, real SVG assets) ΓöüΓöüΓöü */}
                 <HeroSection
                     leftCards={heroLeft}
                     centerFeatured={heroCenter}
@@ -269,27 +277,27 @@ export function PulseBlogHomeClient({
                     rightList={heroRight}
                 />
 
-                {/* ━━━ 3. YOUTUBE DARK STRIP ━━━ */}
+                {/* ΓöüΓöüΓöü 3. YOUTUBE DARK STRIP ΓöüΓöüΓöü */}
                 {videos.length > 0 && (
-                    <section style={{ background: "var(--pulse-color-bg-surface-dark)", paddingBlock: "52px" }}>
+                    <section style={{ background: "#111827", paddingBlock: "52px" }}>
                         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                                <span style={{ fontSize: "20px", fontWeight: 700, color: "var(--pulse-color-text-inverse)", letterSpacing: "-0.01em" }}>
-                                    Latest Medium articles
+                                <span style={{ fontSize: "20px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
+                                    Latest Youtube content
                                 </span>
                                 {/* Circular pagination arrows */}
                                 <div style={{ display: "flex", gap: "8px" }}>
-                                    {["←", "→"].map(arrow => (
+                                    {["ΓåÉ", "ΓåÆ"].map(arrow => (
                                         <button
                                             key={arrow}
-                                            onClick={() => scrollYT(arrow === "←" ? "left" : "right")}
+                                            onClick={() => scrollYT(arrow === "ΓåÉ" ? "left" : "right")}
                                             style={{
                                                 width: "32px", height: "32px",
                                                 border: "1px solid rgba(255,255,255,0.15)", borderRadius: "50%",
-                                                background: arrow === "←" ? "rgba(255,255,255,0.05)" : "var(--pulse-color-text-inverse)",
+                                                background: arrow === "ΓåÉ" ? "rgba(255,255,255,0.05)" : "#fff",
                                                 cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                                color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
+                                                color: arrow === "ΓåÉ" ? "#9CA3AF" : "#111827",
                                                 fontFamily: "inherit",
                                                 transition: "all 0.2s"
                                             }}
@@ -300,24 +308,25 @@ export function PulseBlogHomeClient({
                                 </div>
                             </div>
                             <div ref={ytScrollRef} style={{ display: "flex", gap: "16px", overflowX: "auto", paddingBottom: "32px", paddingTop: "12px", scrollbarWidth: "none" }}>
-                                {videos.map((vid, idx) => (
+                                {videos.map((vid) => (
                                     <a
                                         key={vid.id}
                                         href={vid.url || "#"}
-                                        className={`${CARD_BASE_CLASSES} flex-shrink-0 w-[300px] border-white/10 dark:border-white/10 bg-white dark:bg-slate-800`}
+                                        style={{ ...CARD_BASE, flexShrink: 0, width: "300px" }}
+                                        onMouseEnter={onEnter} onMouseLeave={onLeave}
                                     >
-                                        <div className={`aspect-[4/3] overflow-hidden ${aestheticColors[idx % 5]}`}>
-                                            <img src={vid.imgSrc} alt={vid.title} loading="lazy" className="w-full h-full object-cover" />
+                                        <div style={{ aspectRatio: "4/3", overflow: "hidden", background: vid.bg }}>
+                                            <img src={vid.imgSrc} alt={vid.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                                         </div>
                                         <div style={{ padding: "16px 20px" }}>
                                             <CategoryBadge tag={vid.tag} showDot style={{ marginBottom: "10px" }} />
                                             <h4 style={{
-                                                fontSize: "15px", fontWeight: 600, lineHeight: 1.4, color: "var(--pulse-color-text-primary)", marginBottom: "12px",
+                                                fontSize: "15px", fontWeight: 600, lineHeight: 1.4, color: "#111827", marginBottom: "12px",
                                                 overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const
                                             }}>
                                                 {vid.title}
                                             </h4>
-                                            <span style={{ fontSize: "13px", color: "var(--pulse-color-text-secondary)", fontWeight: 500 }}>{vid.views} views · {formatDate(vid.date) || vid.date}</span>
+                                            <span style={{ fontSize: "13px", color: "#6B7280", fontWeight: 500 }}>{vid.views} views ┬╖ {formatDate(vid.date) || vid.date}</span>
                                         </div>
                                     </a>
                                 ))}
@@ -326,11 +335,11 @@ export function PulseBlogHomeClient({
                     </section>
                 )}
 
-                {/* ━━━ 4–6. TOPIC SECTIONS (3 blocks) ━━━ */}
+                {/* ΓöüΓöüΓöü 4ΓÇô6. TOPIC SECTIONS (3 blocks) ΓöüΓöüΓöü */}
                 {topics.map((section, sIdx) => (
                     <section
                         key={section.id}
-                        style={{ paddingBlock: "60px", borderTop: "1px solid var(--pulse-color-border-subtle)" }}
+                        style={{ paddingBlock: "60px", borderTop: "1px solid #E5E7EB" }}
                     >
                         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr", gap: "40px", alignItems: "start" }}>
@@ -338,33 +347,33 @@ export function PulseBlogHomeClient({
                                 {/* Left sticky header */}
                                 <div style={{ position: "sticky", top: "120px" }}>
                                     <CategoryBadge tag={section.tag} style={{ marginBottom: "14px" }} />
-                                    <h2 style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: "10px", color: "var(--pulse-color-text-primary)" }}>
+                                    <h2 style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: "10px" }}>
                                         {section.title}
                                     </h2>
-                                    <p style={{ fontSize: "14px", color: "var(--pulse-color-text-secondary)", lineHeight: 1.65, marginBottom: "18px" }}>
+                                    <p style={{ fontSize: "14px", color: "#6B7280", lineHeight: 1.65, marginBottom: "18px" }}>
                                         {section.description}
                                     </p>
                                     <a href={`/category/${section.id}`} style={{
                                         display: "inline-flex", alignItems: "center", gap: "5px",
-                                        fontSize: "13px", fontWeight: 600, color: "var(--pulse-color-text-primary)",
-                                        textDecoration: "none", borderBottom: "1.5px solid var(--pulse-color-text-primary)",
+                                        fontSize: "13px", fontWeight: 600, color: "#111827",
+                                        textDecoration: "none", borderBottom: "1.5px solid #111827",
                                         paddingBottom: "1px", marginBottom: "20px",
                                     }}>
-                                        Read more →
+                                        Read more ΓåÆ
                                     </a>
                                     {/* Circular pagination arrows */}
                                     <div style={{ display: "flex", gap: "8px" }}>
-                                        {["←", "→"].map(arrow => (
+                                        {["ΓåÉ", "ΓåÆ"].map(arrow => (
                                             <button
                                                 key={arrow}
-                                                onClick={() => scrollTopic(sIdx, arrow === "←" ? "left" : "right")}
+                                                onClick={() => scrollTopic(sIdx, arrow === "ΓåÉ" ? "left" : "right")}
                                                 style={{
                                                     width: "32px", height: "32px",
-                                                    border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "50%",
-                                                    background: arrow === "←" ? "var(--pulse-color-bg-canvas)" : "var(--pulse-color-card-bg)",
+                                                    border: "1px solid #E5E7EB", borderRadius: "50%",
+                                                    background: arrow === "ΓåÉ" ? "#F9FAFB" : "#fff",
                                                     cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                                     display: "flex", alignItems: "center", justifyContent: "center",
-                                                    color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
+                                                    color: arrow === "ΓåÉ" ? "#D1D5DB" : "#111827",
                                                     fontFamily: "inherit",
                                                 }}
                                             >
@@ -381,21 +390,21 @@ export function PulseBlogHomeClient({
                                     }}
                                     style={{ display: "flex", gap: "16px", overflowX: "auto", scrollbarWidth: "none", paddingBottom: "10px" }}
                                 >
-                                    {section.articles.map((art, aIdx) => (
-                                        <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex-shrink-0 w-[calc(33.333%-11px)] min-w-[260px] bg-white dark:bg-slate-800`}>
-                                            <div className={`aspect-[4/3] overflow-hidden ${aestheticColors[aIdx % 5]} flex items-center justify-center`}>
+                                    {section.articles.map(art => (
+                                        <a key={art.id} href={art.url || "#"} style={{ ...CARD_BASE, flexShrink: 0, width: "calc(33.333% - 11px)", minWidth: "260px" }} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+                                            <div style={{ aspectRatio: "4/3", overflow: "hidden", background: "#fff" }}>
                                                 <img src={art.imgSrc} alt={art.imgAlt} loading="lazy"
-                                                    className="w-full h-full object-cover" />
+                                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                                             </div>
                                             <div style={{ padding: "12px 14px 16px" }}>
                                                 <CategoryBadge tag={art.tag} showDot style={{ marginBottom: "7px" }} />
                                                 <h4 style={{
-                                                    fontSize: "13px", fontWeight: 600, lineHeight: 1.4, marginBottom: "10px", color: "var(--pulse-color-text-primary)",
+                                                    fontSize: "13px", fontWeight: 600, lineHeight: 1.4, marginBottom: "10px",
                                                     overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const
                                                 }}>
                                                     {art.title}
                                                 </h4>
-                                                <span style={{ fontSize: "12px", color: "var(--pulse-color-text-muted)" }}>{art.author} · {formatDate(art.date) || art.date}</span>
+                                                <span style={{ fontSize: "12px", color: "#9CA3AF" }}>{art.author} ┬╖ {formatDate(art.date) || art.date}</span>
                                             </div>
                                         </a>
                                     ))}
@@ -405,10 +414,10 @@ export function PulseBlogHomeClient({
                     </section>
                 ))}
 
-                {/* ━━━ 7. NEWSLETTER CTA ━━━ */}
+                {/* ΓöüΓöüΓöü 7. NEWSLETTER CTA ΓöüΓöüΓöü */}
                 <NewsletterCTA />
 
-                {/* ━━━ 8. ARTICLES BY TOPIC ━━━ */}
+                {/* ΓöüΓöüΓöü 8. ARTICLES BY TOPIC ΓöüΓöüΓöü */}
                 <ArticlesByTopic />
 
             </main>

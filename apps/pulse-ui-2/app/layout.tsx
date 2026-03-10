@@ -41,15 +41,15 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-   
 
-return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
-        <body className="bg-white text-gray-900 dark:bg-black dark:text-white transition-colors duration-300">
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                {children}
-            </ThemeProvider>
-        </body>
-    </html>
-);
+
+    return (
+        <html lang="en" className={inter.variable} suppressHydrationWarning>
+            <body className="transition-colors duration-300">
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    {children}
+                </ThemeProvider>
+            </body>
+        </html>
+    );
 }
