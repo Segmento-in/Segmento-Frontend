@@ -1,4 +1,4 @@
-import { PulseBlogHomeClient } from "@/components/templates/HomePageClient";
+import { PulseBlogHomeClient } from "@/components/views/HomePageClient";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 
 export default async function Page() {

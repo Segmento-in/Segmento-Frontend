@@ -1,4 +1,4 @@
-import { CategoryPageTemplate } from "@/components/templates/CategoryPage";
+import { CategoryPageTemplate } from "@/components/views/CategoryPage";
 import { notFound } from "next/navigation";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 import { use } from "react";
@@ -12,6 +12,43 @@ type CategoryUI = {
     heroIconShapeColor?: string;
     heroIconSVG: React.ReactNode;
     tags: string[];
+};
+
+export const categoryRelationships: Record<string, Array<{ id: string; name: string }>> = {
+    'cloud': [
+        { id: "cloud", name: "All Cloud" },
+        { id: "cloud-aws", name: "AWS" },
+        { id: "cloud-gcp", name: "GCP" },
+        { id: "cloud-azure", name: "Azure" },
+        { id: "cloud-ibm", name: "IBM Cloud" },
+        { id: "cloud-oracle", name: "Oracle" },
+        { id: "cloud-digitalocean", name: "DigitalOcean" },
+        { id: "cloud-salesforce", name: "Salesforce" },
+        { id: "cloud-alibaba", name: "Alibaba Cloud" },
+        { id: "cloud-tencent", name: "Tencent Cloud" },
+        { id: "cloud-huawei", name: "Huawei Cloud" },
+        { id: "cloud-cloudflare", name: "Cloudflare" },
+    ],
+    'data': [
+        { id: "data", name: "All Data Articles" },
+        { id: "data-engineering", name: "Data Engineering" },
+        { id: "data-governance", name: "Data Governance" },
+        { id: "data-management", name: "Data Management" },
+        { id: "data-privacy", name: "Data Privacy" },
+        { id: "data-security", name: "Data Security" },
+        { id: "data-laws", name: "Data Laws" },
+        { id: "customer-data-platform", name: "Customer Data Platform" },
+        { id: "business-intelligence", name: "Business Intelligence" },
+        { id: "business-analytics", name: "Business Analytics" },
+        { id: "data-centers", name: "Data Centers" },
+    ],
+    'research-papers': [
+        { id: "research-papers", name: "All Research" },
+        { id: "research-ai", name: "Artificial Intelligence" },
+        { id: "research-ml", name: "Machine Learning" },
+        { id: "research-cloud", name: "Cloud Computing" },
+        { id: "research-data", name: "Data Engineering" },
+    ]
 };
 
 const CATEGORY_UI_METADATA: Record<string, CategoryUI> = {
@@ -94,12 +131,22 @@ const CATEGORY_UI_METADATA: Record<string, CategoryUI> = {
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
+    const slug = resolvedParams.slug;
 
-    const uiData = CATEGORY_UI_METADATA[resolvedParams.slug];
+    // Determine the root category (e.g., "cloud-aws" -> "cloud", "data-engineering" -> "data")
+    let rootCategory = slug;
+    if (slug.startsWith('cloud-')) rootCategory = 'cloud';
+    else if (slug.startsWith('data-')) rootCategory = 'data';
+    else if (slug.startsWith('research-') && slug !== 'research-papers') rootCategory = 'research-papers';
+
+    const uiData = CATEGORY_UI_METADATA[rootCategory];
     if (!uiData) notFound();
 
+    // Map the subcategories if they exist for this root category
+    const subCategories = categoryRelationships[rootCategory] || [];
+
     // ── SSR Data Fetching ──────────────────────────────────────────
-    const articles = await fetchNewsByCategory(resolvedParams.slug, 1, 30);
+    const articles = await fetchNewsByCategory(slug, 1, 30);
 
     // Split payload for the UI template format
     const featuredArticles = articles.slice(0, 2).map(a => ({ ...a, id: a.id as string, url: a.url as string, tag: a.tag || "News", author: a.source || a.author || "Pulse", date: a.published_at as string, views: a.views || 0, imgSrc: a.image_url as string, imgAlt: a.title }));
@@ -115,7 +162,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             tags={uiData.tags}
             featuredArticles={featuredArticles}
             listArticles={listArticles}
-            categorySlug={resolvedParams.slug}
+            categorySlug={slug}
+            subCategories={subCategories}
         />
     );
 }

@@ -7,15 +7,26 @@ import type { NextConfig } from "next";
  * Will be extended in later phases once architecture is validated.
  */
 const nextConfig: NextConfig = {
+    basePath: '/pulse',
+    output: 'standalone',
+    // Allow any remote image domain during parallel testing.
     images: {
-        // Allow any remote image domain during parallel testing.
-        // Tighten to specific domains before production swap.
         remotePatterns: [
             {
                 protocol: "https",
                 hostname: "**",
             },
         ],
+    },
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/pulse',
+                basePath: false,
+                permanent: false,
+            }
+        ];
     },
 };
 

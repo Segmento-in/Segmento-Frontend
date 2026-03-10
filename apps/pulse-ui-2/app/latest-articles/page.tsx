@@ -1,4 +1,4 @@
-import { CategoryPageTemplate } from "@/components/templates/CategoryPage";
+import { CategoryPageTemplate } from "@/components/views/CategoryPage";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 
 const TAGS = [
