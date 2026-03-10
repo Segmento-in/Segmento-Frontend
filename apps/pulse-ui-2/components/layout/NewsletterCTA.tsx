@@ -47,7 +47,7 @@ export function NewsletterCTA() {
                             borderRadius: "9999px", padding: "4px 14px", marginBottom: "20px",
                         }}>
                             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
-                            <span style={{ fontSize: "12px", fontWeight: 600, color: "#9CA3AF" }}>Newsletter · 3× Daily</span>
+                            <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--pulse-color-text-muted)" }}>Newsletter · 3× Daily</span>
                         </div>
 
                         <h2 style={{
@@ -59,7 +59,7 @@ export function NewsletterCTA() {
                             Get the weekly Pulse digest delivered straight to your inbox.
                         </h2>
 
-                        <p style={{ color: "#9CA3AF", fontSize: "15px", marginBottom: "32px", lineHeight: "1.6" }}>
+                        <p style={{ color: "var(--pulse-color-text-muted)", fontSize: "15px", marginBottom: "32px", lineHeight: "1.6" }}>
                             Curated AI, Cloud, and Data intelligence from Segmento Pulse.
                         </p>
 

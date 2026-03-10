@@ -221,12 +221,12 @@ const YOUTUBE_VIDEOS = [
 // ── SHARED ─────────────────────────────────────────────────────
 const CARD_BASE: React.CSSProperties = {
     display: "block",
-    background: "#ffffff",
-    border: "1px solid #E5E7EB",
+    background: "var(--pulse-color-card-bg)",
+    border: "1px solid var(--pulse-color-border-subtle)",
     borderRadius: "10px",
     overflow: "hidden",
     textDecoration: "none",
-    color: "inherit",
+    color: "var(--pulse-color-text-primary)",
     transition: "box-shadow 180ms, transform 180ms",
 };
 const onEnter = (e: React.MouseEvent) => {
@@ -279,10 +279,10 @@ export function PulseBlogHomeClient({
 
                 {/* ━━━ 3. YOUTUBE DARK STRIP ━━━ */}
                 {videos.length > 0 && (
-                    <section style={{ background: "#111827", paddingBlock: "52px" }}>
+                    <section style={{ background: "var(--pulse-color-bg-surface-dark)", paddingBlock: "52px" }}>
                         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                                <span style={{ fontSize: "20px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
+                                <span style={{ fontSize: "20px", fontWeight: 700, color: "var(--pulse-color-text-inverse)", letterSpacing: "-0.01em" }}>
                                     Latest Youtube content
                                 </span>
                                 {/* Circular pagination arrows */}
@@ -294,10 +294,10 @@ export function PulseBlogHomeClient({
                                             style={{
                                                 width: "32px", height: "32px",
                                                 border: "1px solid rgba(255,255,255,0.15)", borderRadius: "50%",
-                                                background: arrow === "←" ? "rgba(255,255,255,0.05)" : "#fff",
+                                                background: arrow === "←" ? "rgba(255,255,255,0.05)" : "var(--pulse-color-text-inverse)",
                                                 cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                                color: arrow === "←" ? "#9CA3AF" : "#111827",
+                                                color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
                                                 fontFamily: "inherit",
                                                 transition: "all 0.2s"
                                             }}
@@ -321,12 +321,12 @@ export function PulseBlogHomeClient({
                                         <div style={{ padding: "16px 20px" }}>
                                             <CategoryBadge tag={vid.tag} showDot style={{ marginBottom: "10px" }} />
                                             <h4 style={{
-                                                fontSize: "15px", fontWeight: 600, lineHeight: 1.4, color: "#111827", marginBottom: "12px",
+                                                fontSize: "15px", fontWeight: 600, lineHeight: 1.4, color: "var(--pulse-color-text-primary)", marginBottom: "12px",
                                                 overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const
                                             }}>
                                                 {vid.title}
                                             </h4>
-                                            <span style={{ fontSize: "13px", color: "#6B7280", fontWeight: 500 }}>{vid.views} views · {formatDate(vid.date) || vid.date}</span>
+                                            <span style={{ fontSize: "13px", color: "var(--pulse-color-text-secondary)", fontWeight: 500 }}>{vid.views} views · {formatDate(vid.date) || vid.date}</span>
                                         </div>
                                     </a>
                                 ))}
@@ -339,7 +339,7 @@ export function PulseBlogHomeClient({
                 {topics.map((section, sIdx) => (
                     <section
                         key={section.id}
-                        style={{ paddingBlock: "60px", borderTop: "1px solid #E5E7EB" }}
+                        style={{ paddingBlock: "60px", borderTop: "1px solid var(--pulse-color-border-subtle)" }}
                     >
                         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr", gap: "40px", alignItems: "start" }}>
@@ -347,16 +347,16 @@ export function PulseBlogHomeClient({
                                 {/* Left sticky header */}
                                 <div style={{ position: "sticky", top: "120px" }}>
                                     <CategoryBadge tag={section.tag} style={{ marginBottom: "14px" }} />
-                                    <h2 style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: "10px" }}>
+                                    <h2 style={{ fontSize: "20px", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.3, marginBottom: "10px", color: "var(--pulse-color-text-primary)" }}>
                                         {section.title}
                                     </h2>
-                                    <p style={{ fontSize: "14px", color: "#6B7280", lineHeight: 1.65, marginBottom: "18px" }}>
+                                    <p style={{ fontSize: "14px", color: "var(--pulse-color-text-secondary)", lineHeight: 1.65, marginBottom: "18px" }}>
                                         {section.description}
                                     </p>
                                     <a href={`/category/${section.id}`} style={{
                                         display: "inline-flex", alignItems: "center", gap: "5px",
-                                        fontSize: "13px", fontWeight: 600, color: "#111827",
-                                        textDecoration: "none", borderBottom: "1.5px solid #111827",
+                                        fontSize: "13px", fontWeight: 600, color: "var(--pulse-color-text-primary)",
+                                        textDecoration: "none", borderBottom: "1.5px solid var(--pulse-color-text-primary)",
                                         paddingBottom: "1px", marginBottom: "20px",
                                     }}>
                                         Read more →
@@ -369,11 +369,11 @@ export function PulseBlogHomeClient({
                                                 onClick={() => scrollTopic(sIdx, arrow === "←" ? "left" : "right")}
                                                 style={{
                                                     width: "32px", height: "32px",
-                                                    border: "1px solid #E5E7EB", borderRadius: "50%",
-                                                    background: arrow === "←" ? "#F9FAFB" : "#fff",
+                                                    border: "1px solid var(--pulse-color-border-subtle)", borderRadius: "50%",
+                                                    background: arrow === "←" ? "var(--pulse-color-bg-canvas)" : "var(--pulse-color-card-bg)",
                                                     cursor: "pointer", fontSize: "14px", lineHeight: 1,
                                                     display: "flex", alignItems: "center", justifyContent: "center",
-                                                    color: arrow === "←" ? "#D1D5DB" : "#111827",
+                                                    color: arrow === "←" ? "var(--pulse-color-text-muted)" : "var(--pulse-color-text-primary)",
                                                     fontFamily: "inherit",
                                                 }}
                                             >
@@ -399,12 +399,12 @@ export function PulseBlogHomeClient({
                                             <div style={{ padding: "12px 14px 16px" }}>
                                                 <CategoryBadge tag={art.tag} showDot style={{ marginBottom: "7px" }} />
                                                 <h4 style={{
-                                                    fontSize: "13px", fontWeight: 600, lineHeight: 1.4, marginBottom: "10px",
+                                                    fontSize: "13px", fontWeight: 600, lineHeight: 1.4, marginBottom: "10px", color: "var(--pulse-color-text-primary)",
                                                     overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const
                                                 }}>
                                                     {art.title}
                                                 </h4>
-                                                <span style={{ fontSize: "12px", color: "#9CA3AF" }}>{art.author} · {formatDate(art.date) || art.date}</span>
+                                                <span style={{ fontSize: "12px", color: "var(--pulse-color-text-muted)" }}>{art.author} · {formatDate(art.date) || art.date}</span>
                                             </div>
                                         </a>
                                     ))}

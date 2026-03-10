@@ -23,6 +23,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useTheme } from "next-themes";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import { CategoryBadge } from "@/components/shared/CategoryBadge";
@@ -158,7 +159,7 @@ function AuthorAvatar({ name }: { name: string }) {
             >
                 {initials}
             </span>
-            <span style={{ fontSize: "12px", color: "#6B7280" }}>By {name}</span>
+            <span style={{ fontSize: "12px", color: "var(--pulse-color-text-secondary)" }}>By {name}</span>
         </div>
     );
 }
@@ -166,7 +167,7 @@ function AuthorAvatar({ name }: { name: string }) {
 /** Eye icon + view count */
 function ViewCount({ count }: { count: number }) {
     return (
-        <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "#9CA3AF", fontSize: "12px" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "var(--pulse-color-text-muted)", fontSize: "12px" }}>
             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                 <circle cx="12" cy="12" r="3" />
@@ -180,7 +181,7 @@ function ViewCount({ count }: { count: number }) {
 function CommentCount({ count }: { count: number }) {
     if (count === 0) return null;
     return (
-        <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "#9CA3AF", fontSize: "12px" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "var(--pulse-color-text-muted)", fontSize: "12px" }}>
             <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
@@ -223,8 +224,8 @@ const onLeave = (e: React.MouseEvent) => {
 // ── SHARED CARD STYLE ────────────────────────────────────────
 const CARD_BASE: React.CSSProperties = {
     display: "block",
-    background: "#ffffff",
-    border: "1px solid #E5E7EB",
+    background: "var(--pulse-color-card-bg)",
+    border: "1px solid var(--pulse-color-border-subtle)",
     borderRadius: "10px",
     overflow: "hidden",
     textDecoration: "none",
@@ -239,10 +240,15 @@ export function HeroSection({
     centerBottom = [],
     rightList = []
 }: HeroSectionProps = {}) {
+    const { theme } = useTheme();
     const [hoveredArticle, setHoveredArticle] = useState<any | null>(null);
     const handleClickModal = (e: React.MouseEvent, art: any) => {
         e.preventDefault();
         setHoveredArticle(art);
+    };
+
+    const handleCloseModal = () => {
+        setHoveredArticle(null);
     };
 
     useEffect(() => {
@@ -255,7 +261,7 @@ export function HeroSection({
     return (
         <section
             style={{
-                background: "#F6F7FB",   // confirmed from live page
+                background: "var(--pulse-color-bg-hero)",   // confirmed from live page
                 paddingBlock: "44px 56px",
             }}
         >
@@ -271,7 +277,7 @@ export function HeroSection({
                     style={{
                         fontSize: "13px",
                         fontWeight: 600,
-                        color: "#7C3AED",
+                        color: "var(--pulse-color-brand-purple)",
                         marginBottom: "10px",
                         letterSpacing: "0.01em",
                     }}
@@ -289,7 +295,7 @@ export function HeroSection({
                         fontWeight: 900,
                         letterSpacing: "-0.03em",
                         lineHeight: 1.0,
-                        color: "#111827",
+                        color: "var(--pulse-color-text-primary)",
                         marginBottom: "28px",
                     }}
                 >
@@ -313,19 +319,19 @@ export function HeroSection({
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                        style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+                        style={{ display: "flex", flexDirection: "column", gap: "24px" }}
                     >
                         {leftCards && leftCards.map((card, idx) => (
                             <a
                                 key={card.id || idx}
                                 href={card.href || card.url || "#"}
-                                style={CARD_BASE}
-                                onClick={(e) => handleClickModal(e, card)}
-                                onMouseEnter={onEnter("0 4px 16px rgba(0,0,0,0.08)")}
+                                style={{ ...CARD_BASE, minHeight: "260px" }}
+                                onClick={(e) => { e.preventDefault(); handleClickModal(e, card); }}
+                                onMouseEnter={(e) => { onEnter("0 4px 16px rgba(0,0,0,0.08)")(e); }}
                                 onMouseLeave={onLeave}
                             >
-                                {/* Illustration — 4:3 aspect ratio */}
-                                <div style={{ aspectRatio: "4/3", overflow: "hidden", background: "#fff" }}>
+                                {/* Illustration — taller 3:2 aspect ratio */}
+                                <div style={{ aspectRatio: "3/2", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}>
                                     <img
                                         src={card.imgSrc}
                                         alt={card.imgAlt}
@@ -340,27 +346,29 @@ export function HeroSection({
                                 </div>
 
                                 {/* Card body */}
-                                <div style={{ padding: "12px 13px 14px" }}>
-                                    <CategoryBadge
-                                        tag={card.tag}
-                                        showDot
-                                        style={{ marginBottom: "7px" }}
-                                    />
-                                    <p
-                                        style={{
-                                            fontSize: "13px",
-                                            fontWeight: 600,
-                                            lineHeight: 1.4,
-                                            color: "#111827",
-                                            /* line-clamp via -webkit- */
-                                            overflow: "hidden",
-                                            display: "-webkit-box",
-                                            WebkitLineClamp: 3,
-                                            WebkitBoxOrient: "vertical" as const,
-                                        }}
-                                    >
-                                        {card.title}
-                                    </p>
+                                <div style={{ padding: "16px 16px 18px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                                    <div>
+                                        <CategoryBadge
+                                            tag={card.tag}
+                                            showDot
+                                            style={{ marginBottom: "8px" }}
+                                        />
+                                        <p
+                                            style={{
+                                                fontSize: "13px",
+                                                fontWeight: 600,
+                                                lineHeight: 1.4,
+                                                color: "var(--pulse-color-text-primary)",
+                                                /* line-clamp via -webkit- */
+                                                overflow: "hidden",
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 3,
+                                                WebkitBoxOrient: "vertical" as const,
+                                            }}
+                                        >
+                                            {card.title}
+                                        </p>
+                                    </div>
                                 </div>
                             </a>
                         ))}
@@ -381,12 +389,12 @@ export function HeroSection({
                             <a
                                 href={centerFeatured.href || centerFeatured.url || "#"}
                                 style={CARD_BASE}
-                                onClick={(e) => handleClickModal(e, centerFeatured)}
-                                onMouseEnter={onEnter("0 6px 24px rgba(0,0,0,0.09)")}
+                                onClick={(e) => { handleClickModal(e, centerFeatured); }}
+                                onMouseEnter={(e) => { onEnter("0 6px 24px rgba(0,0,0,0.09)")(e); }}
                                 onMouseLeave={onLeave}
                             >
                                 {/* Full-width SVG illustration — 16:9 */}
-                                <div style={{ aspectRatio: "16/9", overflow: "hidden", background: "#fff" }}>
+                                <div style={{ aspectRatio: "16/9", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}>
                                     <img
                                         src={centerFeatured.imgSrc}
                                         alt={centerFeatured.imgAlt}
@@ -408,7 +416,7 @@ export function HeroSection({
                                         }}
                                     >
                                         <CategoryBadge tag={centerFeatured.tag || "News"} showDot />
-                                        <span style={{ fontSize: "13px", color: "#6B7280" }}>
+                                        <span style={{ fontSize: "13px", color: "var(--pulse-color-text-secondary)" }}>
                                             {formatDate(centerFeatured.date || centerFeatured.published_at) || "Just now"}
                                         </span>
                                     </div>
@@ -420,7 +428,7 @@ export function HeroSection({
                                             fontWeight: 800,
                                             lineHeight: 1.25,
                                             letterSpacing: "-0.02em",
-                                            color: "#111827",
+                                            color: "var(--pulse-color-text-primary)",
                                             marginBottom: "9px",
                                         }}
                                     >
@@ -431,7 +439,7 @@ export function HeroSection({
                                     <p
                                         style={{
                                             fontSize: "14px",
-                                            color: "#4B5563",
+                                            color: "var(--pulse-color-text-secondary)",
                                             lineHeight: 1.6,
                                             marginBottom: "16px",
                                             overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const
@@ -468,13 +476,13 @@ export function HeroSection({
                                     key={card.id || idx}
                                     href={card.href || card.url || "#"}
                                     style={CARD_BASE}
-                                    onClick={(e) => handleClickModal(e, card)}
-                                    onMouseEnter={onEnter("0 4px 14px rgba(0,0,0,0.08)")}
+                                    onClick={(e) => { handleClickModal(e, card); }}
+                                    onMouseEnter={(e) => { onEnter("0 4px 14px rgba(0,0,0,0.08)")(e); }}
                                     onMouseLeave={onLeave}
                                 >
                                     {/* Small illustration — 4:3 */}
                                     <div
-                                        style={{ aspectRatio: "4/3", overflow: "hidden", background: "#fff" }}
+                                        style={{ aspectRatio: "4/3", overflow: "hidden", background: "var(--pulse-color-card-bg)" }}
                                     >
                                         <img
                                             src={card.imgSrc}
@@ -496,7 +504,7 @@ export function HeroSection({
                                                 fontSize: "12px",
                                                 fontWeight: 600,
                                                 lineHeight: 1.4,
-                                                color: "#111827",
+                                                color: "var(--pulse-color-text-primary)",
                                                 marginBottom: "8px",
                                                 overflow: "hidden",
                                                 display: "-webkit-box",
@@ -545,10 +553,10 @@ export function HeroSection({
                                 style={{
                                     display: "flex",
                                     alignItems: "flex-start",
-                                    gap: "10px",
-                                    padding: "11px 0",
+                                    gap: "14px",
+                                    padding: "16px 0",
                                     borderBottom: idx < rightList.length - 1
-                                        ? "1px solid #F3F4F6"
+                                        ? "1px solid var(--pulse-color-border-subtle)"
                                         : "none",
                                     textDecoration: "none",
                                     color: "inherit",
@@ -563,7 +571,7 @@ export function HeroSection({
                                     style={{
                                         fontSize: "11px",
                                         fontWeight: 700,
-                                        color: "#D1D5DB",
+                                        color: "var(--pulse-color-text-muted)",
                                         minWidth: "20px",
                                         paddingTop: "2px",
                                         flexShrink: 0,
@@ -580,7 +588,7 @@ export function HeroSection({
                                         fontSize: "13px",
                                         fontWeight: 600,
                                         lineHeight: 1.4,
-                                        color: "#111827",
+                                        color: "var(--pulse-color-text-primary)",
                                         minWidth: 0,
                                     }}
                                 >
@@ -602,7 +610,7 @@ export function HeroSection({
                                         style={{
                                             fontSize: "12px",
                                             fontWeight: 700,
-                                            color: "#111827",
+                                            color: "var(--pulse-color-text-primary)",
                                         }}
                                     >
                                         {(item.views || 0).toLocaleString()}
@@ -618,16 +626,16 @@ export function HeroSection({
             {/* OVERLAY PORTAL FOR ARTICLE MODAL */}
             {hoveredArticle && typeof window !== 'undefined' && createPortal(
                 <div
-                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
-                    onClick={() => setHoveredArticle(null)}
+                    className={`fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200 ${theme === 'dark' ? 'dark' : ''}`}
+                    onClick={handleCloseModal}
                 >
                     <div
-                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
-                            onClick={() => setHoveredArticle(null)}
-                            className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+                            onClick={handleCloseModal}
+                            className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/70 dark:bg-white/50 dark:hover:bg-white/70 text-white dark:text-black rounded-full transition-colors"
                         >
                             <X className="w-5 h-5" />
                         </button>

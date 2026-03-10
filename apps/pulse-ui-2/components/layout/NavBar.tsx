@@ -21,6 +21,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { pulseAuth } from "@/lib/firebase";
 import { PulseLogo } from "../HeartbeatLogo";
 import NewsletterHub from "../NewsletterHub";
+import ThemeToggle from "../shared/ThemeToggle";
 
 // ── Main navigation items (Tier 1) ──────────────────────────
 const MAIN_NAV = [
@@ -98,8 +99,8 @@ export function NavBar() {
                 position: "sticky",
                 top: 0,
                 zIndex: 100,
-                background: "#ffffff",
-                borderBottom: "1px solid #E5E7EB",
+                background: "var(--pulse-color-card-bg)",
+                borderBottom: "1px solid var(--pulse-color-border-subtle)",
             }}
         >
             {/* ── TIER 1: Brand + Main nav ── */}
@@ -138,7 +139,7 @@ export function NavBar() {
                     >
                         <PulseLogo size="md" />
                     </span>
-                    <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em" }}>
+                    <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--pulse-color-text-primary)" }}>
                         Segmento Pulse
                     </span>
                 </Link>
@@ -148,19 +149,20 @@ export function NavBar() {
 
                 {/* Right actions */}
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+                    <ThemeToggle />
                     {user ? (
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                             <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
                                 {user.photoURL ? (
                                     <img src={user.photoURL} alt="User" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
                                 ) : (
-                                    <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "#4F46E5", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "bold" }}>
+                                    <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "var(--pulse-color-brand-purple)", color: "var(--pulse-color-text-inverse)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "bold" }}>
                                         {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
                                     </div>
                                 )}
-                                <span style={{ fontSize: "13px", fontWeight: 500, color: "#374151" }}>Dashboard</span>
+                                <span style={{ fontSize: "13px", fontWeight: 500, color: "var(--pulse-color-text-primary)" }}>Dashboard</span>
                             </Link>
-                            <a href="#" onClick={handleLogout} style={{ fontSize: "13px", fontWeight: 500, color: "#6B7280", textDecoration: "none" }}>
+                            <a href="#" onClick={handleLogout} style={{ fontSize: "13px", fontWeight: 500, color: "var(--pulse-color-text-secondary)", textDecoration: "none" }}>
                                 Sign Out
                             </a>
                         </div>
@@ -170,7 +172,7 @@ export function NavBar() {
                             style={{
                                 fontSize: "14px",
                                 fontWeight: 500,
-                                color: "#374151",
+                                color: "var(--pulse-color-text-primary)",
                                 textDecoration: "none",
                             }}
                         >
@@ -181,8 +183,8 @@ export function NavBar() {
                         onClick={() => setIsNewsletterHubOpen(true)}
                         style={{
                             padding: "8px 18px",
-                            background: "#111827",
-                            color: "#fff",
+                            background: "var(--pulse-color-brand-accent)",
+                            color: "var(--pulse-color-text-inverse)",
                             borderRadius: "9999px",
                             fontSize: "14px",
                             fontWeight: 600,
@@ -200,7 +202,7 @@ export function NavBar() {
             </div>
 
             {/* ── TIER 2: Category subnav ── */}
-            <div style={{ borderTop: "1px solid #F3F4F6" }}>
+            <div style={{ borderTop: "1px solid var(--pulse-color-border-subtle)" }}>
                 <div
                     style={{
                         maxWidth: "1200px",
@@ -227,20 +229,20 @@ export function NavBar() {
                                         height: "44px",
                                         fontSize: "13px",
                                         fontWeight: isActive ? 600 : 400,
-                                        color: isActive ? "#111827" : "#6B7280",
+                                        color: isActive ? "var(--pulse-color-text-primary)" : "var(--pulse-color-text-secondary)",
                                         textDecoration: "none",
                                         background: "transparent",
-                                        borderBottom: isActive ? "2px solid #111827" : "2px solid transparent",
+                                        borderBottom: isActive ? "2px solid var(--pulse-color-text-primary)" : "2px solid transparent",
                                         whiteSpace: "nowrap",
                                         transition: "color 120ms, border-color 120ms",
                                     }}
                                     onMouseEnter={e => {
                                         if (!isActive)
-                                            (e.currentTarget as HTMLElement).style.color = "#374151";
+                                            (e.currentTarget as HTMLElement).style.color = "var(--pulse-color-text-primary)";
                                     }}
                                     onMouseLeave={e => {
                                         if (!isActive)
-                                            (e.currentTarget as HTMLElement).style.color = "#6B7280";
+                                            (e.currentTarget as HTMLElement).style.color = "var(--pulse-color-text-secondary)";
                                     }}
                                 >
                                     {cat.label}
@@ -263,9 +265,11 @@ export function NavBar() {
                                         height: "36px",
                                         padding: "0 12px",
                                         borderRadius: "6px",
-                                        border: "1px solid #E5E7EB",
+                                        border: "1px solid var(--pulse-color-border-subtle)",
                                         fontSize: "13px",
-                                        outline: "none"
+                                        outline: "none",
+                                        color: "var(--pulse-color-text-primary)",
+                                        background: "transparent"
                                     }}
                                     autoFocus
                                     onBlur={() => setTimeout(() => setIsSearchOpen(false), 200)}
@@ -286,18 +290,18 @@ export function NavBar() {
                                     border: "none",
                                     borderRadius: "6px",
                                     cursor: "pointer",
-                                    color: "#6B7280",
+                                    color: "var(--pulse-color-text-secondary)",
                                     transition: "background 120ms, color 120ms",
                                 }}
                                 onMouseEnter={e => {
                                     const el = e.currentTarget as HTMLElement;
-                                    el.style.background = "#F3F4F6";
-                                    el.style.color = "#111827";
+                                    el.style.background = "var(--pulse-color-bg-hover)";
+                                    el.style.color = "var(--pulse-color-text-primary)";
                                 }}
                                 onMouseLeave={e => {
                                     const el = e.currentTarget as HTMLElement;
                                     el.style.background = "transparent";
-                                    el.style.color = "#6B7280";
+                                    el.style.color = "var(--pulse-color-text-secondary)";
                                 }}
                             >
                                 <svg
@@ -315,32 +319,31 @@ export function NavBar() {
                         )}
                     </div>
                 </div>
-            </div>
 
-            {/* Global Newsletter Hub Overlay */}
-            {isNewsletterHubOpen && (
-                <div
-                    className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-                    onClick={() => setIsNewsletterHubOpen(false)}
-                >
+                {/* Global Newsletter Hub Overlay */}
+                {isNewsletterHubOpen && (
                     <div
-                        onClick={e => e.stopPropagation()}
-                        className="relative w-full max-w-6xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-[32px] shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-800"
+                        className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                        onClick={() => setIsNewsletterHubOpen(false)}
                     >
-                        <button
-                            onClick={() => setIsNewsletterHubOpen(false)}
-                            className="absolute top-6 right-6 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 z-10 transition-colors"
+                        <div
+                            onClick={e => e.stopPropagation()}
+                            className="relative w-full max-w-6xl max-h-[95vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-[32px] shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-gray-100 dark:border-gray-800"
                         >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M18 6L6 18M6 6l12 12" />
-                            </svg>
-                        </button>
-                        <div className="pt-4">
-                            <NewsletterHub />
+                            <button
+                                onClick={() => setIsNewsletterHubOpen(false)}
+                                className="absolute top-6 right-6 p-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 z-10 transition-colors"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M18 6L6 18M6 6l12 12" />
+                                </svg>
+                            </button>
+                            <div className="pt-4">
+                                <NewsletterHub />
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
         </header>
     );
 }

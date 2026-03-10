@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import TimeDisplay from '@/components/TimeDisplay';
@@ -31,6 +32,7 @@ interface ArticleDetailViewProps {
 }
 
 export default function ArticleDetailView({ article, isModal = false, onClose, ...props }: ArticleDetailViewProps) {
+    const { theme } = useTheme();
     const hasIncrementedRef = useRef(false);
 
     useEffect(() => {
@@ -48,112 +50,101 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
     }, [article, isModal]);
 
     return (
-        <div style={{ margin: "0 auto", padding: "16px", maxWidth: "896px", background: isModal ? "#ffffff" : "transparent", borderRadius: isModal ? "16px" : "0" }}>
-            {/* Back Button - Only show if NOT a modal */}
-            {!isModal && (
-                <Link
-                    href={props.backLink || "/news"}
-                    style={{
-                        display: "inline-flex", alignItems: "center", gap: "8px",
-                        color: "#6B7280", marginBottom: "32px", textDecoration: "none",
-                        fontWeight: 500, transition: "color 150ms"
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#2563EB")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
-                >
-                    <ArrowLeft size={16} />
-                    <span>{props.backLabel || "Back to News"}</span>
-                </Link>
-            )}
+        <div className={theme === 'dark' ? 'dark' : ''}>
+            <div className={`container mx-auto px-3 xs:px-4 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-4xl bg-white dark:bg-gray-900 ${isModal ? 'bg-transparent dark:bg-transparent' : ''}`}>
+                {/* Back Button - Only show if NOT a modal */}
+                {!isModal && (
+                    <Link
+                        href={props.backLink || "/news"}
+                        className="inline-flex items-center gap-2 text-gray-500 hover:text-blue-600 mb-8 transition-colors dark:text-gray-400 dark:hover:text-blue-400"
+                    >
+                        <ArrowLeft size={16} />
+                        <span>{props.backLabel || "Back to News"}</span>
+                    </Link>
+                )}
 
-            {/* Article Header */}
-            <article style={{
-                background: "#ffffff", borderRadius: isModal ? "0" : "16px",
-                boxShadow: isModal ? "none" : "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                border: isModal ? "none" : "1px solid #F3F4F6", overflow: "hidden"
-            }}>
-                <div style={{ position: "relative", height: "360px", width: "100%" }}>
-                    <img
-                        src={article.image_url}
-                        alt={article.title}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        onError={(e) => { e.currentTarget.src = "/pulse/placeholder-news.svg"; }}
-                    />
-                    <div style={{
-                        position: "absolute", top: 0, right: 0, bottom: 0, left: 0,
-                        background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)",
-                        display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "32px"
-                    }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "12px", color: "rgba(255,255,255,0.9)", marginBottom: "12px", fontSize: "14px", flexWrap: "wrap" }}>
-                            <span style={{ background: "#2563EB", padding: "4px 12px", borderRadius: "99px", fontSize: "12px", fontWeight: 700, color: "#fff" }}>
-                                {article.source}
-                            </span>
-                            <TimeDisplay timestamp={article.published_at} />
-                            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                                <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.6)" }}></span>
-                                <ViewCounter
+                {/* Article Header */}
+                <article className={`rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden ${isModal ? 'shadow-none border-none bg-transparent' : 'bg-white dark:bg-gray-800'}`}>
+                    <div className="relative h-[250px] xs:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] w-full">
+                        <img
+                            src={article.image_url}
+                            alt={article.title}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            onError={(e) => { e.currentTarget.src = "/pulse/placeholder-news.svg"; }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+                            <div className="flex items-center gap-3 text-white/90 mb-3 text-sm">
+                                <span className="bg-blue-600 dark:bg-blue-500 px-3 py-1 rounded-full text-xs font-bold text-white">
+                                    {article.source}
+                                </span>
+                                <TimeDisplay timestamp={article.published_at} />
+                                <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                                    <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.6)" }}></span>
+                                    <ViewCounter
+                                        articleUrl={article.url}
+                                        articleId={article.id}
+                                    />
+                                </div>
+                            </div>
+                            <h1 style={{ fontSize: "clamp(24px, 4vw, 36px)", fontWeight: 800, color: "#ffffff", marginBottom: "8px", lineHeight: 1.2 }}>
+                                {article.title}
+                            </h1>
+                        </div>
+                    </div>
+
+                    <div className="p-8">
+                        <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-6 sm:mb-8 dark:text-gray-300">
+                            {article.description}
+                        </p>
+
+                        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "16px", marginBottom: "32px" }}>
+                            <a
+                                href={article.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full xs:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-blue-500/20 inline-flex items-center justify-center gap-2 transform hover:-translate-y-1 min-h-touch dark:bg-blue-500 dark:hover:bg-blue-600"
+                                onClick={(e) => {
+                                    // If in modal, maybe we want to close it when they go to source?
+                                    // For now, let's keep it open or let default behavior happen
+
+                                }}
+                                onMouseEnter={(e) => { (e.currentTarget.style.background = "#1D4ED8"); (e.currentTarget.style.transform = "translateY(-2px)"); }}
+                                onMouseLeave={(e) => { (e.currentTarget.style.background = "#2563EB"); (e.currentTarget.style.transform = "translateY(0)"); }}
+                            >
+                                <span>Read Full Article at Source</span>
+                                <ExternalLink size={16} />
+                            </a>
+
+                            {/* Audio Summary Button */}
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <AudioSummaryButton
+                                    articleId={article.id || article.url}
                                     articleUrl={article.url}
-                                    articleId={article.id}
+                                    initialAudioUrl={article.audio_url}
+                                    initialTextSummary={article.text_summary}
+                                    title={article.title}
+                                    image={article.image_url}
+                                    category={article.category}
                                 />
                             </div>
                         </div>
-                        <h1 style={{ fontSize: "clamp(24px, 4vw, 36px)", fontWeight: 800, color: "#ffffff", marginBottom: "8px", lineHeight: 1.2 }}>
-                            {article.title}
-                        </h1>
-                    </div>
-                </div>
 
-                <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "24px" }}>
-                    <p style={{ fontSize: "18px", color: "#374151", lineHeight: 1.6 }}>
-                        {article.description}
-                    </p>
-
-                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "16px", marginBottom: "32px" }}>
-                        <a
-                            href={article.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                background: "#2563EB", color: "#ffffff", padding: "12px 32px", borderRadius: "12px",
-                                fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px",
-                                transition: "all 150ms", boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-                            }}
-                            onMouseEnter={(e) => { (e.currentTarget.style.background = "#1D4ED8"); (e.currentTarget.style.transform = "translateY(-2px)"); }}
-                            onMouseLeave={(e) => { (e.currentTarget.style.background = "#2563EB"); (e.currentTarget.style.transform = "translateY(0)"); }}
-                        >
-                            <span>Read Full Article at Source</span>
-                            <ExternalLink size={16} />
-                        </a>
-
-                        {/* Audio Summary Button */}
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <AudioSummaryButton
-                                articleId={article.id || article.url}
+                        <div style={{ display: "flex", justifyContent: "center", paddingBottom: "24px", borderBottom: "1px solid #E5E7EB" }}>
+                            <ArticleInteraction
                                 articleUrl={article.url}
-                                initialAudioUrl={article.audio_url}
-                                initialTextSummary={article.text_summary}
-                                title={article.title}
-                                image={article.image_url}
+                                articleTitle={article.title}
                                 category={article.category}
+                                articleId={article.id}
+                                autoTrackView={false} // Already handled by parent/page
                             />
                         </div>
-                    </div>
 
-                    <div style={{ display: "flex", justifyContent: "center", paddingBottom: "24px", borderBottom: "1px solid #E5E7EB" }}>
-                        <ArticleInteraction
-                            articleUrl={article.url}
-                            articleTitle={article.title}
-                            category={article.category}
-                            articleId={article.id}
-                            autoTrackView={false} // Already handled by parent/page
-                        />
+                        <div style={{ marginTop: "16px" }}>
+                            <CommentSection articleUrl={article.url} />
+                        </div>
                     </div>
-
-                    <div style={{ marginTop: "16px" }}>
-                        <CommentSection articleUrl={article.url} />
-                    </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
     );
 }

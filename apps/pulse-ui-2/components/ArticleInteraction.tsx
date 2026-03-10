@@ -47,19 +47,12 @@ export default function ArticleInteraction({
     };
 
     return (
-        <div style={{
-            display: "flex", alignItems: "center", gap: "24px", padding: "16px 0",
-            borderTop: "1px solid #F3F4F6", borderBottom: "1px solid #F3F4F6", margin: "24px 0", width: "100%"
-        }}>
+        <div className="flex items-center gap-6 py-4 border-y border-gray-100 my-6 dark:border-gray-700">
             {/* Like Button */}
             <button
                 onClick={like}
                 disabled={loading}
-                style={{
-                    display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none",
-                    color: "#6B7280", transition: "color 150ms", cursor: loading ? "not-allowed" : "pointer",
-                    opacity: loading ? 0.5 : 1, padding: "8px 0"
-                }}
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-red-500 disabled:opacity-50 group dark:text-gray-400 dark:hover:text-red-400"
                 aria-label="Like article"
                 onMouseEnter={(e) => { if (!loading) (e.currentTarget.style.color = "#EF4444"); }}
                 onMouseLeave={(e) => { if (!loading) (e.currentTarget.style.color = "#6B7280"); }}
@@ -74,11 +67,7 @@ export default function ArticleInteraction({
             <button
                 onClick={dislike}
                 disabled={loading}
-                style={{
-                    display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none",
-                    color: "#6B7280", transition: "color 150ms", cursor: loading ? "not-allowed" : "pointer",
-                    opacity: loading ? 0.5 : 1, padding: "8px 0"
-                }}
+                className="flex items-center gap-2 transition-colors text-gray-500 hover:text-blue-600 disabled:opacity-50 group dark:text-gray-400 dark:hover:text-blue-400"
                 aria-label="Dislike article"
                 onMouseEnter={(e) => { if (!loading) (e.currentTarget.style.color = "#2563EB"); }}
                 onMouseLeave={(e) => { if (!loading) (e.currentTarget.style.color = "#6B7280"); }}
@@ -90,9 +79,9 @@ export default function ArticleInteraction({
             </button>
 
             {/* Views Display */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#6B7280" }}>
-                <Eye size={20} />
-                <span style={{ fontWeight: 500, fontSize: "14px" }}>
+            <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                <Eye className="w-5 h-5" />
+                <span className="font-medium text-sm">
                     {loading ? "..." : (stats?.views || 0)}
                 </span>
             </div>
@@ -100,10 +89,7 @@ export default function ArticleInteraction({
             {/* Share Button */}
             <button
                 onClick={handleShare}
-                style={{
-                    display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none",
-                    color: "#6B7280", transition: "color 150ms", cursor: "pointer", marginLeft: "auto", padding: "8px 0"
-                }}
+                className="flex items-center gap-2 text-gray-500 hover:text-green-500 transition-colors group ml-auto dark:text-gray-400 dark:hover:text-green-400"
                 aria-label="Share article"
                 onMouseEnter={(e) => (e.currentTarget.style.color = "#10B981")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "#6B7280")}
@@ -114,7 +100,7 @@ export default function ArticleInteraction({
 
             {/* Error Display (development only) */}
             {error && process.env.NODE_ENV === 'development' && (
-                <span style={{ fontSize: "12px", color: "#EF4444", marginLeft: "8px" }}>⚠️ {error}</span>
+                <span className="text-xs text-red-500 ml-2 dark:text-red-400">⚠️ {error}</span>
             )}
         </div>
     );

@@ -51,7 +51,7 @@ const CardSceneDynamic = dynamic(
         loading: () => (
             <div style={{
                 width: "100%", height: "100%",
-                background: "#F3F4F6",
+                background: "var(--pulse-color-bg-canvas)",
             }} />
         ),
     }

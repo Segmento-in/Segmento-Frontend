@@ -278,24 +278,17 @@ export default function AudioSummaryButton({
                 {/* Rotating Message Bubble - Now Top Right */}
                 <div style={{ position: "absolute", top: "-56px", right: "-48px", zIndex: 20, display: "block" }}>
                     <div
-                        style={{
-                            padding: "8px 16px", borderRadius: "12px", border: "1px solid #E9D5FF",
-                            background: "linear-gradient(to bottom right, #FAF5FF, #FDF2F8)",
-                            boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-                            transition: "all 400ms",
-                            opacity: isFading ? 0 : 1, transform: isFading ? "translateY(4px)" : "translateY(0)"
-                        }}
+                        className={cn(
+                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400 dark:border-purple-700 dark:from-purple-900 dark:to-pink-900",
+                            isFading ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
+                        )}
                     >
-                        <p style={{ fontSize: "14px", fontWeight: 500, color: "#374151", whiteSpace: "nowrap", margin: 0 }}>
+                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap dark:text-gray-300">
                             {CATCHY_MESSAGES[messageIndex]}
                         </p>
                     </div>
                     {/* Triangular tail pointing down-left to the button */}
-                    <div style={{
-                        position: "absolute", left: "16px", bottom: "-6px", width: "12px", height: "12px",
-                        background: "linear-gradient(to bottom right, #FDF2F8, #FAF5FF)", borderBottom: "1px solid #E9D5FF",
-                        borderRight: "1px solid #E9D5FF", transform: "rotate(45deg)"
-                    }} />
+                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform dark:from-pink-900 dark:to-purple-900 dark:border-purple-700" />
                 </div>
 
                 {/* Ambient Glow Layer */}
@@ -328,14 +321,16 @@ export default function AudioSummaryButton({
                 <button
                     onClick={handleClick}
                     disabled={isResearch}
-                    style={{
-                        position: "relative", padding: "14px 28px", borderRadius: "16px", fontWeight: 600,
-                        color: "#1F2937", border: "1px solid rgba(233, 213, 255, 0.5)",
-                        transition: "all 300ms ease-out", display: "flex", alignItems: "center", gap: "12px",
-                        background: 'var(--gradient-audio)', outline: "none",
-                        opacity: isResearch ? 0.7 : 1, cursor: isResearch ? "not-allowed" : "pointer",
-                        transform: isHovered && !isResearch ? "scale(1.05) translateY(-2px)" : "scale(1) translateY(0)"
-                    }}
+                    className={cn(
+                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-200/50 dark:text-gray-200 dark:border-purple-700/50",
+                        "transition-all duration-300 ease-out",
+                        "hover:scale-105 hover:-translate-y-0.5",
+                        "active:scale-100 active:translate-y-0",
+                        "focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2",
+                        "animate-button-breathe flex items-center gap-3",
+                        isResearch ? "opacity-70 cursor-not-allowed" : ""
+                    )}
+                    style={{ background: 'var(--gradient-audio)' }}
                     aria-label="Play Audio Summary"
                 >
                     {/* Icon */}

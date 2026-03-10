@@ -9,20 +9,20 @@ export default function Loading() {
                 justifyContent: "center",
                 flexDirection: "column",
                 gap: "16px",
-                background: "#ffffff"
+                background: "var(--pulse-color-bg-canvas)"
             }}
         >
             <div
                 style={{
                     width: "40px",
                     height: "40px",
-                    border: "3px solid #E5E7EB",
-                    borderTopColor: "#7C3AED",
+                    border: "3px solid var(--pulse-color-border-subtle)",
+                    borderTopColor: "var(--pulse-color-accent-purple)",
                     borderRadius: "50%",
                     animation: "spin 1s linear infinite"
                 }}
             />
-            <p style={{ color: "#6B7280", fontSize: "14px", fontWeight: 500 }}>
+            <p style={{ color: "var(--pulse-color-text-muted)", fontSize: "14px", fontWeight: 500 }}>
                 Loading Pulse Database...
             </p>
             <style>{`
