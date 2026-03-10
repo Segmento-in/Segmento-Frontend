@@ -1,0 +1,36 @@
+/* Compact Navbar Spacing Overrides */
+
+/* Reduce nav link padding */
+.pulse-nav-link {
+    padding: 0.375rem 0.625rem !important;
+    font-size: 0.875rem !important;
+}
+
+/* Compact dropdown spacing */
+.pulse-nav-link+.pulse-nav-link {
+    margin-left: 0.125rem;
+}
+
+/* Smaller Sign In button */
+button[variant="outline"] {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.8125rem !important;
+}
+
+/* Compact Subscribe button */
+.rainbow-shimmer-btn {
+    padding: 0.375rem 0.625rem !important;
+    font-size: 0.75rem !important;
+    gap: 0.25rem !important;
+}
+
+.rainbow-shimmer-btn svg {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+}
+
+/* Remove divider margins */
+.h-4.w-px.bg-gray-300 {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
