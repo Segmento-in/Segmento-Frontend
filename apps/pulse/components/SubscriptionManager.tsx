@@ -68,9 +68,10 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
 
         try {
             const newState = !currentState;
+            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
             const endpoint = newState
-                ? '/pulse/api/subscription/subscribe'
-                : '/pulse/api/subscription/unsubscribe';
+                ? `${API_BASE}/api/subscription/subscribe`
+                : `${API_BASE}/api/subscription/unsubscribe`;
 
             const method = 'POST';
             const body = newState
@@ -114,25 +115,15 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
     };
 
     return (
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <div className="mb-6">
-                <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <span>Manage Subscriptions</span>
-                    <span className="text-blue-500 text-xs font-normal border border-blue-100 bg-blue-50 px-2 py-0.5 rounded-full">
-                        New
-                    </span>
-                </h2>
-                <p className="text-sm text-gray-500">Customize which newsletters you receive.</p>
-            </div>
-
+        <div className="space-y-4">
             {error && (
-                <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg flex items-center gap-2">
+                <div className="mb-4 p-3 bg-[#FDE7E9] text-[#A80000] text-[13px] rounded-[2px] flex items-center gap-2 border border-[#E81123]">
                     <AlertCircle className="h-4 w-4" />
                     {error}
                 </div>
             )}
 
-            <div className="space-y-3">
+            <div className="space-y-2">
                 {NEWSLETTER_TYPES.map((type) => {
                     const isActive = subscriptions[type.id] || false;
                     const isProcessing = toggling === type.id;
@@ -142,20 +133,20 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
                             key={type.id}
                             layout
                             className={`
-                                relative flex items-center justify-between p-4 rounded-xl border transition-all duration-200
+                                relative flex items-center justify-between p-4 rounded-[2px] border transition-all duration-200 bg-white
                                 ${isActive
-                                    ? 'border-blue-200 bg-blue-50/50'
-                                    : 'border-gray-100 hover:border-gray-200'
+                                    ? 'border-[#0078D4] shadow-sm'
+                                    : 'border-[#EDEBE9] hover:border-[#C8C6C4]'
                                 }
                             `}
                         >
                             <div className="flex items-start gap-4">
-                                <div className="text-2xl mt-1">{type.icon}</div>
+                                <div className="text-2xl mt-1 opacity-90">{type.icon}</div>
                                 <div>
-                                    <h3 className={`font-semibold ${isActive ? 'text-blue-900' : 'text-gray-900'}`}>
+                                    <h3 className={`text-[14px] font-semibold ${isActive ? 'text-[#0078D4]' : 'text-[#201F1E]'}`}>
                                         {type.title}
                                     </h3>
-                                    <p className="text-sm text-gray-500">{type.description}</p>
+                                    <p className="text-[12px] text-[#605E5C] mt-0.5">{type.description}</p>
                                 </div>
                             </div>
 
@@ -163,24 +154,24 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
                                 onClick={() => handleToggle(type.id, isActive)}
                                 disabled={isProcessing}
                                 className={`
-                                    relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent 
-                                    transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                                    ${isActive ? 'bg-blue-600' : 'bg-gray-200'}
+                                    relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent 
+                                    transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#0078D4] focus:ring-offset-2
+                                    ${isActive ? 'bg-[#0078D4]' : 'bg-[#C8C6C4]'}
                                     ${isProcessing ? 'opacity-70 cursor-wait' : ''}
                                 `}
                             >
-                                <span className="sr-only">Use setting</span>
+                                <span className="sr-only">Toggle {type.title}</span>
                                 <span
                                     aria-hidden="true"
                                     className={`
-                                        pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 
+                                        pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 
                                         transition duration-200 ease-in-out
                                         ${isActive ? 'translate-x-5' : 'translate-x-0'}
                                     `}
                                 />
                                 {isProcessing && (
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+                                        <Loader2 className="h-3 w-3 animate-spin text-white" />
                                     </div>
                                 )}
                             </button>
@@ -189,9 +180,9 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
                 })}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-100 text-center">
-                <p className="text-xs text-gray-400">
-                    Changes are saved automatically.
+            <div className="mt-6 text-right">
+                <p className="text-[12px] text-[#A19F9D]">
+                    Changes are synchronized instantly.
                 </p>
             </div>
         </div>
