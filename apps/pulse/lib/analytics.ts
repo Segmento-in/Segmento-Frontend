@@ -6,7 +6,7 @@
 
 import { generateArticleId } from '@/shared/idGenerator';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'https://workwithshafisk-segmentopulse-backend.hf.space';
+const API_BASE_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'https://workwithshafisk-segmento-pulse-backend.hf.space';
 
 export interface ArticleStats {
     viewCount: number;
