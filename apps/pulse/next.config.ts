@@ -8,6 +8,7 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
     basePath: '/pulse',
+    output: 'standalone',
     // Allow any remote image domain during parallel testing.
     images: {
         remotePatterns: [
