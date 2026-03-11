@@ -11,17 +11,14 @@ function ArticlesContent() {
     const router = useRouter();
     const source = params.source as string;
 
-    // Map URL param to API category
-    // Default to 'medium' if invalid
     const activeTab = (source === 'linkedin' || source === 'medium') ? source : 'medium';
 
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
-    const LIMIT = 12; // Adjusted limit for better grid layout
+    const LIMIT = 12;
 
-    // Reset state when tab changes
     useEffect(() => {
         setArticles([]);
         setPage(1);
@@ -29,7 +26,6 @@ function ArticlesContent() {
     }, [activeTab]);
 
     useEffect(() => {
-        // If invalid source, redirect to medium
         if (source !== 'medium' && source !== 'linkedin') {
             router.replace('/articles/medium');
             return;
@@ -38,9 +34,7 @@ function ArticlesContent() {
         const loadArticles = async () => {
             setLoading(true);
             try {
-                // Map logical tab to API category
                 const category = activeTab === 'medium' ? 'medium-article' : 'linkedin-article';
-                // Initial load: page 1
                 const data = await fetchNewsByCategory(category, 1, LIMIT);
                 setArticles(data);
                 setHasMore(data.length >= LIMIT);
@@ -51,7 +45,6 @@ function ArticlesContent() {
             }
         };
 
-        // Only load if articles are empty (initial load after tab switch)
         loadArticles();
     }, [activeTab, source, router]);
 
@@ -79,83 +72,94 @@ function ArticlesContent() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-purple-600">
-                Curated Articles
-            </h1>
+        /* UI FIX: Paper White Background & Charcoal Text */
+        <div className="min-h-screen bg-[#F9F7F2] text-[#1A1A1A]">
+            <div className="container mx-auto px-4 py-12">
+                
+                {/* Header: Editorial Typography (Matches News Style) */}
+                <h1 className="text-4xl font-bold mb-12 text-center text-[#1A1A1A] tracking-tight font-serif italic">
+                    Curated Articles
+                </h1>
 
-            {/* Filter Tabs - Now using Links for Explicit Routing */}
-            <div className="flex justify-center mb-10">
-                <div className="bg-gray-100 p-1 rounded-xl inline-flex">
-                    <Link
-                        href="/articles/medium"
-                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'medium'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                {/* Filter Tabs: Pilled Editorial Navigation */}
+                <div className="flex justify-center mb-12 border-b border-[#E5E2DA] pb-10">
+                    <div className="inline-flex gap-2">
+                        <Link
+                            href="/articles/medium"
+                            className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] transition-all border ${
+                                activeTab === 'medium'
+                                    ? "bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-md"
+                                    : "bg-white text-[#666] border-[#E5E2DA] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
                             }`}
-                    >
-                        Medium Articles
-                    </Link>
-                    <Link
-                        href="/articles/linkedin"
-                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'linkedin'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700'
+                        >
+                            Medium Articles
+                        </Link>
+                        <Link
+                            href="/articles/linkedin"
+                            className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] transition-all border ${
+                                activeTab === 'linkedin'
+                                    ? "bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-md"
+                                    : "bg-white text-[#666] border-[#E5E2DA] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
                             }`}
-                    >
-                        LinkedIn Articles
-                    </Link>
+                        >
+                            LinkedIn Articles
+                        </Link>
+                    </div>
                 </div>
+
+                {/* Content Grid */}
+                {activeTab === 'linkedin' ? (
+                    <div className="text-center py-20 border border-dashed border-[#E5E2DA] rounded-xl">
+                        <div className="w-16 h-16 bg-[#1A1A1A]/5 text-[#1A1A1A] rounded-full flex items-center justify-center mb-4 text-2xl mx-auto">
+                            💼
+                        </div>
+                        <h3 className="text-xl font-bold text-[#1A1A1A] mb-2 uppercase tracking-widest text-[12px]">Integration Coming Soon</h3>
+                        <p className="text-[#666] font-serif italic max-w-md mx-auto">
+                            We are working on bringing you the best professional insights directly from top LinkedIn creators.
+                        </p>
+                    </div>
+                ) : articles.length === 0 && !loading ? (
+                    <div className="text-center py-20 bg-white/50 border border-[#E5E2DA] rounded-2xl">
+                        <p className="text-[#666] font-serif italic">The archives for this section are currently empty.</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+                            {articles.map((article, i) => (
+                                <NewsCard key={`${article.url}-${i}`} article={article} />
+                            ))}
+                        </div>
+
+                        {/* Pagination: Editorial "Load More" (Matches News Page) */}
+                        <div className="text-center mt-20 pt-16 border-t border-[#E5E2DA]">
+                            {loading ? (
+                                <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-[#1A1A1A]"></div>
+                            ) : hasMore ? (
+                                <button
+                                    onClick={loadMore}
+                                    className="px-12 py-4 bg-transparent border border-[#1A1A1A] text-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 flex items-center gap-3 mx-auto"
+                                >
+                                    <span>Load More Articles</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                </button>
+                            ) : (
+                                <p className="text-[10px] uppercase tracking-widest text-[#AAA] font-bold">You've reached the end of the collection</p>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
-
-            {/* Content Grid */}
-            {activeTab === 'linkedin' ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                    <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 text-2xl">
-                        💼
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">LinkedIn Integration Coming Soon</h3>
-                    <p className="text-gray-500 text-center max-w-md">
-                        We are working on bringing you the best professional insights directly from top LinkedIn creators. Stay tuned!
-                    </p>
-                </div>
-            ) : articles.length === 0 && !loading ? (
-                <div className="text-center py-20 bg-gray-50 rounded-2xl">
-                    <p className="text-gray-500">No articles found for this section yet.</p>
-                </div>
-            ) : (
-                <>
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {articles.map((article, i) => (
-                            <NewsCard key={`${article.url}-${i}`} article={article} />
-                        ))}
-                    </div>
-
-                    {/* Pagination / Load More */}
-                    <div className="flex justify-center mt-12">
-                        {loading ? (
-                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                        ) : hasMore ? (
-                            <button
-                                onClick={loadMore}
-                                className="px-8 py-3 bg-blue-600 text-white font-medium rounded-full shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 group"
-                            >
-                                <span>Load More Articles</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform"><path d="m6 9 6 6 6-6" /></svg>
-                            </button>
-                        ) : (
-                            <p className="text-gray-400 text-sm">You've reached the end</p>
-                        )}
-                    </div>
-                </>
-            )}
         </div>
     );
 }
 
 export default function ArticlesPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen"></div>}>
+        <Suspense fallback={
+            <div className="min-h-screen bg-[#F9F7F2] flex items-center justify-center">
+                <div className="text-[#1A1A1A] font-serif italic text-2xl animate-pulse font-bold uppercase tracking-[0.25em]">Articles</div>
+            </div>
+        }>
             <ArticlesContent />
         </Suspense>
     );

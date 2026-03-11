@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Send } from 'lucide-react';
+import { Send, MessageSquare } from 'lucide-react';
 import { subscribeToComments, addComment, type Comment } from '@/lib/analytics';
 
 interface CommentSectionProps {
@@ -36,44 +36,68 @@ export default function CommentSection({ articleUrl }: CommentSectionProps) {
     };
 
     return (
-        <div className="mt-8 bg-gray-50 rounded-xl p-6 dark:bg-gray-800">
-            <h3 className="text-lg font-bold mb-6">Discussion ({comments.length})</h3>
+        <div className="mt-12 bg-[#F9F7F2]   border border-white/10 shadow-2xl p-6 sm:p-8">
+            {/* Header: Styled with the Brown Editorial vibe */}
+            <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-[#A66152] flex items-center justify-center">
+                    {/* Fixed blue icon: now terracotta to match theme */}
+                    <MessageSquare className="w-5 h-5 text-[#A66152]" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-[#A66152] leading-none tracking-tight">Discussion</h3>
+                    <p className="text-sm text-[#F9F7F2]/60 mt-1">{comments.length} community thoughts</p>
+                </div>
+            </div>
 
-            {/* Comment Form */}
-            <form onSubmit={handleSubmit} className="mb-8 relative">
-                <textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Share your thoughts..."
-                    className="w-full p-4 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none resize-none bg-white min-h-25 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-blue-400"
-                />
-                <button
-                    type="submit"
-                    disabled={!newComment.trim() || isSubmitting}
-                    className="absolute bottom-4 right-4 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors dark:bg-blue-500 dark:hover:bg-blue-600"
-                >
-                    <Send className="w-4 h-4" />
-                </button>
+            {/* Comment Form: Deep Chocolate with Terracotta Focus */}
+            <form onSubmit={handleSubmit} className="mb-10 relative group">
+                <div className="relative">
+                    <textarea
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Join the conversation..."
+                        className="w-full p-6 rounded-[18px] border border-white/10 focus:border-[#A66152] focus:ring-0 outline-none resize-none bg-[#5C3A31] text-[#F9F7F2] placeholder:text-white/10/30 min-h-32 transition-all shadow-inner"
+                    />
+                    <button
+                        type="submit"
+                        disabled={!newComment.trim() || isSubmitting}
+                        className="absolute bottom-4 right-4 bg-white hover:bg-[#8A4B3F] text-[#A66152] p-3 rounded-xl shadow-lg shadow-black/20 hover:scale-105 active:scale-95 disabled:opacity-20 disabled:hover:scale-100 transition-all"
+                    >
+                        <Send className={`w-4 h-4 ${isSubmitting ? 'animate-pulse' : ''}`} />
+                    </button>
+                </div>
             </form>
 
             {/* Comments List */}
-            <div className="space-y-6">
+            <div className="space-y-8">
                 {comments.length === 0 ? (
-                    <p className="text-center text-gray-500 py-4 dark:text-gray-400">Be the first to comment!</p>
+                    <p className="text-[#8A4B3F] text-sm italic">Be the first to share your perspective!</p>
                 ) : (
                     comments.map((comment) => (
-                        <div key={comment.id} className="flex gap-4">
-                            <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xs shrink-0">
-                                {comment.userName.charAt(0)}
+                        <div key={comment.id} className="flex gap-4 group animate-in fade-in slide-in-from-bottom-2 duration-400">
+                            {/* Avatar: Swapped blue gradient for Brown/Terracotta theme */}
+                            <div className="shrink-0">
+                                <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8A4B3F] via-[#A66152] to-[#5C3A31] flex items-center justify-center text-[#F9F7F2] font-bold text-sm shadow-lg border border-white/10">
+                                    {comment.userName.charAt(0).toUpperCase()}
+                                </div>
                             </div>
+
                             <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-semibold text-sm">{comment.userName}</span>
-                                    <span className="text-xs text-gray-400 dark:text-gray-500">
-                                        {new Date(comment.createdAt).toLocaleDateString()}
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <span className="font-bold text-[#F9F7F2] text-[15px] group-hover:text-[#A66152] transition-colors">
+                                        {comment.userName}
+                                    </span>
+                                    {/* Fixed blue metadata: now muted white/50% */}
+                                    <span className="text-[10px] font-bold text-[#F9F7F2]/50 bg-[#A66152] px-2 py-0.5 rounded-md uppercase tracking-widest border border-white/5">
+                                        {new Date(comment.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                                     </span>
                                 </div>
-                                <p className="text-gray-700 text-sm whitespace-pre-wrap dark:text-gray-300">{comment.text}</p>
+                                
+                                <div className="p-4 rounded-[20px] rounded-tl-none bg-[#A66152]  border border-white/5 group-hover:border-white/10 transition-all">
+                                    <p className="text-[#F9F7F2]/80 text-[14px] leading-relaxed whitespace-pre-wrap">
+                                        {comment.text}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))

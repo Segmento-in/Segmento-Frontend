@@ -1,4 +1,4 @@
-﻿'use client';
+﻿﻿'use client';
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -213,7 +213,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                         ? 'rotate-180' : ''
                                         }`} />
                                     {/* Animated underline */}
-                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-[#A66152] to-[#1A1A1A] rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                                 </button>
 
                                 {/* Data Dropdown */}
@@ -288,7 +288,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                             >
                                 <span className="relative z-10">{link.name}</span>
                                 {/* Animated underline */}
-                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-blue-600 to-purple-600 rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
+                                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-linear-to-r from-[#A66152] to-[#1A1A1A] rounded-full transition-all duration-300 ease-out w-0 group-hover:w-3/4" />
                             </Link>
                         )
                     ))}
@@ -298,7 +298,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                         href="https://segmento.in"
                         className="ml-2 px-4 py-2 text-sm font-medium bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-purple-500/30 hover:scale-105 active:scale-95"
                     >
-                        Get back to Segmento
+                         back to Segmento
                     </Link>
                 </nav>
 
@@ -548,7 +548,7 @@ export default function PulseNavbar({ onSubscribeClick }: { onSubscribeClick?: (
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     <Link href="https://segmento.in">
-                                        Get back to Segmento
+                                         back to Segmento
                                     </Link>
                                 </Button>
                             </div>

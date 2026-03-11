@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { fetchNewsByCategory, type Article } from "@/lib/newsApi";
-import { BookOpen, Share2 } from "lucide-react";
+import { BookOpen, Share2, ArrowDown } from "lucide-react";
 import ResearchCard from "@/components/ResearchCard";
 
 // Force dynamic rendering
@@ -22,18 +22,15 @@ function ResearchContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    // Initial category from URL or default to 'research' (All)
     const initialCategory = searchParams.get('category') || 'research';
     const [activeCategory, setActiveCategory] = useState(initialCategory);
 
-    // State Management
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Initial Fetch
     useEffect(() => {
         const fetchInitial = async () => {
             setLoading(true);
@@ -54,7 +51,6 @@ function ResearchContent() {
         fetchInitial();
     }, [activeCategory]);
 
-    // Load More Callback
     const loadMore = useCallback(async () => {
         if (loading || !hasMore) return;
 
@@ -72,21 +68,15 @@ function ResearchContent() {
             }
         } catch (err) {
             console.error(err);
-            // Don't set global error on load more failure, just stop
         } finally {
             setLoading(false);
         }
     }, [activeCategory, page, loading, hasMore]);
 
-    // Infinite Scroll Hook Removed
-    // const { lastElementRef } = useInfiniteScroll(loadMore, hasMore, loading);
-
-    // Update URL when category changes
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
         const currentUrlCategory = params.get('category') || 'research';
 
-        // Only update URL if the category actually changed
         if (currentUrlCategory !== activeCategory) {
             if (activeCategory === 'research') {
                 params.delete('category');
@@ -98,31 +88,33 @@ function ResearchContent() {
     }, [activeCategory, router, searchParams]);
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20">
+        /* UI FIX: Paper White Background & Charcoal Text */
+        <div className="min-h-screen bg-[#F9F7F2] text-[#1A1A1A]">
+            
             {/* Header / Sub-Nav */}
-            <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div className="bg-[#F9F7F2]/80 backdrop-blur-md border-b border-[#E5E2DA] sticky top-0 z-30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between py-6 gap-6">
 
-                        {/* Title */}
-                        <div className="flex items-center gap-2">
-                            <div className="bg-blue-600 p-2 rounded-lg text-white">
+                        {/* Title: Editorial Style */}
+                        <div className="flex items-center gap-3">
+                            <div className="bg-[#1A1A1A] p-2 rounded-full text-white shadow-lg">
                                 <BookOpen className="w-5 h-5" />
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-900">Research Papers</h1>
+                            <h1 className="text-3xl font-bold text-[#1A1A1A] font-serif italic tracking-tight">Research Papers</h1>
                         </div>
 
-                        {/* Category Pills */}
+                        {/* Category Pills: Editorial Pill Style */}
                         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 md:pb-0">
                             {RESEARCH_CATEGORIES.map((cat) => (
                                 <button
                                     key={cat.id}
                                     onClick={() => setActiveCategory(cat.id)}
                                     className={`
-                                        px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200
+                                        px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] transition-all border
                                         ${activeCategory === cat.id
-                                            ? "bg-blue-600 text-white shadow-md active:scale-95"
-                                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+                                            ? "bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-md active:scale-95"
+                                            : "bg-white text-[#666] border-[#E5E2DA] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
                                         }
                                     `}
                                 >
@@ -135,31 +127,31 @@ function ResearchContent() {
             </div>
 
             {/* Main Content */}
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-                {/* Intro Text */}
-                <div className="mb-8">
-                    <p className="text-gray-600 max-w-3xl">
-                        Curated academic papers from ArXiv, categorized for easy discovery.
+                {/* Intro Text: Clean Minimalist Typography */}
+                <div className="mb-16 text-center md:text-left border-l-2 border-[#E5E2DA] pl-6">
+                    <p className="text-[#666] max-w-3xl font-serif italic text-lg leading-relaxed">
+                        Curated academic papers from ArXiv, categorized for easy discovery. 
                         Stay ahead with the latest research in AI, Cloud, and Data Engineering.
                     </p>
                 </div>
 
                 {/* Error State */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-8 text-red-700 text-center">
+                    <div className="bg-red-50 border border-red-100 rounded-xl p-6 mb-12 text-red-700 text-center font-medium">
                         {error}
                         <button
                             onClick={() => window.location.reload()}
-                            className="block mx-auto mt-2 text-sm font-bold hover:underline"
+                            className="block mx-auto mt-3 text-xs uppercase tracking-widest font-bold hover:underline"
                         >
-                            Retry
+                            Retry Connection
                         </button>
                     </div>
                 )}
 
                 {/* Articles Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
                     {articles.map((article) => (
                         <div key={article.id || article.$id || article.url} className="h-full">
                             <ResearchCard article={article} sourceCategory={activeCategory} />
@@ -169,38 +161,42 @@ function ResearchContent() {
 
                 {/* Loading State */}
                 {loading && (
-                    <div className="col-span-full py-12 flex justify-center">
-                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+                    <div className="col-span-full py-24 flex flex-col items-center justify-center gap-4">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-[#1A1A1A]"></div>
+                        <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#666]">Retrieving Manuscripts</p>
                     </div>
                 )}
 
                 {/* No Results */}
                 {!loading && articles.length === 0 && !error && (
-                    <div className="col-span-full text-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
-                        <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900">No papers found</h3>
-                        <p className="text-gray-500 mt-1">Check back later or try a different category.</p>
+                    <div className="col-span-full text-center py-32 bg-white/50 rounded-2xl border border-dashed border-[#E5E2DA]">
+                        <BookOpen className="w-12 h-12 text-[#CCC] mx-auto mb-6" />
+                        <h3 className="text-xl font-serif italic text-[#1A1A1A]">No papers found</h3>
+                        <p className="text-[#666] mt-2 text-sm uppercase tracking-widest">The archives for this section are currently empty.</p>
                     </div>
                 )}
 
-                {/* Load More Trigger */}
-                {hasMore && (
-                    <div className="mt-12 text-center">
+                {/* Load More Trigger: Editorial Button Style */}
+                {hasMore && !loading && (
+                    <div className="mt-24 text-center pt-16 border-t border-[#E5E2DA]">
                         <button
                             type="button"
                             onClick={loadMore}
                             disabled={loading}
-                            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50"
+                            className="px-12 py-4 bg-transparent border border-[#1A1A1A] text-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 flex items-center gap-3 mx-auto group active:scale-95 disabled:opacity-30"
                         >
-                            {loading ? 'Loading...' : 'Load More Papers'}
+                            <span>Load More Research</span>
+                            <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
                         </button>
                     </div>
                 )}
 
                 {/* End of Feed */}
                 {!hasMore && articles.length > 0 && (
-                    <div className="mt-12 text-center text-gray-400 text-sm">
-                        You've reached the end of the list.
+                    <div className="mt-20 py-8 border-t border-[#E5E2DA] text-center">
+                        <p className="text-[#666] font-serif italic text-lg">
+                            You've reached the end of the research list.
+                        </p>
                     </div>
                 )}
             </main>
@@ -211,8 +207,9 @@ function ResearchContent() {
 export default function ResearchPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-[#F9F7F2]">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-[#1A1A1A]"></div>
+                <p className="mt-4 text-[10px] uppercase tracking-[0.2em] font-bold text-[#666]">Opening Library</p>
             </div>
         }>
             <ResearchContent />

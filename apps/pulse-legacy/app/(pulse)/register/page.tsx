@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { pulseAuth } from "@/lib/firebase";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User, Sparkles } from "lucide-react";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -43,7 +43,6 @@ export default function RegisterPage() {
                 });
             } catch (subError) {
                 console.error("Auto-subscription failed:", subError);
-                // Non-blocking: Proceed to redirect even if sub fails
             }
 
             router.push("/");
@@ -55,78 +54,106 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4">
-            <div className="w-full max-w-md">
-                <div className="bg-white rounded-2xl shadow-xl p-8">
-                    <h1 className="text-3xl font-bold mb-2 text-center">Create Account</h1>
-                    <p className="text-gray-600 text-center mb-8">Join Segmento Pulse today</p>
+        /* UI FIX: Background to Paper White (#F9F7F2) */
+        <div className="min-h-screen bg-[#F9F7F2] flex items-center justify-center px-4 relative overflow-hidden">
+            
+            {/* UI FIX: Subtle Terracotta Ambient Glows */}
+            <div className="absolute top-[-10%] right-[-10%] w-[45%] h-[45%] bg-[#A66152]/5 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-[-10%] left-[-10%] w-[45%] h-[45%] bg-[#1A1A1A]/5 blur-[120px] rounded-full"></div>
 
-                    <form onSubmit={handleRegister} className="space-y-4">
+            <div className="w-full max-w-md relative z-10 py-12">
+                {/* Branding Area */}
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white border border-[#E5E2DA] mb-6 shadow-sm">
+                        <Sparkles className="w-10 h-10 text-[#A66152]" />
+                    </div>
+                    {/* UI FIX: font-serif italic for editorial look */}
+                    <h1 className="text-4xl font-serif italic text-[#1A1A1A] tracking-tight">Join Pulse</h1>
+                    <p className="text-[#666] mt-3 font-light tracking-wide uppercase text-[10px]">Create your research profile</p>
+                </div>
+
+                {/* UI FIX: Card changed to White Paper with sharp borders and terracotta shadow */}
+                <div className="bg-white border border-[#E5E2DA] shadow-[20px_20px_0px_rgba(166,97,82,0.05)] rounded-sm p-10">
+                    <form onSubmit={handleRegister} className="space-y-7">
+                        {/* Name Field */}
                         <div>
-                            <label className="block text-sm font-medium mb-2">Full Name</label>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] mb-3 ml-1">Full Name</label>
+                            <div className="relative group">
+                                <User className="absolute left-0 top-1/2 -translate-y-1/2 text-[#AAA] group-focus-within:text-[#A66152] transition-colors w-4 h-4" />
                                 <Input
                                     type="text"
                                     placeholder="John Doe"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="pl-10"
+                                    className="pl-8 bg-transparent border-t-0 border-x-0 border-b border-[#E5E2DA] focus:border-[#A66152] text-[#1A1A1A] placeholder:text-[#BBB] h-12 rounded-none transition-all shadow-none ring-0 focus-visible:ring-0"
                                     required
                                 />
                             </div>
                         </div>
 
+                        {/* Email Field */}
                         <div>
-                            <label className="block text-sm font-medium mb-2">Email</label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] mb-3 ml-1">Email Address</label>
+                            <div className="relative group">
+                                <Mail className="absolute left-0 top-1/2 -translate-y-1/2 text-[#AAA] group-focus-within:text-[#A66152] transition-colors w-4 h-4" />
                                 <Input
                                     type="email"
                                     placeholder="you@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="pl-10"
+                                    className="pl-8 bg-transparent border-t-0 border-x-0 border-b border-[#E5E2DA] focus:border-[#A66152] text-[#1A1A1A] placeholder:text-[#BBB] h-12 rounded-none transition-all shadow-none ring-0 focus-visible:ring-0"
                                     required
                                 />
                             </div>
                         </div>
 
+                        {/* Password Field */}
                         <div>
-                            <label className="block text-sm font-medium mb-2">Password</label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A] mb-3 ml-1">Password</label>
+                            <div className="relative group">
+                                <Lock className="absolute left-0 top-1/2 -translate-y-1/2 text-[#AAA] group-focus-within:text-[#A66152] transition-colors w-4 h-4" />
                                 <Input
                                     type="password"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="pl-10"
+                                    className="pl-8 bg-transparent border-t-0 border-x-0 border-b border-[#E5E2DA] focus:border-[#A66152] text-[#1A1A1A] placeholder:text-[#BBB] h-12 rounded-none transition-all shadow-none ring-0 focus-visible:ring-0"
                                     required
                                     minLength={6}
                                 />
                             </div>
-                            <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
+                            <p className="text-[9px] text-[#999] mt-3 ml-1 italic tracking-wider">Security: Minimum 6 characters required</p>
                         </div>
 
                         {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg text-sm">
+                            <div className="bg-[#A66152]/10 border-l-4 border-[#A66152] text-[#A66152] px-4 py-3 text-[11px] font-bold uppercase tracking-wider animate-in fade-in">
                                 {error}
                             </div>
                         )}
 
-                        <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? "Creating account..." : "Create Account"}
+                        {/* UI FIX: Solid Terracotta Button */}
+                        <Button 
+                            type="submit" 
+                            className="w-full h-14 bg-[#A66152] hover:bg-[#8e5246] text-white font-bold uppercase tracking-[0.2em] text-[11px] rounded-none shadow-md transition-all active:scale-[0.98] mt-2" 
+                            disabled={loading}
+                        >
+                            {loading ? "Authenticating..." : "Create Account"}
                         </Button>
                     </form>
 
-                    <p className="text-center text-sm text-gray-600 mt-6">
-                        Already have an account?{" "}
-                        <Link href="/login" className="text-blue-600 hover:underline font-semibold">
-                            Sign in
-                        </Link>
-                    </p>
+                    <div className="mt-10 pt-8 border-t border-[#F0EEE6] text-center">
+                        <p className="text-[#999] text-[11px] font-medium tracking-wide">
+                            Already have an account?{" "}
+                            <Link href="/login" className="text-[#A66152] hover:underline font-bold transition-all">
+                                Sign In
+                            </Link>
+                        </p>
+                    </div>
                 </div>
+
+                <p className="text-center mt-12 text-[#AAA] text-[9px] tracking-[0.3em] uppercase font-bold">
+                    Secured by Pulse Auth Systems
+                </p>
             </div>
         </div>
     );

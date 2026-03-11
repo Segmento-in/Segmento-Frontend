@@ -95,13 +95,13 @@ body {
 
 /* Custom scrollbar - Responsive */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 /* Thinner scrollbar on mobile */
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 }
 
@@ -110,12 +110,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9D17A0;
+  background: #0b0f3b;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7D1280;
+  background: #0b0f3b;
 }
 
 /* Page transition fade */

@@ -11,12 +11,10 @@ import TimeDisplay from "@/components/TimeDisplay";
 import CardEngagementStats from "@/components/CardEngagementStats";
 import NewsCard from "@/components/NewsCard";
 
-// Force dynamic rendering (for client components, only 'dynamic' is allowed)
 export const dynamic = 'force-dynamic';
 
-// Custom-ordered pill list for all Data sub-pages.
-// "All Data Articles" sits first (the master button), then core data topics,
-// then business topics, then infrastructure. No alphabetical sort applied.
+
+
 const DATA_PILLS = [
     { id: "data-articles", name: "All Data Articles" },
     { id: "data-engineering", name: "Data Engineering" },
@@ -226,6 +224,9 @@ const categoryRelationships: Record<string, Array<{ id: string; name: string }>>
     'magazines': [{ id: "magazines", name: "Magazines" }],
 };
 
+
+
+
 function NewsContent() {
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category') || 'ai';
@@ -237,7 +238,6 @@ function NewsContent() {
     const [currentPage, setCurrentPage] = useState<Record<string, number>>({});
     const [hasMore, setHasMore] = useState<Record<string, boolean>>({});
 
-    // Get categories to show based on current category
     const categoriesToShow = categoryRelationships[activeCategory] || [{ id: activeCategory, name: activeCategory }];
 
     useEffect(() => {
@@ -246,24 +246,19 @@ function NewsContent() {
 
     useEffect(() => {
         const getNews = async () => {
-            // Skip if already loaded and cache is fresh (within 2 minutes)
             const cached = newsData[activeCategory];
             if (cached && cached.length > 0) {
                 const cacheAge = Date.now() - (cached as any)._timestamp;
-                if (cacheAge < 120000) { // 2 minutes
-                    return; // Use cached data
-                }
+                if (cacheAge < 120000) return;
             }
 
             try {
                 setLoading(true);
                 const articles = await fetchNewsByCategory(activeCategory, 1, 20);
-
                 setNewsData((prev) => ({
                     ...prev,
                     [activeCategory]: Object.assign(articles, { _timestamp: Date.now() }),
                 }));
-
                 setCurrentPage((prev) => ({ ...prev, [activeCategory]: 1 }));
                 setHasMore((prev) => ({ ...prev, [activeCategory]: articles.length >= 20 }));
             } catch (error) {
@@ -272,23 +267,19 @@ function NewsContent() {
                 setLoading(false);
             }
         };
-
         getNews();
     }, [activeCategory]);
 
     const loadMoreNews = async () => {
         const nextPage = (currentPage[activeCategory] || 1) + 1;
-
         try {
             setLoadingMore(true);
             const newArticles = await fetchNewsByCategory(activeCategory, nextPage, 20);
-
             if (newArticles.length > 0) {
                 setNewsData((prev) => ({
                     ...prev,
                     [activeCategory]: Object.assign([...prev[activeCategory], ...newArticles], { _timestamp: Date.now() }),
                 }));
-
                 setCurrentPage((prev) => ({ ...prev, [activeCategory]: nextPage }));
                 setHasMore((prev) => ({ ...prev, [activeCategory]: newArticles.length >= 20 }));
             } else {
@@ -304,83 +295,88 @@ function NewsContent() {
     const articles = newsData[activeCategory] || [];
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            {/* Category Buttons */}
-            <div className="flex gap-3 mb-8 flex-wrap justify-center">
-                {categoriesToShow.map((cat) => {
-                    // Check if this is a cloud provider category
-                    const isCloudProvider = cat.id.startsWith('cloud-') && cat.id !== 'cloud-computing';
-                    const providerName = cat.id.replace('cloud-', '');
+        /* UI FIX: Ronas IT Light Mode Base (Warm Background) */
+        <div className="min-h-screen bg-[#F9F7F2] text-[#1A1A1A]">
+            <div className="container mx-auto px-4 py-12">
+                
+                {/* UI FIX: Pilled Navigation with Editorial Styling */}
+                <div className="flex gap-2 mb-12 flex-wrap justify-center border-b border-[#E5E2DA] pb-10">
+                    {categoriesToShow.map((cat) => {
+                        const isCloudProvider = cat.id.startsWith('cloud-') && cat.id !== 'cloud-computing';
+                        const providerName = cat.id.replace('cloud-', '');
+                        const isActive = activeCategory === cat.id;
 
-                    return (
-                        <Link
-                            key={cat.id}
-                            href={`/news?category=${cat.id}`}
-                            className={`px-6 py-2 rounded-full transition-all flex items-center gap-2 ${activeCategory === cat.id
-                                ? "bg-blue-600 text-white shadow-lg"
-                                : "bg-gray-100 hover:bg-gray-200"
-                                }`}
+                        return (
+                            <Link
+                                key={cat.id}
+                                href={`/news?category=${cat.id}`}
+                                className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.15em] transition-all border ${
+                                    isActive
+                                        ? "bg-[#1A1A1A] text-white border-[#1A1A1A] shadow-md"
+                                        : "bg-white text-[#666] border-[#E5E2DA] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
+                                } flex items-center gap-2`}
+                            >
+                                {isCloudProvider && (
+                                    <img
+                                        src={`/cloud-logos/${providerName}.${['salesforce', 'alibaba', 'tencent', 'huawei'].includes(providerName) ? 'png' : 'svg'}`}
+                                        alt=""
+                                        className={`w-3.5 h-3.5 object-contain ${isActive ? 'brightness-0 invert' : ''}`}
+                                    />
+                                )}
+                                <span>{cat.name}</span>
+                            </Link>
+                        );
+                    })}
+                </div>
+
+                {/* UI FIX: Grid Layout & Loading States */}
+                {loading ? (
+                    <div className="text-center py-20">
+                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-[#1A1A1A]"></div>
+                        <p className="mt-4 text-[#666] uppercase tracking-widest text-[10px] font-bold">Refreshing Feed</p>
+                    </div>
+                ) : articles.length === 0 ? (
+                    <div className="text-center py-20 border border-dashed border-[#E5E2DA] rounded-xl">
+                        <p className="text-[#999] italic font-serif">The archives for this section are currently empty.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+                        {articles.map((article, i) => (
+                            <NewsCard key={i} article={article} />
+                        ))}
+                    </div>
+                )}
+
+                {/* UI FIX: Editorial "Load More" Button */}
+                {!loading && articles.length > 0 && hasMore[activeCategory] && (
+                    <div className="text-center mt-20 pt-16 border-t border-[#E5E2DA]">
+                        <button
+                            onClick={loadMoreNews}
+                            disabled={loadingMore}
+                            className="px-12 py-4 bg-transparent border border-[#1A1A1A] text-[#1A1A1A] text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-[#1A1A1A] hover:text-white transition-all duration-300 disabled:opacity-30 flex items-center gap-3 mx-auto"
                         >
-                            {isCloudProvider && (
-                                <img
-                                    src={`/cloud-logos/${providerName}.${['salesforce', 'alibaba', 'tencent', 'huawei'].includes(providerName) ? 'png' : 'svg'}`}
-                                    alt={`${cat.name} logo`}
-                                    className="w-5 h-5 object-contain"
-                                />
+                            {loadingMore ? (
+                                <>
+                                    <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
+                                    <span>Loading...</span>
+                                </>
+                            ) : (
+                                <span>Load More Articles</span>
                             )}
-                            <span>{cat.name}</span>
-                        </Link>
-                    );
-                })}
+                        </button>
+                        <p className="text-[9px] uppercase tracking-widest text-[#AAA] mt-6 font-bold">
+                            Viewing {articles.length} pieces — Page {currentPage[activeCategory] || 1}
+                        </p>
+                    </div>
+                )}
+
+                {/* UI FIX: Footer Divider Message */}
+                {!loading && articles.length > 0 && !hasMore[activeCategory] && (
+                    <div className="text-center mt-20 py-8 border-t border-[#E5E2DA]">
+                        <p className="text-[#666] font-serif italic text-lg">Reached End of {activeCategory} archives.</p>
+                    </div>
+                )}
             </div>
-
-            {/* Content */}
-            {loading ? (
-                <div className="text-center py-20">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                    <p className="mt-4 text-muted-foreground">Loading news...</p>
-                </div>
-            ) : articles.length === 0 ? (
-                <div className="text-center py-20">
-                    <p className="text-gray-500">No news available for this category</p>
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {articles.map((article, i) => (
-                        <NewsCard key={i} article={article} />
-                    ))}
-                </div>
-            )}
-
-            {/* Load More Button - shown when there are more articles */}
-            {!loading && articles.length > 0 && hasMore[activeCategory] && (
-                <div className="text-center mt-8">
-                    <button
-                        onClick={loadMoreNews}
-                        disabled={loadingMore}
-                        className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
-                    >
-                        {loadingMore ? (
-                            <>
-                                <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                <span>Loading more...</span>
-                            </>
-                        ) : (
-                            <span>Load More Articles</span>
-                        )}
-                    </button>
-                    <p className="text-sm text-gray-500 mt-2">
-                        Showing {articles.length} articles • Page {currentPage[activeCategory] || 1}
-                    </p>
-                </div>
-            )}
-
-            {/* End of articles message */}
-            {!loading && articles.length > 0 && !hasMore[activeCategory] && (
-                <div className="text-center mt-8 py-4">
-                    <p className="text-gray-500">You've reached the end of {activeCategory} news</p>
-                </div>
-            )}
         </div>
     );
 }
@@ -388,9 +384,8 @@ function NewsContent() {
 export default function NewsPage() {
     return (
         <Suspense fallback={
-            <div className="container mx-auto px-4 py-20 text-center">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-                <p className="mt-4 text-muted-foreground">Loading...</p>
+            <div className="min-h-screen bg-[#F9F7F2] flex items-center justify-center">
+                <div className="text-[#1A1A1A] font-serif italic text-2xl animate-pulse">The Daily News</div>
             </div>
         }>
             <NewsContent />

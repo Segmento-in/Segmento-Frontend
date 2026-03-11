@@ -326,9 +326,10 @@ export default function AudioSummaryButton({
                         "transition-all duration-300 ease-out",
                         "hover:scale-105 hover:-translate-y-0.5",
                         "active:scale-100 active:translate-y-0",
+                        
                         "focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2",
                         "animate-button-breathe flex items-center gap-3",
-                        isResearch ? "opacity-70 cursor-not-allowed" : ""
+                        isResearch ? "opacity-50 cursor-not-allowed" : ""
                     )}
                     style={{ background: 'var(--gradient-audio)' }}
                     aria-label="Play Audio Summary"
