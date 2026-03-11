@@ -35,15 +35,69 @@ export interface Article {
     variant?: "A" | "B" | "C" | "D" | "E" | "F";
 }
 
-// Taxonomy Matrix to map UI-2 routing slugs to UI-1 Backend Categories
+// Taxonomy Matrix to map UI-2 routing slugs to backend category strings.
+//
+// Rule:
+//   ‣ Specific sub-category slugs (cloud-aws, data-security …)
+//     pass through directly to the backend as-is.
+//   ‣ Umbrella slugs ('data', 'cloud', 'research-papers', 'ai', 'magzines', 'articles')
+//     are handled by UMBRELLA_CATEGORIES below — they fan out to all real sub-collections.
+//
+// ⚠ WHY THIS MATTERS:
+//   The backend stores articles in specific Appwrite collections named exactly after the
+//   CATEGORIES list in config.py.  There is NO aggregate collection for 'cloud' or 'data'.
+//   Querying /api/news/cloud-computing or /api/news/data-articles returns 0 results because
+//   those umbrella names are NOT in the backend CATEGORIES list.
 export const TaxonomyMatrix: Record<string, string> = {
+    // AI — direct mapping
     'ai': 'ai',
-    'data': 'data-articles',
-    'cloud': 'cloud-computing',
-    'magzines': 'magazines',
-    'articles': 'medium-article',
-    'research-papers': 'research',
-    'latest-articles': 'ai' // Fallback for latest-articles list if needed
+    // Magazines / Articles — direct mapping
+    'magzines':       'magazines',
+    'articles':       'medium-article',
+    // Data sub-categories — pass-through (must match backend CATEGORIES exactly)
+    'data-engineering':         'data-engineering',
+    'data-governance':          'data-governance',
+    'data-privacy':             'data-privacy',
+    'data-management':          'data-management',
+    'data-security':            'data-security',
+    'data-laws':                'data-laws',
+    'business-intelligence':    'business-intelligence',
+    'business-analytics':       'business-analytics',
+    'customer-data-platform':   'customer-data-platform',
+    'data-centers':             'data-centers',
+    // Cloud sub-categories — pass-through
+    'cloud-computing':   'cloud-computing',
+    'cloud-aws':         'cloud-aws',
+    'cloud-azure':       'cloud-azure',
+    'cloud-gcp':         'cloud-gcp',
+    'cloud-oracle':      'cloud-oracle',
+    'cloud-ibm':         'cloud-ibm',
+    'cloud-alibaba':     'cloud-alibaba',
+    'cloud-digitalocean':'cloud-digitalocean',
+    'cloud-huawei':      'cloud-huawei',
+    'cloud-cloudflare':  'cloud-cloudflare',
+};
+
+// Umbrella slugs expand to ALL their real backend sub-category names.
+// On an umbrella fetch, each sub-category is fetched in parallel, then results are merged.
+const UMBRELLA_CATEGORIES: Record<string, string[]> = {
+    'data': [
+        'data-engineering', 'data-governance', 'data-privacy', 'data-management',
+        'data-security', 'data-laws', 'business-intelligence', 'business-analytics',
+        'customer-data-platform', 'data-centers',
+    ],
+    'cloud': [
+        'cloud-computing', 'cloud-aws', 'cloud-azure', 'cloud-gcp',
+        'cloud-oracle', 'cloud-ibm', 'cloud-alibaba', 'cloud-digitalocean',
+        'cloud-huawei', 'cloud-cloudflare',
+    ],
+    'research-papers': [
+        'research',
+    ],
+    'latest-articles': [
+        'ai', 'data-engineering', 'data-security', 'cloud-computing',
+        'business-analytics', 'magazines', 'medium-article',
+    ],
 };
 
 // Deterministic Hasher for WebGL Variants
@@ -93,34 +147,72 @@ export async function sanitizeArticlePayload(article: any): Promise<Article> {
     };
 }
 
+/** Fetch a single real backend category (internal helper) */
+async function _fetchSingleCategory(
+    backendCategory: string,
+    page: number,
+    limit: number,
+    API_BASE: string
+): Promise<Article[]> {
+    try {
+        const response = await fetch(
+            `${API_BASE}/api/news/${backendCategory}?page=${page}&limit=${limit}`,
+            { cache: 'no-store' }
+        );
+        if (!response.ok) return [];
+        const data = await response.json();
+        const articles = data.articles || [];
+        return Promise.all(articles.map(sanitizeArticlePayload));
+    } catch {
+        return [];
+    }
+}
+
 export async function fetchNewsByCategory(
     category: string,
     page: number = 1,
     limit: number = 20
 ): Promise<Article[]> {
     try {
-        const backendCategory = TaxonomyMatrix[category] || category;
         const API_BASE = getApiBase();
-        const response = await fetch(
-            `${API_BASE}/api/news/${backendCategory}?page=${page}&limit=${limit}`,
-            {
-                cache: 'no-store',
-            }
-        );
 
-        if (!response.ok) {
-            console.error('Failed to fetch news:', response.statusText);
-            return [];
+        // ── Umbrella slug: fan out to all real sub-categories ────────────────
+        const subCategories = UMBRELLA_CATEGORIES[category];
+        if (subCategories) {
+            // Fetch all sub-categories in parallel. Limit per sub-category is
+            // smaller so we don't overshoot the total by 10x.
+            const perCatLimit = Math.max(5, Math.ceil(limit / subCategories.length));
+            const results = await Promise.all(
+                subCategories.map(cat => _fetchSingleCategory(cat, 1, perCatLimit, API_BASE))
+            );
+            // Flatten, deduplicate by URL, sort newest-first
+            const seen = new Set<string>();
+            const merged: Article[] = [];
+            for (const batch of results) {
+                for (const article of batch) {
+                    const key = article.url as string;
+                    if (key && !seen.has(key)) {
+                        seen.add(key);
+                        merged.push(article);
+                    }
+                }
+            }
+            merged.sort((a, b) =>
+                new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+            );
+            return merged.slice(0, limit);
         }
 
-        const data = await response.json();
-        const articles = data.articles || [];
-        return Promise.all(articles.map(sanitizeArticlePayload));
+        // ── Single specific category (pass-through) ──────────────────────────
+        const backendCategory = TaxonomyMatrix[category] || category;
+        return _fetchSingleCategory(backendCategory, page, limit, API_BASE);
+
     } catch (error) {
         console.error('Error fetching news:', error);
         return [];
     }
 }
+
 
 export async function searchNews(query: string): Promise<Article[]> {
     try {
