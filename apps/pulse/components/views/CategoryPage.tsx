@@ -259,12 +259,7 @@ export function CategoryPageTemplate({
                     ) : (
                         <>
                             {/* ── FEATURED GRID (Top 2) ── */}
-                            <div
-                                style={{
-                                    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
-                                    gap: "24px", marginBottom: "24px",
-                                }}
-                            >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 {featuredArticles.map((art, idx) => (
                                     <a key={art.id} href={art.url || "#"} className={CARD_BASE_CLASSES}
                                         onClick={(e) => handleClickModal(e, art)}>
@@ -299,15 +294,15 @@ export function CategoryPageTemplate({
                             {/* ── LIST ARTICLES (Horizontal Row Cards) ── */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
                                 {clientListArticles.map((art, idx) => (
-                                    <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex flex-row h-[180px]`}
+                                    <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex flex-col sm:flex-row h-auto sm:h-[180px]`}
                                         onClick={(e) => handleClickModal(e, art)}>
-                                        <div className={`w-[35%] h-full overflow-hidden border-r border-gray-100 dark:border-slate-700/50 ${aestheticColors[(idx + featuredArticles.length) % aestheticColors.length]}`}>
+                                        <div className={`w-full sm:w-[35%] h-[180px] sm:h-full overflow-hidden border-b sm:border-b-0 sm:border-r border-gray-100 dark:border-slate-700/50 ${aestheticColors[(idx + featuredArticles.length) % aestheticColors.length]}`}>
                                             <img
                                                 src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                             />
                                         </div>
-                                        <div style={{ width: "65%", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                        <div className="w-full sm:w-[65%] p-5 sm:p-6 flex flex-col justify-center">
                                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", alignItems: "center" }}>
                                                 <CategoryBadge tag={art.tag} showDot />
                                                 <span style={{ fontSize: "12px", color: "#6B7280", fontWeight: 500 }}>{formatDate(art.date) || art.date}</span>

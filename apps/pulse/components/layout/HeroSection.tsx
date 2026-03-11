@@ -288,15 +288,7 @@ export function HeroSection({
                     Real-time tech insights<br />and deep-dive analysis.
                 </motion.h1>
 
-                {/* ── 3-Column grid ── */}
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "200px 1fr 220px",
-                        gap: "20px",
-                        alignItems: "start",
-                    }}
-                >
+                <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr_220px] gap-5 items-start">
                     {/* ═══════════════════════════════════════════
               COL A — 3 stacked small cards
               Each: SVG illustration (4:3) + badge + title
@@ -424,14 +416,7 @@ export function HeroSection({
                             </a>
                         )}
 
-                        {/* 3-card bottom row */}
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "repeat(3, 1fr)",
-                                gap: "12px",
-                            }}
-                        >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {centerBottom.map((card, idx) => (
                                 <a
                                     key={card.id || idx}

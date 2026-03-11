@@ -103,18 +103,7 @@ export function NavBar() {
                 borderBottom: "1px solid var(--pulse-color-border-subtle)",
             }}
         >
-            {/* ── TIER 1: Brand + Main nav ── */}
-            <div
-                style={{
-                    maxWidth: "1200px",
-                    margin: "0 auto",
-                    padding: "0 24px",
-                    height: "64px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "32px",
-                }}
-            >
+                <div className="flex items-center gap-4 md:gap-8 max-w-[1200px] mx-auto px-4 sm:px-6 h-[64px]">
                 {/* Logo */}
                 <Link
                     href="/"
@@ -160,9 +149,9 @@ export function NavBar() {
                                         {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
                                     </div>
                                 )}
-                                <span style={{ fontSize: "13px", fontWeight: 500, color: "var(--pulse-color-text-primary)" }}>Dashboard</span>
+                                <span className="hidden sm:block text-[13px] font-medium text-[var(--pulse-color-text-primary)]">Dashboard</span>
                             </Link>
-                            <a href="#" onClick={handleLogout} style={{ fontSize: "13px", fontWeight: 500, color: "var(--pulse-color-text-secondary)", textDecoration: "none" }}>
+                            <a href="#" onClick={handleLogout} className="text-[13px] font-medium text-[var(--pulse-color-text-secondary)] no-underline">
                                 Sign Out
                             </a>
                         </div>
@@ -181,20 +170,7 @@ export function NavBar() {
                     )}
                     <button
                         onClick={() => setIsNewsletterHubOpen(true)}
-                        style={{
-                            padding: "8px 18px",
-                            background: "var(--pulse-color-brand-accent)",
-                            color: "var(--pulse-color-text-inverse)",
-                            borderRadius: "9999px",
-                            fontSize: "14px",
-                            fontWeight: 600,
-                            border: "none",
-                            cursor: "pointer",
-                            whiteSpace: "nowrap",
-                            transition: "opacity 150ms",
-                        }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLElement).style.opacity = "0.85")}
-                        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+                        className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85"
                     >
                         Subscribe
                     </button>

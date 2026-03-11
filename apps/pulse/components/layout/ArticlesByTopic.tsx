@@ -86,8 +86,8 @@ export function ArticlesByTopic() {
     };
 
     return (
-        <section style={{ paddingBlock: "80px", borderTop: "1px solid var(--pulse-color-border-subtle)", background: "var(--pulse-color-bg-canvas)" }}>
-            <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
+        <section className="py-10 md:py-20" style={{ borderTop: "1px solid var(--pulse-color-border-subtle)", background: "var(--pulse-color-bg-canvas)" }}>
+            <div className="max-w-[1280px] mx-auto px-4 md:px-6">
 
                 {/* Section Header */}
                 <h2 style={{ fontSize: "32px", fontWeight: 800, letterSpacing: "-0.02em", color: "var(--pulse-color-text-primary)", marginBottom: "12px" }}>
