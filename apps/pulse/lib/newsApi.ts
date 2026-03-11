@@ -73,7 +73,7 @@ export async function sanitizeArticlePayload(article: any): Promise<Article> {
         title: article.title || "Untitled Article",
         description: article.description || "",
         url: safeUrl,
-        image_url: article.image_url || "/placeholder-news.svg",
+        image_url: article.image_url || "/pulse/placeholder-news.svg",
         published_at: article.published_at || new Date().toISOString(),
         source: article.source || "Pulse",
         author: article.source || "Pulse",
@@ -87,7 +87,7 @@ export async function sanitizeArticlePayload(article: any): Promise<Article> {
         // UI-2 required presentation properties
         tag: article.category || "News Articles",
         date: article.published_at || new Date().toISOString(),
-        imgSrc: article.image_url || "/placeholder-news.svg",
+        imgSrc: article.image_url || "/pulse/placeholder-news.svg",
         imgAlt: article.title || "Article Image",
         variant: getDeterministicVariant(safeId),
     };

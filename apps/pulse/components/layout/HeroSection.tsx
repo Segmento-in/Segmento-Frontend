@@ -317,12 +317,12 @@ export function HeroSection({
                                 {/* Illustration — taller 3:2 aspect ratio */}
                                 <div className={`aspect-[3/2] overflow-hidden flex items-center justify-center ${aestheticColors[idx % 5]}`}>
                                     <img
-                                        src={card.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
+                                        src={card.imgSrc || "/pulse/placeholder-news.svg"}
                                         alt={card.imgAlt || "Article"}
                                         className="w-full h-full object-cover block"
                                         loading="lazy"
                                         onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
+                                            (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
                                         }}
                                     />
                                 </div>
@@ -367,13 +367,13 @@ export function HeroSection({
                                 {/* Full-width SVG illustration — 16:9 */}
                                 <div className={`aspect-[16/9] overflow-hidden flex items-center justify-center ${aestheticColors[3]}`}>
                                     <img
-                                        src={centerFeatured.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
+                                        src={centerFeatured.imgSrc || "/pulse/placeholder-news.svg"}
                                         alt={centerFeatured.imgAlt || "Featured Article"}
                                         className="w-full h-full object-cover block"
                                         loading="eager"
                                         fetchPriority="high"
                                         onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
+                                            (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
                                         }}
                                     />
                                 </div>
@@ -442,12 +442,12 @@ export function HeroSection({
                                     {/* Small illustration — 4:3 */}
                                     <div className={`aspect-[4/3] overflow-hidden flex items-center justify-center ${aestheticColors[(idx + 1) % 5]}`}>
                                         <img
-                                            src={card.imgSrc || "https://placehold.co/600x400/E2E8F0/1E293B?text=News"}
+                                            src={card.imgSrc || "/pulse/placeholder-news.svg"}
                                             alt={card.imgAlt || "Article"}
                                             className="w-full h-full object-cover block"
                                             loading="lazy"
                                             onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).src = "https://placehold.co/600x400/E2E8F0/1E293B?text=News";
+                                                (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
                                             }}
                                         />
                                     </div>
