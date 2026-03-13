@@ -272,46 +272,46 @@ export default function AudioSummaryButton({
 
 
     return (
-        <div className={cn("flex flex-col items-center gap-2 py-6", className)}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "24px 0" }}>
             {/* Main Button Container */}
-            <div className="relative group">
+            <div style={{ position: "relative", cursor: "pointer" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                 {/* Rotating Message Bubble - Now Top Right */}
-                <div className="absolute -top-14 -right-12 hidden md:block z-20"> {/* Hidden on mobile, top-right position */}
+                <div style={{ position: "absolute", top: "-56px", right: "-48px", zIndex: 20, display: "block" }}>
                     <div
                         className={cn(
-                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400",
+                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400 dark:border-purple-700 dark:from-purple-900 dark:to-pink-900",
                             isFading ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
                         )}
                     >
-                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap dark:text-gray-300">
                             {CATCHY_MESSAGES[messageIndex]}
                         </p>
                     </div>
                     {/* Triangular tail pointing down-left to the button */}
-                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform" />
+                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform dark:from-pink-900 dark:to-purple-900 dark:border-purple-700" />
                 </div>
 
                 {/* Ambient Glow Layer */}
-                <div className="absolute inset-0 rounded-2xl blur-xl animate-glow-pulse pointer-events-none"
-                    style={{ background: 'var(--gradient-audio)' }} />
+                <div style={{
+                    position: "absolute", inset: 0, borderRadius: "16px", filter: "blur(24px)",
+                    pointerEvents: "none", background: 'var(--gradient-audio)', opacity: 0.6
+                }} />
 
                 {/* Pulse Ring */}
                 {showPulseRing && (
-                    <div className="absolute inset-0 rounded-2xl animate-pulse-ring pointer-events-none"
-                        style={{ background: 'var(--gradient-audio)' }} />
+                    <div style={{ position: "absolute", inset: 0, borderRadius: "16px", pointerEvents: "none", background: 'var(--gradient-audio)' }} />
                 )}
 
                 {/* Floating Notes */}
                 {floatingNotes.map(note => (
                     <div
                         key={note.id}
-                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none text-4xl animate-float-note"
                         style={{
-                            '--float-x': `${note.x}px`,
-                            '--float-y': `${note.y}px`,
-                            '--float-rotate': `${note.rotate}deg`,
-                            zIndex: 10
-                        } as React.CSSProperties}
+                            position: "absolute", transform: "translate(-50%, -50%)",
+                            pointerEvents: "none", fontSize: "36px", zIndex: 10,
+                            top: `calc(50% - ${note.y}px)`, left: `calc(50% + ${note.x}px)`, opacity: 0,
+                            transition: "all 2s ease-out"
+                        }}
                     >
                         {note.emoji}
                     </div>
@@ -320,11 +320,9 @@ export default function AudioSummaryButton({
                 {/* Main Button */}
                 <button
                     onClick={handleClick}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
                     disabled={isResearch}
                     className={cn(
-                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-400/50",
+                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-200/50 dark:text-gray-200 dark:border-purple-700/50",
                         "transition-all duration-300 ease-out",
                         "hover:scale-105 hover:-translate-y-0.5",
                         "active:scale-100 active:translate-y-0",
@@ -337,15 +335,15 @@ export default function AudioSummaryButton({
                     aria-label="Play Audio Summary"
                 >
                     {/* Icon */}
-                    <div className={cn(isLoading ? "animate-spin" : "animate-gentle-bob")}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {isLoading ? (
-                            <Loader2 className="w-5 h-5" />
+                            <Loader2 size={20} className="animate-spin" />
                         ) : isPlaying ? (
-                            <Pause className="w-5 h-5" />
+                            <Pause size={20} />
                         ) : audioUrl ? ( // If audio is ready but paused/stopped
-                            <Play className="w-5 h-5" />
+                            <Play size={20} />
                         ) : (
-                            <Headphones className="w-5 h-5" />
+                            <Headphones size={20} />
                         )}
                     </div>
 
@@ -359,12 +357,11 @@ export default function AudioSummaryButton({
 
                     {/* Equalizer Bars */}
                     {!isLoading && (
-                        <div className="flex items-center gap-0.5 h-4">
+                        <div style={{ display: "flex", alignItems: "center", gap: "2px", height: "16px" }}>
                             {[0, 1, 2, 3].map(i => (
                                 <div
                                     key={i}
-                                    className="w-[3px] rounded-full bg-purple-500 animate-eq-bar"
-                                    style={{ animationDelay: `${i * 0.15}s` }}
+                                    style={{ width: "3px", height: isPlaying ? `${Math.random() * 10 + 6}px` : "10px", borderRadius: "99px", background: "#A855F7", transition: "height 100ms" }}
                                 />
                             ))}
                         </div>
@@ -372,27 +369,31 @@ export default function AudioSummaryButton({
                 </button>
 
                 {/* Tooltip for Research Papers */}
-                {isResearch && (
-                    <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                {isResearch && isHovered && (
+                    <div style={{
+                        position: "absolute", top: "-40px", left: "50%", transform: "translateX(-50%)",
+                        background: "rgba(0,0,0,0.8)", color: "#ffffff", fontSize: "12px", padding: "4px 8px",
+                        borderRadius: "4px", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 50
+                    }}>
                         Coming Soon
                     </div>
                 )}
             </div>
 
             {/* Bottom Sub-label */}
-            <div className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-gray-500 mt-1">
-                <Volume2 className="w-3.5 h-3.5 animate-gentle-bob" />
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280", marginTop: "4px" }}>
+                <Volume2 size={14} />
                 <span>Tap to listen 150 words summary</span>
             </div>
 
             {/* Text Summary Box */}
             {textSummary && (
-                <div className="w-full max-w-md mt-4 p-5 rounded-xl bg-purple-50/60 border border-purple-100/50 backdrop-blur-sm text-sm text-gray-700 leading-relaxed max-h-60 overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 shadow-sm">
-                    <h4 className="font-semibold text-purple-900 mb-3 flex items-center gap-2 text-xs uppercase tracking-wider">
-                        <span className="text-base">📝</span>
+                <div style={{ width: "100%", maxWidth: "448px", marginTop: "16px", padding: "20px", borderRadius: "12px", background: "rgba(250, 245, 255, 0.6)", border: "1px solid rgba(243, 232, 255, 0.5)", backdropFilter: "blur(4px)", color: "#374151", fontSize: "14px", lineHeight: 1.6, maxHeight: "240px", overflowY: "auto", boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)" }}>
+                    <h4 style={{ fontWeight: 600, color: "#581C87", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                        <span style={{ fontSize: "16px" }}>📝</span>
                         Quick Summary
                     </h4>
-                    <p className="whitespace-pre-wrap">{textSummary}</p>
+                    <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{textSummary}</p>
                 </div>
             )}
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import TimeDisplay from '@/components/TimeDisplay';
@@ -30,6 +31,7 @@ interface ArticleDetailViewProps {
 }
 
 export default function ArticleDetailView({ article, isModal = false, onClose, ...props }: ArticleDetailViewProps) {
+    const { theme } = useTheme();
     const hasIncrementedRef = useRef(false);
 
     useEffect(() => {

@@ -6,7 +6,7 @@
 
 import { generateArticleId } from '@/shared/idGenerator';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'https://workwithshafisk-segmentopulse-backend.hf.space';
+const API_BASE_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'https://workwithshafisk-segmento-pulse-backend.hf.space';
 
 export interface ArticleStats {
     viewCount: number;
@@ -28,7 +28,7 @@ const CACHE_TTL = 60000; // 60 seconds cache (increased from 5s for better perfo
 
 // Fetch with timeout to prevent hanging
 // Fetch with timeout to prevent hanging
-async function fetchWithTimeout(url: string, timeout = 15000): Promise<Response> {
+async function fetchWithTimeout(url: string, timeout = 20000): Promise<Response> {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(new Error('Request timed out')), timeout);
     try {
@@ -82,12 +82,8 @@ export async function getArticleStats(
 
         return stats;
     } catch (error: any) {
-        if (error.name === 'AbortError' || error.message.includes('timed out')) {
-            console.warn(`Stats fetch timed out for ${articleUrl.slice(-20)}`);
-        } else {
-            console.error('Failed to get article stats:', error);
-        }
-        // Return zeros instead of failing, but log the error
+        console.warn(`Failed to get article stats for ${articleUrl.slice(-20)}: ${error.message}`);
+        // Return zeros instead of failing
         return { viewCount: 0, likeCount: 0, dislikeCount: 0 };
     }
 }
