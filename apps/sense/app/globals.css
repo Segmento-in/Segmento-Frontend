@@ -110,12 +110,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9D17A0;
+  background: blue;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7D1280;
+  background: blue;
 }
 
 /* Page transition fade */
