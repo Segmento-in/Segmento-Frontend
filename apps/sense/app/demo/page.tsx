@@ -258,9 +258,9 @@ export default function PIIDemoPage() {
             <div className="flex-1 p-8 overflow-y-auto">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-white mb-2">
-                        PII Detection & Data Classification
-                    </h1>
+                    <h1 className="text-4xl font-bold mb-2 tracking-wide bg-gradient-to-r from-purple-400 via-magenta-500 to-indigo-600 bg-clip-text text-transparent">
+  PII Detection & Data Classification
+</h1>
                     <p className="text-gray-400">
                         AI-powered platform to discover, classify, and protect sensitive data across your organization
                     </p>

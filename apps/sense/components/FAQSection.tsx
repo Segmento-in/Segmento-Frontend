@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Accordion,
     AccordionContent,
@@ -6,6 +8,8 @@ import {
 } from "@/ui/accordion"
 import { Button } from "@/ui/button"
 import Link from "next/link"
+import { motion } from "framer-motion"
+import { Sparkles, HelpCircle } from "lucide-react"
 
 const faqs = [
     {
@@ -36,32 +40,76 @@ const faqs = [
 
 export function FAQSection() {
     return (
-        <section className="py-20 bg-muted/30">
-            <div className="container mx-auto px-4">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="font-serif text-4xl md:text-5xl font-bold mb-12 text-center">
-                        Questions, answered.
-                    </h2>
+        <section className="py-24 bg-white relative overflow-hidden">
+            {/* Soft Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none" />
 
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="max-w-3xl mx-auto">
+                    
+                    {/* Header */}
+                    <div className="text-center mb-16">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#6366f1] text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm"
+                        >
+                            <Sparkles className="h-3 w-3" />
+                            Support & Resources
+                        </motion.div>
+                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                            Questions, <span className="text-[#6366f1]">answered.</span>
+                        </h2>
+                        <p className="text-slate-500 font-medium">
+                            Everything you need to know about Segmento Sense.
+                        </p>
+                    </div>
+
+                    {/* Accordion */}
                     <Accordion type="single" collapsible className="w-full space-y-4">
                         {faqs.map((faq, idx) => (
-                            <AccordionItem key={idx} value={`item-${idx}`} className="bg-background rounded-lg px-6">
-                                <AccordionTrigger className="text-left font-semibold">
-                                    {faq.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="text-muted-foreground">
-                                    {faq.answer}
-                                </AccordionContent>
-                            </AccordionItem>
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.05 }}
+                                viewport={{ once: true }}
+                            >
+                                <AccordionItem 
+                                    value={`item-${idx}`} 
+                                    className="bg-white border border-slate-100 rounded-2xl px-6 transition-all duration-300 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-900/5 overflow-hidden"
+                                >
+                                    <AccordionTrigger className="text-left font-bold text-slate-800 py-6 hover:no-underline hover:text-[#6366f1] transition-colors">
+                                        <div className="flex items-center gap-4">
+                                            <HelpCircle className="h-5 w-5 text-indigo-200 group-hover:text-indigo-500 transition-colors" />
+                                            {faq.question}
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="text-slate-500 leading-relaxed font-medium pb-6 text-base">
+                                        <div className="pl-9">
+                                            {faq.answer}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </motion.div>
                         ))}
                     </Accordion>
 
-                    <div className="text-center mt-12">
-                        <p className="text-muted-foreground mb-4">Have more questions?</p>
+                    {/* CTA Footer */}
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        className="text-center mt-16 p-8 rounded-3xl bg-slate-50 border border-slate-100"
+                    >
+                        <p className="text-slate-600 font-semibold mb-6">Still have questions about PII protection?</p>
                         <Link href="/contact">
-                            <Button>Contact us</Button>
+                            <Button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 h-12 rounded-xl font-bold shadow-md transition-all hover:-translate-y-0.5">
+                                Contact our team
+                            </Button>
                         </Link>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

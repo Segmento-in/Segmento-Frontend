@@ -36,171 +36,158 @@ const features = [
 
 export function DocumentFeatures() {
     const [activeFeature, setActiveFeature] = useState("parse")
-
     const active = features.find((f) => f.id === activeFeature) || features[0]
 
     return (
-        <section className="py-20 bg-background">
-            <div className="container mx-auto px-4">
+        <section className="py-24 bg-white">
+            <div className="container mx-auto px-4 max-w-7xl">
                 <div className="text-center mb-16">
-                    <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
                         Document Intelligence Suite
                     </h2>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
                         Transform, split, extract, and edit documents with precision and intelligence.
                     </p>
                 </div>
 
-                {/* Feature Tabs */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-4xl mx-auto">
+                {/* Feature Selector Tabs */}
+                <div className="flex flex-wrap justify-center gap-3 mb-16 max-w-4xl mx-auto">
                     {features.map((feature) => {
                         const Icon = feature.icon
                         const isActive = activeFeature === feature.id
                         return (
-                            <motion.button
+                            <button
                                 key={feature.id}
                                 onClick={() => setActiveFeature(feature.id)}
-                                className={`p-6 rounded-lg border-2 transition-all text-left relative overflow-hidden ${isActive
-                                    ? "border-primary bg-primary/5"
-                                    : "border-border hover:border-primary/50 hover:bg-primary/5"
-                                    }`}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                className={`flex items-center gap-3 px-8 py-4 rounded-2xl border transition-all duration-300 ${
+                                    isActive
+                                        ? "bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-100 scale-105"
+                                        : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-white hover:border-slate-200"
+                                }`}
                             >
-                                <Icon className={`h-8 w-8 mb-3 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
-                                <h3 className="font-semibold text-lg">{feature.title}</h3>
-                            </motion.button>
+                                <Icon className={`h-5 w-5 ${isActive ? "text-white" : "text-slate-400"}`} />
+                                <span className="font-bold text-sm uppercase tracking-wider">{feature.title}</span>
+                            </button>
                         )
                     })}
                 </div>
 
-                {/* Active Feature Content */}
+                {/* Content Area */}
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={active.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.3 }}
-                        className="grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto"
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="grid lg:grid-cols-12 gap-12 items-stretch"
                     >
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-3xl">{active.title}</CardTitle>
-                                <CardDescription className="text-lg">{active.description}</CardDescription>
-                            </CardHeader>
-                        </Card>
+                        {/* Text Content */}
+                        <div className="lg:col-span-5 flex flex-col justify-center">
+                            <div className="space-y-6">
+                                <div className="inline-block p-3 rounded-2xl bg-indigo-50 text-indigo-600">
+                                    <active.icon className="h-8 w-8" />
+                                </div>
+                                <h3 className="text-4xl font-black text-slate-900 tracking-tight leading-none">
+                                    {active.title}
+                                </h3>
+                                <p className="text-xl text-slate-500 leading-relaxed">
+                                    {active.description}
+                                </p>
+                            </div>
+                        </div>
 
-                        {/* Visual placeholder for feature demonstration */}
-                        <div className="relative h-[400px] rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/20">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="text-center p-8">
-                                    {/* Parse - Labels */}
+                        {/* Interactive Visual Preview */}
+                        <div className="lg:col-span-7">
+                            <div className="h-[450px] rounded-[2.5rem] bg-[#F8FAFC] border border-slate-100 shadow-inner overflow-hidden relative flex items-center justify-center p-12">
+                                
+                                {/* Background Decorative Element */}
+                                <div className="absolute top-0 right-0 p-8 opacity-5">
+                                    <active.icon className="h-64 w-64 text-slate-900" />
+                                </div>
+
+                                <div className="relative z-10 w-full">
+                                    {/* Parse - Visual */}
                                     {active.id === "parse" && active.labels && (
-                                        <div className="space-y-4">
-                                            <div className="w-20 h-20 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                                <FileText className="h-10 w-10 text-primary" />
-                                            </div>
-                                            <div className="flex flex-wrap gap-2 justify-center">
+                                        <div className="flex flex-col items-center gap-8">
+                                            <div className="flex flex-wrap gap-3 justify-center">
                                                 {active.labels.map((label, idx) => (
-                                                    <motion.span
+                                                    <motion.div
                                                         key={label}
-                                                        initial={{ scale: 0, opacity: 0 }}
+                                                        initial={{ scale: 0.8, opacity: 0 }}
                                                         animate={{ scale: 1, opacity: 1 }}
-                                                        transition={{
-                                                            type: "spring",
-                                                            stiffness: 260,
-                                                            damping: 20,
-                                                            delay: idx * 0.15,
-                                                        }}
-                                                        className="px-4 py-2 bg-primary/20 text-primary text-sm font-mono rounded border border-primary/30"
+                                                        transition={{ delay: idx * 0.1 }}
+                                                        className="px-6 py-3 bg-white border-2 border-indigo-100 rounded-xl shadow-sm font-mono text-sm text-indigo-600 font-bold"
                                                     >
-                                                        {label}
-                                                    </motion.span>
-                                                ))}
-                                            </div>
-                                            <p className="text-sm text-muted-foreground mt-4">
-                                                Document structure identification
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {/* Split - Pages */}
-                                    {active.id === "split" && (
-                                        <div className="space-y-4">
-                                            <div className="flex justify-center gap-2">
-                                                {[1, 2, 3].map((page, idx) => (
-                                                    <motion.div
-                                                        key={page}
-                                                        initial={{ x: 0, rotate: 0 }}
-                                                        animate={{
-                                                            x: (idx - 1) * 40,
-                                                            rotate: (idx - 1) * 5,
-                                                        }}
-                                                        transition={{
-                                                            duration: 0.6,
-                                                            delay: idx * 0.2,
-                                                        }}
-                                                        className="w-24 h-32 bg-white border-2 border-primary/30 rounded shadow-md"
-                                                    />
-                                                ))}
-                                            </div>
-                                            <p className="text-sm text-muted-foreground mt-4">
-                                                Intelligent document splitting
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {/* Extract - Claims */}
-                                    {active.id === "extract" && active.claims && (
-                                        <div className="space-y-4">
-                                            <div className="w-20 h-20 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                                <Download className="h-10 w-10 text-primary" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                {active.claims.map((claim, idx) => (
-                                                    <motion.div
-                                                        key={claim}
-                                                        initial={{ x: -20, opacity: 0 }}
-                                                        animate={{ x: 0, opacity: 1 }}
-                                                        transition={{
-                                                            duration: 0.4,
-                                                            delay: idx * 0.2,
-                                                        }}
-                                                        className="px-4 py-2 bg-primary/10 text-primary rounded border border-primary/30 text-sm"
-                                                    >
-                                                        → {claim}
+                                                        &lt;{label}/&gt;
                                                     </motion.div>
                                                 ))}
                                             </div>
-                                            <p className="text-sm text-muted-foreground mt-4">
-                                                Structured data extraction
-                                            </p>
+                                            <div className="w-full max-w-md h-32 bg-white rounded-2xl border border-slate-100 shadow-sm p-4 space-y-2">
+                                                <div className="h-2 w-3/4 bg-slate-100 rounded" />
+                                                <div className="h-2 w-full bg-slate-50 rounded" />
+                                                <div className="h-2 w-1/2 bg-slate-100 rounded" />
+                                            </div>
                                         </div>
                                     )}
 
-                                    {/* Edit - Scanning Line */}
+                                    {/* Split - Visual */}
+                                    {active.id === "split" && (
+                                        <div className="flex justify-center items-center gap-4 h-full">
+                                            {[1, 2, 3].map((page, idx) => (
+                                                <motion.div
+                                                    key={page}
+                                                    initial={{ rotate: 0, x: -50, opacity: 0 }}
+                                                    animate={{ rotate: (idx - 1) * 8, x: 0, opacity: 1 }}
+                                                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                                    className="w-32 h-44 bg-white border border-slate-200 rounded-lg shadow-xl flex items-center justify-center relative overflow-hidden"
+                                                >
+                                                    <div className="absolute top-0 left-0 w-full h-1 bg-indigo-500" />
+                                                    <span className="text-slate-300 font-bold text-2xl">{page}</span>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Extract - Visual */}
+                                    {active.id === "extract" && active.claims && (
+                                        <div className="max-w-md mx-auto space-y-4">
+                                            {active.claims.map((claim, idx) => (
+                                                <motion.div
+                                                    key={claim}
+                                                    initial={{ x: 50, opacity: 0 }}
+                                                    animate={{ x: 0, opacity: 1 }}
+                                                    transition={{ delay: idx * 0.2 }}
+                                                    className="bg-white p-6 rounded-2xl border border-slate-100 shadow-md flex items-center gap-4"
+                                                >
+                                                    <div className="h-10 w-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+                                                        <Download className="h-5 w-5" />
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Verified Field</div>
+                                                        <div className="text-slate-900 font-bold">{claim}</div>
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Edit - Visual */}
                                     {active.id === "edit" && (
-                                        <div className="space-y-4 relative">
-                                            <div className="w-20 h-20 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                                <Edit3 className="h-10 w-10 text-primary" />
+                                        <div className="relative w-full max-w-sm mx-auto h-64 bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden p-8">
+                                            <div className="space-y-6">
+                                                <div className="h-4 w-1/2 bg-slate-100 rounded" />
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div className="h-10 bg-indigo-50/50 border border-indigo-100 rounded-lg" />
+                                                    <div className="h-10 bg-indigo-50/50 border border-indigo-100 rounded-lg" />
+                                                </div>
+                                                <div className="h-20 bg-slate-50 rounded-lg" />
                                             </div>
-                                            {/* Scanning line animation */}
                                             <motion.div
-                                                className="absolute inset-0 bg-primary/30"
-                                                animate={{
-                                                    x: [-400, 400],
-                                                }}
-                                                transition={{
-                                                    duration: 2,
-                                                    repeat: Infinity,
-                                                    ease: "linear",
-                                                }}
-                                                style={{ width: '2px' }}
+                                                animate={{ top: ["0%", "100%", "0%"] }}
+                                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                                className="absolute left-0 right-0 h-[2px] bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.8)] z-20"
                                             />
-                                            <p className="text-sm text-muted-foreground">
-                                                Dynamic form field detection and filling
-                                            </p>
                                         </div>
                                     )}
                                 </div>

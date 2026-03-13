@@ -1,8 +1,8 @@
 "use client"
 
-import { Database, FileText, Globe, Zap, ImageIcon, Plus } from "lucide-react"
-import { Card, CardContent } from "@/ui/card"
+import { Database, FileText, Globe, Zap, ImageIcon, Plus, Sparkles } from "lucide-react"
 import { motion } from "framer-motion"
+import { useRef } from "react"
 
 const features = [
     {
@@ -39,19 +39,35 @@ const features = [
 ]
 
 export function FeatureGrid() {
+    const ref = useRef(null)
+
     return (
-        <section id="features" className="py-20 bg-muted/30">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-16">
-                    <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">
-                        All-in-one PII intelligence.
+        <section id="features" className="py-24 bg-white relative overflow-hidden" ref={ref}>
+            <div className="container mx-auto px-4 relative z-10">
+                
+                {/* Header Section */}
+                <div className="text-center mb-20">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#6366f1] text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm"
+                    >
+                        <Sparkles className="h-3 w-3" />
+                        Comprehensive Protection
+                    </motion.div>
+                    
+                    <h2 className="text-4xl md:text-6xl font-black mb-6 text-slate-900 tracking-tight leading-tight">
+                        All-in-one <span className="text-[#6366f1]">PII intelligence.</span>
                     </h2>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    
+                    <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
                         Segmento Sense's comprehensive feature set covers the long tail of your data protection needs, out of the box.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {/* Grid Section */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     {features.map((feature, idx) => {
                         const Icon = feature.icon
                         return (
@@ -61,55 +77,46 @@ export function FeatureGrid() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                                 viewport={{ once: true }}
+                                className="group relative bg-white border border-slate-100 rounded-4xl p-8 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-indigo-900/10 hover:border-indigo-100 hover:-translate-y-1"
                             >
-                                <Card className="h-full hover:border-primary/50 transition-all duration-300">
-                                    <CardContent className="pt-6">
-                                        <div className="bg-primary/10 rounded-lg p-3 w-fit mb-4">
-                                            {idx === 1 ? (
-                                                <motion.div
-                                                    animate={{
-                                                        rotateZ: [0, 90, 90, 0],
-                                                    }}
-                                                    transition={{
-                                                        duration: 4,
-                                                        repeat: Infinity,
-                                                        ease: "easeInOut",
-                                                        times: [0, 0.3, 0.7, 1],
-                                                    }}
-                                                >
-                                                    <Icon className="h-10 w-10 text-primary" />
-                                                </motion.div>
-                                            ) : (
-                                                <Icon className="h-10 w-10 text-primary" />
-                                            )}
-                                        </div>
-                                        <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                                        <p className="text-muted-foreground">{feature.description}</p>
+                                {/* Icon Container (Squircle Style) */}
+                                <div className="relative w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-[#6366f1] mb-8 group-hover:bg-[#6366f1] group-hover:text-white transition-all duration-300">
+                                    {idx === 1 ? (
+                                        <motion.div
+                                            animate={{ rotateZ: [0, 90, 90, 0] }}
+                                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", times: [0, 0.3, 0.7, 1] }}
+                                        >
+                                            <Icon className="h-8 w-8" />
+                                        </motion.div>
+                                    ) : (
+                                        <Icon className="h-8 w-8" />
+                                    )}
+                                </div>
 
-                                        {/* Language badges for multilingual feature */}
-                                        {idx === 2 && feature.languages && (
-                                            <div className="flex flex-wrap gap-2 mt-4">
-                                                {feature.languages.map((lang, langIdx) => (
-                                                    <motion.span
-                                                        key={lang}
-                                                        initial={{ scale: 0, opacity: 0 }}
-                                                        whileInView={{ scale: 1, opacity: 1 }}
-                                                        transition={{
-                                                            type: "spring",
-                                                            stiffness: 260,
-                                                            damping: 20,
-                                                            delay: langIdx * 0.1 + 0.5,
-                                                        }}
-                                                        viewport={{ once: true }}
-                                                        className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full font-medium"
-                                                    >
-                                                        {lang}
-                                                    </motion.span>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </CardContent>
-                                </Card>
+                                <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-[#6366f1] transition-colors">
+                                    {feature.title}
+                                </h3>
+                                
+                                <p className="text-slate-500 text-sm leading-relaxed font-medium mb-4">
+                                    {feature.description}
+                                </p>
+
+                                {/* Language badges for multilingual feature */}
+                                {idx === 2 && feature.languages && (
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {feature.languages.map((lang, langIdx) => (
+                                            <motion.span
+                                                key={lang}
+                                                initial={{ scale: 0, opacity: 0 }}
+                                                whileInView={{ scale: 1, opacity: 1 }}
+                                                transition={{ delay: langIdx * 0.1 + 0.3 }}
+                                                className="px-2 py-1 bg-indigo-50 text-[#6366f1] text-[10px] rounded-md font-bold uppercase tracking-wider border border-indigo-100/50"
+                                            >
+                                                {lang}
+                                            </motion.span>
+                                        ))}
+                                    </div>
+                                )}
                             </motion.div>
                         )
                     })}
