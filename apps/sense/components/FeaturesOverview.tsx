@@ -2,57 +2,44 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Search, Filter, Shield, Wrench, CheckCircle2, Sparkles } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card"
+import { Search, Filter, Shield, Wrench, CheckCircle2, ArrowUpRight, Activity, Zap, Layers, Lock } from "lucide-react"
 
 const features = [
     {
         id: "discover",
         title: "Discover",
         icon: Search,
+        colorTheme: "from-blue-600 via-cyan-400 to-emerald-400",
+        accent: "text-blue-600",
         description: "Automatically discover PII across all data sources with real-time scanning and multi-language support.",
-        details: [
-            "Support for structured and unstructured data",
-            "Real-time scanning with high accuracy",
-            "Multi-language PII detection (100+)",
-            "Comprehensive source coverage",
-        ],
+        details: ["Structured & Unstructured support", "Real-time scanning accuracy", "100+ Languages supported", "Full source coverage"],
     },
     {
         id: "classify",
         title: "Classify",
         icon: Filter,
+        colorTheme: "from-indigo-600 via-purple-500 to-pink-500",
+        accent: "text-indigo-600",
         description: "AI-powered data classification with automated categorization by sensitivity level and compliance.",
-        details: [
-            "Automatic sensitivity categorization",
-            "Custom classification rules",
-            "Identity-centric data mapping",
-            "Compliance-ready (GDPR, HIPAA)",
-        ],
+        details: ["Sensitivity categorization", "Custom logic rules", "Identity-centric mapping", "GDPR & HIPAA ready"],
     },
     {
         id: "protect",
         title: "Protect",
         icon: Shield,
+        colorTheme: "from-fuchsia-600 via-rose-500 to-orange-400",
+        accent: "text-rose-600",
         description: "Automated data masking, redaction, and encryption for PII protection and access control.",
-        details: [
-            "Automated masking & redaction",
-            "Encryption for sensitive fields",
-            "Access control & governance",
-            "Secure data handling",
-        ],
+        details: ["Automated masking", "Field-level encryption", "Access governance", "Secure handling"],
     },
     {
         id: "remediate",
         title: "Remediate",
         icon: Wrench,
+        colorTheme: "from-emerald-600 via-teal-500 to-sky-400",
+        accent: "text-emerald-600",
         description: "Automated risk remediation workflows with data minimization and retention enforcement.",
-        details: [
-            "Risk remediation workflows",
-            "Data minimization & deletion",
-            "Retention policy enforcement",
-            "Audit trail & reporting",
-        ],
+        details: ["Risk workflows", "Data minimization", "Retention enforcement", "Audit reporting"],
     },
 ]
 
@@ -61,132 +48,173 @@ export function FeaturesOverview() {
     const active = features.find((f) => f.id === activeFeature) || features[0]
 
     return (
-        <section className="py-20 bg-slate-50/50"> 
-            <div className="container mx-auto px-4 max-w-5xl">
-                {/* Header Section */}
-                <div className="text-center mb-12">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-widest mb-4"
-                    >
-                        <Sparkles className="h-3 w-3" />
-                        Enterprise API Suite
-                    </motion.div>
-                    <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 tracking-tight">
-                        Free your data from <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">documents.</span>
+        <section className="py-24 bg-white overflow-hidden">
+            <div className="container mx-auto px-4 max-w-7xl">
+                
+                {/* Header Section - Centered */}
+                <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-tight">
+                        Free your data from <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600">documents.</span>
                     </h2>
-                    <p className="text-lg text-slate-500 max-w-xl mx-auto leading-relaxed">
+                    <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
                         A comprehensive suite of APIs for all your PII detection and protection needs.
                     </p>
                 </div>
 
-                {/* Feature Tabs - Compact Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-                    {features.map((feature) => {
-                        const Icon = feature.icon
-                        const isActive = activeFeature === feature.id
-                        return (
-                            <motion.button
-                                key={feature.id}
-                                onClick={() => setActiveFeature(feature.id)}
-                                className={`group p-4 rounded-2xl border transition-all text-left relative overflow-hidden ${isActive
-                                    ? "border-indigo-600 bg-white shadow-lg shadow-indigo-100 ring-1 ring-indigo-600"
-                                    : "border-slate-200 bg-white/50 hover:bg-white hover:border-indigo-300"
+                {/* TABS - Forced One Line */}
+                <div className="flex justify-center mb-20">
+                    <div className="flex flex-nowrap items-center gap-2 p-2 bg-slate-50/80 backdrop-blur-sm rounded-[2.5rem] border border-slate-100 overflow-x-auto no-scrollbar max-w-full">
+                        {features.map((f) => {
+                            const Icon = f.icon
+                            const isActive = activeFeature === f.id
+                            return (
+                                <button
+                                    key={f.id}
+                                    onClick={() => setActiveFeature(f.id)}
+                                    className={`flex items-center gap-3 px-8 py-3.5 rounded-[2rem] transition-all duration-300 whitespace-nowrap ${
+                                        isActive 
+                                        ? "bg-slate-900 text-white shadow-xl scale-105" 
+                                        : "text-slate-400 hover:text-slate-600 hover:bg-slate-100/50"
                                     }`}
-                                whileHover={{ y: -2 }}
-                                whileTap={{ scale: 0.97 }}
-                            >
-                                <div className={`w-10 h-10 rounded-xl mb-3 flex items-center justify-center transition-all ${
-                                    isActive ? "bg-indigo-600 text-white shadow-md shadow-indigo-200" : "bg-slate-100 text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-500"
-                                }`}>
-                                    <Icon className="h-5 w-5" />
-                                </div>
-                                <h3 className={`font-bold text-sm tracking-tight ${isActive ? "text-slate-900" : "text-slate-500"}`}>
-                                    {feature.title}
-                                </h3>
-                                {isActive && (
-                                    <motion.div 
-                                        layoutId="activeUnderline" 
-                                        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-600 to-violet-600" 
-                                    />
-                                )}
-                            </motion.button>
-                        )
-                    })}
+                                >
+                                    <Icon className={`h-4 w-4 ${isActive ? "" : "opacity-70"}`} />
+                                    <span className="text-[11px] font-black uppercase tracking-[0.15em]">{f.title}</span>
+                                </button>
+                            )
+                        })}
+                    </div>
                 </div>
 
-                {/* Main Content Area */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={active.id}
-                        initial={{ opacity: 0, scale: 0.98 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.02 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="grid md:grid-cols-2 gap-8 items-stretch"
-                    >
-                        {/* Information Card */}
-                        <Card className="border-none shadow-2xl shadow-indigo-100/50 rounded-[2rem] overflow-hidden bg-white/80 backdrop-blur-sm ring-1 ring-slate-100">
-                            <CardHeader className="p-8 pb-4">
-                                <CardTitle className="text-3xl font-black text-slate-900 tracking-tight">
-                                    {active.title}
-                                </CardTitle>
-                                <CardDescription className="text-base text-slate-500 font-medium leading-relaxed">
-                                    {active.description}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="p-8 pt-0">
-                                <ul className="grid gap-3">
-                                    {active.details.map((detail, idx) => (
-                                        <motion.li 
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: idx * 0.1 }}
-                                            key={idx} 
-                                            className="flex items-center gap-3 p-3 rounded-xl bg-slate-50/50 border border-slate-100 group hover:bg-white hover:shadow-sm transition-all"
-                                        >
-                                            <CheckCircle2 className="h-4 w-4 text-indigo-500 shrink-0" />
-                                            <span className="text-slate-700 font-semibold text-xs tracking-tight">{detail}</span>
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
-
-                        {/* Visual Experience Block */}
-                        <div className="relative min-h-[320px] rounded-[2rem] overflow-hidden bg-slate-900 flex items-center justify-center border-4 border-white shadow-2xl">
-                            {/* Animated Background Mesh */}
-                            <div className="absolute inset-0 opacity-40" 
-                                 style={{ 
-                                    backgroundImage: `radial-gradient(circle at 2px 2px, #6366f1 1px, transparent 0)`,
-                                    backgroundSize: '24px 24px'
-                                 }} 
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-950 via-slate-900 to-slate-900" />
-                            
-                            {/* Focal Point */}
-                            <div className="relative z-10 text-center">
-                                <motion.div 
-                                    animate={{ 
-                                        boxShadow: ["0 0 0 0px rgba(99, 102, 241, 0)", "0 0 0 20px rgba(99, 102, 241, 0.1)", "0 0 0 0px rgba(99, 102, 241, 0)"] 
-                                    }}
-                                    transition={{ duration: 3, repeat: Infinity }}
-                                    className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-3xl flex items-center justify-center mb-6 mx-auto shadow-xl shadow-indigo-500/20 rotate-3"
-                                >
-                                    <active.icon className="h-10 w-10 text-white" />
-                                </motion.div>
-                                <div className="space-y-1">
-                                    <h4 className="text-white text-lg font-bold tracking-tight">Active Node</h4>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                                        <p className="text-indigo-300 font-mono text-[10px] uppercase tracking-[0.2em]">System Status: Optimal</p>
-                                    </div>
+                {/* Main Content Grid */}
+                <div className="grid lg:grid-cols-2 gap-24 items-center">
+                    
+                    {/* LEFT SIDE: Content Info */}
+                    <div className="space-y-12">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={active.id}
+                                initial={{ opacity: 0, x: -40 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.5, ease: "circOut" }}
+                                className="space-y-10"
+                            >
+                                <div className="space-y-4">
+                                    <h3 className="text-5xl md:text-5xl font-black text-slate-900 tracking-tight leading-none uppercase ">
+                                        {active.title}
+                                    </h3>
+                                    <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-lg">
+                                        {active.description}
+                                    </p>
                                 </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {active.details.map((detail, idx) => (
+                                        <div key={idx} className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100/50">
+                                            <CheckCircle2 className={`h-5 w-5 ${active.accent} shrink-0`} />
+                                            <span className="text-slate-700 font-bold text-[13px] tracking-tight">{detail}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                               
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    {/* RIGHT SIDE: Colorful Dynamic Visuals */}
+                    <div className="relative min-h-[500px] flex items-center justify-center">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={`viz-${active.id}`}
+                                initial={{ opacity: 0, scale: 0.85 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.1 }}
+                                transition={{ duration: 0.6, ease: "anticipate" }}
+                                className="w-full flex items-center justify-center"
+                            >
+                                {active.id === "discover" && (
+                                    <div className="relative flex items-end gap-3 h-72 w-full max-w-sm px-6">
+                                        {[40, 70, 45, 90, 65, 80, 55, 95, 60, 85].map((h, i) => (
+                                            <motion.div 
+                                                key={i}
+                                                animate={{ height: [`${h}%`, `${h+10}%`, `${h}%`], opacity: [0.7, 1, 0.7] }}
+                                                transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+                                                className={`flex-1 rounded-full bg-gradient-to-t ${active.colorTheme} shadow-2xl`}
+                                            />
+                                        ))}
+                                        <div className="absolute -top-16 left-0 right-0 flex justify-center">
+                                            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-[9px] font-black tracking-widest uppercase shadow-xl">
+                                                <Activity className="w-3 h-3 text-emerald-400 animate-pulse" />
+                                                Live Processing
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {active.id === "classify" && (
+                                    <div className="relative w-80 h-80">
+                                        {[1, 0.7, 0.4].map((scale, i) => (
+                                            <motion.div
+                                                key={i}
+                                                animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
+                                                transition={{ duration: 10 + i * 5, repeat: Infinity, ease: "linear" }}
+                                                className={`absolute inset-0 rounded-[3.5rem] border-2 border-dashed ${active.accent} opacity-20`}
+                                                style={{ scale }}
+                                            />
+                                        ))}
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <motion.div 
+                                                animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0] }}
+                                                transition={{ duration: 5, repeat: Infinity }}
+                                                className={`w-40 h-40 rounded-[3rem] bg-gradient-to-br ${active.colorTheme} flex items-center justify-center shadow-2xl shadow-indigo-500/40`}
+                                            >
+                                                <Layers className="text-white w-16 h-16" />
+                                            </motion.div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {active.id === "protect" && (
+                                    <div className="grid grid-cols-3 gap-6 w-full max-w-sm px-6">
+                                        {[...Array(9)].map((_, i) => (
+                                            <motion.div
+                                                key={i}
+                                                animate={{ 
+                                                    opacity: [0.3, 1, 0.3], 
+                                                    scale: [0.9, 1.05, 0.9],
+                                                    backgroundColor: i % 2 === 0 ? "#0f172a" : "transparent"
+                                                }}
+                                                transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
+                                                className={`aspect-square rounded-[1.5rem] bg-gradient-to-tr ${active.colorTheme} flex items-center justify-center border border-white/10 shadow-lg`}
+                                            >
+                                                <Lock className="text-white w-5 h-5" />
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {active.id === "remediate" && (
+                                    <div className="flex flex-col gap-8 w-full max-w-sm">
+                                        {[1, 2, 3].map((i) => (
+                                            <div key={i} className="relative h-20 bg-slate-50 rounded-3xl border border-slate-100 flex items-center px-8 overflow-hidden group shadow-sm">
+                                                <Zap className={`w-6 h-6 ${active.accent} mr-4`} />
+                                                <div className="flex-1 h-2 bg-slate-200 rounded-full relative overflow-hidden">
+                                                    <motion.div 
+                                                        animate={{ left: ["-100%", "100%"] }}
+                                                        transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.5, ease: "linear" }}
+                                                        className={`absolute inset-0 w-1/2 bg-gradient-to-r ${active.colorTheme} blur-[2px]`}
+                                                    />
+                                                </div>
+                                                <div className="ml-6 w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.6)] animate-pulse" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+                </div>
             </div>
         </section>
     )

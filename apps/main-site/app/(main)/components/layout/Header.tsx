@@ -63,7 +63,23 @@ export function Header() {
                   <div className={dropdownBox}>
                     <Link href="/pulse" className={dropdownItem}>Segmento Pulse</Link>
                     <Link href="/products/data-classification" className={dropdownItem}>Segmento Sense</Link>
-                    <span className={dropdownItem}>Segmento Resolve (Upcoming)</span>
+                    <Link 
+  href="https://segmento-resolve.vercel.app/" 
+  className={dropdownItem}
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  Segmento Resolve
+</Link>
+      <Link 
+  href="https://segmento-retro-omega.vercel.app/" 
+  className={dropdownItem}
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  Segmento SprintIQ
+</Link>
+
                     <span className={dropdownItem}>Segmento Collect (Upcoming)</span>
                      <span className={dropdownItem}>Segmento Enrich (Upcoming)</span>
                   </div>
@@ -158,7 +174,8 @@ export function Header() {
       <div className="ml-4 space-y-2 text-sm text-slate-300 pb-2">
         <Link href="/pulse" onClick={() => setMobileOpen(false)} className="block py-1">Segmento Pulse</Link>
         <Link href="/products/data-classification" onClick={() => setMobileOpen(false)} className="block py-1">Segmento Sense</Link>
-        <span className="block opacity-50 py-1">Segmento Resolve (Upcoming)</span>
+        <span className="block opacity-50 py-1">Segmento Resolve </span>
+        <span className="block opacity-50 py-1">Segmento SprintIQ </span>
         <span className="block opacity-50 py-1">Segmento Collect (Upcoming)</span>
         <span className="block opacity-50 py-1">Segmento Enrich (Upcoming)</span>
       </div>
