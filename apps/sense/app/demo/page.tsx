@@ -247,7 +247,7 @@ export default function PIIDemoPage() {
     };
 
     return (
-        <div className="flex min-h-screen bg-linear-to-br from-[#141E30] via-[#1A1A1A] to-[#141E30]">
+        <div className="flex min-h-screen pt-24 bg-linear-to-br from-[#141E30] via-[#1A1A1A] to-[#141E30]">
             {/* Loading Animation */}
             {loading && <ChessLoadingAnimation message="Analyzing your data with AI models..." />}
 

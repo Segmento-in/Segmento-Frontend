@@ -85,12 +85,8 @@ export function ComparisonCTA() {
 
                     {/* 3. Short Centered Buttons */}
                     <div className="flex flex-row gap-4 justify-center items-center">
-                        <Button asChild className="h-12 px-8 bg-[#0F172A] hover:bg-blue-600 text-white rounded-none font-black tracking-widest text-[11px] uppercase transition-all duration-500 group shadow-lg">
-                            <Link href="/compare" className="flex items-center gap-2">
-                                View Analysis <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </Button>
-                        <Button asChild variant="ghost" className="h-12 px-8 text-[#0F172A] border border-slate-200 hover:border-blue-600 rounded-none font-black tracking-widest text-[11px] uppercase transition-all">
+                        
+                        <Button asChild variant="ghost" className="h-12 px-8 bg-[#0F172A] hover:bg-blue-600 text-white rounded-none font-black tracking-widest text-[11px] uppercase transition-all duration-500 group shadow-lg">
                             <Link href="/pricing">See Pricing</Link>
                         </Button>
                     </div>
