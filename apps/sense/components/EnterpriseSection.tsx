@@ -83,14 +83,12 @@ export function EnterpriseSection() {
                         </p>
 
                         <div className="flex flex-wrap gap-3 mb-10">
-                            <Link href="/contact">
+                            <Link href="https://segmento.in/contact">
                                 <button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 h-14 rounded-xl text-sm font-black shadow-xl shadow-indigo-100 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center">
                                     Contact sales
                                 </button>
                             </Link>
-                            <button className="h-14 px-8 rounded-xl border border-slate-200 text-slate-600 font-black text-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
-                                Whitepaper
-                            </button>
+                            
                         </div>
 
                         {/* Certification Badges */}

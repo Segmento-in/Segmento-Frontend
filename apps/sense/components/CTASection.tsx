@@ -4,7 +4,7 @@ import { Button } from "@/ui/button"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Sparkles, ArrowRight, Zap, Shield, CheckCircle2 } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
-
+import Link from "next/link"
 export default function CTASection() {
     const [isMounted, setIsMounted] = useState(false)
     const sectionRef = useRef(null)
@@ -80,22 +80,24 @@ export default function CTASection() {
 
                         {/* Professional Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Button 
-                                className="w-full sm:w-auto bg-[#4F46E5] hover:bg-[#3F38C2] text-white px-8 h-12 rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 transition-all flex items-center gap-2"
-                            >
-                                <Zap className="w-4 h-4 fill-current" />
-                                Get Started Free
-                            </Button>
-
-                            <Button 
-                                variant="outline"
-                                className="w-full sm:w-auto border-slate-200 text-slate-600 hover:bg-slate-50 px-8 h-12 rounded-xl text-sm font-bold transition-all"
-                            >
-                                Book a Demo
-                                <ArrowRight className="ml-2 w-4 h-4" />
-                            </Button>
-                        </div>
-
+    <Link href="https://segmento.in/contact" className="w-full sm:w-auto">
+        <Button 
+            variant="outline"
+            className="group relative w-full sm:w-auto h-12 px-8 rounded-xl overflow-hidden
+                       bg-black border border-white/[0.08] text-white font-bold text-sm
+                       hover:border-blue-500/50 hover:bg-slate-900/60 transition-all duration-300
+                       flex items-center justify-center gap-2 shadow-2xl shadow-blue-900/10"
+        >
+            {/* Dynamic Inner Glow on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
+                          translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+            
+            <span className="relative z-10">Book a Demo</span>
+            
+            <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-blue-400" />
+        </Button>
+    </Link>
+</div>
                         {/* Trust Markers */}
                         <div className="mt-12 pt-8 border-t border-slate-100 flex flex-wrap justify-center gap-x-8 gap-y-3">
                             {[

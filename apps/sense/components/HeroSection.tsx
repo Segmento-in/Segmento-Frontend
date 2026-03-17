@@ -82,7 +82,7 @@ export function HeroSection() {
                                     Try for free
                                 </Button>
                                 </a>
-                                  <a href="/contact">
+                                  <a href="https://segmento.in/contact">
                                 <Button variant="outline" className="h-16 px-10 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.2em] uppercase flex items-center gap-3 transition-all">
                                     <Zap className="w-5 h-5" />
                                     Request demo
