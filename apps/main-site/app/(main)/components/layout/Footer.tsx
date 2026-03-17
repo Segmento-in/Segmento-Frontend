@@ -25,7 +25,8 @@ export function Footer() {
     product: [
       { label: "Segmento Pulse", href: "/pulse" },
       { label: "Segmento Sense", href: "/products/data-classification" },
-      { label: "Segmento Resolve(upcoming)", href: "" },
+      { label: "Segmento Resolve", href: "https://segmento-resolve.vercel.app/" },
+      { label: "Segmento SprintIQ", href: "https://segmento-retro-omega.vercel.app/" },
       { label: "Segmento Collect(upcoming) ", href: "" },
       { label: "Segmento Enrich(upcoming)", href: "" },
     ],

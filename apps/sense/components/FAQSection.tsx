@@ -9,7 +9,7 @@ import {
 import { Button } from "@/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Sparkles, HelpCircle } from "lucide-react"
+import { HelpCircle, MessageSquare, ArrowRight } from "lucide-react"
 
 const faqs = [
     {
@@ -38,78 +38,108 @@ const faqs = [
     },
 ]
 
-export function FAQSection() {
-    return (
-        <section className="py-24 bg-white relative overflow-hidden">
-            {/* Soft Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none" />
+const bubbles = [
+    { color: "bg-[#00B4FF]", size: "w-24 h-24", top: "15%", left: "15%", delay: 0 },
+    { color: "bg-[#4CAF50]", size: "w-16 h-16", top: "20%", left: "65%", delay: 0.2 },
+    { color: "bg-[#FFB300]", size: "w-36 h-36", top: "40%", left: "25%", delay: 0.1 },
+    { color: "bg-[#F44336]", size: "w-14 h-14", top: "68%", left: "70%", delay: 0.3 },
+    { color: "bg-[#9C27B0]", size: "w-20 h-20", top: "78%", left: "20%", delay: 0.4 },
+]
 
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-3xl mx-auto">
+export default function FAQSection() {
+    return (
+        <section className="py-20 bg-white relative overflow-hidden">
+            {/* Minimalist Background Grid */}
+            <div className="absolute inset-0 bg-[radial-gradient(#f1f5f9_1px,transparent_1px)] [background-size:24px_24px] opacity-70 pointer-events-none" />
+
+            <div className="container mx-auto px-6 max-w-6xl relative z-10">
+                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
                     
-                    {/* Header */}
-                    <div className="text-center mb-16">
+                    {/* Left Side: Animated Bubbles (Scaled down for professional look) */}
+                    <div className="w-full lg:w-1/2 relative h-[350px] md:h-[450px] hidden sm:block">
+                        {bubbles.map((bubble, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ scale: 0, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                animate={{ y: [0, -12, 0] }}
+                                transition={{ 
+                                    scale: { delay: bubble.delay, type: "spring", stiffness: 100 },
+                                    y: { duration: 5 + i, repeat: Infinity, ease: "easeInOut" }
+                                }}
+                                className={`absolute ${bubble.size} ${bubble.color} rounded-full flex items-center justify-center shadow-lg border-[6px] border-white`}
+                                style={{ top: bubble.top, left: bubble.left }}
+                            >
+                                <span className="text-white font-bold text-2xl md:text-3xl select-none">?</span>
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-black/10 to-transparent opacity-30" />
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Right Side: FAQ Content */}
+                    <div className="w-full lg:w-1/2">
                         <motion.div 
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#6366f1] text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm"
+                            className="mb-10"
                         >
-                            <Sparkles className="h-3 w-3" />
-                            Support & Resources
+                            <h2 className="text-3xl md:text-4xl font-bold text-[#6200EA] tracking-tight mb-3">
+                                FAQ
+                            </h2>
+                            <div className="w-12 h-1 bg-[#6200EA] rounded-full" />
                         </motion.div>
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                            Questions, <span className="text-[#6366f1]">answered.</span>
-                        </h2>
-                        <p className="text-slate-500 font-medium">
-                            Everything you need to know about Segmento Sense.
-                        </p>
-                    </div>
 
-                    {/* Accordion */}
-                    <Accordion type="single" collapsible className="w-full space-y-4">
-                        {faqs.map((faq, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.05 }}
-                                viewport={{ once: true }}
-                            >
-                                <AccordionItem 
-                                    value={`item-${idx}`} 
-                                    className="bg-white border border-slate-100 rounded-2xl px-6 transition-all duration-300 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-900/5 overflow-hidden"
+                        <Accordion type="single" collapsible className="w-full">
+                            {faqs.map((faq, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 5 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.04 }}
+                                    viewport={{ once: true }}
                                 >
-                                    <AccordionTrigger className="text-left font-bold text-slate-800 py-6 hover:no-underline hover:text-[#6366f1] transition-colors">
-                                        <div className="flex items-center gap-4">
-                                            <HelpCircle className="h-5 w-5 text-indigo-200 group-hover:text-indigo-500 transition-colors" />
-                                            {faq.question}
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-slate-500 leading-relaxed font-medium pb-6 text-base">
-                                        <div className="pl-9">
-                                            {faq.answer}
-                                        </div>
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </motion.div>
-                        ))}
-                    </Accordion>
+                                    <AccordionItem 
+                                        value={`item-${idx}`} 
+                                        className="border-b border-slate-100 last:border-0"
+                                    >
+                                        <AccordionTrigger className="text-left font-semibold text-slate-800 py-5 text-base md:text-lg hover:no-underline hover:text-[#6200EA] transition-colors group-data-[state=open]:text-[#6200EA]">
+                                            <span className="leading-snug">{faq.question}</span>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-slate-500 leading-relaxed font-normal pb-6 text-sm md:text-[0.95rem]">
+                                            <div className="pl-4 border-l border-slate-200">
+                                                {faq.answer}
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </motion.div>
+                            ))}
+                        </Accordion>
 
-                    {/* CTA Footer */}
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        className="text-center mt-16 p-8 rounded-3xl bg-slate-50 border border-slate-100"
-                    >
-                        <p className="text-slate-600 font-semibold mb-6">Still have questions about PII protection?</p>
-                        <Link href="/contact">
-                            <Button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 h-12 rounded-xl font-bold shadow-md transition-all hover:-translate-y-0.5">
-                                Contact our team
-                            </Button>
-                        </Link>
-                    </motion.div>
+                        {/* Professional CTA Card */}
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="mt-12 p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-4"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="hidden sm:flex w-12 h-12 bg-white rounded-xl shadow-sm items-center justify-center text-[#6200EA]">
+                                    <MessageSquare size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="text-sm font-bold text-slate-900">Still have questions?</h4>
+                                    <p className="text-xs text-slate-500 font-medium">We're here to help you secure your data.</p>
+                                </div>
+                            </div>
+                            <Link href="/contact">
+                                <Button className="bg-[#6200EA] hover:bg-[#4500AB] text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
+                                    Contact Us
+                                    <ArrowRight size={14} />
+                                </Button>
+                            </Link>
+                        </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

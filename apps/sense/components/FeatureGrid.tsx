@@ -1,126 +1,166 @@
 "use client"
 
-import { Database, FileText, Globe, Zap, ImageIcon, Plus, Sparkles } from "lucide-react"
-import { motion } from "framer-motion"
-import { useRef } from "react"
+import { Database, FileText, Globe, Zap, ImageIcon, Plus, ShieldCheck } from "lucide-react"
+import { motion, Variants } from "framer-motion"
 
 const features = [
     {
         icon: Database,
-        title: "PII Pattern Recognition",
-        description: "Advanced algorithms detect SSNs, credit cards, emails, phone numbers, and custom PII patterns.",
+        title: "Pattern Recognition",
+        description: "Advanced algorithms detect SSNs, credit cards, and custom PII patterns.",
+        color: "from-blue-600 to-indigo-700",
     },
     {
         icon: FileText,
-        title: "Multi-Source Scanning",
-        description: "Scan databases, cloud storage, APIs, file systems, and more through one unified platform.",
+        title: "Unified Scanning",
+        description: "Scan databases, cloud storage, and APIs through one unified platform.",
+        color: "from-indigo-600 to-violet-700",
     },
     {
         icon: Globe,
-        title: "Multilingual Detection",
-        description: "Detect PII across 100+ languages with locale-specific patterns and validation.",
-        languages: ["Hello", "Bonjour", "Hola", "你好", "مرحبا"],
+        title: "Global Detection",
+        description: "Detect PII across 100+ languages with locale-specific validation.",
+        color: "from-violet-600 to-fuchsia-700",
     },
     {
         icon: Zap,
-        title: "Compliance Reporting",
-        description: "Automated compliance reports for GDPR, HIPAA, CCPA, and other regulations.",
+        title: "Auto Compliance",
+        description: "Automated reporting for GDPR, HIPAA, CCPA, and global regulations.",
+        color: "from-amber-500 to-orange-600",
     },
     {
         icon: ImageIcon,
-        title: "OCR for Scanned Documents",
-        description: "Extract and detect PII from scanned documents, PDFs, and images with high accuracy.",
+        title: "Neural OCR",
+        description: "Extract PII from scanned documents and PDFs with high accuracy.",
+        color: "from-emerald-500 to-teal-600",
     },
     {
         icon: Plus,
-        title: "API Integrations",
-        description: "REST APIs and webhooks for seamless integration with your existing data stack.",
+        title: "Fast Integration",
+        description: "REST APIs and webhooks for seamless data stack integration.",
+        color: "from-rose-500 to-pink-600",
     },
 ]
 
-export function FeatureGrid() {
-    const ref = useRef(null)
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            // Increased delay between each card for a clear "one-by-one" reveal
+            staggerChildren: 0.25, 
+            delayChildren: 0.3,
+        },
+    },
+}
 
+const cardVariants: Variants = {
+    hidden: { 
+        opacity: 0, 
+        y: 50,
+        scale: 0.92,
+        filter: "blur(10px)" 
+    },
+    visible: { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        filter: "blur(0px)",
+        transition: { 
+            type: "spring", 
+            damping: 22, 
+            stiffness: 80,
+        }
+    }
+}
+
+export function FeatureGrid() {
     return (
-        <section id="features" className="py-24 bg-white relative overflow-hidden" ref={ref}>
-            <div className="container mx-auto px-4 relative z-10">
+        <section id="features" className="py-40 bg-[#FCFCFF] overflow-hidden">
+            <div className="container mx-auto px-4 max-w-7xl">
                 
                 {/* Header Section */}
-                <div className="text-center mb-20">
+                <div className="mb-28 text-center">
                     <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-[#6366f1] text-[10px] font-bold uppercase tracking-widest mb-6 shadow-sm"
+                        className="flex items-center justify-center gap-2 mb-8"
                     >
-                        <Sparkles className="h-3 w-3" />
-                        Comprehensive Protection
+                        <ShieldCheck className="w-4 h-4 text-indigo-600" />
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em]">System Capabilities</span>
                     </motion.div>
                     
-                    <h2 className="text-4xl md:text-6xl font-black mb-6 text-slate-900 tracking-tight leading-tight">
-                        All-in-one <span className="text-[#6366f1]">PII intelligence.</span>
-                    </h2>
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="text-5xl md:text-7xl font-black text-slate-950 tracking-[-0.06em] leading-none"
+                    >
+                        All-in-one <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">PII intelligence.</span>
+                    </motion.h2>
                     
-                    <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
-                        Segmento Sense's comprehensive feature set covers the long tail of your data protection needs, out of the box.
-                    </p>
+                    <motion.p 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="mt-8 text-slate-500 font-medium text-sm md:text-base tracking-tight max-w-xl mx-auto"
+                    >
+                        Enterprise-grade data protection, architected for modern compliance and speed.
+                    </motion.p>
                 </div>
 
-                {/* Grid Section */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                {/* Grid Section with One-by-One Reveal */}
+                <motion.div 
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+                >
                     {features.map((feature, idx) => {
                         const Icon = feature.icon
                         return (
                             <motion.div
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                                viewport={{ once: true }}
-                                className="group relative bg-white border border-slate-100 rounded-4xl p-8 transition-all duration-500 shadow-sm hover:shadow-2xl hover:shadow-indigo-900/10 hover:border-indigo-100 hover:-translate-y-1"
+                                variants={cardVariants}
+                                className="group relative"
                             >
-                                {/* Icon Container (Squircle Style) */}
-                                <div className="relative w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-[#6366f1] mb-8 group-hover:bg-[#6366f1] group-hover:text-white transition-all duration-300">
-                                    {idx === 1 ? (
-                                        <motion.div
-                                            animate={{ rotateZ: [0, 90, 90, 0] }}
-                                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", times: [0, 0.3, 0.7, 1] }}
-                                        >
-                                            <Icon className="h-8 w-8" />
-                                        </motion.div>
-                                    ) : (
-                                        <Icon className="h-8 w-8" />
-                                    )}
-                                </div>
-
-                                <h3 className="text-xl font-bold mb-3 text-slate-900 group-hover:text-[#6366f1] transition-colors">
-                                    {feature.title}
-                                </h3>
-                                
-                                <p className="text-slate-500 text-sm leading-relaxed font-medium mb-4">
-                                    {feature.description}
-                                </p>
-
-                                {/* Language badges for multilingual feature */}
-                                {idx === 2 && feature.languages && (
-                                    <div className="flex flex-wrap gap-2 pt-2">
-                                        {feature.languages.map((lang, langIdx) => (
-                                            <motion.span
-                                                key={lang}
-                                                initial={{ scale: 0, opacity: 0 }}
-                                                whileInView={{ scale: 1, opacity: 1 }}
-                                                transition={{ delay: langIdx * 0.1 + 0.3 }}
-                                                className="px-2 py-1 bg-indigo-50 text-[#6366f1] text-[10px] rounded-md font-bold uppercase tracking-wider border border-indigo-100/50"
-                                            >
-                                                {lang}
-                                            </motion.span>
-                                        ))}
+                                <div className="relative h-full bg-white border border-slate-100 rounded-[3rem] p-12 transition-all duration-700 hover:shadow-[0_80px_100px_-30px_rgba(0,0,0,0.06)] hover:-translate-y-4 hover:border-slate-300">
+                                    
+                                    {/* Icon Layer */}
+                                    <div className="relative mb-12 w-fit">
+                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 relative z-10`}>
+                                            <Icon className="h-7 w-7 text-white" />
+                                        </div>
+                                        {/* Subtle Under-glow */}
+                                        <div className={`absolute inset-0 blur-2xl opacity-10 group-hover:opacity-30 transition-opacity duration-500 bg-gradient-to-br ${feature.color}`} />
                                     </div>
-                                )}
+
+                                    {/* Content - Normal Font Weight (No Italic) */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-2xl font-bold text-slate-950 tracking-tight leading-none">
+                                            {feature.title}
+                                        </h3>
+                                        
+                                        <p className="text-slate-500 text-[14px] leading-relaxed font-medium">
+                                            {feature.description}
+                                        </p>
+                                    </div>
+
+                                    {/* Module Footer */}
+                                    <div className="mt-16 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-slate-200 group-hover:bg-indigo-600 group-hover:animate-pulse transition-colors" />
+                                            <span className="text-[10px] font-black text-slate-200 group-hover:text-slate-900 uppercase tracking-widest transition-colors">
+                                                Active_Module_0{idx + 1}
+                                            </span>
+                                        </div>
+                                        <Plus className="w-4 h-4 text-slate-100 group-hover:text-slate-950 transition-all group-hover:rotate-90" />
+                                    </div>
+                                </div>
                             </motion.div>
                         )
                     })}
-                </div>
+                </motion.div>
             </div>
         </section>
     )
