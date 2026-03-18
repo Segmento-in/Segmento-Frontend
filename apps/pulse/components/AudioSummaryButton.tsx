@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Headphones, Loader2, Volume2, Play, Pause } from 'lucide-react';
 import { cn } from '@/shared/utils';
+import { getApiBase } from '@/lib/apiBase';
 
 
 interface AudioSummaryButtonProps {
@@ -178,7 +179,7 @@ export default function AudioSummaryButton({
                 try {
                     const encodedUrl = encodeURIComponent(articleUrl);
                     const encodedCategory = category ? encodeURIComponent(category) : '';
-                    const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+                    const API_BASE = getApiBase();
                     const res = await fetch(`${API_BASE}/api/audio/status?article_url=${encodedUrl}&category=${encodedCategory}`);
                     const data = await res.json();
 
@@ -236,7 +237,7 @@ export default function AudioSummaryButton({
         // Generate audio
         setIsLoading(true);
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+            const API_BASE = getApiBase();
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

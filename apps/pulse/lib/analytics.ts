@@ -5,8 +5,7 @@
  */
 
 import { generateArticleId } from '@/shared/idGenerator';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'https://workwithshafisk-segmento-pulse-backend.hf.space';
+import { getApiBase } from '@/lib/apiBase';
 
 export interface ArticleStats {
     viewCount: number;
@@ -64,7 +63,7 @@ export async function getArticleStats(
         }
 
         const queryParams = category ? `?category=${encodeURIComponent(category)}` : '';
-        const response = await fetchWithTimeout(`${API_BASE_URL}/api/engagement/articles/${id}/stats${queryParams}`);
+        const response = await fetchWithTimeout(`${getApiBase()}/api/engagement/articles/${id}/stats${queryParams}`);
 
         if (!response.ok) {
             throw new Error('Failed to fetch stats');
@@ -107,7 +106,7 @@ export async function incrementArticleView(
     try {
         // Use provided ID or generate from URL
         const id = articleId || await generateArticleId(articleUrl);
-        const response = await fetch(`${API_BASE_URL}/api/engagement/articles/${id}/view`, {
+        const response = await fetch(`${getApiBase()}/api/engagement/articles/${id}/view`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -157,7 +156,7 @@ export async function toggleLike(
 
         // For now, only increment (no decrement support yet)
         if (incrementVal) {
-            const response = await fetch(`${API_BASE_URL}/api/engagement/articles/${id}/like`, {
+            const response = await fetch(`${getApiBase()}/api/engagement/articles/${id}/like`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -198,7 +197,7 @@ export async function toggleDislike(
 
         // For now, only increment (no decrement support yet)
         if (incrementVal) {
-            const response = await fetch(`${API_BASE_URL}/api/engagement/articles/${id}/dislike`, {
+            const response = await fetch(`${getApiBase()}/api/engagement/articles/${id}/dislike`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -277,7 +276,7 @@ export async function getArticleViewCount(
 export async function getTrendingArticles(hours: number = 24, limit: number = 10): Promise<any[]> {
     try {
         const response = await fetch(
-            `${API_BASE_URL}/api/engagement/articles/trending?hours=${hours}&limit=${limit}`
+            `${getApiBase()}/api/engagement/articles/trending?hours=${hours}&limit=${limit}`
         );
 
         if (!response.ok) {

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UserSubscription } from '@/lib/userApi';
 import { Loader2, Check, AlertCircle } from 'lucide-react';
+import { getApiBase } from '@/lib/apiBase';
 
 interface SubscriptionManagerProps {
     initialSubscription: UserSubscription;
@@ -68,7 +69,7 @@ export default function SubscriptionManager({ initialSubscription, onUpdate }: S
 
         try {
             const newState = !currentState;
-            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+            const API_BASE = getApiBase();
             const endpoint = newState
                 ? `${API_BASE}/api/subscription/subscribe`
                 : `${API_BASE}/api/subscription/unsubscribe`;

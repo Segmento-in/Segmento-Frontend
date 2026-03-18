@@ -4,11 +4,7 @@
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 
 import { getArticleStats } from './analytics';
-
-function getApiBase(): string {
-    // Both client and server can use the direct endpoint based on the robust .env config
-    return process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
-}
+import { getApiBase } from './apiBase';
 
 export interface Article {
     title: string;
@@ -49,33 +45,38 @@ export interface Article {
 //   Querying /api/news/cloud-computing or /api/news/data-articles returns 0 results because
 //   those umbrella names are NOT in the backend CATEGORIES list.
 export const TaxonomyMatrix: Record<string, string> = {
-    // AI — direct mapping
+    // AI — direct mapping (umbrella + UI sub-slugs all resolve to backend 'ai')
     'ai': 'ai',
+    'ai-agents': 'ai',
+    'ai-policy': 'ai',
+    'ai-ethics': 'ai',
+    'ai-healthcare': 'ai',
+    'ai-finance': 'ai',
     // Magazines / Articles — direct mapping
-    'magzines':       'magazines',
-    'articles':       'medium-article',
+    'magzines': 'magazines',
+    'articles': 'medium-article',
     // Data sub-categories — pass-through (must match backend CATEGORIES exactly)
-    'data-engineering':         'data-engineering',
-    'data-governance':          'data-governance',
-    'data-privacy':             'data-privacy',
-    'data-management':          'data-management',
-    'data-security':            'data-security',
-    'data-laws':                'data-laws',
-    'business-intelligence':    'business-intelligence',
-    'business-analytics':       'business-analytics',
-    'customer-data-platform':   'customer-data-platform',
-    'data-centers':             'data-centers',
+    'data-engineering': 'data-engineering',
+    'data-governance': 'data-governance',
+    'data-privacy': 'data-privacy',
+    'data-management': 'data-management',
+    'data-security': 'data-security',
+    'data-laws': 'data-laws',
+    'business-intelligence': 'business-intelligence',
+    'business-analytics': 'business-analytics',
+    'customer-data-platform': 'customer-data-platform',
+    'data-centers': 'data-centers',
     // Cloud sub-categories — pass-through
-    'cloud-computing':   'cloud-computing',
-    'cloud-aws':         'cloud-aws',
-    'cloud-azure':       'cloud-azure',
-    'cloud-gcp':         'cloud-gcp',
-    'cloud-oracle':      'cloud-oracle',
-    'cloud-ibm':         'cloud-ibm',
-    'cloud-alibaba':     'cloud-alibaba',
-    'cloud-digitalocean':'cloud-digitalocean',
-    'cloud-huawei':      'cloud-huawei',
-    'cloud-cloudflare':  'cloud-cloudflare',
+    'cloud-computing': 'cloud-computing',
+    'cloud-aws': 'cloud-aws',
+    'cloud-azure': 'cloud-azure',
+    'cloud-gcp': 'cloud-gcp',
+    'cloud-oracle': 'cloud-oracle',
+    'cloud-ibm': 'cloud-ibm',
+    'cloud-alibaba': 'cloud-alibaba',
+    'cloud-digitalocean': 'cloud-digitalocean',
+    'cloud-huawei': 'cloud-huawei',
+    'cloud-cloudflare': 'cloud-cloudflare',
 };
 
 // Umbrella slugs expand to ALL their real backend sub-category names.

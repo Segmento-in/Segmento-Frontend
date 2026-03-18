@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Headphones, Loader2, Pause, Play } from 'lucide-react';
 import { cn } from '@/shared/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getApiBase } from '@/lib/apiBase';
 
 interface AudioPlayerProps {
     articleId: string; // The doc ID (for caching/state)
@@ -80,7 +81,7 @@ export default function AudioPlayer({ articleId, articleUrl, initialAudioUrl, ti
         // Need to generate audio
         setIsLoading(true);
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+            const API_BASE = getApiBase();
             const response = await fetch(`${API_BASE}/api/audio/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

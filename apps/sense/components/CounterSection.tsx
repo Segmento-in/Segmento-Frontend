@@ -1,66 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
 import { motion, useInView, useSpring, useTransform, useMotionValue, animate } from "framer-motion"
-import { Shield, Activity, TrendingUp, Zap, Globe, ArrowRight, ShieldCheck, Plus, Cpu, Network, Lock } from "lucide-react"
+import { Shield, Activity, TrendingUp, Zap, Globe, ArrowRight, Cpu } from "lucide-react"
 import { Button } from "@/ui/button" 
 
-// --- 1. COMPARISON CTA (Top Part) ---
-export function ComparisonCTA() {
-    const stats = [
-        { value: "<15min", label: "Setup Time", icon: Zap, color: "text-amber-500", bg: "bg-amber-50/50" },
-        { value: "99.9%", label: "Accuracy", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-50/50" },
-        { value: "12+", label: "Integrations", icon: Plus, color: "text-blue-600", bg: "bg-blue-50/50" },
-        { value: "24/7", label: "Monitoring", icon: Activity, color: "text-rose-500", bg: "bg-rose-50/50" },
-    ]
-
-    return (
-        <section className="relative pt-32 pb-0 bg-[#F8FAFF] overflow-hidden">
-            <div className="container relative mx-auto px-6 z-10 max-w-6xl text-center mb-16">
-                <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-6"
-                >
-                    <Network className="w-3 h-3 text-blue-600" />
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Enterprise Benchmark</span>
-                </motion.div>
-                
-                <h2 className="text-5xl md:text-7xl font-black text-[#0F172A] leading-[0.9] tracking-tighter mb-8">
-                    The New Standard <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 italic font-serif py-2 inline-block">of Security</span>
-                </h2>
-
-                <div className="relative overflow-hidden py-10 border-y border-slate-200/60">
-                    <motion.div 
-                        animate={{ x: ["0%", "-50%"] }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                        className="flex items-center whitespace-nowrap"
-                    >
-                        {[stats, stats].map((set, idx) => (
-                            <div key={idx} className="flex items-center">
-                                {set.map((stat, i) => (
-                                    <div key={i} className="flex items-center gap-6 px-12">
-                                        <div className={`p-4 rounded-2xl border border-white shadow-sm ${stat.bg}`}>
-                                            <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                                        </div>
-                                        <div className="flex flex-col text-left">
-                                            <span className="text-4xl font-black text-[#0F172A] tracking-tighter">{stat.value}</span>
-                                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 mt-1">{stat.label}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </motion.div>
-                </div>
-            </div>
-        </section>
-    )
-}
-
-// --- 2. COUNTER & DYNAMIC GRAPHS ---
+// --- COUNTER & DYNAMIC GRAPHS ---
 export function CounterSection() {
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: "-100px" })

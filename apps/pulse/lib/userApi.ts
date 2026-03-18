@@ -1,5 +1,6 @@
 import { database } from "./firebase";
 import { ref, get } from "firebase/database";
+import { getApiBase } from './apiBase';
 
 export interface UserSubscription {
     email: string;
@@ -21,7 +22,7 @@ export async function fetchUserSubscription(email: string): Promise<UserSubscrip
 
     try {
         // Use Backend API (Single Source of Truth)
-        const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+        const API_BASE = getApiBase();
 
         try {
             const response = await fetch(`${API_BASE}/api/subscription/status?email=${encodeURIComponent(email)}`, {

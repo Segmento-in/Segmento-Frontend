@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { generateArticleId } from '@/shared/idGenerator';
+import { getApiBase } from '@/lib/apiBase';
 
 export interface EngagementStats {
     article_id: string;
@@ -77,8 +78,8 @@ export function useEngagement(
         }
     }, [articleUrl]);
 
-    // Base API URL
-    const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+    // Base API URL (proxy-aware)
+    const API_BASE = getApiBase();
 
     // Helper to get request body
     const getRequestBody = () => ({
@@ -249,7 +250,7 @@ export function useBatchEngagement(articleUrls: string[]) {
             setLoading(true);
             const newStatsMap = new Map<string, EngagementStats>();
 
-            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+            const API_BASE = getApiBase();
             await Promise.all(
                 articleUrls.map(async (url) => {
                     try {

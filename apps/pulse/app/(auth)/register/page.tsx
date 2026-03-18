@@ -8,6 +8,7 @@ import { pulseAuth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, Lock, User } from "lucide-react";
+import { getApiBase } from '@/lib/apiBase';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -30,7 +31,7 @@ export default function RegisterPage() {
 
             // Auto-subscribe to Weekly Newsletter (Default)
             try {
-                const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+                const API_BASE = getApiBase();
                 await fetch(`${API_BASE}/api/subscription/subscribe`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

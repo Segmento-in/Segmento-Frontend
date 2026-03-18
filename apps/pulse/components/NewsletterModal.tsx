@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { PreferenceKey, NewsletterTheme } from './NewsletterConfig';
+import { getApiBase } from '@/lib/apiBase';
 
 interface NewsletterModalProps {
     isOpen: boolean;
@@ -29,7 +30,7 @@ export default function NewsletterModal({ isOpen, onClose, theme }: NewsletterMo
         setStatus({ type: null, message: '' });
 
         try {
-            const API_BASE = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+            const API_BASE = getApiBase();
             const response = await fetch(
                 `${API_BASE}/api/subscription/subscribe`,
                 {
