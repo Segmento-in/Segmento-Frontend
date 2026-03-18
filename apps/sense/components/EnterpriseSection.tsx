@@ -74,12 +74,12 @@ export function EnterpriseSection() {
                         className="w-full lg:w-1/2"
                     >
                         <h2 className="text-4xl md:text-6xl font-black mb-6 text-slate-950 tracking-[-0.05em] leading-[0.95]">
-                            Ready for the <br />
-                            <span className="text-[#6366f1]">Enterprise.</span>
+                            Built for Scale <br />
+                            <span className="text-[#6366f1]">Engineered for Sovereignty.</span>
                         </h2>
                         
                         <p className="text-base text-slate-500 max-w-md mb-8 leading-relaxed font-medium">
-                            Segmento Sense is built for the demands of production environments. Trusted by the world&apos;s most regulated industries.
+                           Segmento Sense is designed around stateless workers and decoupled ingestion queues, allowing you to scale horizontally across your own infrastructure. Keep your data local, reduce your cloud egress costs, and maintain total compliance.
                         </p>
 
                         <div className="flex flex-wrap gap-3 mb-10">

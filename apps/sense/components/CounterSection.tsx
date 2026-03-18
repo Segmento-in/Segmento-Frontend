@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { motion, useInView, useSpring, useTransform, useMotionValue, animate } from "framer-motion"
-import { Shield, Activity, TrendingUp, Zap, Globe, ArrowRight, Cpu } from "lucide-react"
+import { Shield, Activity, TrendingUp, Zap, Globe, ArrowRight, Cpu, FileSearch, Lock, Eye } from "lucide-react"
 import { Button } from "@/ui/button" 
 
 // --- COUNTER & DYNAMIC GRAPHS ---
@@ -21,6 +21,13 @@ export function CounterSection() {
             animate(count, 50, { duration: 3, ease: [0.16, 1, 0.3, 1] })
         }
     }, [isInView, count])
+
+    const stats = [
+        { icon: FileSearch, label: "File Formats", value: "400+" },
+        { icon: Eye, label: "Client-Side OCR", value: "100%" },
+        { icon: Lock, label: "Cloud Egress", value: "Zero" },
+        { icon: Zap, label: "AI Triggers", value: "100%" }
+    ]
 
     return (
         <section ref={ref} className="relative pb-32 bg-[#F8FAFF] overflow-hidden pt-4">
@@ -100,48 +107,43 @@ export function CounterSection() {
                         </div>
                     </motion.div>
 
-                    {/* Right Column: Dynamic Cards */}
-                    <div className="lg:col-span-4 flex flex-col gap-6">
-                        {[
-                            { icon: Globe, label: "Network Edge", value: "142 Cities", graph: true },
-                            { icon: TrendingUp, label: "Speed", value: "9.2 GB/s", graph: false }
-                        ].map((item, i) => (
+                    {/* Right Column: 4 Specific Stats Grid */}
+                    <div className="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-4">
+                        {stats.map((item, i) => (
                             <motion.div 
                                 key={i}
                                 initial={{ opacity: 0, x: 20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="bg-white border border-slate-200 p-8 rounded-[40px] shadow-sm flex flex-col justify-between flex-1 relative overflow-hidden group"
+                                className="bg-white border border-slate-200 p-6 rounded-[32px] shadow-sm flex flex-col justify-between relative overflow-hidden group"
                             >
-                                <div className="flex justify-between">
-                                    <div className="p-3 bg-slate-50 rounded-2xl text-slate-400 group-hover:text-blue-600 transition-colors">
-                                        <item.icon className="w-5 h-5" />
+                                <div className="flex justify-between items-start">
+                                    <div className="p-2.5 bg-slate-50 rounded-xl text-slate-400 group-hover:text-blue-600 transition-colors">
+                                        <item.icon className="w-4 h-4" />
                                     </div>
-                                    <div className="h-4 flex gap-0.5 items-end">
-                                        {[...Array(4)].map((_, j) => (
+                                    <div className="h-3 flex gap-0.5 items-end">
+                                        {[...Array(3)].map((_, j) => (
                                             <motion.div 
                                                 key={j}
                                                 animate={{ height: ["40%", "100%", "60%"] }}
                                                 transition={{ duration: 1.5, repeat: Infinity, delay: j * 0.2 }}
-                                                className="w-0.5 bg-slate-200 group-hover:bg-blue-300"
+                                                className="w-0.5 bg-slate-100 group-hover:bg-blue-200"
                                             />
                                         ))}
                                     </div>
                                 </div>
-                                <div className="mt-8">
-                                    <div className="text-3xl font-black text-[#0F172A] mb-1">{item.value}</div>
-                                    <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">{item.label}</div>
+                                <div className="mt-4">
+                                    <div className="text-2xl font-black text-[#0F172A] leading-none mb-1">{item.value}</div>
+                                    <div className="text-[8px] font-black uppercase tracking-[0.15em] text-slate-400 group-hover:text-blue-500 transition-colors">
+                                        {item.label}
+                                    </div>
                                 </div>
                                 
-                                {/* Background Decorative Circle */}
-                                <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-blue-50 rounded-full blur-2xl group-hover:bg-blue-100 transition-colors" />
+                                <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-blue-50 rounded-full blur-xl group-hover:bg-blue-100 transition-colors" />
                             </motion.div>
                         ))}
                     </div>
                 </div>
-
-                {/* Final Buttons */}
-                
             </div>
         </section>
     )

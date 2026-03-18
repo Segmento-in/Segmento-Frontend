@@ -57,12 +57,13 @@ export function DocumentFeatures() {
                     </div>
 
                     <h2 className="text-5xl md:text-7xl font-black text-[#0F172A] leading-[0.9] tracking-tighter mb-8">
-                        Document <span className="text-blue-600">Intelligence</span> Suite
+                      Unstructured <span className="text-blue-600">Unstructured</span> Data Parsing
                     </h2>
-                    
-                    <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
-                        Transform your document infrastructure with precision AI.
-                    </p>
+                      
+                   <p className="text-lg text-slate-500 max-w-5xl mx-auto font-medium leading-relaxed text-center text-balance px-4">
+    Garbage in means garbage out. Sense utilizes a heavyweight extraction layer to process nested PDFs, raw images, and complex tables. 
+    By leveraging native parsers and local PyMuPDF/Tesseract libraries, we preserve the structural metadata needed for high-confidence identification.
+</p>
                 </div>
 
                 {/* Process Flow Cards */}

@@ -65,17 +65,18 @@ export default function CTASection() {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
                             </span>
-                            Enterprise Ready
+                             Stop Guessing
                         </div>
-
+                         
                         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 tracking-tight leading-tight">
-                            Secure your infrastructure in <br />
-                            <span className="text-[#4F46E5]">minutes, not months.</span>
+                                                    Stop Guessing Where Your 
+ <br />
+                            <span className="text-[#4F46E5]">Sensitive Data Lives.</span>
                         </h2>
                         
                         <p className="text-base md:text-lg text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed font-medium">
-                            The intelligent data classification layer for modern engineering teams. 
-                            Start protecting your PII today.
+                            Equip your engineering and security teams with a tool that explains its findings, masks data safely, and operates entirely on your terms.
+
                         </p>
 
                         {/* Professional Action Buttons */}
@@ -92,7 +93,7 @@ export default function CTASection() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent 
                           translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
             
-            <span className="relative z-10">Book a Demo</span>
+            <span className="relative z-10">Start Your Local Deployment</span>
             
             <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-blue-400" />
         </Button>

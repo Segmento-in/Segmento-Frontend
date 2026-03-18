@@ -65,27 +65,30 @@ export function HeroSection() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            <h1 className="text-[#0F172A] text-5xl md:text-6xl lg:text-[5.2rem] font-black leading-[0.95] mb-8 tracking-tighter">
-                                Turn data into <br />
-                                insights for <br />
-                                <span className="text-[#2563EB]">discovery & governance</span>
+                            <h1 className="text-[#0F172A] text-4xl md:text-5xl lg:text-[5.2rem] font-black leading-[0.95] mb-8 tracking-tighter">
+                                Secure Your Sensitive Data <br />
+                               with,Transparent<br />
+                                <span className="text-[#2563EB]">Multi-Engine PII Detection.</span>
                             </h1>
                             
                             <p className="text-[#64748B] text-xl mb-12 max-w-xl leading-relaxed font-normal tracking-tight">
-                                Segmento Sense leverages advanced AI to classify and secure PII across your entire infrastructure with automated precision.
+                                Move beyond legacy "black box" platforms. Segmento Sense delivers Explainable AI, 100% client-side OCR, and instant synthetic data cloning to discover, classify, and protect your PII without your data ever leaving your infrastructure.
+
                             </p>
                              
                             <div className="flex flex-wrap gap-5">
                                 <a href="/products/data-classification/demo">
                                 <Button className="h-16 px-10 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.2em] uppercase transition-all shadow-xl flex items-center gap-3">
                                     <MessageSquareText className="w-5 h-5 text-blue-400" />
-                                    Try for free
+                                    Deploy Sense Locally
+
                                 </Button>
                                 </a>
                                   <a href="https://segmento.in/contact">
                                 <Button variant="outline" className="h-16 px-10 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.2em] uppercase flex items-center gap-3 transition-all">
                                     <Zap className="w-5 h-5" />
-                                    Request demo
+                                    Read the Engineering Docs
+
                                 </Button>
                                 </a>
                             </div>

@@ -1,29 +1,36 @@
 "use client"
 
 import { motion, Variants } from "framer-motion"
-import { Eye, Brain, CheckCircle, Sparkles } from "lucide-react"
+import { Eye, Brain, CheckCircle, Sparkles, Database, Search, MessageSquare, Zap } from "lucide-react"
 
 const steps = [
     {
-        icon: Eye,
-        title: "Pattern Matching",
-        description: "High-speed indexing for known PII types across all infrastructure.",
+        icon: Database,
+        title: "Connect & Ingest",
+        description: "Seamlessly attach to file systems, databases, and object storage.",
         color: "from-blue-600 to-indigo-700",
-        position: "top-0 left-1/2 -translate-x-1/2",
+        position: "top-0 left-1/2 -translate-x-1/2", // Top Center
     },
     {
-        icon: Brain,
-        title: "AI Context",
-        description: "Deep semantic analysis to understand the nature of sensitive data.",
+        icon: Search,
+        title: "Detection",
+        description: "Run Regex, rules, and NLP models simultaneously on extracted text.",
         color: "from-indigo-600 to-violet-700",
-        position: "bottom-12 right-0",
+        position: "top-1/2 -translate-y-1/2 right-0", // Right Center
     },
     {
-        icon: CheckCircle,
-        title: "Verification",
-        description: "Neural-driven validation ensuring 99.9% compliance accuracy.",
+        icon: MessageSquare,
+        title: "Score & Explain",
+        description: "Generate confidence scores and provide plain-text reasoning.",
         color: "from-violet-600 to-fuchsia-700",
-        position: "bottom-12 left-0",
+        position: "bottom-0 left-1/2 -translate-x-1/2", // Bottom Center
+    },
+    {
+        icon: Zap,
+        title: "Tag & Automate",
+        description: "Push metadata tags to generate remediation scripts instantly.",
+        color: "from-fuchsia-600 to-pink-700",
+        position: "top-1/2 -translate-y-1/2 left-0", // Left Center
     },
 ]
 
@@ -32,7 +39,7 @@ const containerVariants: Variants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.6, // Strict one-by-one reveal
+            staggerChildren: 0.4, // Faster stagger for 4 items
             delayChildren: 0.2
         },
     },
@@ -60,9 +67,9 @@ const cardVariants: Variants = {
 
 export function ProcessFlow() {
     return (
-        <section className="pb-32 pt-0 bg-[#F8FAFC] overflow-hidden">
+        <section className="pb-32 pt-20 bg-[#F8FAFC] overflow-hidden">
             <motion.div 
-                className="container mx-auto px-4 relative max-w-5xl"
+                className="container mx-auto px-4 relative max-w-6xl"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: false, amount: 0.2 }}
@@ -86,7 +93,8 @@ export function ProcessFlow() {
                     </motion.p>
                 </div>
 
-                <div className="relative h-[600px] w-full max-w-[600px] mx-auto flex items-center justify-center">
+                {/* Circular Process Wrapper */}
+                <div className="relative h-[700px] w-full max-w-[700px] mx-auto flex items-center justify-center">
                     
                     {/* Ultra-Thin Precision Trace */}
                     <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
@@ -99,7 +107,7 @@ export function ProcessFlow() {
                             strokeLinecap="round"
                             initial={{ pathLength: 0 }}
                             whileInView={{ pathLength: 1 }}
-                            transition={{ duration: 2.5, ease: "easeInOut" }}
+                            transition={{ duration: 3, ease: "easeInOut" }}
                         />
                         <defs>
                             <linearGradient id="premiumLine" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -118,9 +126,9 @@ export function ProcessFlow() {
                                 variants={cardVariants}
                                 className={`absolute ${step.position} z-20 group`}
                             >
-                                <div className="relative w-60 h-60 rounded-full flex items-center justify-center p-8 transition-all duration-500 hover:-translate-y-2">
+                                <div className="relative w-64 h-64 rounded-full flex items-center justify-center p-8 transition-all duration-500 hover:-translate-y-2">
                                     
-                                    {/* Glass Body with Dark Border */}
+                                    {/* Glass Body */}
                                     <div className="absolute inset-0 rounded-full bg-white border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.03)] group-hover:border-indigo-400/50 group-hover:shadow-2xl group-hover:shadow-indigo-500/10 transition-all duration-500" />
                                     
                                     {/* Rotating Active Border Shimmer */}
@@ -135,26 +143,22 @@ export function ProcessFlow() {
                                             <Icon className="h-6 w-6 text-white" />
                                         </div>
 
-                                        <h3 className="text-lg font-black text-slate-950 mb-1 tracking-tight">
+                                        <h3 className="text-base font-black text-slate-950 mb-1 tracking-tight">
                                             {step.title}
                                         </h3>
-                                        <p className="text-[10px] text-slate-500 font-bold leading-relaxed max-w-[140px]">
+                                        <p className="text-[10px] text-slate-500 font-bold leading-relaxed max-w-[150px]">
                                             {step.description}
                                         </p>
                                     </div>
 
-                                    {/* Subtle Step Label */}
-                                    <div className="absolute top-5 right-11">
+                                    {/* Step Label */}
+                                    <div className="absolute top-6 right-12">
                                         <span className="text-[8px] font-black text-slate-950/20 tracking-tighter uppercase">Step 0{idx + 1}</span>
                                     </div>
                                 </div>
                             </motion.div>
                         )
                     })}
-
-                    {/* Center Core Hub */}
-                   
-
                 </div>
             </motion.div>
         </section>
