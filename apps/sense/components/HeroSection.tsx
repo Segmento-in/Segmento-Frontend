@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/ui/button" 
 import { MessageSquareText, Zap, ShieldCheck, Activity, Lock, Database, Globe } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts"
+import Link from "next/link"
 
 const data = [
     { name: "Discovery", value: 35, color: "#2563EB", icon: <Activity className="w-5 h-5" /> }, // Blue
@@ -76,22 +77,26 @@ export function HeroSection() {
 
                             </p>
                              
-                            <div className="flex flex-wrap gap-5">
-                                <a href="/products/data-classification/demo">
-                                <Button className="h-16 px-10 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.2em] uppercase transition-all shadow-xl flex items-center gap-3">
-                                    <MessageSquareText className="w-5 h-5 text-blue-400" />
-                                    Deploy Sense Locally
+                            <div className="flex flex-row flex-nowrap gap-4">
+    {/* First Button: Deploy Sense */}
+    <a href="/products/data-classification/demo" className="block">
+        <Button className="h-16 w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
+            <MessageSquareText className="w-6 h-5 text-blue-400" />
+            <span className="text-sm">Deploy Sense</span>
+        </Button>
+    </a>
 
-                                </Button>
-                                </a>
-                                  <a href="https://segmento.in/contact">
-                                <Button variant="outline" className="h-16 px-10 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.2em] uppercase flex items-center gap-3 transition-all">
-                                    <Zap className="w-5 h-5" />
-                                    Read the Engineering Docs
-
-                                </Button>
-                                </a>
-                            </div>
+    {/* Second Button: Engineering Docs */}
+   <Link href="/contact" className="block">
+    <Button 
+        variant="outline" 
+        className="h-16 w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
+    >
+        <Zap className="w-6 h-5 text-amber-500" />
+        <span className="text-sm">View Docs</span>
+    </Button>
+</Link>
+</div>
                         </motion.div>
                     </div>
 
