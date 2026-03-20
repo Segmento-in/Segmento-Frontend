@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color Palette - Trust Architecture */
+  --color-background: #ffffff;
+  --color-background-secondary: #f8fafc;
+  --color-background-tertiary: #f1f5f9;
+
+  --color-heading: #0f172a;
+  --color-body: #334155;
+  --color-subtle: #64748b;
+
+  /* Brand Colors */
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+
+  /* Border Colors */
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* Typography */
+  --font-family-sans: "Inter", sans-serif;
+
+  /* Letter Spacing */
+  --tracking-tightest: -0.02em;
+
+  /* Line Height */
+  --leading-relaxed: 1.6;
+
+  /* Shadows - 3D Effects */
+  --shadow-soft:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-button: 0 4px 0 #1d4ed8;
+  --shadow-button-active: 0 2px 0 #1d4ed8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-body);
+    font-family: var(--font-family-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-heading);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tightest);
+  }
+
+  p {
+    line-height: var(--leading-relaxed);
+  }
+}
+
+/* Custom Utilities */
+
+/* 3D Button Effects */
+.btn-3d-primary {
+  background-color: var(--color-brand);
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-button);
+  transition: all 0.2s ease;
+}
+
+.btn-3d-primary:hover {
+  background-color: var(--color-brand-hover);
+  transform: translateY(2px);
+  box-shadow: var(--shadow-button-active);
+}
+
+.btn-3d-primary:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.btn-3d-secondary {
+  background-color: transparent;
+  color: var(--color-heading);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-3d-secondary:hover {
+  background-color: var(--color-background-secondary);
+  transform: translateY(2px);
+}
+
+/* Card Effects */
+.card-3d {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border-light);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Glassy Nav */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+/* Scanner Animation */
+@keyframes scanner-sweep {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.scanner-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-brand),
+    transparent
+  );
+  animation: scanner-sweep 2s ease-in-out infinite;
+}
+
+/* Confidence Slider */
+.confidence-slider-track {
+  background-color: var(--color-border);
+  border-radius: 9999px;
+}
+
+.confidence-slider-thumb {
+  background-color: var(--color-brand);
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-subtle);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-body);
+}
+
+/* Touch targets for accessibility */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Focus rings */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Page fade animation */
+@keyframes fade-in-page {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in-page 0.5s ease-out;
+}
