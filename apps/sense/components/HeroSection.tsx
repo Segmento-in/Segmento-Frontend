@@ -82,7 +82,7 @@ export function HeroSection() {
     <a href="/products/data-classification/demo" className="block">
         <Button className="h-16 w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
             <MessageSquareText className="w-6 h-5 text-blue-400" />
-            <span className="text-sm">Deploy Sense</span>
+            <span className="text-sm">Demo</span>
         </Button>
     </a>
 
