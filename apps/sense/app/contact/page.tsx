@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/ui/button"
 import { 
     Mail, 
-    MessageSquare, 
-    Globe, 
+    Phone, 
+    MapPin, 
     Send, 
     CheckCircle2, 
     ArrowRight, 
     ShieldCheck, 
-    Zap 
+    Zap,
+    Lock
 } from "lucide-react"
 
 export default function ContactPage() {
@@ -26,7 +26,6 @@ export default function ContactPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsSubmitting(true)
-        // Simulate API call
         await new Promise(r => setTimeout(r, 1500))
         setIsSubmitting(false)
         setSubmitted(true)
@@ -40,18 +39,12 @@ export default function ContactPage() {
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-40" />
                 <motion.div 
-                    animate={{ 
-                        scale: [1, 1.1, 1],
-                        opacity: [0.3, 0.5, 0.3] 
-                    }}
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                     transition={{ duration: 8, repeat: Infinity }}
                     className="absolute -top-[10%] -left-[10%] w-[500px] h-[500px] bg-indigo-100 rounded-full blur-[120px]" 
                 />
                 <motion.div 
-                    animate={{ 
-                        scale: [1, 1.2, 1],
-                        opacity: [0.2, 0.4, 0.2] 
-                    }}
+                    animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                     transition={{ duration: 10, repeat: Infinity, delay: 1 }}
                     className="absolute bottom-[10%] -right-[10%] w-[600px] h-[600px] bg-blue-100 rounded-full blur-[120px]" 
                 />
@@ -84,30 +77,30 @@ export default function ContactPage() {
 
                     <div className="grid lg:grid-cols-12 gap-16 items-start">
                         
-                        {/* Left: Contact Info & Cards */}
+                        {/* Left Side: Information Cards */}
                         <div className="lg:col-span-5 space-y-6">
                             {[
                                 { 
                                     icon: Mail, 
                                     title: "Email Support", 
                                     desc: "Response within 2 hours", 
-                                    detail: "support@segmento.io",
+                                    detail: "info@segmento.in",
                                     color: "text-blue-500",
                                     bg: "bg-blue-50"
                                 },
                                 { 
-                                    icon: MessageSquare, 
-                                    title: "Live Chat", 
-                                    desc: "Available Mon-Fri", 
-                                    detail: "Start a conversation",
+                                    icon: Phone, 
+                                    title: "Direct Line", 
+                                    desc: "Mon-Fri, 9am - 6pm PST", 
+                                    detail: "+91 9908727027",
                                     color: "text-indigo-500",
                                     bg: "bg-indigo-50"
                                 },
                                 { 
-                                    icon: Globe, 
-                                    title: "Global HQ", 
-                                    desc: "Technical Operations", 
-                                    detail: "San Francisco, CA",
+                                    icon: MapPin, 
+                                    title: "Main Office", 
+                                   
+                                    detail: "Aathidyam Restaurant,Rama talkies, 3rd Floor, NoAathidyam Restaurent, Rama talkies, Opposite Road, Waltair Uplands, Vishakapatnam",
                                     color: "text-emerald-500",
                                     bg: "bg-emerald-50"
                                 }
@@ -135,7 +128,6 @@ export default function ContactPage() {
                                 </motion.div>
                             ))}
 
-                            {/* Trust Card */}
                             <div className="mt-10 p-8 rounded-[2rem] bg-slate-900 text-white relative overflow-hidden group">
                                 <Zap className="absolute -right-4 -bottom-4 w-32 h-32 text-white/5 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
                                 <div className="relative z-10">
@@ -150,12 +142,12 @@ export default function ContactPage() {
                             </div>
                         </div>
 
-                        {/* Right: Modern Form */}
+                        {/* Right Side: Dark Themed Contact Form */}
                         <div className="lg:col-span-7">
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-white/70 backdrop-blur-xl border border-white rounded-[3rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
+                                className="bg-slate-950 border border-slate-800  p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)]"
                             >
                                 <AnimatePresence mode="wait">
                                     {!submitted ? (
@@ -168,36 +160,37 @@ export default function ContactPage() {
                                             <div className="grid md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
-                                                    <input required type="text" placeholder="John Doe" className="w-full bg-white border border-slate-100 rounded-2xl px-5 h-14 text-sm focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all" />
+                                                    <input required type="text" placeholder="John Doe" className="w-full bg-slate-900 border border-slate-800 rounded-2xl px-5 h-14 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all" />
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Work Email</label>
-                                                    <input required type="email" placeholder="john@company.com" className="w-full bg-white border border-slate-100 rounded-2xl px-5 h-14 text-sm focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all" />
+                                                    <input required type="email" placeholder="john@company.com" className="w-full bg-slate-900 border border-slate-800 rounded-2xl px-5 h-14 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all" />
                                                 </div>
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Subject</label>
-                                                <select className="w-full bg-white border border-slate-100 rounded-2xl px-5 h-14 text-sm focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
-                                                    <option>Technical Inquiry</option>
-                                                    <option>Sales & Enterprise</option>
-                                                    <option>Security/Compliance</option>
-                                                    <option>General Feedback</option>
+                                                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Inquiry Type</label>
+                                                <select className="w-full bg-slate-900 border border-slate-800 rounded-2xl px-5 h-14 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                                                    <option className="bg-slate-900">Enterprise Sense Deployment</option>
+                                                    <option className="bg-slate-900">API & Integration Support</option>
+                                                    <option className="bg-slate-900">Security Compliance</option>
+                                                    <option className="bg-slate-900">General Feedback</option>
                                                 </select>
                                             </div>
 
                                             <div className="space-y-2">
                                                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Message</label>
-                                                <textarea required rows={4} placeholder="How can we help your team?" className="w-full bg-white border border-slate-100 rounded-2xl p-5 text-sm focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all resize-none" />
+                                                <textarea required rows={4} placeholder="Tell us about your requirements..." className="w-full bg-slate-900 border border-slate-800 rounded-2xl p-5 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none" />
                                             </div>
 
-                                            <Button 
+                                            <button 
+                                                type="submit"
                                                 disabled={isSubmitting}
-                                                className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white h-16 rounded-2xl text-base font-bold shadow-lg shadow-indigo-100 transition-all flex items-center justify-center gap-2 group"
+                                                className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white h-16 rounded-2xl text-base font-bold shadow-lg shadow-indigo-900/20 transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
                                             >
                                                 {isSubmitting ? "Sending..." : "Send Message"}
                                                 {!isSubmitting && <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                                            </Button>
+                                            </button>
                                         </motion.form>
                                     ) : (
                                         <motion.div 
@@ -206,14 +199,17 @@ export default function ContactPage() {
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="py-20 text-center"
                                         >
-                                            <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <div className="w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6">
                                                 <CheckCircle2 size={40} />
                                             </div>
-                                            <h3 className="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
-                                            <p className="text-slate-500 font-medium mb-8">Thanks for reaching out. We'll be in touch shortly.</p>
-                                            <Button variant="outline" onClick={() => setSubmitted(false)} className="rounded-xl font-bold">
+                                            <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
+                                            <p className="text-slate-400 font-medium mb-8">Transmission received. Our engineering team will be in touch shortly.</p>
+                                            <button 
+                                                onClick={() => setSubmitted(false)}
+                                                className="px-6 py-3 rounded-xl border border-slate-700 font-bold text-sm text-slate-300 hover:bg-slate-900 transition-all"
+                                            >
                                                 Send another message
-                                            </Button>
+                                            </button>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
