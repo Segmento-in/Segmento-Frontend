@@ -26,27 +26,28 @@ const footerLinks = [
     ],
   },
   {
-    title: "Solutions",
+    title: "Solutions", // FIXED: Changed from 'name' to 'title'
     links: [
-      { name: "By Industry", href: "/#industry" },
-      { name: "By Use Case", href: "/#use-case" },
-      { name: "Enterprise", href: "/#enterprise" },
+      { name: "eCommerce", href: "/#ecommerce" },
+      { name: "Finance", href: "/#finance" },
+      { name: "Healthcare", href: "/#healthcare" },
+      { name: "Higher Education", href: "/#higher-education" },
+      { name: "Manufacturing", href: "/#manufacturing" },
+      { name: "Telecommunication", href: "/#telecommunication" },
+      { name: "Media", href: "/#media" },
+      { name: "Banking", href: "/#banking" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { name: "Documentation", href: "/#docs" },
-      { name: "API Reference", href: "/#api" },
-      { name: "Case Studies", href: "/#cases" },
-      { name: "Webinars", href: "/#webinars" },
+      { name: "Blog", href: "/#blog" },
     ],
   },
   {
     title: "Contact",
     links: [
-      { name: "Sales", href: "/contact" },
-      { name: "Support", href: "/#support" },
+      
       { name: "Locations", href: "/#locations" },
     ],
   },
@@ -90,7 +91,7 @@ export default function Footer() {
           {/* Links Grid */}
           {footerLinks.map((column, colIdx) => (
             <motion.div 
-              key={column.title}
+              key={`footer-col-${colIdx}-${column.title}`} // Improved key uniqueness
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -99,8 +100,8 @@ export default function Footer() {
             >
               <h4 className="font-bold text-slate-900 mb-5 text-[11px] uppercase tracking-[0.15em]">{column.title}</h4>
               <ul className="space-y-3">
-                {column.links.map((link) => (
-                  <li key={link.name}>
+                {column.links.map((link, linkIdx) => (
+                  <li key={`${column.title}-link-${linkIdx}`}> {/* Added nested key */}
                     <Link
                       href={link.href}
                       className="text-slate-500 hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"

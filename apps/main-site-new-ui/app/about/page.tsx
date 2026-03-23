@@ -74,7 +74,7 @@ export default function AboutPage() {
           <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#0F172A] mb-8 tracking-tight leading-[1.05]">
               Securing the World's Data with <br />
-              <span className="text-slate-900">Transparent AI</span>
+              <span className="text-blue-500">Transparent AI</span>
             </h1>
             <p className="text-lg text-slate-500 max-w-xl mb-10 leading-relaxed font-medium">
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.

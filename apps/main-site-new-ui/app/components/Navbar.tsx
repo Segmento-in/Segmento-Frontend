@@ -33,27 +33,32 @@ const navLinks: NavLink[] = [
   {
     name: "Solutions",
     dropdown: [
-      { name: "By Industry", href: "/#industry" },
-      { name: "By Use Case", href: "/#use-case" },
-      { name: "Enterprise", href: "/#enterprise" },
+      { name: "eCommerce", href: "/solutions#ecommerce" },
+      { name: "Finance", href: "/solutions#finance" },
+      { name: "Healthcare", href: "/solutions#healthcare" },
+      { name: "Higher Education", href: "/solutions#higher-education" },
+      { name: "Manufacturing", href: "/solutions#manufacturing" },
+      { name: "Telecommunication", href: "/solutions#telecommunication" },
+      { name: "Media", href: "/solutions#media" },
+      { name: "Banking", href: "/solutions#banking" },
     ],
   },
   {
     name: "Resources",
     dropdown: [
-      { name: "Documentation", href: "/#docs" },
-      { name: "API Reference", href: "/#api" },
-      { name: "Case Studies", href: "/#cases" },
-      { name: "Webinars", href: "/#webinars" },
+      { name: "Blog", href: "/blog" },
     ],
   },
   { name: "Pricing", href: "/pricing" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  // Separate state for mobile dropdown toggles
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,8 +71,8 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled 
-          ? "bg-white/90 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100" 
+        scrolled
+          ? "bg-white/90 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100"
           : "bg-transparent py-6"
       }`}
     >
@@ -96,12 +101,16 @@ export default function Navbar() {
                   <Link
                     href={link.href || "#"}
                     className={`text-sm font-bold transition-all duration-200 flex items-center space-x-1 ${
-                      activeDropdown === link.name ? "text-[#2563EB]" : "text-slate-600 hover:text-slate-900"
+                      activeDropdown === link.name
+                        ? "text-[#2563EB]"
+                        : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
                     <span>{link.name}</span>
                     {link.dropdown && (
-                      <motion.span animate={{ rotate: activeDropdown === link.name ? 180 : 0 }}>
+                      <motion.span
+                        animate={{ rotate: activeDropdown === link.name ? 180 : 0 }}
+                      >
                         <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                       </motion.span>
                     )}
@@ -163,36 +172,56 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="fixed inset-0 top-18 md:hidden bg-white z-40 overflow-y-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 top-[72px] md:hidden bg-white z-40 overflow-y-auto border-t border-slate-100"
           >
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-4">
               {navLinks.map((link) => (
-                <div key={link.name}>
+                <div key={link.name} className="border-b border-slate-50 pb-4 last:border-0">
                   {link.dropdown ? (
-                    <div className="space-y-3">
-                      <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-2">
-                        {link.name}
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="block px-4 py-3 bg-slate-50 rounded-xl text-slate-900 font-bold active:bg-blue-50 transition-all"
-                            onClick={() => setIsOpen(false)}
+                    <div className="space-y-2">
+                      <button 
+                        onClick={() => setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name)}
+                        className="w-full flex items-center justify-between text-xl font-black text-slate-900 px-2"
+                      >
+                        <span>{link.name}</span>
+                        <motion.div
+                          animate={{ rotate: mobileMenuOpen === link.name ? 180 : 0 }}
+                        >
+                          <ChevronDown className="w-5 h-5 text-slate-400" />
+                        </motion.div>
+                      </button>
+                      
+                      <AnimatePresence>
+                        {mobileMenuOpen === link.name && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
                           >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
+                            <div className="grid grid-cols-1 gap-1 pt-2">
+                              {link.dropdown.map((item) => (
+                                <Link
+                                  key={item.name}
+                                  href={item.href}
+                                  className="block px-4 py-3 bg-slate-50 rounded-xl text-slate-600 font-bold active:bg-blue-50 active:text-[#2563EB] transition-all text-sm"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {item.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   ) : (
                     <Link
                       href={link.href!}
-                      className="block px-2 text-2xl font-black text-slate-900 active:text-[#2563EB]"
+                      className="block px-2 text-xl font-black text-slate-900 active:text-[#2563EB]"
                       onClick={() => setIsOpen(false)}
                     >
                       {link.name}
@@ -200,13 +229,14 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-              <div className="pt-6">
+              
+              <div className="pt-4">
                 <Link
                   href="/contact"
-                  className="block w-full py-4 bg-[#2563EB] text-white text-center font-black rounded-2xl"
+                  className="block w-full py-4 bg-[#2563EB] text-white text-center font-black rounded-2xl shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-transform"
                   onClick={() => setIsOpen(false)}
                 >
-                  Contact Sales
+                  Get Started
                 </Link>
               </div>
             </div>
