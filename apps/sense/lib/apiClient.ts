@@ -1,6 +1,7 @@
 // API Client for Segmento Sense Backend
 // Base URL for HuggingFace Spaces deployment
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-pulse-backend.hf.space';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+
 
 export interface PIIMatch {
     label: string;

@@ -1,11 +1,7 @@
-import type { Metadata } from "next";
-import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Segmento - AI-Powered Data Intelligence Platform",
-  description:
-    "Transform your data into actionable insights with Segmento's AI-powered platform for data classification, analysis, and intelligence.",
-};
+import Navbar from "./components/Navbar";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
+import Chatbot from "./components/Chatbot";
 
 export default function RootLayout({
   children,
@@ -26,7 +22,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <Chatbot />
+      </body>
     </html>
   );
 }
