@@ -1,29 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
-import { Client, Databases, ID } from "node-appwrite"
+import { ID } from "node-appwrite"
+import { getAppwriteClient } from "@/app/lib/db"
 
 interface ContactFormData {
     name: string
     email: string
     company?: string
     message: string
-}
-
-// ── Appwrite client (server-side only — env vars are never exposed to the browser) ──
-function getAppwriteClient() {
-    const endpoint = process.env.APPWRITE_MAIN_SITE_DATABASE_ENDPOINT
-    const projectId = process.env.APPWRITE_MAIN_SITE_DATABASE_PROJECT_ID
-    const apiKey = process.env.APPWRITE__MAIN_SITE_DATABASE_API_KEY  // note: double underscore
-
-    if (!endpoint || !projectId || !apiKey) {
-        throw new Error("Appwrite configuration is incomplete. Check APPWRITE_MAIN_SITE_DATABASE_ENDPOINT, APPWRITE_MAIN_SITE_DATABASE_PROJECT_ID, and APPWRITE__MAIN_SITE_DATABASE_API_KEY.")
-    }
-
-    const client = new Client()
-        .setEndpoint(endpoint)
-        .setProject(projectId)
-        .setKey(apiKey)
-
-    return new Databases(client)
 }
 
 export async function POST(request: NextRequest) {
@@ -49,8 +32,8 @@ export async function POST(request: NextRequest) {
 
         // ── Persist to Appwrite ───────────────────────────────────────────────
         const databases = getAppwriteClient()
-        const databaseId = process.env.APPWRITE__MAIN_SITE_DATABASE_ID!          // note: double underscore
-        const collectionId = process.env.APPWRITE__MAIN_SITE_DATABASE_CONTACT_COLLECTION_ID! // note: double underscore
+        const databaseId = process.env.APPWRITE__MAIN_SITE_DATABASE_ID!
+        const collectionId = process.env.APPWRITE__MAIN_SITE_DATABASE_CONTACT_COLLECTION_ID!
 
         await databases.createDocument(
             databaseId,
