@@ -4,18 +4,7 @@
 // The proxy forwards requests to NEXT_PUBLIC_PULSE_API_URL (default: localhost:8000).
 
 import { getArticleStats } from './analytics';
-<<<<<<< HEAD
 import { getApiBase } from './apiBase';
-=======
-
-function getApiBase(): string {
-    // Both client and server can use the direct endpoint based on the robust .env config
-    if (typeof window !== 'undefined') {
-        return ''; // Uses relative path, hitting our Next.js API proxy
-    }
-    return process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
-}
->>>>>>> 79875b86a4e81638cf15fbdd7d1610a7e595f7d8
 
 export interface Article {
     title: string;
@@ -129,9 +118,6 @@ export async function sanitizeArticlePayload(article: any): Promise<Article> {
     const safeUrl = article.url || "#";
     const safeCat = article.category || "News Articles";
 
-    // Asynchronously hydrate live stats
-    const stats = await getArticleStats(safeUrl, safeId, safeCat);
-
     return {
         // Core Appwrite properties
         $id: safeId,
@@ -143,9 +129,11 @@ export async function sanitizeArticlePayload(article: any): Promise<Article> {
         published_at: article.published_at || new Date().toISOString(),
         source: article.source || "Pulse",
         author: article.source || "Pulse",
-        likes: stats.likeCount || article.likes || 0,
-        dislikes: stats.dislikeCount || article.dislikes || 0,
-        views: stats.viewCount || article.views || 0,
+        // Do NOT auto-fetch engagement stats here to prevent "Engagement Storm" N+1 API calls.
+        // The backend already provides these inherently in the base article payload.
+        likes: article.likes || 0,
+        dislikes: article.dislikes || 0,
+        views: article.views || 0,
         audio_url: article.audio_url,
         text_summary: article.text_summary,
         category: article.category,
