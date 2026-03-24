@@ -10,7 +10,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000';
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
+const BACKEND_URL = (process.env.NEXT_PUBLIC_PULSE_API_URL || 'http://localhost:8000').replace(/\/$/, '');
 
 async function proxyRequest(request: NextRequest, params: { path: string[] }) {
     const path = params.path.join('/');
@@ -22,6 +25,10 @@ async function proxyRequest(request: NextRequest, params: { path: string[] }) {
         // Forward content-type if present
         const contentType = request.headers.get('content-type');
         if (contentType) headers.set('content-type', contentType);
+        
+        // Critical: HF Spaces block empty User-Agents
+        headers.set('User-Agent', 'SegmentoPulse/1.0 (Vercel Proxy)');
+        headers.set('Accept', 'application/json');
 
         const fetchOptions: RequestInit = {
             method: request.method,

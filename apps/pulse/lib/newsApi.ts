@@ -157,7 +157,13 @@ async function _fetchSingleCategory(
     try {
         const response = await fetch(
             `${API_BASE}/api/news/${backendCategory}?page=${page}&limit=${limit}`,
-            { cache: 'no-store' }
+            { 
+                cache: 'no-store',
+                headers: {
+                    'Accept': 'application/json',
+                    'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)'
+                }
+            }
         );
         if (!response.ok) return [];
         const data = await response.json();
@@ -219,6 +225,10 @@ export async function searchNews(query: string): Promise<Article[]> {
         const API_BASE = getApiBase();
         const response = await fetch(`${API_BASE}/api/search?q=${encodeURIComponent(query)}`, {
             cache: 'no-store',
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)'
+            }
         });
 
         if (!response.ok) {
@@ -241,6 +251,10 @@ export async function fetchResearchPaperById(paperId: string): Promise<Article |
         const API_BASE = getApiBase();
         const response = await fetch(`${API_BASE}/api/research/${paperId}`, {
             cache: 'no-store',
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)'
+            }
         });
 
         if (!response.ok) {
