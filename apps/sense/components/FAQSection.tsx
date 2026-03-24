@@ -16,6 +16,11 @@ const faqs = [
         question: "Do you offer trials? How can I get access to an API key?",
         answer: "Yes! We offer a free tier for testing and development. Contact our sales team or sign up directly to get started with immediate API access.",
     },
+
+    {
+        question: "How is this different from AWS Macie or Azure Purview?",
+        answer: "Cloud-native tools lock you into their ecosystem and lack explainability. Sense is environment-agnostic, offers transparent detection logic, and provides synthetic data cloning for developers.",
+    },
     {
         question: "What types of PII can Segmento Sense detect?",
         answer: "We detect a comprehensive range of PII including SSNs, credit card numbers, email addresses, phone numbers, addresses, dates of birth, medical records, financial data, and custom patterns specific to your industry.",
@@ -35,6 +40,10 @@ const faqs = [
     {
         question: "What integrations does Segmento Sense support?",
         answer: "We integrate with major cloud platforms (AWS, Azure, GCP), databases, data warehouses, CRM systems, and offer REST APIs for custom integrations. Our platform is designed to fit seamlessly into your existing data stack.",
+    },
+    {
+        question: "Does my image data leave my network for OCR scanning?",
+        answer: "Never. Sense uses local libraries to process everything client-side.",
     },
 ]
 
@@ -132,7 +141,7 @@ export default function FAQSection() {
                                     <p className="text-xs text-slate-500 font-medium">We're here to help you secure your data.</p>
                                 </div>
                             </div>
-                            <Link href="https://segmento.in/contact">
+                            <Link href="/contact">
                                 <Button className="bg-[#6200EA] hover:bg-[#4500AB] text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
                                     Contact Us
                                     <ArrowRight size={14} />

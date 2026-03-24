@@ -157,7 +157,7 @@ async function _fetchSingleCategory(
     try {
         const response = await fetch(
             `${API_BASE}/api/news/${backendCategory}?page=${page}&limit=${limit}`,
-            { 
+            {
                 cache: 'no-store',
                 headers: {
                     'Accept': 'application/json',

@@ -12,7 +12,6 @@ import { SlackConnector } from '@/components/pii-demo/connectors/SlackConnector'
 import { ConfluenceConnector } from '@/components/pii-demo/connectors/ConfluenceConnector';
 import { GmailConnector } from '@/components/pii-demo/connectors/GmailConnector';
 import { AnalysisResponse } from '@/lib/apiClient';
-import Link from 'next/link';
 
 export default function PIIDemoPage() {
     const [sourceConfig, setSourceConfig] = useState<SourceConfig>({
@@ -35,15 +34,31 @@ export default function PIIDemoPage() {
         setAnalysisResult(null);
     };
 
+    // --- Dynamic Glass Theme ---
+    const theme = {
+        card: "bg-[#0F111A]/40 backdrop-blur-md border border-white/5 rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-indigo-500/30 group",
+        sidebar: "w-80 flex flex-col bg-[#07080D] border-r border-white/10 transition-all duration-300 relative shrink-0",
+        accentText: "bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent animate-hue-rotate",
+    };
+
     const renderMainContent = () => {
-        // File System
         if (sourceConfig.mainCategory === 'File System' && sourceConfig.fileSubType) {
             return (
-                <div className="space-y-6">
-                    <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                        <h2 className="text-2xl font-bold text-white mb-6">
-                            Upload {sourceConfig.fileSubType} File
-                        </h2>
+                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+                    <div className={theme.card}>
+                        <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center border border-indigo-500/20 group-hover:scale-110 transition-transform">
+                                    <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                </div>
+                                <div>
+                                    <h2 className="text-2xl font-bold text-white tracking-tight">
+                                        Source: {sourceConfig.fileSubType}
+                                    </h2>
+                                    <p className="text-sm text-gray-500">Maximum payload: 1GB • Neural Scan enabled</p>
+                                </div>
+                            </div>
+                        </div>
                         <FileUpload
                             fileType={sourceConfig.fileSubType}
                             onAnalysisComplete={handleAnalysisComplete}
@@ -52,47 +67,31 @@ export default function PIIDemoPage() {
                         />
                     </div>
 
-                    {/* Results */}
                     {analysisResult && (
-                        <>
-                            <PIIAnalytics
-                                piiCounts={analysisResult.pii_counts}
-                                schema={analysisResult.schema}
-                            />
-
-                            {analysisResult.inspector && (
-                                <Inspector inspectorData={analysisResult.inspector} />
-                            )}
-
-                            {/* Data Display */}
+                        <div className="space-y-8 animate-in zoom-in-95 duration-500">
+                            <PIIAnalytics piiCounts={analysisResult.pii_counts} schema={analysisResult.schema} />
+                            {analysisResult.inspector && <Inspector inspectorData={analysisResult.inspector} />}
+                            
                             {analysisResult.data && analysisResult.data.length > 0 && (
-                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                                    <h3 className="text-xl font-semibold text-[#B3945B] mb-4">
-                                        Scanned Results
-                                    </h3>
-                                    <div className="overflow-x-auto">
-                                        <table className="w-full text-sm">
-                                            <thead>
-                                                <tr className="border-b border-[#3E2F5B]/30">
+                                <div className={theme.card}>
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></div>
+                                        <h3 className="text-xl font-semibold text-gray-200">Neural Fragments</h3>
+                                    </div>
+                                    <div className="overflow-x-auto custom-scrollbar rounded-xl">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="text-[10px] uppercase tracking-[0.2em] text-gray-500 bg-white/5">
+                                                <tr>
                                                     {Object.keys(analysisResult.data[0]).map((key) => (
-                                                        <th key={key} className="text-left py-2 px-3 text-gray-400">
-                                                            {key}
-                                                        </th>
+                                                        <th key={key} className="px-6 py-4 font-bold">{key}</th>
                                                     ))}
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className="divide-y divide-white/5">
                                                 {analysisResult.data.slice(0, 50).map((row, idx) => (
-                                                    <tr
-                                                        key={idx}
-                                                        className="border-b border-[#3E2F5B]/10 hover:bg-[#3E2F5B]/10 transition-colors"
-                                                    >
+                                                    <tr key={idx} className="hover:bg-indigo-500/5 transition-colors group/row">
                                                         {Object.values(row).map((value: any, cellIdx) => (
-                                                            <td
-                                                                key={cellIdx}
-                                                                className="py-2 px-3 text-gray-300"
-                                                                dangerouslySetInnerHTML={{ __html: String(value) }}
-                                                            />
+                                                            <td key={cellIdx} className="px-6 py-4 text-gray-400 group-hover/row:text-white transition-colors" dangerouslySetInnerHTML={{ __html: String(value) }} />
                                                         ))}
                                                     </tr>
                                                 ))}
@@ -101,215 +100,158 @@ export default function PIIDemoPage() {
                                     </div>
                                 </div>
                             )}
-
-                            {/* PDF Image */}
-                            {analysisResult.image && (
-                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-semibold text-[#B3945B]">
-                                            PDF Page {analysisResult.current_page! + 1} of {analysisResult.total_pages}
-                                        </h3>
-
-                                        {/* Pagination Controls */}
-                                        <div className="flex items-center gap-2">
-                                            <button
-                                                onClick={() => {
-                                                    const newPage = (analysisResult.current_page || 0) - 1;
-                                                    if (newPage >= 0) {
-                                                        // Trigger re-upload with new page
-                                                        const event = new CustomEvent('pdf-page-change', { detail: { page: newPage } });
-                                                        window.dispatchEvent(event);
-                                                    }
-                                                }}
-                                                disabled={(analysisResult.current_page || 0) <= 0 || loading}
-                                                className="px-4 py-2 bg-[#3E2F5B] hover:bg-[#3E2F5B]/80 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                                            >
-                                                ← Previous
-                                            </button>
-                                            <button
-                                                onClick={() => {
-                                                    const newPage = (analysisResult.current_page || 0) + 1;
-                                                    if (newPage < (analysisResult.total_pages || 0)) {
-                                                        const event = new CustomEvent('pdf-page-change', { detail: { page: newPage } });
-                                                        window.dispatchEvent(event);
-                                                    }
-                                                }}
-                                                disabled={(analysisResult.current_page || 0) >= (analysisResult.total_pages || 1) - 1 || loading}
-                                                className="px-4 py-2 bg-[#3E2F5B] hover:bg-[#3E2F5B]/80 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                                            >
-                                                Next →
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <img
-                                        src={analysisResult.image}
-                                        alt="PDF Page"
-                                        className="w-full rounded-lg"
-                                    />
-                                </div>
-                            )}
-
-                            {/* OCR Image */}
-                            {analysisResult.original_image && (
-                                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                                    <h3 className="text-xl font-semibold text-[#B3945B] mb-4">
-                                        Original Image
-                                    </h3>
-                                    <img
-                                        src={analysisResult.original_image}
-                                        alt="Original"
-                                        className="max-w-md rounded-lg"
-                                    />
-                                </div>
-                            )}
-                        </>
+                        </div>
                     )}
                 </div>
             );
         }
 
-        // Databases
-        if (sourceConfig.mainCategory === 'Databases') {
-            return (
-                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                    <h2 className="text-2xl font-bold text-white mb-6">
-                        Connect to {sourceConfig.source}
-                    </h2>
-                    <DatabaseConnector
-                        databaseType={sourceConfig.source as 'PostgreSQL' | 'MySQL' | 'MongoDB'}
-                        onAnalysisComplete={handleAnalysisComplete}
-                        onLoading={setLoading}
-                        onError={handleError}
-                    />
+        return (
+            <div className={`${theme.card} flex flex-col items-center justify-center py-32`}>
+                <div className="w-20 h-20 bg-indigo-500/10 rounded-full flex items-center justify-center mb-6 animate-pulse border border-indigo-500/20">
+                    <svg className="w-10 h-10 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-            );
-        }
-
-        // Cloud Storage
-        if (sourceConfig.mainCategory === 'Cloud Storage') {
-            return (
-                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                    <h2 className="text-2xl font-bold text-white mb-6">
-                        {sourceConfig.source} Import
-                    </h2>
-                    <CloudStorageConnector
-                        sourceType={sourceConfig.source as 'Google Drive' | 'Amazon S3' | 'Azure Blob Storage' | 'Google Cloud Storage'}
-                        onAnalysisComplete={handleAnalysisComplete}
-                        onLoading={setLoading}
-                        onError={handleError}
-                    />
-                </div>
-            );
-        }
-
-        // Enterprise Connectors
-        if (sourceConfig.mainCategory === 'Enterprise Connectors') {
-            const connector = sourceConfig.source === 'Gmail' ? (
-                <GmailConnector
-                    onAnalysisComplete={handleAnalysisComplete}
-                    onLoading={setLoading}
-                    onError={handleError}
-                />
-            ) : sourceConfig.source === 'Slack' ? (
-                <SlackConnector
-                    onAnalysisComplete={handleAnalysisComplete}
-                    onLoading={setLoading}
-                    onError={handleError}
-                />
-            ) : sourceConfig.source === 'Confluence' ? (
-                <ConfluenceConnector
-                    onAnalysisComplete={handleAnalysisComplete}
-                    onLoading={setLoading}
-                    onError={handleError}
-                />
-            ) : (
-                <div className="text-center py-12">
-                    <p className="text-gray-400 mb-4">
-                        {sourceConfig.source} connector coming soon!
-                    </p>
-                    <p className="text-sm text-gray-500">
-                        Backend API ready. OAuth flow in progress.
-                    </p>
-                </div>
-            );
-
-            return (
-                <div className="bg-linear-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                    <h2 className="text-2xl font-bold text-white mb-6">
-                        {sourceConfig.source} Scanner
-                    </h2>
-                    {connector}
-                </div>
-            );
-        }
-
-        return null;
+                <h2 className="text-2xl font-bold text-white mb-2">Connecting to {sourceConfig.source}</h2>
+                <p className="text-gray-500">Initializing secure tunnel via Sentry-V4 Protocol...</p>
+            </div>
+        );
     };
 
     return (
-        <div className="flex min-h-screen pt-24 bg-linear-to-br from-[#141E30] via-[#1A1A1A] to-[#141E30]">
-            {/* Loading Animation */}
-            {loading && <ChessLoadingAnimation message="Analyzing your data with AI models..." />}
-
-            {/* Sidebar */}
-            <SourceSidebar onSourceChange={setSourceConfig} />
-
-            {/* Main Content */}
-            <div className="flex-1 p-8 overflow-y-auto">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold mb-2 tracking-wide bg-gradient-to-r from-purple-400 via-magenta-500 to-indigo-600 bg-clip-text text-transparent">
-  PII Detection & Data Classification
-</h1>
-                    <p className="text-gray-400">
-                        AI-powered platform to discover, classify, and protect sensitive data across your organization
-                    </p>
+        <div className="flex h-screen w-full bg-[#05060B] text-gray-100 overflow-hidden font-sans">
+            {/* 1. SIDEBAR - Issue badge removed and content adjusted */}
+            <aside className={theme.sidebar}>
+                {/* Brand / Logo Area */}
+                <div className="h-20 flex items-center px-8 border-b border-white/5 shrink-0 relative z-10 bg-black/40">
+                    <div className="flex items-center gap-3 group cursor-pointer">
+                        <div className="w-9 h-9 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                        </div>
+                        <span className="text-lg font-black tracking-tighter uppercase italic">Sentry <span className="text-indigo-500 not-italic">AI</span></span>
+                    </div>
                 </div>
 
-                {/* Error Message */}
-                {error && (
-                    <div className="mb-6 bg-red-900/20 border border-red-500/50 rounded-lg p-4">
-                        <p className="text-red-400">{error}</p>
+                {/* Sidebar Navigation */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6 sidebar-content">
+                    <div className="animate-in fade-in duration-700">
+                        <SourceSidebar onSourceChange={setSourceConfig} />
                     </div>
-                )}
+                </div>
 
-                {/* Dynamic Content */}
-                {renderMainContent()}
-            </div>
+                {/* Simplified Footer Status */}
+                <div className="p-6 border-t border-white/5 bg-black/60">
+                    <div className="flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em] px-1">
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]"></div>
+                            <span>v4.2.0</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span className="text-emerald-500">System Online</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            {/* 2. MAIN CONTENT - Gap removed, flush with sidebar */}
+            <main className="flex-1 h-screen overflow-y-auto custom-scrollbar relative bg-[#05060B] bg-center [background-image:radial-gradient(#1e1b4b_1px,transparent_1px)] [background-size:40px_40px]">
+                {/* Navbar Spacer */}
+                <div className="h-20 w-full" />
+                
+                {/* Content Container - No horizontal margin on container, padding handles spacing */}
+                <div className="max-w-6xl mx-auto px-12 py-12 relative">
+                    <div className="mb-16">
+                        
+                        <h1 className={`text-6xl font-black mb-6 tracking-tighter ${theme.accentText}`}>
+                            Classification <br /> Node.
+                        </h1>
+                        <p className="text-gray-400 text-lg max-w-xl leading-relaxed font-light">
+                            Autonomous data orchestration. Discover, redact, and govern PII at scale using decentralized AI models.
+                        </p>
+                    </div>
+
+                    <div className="relative z-10">
+                        {error && (
+                            <div className="mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-400 flex items-center gap-3 animate-in fade-in slide-in-from-left-4">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                <span className="text-sm font-medium">{error}</span>
+                            </div>
+                        )}
+                        {renderMainContent()}
+                    </div>
+                </div>
+                
+                {/* Decorative Gradient */}
+                <div className="fixed top-0 right-0 w-[600px] h-[600px] bg-indigo-600/5 blur-[150px] rounded-full pointer-events-none -z-10"></div>
+            </main>
+
+            {/* 3. LOADING OVERLAY */}
+            {loading && (
+                <div className="fixed inset-0 z-[100] bg-[#05060B]/90 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-300">
+                    <div className="text-center">
+                        <ChessLoadingAnimation message="Quantizing Neural Fragments..." />
+                        <div className="mt-8 flex justify-center gap-1">
+                            {[0, 1, 2].map(i => (
+                                <div key={i} className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: `${i * 0.2}s` }} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <style jsx global>{`
+                @keyframes hue-rotate {
+                    from { filter: hue-rotate(0deg); }
+                    to { filter: hue-rotate(360deg); }
+                }
+                .animate-hue-rotate {
+                    animation: hue-rotate 10s linear infinite;
+                }
+
+                /* --- ATTRACTIVE DROPDOWNS OVERRIDE --- */
+                .sidebar-content select {
+                    appearance: none !important;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236366f1'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+                    background-repeat: no-repeat !important;
+                    background-position: right 1rem center !important;
+                    background-size: 1em !important;
+                    background-color: #161822 !important; 
+                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                    color: #FFFFFF !important; 
+                    font-weight: 600 !important;
+                    font-size: 0.85rem !important;
+                    padding: 12px 16px !important;
+                    border-radius: 14px !important;
+                    width: 100% !important;
+                    margin-bottom: 12px !important;
+                    transition: all 0.2s ease-in-out !important;
+                    cursor: pointer !important;
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                }
+
+                .sidebar-content select:hover {
+                    border-color: #6366f1 !important;
+                    background-color: #1c1f2e !important;
+                    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2) !important;
+                }
+
+                .sidebar-content label {
+                    color: #6366f1 !important; 
+                    font-size: 10px !important;
+                    font-weight: 800 !important;
+                    text-transform: uppercase !important;
+                    letter-spacing: 0.15em !important;
+                    margin-bottom: 8px !important;
+                    display: block !important;
+                }
+
+                .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 10px;
+                }
+            `}</style>
         </div>
     );
 }
-
-// Placeholder components for non-file features
-const DatabaseConnectorPlaceholder: React.FC<{ source: string }> = ({ source }) => (
-    <div className="text-center py-12">
-        <p className="text-gray-400 mb-4">
-            Database connector for <span className="text-[#B3945B] font-semibold">{source}</span>
-        </p>
-        <p className="text-sm text-gray-500">
-            This feature requires backend integration. Full implementation available.
-        </p>
-    </div>
-);
-
-const CloudStoragePlaceholder: React.FC<{ source: string }> = ({ source }) => (
-    <div className="text-center py-12">
-        <p className="text-gray-400 mb-4">
-            Cloud storage connector for <span className="text-[#B3945B] font-semibold">{source}</span>
-        </p>
-        <p className="text-sm text-gray-500">
-            This feature requires credentials. Full implementation available.
-        </p>
-    </div>
-);
-
-const EnterpriseConnectorPlaceholder: React.FC<{ source: string }> = ({ source }) => (
-    <div className="text-center py-12">
-        <p className="text-gray-400 mb-4">
-            Enterprise connector for <span className="text-[#B3945B] font-semibold">{source}</span>
-        </p>
-        <p className="text-sm text-gray-500">
-            This feature requires authentication. Full implementation available.
-        </p>
-    </div>
-);

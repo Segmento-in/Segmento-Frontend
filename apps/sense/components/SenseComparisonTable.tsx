@@ -116,13 +116,11 @@ export function SenseComparisonTable() {
                         <span className="h-[2.5px] w-10 bg-blue-600" />
                     </div>
                     <h2 className="text-4xl xl:text-7xl font-black text-[#0F172A] leading-[0.95] tracking-tighter mb-8">
-                        How Does Segmento <br />
-                        <span className="text-blue-600">Stack Up?</span>
+                        See Why Engineering Teams  <br />
+                        <span className="text-blue-600">Choose Sense</span>
                     </h2>
                     <p className="text-lg xl:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
-                        Compare our agentless AI approach with legacy platforms.
-                        See the difference in architecture, performance, and
-                        total cost of ownership.
+                        Commercial PII tools hide their logic and charge extra for essential features like OCR. Discover how our Consensus Engine and Explainable AI outperform traditional platforms by giving you total control over the "False Positive vs. Missed Data" trade-off.
                     </p>
                 </motion.div>
 
@@ -142,7 +140,7 @@ export function SenseComparisonTable() {
                         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h3 className="text-lg font-black text-[#0F172A] tracking-tight">
-                                    Select Competitors to Compare
+                                  Compare Sense vs. Legacy Platforms
                                 </h3>
                                 <p className="text-sm text-slate-500 mt-1">
                                     Choose up to {MAX_COMPETITORS} competitors

@@ -28,7 +28,7 @@ export function SenseNavbar() {
         { name: "Home", href: "/" },
         { name: "Compare", href: "/#comparison-table" },
         { name: "Pricing", href: "/pricing" },
-        { name: "Contact", href: "https://segmento.in/contact", isExternal: true },
+        { name: "Contact", href: "/contact", isExternal: true },
     ];
 
     if (!mounted) return <div className="h-16 bg-[#020617]" />;
