@@ -272,9 +272,33 @@ export default function PricingPage() {
             <h2 className="text-4xl font-bold text-[#0F172A] mb-16 tracking-tight">Frequently Asked Questions</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {faqs.map((faq, i) => (
-                <div key={i} className="bg-white border border-slate-100 rounded-lg p-6 flex items-center justify-between text-left group hover:border-slate-200 transition-colors shadow-sm cursor-pointer">
-                  <span className="font-bold text-slate-900 pr-4">{faq.question}</span>
-                  <ChevronDown className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                <div 
+                  key={i} 
+                  className="bg-white border border-slate-100 rounded-lg overflow-hidden transition-colors shadow-sm"
+                >
+                  <button 
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full p-6 flex items-center justify-between text-left group hover:bg-slate-50 transition-colors"
+                  >
+                    <span className="font-bold text-slate-900 pr-4">{faq.question}</span>
+                    {openFaq === i ? (
+                      <ChevronUp className="w-5 h-5 text-slate-600" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-slate-400 group-hover:text-slate-600" />
+                    )}
+                  </button>
+                  <AnimatePresence>
+                    {openFaq === i && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="px-6 pb-6 text-left text-slate-600 text-sm leading-relaxed"
+                      >
+                        {faq.answer}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>

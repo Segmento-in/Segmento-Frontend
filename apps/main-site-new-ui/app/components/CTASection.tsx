@@ -23,7 +23,7 @@ export default function CTASection() {
                 href="/contact"
                 className="px-10 py-4 bg-[#2563EB] text-white font-bold text-lg rounded-lg hover:bg-blue-600 transition-all hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] active:scale-[0.98]"
               >
-                Get Started
+                contact us
               </Link>
             </div>
           </div>
