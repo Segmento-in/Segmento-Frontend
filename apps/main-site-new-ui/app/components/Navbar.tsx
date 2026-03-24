@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 interface NavItem {
   name: string;
   href: string;
+  isExternal?: boolean; // For external Vercel links
+  isUpcoming?: boolean; // For items without links
 }
 
 interface NavLink {
@@ -20,16 +22,24 @@ const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   {
-    name: "Products",
-    dropdown: [
-      { name: "Segmento Pulse", href: "/#pulse" },
-      { name: "Segmento Sense", href: "/#sense" },
-      { name: "Segmento Resolve", href: "/#resolve" },
-      { name: "Segmento SprintIQ", href: "/#sprint" },
-      { name: "Segmento Collect", href: "/#collect" },
-      { name: "Segmento Enrich", href: "/#enrich" },
-    ],
-  },
+  name: "Products",
+  dropdown: [
+    { name: "Segmento Pulse", href: "/pulse" },
+    { name: "Segmento Sense", href: "/products/data-classification" },
+    { 
+      name: "Segmento Resolve", 
+      href: "https://segmento-resolve.vercel.app/", 
+      isExternal: true 
+    },
+    { 
+      name: "Segmento SprintIQ", 
+      href: "https://segmento-retro-omega.vercel.app/", 
+      isExternal: true 
+    },
+    { name: "Segmento Collect (Upcoming)", href: "#", isUpcoming: true },
+    { name: "Segmento Enrich (Upcoming)", href: "#", isUpcoming: true },
+  ],
+},
   {
     name: "Solutions",
     dropdown: [

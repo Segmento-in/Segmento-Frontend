@@ -10,7 +10,7 @@ const footerLinks = [
     links: [
       { name: "About", href: "/about" },
       { name: "Blog", href: "/blog" },
-      { name: "Careers", href: "/careers" },
+     
       { name: "Contact", href: "/contact" },
     ],
   },
@@ -25,30 +25,30 @@ const footerLinks = [
       { name: "Segmento Enrich", href: "/#enrich" },
     ],
   },
-  {
-    title: "Solutions", // FIXED: Changed from 'name' to 'title'
+ {
+    title: "Solutions",
     links: [
-      { name: "eCommerce", href: "/#ecommerce" },
-      { name: "Finance", href: "/#finance" },
-      { name: "Healthcare", href: "/#healthcare" },
-      { name: "Higher Education", href: "/#higher-education" },
-      { name: "Manufacturing", href: "/#manufacturing" },
-      { name: "Telecommunication", href: "/#telecommunication" },
-      { name: "Media", href: "/#media" },
-      { name: "Banking", href: "/#banking" },
+      { name: "eCommerce", href: "/solutions#ecommerce" },
+      { name: "Finance", href: "/solutions#finance" },
+      { name: "Healthcare", href: "/solutions#healthcare" },
+      { name: "Higher Education", href: "/solutions#higher-education" },
+      { name: "Manufacturing", href: "/solutions#manufacturing" },
+      { name: "Telecommunication", href: "/solutions#telecommunication" },
+      { name: "Media", href: "/solutions#media" },
+      { name: "Banking", href: "/solutions#banking" },
     ],
   },
-  {
+{
     title: "Resources",
     links: [
-      { name: "Blog", href: "/#blog" },
+      { name: "Blog", href: "/blog" }, 
     ],
   },
   {
     title: "Contact",
     links: [
       
-      { name: "Locations", href: "/#locations" },
+      { name: "Locations", href: "/contact" },
     ],
   },
 ];

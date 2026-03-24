@@ -80,12 +80,7 @@ export default function AboutPage() {
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="px-8 py-3.5 bg-[#0F172A] text-white rounded-full font-bold shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition-all active:scale-[0.98]">
-                Our Mission
-              </button>
-              <button className="px-8 py-3.5 border border-slate-200 text-slate-900 rounded-full font-bold hover:bg-slate-50 transition-all active:scale-[0.98]">
-                Meet the Team
-              </button>
+              
             </div>
           </div>
 
