@@ -12,8 +12,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Features />
-      <ProductShowcase />
       <Stats />
+      <ProductShowcase />
+      
       <CTASection />
       <Footer />
     </main>
