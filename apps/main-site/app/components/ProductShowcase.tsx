@@ -1,11 +1,10 @@
-
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowRight, Lock, Shield, Zap, Activity, EyeOff, Search, Clock, 
   TrendingUp, Users, MessageSquare, CheckCircle2, Ticket, ListChecks, 
-  ChevronRight, Filter
+  ChevronRight, Filter, Database, RefreshCw, Layers
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -22,18 +21,18 @@ const products = [
   {
     id: "sense",
     name: "Segmento Sense",
-    title: "Explainable AI & PII Classification",
+    title: "Explainable AI Enabled Data Classification",
     description: "Advanced text extraction and perimeter defense featuring client-side OCR and automated PII redaction. Experience the power of Explainable AI in every classification task.",
     link: "/sense",
     color: "indigo",
   },
   {
-    id: "sprintiq",
-    name: "Segmento Sprintiq",
-    title: "Collaborative Retrospective Management Platform",
-    description: "Segmento Sprintiq helps you run retrospectives in a simple and organized way. Capture feedback, collaborate in real time, and turn ideas into clear action items for continuous improvement.",
-    link: "https://segmento-retro-omega.vercel.app/",
-    color: "purple",
+    id: "collector",
+    name: "Segmento Collect",
+    title: "AI-Powered Data Collection Platform",
+    description: "Segmento Collector enables seamless data aggregation from multiple sources through intelligent connectors. Automate data ingestion, unify workflows, and transform raw inputs into actionable insights with AI-driven orchestration. Built-in recovery mechanisms ensure data continuity, including a 24-hour recovery window.",
+    link: "/collector",
+    color: "sky",
   },
   {
     id: "resolve",
@@ -42,6 +41,14 @@ const products = [
     description: "Segmento Resolve helps manage data requests and tickets in a simple and organized way. It allows tracking and clear visibility to ensure smooth and efficient operations.",
     link: "https://segmento-resolve.vercel.app/",
     color: "emerald",
+  },
+  {
+    id: "sprintiq",
+    name: "Segmento Sprintiq",
+    title: "Collaborative Retrospective Management Platform",
+    description: "Segmento Sprintiq helps you run retrospectives in a simple and organized way. Capture feedback, collaborate in real time, and turn ideas into clear action items for continuous improvement.",
+    link: "https://segmento-retro-omega.vercel.app/",
+    color: "purple",
   },
 ];
 
@@ -64,7 +71,7 @@ export default function ProductShowcase() {
   return (
     <section 
       id="ProductShowcase" 
-      className="py-24 md:py-32 bg-[var(--color-background)] relative overflow-hidden transition-colors duration-500"
+      className="py-24 md:py-32 bg-blue-100 relative overflow-hidden transition-colors duration-500"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-linear-to-r from-transparent via-slate-200 to-transparent" />
       
@@ -92,6 +99,7 @@ export default function ProductShowcase() {
                 <div className={`inline-flex items-center px-4 py-1.5 rounded-full text-[13px] font-black tracking-widest uppercase shadow-sm border ${
                   product.color === 'blue' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                   product.color === 'indigo' ? 'bg-indigo-50 text-indigo-600 border-indigo-100' :
+                  product.color === 'sky' ? 'bg-sky-50 text-sky-600 border-sky-100' :
                   product.color === 'purple' ? 'bg-purple-50 text-purple-600 border-purple-100' :
                   'bg-emerald-50 text-emerald-600 border-emerald-100'
                 }`}>
@@ -121,6 +129,7 @@ export default function ProductShowcase() {
                   <div className={`absolute -inset-4 rounded-4xl blur-3xl opacity-20 transition-opacity group-hover:opacity-30 ${
                     product.color === 'blue' ? 'bg-blue-400' : 
                     product.color === 'indigo' ? 'bg-indigo-400' : 
+                    product.color === 'sky' ? 'bg-sky-400' : 
                     product.color === 'purple' ? 'bg-purple-400' : 'bg-emerald-400'
                   }`} />
                   
@@ -193,40 +202,49 @@ export default function ProductShowcase() {
                         </div>
                       )}
 
-                      {/* --- SPRINTIQ PREVIEW --- */}
-                      {product.id === "sprintiq" && (
+                      {/* --- COLLECTOR PREVIEW --- */}
+                      {product.id === "collector" && (
                         <div className="space-y-4">
                           <div className="flex items-center justify-between px-2">
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-purple-600" />
-                              <span className="text-xs font-black text-slate-800">Q1 Retrospective</span>
-                            </div>
-                            <div className="flex -space-x-2">
-                              {[1,2,3,4].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-slate-200" />)}
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div className="p-3 bg-white border border-purple-100 rounded-xl shadow-sm">
-                              <div className="text-[9px] font-bold text-purple-600 mb-2 uppercase">Went Well</div>
-                              <div className="space-y-2">
-                                <div className="h-1.5 w-full bg-purple-50 rounded" />
-                                <div className="h-1.5 w-4/5 bg-purple-50 rounded" />
-                              </div>
-                            </div>
-                            <div className="p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
-                              <div className="text-[9px] font-bold text-slate-400 mb-2 uppercase">Action Items</div>
-                              <div className="flex items-center gap-2">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                                <div className="h-1.5 w-full bg-slate-100 rounded" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="bg-purple-600 p-4 rounded-xl flex items-center justify-between text-white shadow-lg shadow-purple-200">
-                             <div className="flex items-center gap-3">
-                               <MessageSquare className="w-4 h-4" />
-                               <span className="text-[11px] font-bold">12 Active Comments</span>
+                             <div className="flex items-center gap-2">
+                                <Database className="w-4 h-4 text-sky-600" />
+                                <span className="text-xs font-black text-slate-800">Pipeline Status</span>
                              </div>
-                             <ChevronRight className="w-4 h-4 opacity-50" />
+                             <div className="flex items-center gap-1 text-[10px] text-emerald-500 font-bold uppercase">
+                                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                Live
+                             </div>
+                          </div>
+                          <div className="bg-white p-4 rounded-2xl border border-sky-100 shadow-sm relative overflow-hidden">
+                             <div className="grid grid-cols-3 gap-2 mb-4">
+                                {[1,2,3].map(i => (
+                                  <div key={i} className="h-12 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center justify-center gap-1">
+                                    <div className="w-4 h-1 bg-sky-200 rounded-full" />
+                                    <div className="w-6 h-1 bg-slate-200 rounded-full" />
+                                  </div>
+                                ))}
+                             </div>
+                             <div className="relative py-2">
+                                <div className="absolute inset-0 flex items-center">
+                                  <div className="w-full border-t-2 border-dashed border-sky-100" />
+                                </div>
+                                <div className="relative flex justify-center">
+                                  <div className="bg-sky-600 p-2 rounded-lg shadow-lg">
+                                    <RefreshCw className="w-4 h-4 text-white animate-spin-slow" />
+                                  </div>
+                                </div>
+                             </div>
+                             <div className="mt-4 flex items-center justify-center gap-2">
+                                <Layers className="w-3 h-3 text-sky-400" />
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unifying 12+ Sources</span>
+                             </div>
+                          </div>
+                          <div className="bg-slate-900 p-3 rounded-xl flex items-center justify-between text-white border border-slate-800">
+                             <div className="flex items-center gap-2">
+                                <Shield className="w-3 h-3 text-sky-400" />
+                                <span className="text-[9px] font-bold uppercase">24h Recovery Window Active</span>
+                             </div>
+                             <div className="text-[10px] font-mono text-sky-400">00:00:00</div>
                           </div>
                         </div>
                       )}
@@ -270,6 +288,44 @@ export default function ProductShowcase() {
                                <ListChecks className="w-4 h-4" />
                                <span className="text-[10px] font-bold uppercase tracking-wider">98% Service Level</span>
                              </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* --- SPRINTIQ PREVIEW --- */}
+                      {product.id === "sprintiq" && (
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between px-2">
+                            <div className="flex items-center gap-2">
+                              <Users className="w-4 h-4 text-purple-600" />
+                              <span className="text-xs font-black text-slate-800">Q1 Retrospective</span>
+                            </div>
+                            <div className="flex -space-x-2">
+                              {[1,2,3,4].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-slate-200" />)}
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div className="p-3 bg-white border border-purple-100 rounded-xl shadow-sm">
+                              <div className="text-[9px] font-bold text-purple-600 mb-2 uppercase">Went Well</div>
+                              <div className="space-y-2">
+                                <div className="h-1.5 w-full bg-purple-50 rounded" />
+                                <div className="h-1.5 w-4/5 bg-purple-50 rounded" />
+                              </div>
+                            </div>
+                            <div className="p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
+                              <div className="text-[9px] font-bold text-slate-400 mb-2 uppercase">Action Items</div>
+                              <div className="flex items-center gap-2">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                                <div className="h-1.5 w-full bg-slate-100 rounded" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="bg-purple-600 p-4 rounded-xl flex items-center justify-between text-white shadow-lg shadow-purple-200">
+                             <div className="flex items-center gap-3">
+                               <MessageSquare className="w-4 h-4" />
+                               <span className="text-[11px] font-bold">12 Active Comments</span>
+                             </div>
+                             <ChevronRight className="w-4 h-4 opacity-50" />
                           </div>
                         </div>
                       )}
