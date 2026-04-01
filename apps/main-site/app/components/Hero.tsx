@@ -9,6 +9,10 @@ const sliderImages = [
   "/image1.png",
   "/image2.png",
   "/image3.png",
+  "/image4.png",
+  "/image5.png",
+  "/image6.png",
+  "/image7.png",
 ];
 
 export default function Hero() {
@@ -78,8 +82,10 @@ export default function Hero() {
             className="relative flex flex-col items-center w-full"
           >
             {/* Monitor Frame */}
-            <div className="relative z-10 bg-white p-2 rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(15,23,42,0.15)] border border-slate-100 w-full max-w-2xl">
-              <div className="w-full aspect-16/11 bg-slate-50 rounded-4xl overflow-hidden border border-slate-200 flex relative">
+            <div className="relative z-10 bg-white p-2 rounded-shadow-[0_50px_100px_-20px_rgba(37,99,235,0.15)] border border-[#DBEAFE] w-full max-w-5xl">
+    
+    {/* Inner Screen - aspect-16/10 for cinematic wide look */}
+    <div className="w-full aspect-16/10 bg-white  overflow-hidden border border-slate-200 flex relative">
                 
                 {/* 1. Sidebar Nav */}
                
