@@ -12,7 +12,7 @@ import {
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-[#F8FAFC]">
+    <main className="min-h-screen bg-blue-100">
       <Navbar />
 
       <section className="pt-24 pb-24">

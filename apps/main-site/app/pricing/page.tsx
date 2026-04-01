@@ -81,7 +81,7 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-blue-100">
       <Navbar />
 
       <section className="pt-32 pb-24">
@@ -177,7 +177,7 @@ export default function PricingPage() {
             <div className="overflow-hidden border border-slate-100 rounded-xl shadow-sm">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-slate-50/50 border-b border-slate-100">
+                  <tr className="bg-white border-b border-slate-100">
                     <th className="p-6 font-bold text-slate-900 text-sm">Features</th>
                     <th className="p-6 font-bold text-slate-900 text-sm text-center">Starter</th>
                     <th className="p-6 font-bold text-slate-900 text-sm text-center">Professional</th>
@@ -186,26 +186,26 @@ export default function PricingPage() {
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {/* Data Connectors */}
-                  <tr><td colSpan={4} className="p-4 px-6 bg-slate-50/30 font-bold text-[10px] uppercase tracking-widest text-slate-400">Data Connectors</td></tr>
+                  <tr><td colSpan={4} className="p-4 px-6 bg-white font-bold text-[10px] uppercase tracking-widest text-slate-400">Data Connectors</td></tr>
                   <tr className="hover:bg-slate-50/20 transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Data Connectors</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4 opacity-70" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                   </tr>
-                  <tr className="hover:bg-slate-50/20 transition-colors">
+                  <tr className="hover:bg-white transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Data Engine</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4 opacity-70" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                   </tr>
-                  <tr className="hover:bg-slate-50/20 transition-colors">
+                  <tr className="hover:bg-white transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Data Detection</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                   </tr>
-                  <tr className="hover:bg-slate-50/20 transition-colors">
+                  <tr className="hover:bg-white transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Data Rnx Toels</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
@@ -213,8 +213,8 @@ export default function PricingPage() {
                   </tr>
 
                   {/* AI Models */}
-                  <tr><td colSpan={4} className="p-4 px-6 bg-slate-50/30 font-bold text-[10px] uppercase tracking-widest text-slate-400">AI Models</td></tr>
-                  <tr className="hover:bg-slate-50/20 transition-colors">
+                  <tr><td colSpan={4} className="p-4 px-6 bg-white font-bold text-[10px] uppercase tracking-widest text-slate-400">AI Models</td></tr>
+                  <tr className="hover:bg-white transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Advanced AI Models</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4 opacity-70" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
@@ -234,14 +234,14 @@ export default function PricingPage() {
                   </tr>
 
                   {/* Security & Compliance */}
-                  <tr><td colSpan={4} className="p-4 px-6 bg-slate-50/30 font-bold text-[10px] uppercase tracking-widest text-slate-400">Security & Compliance</td></tr>
+                  <tr><td colSpan={4} className="p-4 px-6 bg-white font-bold text-[10px] uppercase tracking-widest text-slate-400">Security & Compliance</td></tr>
                   <tr className="hover:bg-slate-50/20 transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Security & Compliance</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
                   </tr>
-                  <tr className="hover:bg-slate-50/20 transition-colors">
+                  <tr className="hover:bg-white transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Security Grarantee</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
                     <td className="p-6 text-center"><Check className="mx-auto text-slate-400 w-4 h-4" /></td>
@@ -249,7 +249,7 @@ export default function PricingPage() {
                   </tr>
 
                   {/* Support */}
-                  <tr><td colSpan={4} className="p-4 px-6 bg-slate-50/30 font-bold text-[10px] uppercase tracking-widest text-slate-400">Support</td></tr>
+                  <tr><td colSpan={4} className="p-4 px-6 bg-white font-bold text-[10px] uppercase tracking-widest text-slate-400">Support</td></tr>
                   <tr className="hover:bg-slate-50/20 transition-colors">
                     <td className="p-6 text-slate-600 font-medium text-sm">Dedicated Support</td>
                     <td className="p-6 text-center text-slate-300 font-light">—</td>
