@@ -23,7 +23,7 @@ const products = [
     name: "Segmento Sense",
     title: "Explainable AI Enabled Data Classification",
     description: "Advanced text extraction and perimeter defense featuring client-side OCR and automated PII redaction. Experience the power of Explainable AI in every classification task.",
-    link: "/sense",
+    link: "/products/data-classification",
     color: "indigo",
   },
   {
@@ -71,7 +71,7 @@ export default function ProductShowcase() {
   return (
     <section 
       id="ProductShowcase" 
-      className="py-24 md:py-32 bg-blue-100 relative overflow-hidden transition-colors duration-500"
+      className="py-24 md:py-32 bg-slate-200 relative overflow-hidden transition-colors duration-500"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-linear-to-r from-transparent via-slate-200 to-transparent" />
       

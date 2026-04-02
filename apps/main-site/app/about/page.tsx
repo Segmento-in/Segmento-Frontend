@@ -63,11 +63,11 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-blue-100">
+    <main className="min-h-screen bg-slate-200">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden bg-blue-100">
+      <section className="pt-32 pb-24 relative overflow-hidden bg-slate-200">
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
@@ -105,7 +105,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 relative overflow-hidden bg-blue-100">
+      <section className="py-24 relative overflow-hidden bg-slate-200">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-12 tracking-tight">Mission</h2>
           <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
@@ -128,7 +128,7 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership Section */}
-      <section className="py-32 bg-blue-100">
+      <section className="py-32 bg-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 tracking-tight">Leadership</h2>
@@ -174,9 +174,15 @@ export default function AboutPage() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-[#0077b5] transition-all">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
+                   <div className="flex items-center w-full">
+  {/* Other elements like member name or role */}
+  
+
+  {/* The LinkedIn icon with ml-auto will now sit on the far right */}
+  <a href={member.linkedin} className="ml-auto ...">
+    <Linkedin className="w-4 h-4" />
+  </a>
+</div>
                   </div>
                 </div>
                 <div className="p-6">
