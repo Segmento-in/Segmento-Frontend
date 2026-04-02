@@ -195,7 +195,7 @@ export default function SolutionsPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-44 pb-24 bg-blue-100 relative overflow-hidden">
+      <section className="pt-44 pb-24 bg-slate-200 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.div
             initial="hidden"
@@ -223,7 +223,7 @@ export default function SolutionsPage() {
             <section
               key={industry.id}
               id={industry.id}
-              className={`py-28 lg:py-36 border-t border-slate-100 ${isReversed ? 'bg-[#F8FAFC]' : 'bg-blue-100'}`}
+              className={`py-28 lg:py-36 border-t border-slate-100 ${isReversed ? 'bg-[#F8FAFC]' : 'bg-slate-200'}`}
             >
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className={`grid lg:grid-cols-2 gap-16 lg:gap-24 items-start ${isReversed ? 'lg:flex-row-reverse' : ''}`}>

@@ -12,7 +12,7 @@ import {
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-blue-100">
+    <main className="min-h-screen bg-slate-200">
       <Navbar />
 
       <section className="pt-24 pb-24">
@@ -76,43 +76,34 @@ export default function ContactPage() {
             <div className="flex flex-col gap-6">
               
               {/* Main Info Card */}
-              <div className="bg-white rounded-[2rem] p-10 lg:p-14 border border-slate-100 shadow-[0_8px_40px_rgba(0,0,0,0.04)] flex-1">
-                <h2 className="text-[40px] leading-[1.1] font-bold text-[#0F172A] mb-10 tracking-tight">
-                  Trusted by Global <br /> Enterprises & CISOs
-                </h2>
-                
-                <div className="mb-14">
-                  <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Global Office Locations</h3>
-                  <div className="grid sm:grid-cols-2 gap-8">
-                    <LocationItem 
-                      icon={<MapPin className="w-5 h-5 text-blue-600" />} 
-                      city="Vishakhapatnam" 
-                      address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`} 
-                    />
-                  </div>
-                </div>
+             <div className="bg-white rounded-[2rem] p-10 lg:p-14 border border-slate-100 shadow-[0_8px_40px_rgba(0,0,0,0.04)] flex-1">
+  <h2 className="text-[40px] leading-[1.1] font-bold text-[#0F172A] mb-10 tracking-tight">
+    Trusted by Global <br /> Enterprises & CISOs
+  </h2>
+  
+  <div className="mb-14">
+    <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8">Global Office Locations</h3>
+    <div className="grid sm:grid-cols-2 gap-8">
+      <LocationItem 
+        icon={<MapPin className="w-5 h-5 text-blue-600" />} 
+        city="Vishakhapatnam" 
+        address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`} 
+      />
+    </div>
+  </div>
 
-                <div>
-                  <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-10">Trusted By</h3>
-                  
-                  <div className="grid grid-cols-4 sm:grid-cols-6 gap-y-10 gap-x-6 items-center">
-                    <BrandLogo icon={<ShieldCheck className="w-6 h-6" />} label="SOC2" />
-                    <BrandLogo icon={<CheckCircle2 className="w-6 h-6" />} label="GDPR" />
-                    <BrandLogo icon={<Command className="w-6 h-6" />} label="SNOW" />
-                    <BrandLogo icon={<Building2 className="w-6 h-6" />} label="SAP" />
-                    <BrandLogo icon={<Zap className="w-6 h-6" />} label="CORE" />
-                    <BrandLogo icon={<Globe className="w-6 h-6" />} label="NBC" />
-                    
-                    <span className="text-[12px] font-black text-slate-400 tracking-tighter">xfınity</span>
-                    <span className="text-[10px] font-black text-slate-400 tracking-wider uppercase">SAMSUNG</span>
-                    <BrandLogo icon={<Building2 className="w-5 h-5" />} label="MSFT" />
-                    <BrandLogo icon={<Shield className="w-6 h-6" />} label="SAFE" />
-                    <BrandLogo icon={<Lock className="w-6 h-6" />} label="SECURE" />
-                    <BrandLogo icon={<CheckCircle2 className="w-6 h-6" />} label="OS" />
-                  </div>
-                </div>
-              </div>
-
+  <div>
+    <h3 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Enterprise Trust</h3>
+    <div className="max-w-2xl">
+      <p className="text-slate-500 text-[15px] leading-relaxed font-medium">
+        Segmento is committed to delivering world-class data intelligence and privacy solutions. 
+        Our platform is engineered to handle the complex security, compliance, and 
+        governance needs of global enterprises, ensuring your data remains secure and 
+        actionable across every region we serve.
+      </p>
+    </div>
+  </div>
+</div>
               {/* Support Card */}
               <div className="bg-slate-50/80 rounded-[1.5rem] p-8 border border-slate-100 flex items-center gap-6 group hover:bg-white hover:shadow-lg transition-all cursor-pointer">
                 <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">

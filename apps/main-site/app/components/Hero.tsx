@@ -26,7 +26,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-blue-100">
+    <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-slate-200">
       {/* Background Glow */}
       <div 
         className="absolute top-0 right-0 w-full h-full pointer-events-none -z-10" 
@@ -119,7 +119,7 @@ export default function Hero() {
             </div>
 
             {/* Monitor Stand */}
-            <div className="w-32 h-14 bg-linear-to-b from-slate-200 to-slate-300 rounded-b-xl shadow-lg -mt-1" />
+            <div className="w-32 h-14 bg-linear-to-b from-slate-300 to-slate-400 rounded-b-xl shadow-lg -mt-1" />
             <div className="w-64 h-4 bg-slate-900/10 blur-xl rounded-full mt-2" />
           </motion.div>
         </div>
