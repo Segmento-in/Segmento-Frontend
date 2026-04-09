@@ -26,7 +26,7 @@ const reasons = [
 
 export default function Features() {
   return (
-    <section className="py-32 bg-slate-200">
+    <section className="py-32 bg-sky-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">

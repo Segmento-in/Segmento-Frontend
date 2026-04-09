@@ -26,7 +26,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-slate-200">
+    <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-sky-50">
       {/* Background Glow */}
       <div 
         className="absolute top-0 right-0 w-full h-full pointer-events-none -z-10" 
@@ -82,7 +82,7 @@ export default function Hero() {
             className="relative flex flex-col items-center w-full"
           >
             {/* Monitor Frame */}
-            <div className="relative z-10 bg-white p-2 rounded-shadow-[0_50px_100px_-20px_rgba(37,99,235,0.15)] border border-[#DBEAFE] w-full max-w-5xl">
+            <div className="relative z-10 bg-white p-2 rounded-shadow-[0_50px_100px_-20px_rgba(37,99,235,0.15)] border border-slate-100 w-full max-w-5xl">
     
     {/* Inner Screen - aspect-16/10 for cinematic wide look */}
     <div className="w-full aspect-16/10 bg-white  overflow-hidden border border-slate-200 flex relative">

@@ -12,10 +12,10 @@ import {
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-slate-200">
+    <main className="min-h-screen bg-sky-50">
       <Navbar />
 
-      <section className="pt-24 pb-24">
+      <section className="pt-24 pb-24 bg-sky-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-stretch">
             
