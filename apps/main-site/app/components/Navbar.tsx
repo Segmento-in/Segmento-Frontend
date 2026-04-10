@@ -29,15 +29,15 @@ const navLinks: NavLink[] = [
       { name: "Segmento Sense", href: "/products/data-classification" },
       {
         name: "Segmento Resolve",
-        href: "https://segmento-resolve.vercel.app/",
+        href: "/products/segmento-resolve",
         isExternal: true,
       },
       {
         name: "Segmento SprintIQ",
-        href: "https://segmento-retro-omega.vercel.app/",
+        href: "/products/segmento-sprintq",
         isExternal: true,
       },
-      { name: "Segmento Collect (Upcoming)", href: "#", isUpcoming: true },
+      { name: "Segmento Collect ", href: "/products/segmento-collect" },
       { name: "Segmento Enrich (Upcoming)", href: "#", isUpcoming: true },
     ],
   },
