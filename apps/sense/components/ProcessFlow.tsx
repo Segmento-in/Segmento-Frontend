@@ -94,13 +94,13 @@ export function ProcessFlow() {
                 </div>
 
                 {/* Circular Process Wrapper */}
-                <div className="relative h-[700px] w-full max-w-[700px] mx-auto flex items-center justify-center">
+                <div className="relative h-[500px] sm:h-[600px] lg:h-[700px] w-full max-w-[500px] sm:max-w-[600px] lg:max-w-[700px] mx-auto flex items-center justify-center">
                     
                     {/* Ultra-Thin Precision Trace */}
                     <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(15, 23, 42, 0.03)" strokeWidth="0.1" />
+                        <circle cx="50" cy="50" r="32" fill="none" stroke="rgba(15, 23, 42, 0.03)" strokeWidth="0.1" />
                         <motion.circle
-                            cx="50" cy="50" r="42"
+                            cx="50" cy="50" r="32"
                             fill="none"
                             stroke="url(#premiumLine)"
                             strokeWidth="0.5"
@@ -126,7 +126,7 @@ export function ProcessFlow() {
                                 variants={cardVariants}
                                 className={`absolute ${step.position} z-20 group`}
                             >
-                                <div className="relative w-64 h-64 rounded-full flex items-center justify-center p-8 transition-all duration-500 hover:-translate-y-2">
+                                <div className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full flex items-center justify-center p-4 sm:p-6 lg:p-8 transition-all duration-500 hover:-translate-y-2">
                                     
                                     {/* Glass Body */}
                                     <div className="absolute inset-0 rounded-full bg-white border border-slate-200 shadow-[0_15px_40px_rgba(0,0,0,0.03)] group-hover:border-indigo-400/50 group-hover:shadow-2xl group-hover:shadow-indigo-500/10 transition-all duration-500" />
@@ -139,21 +139,21 @@ export function ProcessFlow() {
 
                                     {/* Card Content */}
                                     <div className="relative z-10 flex flex-col items-center text-center">
-                                        <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform`}>
-                                            <Icon className="h-6 w-6 text-white" />
+                                        <div className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-gradient-to-br ${step.color} flex items-center justify-center mb-3 sm:mb-4 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform`}>
+                                            <Icon className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-white" />
                                         </div>
 
-                                        <h3 className="text-base font-black text-slate-950 mb-1 tracking-tight">
+                                        <h3 className="text-sm sm:text-base font-black text-slate-950 mb-1 tracking-tight">
                                             {step.title}
                                         </h3>
-                                        <p className="text-[10px] text-slate-500 font-bold leading-relaxed max-w-[150px]">
+                                        <p className="text-[9px] sm:text-[10px] text-slate-500 font-bold leading-relaxed max-w-[120px] sm:max-w-[140px] lg:max-w-[150px]">
                                             {step.description}
                                         </p>
                                     </div>
 
                                     {/* Step Label */}
-                                    <div className="absolute top-6 right-12">
-                                        <span className="text-[8px] font-black text-slate-950/20 tracking-tighter uppercase">Step 0{idx + 1}</span>
+                                    <div className="absolute top-4 right-6 sm:top-6 sm:right-8 lg:top-6 lg:right-12">
+                                        <span className="text-[7px] sm:text-[8px] font-black text-slate-950/20 tracking-tighter uppercase">Step 0{idx + 1}</span>
                                     </div>
                                 </div>
                             </motion.div>
