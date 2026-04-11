@@ -38,7 +38,7 @@ const navLinks: NavLink[] = [
         isExternal: true,
       },
       { name: "Segmento Collect ", href: "/products/segmento-collect" },
-      { name: "Segmento Enrich (Upcoming)", href: "#", isUpcoming: true },
+      
     ],
   },
   {

@@ -53,14 +53,26 @@ const nextConfig: NextConfig = {
           ? 'http://127.0.0.1:3002'
           : 'https://sense.segmento.in')}/products/data-classification/:path*`,
       },
+    ];
+  },
 
-      // ✅ SEGMENTO RESOLVE (DEV + PROD READY)
+  // ✅ ADD THIS PART
+  async redirects() {
+    return [
       {
-        source: '/products/segmento-resolve/:path*',
-        destination:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:3001/products/segmento-resolve/:path*'
-            : 'https://segmento-resolve.vercel.app/products/segmento-resolve/:path*',
+        source: '/products/segmento-resolve',
+        destination: 'https://segmento-resolve.vercel.app',
+        permanent: false,
+      },
+      {
+        source: '/products/segmento-sprintq',
+        destination: 'https://segmento-retro-omega.vercel.app',
+        permanent: false,
+      },
+      {
+        source: '/products/segmento-collect',
+        destination: 'https://segmento-collect.onrender.com',
+        permanent: false,
       },
     ];
   },
