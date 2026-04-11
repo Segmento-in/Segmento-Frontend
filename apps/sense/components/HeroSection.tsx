@@ -77,20 +77,20 @@ export function HeroSection() {
 
                             </p>
                              
-                            <div className="flex flex-row flex-nowrap gap-4">
+                            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
     {/* First Button: Deploy Sense */}
-    <a href="/products/data-classification/demo" className="block">
-        <Button className="h-16 w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
+    <a href="/products/data-classification/demo" className="block w-full sm:w-auto">
+        <Button className="h-16 w-full sm:w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
             <MessageSquareText className="w-6 h-5 text-blue-400" />
             <span className="text-sm">Demo</span>
         </Button>
     </a>
 
     {/* Second Button: Engineering Docs */}
-   <Link href="/contact" className="block">
+   <Link href="/contact" className="block w-full sm:w-auto">
     <Button 
         variant="outline" 
-        className="h-16 w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
+        className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
     >
         <Zap className="w-6 h-5 text-amber-500" />
         <span className="text-sm">View Docs</span>
@@ -101,7 +101,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Right: Auto-Cycling Rotating Graph */}
-                    <div className="flex-1 relative w-full h-[650px] flex items-center justify-center">
+                    <div className="flex-1 relative w-full h-[420px] sm:h-[520px] lg:h-[650px] flex items-center justify-center">
                         
                         {/* Slow Rotating Container */}
                         <motion.div 
