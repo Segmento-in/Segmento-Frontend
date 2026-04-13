@@ -81,12 +81,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={`${link.label}-${link.href}`}>
-                  <Link
+                  <a
                     href={link.href}
                     className="text-sm text-gray-200 hover:text-white transition-colors"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
