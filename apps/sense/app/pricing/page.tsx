@@ -21,6 +21,7 @@ const plans: Plan[] = [
     {
         name: "Starter",
         price: "Free",
+        period: "",
         description: "Perfect for testing and small projects",
         features: [
             "Up to 1,000 records/month",
@@ -33,9 +34,14 @@ const plans: Plan[] = [
         href: "/contact",
         highlighted: false,
     },
+<<<<<<< Updated upstream
+=======
+   
+>>>>>>> Stashed changes
     {
         name: "Enterprise",
         price: "Custom",
+        period: "",
         description: "For large-scale deployments",
         features: [
             "Unlimited records",
@@ -78,7 +84,7 @@ function PricingPage() {
     return (
         <div className="min-h-screen bg-white text-slate-900 py-24 relative selection:bg-blue-100 font-sans">
             {/* Background Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.4] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+            <div className="absolute inset-0 opacity-[0.4] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
 
             <div className="container relative mx-auto px-4">
                 {/* Header Section */}
@@ -132,7 +138,7 @@ function PricingPage() {
                                     </div>
                                 </CardHeader>
 
-                                <CardContent className="flex flex-col flex-grow pt-0 px-8 pb-8">
+                                <CardContent className="flex flex-col grow pt-0 px-8 pb-8">
                                     <div className="h-px w-full bg-slate-100 mb-8" />
                                     <ul className="space-y-4 mb-10 grow">
                                         {plan.features.map((feature, featureIdx) => (

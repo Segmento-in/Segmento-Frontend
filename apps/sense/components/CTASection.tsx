@@ -80,7 +80,11 @@ export default function CTASection() {
 
                         {/* Professional Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<<<<<<< Updated upstream
     <a href="/contact" className="w-full sm:w-auto">
+=======
+    <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+>>>>>>> Stashed changes
         <Button 
             variant="outline"
             className="group relative w-full sm:w-auto h-12 px-8 rounded-xl overflow-hidden

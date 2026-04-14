@@ -61,15 +61,15 @@ const faqs = [
 
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
     <main className="min-h-screen bg-sky-50">
       <Navbar />
 
-      <section className="pt-32 pb-24 bg-sky-50">
+      <section className="pt-32 pb-16 bg-sky-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight"
@@ -77,7 +77,6 @@ export default function PricingPage() {
             Transparent Pricing for <br /> Enterprise Scale
           </motion.h1>
 
-          {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-6 mb-20 text-sm font-bold">
             <span className={!isAnnual ? "text-slate-900" : "text-slate-500"}>Monthly Billing</span>
             <button
@@ -93,75 +92,105 @@ export default function PricingPage() {
             <span className={isAnnual ? "text-slate-900" : "text-slate-500"}>Annual (Save 20%)</span>
           </div>
 
-          {/* ✅ CENTERED 2 CARDS */}
-          <div className="flex justify-center">
-            <div className="grid md:grid-cols-2 gap-8 mb-32 max-w-4xl w-full">
-              {tiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className={`relative rounded-3xl p-10 flex flex-col text-left transition-all duration-300 ${
+          <div className="grid md:grid-cols-2 gap-8 mb-28 items-stretch max-w-4xl mx-auto">
+            {tiers.map((tier) => (
+              <div
+                key={tier.name}
+                className={`relative rounded-3xl p-10 flex flex-col text-left transition-all duration-300 ${
+                  tier.theme === "navy"
+                    ? "bg-slate-800 text-white shadow-2xl border-0"
+                    : "bg-white border border-slate-300 shadow-xl"
+                }`}
+              >
+                <h3 className={`text-2xl font-black mb-2 ${tier.theme === "navy" ? "text-white" : "text-slate-900"}`}>
+                  {tier.name}
+                </h3>
+                <p className={`text-sm mb-8 leading-relaxed font-medium h-10 ${tier.theme === "navy" ? "text-slate-300" : "text-slate-500"}`}>
+                  {tier.description}
+                </p>
+
+                <div className="flex items-baseline gap-2 mb-8">
+                  <span className={`text-5xl font-black ${tier.theme === "navy" ? "text-white" : "text-slate-900"}`}>
+                    {typeof tier.price === "number" ? `$${isAnnual ? Math.floor(tier.price * 0.8) : tier.price}` : tier.price}
+                  </span>
+                  {typeof tier.price === "number" && (
+                    <span className={`text-lg font-bold ${tier.theme === "navy" ? "text-slate-400" : "text-slate-400"}`}>
+                      /mo
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-4 mb-12">
+                  {tier.features.map((feature, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className={`mt-1 p-0.5 rounded-full ${tier.theme === "navy" ? "bg-blue-500/20" : "bg-blue-50"}`}>
+                        <Check className={`w-3.5 h-3.5 ${tier.theme === "navy" ? "text-blue-400" : "text-[#2563EB]"}`} />
+                      </div>
+                      <span className={`text-[14px] font-semibold ${tier.theme === "navy" ? "text-slate-200" : "text-slate-700"}`}>
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  className={`w-full py-5 px-6 rounded-2xl font-black text-sm uppercase tracking-wider transition-all hover:-translate-y-1 active:scale-[0.98] ${
                     tier.theme === "navy"
-                      ? "bg-slate-800 text-white shadow-2xl border-0"
-                      : "bg-white border border-slate-300 shadow-xl"
+                      ? "bg-blue-600 text-white hover:bg-blue-500 shadow-lg"
+                      : "bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300"
                   }`}
                 >
-                  <h3 className={`text-2xl font-black mb-2 ${tier.theme === "navy" ? "text-white" : "text-slate-900"}`}>
-                    {tier.name}
-                  </h3>
+                  {tier.cta}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <p className={`text-sm mb-8 leading-relaxed font-medium h-10 ${
-                    tier.theme === "navy" ? "text-slate-300" : "text-slate-500"
-                  }`}>
-                    {tier.description}
-                  </p>
-
-                  <div className="flex items-baseline gap-2 mb-8">
-                    <span className={`text-5xl font-black ${
-                      tier.theme === "navy" ? "text-white" : "text-slate-900"
-                    }`}>
-                      {typeof tier.price === "number"
-                        ? `$${isAnnual ? Math.floor(tier.price * 0.8) : tier.price}`
-                        : tier.price}
-                    </span>
-                    {typeof tier.price === "number" && (
-                      <span className="text-lg font-bold text-slate-400">/mo</span>
-                    )}
-                  </div>
-
-                  <div className="flex-1 space-y-4 mb-12">
-                    {tier.features.map((feature, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <div className={`mt-1 p-0.5 rounded-full ${
-                          tier.theme === "navy" ? "bg-blue-500/20" : "bg-blue-50"
-                        }`}>
-                          <Check className={`w-3.5 h-3.5 ${
-                            tier.theme === "navy" ? "text-blue-400" : "text-[#2563EB]"
-                          }`} />
-                        </div>
-                        <span className={`text-[14px] font-semibold ${
-                          tier.theme === "navy" ? "text-slate-200" : "text-slate-700"
-                        }`}>
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    className={`w-full py-5 px-6 rounded-2xl font-black text-sm uppercase tracking-wider ${
-                      tier.theme === "navy"
-                        ? "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-900/40"
-                        : "bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300"
-                    }`}
-                  >
-                    {tier.cta}
-                  </button>
-                </div>
-              ))}
-            </div>
+      <section className="py-16 bg-sky-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-lg text-slate-600">
+              Everything you need to know about our pricing and services.
+            </p>
           </div>
 
-          {/* बाकी code unchanged */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-slate-50 border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-100 transition-colors"
+                >
+                  <span className="text-2xl font-black text-slate-900">{faq.question}</span>
+                  {openFaq === index ? (
+                    <ChevronUp className="w-5 h-5 text-slate-500" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-slate-500" />
+                  )}
+                </button>
+                <AnimatePresence>
+                  {openFaq === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 pt-2">
+                        <p className="text-sm text-slate-600 leading-relaxed">{faq.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
