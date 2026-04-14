@@ -34,10 +34,7 @@ const plans: Plan[] = [
         href: "https://segmento.in/contact",
         highlighted: false,
     },
-<<<<<<< Updated upstream
-=======
    
->>>>>>> Stashed changes
     {
         name: "Enterprise",
         price: "Custom",
