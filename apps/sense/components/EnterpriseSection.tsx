@@ -82,11 +82,7 @@ export function EnterpriseSection() {
                         </p>
 
                         <div className="flex flex-wrap gap-3 mb-10">
-<<<<<<< Updated upstream
-                            <a href="/contact">
-=======
                             <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer">
->>>>>>> Stashed changes
                                 <button className="bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 h-14 rounded-xl text-sm font-black shadow-xl shadow-indigo-100 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center">
                                     Contact sales
                                 </button>

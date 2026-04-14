@@ -31,7 +31,7 @@ const plans: Plan[] = [
             "Community support",
         ],
         cta: "Get started",
-        href: "/contact",
+        href: "https://segmento.in/contact",
         highlighted: false,
     },
 <<<<<<< Updated upstream
@@ -54,7 +54,7 @@ const plans: Plan[] = [
             "Custom integrations",
         ],
         cta: "Contact sales",
-        href: "/contact",
+        href: "https://segmento.in/contact",
         highlighted: true,
     },
 ]

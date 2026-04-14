@@ -73,27 +73,10 @@ export function SenseNavbar() {
                         );
 
                         return (
-<<<<<<< Updated upstream
-                            <div key={link.name} className="relative">
-                                {link.isExternal ? (
-                                    <a href={link.href} className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
-                                        isActive ? "text-white" : "text-slate-400 hover:text-white"
-                                    }`}>
-                                        {link.name}
-                                    </a>
-                                ) : (
-                                    <Link href={link.href} className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
-                                        isActive ? "text-white" : "text-slate-400 hover:text-white"
-                                    }`}>
-                                        {link.name}
-                                    </Link>
-                                )}
-=======
                             <div key={link.name} className="relative flex items-center">
                                 <Link href={link.href}>
                                     {content}
                                 </Link>
->>>>>>> Stashed changes
                                 {isActive && (
                                     <motion.div
                                         layoutId="nav-pill"
@@ -160,24 +143,6 @@ export function SenseNavbar() {
                         >
                             <div className="mt-20 flex flex-col gap-2">
                                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-4 pl-1">Menu</p>
-<<<<<<< Updated upstream
-                                {navLinks.map((link) => (
-                                    link.isExternal ? (
-                                        <a 
-                                            key={link.name} 
-                                            href={link.href} 
-                                            onClick={() => setMobileMenuOpen(false)}
-                                            className={`flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group`}
-                                        >
-                                            <span className={`text-xl font-bold tracking-tight transition-colors ${
-                                                pathname === link.href ? "text-blue-500" : "text-slate-300"
-                                            }`}>
-                                            {link.name}
-                                        </span>
-                                        <ChevronRight size={18} className="text-slate-700 group-hover:text-blue-500 transition-colors" />
-                                    {link.isExternal ? </a> : </Link>}
-                                ))}
-=======
                                 {navLinks.map((link) => {
                                     const linkStyle = "flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group";
                                     const textStyle = `text-xl font-bold tracking-tight transition-colors ${
@@ -197,7 +162,6 @@ export function SenseNavbar() {
                                         </Link>
                                     );
                                 })}
->>>>>>> Stashed changes
                             </div>
 
                             <div className="mt-auto flex flex-col gap-4">
