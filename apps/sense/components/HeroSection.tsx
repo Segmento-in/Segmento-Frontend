@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/ui/button" 
 import { MessageSquareText, Zap, ShieldCheck, Activity, Lock, Database, Globe } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts"
-import Link from "next/link"
 
 const data = [
     { name: "Discovery", value: 35, color: "#2563EB", icon: <Activity className="w-5 h-5" /> }, // Blue
@@ -87,7 +86,7 @@ export function HeroSection() {
     </a>
 
     {/* Second Button: Engineering Docs */}
-   <Link href="/contact" className="block w-full sm:w-auto">
+   <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer" className="block w-full sm:w-auto">
     <Button 
         variant="outline" 
         className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
@@ -95,7 +94,7 @@ export function HeroSection() {
         <Zap className="w-6 h-5 text-amber-500" />
         <span className="text-sm">View Docs</span>
     </Button>
-</Link>
+</a>
 </div>
                         </motion.div>
                     </div>

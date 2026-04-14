@@ -122,7 +122,7 @@ export function Header() {
 
             <Link href="/pricing" className={`${navItem} ${hoverEffect}`}>Pricing</Link>
             <Link href="/careers" className={`${navItem} ${hoverEffect}`}>Careers</Link>
-            <Link href="/contact" className={`${navItem} ${hoverEffect}`}>Contact</Link>
+            <a href="/contact" className={`${navItem} ${hoverEffect}`}>Contact</a>
           </nav>
 
           {/* ================= MOBILE TOGGLE ================= */}
@@ -215,7 +215,7 @@ export function Header() {
 
           <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block">Pricing</Link>
           <Link href="/careers" onClick={() => setMobileOpen(false)} className="block">Careers</Link>
-          <Link href="/contact" onClick={() => setMobileOpen(false)} className="block">Contact</Link>
+          <a href="/contact" onClick={() => setMobileOpen(false)} className="block">Contact</a>
         </div>
       )}
     </header>

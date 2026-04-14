@@ -4,7 +4,6 @@ import { Button } from "@/ui/button"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Sparkles, ArrowRight, Zap, Shield, CheckCircle2 } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
-import Link from "next/link"
 export default function CTASection() {
     const [isMounted, setIsMounted] = useState(false)
     const sectionRef = useRef(null)
@@ -81,7 +80,7 @@ export default function CTASection() {
 
                         {/* Professional Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-    <Link href="/contact" className="w-full sm:w-auto">
+    <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
         <Button 
             variant="outline"
             className="group relative w-full sm:w-auto h-12 px-8 rounded-xl overflow-hidden
@@ -97,7 +96,7 @@ export default function CTASection() {
             
             <ArrowRight className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 text-blue-400" />
         </Button>
-    </Link>
+    </a>
 </div>
                         {/* Trust Markers */}
                         <div className="mt-12 pt-8 border-t border-slate-100 flex flex-wrap justify-center gap-x-8 gap-y-3">

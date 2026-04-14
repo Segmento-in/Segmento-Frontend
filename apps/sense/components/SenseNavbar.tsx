@@ -28,7 +28,6 @@ export function SenseNavbar() {
         { name: "Home", href: "/" },
         { name: "Compare", href: "/#comparison-table" },
         { name: "Pricing", href: "/pricing" },
-        { name: "Contact", href: "/contact", isExternal: true },
     ];
 
     if (!mounted) return <div className="h-16 bg-[#020617]" />;
@@ -36,7 +35,7 @@ export function SenseNavbar() {
     return (
         <nav className="fixed top-0 w-full z-[100] bg-[#020617] lg:bg-[#020617]/80 lg:backdrop-blur-xl border-b border-white/[0.04] py-4">
             <div className="container mx-auto px-6 flex items-center justify-between">
-                
+
                 {/* LOGO SECTION */}
                 <Link href="/" className="flex items-center gap-3 group whitespace-nowrap z-[110]">
                     <div className="relative">
@@ -65,12 +64,18 @@ export function SenseNavbar() {
                 <div className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.08] rounded-full p-1 relative">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
+                        const content = (
+                            <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
+                                isActive ? "text-white" : "text-slate-400 hover:text-white"
+                            }`}>
+                                {link.name}
+                            </span>
+                        );
+
                         return (
-                            <div key={link.name} className="relative">
-                                <Link href={link.href} className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
-                                    isActive ? "text-white" : "text-slate-400 hover:text-white"
-                                }`}>
-                                    {link.name}
+                            <div key={link.name} className="relative flex items-center">
+                                <Link href={link.href}>
+                                    {content}
                                 </Link>
                                 {isActive && (
                                     <motion.div
@@ -96,11 +101,21 @@ export function SenseNavbar() {
                             <ArrowUpRight size={14} strokeWidth={3} />
                         </motion.button>
                     </Link>
+                    <a href="https://segmento.in" target="_blank" rel="noopener noreferrer">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-transparent border border-white/20 text-white px-5 py-2 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2 hover:bg-white/10 transition-colors"
+                        >
+                            <ArrowLeft size={14} />
+                            Back to Segmento
+                        </motion.button>
+                    </a>
                 </div>
 
                 {/* MOBILE TOGGLE */}
-                <button 
-                    className="lg:hidden z-[110] text-white p-2.5 bg-white/5 rounded-xl border border-white/10 active:scale-90 transition-all" 
+                <button
+                    className="lg:hidden z-[110] text-white p-2.5 bg-white/5 rounded-xl border border-white/10 active:scale-90 transition-all"
                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 >
                     {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -111,15 +126,15 @@ export function SenseNavbar() {
             <AnimatePresence>
                 {mobileMenuOpen && (
                     <>
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setMobileMenuOpen(false)}
                             className="fixed inset-0 bg-black/80 backdrop-blur-md z-[101] lg:hidden"
                         />
-                        
-                        <motion.div 
+
+                        <motion.div
                             initial={{ x: "100%" }}
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
@@ -128,21 +143,25 @@ export function SenseNavbar() {
                         >
                             <div className="mt-20 flex flex-col gap-2">
                                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-4 pl-1">Menu</p>
-                                {navLinks.map((link) => (
-                                    <Link 
-                                        key={link.name} 
-                                        href={link.href} 
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className={`flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group`}
-                                    >
-                                        <span className={`text-xl font-bold tracking-tight transition-colors ${
-                                            pathname === link.href ? "text-blue-500" : "text-slate-300"
-                                        }`}>
-                                            {link.name}
-                                        </span>
-                                        <ChevronRight size={18} className="text-slate-700 group-hover:text-blue-500 transition-colors" />
-                                    </Link>
-                                ))}
+                                {navLinks.map((link) => {
+                                    const linkStyle = "flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group";
+                                    const textStyle = `text-xl font-bold tracking-tight transition-colors ${
+                                        pathname === link.href ? "text-blue-500" : "text-slate-300"
+                                    }`;
+
+                                    const content = (
+                                        <>
+                                            <span className={textStyle}>{link.name}</span>
+                                            <ChevronRight size={18} className="text-slate-700 group-hover:text-blue-500 transition-colors" />
+                                        </>
+                                    );
+
+                                    return (
+                                        <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className={linkStyle}>
+                                            {content}
+                                        </Link>
+                                    );
+                                })}
                             </div>
 
                             <div className="mt-auto flex flex-col gap-4">
@@ -152,9 +171,9 @@ export function SenseNavbar() {
                                         <ArrowUpRight size={20} strokeWidth={3} />
                                     </button>
                                 </Link>
-                                
-                                <Link 
-                                    href={backUrl} 
+
+                                <Link
+                                    href={backUrl}
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center justify-center gap-2 text-slate-500 font-bold uppercase tracking-widest text-[10px] py-4 hover:text-white transition-colors"
                                 >
