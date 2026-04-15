@@ -22,7 +22,7 @@ const footerLinks = [
       { name: "Segmento Resolve", href: "/#resolve" },
       { name: "Segmento SprintIQ", href: "/#sprint" },
       { name: "Segmento Collect", href: "/#collect" },
-      { name: "Segmento Enrich", href: "/#enrich" },
+      
     ],
   },
   {
