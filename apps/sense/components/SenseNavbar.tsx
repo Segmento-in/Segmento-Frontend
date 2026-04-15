@@ -22,7 +22,7 @@ export function SenseNavbar() {
 
     const isInsideSense = pathname === "/pricing" || pathname?.includes('/demo');
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
-    const backText = isInsideSense ? "Back to Sense" : "Back to Segmento.in";
+    const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
     const navLinks = [
         { name: "Home", href: "/" },
@@ -64,18 +64,14 @@ export function SenseNavbar() {
                 <div className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.08] rounded-full p-1 relative">
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
-                        const content = (
-                            <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
-                                isActive ? "text-white" : "text-slate-400 hover:text-white"
-                            }`}>
-                                {link.name}
-                            </span>
-                        );
-
                         return (
                             <div key={link.name} className="relative flex items-center">
                                 <Link href={link.href}>
-                                    {content}
+                                    <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold transition-all ${
+                                        isActive ? "text-white" : "text-slate-400 hover:text-white"
+                                    }`}>
+                                        {link.name}
+                                    </span>
                                 </Link>
                                 {isActive && (
                                     <motion.div
@@ -90,25 +86,30 @@ export function SenseNavbar() {
                 </div>
 
                 {/* DESKTOP ACTIONS */}
-                <div className="hidden md:flex items-center gap-6">
+                <div className="hidden md:flex items-center gap-3">
                     <Link href="/demo">
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-white text-[#020617] px-5 py-2 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2"
+                            whileHover={{ scale: 1.03, y: -1 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="bg-white text-[#020617] px-6 py-2.5 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2"
                         >
                             TRY FOR FREE
                             <ArrowUpRight size={14} strokeWidth={3} />
                         </motion.button>
                     </Link>
-                    <a href="https://segmento.in" target="_blank" rel="noopener noreferrer">
+                    
+                    {/* ENHANCED HIGHLIGHTED BACK BUTTON */}
+                    <a href={backUrl} className="relative group">
+                        {/* Animated background glow */}
+                        <div className="absolute inset-0 bg-blue-500 rounded-xl blur-md opacity-20 group-hover:opacity-50 transition duration-500"></div>
+                        
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-transparent border border-white/20 text-white px-5 py-2 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2 hover:bg-white/10 transition-colors"
+                            whileHover={{ scale: 1.03, y: -1 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="relative bg-blue-600 text-white px-6 py-2.5 rounded-xl text-[11px] font-black flex items-center gap-2 shadow-[0_0_20px_rgba(37,99,235,0.3)] border border-blue-400/30 group-hover:bg-blue-500 transition-all"
                         >
-                            <ArrowLeft size={14} />
-                            Back to Segmento
+                            <ArrowLeft size={14} strokeWidth={3} className="group-hover:-translate-x-1 transition-transform" />
+                            {backText}
                         </motion.button>
                     </a>
                 </div>
@@ -143,43 +144,39 @@ export function SenseNavbar() {
                         >
                             <div className="mt-20 flex flex-col gap-2">
                                 <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-4 pl-1">Menu</p>
-                                {navLinks.map((link) => {
-                                    const linkStyle = "flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group";
-                                    const textStyle = `text-xl font-bold tracking-tight transition-colors ${
-                                        pathname === link.href ? "text-blue-500" : "text-slate-300"
-                                    }`;
-
-                                    const content = (
-                                        <>
-                                            <span className={textStyle}>{link.name}</span>
-                                            <ChevronRight size={18} className="text-slate-700 group-hover:text-blue-500 transition-colors" />
-                                        </>
-                                    );
-
-                                    return (
-                                        <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className={linkStyle}>
-                                            {content}
-                                        </Link>
-                                    );
-                                })}
+                                {navLinks.map((link) => (
+                                    <Link 
+                                        key={link.name} 
+                                        href={link.href} 
+                                        onClick={() => setMobileMenuOpen(false)} 
+                                        className="flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group"
+                                    >
+                                        <span className={`text-xl font-bold tracking-tight transition-colors ${
+                                            pathname === link.href ? "text-blue-500" : "text-slate-300"
+                                        }`}>
+                                            {link.name}
+                                        </span>
+                                        <ChevronRight size={18} className="text-slate-700 group-hover:text-blue-500 transition-colors" />
+                                    </Link>
+                                ))}
                             </div>
 
                             <div className="mt-auto flex flex-col gap-4">
                                 <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
-                                    <button className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(37,99,235,0.2)] active:scale-95 transition-transform flex items-center justify-center gap-3">
+                                    <button className="w-full bg-white text-[#020617] py-5 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-transform flex items-center justify-center gap-3">
                                         TRY FOR FREE
                                         <ArrowUpRight size={20} strokeWidth={3} />
                                     </button>
                                 </Link>
 
-                                <Link
+                                <a
                                     href={backUrl}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="flex items-center justify-center gap-2 text-slate-500 font-bold uppercase tracking-widest text-[10px] py-4 hover:text-white transition-colors"
+                                    className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg shadow-[0_10px_30px_rgba(37,99,235,0.2)] active:scale-95 transition-transform flex items-center justify-center gap-3"
                                 >
-                                    <ArrowLeft size={12} />
+                                    <ArrowLeft size={20} strokeWidth={3} />
                                     {backText}
-                                </Link>
+                                </a>
                             </div>
                         </motion.div>
                     </>
