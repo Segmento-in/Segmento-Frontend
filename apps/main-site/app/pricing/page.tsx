@@ -74,23 +74,10 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight"
           >
-            Transparent Pricing for <br /> Enterprise Scale
+            Transparent Pricing 
           </motion.h1>
 
-          <div className="flex items-center justify-center space-x-6 mb-20 text-sm font-bold">
-            <span className={!isAnnual ? "text-slate-900" : "text-slate-500"}>Monthly Billing</span>
-            <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="w-14 h-7 bg-white rounded-full relative p-1 shadow-inner border border-slate-300"
-            >
-              <div
-                className={`w-5 h-5 bg-[#2563EB] rounded-full shadow-md transition-transform duration-300 ${
-                  isAnnual ? "translate-x-7" : "translate-x-0"
-                }`}
-              />
-            </button>
-            <span className={isAnnual ? "text-slate-900" : "text-slate-500"}>Annual (Save 20%)</span>
-          </div>
+          
 
           <div className="grid md:grid-cols-2 gap-8 mb-28 items-stretch max-w-4xl mx-auto">
             {tiers.map((tier) => (
@@ -166,9 +153,9 @@ export default function PricingPage() {
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-100 transition-colors"
                 >
-                  <span className="text-2xl font-black text-slate-900">{faq.question}</span>
+                  <span className="text-lg font-black text-slate-900">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-slate-500" />
+                    <ChevronUp className="w-3 h-3 text-slate-500" />
                   ) : (
                     <ChevronDown className="w-5 h-5 text-slate-500" />
                   )}
