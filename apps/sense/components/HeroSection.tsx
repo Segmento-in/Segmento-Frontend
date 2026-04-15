@@ -86,8 +86,12 @@ export function HeroSection() {
     </a>
 
     {/* Second Button: Engineering Docs */}
-   <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer" className="block w-full sm:w-auto">
-    <Button 
+<a
+  href="https://www.segmento.in/contact"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="block w-full sm:w-auto"
+>    <Button 
         variant="outline" 
         className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
     >
