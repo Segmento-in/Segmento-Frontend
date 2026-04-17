@@ -50,7 +50,7 @@ export default function Hero() {
               <span className="text-[#2563EB]">Data Solutions</span> <br /> 
             </h1>
             <p className="text-[18px] lg:text-[20px] text-slate-500 mb-10 max-w-lg leading-relaxed font-medium">
-              Segmento delivers cutting-edge AI enabled Data products that solve real enterprise challenges. From real-time data intelligence to advanced data security solutions for global organizations.
+              Segmento delivers cutting-edge AI enabled Data products that solve real enterprise challenges. From real-time data intelligence to advanced data security solutions for global organisations.
             </p>
             
             <div className="flex flex-wrap gap-4">
