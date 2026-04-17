@@ -181,7 +181,12 @@ export function NavBar() {
         className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85 flex items-center gap-2"
     >
         <ArrowLeft size={10} />
-        Back to Segmento
+
+        {/* Mobile */}
+        <span className="sm:hidden">Back</span>
+
+        {/* Desktop / larger screens */}
+        <span className="hidden sm:inline">Back to Segmento</span>
     </button>
 </a>
                     
