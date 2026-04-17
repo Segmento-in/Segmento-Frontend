@@ -10,6 +10,7 @@ type Message = {
 export default function Chatbot() {
     const [open, setOpen] = useState(false);
     const [showIntro, setShowIntro] = useState(true);
+    const [isDismissed, setIsDismissed] = useState(false); // New state to handle permanent close
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [botTyping, setBotTyping] = useState(false);
@@ -56,6 +57,9 @@ export default function Chatbot() {
         }, 900);
     };
 
+    // If the user dismissed the bot, don't render anything
+    if (isDismissed) return null;
+
     return (
         <>
             {/* INTRO DIALOGUE */}
@@ -71,9 +75,12 @@ export default function Chatbot() {
                         w-64
                         border border-white/10
                     ">
-                        {/* Close */}
+                        {/* Close Button - Now dismisses everything */}
                         <button
-                            onClick={() => setShowIntro(false)}
+                            onClick={() => {
+                                setShowIntro(false);
+                                setIsDismissed(true);
+                            }}
                             className="absolute top-2 right-2 text-white/60 text-sm hover:text-white"
                         >
                             ✕
@@ -96,7 +103,6 @@ export default function Chatbot() {
                         <p className="mt-4 text-sm font-semibold text-slate-100">
                             I am <span className="font-bold">Segmento Bot</span>
                         </p>
-                        {/* THEME BLUE APPLIED HERE */}
                         <p className="text-xs text-[#2563EB] font-bold mt-1">
                             Ask me anything ✨
                         </p>
@@ -165,7 +171,7 @@ export default function Chatbot() {
                                 <div
                                     className={`px-4 py-3 rounded-2xl max-w-[80%] whitespace-pre-line shadow-sm text-sm font-medium ${
                                         msg.from === "user"
-                                            ? "bg-[#2563EB] text-white rounded-br-sm" // THEME BLUE FOR USER
+                                            ? "bg-[#2563EB] text-white rounded-br-sm" 
                                             : "bg-black text-white rounded-bl-sm"
                                     }`}
                                 >
