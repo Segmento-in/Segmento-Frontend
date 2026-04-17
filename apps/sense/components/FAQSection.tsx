@@ -140,7 +140,10 @@ export default function FAQSection() {
                                     <p className="text-xs text-slate-500 font-medium">We're here to help you secure your data.</p>
                                 </div>
                             </div>
-                            <a href="https://segmento.in/contact" target="_blank" rel="noopener noreferrer">
+                            <a
+  href="https://www.segmento.in/contact"
+  className="block w-full sm:w-auto"
+> 
                                 <Button className="bg-[#6200EA] hover:bg-[#4500AB] text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
                                     Contact Us
                                     <ArrowRight size={14} />
