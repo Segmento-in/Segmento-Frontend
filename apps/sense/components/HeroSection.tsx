@@ -66,13 +66,13 @@ export function HeroSection() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <h1 className="text-[#0F172A] text-4xl md:text-5xl lg:text-[5.2rem] font-black leading-[0.95] mb-8 tracking-tighter">
-                                Secure Your Sensitive Data <br />
-                               with,Transparent<br />
-                                <span className="text-[#2563EB]">Multi-Engine PII Detection.</span>
+                                Secure Your  <br />
+                              Data with,<br />
+                                <span className="text-[#2563EB]"> Transparent PII Detection.</span>
                             </h1>
                             
                             <p className="text-[#64748B] text-xl mb-12 max-w-xl leading-relaxed font-normal tracking-tight">
-                                Move beyond legacy "black box" platforms. Segmento Sense delivers Explainable AI, 100% client-side OCR, and instant synthetic data cloning to discover, classify, and protect your PII without your data ever leaving your infrastructure.
+                                Detect, classify, and protect sensitive data with Explainable AI, client-side OCR, and secure processing—without your data leaving your infrastructure.
 
                             </p>
                              
