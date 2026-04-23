@@ -191,11 +191,11 @@ const staggerItem: Variants = {
 
 export default function SolutionsPage() {
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-sky-50 min-h-screen">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-44 pb-24 bg-[#F8FAFC]">
+      <section className="pt-44 pb-24 bg-sky-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.div
             initial="hidden"
@@ -223,7 +223,7 @@ export default function SolutionsPage() {
             <section
               key={industry.id}
               id={industry.id}
-              className={`py-28 lg:py-36 border-t border-slate-100 ${isReversed ? 'bg-[#F8FAFC]' : 'bg-white'}`}
+              className={`py-28 lg:py-36 border-t border-slate-100 ${isReversed ? 'bg-blue-50' : 'bg-white'}`}
             >
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className={`grid lg:grid-cols-2 gap-16 lg:gap-24 items-start ${isReversed ? 'lg:flex-row-reverse' : ''}`}>

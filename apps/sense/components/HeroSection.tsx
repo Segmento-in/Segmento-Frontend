@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/ui/button" 
 import { MessageSquareText, Zap, ShieldCheck, Activity, Lock, Database, Globe } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts"
-import Link from "next/link"
 
 const data = [
     { name: "Discovery", value: 35, color: "#2563EB", icon: <Activity className="w-5 h-5" /> }, // Blue
@@ -67,41 +66,43 @@ export function HeroSection() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <h1 className="text-[#0F172A] text-4xl md:text-5xl lg:text-[5.2rem] font-black leading-[0.95] mb-8 tracking-tighter">
-                                Secure Your Sensitive Data <br />
-                               with,Transparent<br />
-                                <span className="text-[#2563EB]">Multi-Engine PII Detection.</span>
+                                Secure Your  <br />
+                              Data with,<br />
+                                <span className="text-[#2563EB]"> Transparent PII Detection.</span>
                             </h1>
                             
                             <p className="text-[#64748B] text-xl mb-12 max-w-xl leading-relaxed font-normal tracking-tight">
-                                Move beyond legacy "black box" platforms. Segmento Sense delivers Explainable AI, 100% client-side OCR, and instant synthetic data cloning to discover, classify, and protect your PII without your data ever leaving your infrastructure.
+                                Detect, classify, and protect sensitive data with Explainable AI, client-side OCR, and secure processing—without your data leaving your infrastructure.
 
                             </p>
                              
-                            <div className="flex flex-row flex-nowrap gap-4">
+                            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
     {/* First Button: Deploy Sense */}
-    <a href="/products/data-classification/demo" className="block">
-        <Button className="h-16 w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
+    <a href="/products/data-classification/demo" className="block w-full sm:w-auto">
+        <Button className="h-16 w-full sm:w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
             <MessageSquareText className="w-6 h-5 text-blue-400" />
             <span className="text-sm">Demo</span>
         </Button>
     </a>
 
     {/* Second Button: Engineering Docs */}
-   <Link href="/contact" className="block">
-    <Button 
+<a
+  href="https://www.segmento.in/contact"
+  className="block w-full sm:w-auto"
+>   <Button 
         variant="outline" 
-        className="h-16 w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
+        className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
     >
         <Zap className="w-6 h-5 text-amber-500" />
         <span className="text-sm">View Docs</span>
     </Button>
-</Link>
+</a>
 </div>
                         </motion.div>
                     </div>
 
                     {/* Right: Auto-Cycling Rotating Graph */}
-                    <div className="flex-1 relative w-full h-[650px] flex items-center justify-center">
+                    <div className="flex-1 relative w-full h-[420px] sm:h-[520px] lg:h-[650px] flex items-center justify-center">
                         
                         {/* Slow Rotating Container */}
                         <motion.div 

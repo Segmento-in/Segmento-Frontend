@@ -7,7 +7,6 @@ import {
     AccordionTrigger,
 } from "@/ui/accordion"
 import { Button } from "@/ui/button"
-import Link from "next/link"
 import { motion } from "framer-motion"
 import { HelpCircle, MessageSquare, ArrowRight } from "lucide-react"
 
@@ -141,12 +140,15 @@ export default function FAQSection() {
                                     <p className="text-xs text-slate-500 font-medium">We're here to help you secure your data.</p>
                                 </div>
                             </div>
-                            <Link href="/contact">
+                            <a
+  href="https://www.segmento.in/contact"
+  className="block w-full sm:w-auto"
+> 
                                 <Button className="bg-[#6200EA] hover:bg-[#4500AB] text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
                                     Contact Us
                                     <ArrowRight size={14} />
                                 </Button>
-                            </Link>
+                            </a>
                         </motion.div>
                     </div>
                 </div>

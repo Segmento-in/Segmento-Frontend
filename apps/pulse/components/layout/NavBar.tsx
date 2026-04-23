@@ -22,6 +22,7 @@ import { pulseAuth } from "@/lib/firebase";
 import { PulseLogo } from "../HeartbeatLogo";
 import NewsletterHub from "../NewsletterHub";
 import ThemeToggle from "../shared/ThemeToggle";
+import { ArrowLeft } from "lucide-react";
 
 // ── Main navigation items (Tier 1) ──────────────────────────
 const MAIN_NAV = [
@@ -174,6 +175,21 @@ export function NavBar() {
                     >
                         Subscribe
                     </button>
+                    
+              <a href="https://segmento.in/">
+    <button
+        className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85 flex items-center gap-2"
+    >
+        <ArrowLeft size={10} />
+
+        {/* Mobile */}
+        <span className="sm:hidden">Back</span>
+
+        {/* Desktop / larger screens */}
+        <span className="hidden sm:inline">Back to Segmento</span>
+    </button>
+</a>
+                    
                 </div>
             </div>
 

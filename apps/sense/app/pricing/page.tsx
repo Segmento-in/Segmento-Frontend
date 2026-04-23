@@ -4,13 +4,24 @@ import React, { useState } from "react"
 import { Check, ChevronDown } from "lucide-react"
 import { Button } from "@/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card"
-import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 
-const plans = [
+interface Plan {
+    name: string;
+    price: string;
+    period?: string;
+    description: string;
+    features: string[];
+    cta: string;
+    href: string;
+    highlighted: boolean;
+}
+
+const plans: Plan[] = [
     {
         name: "Starter",
         price: "Free",
+        period: "",
         description: "Perfect for testing and small projects",
         features: [
             "Up to 1,000 records/month",
@@ -20,30 +31,14 @@ const plans = [
             "Community support",
         ],
         cta: "Get started",
-        href: "/contact",
+        href: "https://segmento.in/contact",
         highlighted: false,
     },
-    {
-        name: "Professional",
-        price: "$499",
-        period: "/month",
-        description: "For growing teams and businesses",
-        features: [
-            "Up to 100,000 records/month",
-            "Advanced PII detection",
-            "All data sources",
-            "Priority support",
-            "Custom classifiers",
-            "Compliance reports",
-            "99.9% uptime SLA",
-        ],
-        cta: "Start free trial",
-        href: "/contact",
-        highlighted: true,
-    },
+   
     {
         name: "Enterprise",
         price: "Custom",
+        period: "",
         description: "For large-scale deployments",
         features: [
             "Unlimited records",
@@ -56,8 +51,8 @@ const plans = [
             "Custom integrations",
         ],
         cta: "Contact sales",
-        href: "/contact",
-        highlighted: false,
+        href: "https://segmento.in/contact",
+        highlighted: true,
     },
 ]
 
@@ -86,7 +81,7 @@ function PricingPage() {
     return (
         <div className="min-h-screen bg-white text-slate-900 py-24 relative selection:bg-blue-100 font-sans">
             {/* Background Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.4] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+            <div className="absolute inset-0 opacity-[0.4] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
 
             <div className="container relative mx-auto px-4">
                 {/* Header Section */}
@@ -109,7 +104,7 @@ function PricingPage() {
                 </div>
 
                 {/* Pricing Cards Grid */}
-                <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-32 items-stretch">
+                <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-32 items-stretch">
                     {plans.map((plan, idx) => (
                         <motion.div
                             key={idx}
@@ -140,9 +135,9 @@ function PricingPage() {
                                     </div>
                                 </CardHeader>
 
-                                <CardContent className="flex flex-col flex-grow pt-0 px-8 pb-8">
+                                <CardContent className="flex flex-col grow pt-0 px-8 pb-8">
                                     <div className="h-px w-full bg-slate-100 mb-8" />
-                                    <ul className="space-y-4 mb-10 flex-grow">
+                                    <ul className="space-y-4 mb-10 grow">
                                         {plan.features.map((feature, featureIdx) => (
                                             <li key={featureIdx} className="flex items-start gap-3">
                                                 <div className="mt-1 bg-blue-50 p-0.5 rounded-full">
@@ -153,7 +148,7 @@ function PricingPage() {
                                         ))}
                                     </ul>
                                     <div className="mt-auto">
-                                        <Link href={plan.href}>
+                                        <a href="/contact">
                                             <Button
                                                 className={`w-full h-12 rounded-xl font-bold transition-all duration-300 shadow-sm ${
                                                     plan.highlighted 
@@ -163,7 +158,7 @@ function PricingPage() {
                                             >
                                                 {plan.cta}
                                             </Button>
-                                        </Link>
+                                        </a>
                                     </div>
                                 </CardContent>
                             </Card>

@@ -19,7 +19,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/images/director1.png",
+  image: "/shadow.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -42,7 +42,7 @@ const team = [
     name: "Thambabattula Mohan",
     role: "Data Developer",
     bio: "Thambabattula Mohan is a Data Developer at Segmento, focused on designing and building robust data pipelines, databases, and analytical systems that support data-driven decision-making.",
-    image: "/images/mohan.png",
+    image: "/shadow.png",
     linkedin: "http://www.linkedin.com/in/mohan-thambabattula",
   },
   {
@@ -52,22 +52,16 @@ const team = [
     image: "/images/vijayalakshmi.png",
     linkedin: "http://www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
   },
-  {
-    name: "Vedhagiri Thejesh Naidu",
-    role: "Intern",
-    bio: "Vedhagiri Thejesh Naidu is a Intern at Segmento, focused on learning and supporting data analysis, processing, and visualization tasks.",
-    image: "/images/thejesh.png",
-    linkedin: "http://www.linkedin.com/in/thejesh-naidu-4439a0304",
-  },
+ 
 ];
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-sky-50">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden bg-[#FFFFFF]">
+      <section className="pt-32 pb-24 relative overflow-hidden bg-sky-50">
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
@@ -105,7 +99,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 relative overflow-hidden bg-slate-50/50">
+      <section className="py-24 relative overflow-hidden bg-sky-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-12 tracking-tight">Mission</h2>
           <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
@@ -114,7 +108,7 @@ export default function AboutPage() {
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               className="absolute -inset-20 bg-linear-to-r from-blue-300 via-white to-blue-200 opacity-0 group-hover:opacity-100 blur-[20px] transition-opacity duration-700"
             />
-            <div className="relative z-10 bg-white rounded-3xl p-12 border border-slate-100 group-hover:border-transparent transition-all duration-500">
+            <div className="relative z-10 bg-blue-100rounded-3xl p-12 border border-slate-100 group-hover:border-transparent transition-all duration-500">
               <h3 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-8 leading-[1.15]">
                 Our Mission: Moving Beyond <br />
                 <span className="text-slate-900 group-hover:text-blue-600 transition-colors duration-500">Black-Box Security</span>
@@ -137,7 +131,7 @@ export default function AboutPage() {
 
           {/* Featured Director Card - Colorful and Balanced */}
           <div className="mb-20">
-            <div className="max-w-4xl mx-auto bg-slate-50/50 rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
+            <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
               <div className="grid md:grid-cols-3 items-center">
                 <div className="md:col-span-1 aspect-square relative overflow-hidden bg-slate-200">
                   <img 
@@ -174,9 +168,15 @@ export default function AboutPage() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white hover:bg-white hover:text-[#0077b5] transition-all">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
+                   <div className="flex items-center w-full">
+  {/* Other elements like member name or role */}
+  
+
+  {/* The LinkedIn icon with ml-auto will now sit on the far right */}
+  <a href={member.linkedin} className="ml-auto ...">
+    <Linkedin className="w-4 h-4" />
+  </a>
+</div>
                   </div>
                 </div>
                 <div className="p-6">

@@ -7,6 +7,7 @@ import { motion, Variants } from "framer-motion"
 // FIXED PATHS: Moving from app/blog/ to app/components/
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+
 export default function BlogPage() {
     const fadeInUp: Variants = {
         hidden: { opacity: 0, y: 20 },
@@ -21,19 +22,19 @@ export default function BlogPage() {
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden bg-white selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+        <div className="min-h-screen overflow-x-hidden bg-blue-100 selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
             <Navbar />
 
             <main className="flex-grow">
-                {/* Hero Section - Light Gradient */}
+                {/* Hero Section - Updated bg to blue-100 */}
                 <motion.section 
                     initial="hidden"
                     animate="visible"
                     variants={fadeInUp}
-                    className="relative border-b border-slate-100 bg-linear-to-b from-slate-50 to-white py-24"
+                    className="relative border-b border-slate-100 bg-sky-50 py-24"
                 >
                     <div className="container mx-auto px-4 text-center">
-                        <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-indigo-50 rounded-full">
+                        <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-white rounded-full shadow-sm">
                             Segmento Insights
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight text-slate-900">
@@ -46,7 +47,7 @@ export default function BlogPage() {
                 </motion.section>
 
                 {/* Blog Grid Section */}
-                <div className="py-20 bg-white">
+                <div className="py-20 bg-sky-50">
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
                             
@@ -97,7 +98,7 @@ export default function BlogPage() {
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 variants={fadeInUp}
-                                className="group bg-slate-50/50 rounded-3xl border border-slate-200 p-8 hover:bg-white hover:shadow-xl transition-all duration-500"
+                                className="group bg-white rounded-3xl border border-slate-200 p-8 hover:bg-white hover:shadow-xl transition-all duration-500"
                             >
                                 <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                     <Sparkles className="w-6 h-6 text-emerald-500" />

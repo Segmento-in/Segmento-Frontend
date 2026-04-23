@@ -10,6 +10,7 @@ type Message = {
 export default function Chatbot() {
     const [open, setOpen] = useState(false);
     const [showIntro, setShowIntro] = useState(true);
+    const [isDismissed, setIsDismissed] = useState(false); // New state to handle permanent close
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [botTyping, setBotTyping] = useState(false);
@@ -56,6 +57,9 @@ export default function Chatbot() {
         }, 900);
     };
 
+    // If the user dismissed the bot, don't render anything
+    if (isDismissed) return null;
+
     return (
         <>
             {/* INTRO DIALOGUE */}
@@ -63,18 +67,21 @@ export default function Chatbot() {
                 <div className="fixed bottom-28 right-6 z-40 animate-popup">
                     <div className="
                         relative
-                        bg-gradient-to-br from-[#2563EB] via-blue-500 to-cyan-400
+                        bg-[#0F172A]
                         text-white
                         rounded-2xl
                         shadow-2xl
                         px-4 py-3
                         w-64
-                        border border-white/20
+                        border border-white/10
                     ">
-                        {/* Close */}
+                        {/* Close Button - Now dismisses everything */}
                         <button
-                            onClick={() => setShowIntro(false)}
-                            className="absolute top-2 right-2 text-white text-sm opacity-80 hover:opacity-100"
+                            onClick={() => {
+                                setShowIntro(false);
+                                setIsDismissed(true);
+                            }}
+                            className="absolute top-2 right-2 text-white/60 text-sm hover:text-white"
                         >
                             ✕
                         </button>
@@ -84,19 +91,19 @@ export default function Chatbot() {
                             absolute -top-5 left-4
                             w-10 h-10
                             rounded-full
-                            bg-gradient-to-br from-[#2563EB] to-cyan-400
+                            bg-black
                             text-2xl
                             flex items-center justify-center
                             shadow-lg
-                            border-2 border-white/30
+                            border-2 border-[#1E293B]
                         ">
                             🤖
                         </div>
 
-                        <p className="mt-4 text-sm font-semibold">
+                        <p className="mt-4 text-sm font-semibold text-slate-100">
                             I am <span className="font-bold">Segmento Bot</span>
                         </p>
-                        <p className="text-xs opacity-90 mt-1">
+                        <p className="text-xs text-[#2563EB] font-bold mt-1">
                             Ask me anything ✨
                         </p>
 
@@ -104,7 +111,7 @@ export default function Chatbot() {
                         <div className="
                             absolute bottom-1.5 right-6
                             w-4 h-4
-                            bg-cyan-400
+                            bg-[#0F172A]
                             rotate-45
                         " />
                     </div>
@@ -118,7 +125,7 @@ export default function Chatbot() {
                     className="
                         fixed bottom-6 right-6 z-50
                         w-16 h-16 rounded-full
-                        bg-gradient-to-br from-[#2563EB] to-cyan-500
+                        bg-black
                         text-white shadow-xl
                         hover:scale-110 transition
                         flex items-center justify-center
@@ -140,21 +147,21 @@ export default function Chatbot() {
                     border border-slate-200
                     animate-slide-up
                 ">
-                    {/* Header */}
+                    {/* Header: Deep Navy */}
                     <div className="
                         flex justify-between items-center p-4
-                        bg-gradient-to-r from-[#2563EB] to-cyan-500
+                        bg-[#0F172A]
                         text-white
                     ">
-                        <div className="font-bold text-lg flex items-center gap-2">
+                        <div className="font-bold text-lg flex items-center gap-2 text-slate-100">
                             🤖 Segmento Bot
                         </div>
-                        <button onClick={() => setOpen(false)} className="text-xl">
+                        <button onClick={() => setOpen(false)} className="text-xl hover:text-slate-300">
                             ✕
                         </button>
                     </div>
 
-                    {/* Messages */}
+                    {/* Messages Container */}
                     <div
                         ref={scrollRef}
                         className="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50"
@@ -162,10 +169,10 @@ export default function Chatbot() {
                         {messages.map((msg, idx) => (
                             <div key={idx} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
                                 <div
-                                    className={`px-4 py-3 rounded-2xl max-w-[80%] whitespace-pre-line shadow-sm ${
+                                    className={`px-4 py-3 rounded-2xl max-w-[80%] whitespace-pre-line shadow-sm text-sm font-medium ${
                                         msg.from === "user"
-                                            ? "bg-[#2563EB] text-white rounded-br-sm"
-                                            : "bg-white text-slate-800 rounded-bl-sm border border-slate-100"
+                                            ? "bg-[#2563EB] text-white rounded-br-sm" 
+                                            : "bg-black text-white rounded-bl-sm"
                                     }`}
                                 >
                                     {msg.text}
@@ -174,13 +181,13 @@ export default function Chatbot() {
                         ))}
 
                         {botTyping && (
-                            <div className="text-slate-400 bg-white w-fit p-3 rounded-2xl border border-slate-100">
+                            <div className="text-slate-400 bg-black text-white w-fit px-4 py-2 rounded-2xl text-xs shadow-sm">
                                 🤖 typing...
                             </div>
                         )}
                     </div>
 
-                    {/* Input */}
+                    {/* Input Area */}
                     <div className="p-3 bg-white border-t border-slate-100 flex gap-2">
                         <input
                             value={input}
@@ -189,9 +196,10 @@ export default function Chatbot() {
                             placeholder="Ask me about Segmento..."
                             className="
                                 flex-1 px-4 py-2
-                                bg-slate-50 text-slate-900
+                                bg-slate-100 text-[#0F172A]
                                 border border-slate-200
                                 rounded-2xl
+                                text-sm
                                 focus:outline-none
                                 focus:ring-2 focus:ring-[#2563EB]
                             "
@@ -200,9 +208,9 @@ export default function Chatbot() {
                             onClick={sendMessage}
                             className="
                                 px-4 py-2 rounded-2xl
-                                text-white
-                                bg-[#2563EB]
-                                hover:bg-blue-600 transition
+                                text-white font-bold text-sm
+                                bg-black
+                                hover:bg-[#1E293B] transition-colors
                             "
                         >
                             Send

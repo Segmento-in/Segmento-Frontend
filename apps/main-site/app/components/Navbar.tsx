@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface NavItem {
   name: string;
   href: string;
-  isExternal?: boolean; // For external Vercel links
-  isUpcoming?: boolean; // For items without links
+  isExternal?: boolean;
+  isUpcoming?: boolean;
 }
 
 interface NavLink {
@@ -22,24 +23,23 @@ const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   {
-  name: "Products",
-  dropdown: [
-    { name: "Segmento Pulse", href: "/pulse" },
-    { name: "Segmento Sense", href: "/products/data-classification" },
-    { 
-      name: "Segmento Resolve", 
-      href: "https://segmento-resolve.vercel.app/", 
-      isExternal: true 
-    },
-    { 
-      name: "Segmento SprintIQ", 
-      href: "https://segmento-retro-omega.vercel.app/", 
-      isExternal: true 
-    },
-    { name: "Segmento Collect (Upcoming)", href: "#", isUpcoming: true },
-    { name: "Segmento Enrich (Upcoming)", href: "#", isUpcoming: true },
-  ],
-},
+    name: "Products",
+    dropdown: [
+      { name: "Segmento Pulse", href: "/pulse" },
+      { name: "Segmento Sense", href: "/products/data-classification" },
+      { name: "Segmento Collect", href: "/products/segmento-collect" },
+      {
+        name: "Segmento Resolve",
+        href: "/products/segmento-resolve",
+        isExternal: true,
+      },
+      {
+        name: "Segmento SprintIQ",
+        href: "/products/segmento-sprintq",
+        isExternal: true,
+      },
+    ],
+  },
   {
     name: "Solutions",
     dropdown: [
@@ -55,9 +55,7 @@ const navLinks: NavLink[] = [
   },
   {
     name: "Resources",
-    dropdown: [
-      { name: "Blog", href: "/blog" },
-    ],
+    dropdown: [{ name: "Blog", href: "/blog" }],
   },
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
@@ -67,7 +65,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  // Separate state for mobile dropdown toggles
   const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
 
   useEffect(() => {
@@ -82,20 +79,21 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-xl py-3 shadow-sm border-b border-slate-100"
-          : "bg-transparent py-6"
+          ? "bg-white/90 backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
+          : "bg-transparent py-4"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2.5 group shrink-0">
-            <div className="w-10 h-10 bg-[#2563EB] rounded-xl flex items-center justify-center transition-all duration-300 group-hover:rotate-6 shadow-lg shadow-blue-500/20">
-              <span className="text-white font-black text-xl">S</span>
-            </div>
-            <span className="text-[#0F172A] font-black text-2xl tracking-tighter">
-              Segmento
-            </span>
+          <Link href="/" className="flex items-center shrink-0">
+            <Image
+              src="/images/logo-final.png"
+              alt="Segmento"
+              width={180}
+              height={28}
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -119,7 +117,9 @@ export default function Navbar() {
                     <span>{link.name}</span>
                     {link.dropdown && (
                       <motion.span
-                        animate={{ rotate: activeDropdown === link.name ? 180 : 0 }}
+                        animate={{
+                          rotate: activeDropdown === link.name ? 180 : 0,
+                        }}
                       >
                         <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                       </motion.span>
@@ -162,7 +162,7 @@ export default function Navbar() {
           <div className="hidden md:flex shrink-0">
             <Link
               href="/contact"
-              className="px-6 py-2.5 bg-[#0F172A] text-white text-sm font-black rounded-xl hover:bg-[#2563EB] transition-all duration-300 active:scale-[0.96]"
+              className="px-5 py-2 bg-[#0F172A] text-white text-sm font-black rounded-xl hover:bg-[#2563EB] transition-all duration-300 active:scale-[0.96]"
             >
               Get Started
             </Link>
@@ -173,7 +173,7 @@ export default function Navbar() {
             className="md:hidden p-2 text-slate-900"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -185,25 +185,35 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 top-[72px] md:hidden bg-white z-40 overflow-y-auto border-t border-slate-100"
+            className="fixed inset-0 top-[64px] md:hidden bg-white z-40 overflow-y-auto border-t border-slate-100"
           >
             <div className="p-6 space-y-4">
               {navLinks.map((link) => (
-                <div key={link.name} className="border-b border-slate-50 pb-4 last:border-0">
+                <div
+                  key={link.name}
+                  className="border-b border-slate-50 pb-4 last:border-0"
+                >
                   {link.dropdown ? (
                     <div className="space-y-2">
-                      <button 
-                        onClick={() => setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name)}
+                      <button
+                        onClick={() =>
+                          setMobileMenuOpen(
+                            mobileMenuOpen === link.name ? null : link.name
+                          )
+                        }
                         className="w-full flex items-center justify-between text-xl font-black text-slate-900 px-2"
                       >
                         <span>{link.name}</span>
                         <motion.div
-                          animate={{ rotate: mobileMenuOpen === link.name ? 180 : 0 }}
+                          animate={{
+                            rotate:
+                              mobileMenuOpen === link.name ? 180 : 0,
+                          }}
                         >
                           <ChevronDown className="w-5 h-5 text-slate-400" />
                         </motion.div>
                       </button>
-                      
+
                       <AnimatePresence>
                         {mobileMenuOpen === link.name && (
                           <motion.div
@@ -239,7 +249,7 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
-              
+
               <div className="pt-4">
                 <Link
                   href="/contact"

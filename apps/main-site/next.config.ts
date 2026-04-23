@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+
   async rewrites() {
     return [
       {
@@ -12,7 +13,9 @@ const nextConfig: NextConfig = {
             value: 'pulse.segmento.in',
           },
         ],
-        destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001' : 'https://pulse.segmento.in')}/pulse`,
+        destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development'
+          ? 'http://127.0.0.1:3001'
+          : 'https://pulse.segmento.in')}/pulse`,
       },
       {
         source: '/pulse/:path*',
@@ -22,7 +25,9 @@ const nextConfig: NextConfig = {
             value: 'pulse.segmento.in',
           },
         ],
-        destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001' : 'https://pulse.segmento.in')}/pulse/:path*`,
+        destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development'
+          ? 'http://127.0.0.1:3001'
+          : 'https://pulse.segmento.in')}/pulse/:path*`,
       },
       {
         source: '/products/data-classification',
@@ -32,7 +37,9 @@ const nextConfig: NextConfig = {
             value: 'sense.segmento.in',
           },
         ],
-        destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3002' : 'https://sense.segmento.in')}/products/data-classification`,
+        destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
+          ? 'http://127.0.0.1:3002'
+          : 'https://sense.segmento.in')}/products/data-classification`,
       },
       {
         source: '/products/data-classification/:path*',
@@ -42,7 +49,30 @@ const nextConfig: NextConfig = {
             value: 'sense.segmento.in',
           },
         ],
-        destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3002' : 'https://sense.segmento.in')}/products/data-classification/:path*`,
+        destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
+          ? 'http://127.0.0.1:3002'
+          : 'https://sense.segmento.in')}/products/data-classification/:path*`,
+      },
+    ];
+  },
+
+  // ✅ ADD THIS PART
+  async redirects() {
+    return [
+      {
+        source: '/products/segmento-resolve',
+        destination: 'https://segmento-resolve.vercel.app',
+        permanent: false,
+      },
+      {
+        source: '/products/segmento-sprintq',
+        destination: 'https://segmento-retro-omega.vercel.app',
+        permanent: false,
+      },
+      {
+        source: '/products/segmento-collect',
+        destination: 'https://segmento-collect.onrender.com',
+        permanent: false,
       },
     ];
   },
