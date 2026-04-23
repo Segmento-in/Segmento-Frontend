@@ -5,6 +5,7 @@ import { apiClient, AnalysisResponse } from '@/lib/apiClient';
 
 interface FileUploadProps {
     fileType: string;
+    selectedModels: string[];
     onAnalysisComplete: (result: AnalysisResponse) => void;
     onLoading: (loading: boolean) => void;
     onError?: (error: string) => void;
@@ -12,7 +13,7 @@ interface FileUploadProps {
 
 const FILE_SIZE_LIMIT = 1024 * 1024 * 1024; // 1GB
 
-export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComplete, onLoading, onError }) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ fileType, selectedModels, onAnalysisComplete, onLoading, onError }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [maskEnabled, setMaskEnabled] = useState(false);
@@ -104,19 +105,19 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
 
             switch (fileType) {
                 case 'CSV':
-                    result = await apiClient.uploadCSV(selectedFile, maskEnabled);
+                    result = await apiClient.uploadCSV(selectedFile, maskEnabled, selectedModels);
                     break;
                 case 'JSON':
-                    result = await apiClient.uploadJSON(selectedFile, maskEnabled);
+                    result = await apiClient.uploadJSON(selectedFile, maskEnabled, selectedModels);
                     break;
                 case 'Parquet':
-                    result = await apiClient.uploadParquet(selectedFile, maskEnabled);
+                    result = await apiClient.uploadParquet(selectedFile, maskEnabled, selectedModels);
                     break;
                 case 'Apache Avro':
-                    result = await apiClient.uploadAvro(selectedFile, maskEnabled);
+                    result = await apiClient.uploadAvro(selectedFile, maskEnabled, selectedModels);
                     break;
                 case 'PDF':
-                    result = await apiClient.uploadPDF(selectedFile, pdfPage);
+                    result = await apiClient.uploadPDF(selectedFile, pdfPage, selectedModels);
                     break;
                 case 'Image (OCR)':
                     result = await apiClient.uploadImage(selectedFile, maskEnabled);
@@ -142,7 +143,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
         onLoading(true);
         onError?.('');
         try {
-            const result = await apiClient.uploadPDF(selectedFile, newPage);
+        const result = await apiClient.uploadPDF(selectedFile, newPage, selectedModels);
             onAnalysisComplete(result);
         } catch (err: any) {
             const errorMsg = err.message || 'Failed to load PDF page';
@@ -162,8 +163,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 className={`relative border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all ${isDragging
-                    ? 'border-[#B3945B] bg-[#B3945B]/10'
-                    : 'border-[#3E2F5B] hover:border-[#B3945B]/50 bg-[#3E2F5B]/5'
+                    ? 'border-indigo-500 dark:border-[#B3945B] bg-[#B3945B]/10'
+                    : 'border-slate-300 dark:border-[#3E2F5B] hover:border-indigo-500 dark:border-[#B3945B]/50 bg-[#3E2F5B]/5'
                     }`}
             >
                 <input
@@ -188,20 +189,20 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
 
                 <div className="space-y-4">
                     <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#3E2F5B] to-[#B3945B] rounded-full flex items-center justify-center">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-8 h-8 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                     </div>
 
                     {selectedFile ? (
                         <>
-                            <p className="text-lg text-[#B3945B] font-semibold">{selectedFile.name}</p>
-                            <p className="text-sm text-gray-400">{(selectedFile.size / 1024).toFixed(2)} KB</p>
+                            <p className="text-lg text-indigo-600 dark:text-[#B3945B] font-semibold">{selectedFile.name}</p>
+                            <p className="text-sm text-slate-500 dark:text-gray-400">{(selectedFile.size / 1024).toFixed(2)} KB</p>
                         </>
                     ) : (
                         <>
-                            <p className="text-lg text-gray-300">
-                                Drop your {fileType} file here or <span className="text-[#B3945B]">browse</span>
+                            <p className="text-lg text-slate-600 dark:text-gray-300">
+                                Drop your {fileType} file here or <span className="text-indigo-600 dark:text-[#B3945B]">browse</span>
                             </p>
                             <p className="text-sm text-gray-500">Maximum file size: 1GB</p>
                         </>
@@ -224,9 +225,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
                         id="mask-toggle"
                         checked={maskEnabled}
                         onChange={(e) => setMaskEnabled(e.target.checked)}
-                        className="w-4 h-4 rounded border-[#3E2F5B] text-[#B3945B] focus:ring-[#B3945B]"
+                        className="w-4 h-4 rounded border-slate-300 dark:border-[#3E2F5B] text-indigo-600 dark:text-[#B3945B] focus:ring-[#B3945B]"
                     />
-                    <label htmlFor="mask-toggle" className="text-sm text-gray-300 cursor-pointer">
+                    <label htmlFor="mask-toggle" className="text-sm text-slate-600 dark:text-gray-300 cursor-pointer">
                         🔒 Enable PII Masking
                     </label>
                 </div>
@@ -236,7 +237,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, onAnalysisComp
             {selectedFile && (
                 <button
                     onClick={handleScan}
-                    className="w-full bg-gradient-to-r from-[#3E2F5B] to-[#B3945B] hover:from-[#3E2F5B]/80 hover:to-[#B3945B]/80 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                    className="w-full bg-gradient-to-r from-[#3E2F5B] to-[#B3945B] hover:from-[#3E2F5B]/80 hover:to-[#B3945B]/80 text-slate-900 dark:text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                     🔍 Scan for PII
                 </button>

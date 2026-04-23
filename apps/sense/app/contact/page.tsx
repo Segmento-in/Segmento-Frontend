@@ -19,7 +19,8 @@ export default function ContactPage() {
     const [submitted, setSubmitted] = useState(false)
 
     useEffect(() => {
-        setMounted(true)
+        const timer = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timer);
     }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {

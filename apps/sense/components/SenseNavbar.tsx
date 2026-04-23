@@ -12,12 +12,13 @@ export function SenseNavbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        const timer = setTimeout(() => setMounted(true), 0);
         if (mobileMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
         }
+        return () => clearTimeout(timer);
     }, [mobileMenuOpen]);
 
     const isInsideSense = pathname === "/pricing" || pathname?.includes('/demo');

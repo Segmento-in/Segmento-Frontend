@@ -23,24 +23,24 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
         <div className="space-y-6">
             {/* Schema Section */}
             {schema && schema.length > 0 && (
-                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                    <h3 className="text-xl font-semibold text-[#B3945B] mb-4 flex items-center">
+                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                    <h3 className="text-xl font-semibold text-indigo-600 dark:text-[#B3945B] mb-4 flex items-center">
                         <span className="mr-2">🧬</span>
                         Data Schema Detected
                     </h3>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b border-[#3E2F5B]/30">
-                                    <th className="text-left py-2 px-3 text-gray-400">Column</th>
-                                    <th className="text-left py-2 px-3 text-gray-400">Type</th>
+                                <tr className="border-b border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                                    <th className="text-left py-2 px-3 text-slate-500 dark:text-gray-400">Column</th>
+                                    <th className="text-left py-2 px-3 text-slate-500 dark:text-gray-400">Type</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {schema.map((col, idx) => (
-                                    <tr key={idx} className="border-b border-[#3E2F5B]/10 hover:bg-[#3E2F5B]/10 transition-colors">
-                                        <td className="py-2 px-3 text-white font-mono">{col.Column}</td>
-                                        <td className="py-2 px-3 text-gray-300">{col.Type}</td>
+                                    <tr key={idx} className="border-b border-slate-300 dark:border-[#3E2F5B]/10 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors">
+                                        <td className="py-2 px-3 text-slate-900 dark:text-white font-mono">{col.Column}</td>
+                                        <td className="py-2 px-3 text-slate-600 dark:text-gray-300">{col.Type}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -50,15 +50,15 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
             )}
 
             {/* Analytics Section */}
-            <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-[#3E2F5B]/30">
-                <h3 className="text-xl font-semibold text-[#B3945B] mb-6 flex items-center">
+            <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                <h3 className="text-xl font-semibold text-indigo-600 dark:text-[#B3945B] mb-6 flex items-center">
                     <span className="mr-2">📊</span>
                     PII Analytics
                 </h3>
 
                 {piiCounts.length === 0 ? (
                     <div className="text-center py-12">
-                        <p className="text-gray-400">No PII data detected to visualize</p>
+                        <p className="text-slate-500 dark:text-gray-400">No PII data detected to visualize</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -91,19 +91,19 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                 </PieChart>
                             </ResponsiveContainer>
                             <div className="mt-4 text-center">
-                                <p className="text-2xl font-bold text-[#B3945B]">{total}</p>
-                                <p className="text-sm text-gray-400">Total PII Detected</p>
+                                <p className="text-2xl font-bold text-indigo-600 dark:text-[#B3945B]">{total}</p>
+                                <p className="text-sm text-slate-500 dark:text-gray-400">Total PII Detected</p>
                             </div>
                         </div>
 
                         {/* Data Table */}
-                        <div className="overflow-hidden rounded-lg border border-[#3E2F5B]/30">
+                        <div className="overflow-hidden rounded-lg border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
                             <table className="w-full">
-                                <thead className="bg-[#3E2F5B]/20">
+                                <thead className="bg-white dark:bg-[#3E2F5B]/20">
                                     <tr>
-                                        <th className="text-left py-3 px-4 text-gray-300 font-semibold">PII Type</th>
-                                        <th className="text-right py-3 px-4 text-gray-300 font-semibold">Count</th>
-                                        <th className="text-right py-3 px-4 text-gray-300 font-semibold">%</th>
+                                        <th className="text-left py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">PII Type</th>
+                                        <th className="text-right py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">Count</th>
+                                        <th className="text-right py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">%</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,17 +112,17 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                         return (
                                             <tr
                                                 key={idx}
-                                                className="border-b border-[#3E2F5B]/10 hover:bg-[#3E2F5B]/10 transition-colors"
+                                                className="border-b border-slate-300 dark:border-[#3E2F5B]/10 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors"
                                             >
-                                                <td className="py-3 px-4 text-white flex items-center">
+                                                <td className="py-3 px-4 text-slate-900 dark:text-white flex items-center">
                                                     <span
                                                         className="w-3 h-3 rounded-full mr-2"
                                                         style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                                                     ></span>
                                                     {item['PII Type']}
                                                 </td>
-                                                <td className="py-3 px-4 text-right text-[#B3945B] font-semibold">{item.Count}</td>
-                                                <td className="py-3 px-4 text-right text-gray-400">{percentage}%</td>
+                                                <td className="py-3 px-4 text-right text-indigo-600 dark:text-[#B3945B] font-semibold">{item.Count}</td>
+                                                <td className="py-3 px-4 text-right text-slate-500 dark:text-gray-400">{percentage}%</td>
                                             </tr>
                                         );
                                     })}

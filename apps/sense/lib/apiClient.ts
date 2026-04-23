@@ -1,6 +1,7 @@
 // API Client for Segmento Sense Backend
 // Base URL for HuggingFace Spaces deployment
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+//const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+const API_BASE_URL = 'http://localhost:7860';
 
 
 export interface PIIMatch {
@@ -45,6 +46,12 @@ export interface Pattern {
     regex: string;
 }
 
+export interface ModelInfo {
+    key: string;
+    label: string;
+    description: string;
+}
+
 class APIClient {
     private baseURL: string;
 
@@ -62,10 +69,11 @@ class APIClient {
 
     // ==================== FILE UPLOADS ====================
 
-    async uploadCSV(file: File, mask: boolean = false): Promise<AnalysisResponse> {
+    async uploadCSV(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
+        formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/csv`, {
             method: 'POST',
@@ -75,10 +83,11 @@ class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadJSON(file: File, mask: boolean = false): Promise<AnalysisResponse> {
+    async uploadJSON(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
+        formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/json`, {
             method: 'POST',
@@ -88,10 +97,11 @@ class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadParquet(file: File, mask: boolean = false): Promise<AnalysisResponse> {
+    async uploadParquet(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
+        formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/parquet`, {
             method: 'POST',
@@ -101,10 +111,11 @@ class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadAvro(file: File, mask: boolean = false): Promise<AnalysisResponse> {
+    async uploadAvro(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
+        formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/avro`, {
             method: 'POST',
@@ -114,10 +125,11 @@ class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadPDF(file: File, pageNumber: number = 0): Promise<AnalysisResponse> {
+    async uploadPDF(file: File, pageNumber: number = 0, selectedModels: string[] = []): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('page_number', pageNumber.toString());
+        formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/pdf`, {
             method: 'POST',
@@ -137,6 +149,13 @@ class APIClient {
             body: formData,
         });
 
+        return this.handleResponse(response);
+    }
+
+    // ==================== MODEL CATALOGUE ====================
+
+    async getModels(): Promise<{ always_on: ModelInfo[]; lazy_loaded: ModelInfo[] }> {
+        const response = await fetch(`${this.baseURL}/api/models`);
         return this.handleResponse(response);
     }
 
