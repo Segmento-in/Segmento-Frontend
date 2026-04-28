@@ -196,7 +196,7 @@ export function NavBar() {
     <ArrowLeft size={16} />
 
     <span className="ml-2 leading-none sm:hidden">
-      Back
+      Back to Segmento
     </span>
     <span className="hidden sm:inline ml-2 leading-none">
       Back to Segmento
