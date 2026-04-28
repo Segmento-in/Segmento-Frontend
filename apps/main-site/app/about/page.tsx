@@ -19,7 +19,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/shadow.png",
+  image: "/shadow2.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -42,7 +42,7 @@ const team = [
     name: "Thambabattula Mohan",
     role: "Data Developer",
     bio: "Thambabattula Mohan is a Data Developer at Segmento, focused on designing and building robust data pipelines, databases, and analytical systems that support data-driven decision-making.",
-    image: "/shadow.png",
+    image: "/shadow1.png",
     linkedin: "http://www.linkedin.com/in/mohan-thambabattula",
   },
   {
@@ -133,7 +133,7 @@ export default function AboutPage() {
           <div className="mb-20">
             <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
               <div className="grid md:grid-cols-3 items-center">
-                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-slate-200">
+                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-white-100">
                   <img 
                     src={director.image} 
                     alt={director.name} 
@@ -161,7 +161,7 @@ export default function AboutPage() {
             {team.map((member) => (
               <div key={member.name} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {/* aspect-[16/10] makes the image shorter and wider */}
-                <div className="aspect-[16/16] w-full relative overflow-hidden bg-slate-100">
+                <div className="aspect-[16/16] w-full relative overflow-hidden bg-white-100">
                   <img 
                     src={member.image} 
                     alt={member.name} 

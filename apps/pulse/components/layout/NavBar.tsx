@@ -176,18 +176,27 @@ export function NavBar() {
                         Subscribe
                     </button>
                     
-              <a href="https://segmento.in/">
-    <button
-        className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85 flex items-center gap-2"
-    >
-        <ArrowLeft size={10} />
+           <a href="https://segmento.in/">
+  <button
+    className="
+      flex items-center justify-center
+      w-9 h-9 sm:w-auto sm:h-auto
+      sm:px-5 sm:py-2
+      rounded-full
+      bg-[var(--pulse-color-brand-accent)]
+      text-[var(--pulse-color-text-inverse)]
+      text-[13px] sm:text-[14px]
+      font-semibold
+      transition-all hover:opacity-85 active:scale-95
+    "
+  >
+    <ArrowLeft size={16} />
 
-        {/* Mobile */}
-        <span className="sm:hidden">Back</span>
-
-        {/* Desktop / larger screens */}
-        <span className="hidden sm:inline">Back to Segmento</span>
-    </button>
+    {/* Desktop only */}
+    <span className="hidden sm:inline ml-2 leading-none">
+      Back to Segmento
+    </span>
+  </button>
 </a>
                     
                 </div>
