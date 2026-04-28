@@ -104,7 +104,7 @@ export function NavBar() {
                 borderBottom: "1px solid var(--pulse-color-border-subtle)",
             }}
         >
-                <div className="flex items-center gap-4 md:gap-8 max-w-[1200px] mx-auto px-4 sm:px-6 h-[64px]">
+                <div className="flex flex-wrap items-center gap-3 md:gap-8 max-w-[1200px] mx-auto px-4 sm:px-6 py-2" style={{ minHeight: 64 }}>
                 {/* Logo */}
                 <Link
                     href="/"
@@ -135,10 +135,10 @@ export function NavBar() {
                 </Link>
 
                 {/* Main links — removed per user instruction */}
-                <div style={{ flex: 1 }} />
+                <div style={{ flex: 1, minWidth: 0 }} />
 
                 {/* Right actions */}
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0, flexWrap: "wrap", justifyContent: "flex-end" }}>
                     <ThemeToggle />
                     {user ? (
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -176,23 +176,28 @@ export function NavBar() {
                         Subscribe
                     </button>
                     
-           <a href="https://segmento.in/">
+           <a href="https://segmento.in/" className="flex-shrink-0">
   <button
+    type="button"
     className="
       flex items-center justify-center
-      w-9 h-9 sm:w-auto sm:h-auto
-      sm:px-5 sm:py-2
+      min-w-[40px] min-h-[40px]
+      px-2 py-2 sm:px-5 sm:py-2
       rounded-full
       bg-[var(--pulse-color-brand-accent)]
       text-[var(--pulse-color-text-inverse)]
       text-[13px] sm:text-[14px]
       font-semibold
       transition-all hover:opacity-85 active:scale-95
+      flex-shrink-0
     "
+    aria-label="Back to Segmento"
   >
     <ArrowLeft size={16} />
 
-    {/* Desktop only */}
+    <span className="ml-2 leading-none sm:hidden">
+      Back
+    </span>
     <span className="hidden sm:inline ml-2 leading-none">
       Back to Segmento
     </span>
