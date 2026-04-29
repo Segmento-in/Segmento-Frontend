@@ -15,7 +15,7 @@ export default function CTASection() {
         >
           <div className="relative z-10 max-w-3xl mx-auto space-y-12">
             <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight tracking-tight">
-              Ready to Transform Your Data Security?
+              Ready to Transform Your Data Journey?
             </h2>
 
             <div className="flex justify-center">
