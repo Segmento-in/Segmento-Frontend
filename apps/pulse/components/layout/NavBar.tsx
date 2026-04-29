@@ -168,7 +168,7 @@ export function NavBar() {
                     )}
                     <button
                         onClick={() => setIsNewsletterHubOpen(true)}
-                        className="px-2.5 sm:px-[18px] md:px-[20px] py-1 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[12px] sm:text-[14px] md:text-[15px] rounded-full font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85"
+                        className="px-2.5 sm:px-[18px] md:px-[20px] py-1 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-white text-[12px] sm:text-[14px] md:text-[15px] rounded-full font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85"
                     >
                         Subscribe
                     </button>
