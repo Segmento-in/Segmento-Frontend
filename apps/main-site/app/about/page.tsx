@@ -19,7 +19,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/shadow2.png",
+  image: "/images/director1.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -133,12 +133,13 @@ export default function AboutPage() {
           <div className="mb-20">
             <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
               <div className="grid md:grid-cols-3 items-center">
-                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-white-100">
+                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50">
                   <img 
                     src={director.image} 
                     alt={director.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-blue-50/60 to-blue-100/50 pointer-events-none"></div>
                 </div>
                 <div className="md:col-span-2 p-8 md:p-10">
                   <div className="flex justify-between items-start mb-4">
