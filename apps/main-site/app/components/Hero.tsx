@@ -6,6 +6,7 @@ import { Activity, Shield, Globe, Lock, Cpu, ArrowRight } from "lucide-react";
 
 // Ensure these images are in your /public folder
 const sliderImages = [
+   "/image.png",
   "/image1.png",
  // "/image2.png",
   "/image3.png",
