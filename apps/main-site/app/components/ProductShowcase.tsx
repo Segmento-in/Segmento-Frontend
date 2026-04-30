@@ -90,7 +90,7 @@ export default function ProductShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${
+              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 bg-white border border-slate-200/80 shadow-[0_25px_75px_-30px_rgba(15,23,42,0.25)] rounded-none p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_rgba(59,130,246,0.22)] ${
                 index % 2 !== 0 ? "lg:flex-row-reverse" : ""
               }`}
             >
@@ -106,7 +106,7 @@ export default function ProductShowcase() {
                 <div className="pt-4">
                   <Link
                     href={product.link}
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-[#0F172A] text-white font-bold rounded-full hover:bg-slate-800 transition-all shadow-lg active:scale-95 group"
+                    className="inline-flex items-center gap-3 px-4 py-2 bg-[#0F172A] text-white font-bold rounded-none hover:bg-slate-900 transition-all shadow-lg active:scale-95 group"
                   >
                     <span>Explore {product.name.split(" ")[1]}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -135,7 +135,7 @@ export default function ProductShowcase() {
                     product.color === 'purple' ? 'bg-purple-400' : 'bg-emerald-400'
                   }`} />
                   
-                  {/* Main Container - Sharp Corners */}
+                  {/* Main Container - Highlighted Box */}
                   <div className="relative bg-white rounded-none p-3 shadow-[0_32px_64px_-16px_rgba(15,23,42,0.12)] border border-slate-200/60 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
                     
                     {/* Mock Browser Header */}

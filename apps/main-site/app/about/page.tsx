@@ -19,7 +19,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/images/director1.png",
+  image: "/images/director.jfif",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -162,12 +162,15 @@ export default function AboutPage() {
             {team.map((member) => (
               <div key={member.name} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {/* aspect-[16/10] makes the image shorter and wider */}
-                <div className="aspect-[16/16] w-full relative overflow-hidden bg-white-100">
+                <div className={`aspect-[16/16] w-full relative overflow-hidden ${member.name === "Thambabattula Mohan" ? "bg-gradient-to-br from-blue-50 to-blue-50" : "bg-white-100"}`}>
                   <img 
                     src={member.image} 
                     alt={member.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`} 
                   />
+                  {member.name === "Thambabattula Mohan" && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-blue-50/60 to-blue-100/50 pointer-events-none" />
+                  )}
                   <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                    <div className="flex items-center w-full">
   {/* Other elements like member name or role */}
