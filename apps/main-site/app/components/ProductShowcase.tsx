@@ -203,6 +203,21 @@ export default function ProductShowcase() {
                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AI Confidence</div>
                              <div className="text-sm font-black text-slate-900">99.8%</div>
                           </div>
+                          {/* Entry Point 1: Glassmorphism teaser strip — opens AI Engine page in new tab */}
+                          <a
+                            href="/products/data-classification/ai-engine"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between px-3 py-2.5 bg-indigo-900/60 backdrop-blur-md border border-indigo-400/20 rounded-none hover:bg-indigo-900/80 hover:border-indigo-400/35 transition-all duration-200 group"
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
+                              <span className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest">
+                                18 AI Models · Self-Hosted
+                              </span>
+                            </div>
+                            <ChevronRight className="w-3 h-3 text-indigo-300 group-hover:translate-x-0.5 transition-transform" />
+                          </a>
                         </div>
                       )}
 

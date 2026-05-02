@@ -10,7 +10,8 @@ export default function CTASection() {
 
     // Mount check to prevent hydration mismatch
     useEffect(() => {
-        setIsMounted(true)
+        const timer = setTimeout(() => setIsMounted(true), 0);
+        return () => clearTimeout(timer);
     }, [])
 
     const { scrollYProgress } = useScroll({

@@ -1,7 +1,20 @@
-import type { NextConfig } from "next";
+import path from "path";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+// Next.js 16 moved turbopack config to a TOP-LEVEL `turbopack` key.
+// `experimental.turbo` is the old (pre-16) pattern and is now invalid.
+// Both `next dev` AND `next build` use Turbopack in Next.js 16, so this
+// setting is required in all environments.
+//
+// `outputFileTracingRoot` is intentionally NOT set — it is only valid for
+// apps with `output: 'standalone'`. Without it Next.js tracing works
+// correctly. Setting it caused a doubled Vercel path:
+//   /vercel/path0/path0/apps/main-site/.next/routes-manifest.json ← WRONG
+const nextConfig: any = {
+  // Tell Turbopack the monorepo root so it can resolve next/package.json
+  // correctly from within the monorepo's apps subdirectory.
+  turbopack: {
+    root: path.resolve(__dirname, "../../../"),
+  },
 
   async rewrites() {
     return [

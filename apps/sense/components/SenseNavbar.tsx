@@ -63,9 +63,8 @@ export function SenseNavbar() {
                         return (
                             <div key={link.name} className="relative flex items-center">
                                 <Link href={link.href}>
-                                    <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold ${
-                                        isActive ? "text-white" : "text-slate-400 hover:text-white"
-                                    }`}>
+                                    <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold ${isActive ? "text-white" : "text-slate-400 hover:text-white"
+                                        }`}>
                                         {link.name}
                                     </span>
                                 </Link>
@@ -165,9 +164,8 @@ export function SenseNavbar() {
                                         onClick={() => setMobileMenuOpen(false)}
                                         className="flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group"
                                     >
-                                        <span className={`text-xl font-bold ${
-                                            pathname === link.href ? "text-blue-500" : "text-slate-300"
-                                        }`}>
+                                        <span className={`text-xl font-bold ${pathname === link.href ? "text-blue-500" : "text-slate-300"
+                                            }`}>
                                             {link.name}
                                         </span>
                                         <ChevronRight size={18} />

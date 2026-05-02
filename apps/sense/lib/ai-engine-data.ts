@@ -1,0 +1,425 @@
+// Central data source for the AI Engine page.
+// All model data sourced from segmento_master_context.html and pii_layer4_model_comparison.html.
+
+export type ModelLayer = "4a" | "4b" | "4c" | "4d" | "fw";
+
+export interface AIModel {
+  id: string;
+  layer: ModelLayer;
+  name: string;
+  arch: string;
+  metricLabel: string;
+  metricVal: number;
+  metricDisplay: string;
+  entities: string;
+  context: string;
+  ctxRaw: number;
+  bestFor: string;
+  trainable: "yes" | "limited" | "partial" | "customizable";
+  latency: string;
+  latencyRaw: number;
+  inUse: boolean;
+  description: string;
+}
+
+export const AI_MODELS: AIModel[] = [
+  // ─── 4A Primary NER ───────────────────────────────────────────────────────
+  {
+    id: "pasteproof",
+    layer: "4a",
+    name: "joneauxedgar/pasteproof-pii-detector-v2",
+    arch: "ModernBERT-base (149M)",
+    metricLabel: "F1 (held-out)",
+    metricVal: 0.97,
+    metricDisplay: "F1 0.970",
+    entities: "27 PII types (PCI, HIPAA, GDPR)",
+    context: "8,192 tokens",
+    ctxRaw: 8192,
+    bestFor: "Long compliance docs, leakage prevention, intentional variation coverage",
+    trainable: "yes",
+    latency: "~120ms GPU",
+    latencyRaw: 120,
+    inUse: true,
+    description:
+      "ModernBERT-base with 149M parameters. Covers 27 PII types across PCI/HIPAA/GDPR frameworks. Trained on 150K synthetic examples with BIO tagging.",
+  },
+  {
+    id: "mmbert32k",
+    layer: "4a",
+    name: "llm-semantic-router/mmbert32k-pii-detector-merged",
+    arch: "ModernBERT 307M + YaRN (32K context)",
+    metricLabel: "F1 (reported)",
+    metricVal: 0.969,
+    metricDisplay: "F1 0.969",
+    entities: "17 types · 35 BIO labels",
+    context: "32,768 tokens",
+    ctxRaw: 32768,
+    bestFor: "Extreme-length documents, legal contracts, batch reports with dense PII",
+    trainable: "yes",
+    latency: "~400ms GPU",
+    latencyRaw: 400,
+    inUse: true,
+    description:
+      "307M parameter ModernBERT with YaRN extending context to 32K tokens. Unmatched open-source coverage for long-form legal and compliance documents.",
+  },
+  {
+    id: "openmed",
+    layer: "4a",
+    name: "OpenMed PII Family (FR/DE/IT variants)",
+    arch: "ModernBERT-large (395M)",
+    metricLabel: "F1 (reported)",
+    metricVal: 0.96,
+    metricDisplay: ">F1 0.960",
+    entities: "55+ types incl. NSS, Codice Fiscale",
+    context: "8,192 tokens",
+    ctxRaw: 8192,
+    bestFor: "EU multilingual (FR/DE/IT), GDPR localized entity formats, healthcare records",
+    trainable: "yes",
+    latency: "~180ms GPU",
+    latencyRaw: 180,
+    inUse: false,
+    description:
+      "ModernBERT-large (395M) covering 55+ EU-localized PII types including French NSS and Italian Codice Fiscale. Multilingual healthcare focus.",
+  },
+  {
+    id: "piiranha",
+    layer: "4a",
+    name: "iiiorg/piiranha-v1-detect-personal-information",
+    arch: "DeBERTa-v3-base",
+    metricLabel: "Binary Acc / F1-macro",
+    metricVal: 0.9944,
+    metricDisplay: "99.44% acc · F1 0.931",
+    entities: "17 types · 6 languages",
+    context: "512 tokens (sub-256 optimal)",
+    ctxRaw: 512,
+    bestFor: "High-speed short-segment screening, multilingual real-time API, binary PII gate",
+    trainable: "yes",
+    latency: "~25ms GPU",
+    latencyRaw: 25,
+    inUse: true,
+    description:
+      "DeBERTa-v3-base with 99.44% binary accuracy. The fastest deployed model at 25ms GPU. Ideal as a high-speed first-pass gate across 6 languages.",
+  },
+  {
+    id: "nerguard",
+    layer: "4a",
+    name: "exdsgift/NerGuard-0.3B",
+    arch: "mDeBERTa-v3-base (0.3B)",
+    metricLabel: "F1-macro (in-dist)",
+    metricVal: 0.9963,
+    metricDisplay: "F1-macro 0.9963",
+    entities: "20 types · 8 EU languages",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Ultra-low latency EU multilingual, high-throughput real-time pipelines",
+    trainable: "yes",
+    latency: "33ms GPU",
+    latencyRaw: 33,
+    inUse: false,
+    description:
+      "mDeBERTa-v3-base with the highest throughput in the 4A sub-layer. 33ms median latency across 8 EU languages. Ideal for real-time pipelines.",
+  },
+  {
+    id: "deberta-pii",
+    layer: "4a",
+    name: "lakshyakh93/deberta_finetuned_pii",
+    arch: "DeBERTa-v3-base",
+    metricLabel: "F1 (est.)",
+    metricVal: 0.92,
+    metricDisplay: "F1 ~0.920",
+    entities: "15–20 general PII types",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "General-purpose PII baseline, interpretable benchmark",
+    trainable: "yes",
+    latency: "~30ms GPU",
+    latencyRaw: 30,
+    inUse: true,
+    description:
+      "DeBERTa-v3-base fine-tuned on ai4privacy/pii-masking-300k. Serves as a warm fallback and general-purpose baseline in the 4A ensemble.",
+  },
+
+  // ─── 4B Few-Shot Custom Entity · GLiNER ───────────────────────────────────
+  {
+    id: "gliner-pii-large",
+    layer: "4b",
+    name: "knowledgator/gliner-pii-large-v1.0",
+    arch: "GLiNER-large (bi-encoder)",
+    metricLabel: "F1 / Precision",
+    metricVal: 0.8325,
+    metricDisplay: "F1 0.833 · Prec 0.874",
+    entities: "60+ types (PII, PHI, PCI)",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Minimizing false positives, broadest entity coverage, production compliance audits",
+    trainable: "yes",
+    latency: "~45ms GPU",
+    latencyRaw: 45,
+    inUse: false,
+    description:
+      "GLiNER-large with bi-encoder architecture. 60+ PII/PHI/PCI categories with the best false-positive suppression in the 4B sub-layer. Uses NuNER contrastive loss.",
+  },
+  {
+    id: "nvidia-gliner",
+    layer: "4b",
+    name: "nvidia/gliner-PII-0.1",
+    arch: "GLiNER DeBERTa (570M)",
+    metricLabel: "Strict F1",
+    metricVal: 0.87,
+    metricDisplay: "Strict F1 0.870",
+    entities: "55+ categories",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Enterprise compliance, healthcare / finance / legal tri-domain",
+    trainable: "yes",
+    latency: "~60ms GPU",
+    latencyRaw: 60,
+    inUse: true,
+    description:
+      "NVIDIA GLiNER trained on the Nemotron-PII synthetic dataset. 570M parameters covering 55+ categories across Healthcare, Finance, and Legal domains simultaneously.",
+  },
+  {
+    id: "gretel-gliner",
+    layer: "4b",
+    name: "gretelai/gretel-gliner-bi-large-v1.0",
+    arch: "GLiNER-large (bidirectional)",
+    metricLabel: "F1 (internal bench)",
+    metricVal: 0.95,
+    metricDisplay: "F1 0.950",
+    entities: "30+ types (PII + PHI combined)",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Dual PII+PHI detection in one pass, HIPAA + GDPR simultaneously",
+    trainable: "yes",
+    latency: "~50ms GPU",
+    latencyRaw: 50,
+    inUse: false,
+    description:
+      "Bidirectional GLiNER-large capable of detecting both PII and PHI in a single inference pass. Ideal for organizations needing simultaneous HIPAA and GDPR coverage.",
+  },
+  {
+    id: "nerpa",
+    layer: "4b",
+    name: "OvermindLab/nerpa",
+    arch: "GLiNER2 (unified NER + structured extraction)",
+    metricLabel: "Micro-Precision",
+    metricVal: 0.93,
+    metricDisplay: "Micro-Prec 0.930",
+    entities: "Fine-grained (DATE_OF_BIRTH vs DATE_TIME disambiguation)",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Disambiguation of overlapping entity types, beats AWS Comprehend",
+    trainable: "yes",
+    latency: "~55ms GPU",
+    latencyRaw: 55,
+    inUse: false,
+    description:
+      "GLiNER2 with unified span and relation extraction. Excels at disambiguating overlapping entity types — outperforms AWS Comprehend on fine-grained date entities.",
+  },
+  {
+    id: "gliner-small",
+    layer: "4b",
+    name: "urchade/gliner_small-v2.1",
+    arch: "GLiNER-small (DeBERTa-v3-small encoder)",
+    metricLabel: "F1 (general NER)",
+    metricVal: 0.85,
+    metricDisplay: "F1 ~0.850",
+    entities: "Open/zero-shot (any custom label)",
+    context: "512 tokens",
+    ctxRaw: 512,
+    bestFor: "Zero-shot custom entities, prototyping new PII types, ultra-fast inference",
+    trainable: "yes",
+    latency: "~15ms GPU",
+    latencyRaw: 15,
+    inUse: true,
+    description:
+      "GLiNER-small for zero-shot custom entity discovery. At 15ms GPU it is the fastest model in the 4B layer. Used for dynamic entity prototyping and custom label discovery.",
+  },
+
+  // ─── 4C Spatial Analysis ──────────────────────────────────────────────────
+  {
+    id: "surya-ocr",
+    layer: "4c",
+    name: "Surya OCR (Datalab)",
+    arch: "Detection + segmentation models",
+    metricLabel: "Table Det. Prec / Recall",
+    metricVal: 0.99,
+    metricDisplay: "Prec 0.99 · Rec 0.96",
+    entities: "Tables, images, text blocks, reading order",
+    context: "Full page canvas",
+    ctxRaw: 99999,
+    bestFor: "Scanned document pre-processing, reading order correction, bounding box extraction",
+    trainable: "partial",
+    latency: "~620ms/page GPU",
+    latencyRaw: 620,
+    inUse: false,
+    description:
+      "Full-page layout analysis with 0.99 table precision on PubLayNet. Prerequisite for all scanned document PII extraction. Currently being integrated.",
+  },
+  {
+    id: "layoutlmv3-cord",
+    layer: "4c",
+    name: "nielsr/layoutlmv3-finetuned-cord",
+    arch: "LayoutLMv3-base (multimodal)",
+    metricLabel: "F1 (CORD)",
+    metricVal: 0.9638,
+    metricDisplay: "F1 0.9638",
+    entities: "Receipt/invoice fields (total, tax, items, merchant)",
+    context: "512 tokens + image patches",
+    ctxRaw: 512,
+    bestFor: "Receipt & invoice spatial PII extraction, structured financial document parsing",
+    trainable: "yes",
+    latency: "~200ms GPU (incl. OCR)",
+    latencyRaw: 200,
+    inUse: false,
+    description:
+      "LayoutLMv3-base trained on the CORD dataset. Multimodal spatial understanding of receipts and invoices — combines text, layout coordinates, and image patches.",
+  },
+  {
+    id: "layoutlmv3-funsd",
+    layer: "4c",
+    name: "nielsr/layoutlmv3-finetuned-funsd",
+    arch: "LayoutLMv3-base (multimodal)",
+    metricLabel: "F1 (FUNSD)",
+    metricVal: 0.9078,
+    metricDisplay: "F1 0.9078",
+    entities: "Form KV pairs (headers, questions, answers)",
+    context: "512 tokens + image patches",
+    ctxRaw: 512,
+    bestFor: "Scanned form key-value extraction, insurance/government forms",
+    trainable: "yes",
+    latency: "~200ms GPU (incl. OCR)",
+    latencyRaw: 200,
+    inUse: false,
+    description:
+      "LayoutLMv3-base trained on the FUNSD dataset. Extracts key-value pairs from scanned insurance, government, and legal forms with semantic entity linking.",
+  },
+  {
+    id: "layoutlmv3-medical",
+    layer: "4c",
+    name: "parthesh111/layoutlmv3-finetune-bioes-new",
+    arch: "LayoutLMv3-base + PaddleOCR",
+    metricLabel: "F1 (medical lab reports)",
+    metricVal: 0.92,
+    metricDisplay: "F1 ~0.920",
+    entities: "PHI: patient names, facility names, ages (BIOES)",
+    context: "512 tokens + image patches",
+    ctxRaw: 512,
+    bestFor: "Scanned medical lab report de-identification, HIPAA PHI spatial extraction",
+    trainable: "yes",
+    latency: "~250ms GPU (incl. OCR)",
+    latencyRaw: 250,
+    inUse: false,
+    description:
+      "LayoutLMv3-base with PaddleOCR using BIOES tagging scheme. Specifically tuned for medical lab report de-identification from the i2b2 2014 challenge dataset.",
+  },
+
+  // ─── 4D Language Detection ────────────────────────────────────────────────
+  {
+    id: "fast-langdetect",
+    layer: "4d",
+    name: "fast-langdetect (FastText lite)",
+    arch: "FastText (bag-of-n-grams classifier)",
+    metricLabel: "Top-1 Accuracy (common langs)",
+    metricVal: 0.98,
+    metricDisplay: "~98% (common langs)",
+    entities: "176 language labels",
+    context: "Sentence/paragraph",
+    ctxRaw: 128,
+    bestFor: "Edge-level language routing, <1ms CPU, GPU-free classification",
+    trainable: "limited",
+    latency: "<1ms CPU",
+    latencyRaw: 1,
+    inUse: false,
+    description:
+      "FastText-based language detector running at <1ms with 45–60MB RAM and no GPU requirement. Routes every text payload to the correct multilingual NER model before inference.",
+  },
+  {
+    id: "glotlid",
+    layer: "4d",
+    name: "cis-lmu/glotlid (V3)",
+    arch: "FastText-based (character n-grams)",
+    metricLabel: "Coverage (labels)",
+    metricVal: 0.95,
+    metricDisplay: "2,102 language labels",
+    entities: "2,102 language/dialect labels",
+    context: "Sentence/paragraph",
+    ctxRaw: 128,
+    bestFor: "Low-resource & obscure dialect routing, preventing metadata leakage",
+    trainable: "limited",
+    latency: "<2ms CPU",
+    latencyRaw: 2,
+    inUse: false,
+    description:
+      "GlotLID V3 with coverage across 2,102 language labels including low-resource dialects. Prevents metadata leakage between closely related language variants.",
+  },
+
+  // ─── Framework ────────────────────────────────────────────────────────────
+  {
+    id: "presidio",
+    layer: "fw",
+    name: "Microsoft Presidio",
+    arch: "Rule-based + spaCy NER + custom recognizers",
+    metricLabel: "Accuracy (structured entities)",
+    metricVal: 0.99,
+    metricDisplay: "99%+ structured · ~80% names",
+    entities: "Unlimited via custom recognizers",
+    context: "Unlimited (chunked internally)",
+    ctxRaw: 99998,
+    bestFor: "Orchestration layer, rule-based PII (regex), plugging in any model above",
+    trainable: "customizable",
+    latency: "~10–50ms CPU",
+    latencyRaw: 30,
+    inUse: true,
+    description:
+      "The backbone orchestration framework. Wraps every model above via the EntityRecognizer interface. Pattern-based detection for structured PII (email, phone, SSN) at near-perfect accuracy.",
+  },
+];
+
+export const LAYER_META: Record<
+  ModelLayer,
+  { label: string; color: string; bgColor: string; borderColor: string; description: string }
+> = {
+  "4a": {
+    label: "4A — Primary NER",
+    color: "#1D4ED8",
+    bgColor: "rgba(59,130,246,0.1)",
+    borderColor: "rgba(59,130,246,0.25)",
+    description: "ModernBERT & DeBERTa models for high-accuracy Named Entity Recognition",
+  },
+  "4b": {
+    label: "4B — GLiNER",
+    color: "#6D28D9",
+    bgColor: "rgba(139,92,246,0.1)",
+    borderColor: "rgba(139,92,246,0.25)",
+    description: "Few-shot custom entity detection for domain-specific PII types",
+  },
+  "4c": {
+    label: "4C — Spatial",
+    color: "#047857",
+    bgColor: "rgba(16,185,129,0.1)",
+    borderColor: "rgba(16,185,129,0.25)",
+    description: "LayoutLMv3 & Surya for scanned documents, PDFs, and image-based PII",
+  },
+  "4d": {
+    label: "4D — Lang Detect",
+    color: "#B45309",
+    bgColor: "rgba(245,158,11,0.1)",
+    borderColor: "rgba(245,158,11,0.25)",
+    description: "Language identification routing for multilingual document streams",
+  },
+  fw: {
+    label: "Framework",
+    color: "#BE185D",
+    bgColor: "rgba(236,72,153,0.1)",
+    borderColor: "rgba(236,72,153,0.25)",
+    description: "Orchestration backbone that unifies all models into one coherent pipeline",
+  },
+};
+
+export const MODEL_STATS = {
+  total: AI_MODELS.length,
+  deployed: AI_MODELS.filter((m) => m.inUse).length,
+  trainable: AI_MODELS.filter((m) => m.trainable === "yes").length,
+  peakF1: "0.9963",
+} as const;

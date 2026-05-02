@@ -31,9 +31,18 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
     const [showRemovePattern, setShowRemovePattern] = useState(false);
     const [selectedPattern, setSelectedPattern] = useState('');
 
+    const loadPatterns = React.useCallback(async () => {
+        try {
+            const response = await apiClient.getPatterns();
+            setPatterns(response.patterns);
+        } catch (error) {
+            console.error('Failed to load patterns:', error);
+        }
+    }, []);
+
     useEffect(() => {
         loadPatterns();
-    }, []);
+    }, [loadPatterns]);
 
     useEffect(() => {
         // Notify parent of source changes
@@ -55,16 +64,7 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
         }
 
         onSourceChange(config);
-    }, [mainCategory, structType, fileSubType, dbType, dbSource, cloudSource, enterpriseSource]);
-
-    const loadPatterns = async () => {
-        try {
-            const response = await apiClient.getPatterns();
-            setPatterns(response.patterns);
-        } catch (error) {
-            console.error('Failed to load patterns:', error);
-        }
-    };
+    }, [mainCategory, structType, fileSubType, dbType, dbSource, cloudSource, enterpriseSource, onSourceChange]);
 
     const handleAddPattern = async () => {
         if (!newPatternName || !newPatternRegex) return;
@@ -94,22 +94,22 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
     };
 
     return (
-        <div className="w-80 bg-gradient-to-b from-[#1A1A1A] to-[#141E30] border-r border-[#3E2F5B]/30 p-6 overflow-y-auto h-screen">
+        <div className="w-80 bg-transparent border-r border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30 p-6 overflow-y-auto h-screen">
             {/* Header */}
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-white mb-2">🛡️ Segmento Sense</h2>
-                <p className="text-sm text-gray-400">PII Detection Platform</p>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">🛡️ Segmento Sense</h2>
+                <p className="text-sm text-slate-500 dark:text-gray-400">PII Detection Platform</p>
             </div>
 
             {/* Source Selection */}
             <div className="mb-8">
-                <h3 className="text-lg font-semibold text-[#B3945B] mb-4">1. Source Selection</h3>
+                <h3 className="text-lg font-semibold text-indigo-600 dark:text-[#B3945B] mb-4">1. Source Selection</h3>
 
-                <label className="block text-sm text-gray-300 mb-2">Select System</label>
+                <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Select System</label>
                 <select
                     value={mainCategory}
                     onChange={(e) => setMainCategory(e.target.value)}
-                    className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B] transition-colors"
+                    className="w-full bg-white dark:bg-[#3E2F5B]/20 border border-slate-300 dark:border-[#3E2F5B] rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 dark:border-[#B3945B] transition-colors"
                 >
                     <option value="File System">File System</option>
                     <option value="Databases">Databases</option>
@@ -121,13 +121,13 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 {mainCategory === 'File System' && (
                     <div className="mt-4 space-y-3">
                         <div>
-                            <label className="block text-sm text-gray-300 mb-2">Data Type</label>
+                            <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Data Type</label>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setStructType('Structured Data')}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${structType === 'Structured Data'
-                                        ? 'bg-[#3E94560] text-white'
-                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-indigo-600 dark:bg-[#3E94560] text-slate-900 dark:text-white'
+                                        : 'bg-white dark:bg-[#3E2F5B]/20 text-slate-500 dark:text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     Structured
@@ -135,8 +135,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                 <button
                                     onClick={() => setStructType('Unstructured Data')}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${structType === 'Unstructured Data'
-                                        ? 'bg-[#3E94560] text-white'
-                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-indigo-600 dark:bg-[#3E94560] text-slate-900 dark:text-white'
+                                        : 'bg-white dark:bg-[#3E2F5B]/20 text-slate-500 dark:text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     Unstructured
@@ -145,11 +145,11 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                         </div>
 
                         <div>
-                            <label className="block text-sm text-gray-300 mb-2">File Format</label>
+                            <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">File Format</label>
                             <select
                                 value={fileSubType}
                                 onChange={(e) => setFileSubType(e.target.value)}
-                                className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B]"
+                                className="w-full bg-white dark:bg-[#3E2F5B]/20 border border-slate-300 dark:border-[#3E2F5B] rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                             >
                                 {structType === 'Structured Data' ? (
                                     <>
@@ -173,7 +173,7 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 {mainCategory === 'Databases' && (
                     <div className="mt-4 space-y-3">
                         <div>
-                            <label className="block text-sm text-gray-300 mb-2">Database Type</label>
+                            <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Database Type</label>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => {
@@ -181,8 +181,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                         setDbSource('PostgreSQL');
                                     }}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${dbType === 'Relational (SQL)'
-                                        ? 'bg-[#3E94560] text-white'
-                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-indigo-600 dark:bg-[#3E94560] text-slate-900 dark:text-white'
+                                        : 'bg-white dark:bg-[#3E2F5B]/20 text-slate-500 dark:text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     SQL
@@ -193,8 +193,8 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                                         setDbSource('MongoDB');
                                     }}
                                     className={`flex-1 px-3 py-2 rounded-lg text-sm transition-all ${dbType === 'Non-Relational (NoSQL)'
-                                        ? 'bg-[#3E94560] text-white'
-                                        : 'bg-[#3E2F5B]/20 text-gray-400 hover:bg-[#3E2F5B]/40'
+                                        ? 'bg-indigo-600 dark:bg-[#3E94560] text-slate-900 dark:text-white'
+                                        : 'bg-white dark:bg-[#3E2F5B]/20 text-slate-500 dark:text-gray-400 hover:bg-[#3E2F5B]/40'
                                         }`}
                                 >
                                     NoSQL
@@ -203,11 +203,11 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                         </div>
 
                         <div>
-                            <label className="block text-sm text-gray-300 mb-2">Select Database</label>
+                            <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Select Database</label>
                             <select
                                 value={dbSource}
                                 onChange={(e) => setDbSource(e.target.value)}
-                                className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B]"
+                                className="w-full bg-white dark:bg-[#3E2F5B]/20 border border-slate-300 dark:border-[#3E2F5B] rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                             >
                                 {dbType === 'Relational (SQL)' ? (
                                     <>
@@ -225,11 +225,11 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 {/* Cloud Storage Options */}
                 {mainCategory === 'Cloud Storage' && (
                     <div className="mt-4">
-                        <label className="block text-sm text-gray-300 mb-2">Service</label>
+                        <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Service</label>
                         <select
                             value={cloudSource}
                             onChange={(e) => setCloudSource(e.target.value)}
-                            className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B]"
+                            className="w-full bg-white dark:bg-[#3E2F5B]/20 border border-slate-300 dark:border-[#3E2F5B] rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                         >
                             <option value="Google Drive">Google Drive</option>
                             <option value="Amazon S3">Amazon S3</option>
@@ -242,11 +242,11 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 {/* Enterprise Connectors Options */}
                 {mainCategory === 'Enterprise Connectors' && (
                     <div className="mt-4">
-                        <label className="block text-sm text-gray-300 mb-2">Platform</label>
+                        <label className="block text-sm text-slate-600 dark:text-gray-300 mb-2">Platform</label>
                         <select
                             value={enterpriseSource}
                             onChange={(e) => setEnterpriseSource(e.target.value)}
-                            className="w-full bg-[#3E2F5B]/20 border border-[#3E2F5B] rounded-lg px-3 py-2 text-white focus:outline-none focus:border-[#B3945B]"
+                            className="w-full bg-white dark:bg-[#3E2F5B]/20 border border-slate-300 dark:border-[#3E2F5B] rounded-lg px-3 py-2 text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                         >
                             <option value="Gmail">Gmail</option>
                             <option value="Slack">Slack</option>
@@ -256,24 +256,24 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 )}
             </div>
 
-            <div className="border-t border-[#3E2F5B]/30 pt-6 my-6"></div>
+            <div className="border-t border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30 pt-6 my-6"></div>
 
             {/* Patterns Section */}
             <div>
-                <h3 className="text-lg font-semibold text-[#B3945B] mb-4">2. Patterns</h3>
+                <h3 className="text-lg font-semibold text-indigo-600 dark:text-[#B3945B] mb-4">2. Patterns</h3>
 
                 {/* Pattern List */}
-                <div className="bg-[#3E2F5B]/10 rounded-lg p-3 mb-3 max-h-48 overflow-y-auto">
+                <div className="bg-slate-100 dark:bg-[#3E2F5B]/10 rounded-lg p-3 mb-3 max-h-48 overflow-y-auto">
                     <table className="w-full text-xs">
-                        <thead className="text-gray-400">
+                        <thead className="text-slate-500 dark:text-gray-400">
                             <tr>
                                 <th className="text-left pb-2">Name</th>
                                 <th className="text-left pb-2">Regex</th>
                             </tr>
                         </thead>
-                        <tbody className="text-gray-300">
+                        <tbody className="text-slate-600 dark:text-gray-300">
                             {patterns.map((pattern, idx) => (
-                                <tr key={idx} className="border-t border-[#3E2F5B]/20">
+                                <tr key={idx} className="border-t border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/20">
                                     <td className="py-1">{pattern.name}</td>
                                     <td className="py-1 font-mono text-[10px]">{pattern.regex.slice(0, 15)}...</td>
                                 </tr>
@@ -285,30 +285,30 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 {/* Add Pattern */}
                 <button
                     onClick={() => setShowAddPattern(!showAddPattern)}
-                    className="w-full bg-[#3E94560]/20 hover:bg-[#3E94560]/40 text-[#B3945B] px-3 py-2 rounded-lg text-sm mb-2 transition-colors"
+                    className="w-full bg-indigo-600 dark:bg-indigo-100 dark:bg-[#3E94560]/20 hover:bg-indigo-600 dark:bg-indigo-200 dark:bg-[#3E94560]/40 text-indigo-600 dark:text-[#B3945B] px-3 py-2 rounded-lg text-sm mb-2 transition-colors"
                 >
                     ➕ Add Pattern
                 </button>
 
                 {showAddPattern && (
-                    <div className="bg-[#3E2F5B]/20 rounded-lg p-3 mb-2">
+                    <div className="bg-white dark:bg-[#3E2F5B]/20 rounded-lg p-3 mb-2">
                         <input
                             type="text"
                             placeholder="Pattern Name"
                             value={newPatternName}
                             onChange={(e) => setNewPatternName(e.target.value)}
-                            className="w-full bg-[#1A1A1A] border border-[#3E2F5B] rounded px-2 py-1 text-white text-sm mb-2 focus:outline-none focus:border-[#B3945B]"
+                            className="w-full bg-slate-50 dark:bg-[#1A1A1A] border border-slate-300 dark:border-[#3E2F5B] rounded px-2 py-1 text-slate-900 dark:text-white text-sm mb-2 focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                         />
                         <input
                             type="text"
                             placeholder="Regex Pattern"
                             value={newPatternRegex}
                             onChange={(e) => setNewPatternRegex(e.target.value)}
-                            className="w-full bg-[#1A1A1A] border border-[#3E2F5B] rounded px-2 py-1 text-white text-sm mb-2 focus:outline-none focus:border-[#B3945B]"
+                            className="w-full bg-slate-50 dark:bg-[#1A1A1A] border border-slate-300 dark:border-[#3E2F5B] rounded px-2 py-1 text-slate-900 dark:text-white text-sm mb-2 focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                         />
                         <button
                             onClick={handleAddPattern}
-                            className="w-full bg-[#B3945B] hover:bg-[#B3945B]/80 text-white px-3 py-1 rounded text-sm transition-colors"
+                            className="w-full bg-[#B3945B] hover:bg-[#B3945B]/80 text-slate-900 dark:text-white px-3 py-1 rounded text-sm transition-colors"
                         >
                             Add
                         </button>
@@ -324,11 +324,11 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                 </button>
 
                 {showRemovePattern && (
-                    <div className="bg-[#3E2F5B]/20 rounded-lg p-3 mt-2">
+                    <div className="bg-white dark:bg-[#3E2F5B]/20 rounded-lg p-3 mt-2">
                         <select
                             value={selectedPattern}
                             onChange={(e) => setSelectedPattern(e.target.value)}
-                            className="w-full bg-[#1A1A1A] border border-[#3E2F5B] rounded px-2 py-1 text-white text-sm mb-2 focus:outline-none focus:border-[#B3945B]"
+                            className="w-full bg-slate-50 dark:bg-[#1A1A1A] border border-slate-300 dark:border-[#3E2F5B] rounded px-2 py-1 text-slate-900 dark:text-white text-sm mb-2 focus:outline-none focus:border-indigo-500 dark:border-[#B3945B]"
                         >
                             <option value="">Select Pattern</option>
                             {patterns.map((pattern, idx) => (
@@ -338,7 +338,7 @@ export const SourceSidebar: React.FC<SourceSidebarProps> = ({ onSourceChange }) 
                         <button
                             onClick={handleRemovePattern}
                             disabled={!selectedPattern}
-                            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white px-3 py-1 rounded text-sm transition-colors"
+                            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-slate-900 dark:text-white px-3 py-1 rounded text-sm transition-colors"
                         >
                             Remove Selected
                         </button>
