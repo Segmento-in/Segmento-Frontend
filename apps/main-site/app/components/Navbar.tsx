@@ -58,6 +58,7 @@ const navLinks: NavLink[] = [
     dropdown: [{ name: "Blog", href: "/blog" }],
   },
   { name: "Pricing", href: "/pricing" },
+  { name: "Careers", href: "/careers" },
   { name: "Contact", href: "/contact" },
 ];
 

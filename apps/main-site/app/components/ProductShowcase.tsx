@@ -73,7 +73,7 @@ export default function ProductShowcase() {
       id="ProductShowcase" 
       className="py-24 md:py-32 bg-sky-50 relative overflow-hidden transition-colors duration-500"
     >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-linear-to-r from-transparent via-slate-200 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-24">
@@ -82,20 +82,24 @@ export default function ProductShowcase() {
           </h2>
         </div>
 
-        <div className="space-y-24 md:space-y-40">
-          {products.map((product, index) => (
+        <div className="space-y-16">
+          {products.map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 bg-white border border-slate-200/80 shadow-[0_25px_75px_-30px_rgba(15,23,42,0.25)] rounded-none p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_80px_-30px_rgba(59,130,246,0.22)] ${
-                index % 2 !== 0 ? "lg:flex-row-reverse" : ""
-              }`}
+              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 bg-white border-2 p-8 md:p-12 transition-all duration-500 hover:-translate-y-2 rounded-none group/card
+                ${product.color === 'blue' ? 'border-blue-100 hover:border-blue-400 shadow-[0_20px_50px_-20px_rgba(59,130,246,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(59,130,246,0.25)]' :
+                  product.color === 'indigo' ? 'border-indigo-100 hover:border-indigo-400 shadow-[0_20px_50px_-20px_rgba(79,70,229,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(79,70,229,0.25)]' :
+                  product.color === 'sky' ? 'border-sky-100 hover:border-sky-400 shadow-[0_20px_50px_-20px_rgba(14,165,233,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(14,165,233,0.25)]' :
+                  product.color === 'purple' ? 'border-purple-100 hover:border-purple-400 shadow-[0_20px_50px_-20px_rgba(147,51,234,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(147,51,234,0.25)]' :
+                  'border-emerald-100 hover:border-emerald-400 shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.25)]'
+                }`}
             >
-              {/* Content Side */}
-              <div className="flex-1 space-y-6">
+              {/* Content Side - Fixed to Left */}
+              <div className="flex-1 space-y-6 order-2 lg:order-1">
                 <h3 className="text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight leading-[1.1]">
                   {product.title}
                 </h3>
@@ -106,7 +110,7 @@ export default function ProductShowcase() {
                 <div className="pt-4">
                   <Link
                     href={product.link}
-                    className="inline-flex items-center gap-3 px-4 py-2 bg-[#0F172A] text-white font-bold rounded-none hover:bg-slate-900 transition-all shadow-lg active:scale-95 group"
+                    className="inline-flex items-center gap-3 px-6 py-3 bg-[#0F172A] text-white font-bold rounded-none hover:bg-slate-900 transition-all shadow-lg active:scale-95 group"
                   >
                     <span>Explore {product.name.split(" ")[1]}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -114,9 +118,8 @@ export default function ProductShowcase() {
                 </div>
               </div>
 
-              {/* Preview Side */}
-              <div className="flex-1 w-full relative">
-                {/* Floating Badge - Now on top of the image */}
+              {/* Preview Side - Fixed to Right */}
+              <div className="flex-1 w-full relative order-1 lg:order-2">
                 <div className={`absolute -top-4 left-6 z-20 inline-flex items-center px-4 py-1.5 rounded-full text-[13px] font-black tracking-widest uppercase shadow-md border ${
                   product.color === 'blue' ? 'bg-blue-600 text-white border-blue-400' :
                   product.color === 'indigo' ? 'bg-indigo-600 text-white border-indigo-400' :
@@ -128,14 +131,13 @@ export default function ProductShowcase() {
                 </div>
 
                 <div className="relative group">
-                  <div className={`absolute -inset-4 blur-3xl opacity-20 transition-opacity group-hover:opacity-30 ${
+                  <div className={`absolute -inset-4 blur-3xl opacity-20 transition-opacity group-hover:opacity-40 ${
                     product.color === 'blue' ? 'bg-blue-400' : 
                     product.color === 'indigo' ? 'bg-indigo-400' : 
                     product.color === 'sky' ? 'bg-sky-400' : 
                     product.color === 'purple' ? 'bg-purple-400' : 'bg-emerald-400'
                   }`} />
                   
-                  {/* Main Container - Highlighted Box */}
                   <div className="relative bg-white rounded-none p-3 shadow-[0_32px_64px_-16px_rgba(15,23,42,0.12)] border border-slate-200/60 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
                     
                     {/* Mock Browser Header */}
@@ -149,10 +151,10 @@ export default function ProductShowcase() {
                       </div>
                     </div>
 
-                    {/* Content Area - Sharp Corners */}
+                    {/* Content Area */}
                     <div className="bg-slate-50/50 rounded-none p-5 min-h-[340px] border border-slate-100 relative overflow-hidden">
                       
-                      {/* --- PULSE PREVIEW --- */}
+                      {/* PULSE PREVIEW */}
                       {product.id === "pulse" && (
                         <div className="space-y-4">
                           <div className="bg-white p-4 rounded-none border border-blue-100 shadow-sm relative overflow-hidden">
@@ -183,7 +185,7 @@ export default function ProductShowcase() {
                         </div>
                       )}
 
-                      {/* --- SENSE PREVIEW --- */}
+                      {/* SENSE PREVIEW */}
                       {product.id === "sense" && (
                         <div className="h-full flex flex-col gap-4">
                           <div className="bg-slate-900 p-5 border border-slate-800 shadow-2xl relative overflow-hidden flex-1 rounded-none">
@@ -203,25 +205,10 @@ export default function ProductShowcase() {
                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AI Confidence</div>
                              <div className="text-sm font-black text-slate-900">99.8%</div>
                           </div>
-                          {/* Entry Point 1: Glassmorphism teaser strip — opens AI Engine page in new tab */}
-                          <a
-                            href="/products/data-classification/ai-engine"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2.5 bg-indigo-900/60 backdrop-blur-md border border-indigo-400/20 rounded-none hover:bg-indigo-900/80 hover:border-indigo-400/35 transition-all duration-200 group"
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse" />
-                              <span className="text-[10px] font-bold text-indigo-200 uppercase tracking-widest">
-                                18 AI Models · Self-Hosted
-                              </span>
-                            </div>
-                            <ChevronRight className="w-3 h-3 text-indigo-300 group-hover:translate-x-0.5 transition-transform" />
-                          </a>
                         </div>
                       )}
 
-                      {/* --- COLLECTOR PREVIEW --- */}
+                      {/* COLLECTOR PREVIEW */}
                       {product.id === "collector" && (
                         <div className="space-y-4">
                           <div className="flex items-center justify-between px-2">
@@ -268,7 +255,7 @@ export default function ProductShowcase() {
                         </div>
                       )}
 
-                      {/* --- RESOLVE PREVIEW --- */}
+                      {/* RESOLVE PREVIEW */}
                       {product.id === "resolve" && (
                         <div className="h-full flex flex-col gap-4">
                           <div className="flex items-center justify-between px-2">
@@ -311,7 +298,7 @@ export default function ProductShowcase() {
                         </div>
                       )}
 
-                      {/* --- SPRINTIQ PREVIEW --- */}
+                      {/* SPRINTIQ PREVIEW */}
                       {product.id === "sprintiq" && (
                         <div className="space-y-4">
                           <div className="flex items-center justify-between px-2">
@@ -350,9 +337,7 @@ export default function ProductShowcase() {
                       )}
 
                     </div>
-                    
-                    {/* Glass Shine */}
-                    <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -362,4 +347,4 @@ export default function ProductShowcase() {
       </div>
     </section>
   );
-}
+}            

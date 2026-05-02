@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Link from "next/link";
 import { 
   Shield, 
   Brain, 
@@ -19,7 +20,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/images/director.jfif",
+  image: "/shadow1.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -263,9 +264,11 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight">
                 Join Our Engineering-First Team
               </h2>
-              <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
-                View Open Roles
-              </button>
+              <Link href="/careers">
+  <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
+    View Open Roles
+  </button>
+</Link>
           </div>
         </div>
       </section>
