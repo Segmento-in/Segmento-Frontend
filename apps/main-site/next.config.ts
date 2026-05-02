@@ -61,7 +61,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/products/segmento-resolve',
-        destination: 'https://segmento-resolve.vercel.app',
+        destination: 'https://ticket-management-frontend-tau.vercel.app/',
         permanent: false,
       },
       {

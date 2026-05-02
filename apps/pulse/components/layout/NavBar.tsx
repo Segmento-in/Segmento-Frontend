@@ -104,17 +104,14 @@ export function NavBar() {
                 borderBottom: "1px solid var(--pulse-color-border-subtle)",
             }}
         >
-                <div className="flex items-center gap-4 md:gap-8 max-w-[1200px] mx-auto px-4 sm:px-6 h-[64px]">
+                <div className="flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-8 max-w-[1200px] mx-auto px-3 sm:px-6 py-2 md:py-3 min-h-[56px] md:min-h-[64px]">
                 {/* Logo */}
                 <Link
                     href="/"
+                    className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0"
                     style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
                         textDecoration: "none",
                         color: "inherit",
-                        flexShrink: 0,
                     }}
                 >
                     {/* Icon mark — PulseLogo imported from UI-1 */}
@@ -129,16 +126,16 @@ export function NavBar() {
                     >
                         <PulseLogo size="md" />
                     </span>
-                    <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--pulse-color-text-primary)" }}>
+                    <span className="text-[14px] sm:text-[15px] font-bold tracking-[-0.01em] text-[var(--pulse-color-text-primary)]">
                         Segmento Pulse
                     </span>
                 </Link>
 
                 {/* Main links — removed per user instruction */}
-                <div style={{ flex: 1 }} />
+                <div className="flex-1 min-w-0" />
 
                 {/* Right actions */}
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0 flex-wrap justify-end">
                     <ThemeToggle />
                     {user ? (
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -171,23 +168,37 @@ export function NavBar() {
                     )}
                     <button
                         onClick={() => setIsNewsletterHubOpen(true)}
-                        className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85"
+                        className="px-2.5 sm:px-[18px] md:px-[20px] py-1 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-white text-[12px] sm:text-[14px] md:text-[15px] rounded-full font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85"
                     >
                         Subscribe
                     </button>
                     
-              <a href="https://segmento.in/">
-    <button
-        className="px-3 sm:px-[18px] py-1.5 sm:py-2 bg-[var(--pulse-color-brand-accent)] text-[var(--pulse-color-text-inverse)] rounded-full text-[13px] sm:text-[14px] font-semibold border-none cursor-pointer whitespace-nowrap transition-opacity hover:opacity-85 flex items-center gap-2"
-    >
-        <ArrowLeft size={10} />
+           <a href="https://segmento.in/" className="flex-shrink-0">
+  <button
+    type="button"
+    className="
+      flex items-center justify-center
+      min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]
+      px-2 py-2 sm:px-5 sm:py-2
+      rounded-full
+      bg-[var(--pulse-color-brand-accent)]
+      text-[var(--pulse-color-text-inverse)]
+      text-[13px] sm:text-[14px]
+      font-semibold
+      transition-all hover:opacity-85 active:scale-95
+      flex-shrink-0
+    "
+    aria-label="Back to Segmento"
+  >
+    <ArrowLeft size={16} />
 
-        {/* Mobile */}
-        <span className="sm:hidden">Back</span>
-
-        {/* Desktop / larger screens */}
-        <span className="hidden sm:inline">Back to Segmento</span>
-    </button>
+    <span className="ml-2 leading-none sm:hidden">
+      Back to Segmento
+    </span>
+    <span className="hidden sm:inline ml-2 leading-none">
+      Back to Segmento
+    </span>
+  </button>
 </a>
                     
                 </div>
@@ -252,17 +263,7 @@ export function NavBar() {
                                     value={searchQuery}
                                     onChange={handleSearchInput}
                                     placeholder="Search news..."
-                                    style={{
-                                        width: "180px",
-                                        height: "36px",
-                                        padding: "0 12px",
-                                        borderRadius: "6px",
-                                        border: "1px solid var(--pulse-color-border-subtle)",
-                                        fontSize: "13px",
-                                        outline: "none",
-                                        color: "var(--pulse-color-text-primary)",
-                                        background: "transparent"
-                                    }}
+                                    className="w-[140px] md:w-[180px] h-[36px] px-3 rounded-[6px] border border-[var(--pulse-color-border-subtle)] text-[13px] bg-transparent outline-none text-[var(--pulse-color-text-primary)]"
                                     autoFocus
                                     onBlur={() => setTimeout(() => setIsSearchOpen(false), 200)}
                                 />
