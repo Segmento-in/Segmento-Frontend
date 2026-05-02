@@ -1,7 +1,16 @@
-import type { NextConfig } from "next";
+import path from "path";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+// Using `any` type mirrors frontend/apps/sense/next.config.ts exactly.
+// NextConfig type rejects `experimental.turbo` in Next.js 16 typings, but
+// the runtime still accepts it — same approach that works for the Sense app.
+const nextConfig: any = {
+  // Fix: Turbopack monorepo workspace root resolution (mirrors sense/next.config.ts)
+  outputFileTracingRoot: path.resolve(__dirname, "../../../"),
+  experimental: {
+    turbo: {
+      root: path.resolve(__dirname, "../../../"),
+    },
+  },
 
   async rewrites() {
     return [

@@ -1,8 +1,14 @@
-import type { NextConfig } from "next";
+import path from "path";
 
-const nextConfig: NextConfig = {
+const nextConfig: any = {
     basePath: '/products/data-classification',
     output: 'standalone',
+    outputFileTracingRoot: path.resolve(__dirname, '../../../'),
+    experimental: {
+        turbo: {
+            root: path.resolve(__dirname, '../../../'),
+        },
+    },
     async redirects() {
         return [
             {
