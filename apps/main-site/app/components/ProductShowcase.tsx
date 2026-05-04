@@ -23,7 +23,7 @@ const products = [
     name: "Segmento Sense",
     title: "AI Enabled Data Classification",
     description: "Advanced text extraction and perimeter defense featuring client-side OCR and automated PII redaction. Experience the power of Explainable AI in every classification task.",
-    link: "/products/data-classification",
+    link: "/sense",
     color: "indigo",
   },
   {

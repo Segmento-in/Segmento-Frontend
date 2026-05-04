@@ -24,7 +24,7 @@ export function Footer() {
   const footerLinks = {
     product: [
       { label: "Segmento Pulse", href: "/pulse" },
-      { label: "Segmento Sense", href: "/products/data-classification" },
+      { label: "Segmento Sense", href: "/sense" },
     ],
     company: [
       { label: "About", href: "/about" },

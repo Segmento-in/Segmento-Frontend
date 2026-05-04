@@ -34,8 +34,8 @@ export default function ContactPage() {
                     <div className="relative">
                       <input 
                         type="text" 
-                        defaultValue="Anuksha" 
-                        className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white focus:border-blue-400 outline-none transition-all font-medium text-sm" 
+                        placeholder="Full Name"
+                        className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:border-blue-400 outline-none transition-all font-medium text-sm" 
                       />
                     </div>
                   </div>

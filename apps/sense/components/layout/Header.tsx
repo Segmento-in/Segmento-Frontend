@@ -61,7 +61,7 @@ export function Header() {
                 <div className={dropdownWrapper}>
                   <div className={dropdownBox}>
                     <Link href="/pulse" className={dropdownItem}>Segmento Pulse</Link>
-                    <Link href="/products/data-classification" className={dropdownItem}>Segmento Sense</Link>
+                    <Link href="/sense" className={dropdownItem}>Segmento Sense</Link>
                     <span className={dropdownItem}>Segmento Resolve (Upcoming)</span>
                     <span className={dropdownItem}>Segmento Collect (Upcoming)</span>
                   </div>
@@ -155,7 +155,7 @@ export function Header() {
           {mobileDropdown === "products" && (
             <div className="bg-gray-900 rounded-lg p-4 space-y-2 text-sm">
               <Link href="/pulse" onClick={() => setMobileOpen(false)} className="block">Segmento Pulse</Link>
-              <Link href="/products/data-classification" onClick={() => setMobileOpen(false)} className="block">Segmento Sense</Link>
+              <Link href="/sense" onClick={() => setMobileOpen(false)} className="block">Segmento Sense</Link>
               <p className="opacity-70">Resolve (Upcoming)</p>
               <p className="opacity-70">Collect (Upcoming)</p>
             </div>

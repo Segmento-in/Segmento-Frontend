@@ -1,8 +1,9 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/ui/button" 
+import { Button } from "@/ui/button"
 import { MessageSquareText, Zap, ShieldCheck, Activity, Lock, Database, Globe } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts"
 
@@ -54,10 +55,10 @@ export function HeroSection() {
         <section className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden py-24">
             {/* Subtle Professional Background */}
             <div className="absolute top-0 right-0 w-150 h-150 bg-slate-50 rounded-full blur-[120px] pointer-events-none opacity-40" />
-            
+
             <div className="container mx-auto px-6 relative z-10 max-w-7xl">
                 <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-                    
+
                     {/* Left: Professional Typography */}
                     <div className="flex-1 text-left">
                         <motion.div
@@ -67,45 +68,45 @@ export function HeroSection() {
                         >
                             <h1 className="text-[#0F172A] text-4xl md:text-5xl lg:text-[5.2rem] font-black leading-[0.95] mb-8 tracking-tighter">
                                 Secure Your  <br />
-                              Data with,<br />
-                                <span className="text-[#2563EB]"> Transparent PII Detection.</span>
+                                Data with<br />
+                                <span className="text-[#2563EB]"> Transparent PII Detection</span>
                             </h1>
-                            
+
                             <p className="text-[#64748B] text-xl mb-12 max-w-xl leading-relaxed font-normal tracking-tight">
-                                Detect, classify, and protect sensitive data with Explainable AI, client-side OCR, and secure processing—without your data leaving your infrastructure.
+                                Detect, classify, and protect sensitive data with Explainable AI, client-side OCR, and secure processing without your data leaving your infrastructure.
 
                             </p>
-                             
-                            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
-    {/* First Button: Deploy Sense */}
-    <a href="/products/data-classification/demo" className="block w-full sm:w-auto">
-        <Button className="h-16 w-full sm:w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
-            <MessageSquareText className="w-6 h-5 text-blue-400" />
-            <span className="text-sm">Demo</span>
-        </Button>
-    </a>
 
-    {/* Second Button: Engineering Docs */}
-<a
-  href="https://www.segmento.in/contact"
-  className="block w-full sm:w-auto"
->   <Button 
-        variant="outline" 
-        className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
-    >
-        <Zap className="w-6 h-5 text-amber-500" />
-        <span className="text-sm">View Docs</span>
-    </Button>
-</a>
-</div>
+                            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                                {/* First Button: Deploy Sense */}
+                                <Link href="/demo" className="block w-full sm:w-auto">
+                                    <Button className="h-16 w-full sm:w-64 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-none font-bold tracking-[0.1em] uppercase transition-all shadow-xl flex items-center justify-center gap-3">
+                                        <MessageSquareText className="w-6 h-5 text-blue-400" />
+                                        <span className="text-sm">Demo</span>
+                                    </Button>
+                                </Link>
+
+                                {/* Second Button: Engineering Docs */}
+                                <a
+                                    href="https://www.segmento.in/contact"
+                                    className="block w-full sm:w-auto"
+                                >   <Button
+                                    variant="outline"
+                                    className="h-16 w-full sm:w-64 border-slate-200 text-[#0F172A] bg-white hover:bg-slate-50 rounded-none border-[1.5px] font-bold tracking-[0.1em] uppercase flex items-center justify-center gap-3 transition-all"
+                                >
+                                        <Zap className="w-6 h-5 text-amber-500" />
+                                        <span className="text-sm">View Docs</span>
+                                    </Button>
+                                </a>
+                            </div>
                         </motion.div>
                     </div>
 
                     {/* Right: Auto-Cycling Rotating Graph */}
                     <div className="flex-1 relative w-full h-[420px] sm:h-[520px] lg:h-[650px] flex items-center justify-center">
-                        
+
                         {/* Slow Rotating Container */}
-                        <motion.div 
+                        <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                             className="w-full h-full relative z-10"
@@ -120,14 +121,14 @@ export function HeroSection() {
                                         innerRadius={150}
                                         outerRadius={200}
                                         dataKey="value"
-                                        onMouseEnter={(_:any, i:number) => setActiveIndex(i)}
+                                        onMouseEnter={(_: any, i: number) => setActiveIndex(i)}
                                         stroke="none"
                                         paddingAngle={6}
                                     >
                                         {data.map((entry: any, index: number) => (
-                                            <Cell 
-                                                key={`cell-${index}`} 
-                                                fill={entry.color} 
+                                            <Cell
+                                                key={`cell-${index}`}
+                                                fill={entry.color}
                                                 className="outline-none transition-all duration-1000"
                                                 // Darkened Multicolor logic
                                                 style={{
@@ -171,7 +172,7 @@ export function HeroSection() {
                         <div className="absolute inset-0 border-[0.5px] border-slate-100 rounded-full scale-[0.6] pointer-events-none" />
                         <div className="absolute inset-0 border-[0.5px] border-slate-100 rounded-full scale-[0.85] pointer-events-none opacity-40" />
 
-                        
+
                     </div>
                 </div>
             </div>

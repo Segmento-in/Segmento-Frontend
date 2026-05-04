@@ -43,7 +43,7 @@ const nextConfig: any = {
           : 'https://pulse.segmento.in')}/pulse/:path*`,
       },
       {
-        source: '/products/data-classification',
+        source: '/sense',
         missing: [
           {
             type: 'host',
@@ -52,10 +52,10 @@ const nextConfig: any = {
         ],
         destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3002'
-          : 'https://sense.segmento.in')}/products/data-classification`,
+          : 'https://sense.segmento.in')}/sense`,
       },
       {
-        source: '/products/data-classification/:path*',
+        source: '/sense/:path*',
         missing: [
           {
             type: 'host',
@@ -64,7 +64,7 @@ const nextConfig: any = {
         ],
         destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3002'
-          : 'https://sense.segmento.in')}/products/data-classification/:path*`,
+          : 'https://sense.segmento.in')}/sense/:path*`,
       },
     ];
   },

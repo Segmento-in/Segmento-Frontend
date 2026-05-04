@@ -16,14 +16,13 @@ export function SenseNavbar() {
         document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset";
     }, [mobileMenuOpen]);
 
-    const isInsideSense = pathname === "/pricing" || pathname?.includes('/demo');
+    const isInsideSense = pathname?.includes('/demo');
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
     const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Compare", href: "/#comparison-table" },
-        { name: "Pricing", href: "/pricing" },
     ];
 
     if (!mounted) return <div className="h-16 bg-[#020617]" />;

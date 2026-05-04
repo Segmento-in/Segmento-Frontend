@@ -26,7 +26,7 @@ const navLinks: NavLink[] = [
     name: "Products",
     dropdown: [
       { name: "Segmento Pulse", href: "/pulse" },
-      { name: "Segmento Sense", href: "/products/data-classification" },
+      { name: "Segmento Sense", href: "/sense" },
       { name: "Segmento Collect", href: "/products/segmento-collect" },
       {
         name: "Segmento Resolve",
