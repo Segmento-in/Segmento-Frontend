@@ -21,6 +21,15 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, selectedModels
     const [error, setError] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // Reset all state when file type changes — prevents stale file/mask from carrying over
+    useEffect(() => {
+        setSelectedFile(null);
+        setMaskEnabled(false);
+        setError('');
+        setPdfPage(0);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    }, [fileType]);
+
     // Listen for PDF page change events from pagination buttons
     useEffect(() => {
         const handlePageChange = (e: any) => {

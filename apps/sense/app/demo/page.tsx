@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SourceSidebar, SourceConfig } from '@/components/pii-demo/SourceSidebar';
 import { FileUpload } from '@/components/pii-demo/FileUpload';
 import { ModelSelector } from '@/components/pii-demo/ModelSelector';
@@ -26,6 +26,31 @@ export default function PIIDemoPage() {
     const [error, setError] = useState('');
     const [isLightMode, setIsLightMode] = useState(false);
     const [selectedModels, setSelectedModels] = useState<string[]>(['regex','nltk','spacy','presidio','gliner','deberta']);
+
+    // Bug fix 1: Apply dark class to <html> so body/navbar/globals all respond
+    useEffect(() => {
+        if (isLightMode) {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+        return () => { document.documentElement.classList.remove('dark'); };
+    }, [isLightMode]);
+
+    // Bug fix 2 (PDF): sync current page from API response
+    const [pdfCurrentPage, setPdfCurrentPage] = useState(0);
+    useEffect(() => {
+        if (analysisResult?.current_page !== undefined) setPdfCurrentPage(analysisResult.current_page);
+    }, [analysisResult]);
+    const handlePdfPageNav = (newPage: number) => {
+        setPdfCurrentPage(newPage);
+        window.dispatchEvent(new CustomEvent('pdf-page-change', { detail: { page: newPage } }));
+    };
+
+    // Bug fix 4 (CSV): client-side pagination
+    const [csvPage, setCsvPage] = useState(0);
+    const CSV_PAGE_SIZE = 50;
+    useEffect(() => { setCsvPage(0); }, [analysisResult]);
 
     const handleAnalysisComplete = (result: AnalysisResponse) => {
         setAnalysisResult(result);
@@ -76,46 +101,93 @@ export default function PIIDemoPage() {
                             <PIIAnalytics piiCounts={analysisResult.pii_counts} schema={analysisResult.schema} />
                             {analysisResult.inspector && <Inspector inspectorData={analysisResult.inspector} />}
                             
-                            {(sourceConfig.fileSubType === 'PDF' || sourceConfig.fileSubType === 'Image (OCR)') && analysisResult.image && (
+                            {(sourceConfig.fileSubType === 'PDF' || sourceConfig.fileSubType === 'Image (OCR)') && (
                                 <div className={theme.card}>
                                     <div className="flex items-center gap-3 mb-6">
                                         <div className="h-2 w-2 rounded-full bg-indigo-500 animate-ping"></div>
                                         <h3 className="text-xl font-semibold text-slate-800 dark:text-gray-200">Rendered Document</h3>
+                                        {analysisResult.total_pages && analysisResult.total_pages > 1 && (
+                                            <span className="ml-auto text-xs text-slate-500 dark:text-gray-500 font-mono">
+                                                Page {pdfCurrentPage + 1} / {analysisResult.total_pages}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div className="flex justify-center bg-slate-100 dark:bg-black/50 p-4 rounded-xl border border-slate-200 dark:border-white/10">
-                                        <img src={analysisResult.image} alt="Scanned Document" className="max-w-full h-auto rounded shadow-md" />
-                                    </div>
+                                    {analysisResult.image ? (
+                                        <div className="flex justify-center bg-slate-100 dark:bg-black/50 p-4 rounded-xl border border-slate-200 dark:border-white/10">
+                                            <img src={analysisResult.image} alt="Scanned Document" className="max-w-full h-auto rounded shadow-md" />
+                                        </div>
+                                    ) : (
+                                        <div className="flex justify-center items-center bg-slate-100 dark:bg-black/50 p-8 rounded-xl border border-slate-200 dark:border-dashed border-slate-400 dark:border-white/20 min-h-[200px]">
+                                            <p className="text-slate-400 text-sm">Document preview unavailable for this page.</p>
+                                        </div>
+                                    )}
+                                    {sourceConfig.fileSubType === 'PDF' && analysisResult.total_pages && analysisResult.total_pages > 1 && (
+                                        <div className="flex items-center justify-center gap-4 mt-6">
+                                            <button
+                                                onClick={() => handlePdfPageNav(pdfCurrentPage - 1)}
+                                                disabled={pdfCurrentPage <= 0}
+                                                className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-500 transition-colors"
+                                            >← Prev</button>
+                                            <span className="text-sm text-slate-500 dark:text-gray-400">
+                                                Page {pdfCurrentPage + 1} of {analysisResult.total_pages}
+                                            </span>
+                                            <button
+                                                onClick={() => handlePdfPageNav(pdfCurrentPage + 1)}
+                                                disabled={pdfCurrentPage >= analysisResult.total_pages - 1}
+                                                className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-indigo-500 transition-colors"
+                                            >Next →</button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
-                            {analysisResult.data && analysisResult.data.length > 0 && (
-                                <div className={theme.card}>
-                                    <div className="flex items-center gap-3 mb-6">
-                                        <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></div>
-                                        <h3 className="text-xl font-semibold text-slate-800 dark:text-gray-200">Neural Fragments</h3>
-                                    </div>
-                                    <div className="overflow-x-auto custom-scrollbar rounded-xl">
-                                        <table className="w-full text-sm text-left">
-                                            <thead className="text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 bg-slate-100 dark:bg-white/5">
-                                                <tr>
-                                                    {Object.keys(analysisResult.data[0]).map((key) => (
-                                                        <th key={key} className="px-6 py-4 font-bold">{key}</th>
-                                                    ))}
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-200 dark:divide-white/5">
-                                                {analysisResult.data.slice(0, 50).map((row, idx) => (
-                                                    <tr key={idx} className="hover:bg-indigo-500/5 transition-colors group/row">
-                                                        {Object.values(row).map((value: any, cellIdx) => (
-                                                            <td key={cellIdx} className="px-6 py-4 text-slate-600 dark:text-gray-400 group-hover/row:text-slate-900 dark:group-hover/row:text-white transition-colors" dangerouslySetInnerHTML={{ __html: String(value) }} />
+                            {analysisResult.data && analysisResult.data.length > 0 && (() => {
+                                const totalCsvPages = Math.ceil(analysisResult.data!.length / CSV_PAGE_SIZE);
+                                const pagedData = analysisResult.data!.slice(csvPage * CSV_PAGE_SIZE, (csvPage + 1) * CSV_PAGE_SIZE);
+                                return (
+                                    <div className={theme.card}>
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></div>
+                                            <h3 className="text-xl font-semibold text-slate-800 dark:text-gray-200">Neural Fragments</h3>
+                                            <span className="ml-auto text-xs text-slate-500 dark:text-gray-500 font-mono">
+                                                {analysisResult.data!.length} rows · Page {csvPage + 1}/{totalCsvPages}
+                                            </span>
+                                        </div>
+                                        <div className="overflow-x-auto custom-scrollbar rounded-xl">
+                                            <table className="w-full text-sm text-left">
+                                                <thead className="text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 bg-slate-100 dark:bg-white/5">
+                                                    <tr>
+                                                        {Object.keys(analysisResult.data![0]).map((key) => (
+                                                            <th key={key} className="px-6 py-4 font-bold">{key}</th>
                                                         ))}
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-200 dark:divide-white/5">
+                                                    {pagedData.map((row, idx) => (
+                                                        <tr key={idx} className="hover:bg-indigo-500/5 transition-colors group/row">
+                                                            {Object.values(row).map((value: any, cellIdx) => (
+                                                                <td key={cellIdx} className="px-6 py-4 text-slate-600 dark:text-gray-400 group-hover/row:text-slate-900 dark:group-hover/row:text-white transition-colors" dangerouslySetInnerHTML={{ __html: String(value) }} />
+                                                            ))}
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {totalCsvPages > 1 && (
+                                            <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200 dark:border-white/5">
+                                                <span className="text-xs text-slate-500 dark:text-gray-500">
+                                                    Rows {csvPage * CSV_PAGE_SIZE + 1}–{Math.min((csvPage + 1) * CSV_PAGE_SIZE, analysisResult.data!.length)} of {analysisResult.data!.length}
+                                                </span>
+                                                <div className="flex items-center gap-2">
+                                                    <button onClick={() => setCsvPage(p => Math.max(0, p - 1))} disabled={csvPage === 0} className="px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-400 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600/40 transition-colors">← Prev</button>
+                                                    <span className="text-xs text-slate-500 dark:text-gray-500 px-2">{csvPage + 1} / {totalCsvPages}</span>
+                                                    <button onClick={() => setCsvPage(p => Math.min(totalCsvPages - 1, p + 1))} disabled={csvPage >= totalCsvPages - 1} className="px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-400 text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-600/40 transition-colors">Next →</button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                            )}
+                                );
+                            })()}
                         </div>
                     )}
                 </div>
@@ -134,7 +206,6 @@ export default function PIIDemoPage() {
     };
 
     return (
-        <div className={`${isLightMode ? '' : 'dark'} font-sans`}>
         <div className="flex h-screen w-full bg-slate-50 dark:bg-[#05060B] text-slate-900 dark:text-gray-100 overflow-hidden font-sans">
             {/* 1. SIDEBAR - Issue badge removed and content adjusted */}
             <aside className={theme.sidebar}>
@@ -281,7 +352,6 @@ export default function PIIDemoPage() {
                     border-radius: 10px;
                 }
             `}</style>
-        </div>
         </div>
     );
 }

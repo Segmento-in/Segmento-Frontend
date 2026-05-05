@@ -4,7 +4,30 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight } from "lucide-react";
+import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles } from "lucide-react";
+
+// Per-character flicker animation for "UNDER THE HOOD"
+function GlitchText({ text }: { text: string }) {
+    return (
+        <span className="flex items-center">
+            {text.split("").map((char, i) => (
+                <motion.span
+                    key={i}
+                    className="font-mono text-purple-400"
+                    animate={{ opacity: [0.15, 1, 0.3, 0.9, 0.15] }}
+                    transition={{
+                        duration: 2.8,
+                        repeat: Infinity,
+                        delay: i * 0.07,
+                        ease: "easeInOut",
+                    }}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </motion.span>
+            ))}
+        </span>
+    );
+}
 
 export function SenseNavbar() {
     const pathname = usePathname();
@@ -16,7 +39,7 @@ export function SenseNavbar() {
         document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset";
     }, [mobileMenuOpen]);
 
-    const isInsideSense = pathname?.includes('/demo');
+    const isInsideSense = pathname?.includes('/demo') || pathname?.includes('/ai-engine');
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
     const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
@@ -77,6 +100,33 @@ export function SenseNavbar() {
                             </div>
                         );
                     })}
+
+                    {/* Thin divider before AI ENGINE */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* AI ENGINE — special pill item */}
+                    <div className="relative flex items-center">
+                        <Link href="/ai-engine">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <Sparkles size={9} className="text-purple-400" />
+                                    <span className="text-[13px] font-bold">AI ENGINE</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase">
+                                    <GlitchText text="UNDER THE HOOD" />
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname?.includes('/ai-engine') && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-purple-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* RIGHT SECTION */}
@@ -172,7 +222,23 @@ export function SenseNavbar() {
                                 ))}
                             </div>
 
-                            <div className="mt-auto">
+                            <div className="mt-auto flex flex-col gap-3">
+                                {/* AI ENGINE mobile entry */}
+                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Sparkles size={12} className="text-purple-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
+                                                <GlitchText text="UNDER THE HOOD" />
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-purple-400" />
+                                    </div>
+                                </Link>
+
                                 <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
                                     <button className="w-full bg-white text-[#020617] py-5 rounded-2xl font-black text-lg">
                                         TRY FOR FREE
