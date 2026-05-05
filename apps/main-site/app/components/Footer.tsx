@@ -22,7 +22,6 @@ const footerLinks = [
       { name: "Segmento Resolve", href: "/#resolve" },
       { name: "Segmento SprintIQ", href: "/#sprint" },
       { name: "Segmento Collect", href: "/#collect" },
-      
     ],
   },
   {
@@ -40,22 +39,18 @@ const footerLinks = [
   },
   {
     title: "Resources",
-    links: [
-      { name: "Blog", href: "/blog" },
-    ],
+    links: [{ name: "Blog", href: "/blog" }],
   },
   {
     title: "Contact",
-    links: [
-      { name: "Locations", href: "/contact" },
-    ],
+    links: [{ name: "Locations", href: "/contact" }],
   },
 ];
 
 const socialLinks = [
   { icon: Facebook, href: "#", size: "w-5 h-5" },
   { icon: Twitter, href: "#", size: "w-5 h-5" },
-  { icon: Github, href: "https://github.com/Segmento-in", size: "w-5 h-5" }, // Added GitHub
+  { icon: Github, href: "https://github.com/Segmento-in", size: "w-5 h-5" },
   { icon: Youtube, href: "#", size: "w-6 h-6" },
   { icon: Linkedin, href: "https://www.linkedin.com/company/segmento-india", size: "w-5 h-5" },
 ];
@@ -64,18 +59,21 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-50 pt-16 pb-10 relative overflow-hidden border-t border-slate-200">
+    <footer className="footer-wrapper bg-slate-50 pt-16 pb-10 relative overflow-hidden border-t border-slate-200 transition-colors duration-500">
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* GRID */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-16">
-          
-          {/* Brand Column */}
-          <motion.div 
+
+          {/* BRAND */}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="col-span-2 lg:col-span-1"
           >
-            <Link href="/" className="flex items-center shrink-0 mb-3">
+            <Link href="/" className="flex items-center mb-3">
               <Image
                 src="/images/logo-final.png"
                 alt="Segmento"
@@ -84,33 +82,28 @@ export default function Footer() {
                 priority
               />
             </Link>
-            {/* <p className="text-slate-500 font-medium text-[12px] leading-relaxed max-w-[180px]">
-              Empowering enterprises with intelligent data classification and privacy insights.
-            </p> */}
           </motion.div>
 
-          {/* Links Grid */}
+          {/* LINKS */}
           {footerLinks.map((column, colIdx) => (
-            <motion.div 
-              key={`footer-col-${colIdx}-${column.title}`}
+            <motion.div
+              key={colIdx}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: colIdx * 0.05 }}
-              className="col-span-1"
             >
-              <h4 className="font-bold text-slate-900 mb-5 text-[11px] uppercase tracking-[0.15em]">{column.title}</h4>
+              <h4 className="footer-title font-bold mb-5 text-[11px] uppercase tracking-[0.15em]">
+                {column.title}
+              </h4>
+
               <ul className="space-y-3">
-                {column.links.map((link, linkIdx) => (
-                  <li key={`${column.title}-link-${linkIdx}`}>
+                {column.links.map((link, idx) => (
+                  <li key={idx}>
                     <Link
                       href={link.href}
-                      className="text-slate-500 hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
+                      className="footer-link text-[13px] font-semibold transition-colors flex items-center"
                     >
-                      <span className="relative">
-                        {link.name}
-                        <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-[#2563EB] transition-all duration-300 group-hover:w-full" />
-                      </span>
+                      {link.name}
                     </Link>
                   </li>
                 ))}
@@ -119,45 +112,89 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col items-center justify-center gap-6">
-          
-          {/* Social Icons */}
-          <div className="flex items-center space-x-6">
+        {/* BOTTOM */}
+        <div className="pt-8 border-t flex flex-col items-center gap-6 footer-bottom">
+
+          {/* SOCIAL */}
+          <div className="flex space-x-6">
             {socialLinks.map((social, idx) => (
               <motion.a
                 key={idx}
                 href={social.href}
                 whileHover={{ y: -3, scale: 1.1 }}
-                className="text-slate-400 hover:text-[#2563EB] transition-colors p-1"
+                className="social-icon transition-colors"
               >
                 <social.icon className={`${social.size} fill-current`} />
               </motion.a>
             ))}
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-4 w-full">
-            {/* Legal Links */}
-            <div className="flex items-center justify-center space-x-8 text-[12px] font-bold text-slate-500">
-              {['Legal', 'Privacy', 'Terms', 'Help'].map((item) => (
-                <Link 
-                  key={item} 
-                  href={`/#${item.toLowerCase()}`} 
-                  className="hover:text-[#2563EB] transition-colors relative group"
-                >
-                  {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-slate-300 transition-all group-hover:w-full" />
-                </Link>
-              ))}
-            </div>
-
-            {/* Copyright */}
-            <p className="text-slate-400 text-[11px] font-medium text-center">
-              © {currentYear} Segmento Inc. All rights reserved.
-            </p>
+          {/* LEGAL */}
+          <div className="flex space-x-8 text-[12px] font-bold footer-legal">
+            {["Legal", "Privacy", "Terms", "Help"].map((item) => (
+              <Link key={item} href={`/#${item.toLowerCase()}`}>
+                {item}
+              </Link>
+            ))}
           </div>
+
+          {/* COPYRIGHT */}
+          <p className="text-[11px] footer-copy text-center">
+            © {currentYear} Segmento Inc. All rights reserved.
+          </p>
+
         </div>
       </div>
+
+      {/* 🌙 DARK MODE FIX USING YOUR DATA-THEME SYSTEM */}
+      <style jsx global>{`
+
+        /* BACKGROUND */
+        [data-theme="dark"] .footer-wrapper {
+          background: #000000 !important;
+          border-color: #1f2937 !important;
+        }
+
+        /* HEADINGS */
+        [data-theme="dark"] .footer-title {
+          color: #ffffff !important;
+        }
+
+        /* LINKS */
+        [data-theme="dark"] .footer-link {
+          color: #d1d5db !important;
+        }
+
+        [data-theme="dark"] .footer-link:hover {
+          color: #2563eb !important;
+        }
+
+        /* SOCIAL ICONS */
+        [data-theme="dark"] .social-icon {
+          color: #d1d5db !important;
+        }
+
+        [data-theme="dark"] .social-icon:hover {
+          color: #2563eb !important;
+        }
+
+        /* LEGAL */
+        [data-theme="dark"] .footer-legal {
+          color: #d1d5db !important;
+        }
+
+        /* COPYRIGHT */
+        [data-theme="dark"] .footer-copy {
+          color: #ffffff !important;
+        }
+
+        /* BOTTOM BORDER */
+        [data-theme="dark"] .footer-bottom {
+          border-top: 1px solid #1f2937 !important;
+        }
+
+      `}</style>
+
     </footer>
   );
 }

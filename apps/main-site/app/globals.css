@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
-@theme {
-  /* Color Palette - Trust Architecture */
+/* ================= UTILITIES ================= */
+.bg-nav { background: var(--nav-bg); }
+.text-nav { color: var(--nav-text); }
+
+/* ================= ROOT (LIGHT MODE - UNCHANGED) ================= */
+:root {
+  --nav-bg: rgba(255,255,255,0.9);
+  --nav-text: #1a202c;
+  --card-bg: #ffffff;
+
   --color-background: #ECF7FF;
   --color-background-secondary: #D8EDFF;
   --color-background-tertiary: #E4F2FF;
@@ -10,61 +18,84 @@
   --color-body: #334155;
   --color-subtle: #64748b;
 
-  /* Brand Colors */
   --color-brand: #2563eb;
   --color-brand-hover: #1d4ed8;
   --color-success: #10b981;
   --color-warning: #f59e0b;
 
-  /* Border Colors */
   --color-border: #e2e8f0;
   --color-border-light: #f1f5f9;
 
-  /* Typography */
+  /* 🔥 NEW (IMPORTANT) */
+  --card-bg: #ffffff;
+
   --font-family-sans: "Inter", sans-serif;
 
-  /* Letter Spacing */
   --tracking-tightest: -0.02em;
-
-  /* Line Height */
   --leading-relaxed: 1.6;
 
-  /* Shadows - 3D Effects */
-  --shadow-soft:
-    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-card:
-    0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-card-hover:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-soft: 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-card: 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-card-hover: 0 20px 25px rgba(0,0,0,0.1);
+
   --shadow-button: 0 4px 0 #1d4ed8;
   --shadow-button-active: 0 2px 0 #1d4ed8;
+
+  --ticker-bg: #ffffff;
+  --ticker-text: #0f172a;
+  --ticker-subtle: #94a3b8;
+  --ticker-divider: #e2e8f0;
 }
 
+/* ================= DARK MODE ================= */
+[data-theme="dark"] {
+  --color-background: #121212;
+  --color-background-secondary: #1a1a1b;
+  --color-background-tertiary: #1e1e1f;
+
+  --color-heading: #e5e7eb;
+  --color-body: #d1d5db;
+  --color-subtle: #9ca3af;
+  --card-bg: #e5e7eb; /* gray-200 */
+  --color-brand: #3b82f6;
+  --color-brand-hover: #2563eb;
+
+  --color-border: #33373a;
+  --color-border-light: #444c56;
+
+  --nav-bg: rgba(18,18,18,0.95);
+  --nav-text: #e5e7eb;
+
+  /* 🔥 CARD COLOR (YOUR REQUIREMENT) */
+  --card-bg: #e2e8f0; /* slate-200 */
+
+  /* 🔥 Better shadows for dark */
+  --shadow-soft: 0 4px 10px rgba(0,0,0,0.5);
+  --shadow-card: 0 4px 10px rgba(0,0,0,0.5);
+  --shadow-card-hover: 0 10px 25px rgba(0,0,0,0.7);
+
+  --ticker-bg: #d1d5db; /* gray-300 */
+--ticker-text: #0f172a; /* dark text */
+--ticker-subtle: #374151;
+--ticker-divider: #9ca3af;
+}
+
+/* ================= BASE ================= */
 @layer base {
   html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-    -moz-text-size-adjust: 100%;
-    text-size-adjust: 100%;
   }
 
   body {
     background: var(--color-background);
     color: var(--color-body);
     font-family: var(--font-family-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
     color: var(--color-heading);
     font-weight: 700;
-    letter-spacing: var(--tracking-tightest);
   }
 
   p {
@@ -72,9 +103,25 @@
   }
 }
 
-/* Custom Utilities */
+/* ================= UTIL CLASSES ================= */
 
-/* 3D Button Effects */
+/* Backgrounds */
+.bg-primary { background-color: var(--color-background); }
+.bg-secondary { background-color: var(--color-background-secondary); }
+.bg-tertiary { background-color: var(--color-background-tertiary); }
+
+/* Text */
+.text-primary { color: var(--color-heading); }
+.text-body { color: var(--color-body); }
+.text-muted { color: var(--color-subtle); }
+
+/* Borders */
+.border-light { border-color: var(--color-border-light); }
+.border-primary { border-color: var(--color-border); }
+
+/* ================= COMPONENT STYLES ================= */
+
+/* Buttons */
 .btn-3d-primary {
   background-color: var(--color-brand);
   color: white;
@@ -89,31 +136,13 @@
   box-shadow: var(--shadow-button-active);
 }
 
-.btn-3d-primary:active {
-  transform: translateY(4px);
-  box-shadow: none;
-}
-
-.btn-3d-secondary {
-  background-color: transparent;
-  color: var(--color-heading);
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.btn-3d-secondary:hover {
-  background-color: var(--color-background-secondary);
-  transform: translateY(2px);
-}
-
-/* Card Effects */
+/* Cards */
 .card-3d {
-  background-color: var(--color-background);
+  background-color: var(--card-bg);
   border: 1px solid var(--color-border-light);
   border-radius: 0.75rem;
   box-shadow: var(--shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
 }
 
 .card-3d:hover {
@@ -121,58 +150,14 @@
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Glassy Nav */
+/* Navbar */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  background: var(--nav-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
 }
 
-/* Scanner Animation */
-@keyframes scanner-sweep {
-  0% {
-    top: 0%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
-}
-
-.scanner-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-brand),
-    transparent
-  );
-  animation: scanner-sweep 2s ease-in-out infinite;
-}
-
-/* Confidence Slider */
-.confidence-slider-track {
-  background-color: var(--color-border);
-  border-radius: 9999px;
-}
-
-.confidence-slider-thumb {
-  background-color: var(--color-brand);
-  border-radius: 9999px;
-  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
-}
-
-/* Custom scrollbar */
+/* ================= SCROLLBAR ================= */
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -190,30 +175,13 @@
   background: var(--color-body);
 }
 
-/* Touch targets for accessibility */
-.touch-target {
-  min-width: 44px;
-  min-height: 44px;
+/* ================= THEME TOGGLE ================= */
+.theme-switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
 }
 
-/* Focus rings */
-:focus-visible {
-  outline: 2px solid var(--color-brand);
-  outline-offset: 2px;
-}
-
-/* Page fade animation */
-@keyframes fade-in-page {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in-page 0.5s ease-out;
+.theme-switch .slider {
+  background-color: var(--color-subtle);
 }

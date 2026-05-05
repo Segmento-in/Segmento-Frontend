@@ -58,20 +58,20 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-sky-50">
+   <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-body)]">
       <Navbar />
-
+500
       {/* Hero Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden bg-sky-50">
+      <section className="pt-32 pb-24 relative overflow-hidden bg-[var(--color-background)]">
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#0F172A] mb-8 tracking-tight leading-[1.05]">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--color-heading)] mb-8 tracking-tight leading-[1.05]">
               Securing the World's Data with <br />
               <span className="text-blue-500">Transparent AI</span>
             </h1>
-            <p className="text-lg text-slate-500 max-w-xl mb-10 leading-relaxed font-medium">
+            <p className="text-lg text-[var(--color-subtle)] max-w-xl mb-10 leading-relaxed font-medium">
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -100,9 +100,9 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 relative overflow-hidden bg-sky-50">
+      <section className="py-24 relative overflow-hidden bg-[var(--color-background)]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-12 tracking-tight">Mission</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-heading)] mb-12 tracking-tight">Mission</h2>
           <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
             <motion.div 
               animate={{ rotate: 360 }}
@@ -110,11 +110,11 @@ export default function AboutPage() {
               className="absolute -inset-20 bg-linear-to-r from-blue-300 via-white to-blue-200 opacity-0 group-hover:opacity-100 blur-[20px] transition-opacity duration-700"
             />
             <div className="relative z-10 bg-blue-100rounded-3xl p-12 border border-slate-100 group-hover:border-transparent transition-all duration-500">
-              <h3 className="text-3xl md:text-4xl font-bold text-[#0F172A] mb-8 leading-[1.15]">
+              <h3 className="text-3xl md:text-4xl font-bold text-[var(--color-heading)] mb-8 leading-[1.15]">
                 Our Mission: Moving Beyond <br />
                 <span className="text-slate-900 group-hover:text-blue-600 transition-colors duration-500">Black-Box Security</span>
               </h3>
-              <p className="text-lg text-slate-500 leading-relaxed max-w-3xl mx-auto font-medium">
+              <p className="text-lg text-slate- leading-relaxed max-w-3xl mx-auto font-medium">
                 Segmento is transparent approach to enhance the data endure black-box security, and soscd enable all roomdeats, what alioit your ultra world that some orienting mares the data to mindent explainable security engineening, our global software resources overs the tinrh to choose and clear organization.
               </p>
             </div>
@@ -123,16 +123,16 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership Section */}
-      <section className="py-32 bg-white">
+      <section className="py-32 bg-[var(--color-background)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4 tracking-tight">Leadership</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto font-medium">The visionary team behind Segmento's privacy-centric data intelligence.</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-heading)] mb-4 tracking-tight">Leadership</h2>
+            <p className="text-[var(--color-subtle)] max-w-2xl mx-auto font-medium">The visionary team behind Segmento's privacy-centric data intelligence.</p>
           </div>
 
           {/* Featured Director Card - Colorful and Balanced */}
           <div className="mb-20">
-            <div className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
+            <div className="max-w-4xl mx-auto bg-[var(--color-card)] rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
               <div className="grid md:grid-cols-3 items-center">
                 <div className="md:col-span-1 aspect-square relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50">
                   <img 
@@ -145,7 +145,8 @@ export default function AboutPage() {
                 <div className="md:col-span-2 p-8 md:p-10">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-[#0F172A] mb-1">{director.name}</h3>
+                      <h3 className="text-2xl font-bold text-[var(--color-heading)
+                      ] mb-1">{director.name}</h3>
                       <p className="text-blue-600 font-bold uppercase tracking-widest text-[10px]">{director.role}</p>
                     </div>
                     <a href={director.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#0077b5]">
@@ -161,7 +162,7 @@ export default function AboutPage() {
           {/* Team Grid - Reduced height, Colorful, and Full Bio Display */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {team.map((member) => (
-              <div key={member.name} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div key={member.name} className="bg-[var(--color-card)] rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 {/* aspect-[16/10] makes the image shorter and wider */}
                 <div className={`aspect-[16/16] w-full relative overflow-hidden ${member.name === "Thambabattula Mohan" ? "bg-gradient-to-br from-blue-50 to-blue-50" : "bg-white-100"}`}>
                   <img 
@@ -189,10 +190,10 @@ export default function AboutPage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-[#0F172A] mb-1 group-hover:text-blue-600 transition-colors">{member.name}</h3>
+                  <h3 className="text-lg font-bold text-[var(--color-heading)]mb-1 group-hover:text-blue-600 transition-colors">{member.name}</h3>
                   <p className="text-blue-500 text-[10px] font-bold uppercase tracking-widest mb-3">{member.role}</p>
                   {/* line-clamp removed to show full info */}
-                  <p className="text-slate-500 text-xs leading-relaxed">{member.bio}</p>
+                  <p className="text-[var(--color-subtle)] text-xs leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}
@@ -203,58 +204,115 @@ export default function AboutPage() {
       {/* Stats Section */}
       {/* Stats Section */}
       <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-white rounded-3xl p-10 md:p-14 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden"
-          >
-            {/* Background Accent */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-50/50 blur-[100px] rounded-full -z-10" />
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="bg-[var(--card-bg)] rounded-3xl p-10 md:p-14 border border-[var(--color-border)] shadow-[var(--shadow-card)] flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden"
+    >
+      
+      {/* Background Accent */}
+      <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--color-background-secondary)] blur-[100px] rounded-full -z-10" />
+
+      {/* TITLE */}
+      <h2 className="text-4xl font-extrabold tracking-tight 
+        text-[#0F172A] 
+        dark:text-white">
+        By the Numbers
+      </h2>
+
+      <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+
+        {/* Stat 1 */}
+        <div className="flex items-center gap-5 group">
+          <div className="w-14 h-14 
+            bg-slate-100 
+            dark:bg-[#111827] 
+            rounded-2xl flex items-center justify-center 
+            border border-[var(--color-border)] 
+            group-hover:scale-110 transition-all duration-300">
             
-            <h2 className="text-4xl font-extrabold text-[#0F172A] tracking-tight">
-              By the Numbers
-            </h2>
+            <Database className="w-6 h-6 
+              text-[#0F172A] 
+              dark:text-white" />
+          </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
-              {/* Stat 1: Scanned */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-50 transition-all duration-300">
-                   <Database className="w-6 h-6 text-[#0F172A] group-hover:text-blue-600 transition-colors" />
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-[#0F172A] tracking-tighter">10B+</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Scanned</div>
-                </div>
-              </div>
-
-              {/* Stat 2: Breaches */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-50 transition-all duration-300">
-                   <LockIcon className="w-6 h-6 text-[#0F172A] group-hover:text-blue-600 transition-colors" />
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-[#0F172A] tracking-tighter">0</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Breaches</div>
-                </div>
-              </div>
-
-              {/* Stat 3: Client-Side */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:scale-110 group-hover:bg-blue-50 transition-all duration-300">
-                   <Laptop className="w-6 h-6 text-[#0F172A] group-hover:text-blue-600 transition-colors" />
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-[#0F172A] tracking-tighter">100%</div>
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-[0.2em]">Client-Side</div>
-                </div>
-              </div>
+          <div>
+            <div className="text-4xl font-bold tracking-tighter 
+              text-[#0F172A] 
+              dark:text-white">
+              10B+
             </div>
-          </motion.div>
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
+              text-slate-500 
+              dark:text-gray-300">
+              Scanned
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Stat 2 */}
+        <div className="flex items-center gap-5 group">
+          <div className="w-14 h-14 
+            bg-slate-100 
+            dark:bg-[#111827] 
+            rounded-2xl flex items-center justify-center 
+            border border-[var(--color-border)] 
+            group-hover:scale-110 transition-all duration-300">
+            
+            <LockIcon className="w-6 h-6 
+              text-[#0F172A] 
+              dark:text-white" />
+          </div>
+
+          <div>
+            <div className="text-4xl font-bold tracking-tighter 
+              text-[#0F172A] 
+              dark:text-white">
+              0
+            </div>
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
+              text-slate-500 
+              dark:text-gray-300">
+              Breaches
+            </div>
+          </div>
+        </div>
+
+        {/* Stat 3 */}
+        <div className="flex items-center gap-5 group">
+          <div className="w-14 h-14 
+            bg-slate-100 
+            dark:bg-[#111827] 
+            rounded-2xl flex items-center justify-center 
+            border border-[var(--color-border)] 
+            group-hover:scale-110 transition-all duration-300">
+            
+            <Laptop className="w-6 h-6 
+              text-[#0F172A] 
+              dark:text-white" />
+          </div>
+
+          <div>
+            <div className="text-4xl font-bold tracking-tighter 
+              text-[#0F172A] 
+              dark:text-white">
+              100%
+            </div>
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
+              text-slate-500 
+              dark:text-gray-300">
+              Client-Side
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </motion.div>
+  </div>
+</section>
 
       {/* Join Team CTA */}
       <section className="py-24 px-4 mb-24">

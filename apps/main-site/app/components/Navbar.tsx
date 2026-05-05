@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ThemeToggle from "./ThemeToggle";
 import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -80,7 +81,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
+          ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
           : "bg-transparent py-4"
       }`}
     >
@@ -112,7 +113,7 @@ export default function Navbar() {
                     className={`text-sm font-bold transition-all duration-200 flex items-center space-x-1 ${
                       activeDropdown === link.name
                         ? "text-[#2563EB]"
-                        : "text-slate-600 hover:text-slate-900"
+                        : "text-[var(--nav-text)] hover:text-[var(--nav-text)]"
                     }`}
                   >
                     <span>{link.name}</span>
@@ -157,6 +158,11 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
             ))}
+          </div>
+
+          {/* Theme Toggle */}
+          <div className="hidden md:flex shrink-0">
+            <ThemeToggle />
           </div>
 
           {/* CTA Button */}
