@@ -84,9 +84,12 @@ export default function Hero() {
     px-8 py-4 font-bold rounded-full transition-all shadow-lg 
     flex items-center gap-2 active:scale-95 group
 
-    bg-[#0F172A] text-white hover:bg-slate-800   /* LIGHT MODE */
-    dark:bg-blue-600 dark:hover:bg-blue-500      /* DARK MODE */
+    bg-[#0F172A] text-white hover:bg-slate-800
   "
+  style={{
+    backgroundColor: "var(--color-button)",
+    color: "var(--color-button-text)"
+  }}
 >
   <span>Explore Our Products</span>
 </button>

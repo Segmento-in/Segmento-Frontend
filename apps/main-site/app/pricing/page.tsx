@@ -60,10 +60,22 @@ export default function PricingPage() {
   const [isDark, setIsDark] = useState(false);
 
   // 🔥 Detect theme from HTML
-  useEffect(() => {
+ useEffect(() => {
+  const updateTheme = () => {
     const theme = document.documentElement.getAttribute("data-theme");
     setIsDark(theme === "dark");
-  }, []);
+  };
+
+  updateTheme();
+
+  const observer = new MutationObserver(updateTheme);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  return () => observer.disconnect();
+}, []);
 
   return (
     <main className="min-h-screen bg-primary">
@@ -76,7 +88,7 @@ export default function PricingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-black mb-8"
-            style={{ color: isDark ? "#000" : "var(--color-heading)" }}
+           style={{ color: "var(--color-heading)" }}
           >
             Transparent Pricing
           </motion.h1>
@@ -175,17 +187,17 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-secondary">
+      <section className="py-16 bg-primary">
         <div className="max-w-4xl mx-auto px-6">
 
           <div className="text-center mb-12">
             <h2
               className="text-3xl font-black mb-4"
-              style={{ color: isDark ? "#000" : "var(--color-heading)" }}
+              style={{ color: "var(--color-heading)" }}
             >
               FAQs
             </h2>
-            <p style={{ color: isDark ? "#000" : "var(--color-body)" }}>
+            <p style={{ color: "var(--color-heading)" }}>
               Everything you need to know.
             </p>
           </div>

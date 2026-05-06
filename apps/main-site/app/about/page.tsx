@@ -60,7 +60,7 @@ export default function AboutPage() {
   return (
    <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-body)]">
       <Navbar />
-500
+
       {/* Hero Section */}
       <section className="pt-32 pb-24 relative overflow-hidden bg-[var(--color-background)]">
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
@@ -153,7 +153,7 @@ export default function AboutPage() {
                       <Linkedin className="w-5 h-5" />
                     </a>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-medium">{director.bio}</p>
+                  <p className="text-[var(--color-subtle)] text-xs leading-relaxed">{director.bio}</p>
                 </div>
               </div>
             </div>
@@ -315,21 +315,43 @@ export default function AboutPage() {
 </section>
 
       {/* Join Team CTA */}
-      <section className="py-24 px-4 mb-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight">
-                Join Our Engineering-First Team
-              </h2>
-              <Link href="/careers">
-  <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
-    View Open Roles
-  </button>
-</Link>
-          </div>
-        </div>
-      </section>
+      <section className="py-24 px-4 mb-24 dark-careers-section">
+  <div className="max-w-5xl mx-auto">
+
+    <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group dark-careers-box">
+
+      <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
+
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight dark-careers-text">
+        Join Our Engineering-First Team
+      </h2>
+
+      <Link href="/careers">
+        <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
+          View Open Roles
+        </button>
+      </Link>
+
+    </div>
+
+  </div>
+
+  {/* ✅ DARK MODE FIX */}
+  <style jsx global>{`
+    [data-theme="dark"] .dark-careers-section {
+      background: #000000 !important; /* section black */
+    }
+
+    [data-theme="dark"] .dark-careers-box {
+      background: #e5e7eb !important; /* GRAY box (what you want) */
+    }
+
+    [data-theme="dark"] .dark-careers-text {
+      color: #000000 !important; /* black text on gray box */
+    }
+  `}</style>
+
+</section>
 
       <Footer />
     </main>

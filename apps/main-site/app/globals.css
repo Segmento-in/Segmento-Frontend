@@ -10,6 +10,10 @@
   --nav-text: #1a202c;
   --card-bg: #ffffff;
 
+  --color-button: #2563eb;
+  --color-button-hover: #1d4ed8;
+  --color-button-text: #ffffff;
+
   --color-background: #ECF7FF;
   --color-background-secondary: #D8EDFF;
   --color-background-tertiary: #E4F2FF;
@@ -59,6 +63,12 @@
   --card-bg: #e5e7eb; /* gray-200 */
   --color-brand: #3b82f6;
   --color-brand-hover: #2563eb;
+
+  
+  --color-button: #3b82f6;        /* royal blue in dark mode */
+  --color-button-hover: #2563eb;
+  --color-button-text: #ffffff;
+
 
   --color-border: #33373a;
   --color-border-light: #444c56;
@@ -129,6 +139,8 @@
   box-shadow: var(--shadow-button);
   transition: all 0.2s ease;
 }
+
+
 
 .btn-3d-primary:hover {
   background-color: var(--color-brand-hover);

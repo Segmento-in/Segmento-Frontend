@@ -155,9 +155,9 @@ export function Header() {
           {mobileDropdown === "products" && (
             <div className="bg-gray-900 rounded-lg p-4 space-y-2 text-sm">
               <Link href="/pulse" onClick={() => setMobileOpen(false)} className="block">Segmento Pulse</Link>
-              <Link href="/sense" onClick={() => setMobileOpen(false)} className="block">Segmento Sense</Link>
-              <p className="opacity-70">Resolve (Upcoming)</p>
-              <p className="opacity-70">Collect (Upcoming)</p>
+              <Link href="/products/data-classification" onClick={() => setMobileOpen(false)} className="block">Segmento Sense</Link>
+              <p className="opacity-70">Segmento Resolve (Upcoming)</p>
+              <p className="opacity-70">Segmento Collect (Upcoming)</p>
             </div>
           )}
 

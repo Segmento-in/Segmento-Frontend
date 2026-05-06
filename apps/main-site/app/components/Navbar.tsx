@@ -87,6 +87,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
+          
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
@@ -160,7 +161,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle (desktop only) */}
           <div className="hidden md:flex shrink-0">
             <ThemeToggle />
           </div>
@@ -169,23 +170,35 @@ export default function Navbar() {
           <div className="hidden md:flex shrink-0">
             <Link
               href="/contact"
-              className="px-5 py-2 bg-[#0F172A] text-white text-sm font-black rounded-xl hover:bg-[#2563EB] transition-all duration-300 active:scale-[0.96]"
+              className="px-5 py-2 text-sm font-black rounded-xl transition-all duration-300 active:scale-[0.96] bg-[var(--color-brand)] text-[var(--color-background)] hover:bg-[var(--color-button)] hover:text-white"
             >
               Get Started
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-slate-900"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* ✅ MOBILE: Toggle + Hamburger (ONLY CHANGE HERE) */}
+          <div className="md:hidden flex items-center gap-2">
+            
+            {/* Toggle FIRST */}
+            <ThemeToggle />
+
+            {/* Hamburger */}
+            <button
+              className="p-2"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <X className="w-6 h-6 text-white stroke-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white stroke-white" />
+              )}
+            </button>
+
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (UNCHANGED) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
