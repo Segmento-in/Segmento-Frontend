@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ThemeToggle from "./ThemeToggle";
 import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -80,12 +81,13 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/90 backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
+          ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
           : "bg-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
+          
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <Image
@@ -112,7 +114,7 @@ export default function Navbar() {
                     className={`text-sm font-bold transition-all duration-200 flex items-center space-x-1 ${
                       activeDropdown === link.name
                         ? "text-[#2563EB]"
-                        : "text-slate-600 hover:text-slate-900"
+                        : "text-[var(--nav-text)] hover:text-[var(--nav-text)]"
                     }`}
                   >
                     <span>{link.name}</span>
@@ -159,27 +161,44 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Theme Toggle (desktop only) */}
+          <div className="hidden md:flex shrink-0">
+            <ThemeToggle />
+          </div>
+
           {/* CTA Button */}
           <div className="hidden md:flex shrink-0">
             <Link
               href="/contact"
-              className="px-5 py-2 bg-[#0F172A] text-white text-sm font-black rounded-xl hover:bg-[#2563EB] transition-all duration-300 active:scale-[0.96]"
+              className="px-5 py-2 text-sm font-black rounded-xl transition-all duration-300 active:scale-[0.96] bg-[var(--color-brand)] text-[var(--color-background)] hover:bg-[var(--color-button)] hover:text-white"
             >
               Get Started
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-slate-900"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* ✅ MOBILE: Toggle + Hamburger (ONLY CHANGE HERE) */}
+          <div className="md:hidden flex items-center gap-2">
+            
+            {/* Toggle FIRST */}
+            <ThemeToggle />
+
+            {/* Hamburger */}
+            <button
+              className="p-2"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <X className="w-6 h-6 text-white stroke-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white stroke-white" />
+              )}
+            </button>
+
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (UNCHANGED) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
