@@ -101,7 +101,7 @@ export default function Footer() {
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className="footer-link text-[13px] font-semibold transition-colors flex items-center"
+                      className="footer-link text-[13px] font-semibold transition-all duration-300 flex items-center hover:text-[#4169E1]"
                     >
                       {link.name}
                     </Link>
@@ -122,7 +122,7 @@ export default function Footer() {
                 key={idx}
                 href={social.href}
                 whileHover={{ y: -3, scale: 1.1 }}
-                className="social-icon transition-colors"
+                className="social-icon transition-all duration-300 hover:text-[#4169E1]"
               >
                 <social.icon className={`${social.size} fill-current`} />
               </motion.a>
@@ -132,7 +132,11 @@ export default function Footer() {
           {/* LEGAL */}
           <div className="flex space-x-8 text-[12px] font-bold footer-legal">
             {["Legal", "Privacy", "Terms", "Help"].map((item) => (
-              <Link key={item} href={`/#${item.toLowerCase()}`}>
+              <Link
+                key={item}
+                href={`/#${item.toLowerCase()}`}
+                className="transition-all duration-300 hover:text-[#4169E1]"
+              >
                 {item}
               </Link>
             ))}
@@ -166,7 +170,7 @@ export default function Footer() {
         }
 
         [data-theme="dark"] .footer-link:hover {
-          color: #2563eb !important;
+          color: #4169E1 !important;
         }
 
         /* SOCIAL ICONS */
@@ -175,12 +179,16 @@ export default function Footer() {
         }
 
         [data-theme="dark"] .social-icon:hover {
-          color: #2563eb !important;
+          color: #4169E1 !important;
         }
 
         /* LEGAL */
         [data-theme="dark"] .footer-legal {
           color: #d1d5db !important;
+        }
+
+        [data-theme="dark"] .footer-legal a:hover {
+          color: #4169E1 !important;
         }
 
         /* COPYRIGHT */
