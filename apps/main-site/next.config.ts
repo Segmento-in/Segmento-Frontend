@@ -79,7 +79,7 @@ const nextConfig: any = {
       },
       {
         source: '/products/segmento-sprintq',
-        destination: 'https://segmento-retro-omega.vercel.app',
+        destination: 'https://segmento-retro-frontend.vercel.app/',
         permanent: false,
       },
       {
