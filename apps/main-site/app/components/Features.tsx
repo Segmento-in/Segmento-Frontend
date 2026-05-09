@@ -26,14 +26,23 @@ const reasons = [
 
 export default function Features() {
   return (
-    <section className="py-32 bg-sky-50">
+    <section
+      className="py-32 transition-colors duration-300"
+      style={{ background: "var(--color-background)" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Heading */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
+          <h2
+            className="text-4xl md:text-5xl font-bold tracking-tight"
+            style={{ color: "var(--color-heading)" }}
+          >
             Why Choose Segmento?
           </h2>
         </div>
 
+        {/* Cards */}
         <div className="grid md:grid-cols-3 gap-8">
           {reasons.map((reason, index) => (
             <motion.div
@@ -44,14 +53,25 @@ export default function Features() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group"
             >
-              <div className="h-full bg-white rounded-xl p-10 border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                <div className="w-12 h-12 bg-white rounded-lg border border-slate-100 shadow-sm flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+              <div
+                className="h-full rounded-xl p-10 transition-all duration-300 hover:-translate-y-2"
+                style={{
+                  background: "var(--card-bg)",
+                  border: "1px solid var(--color-border)",
+                  boxShadow: "var(--shadow-card)",
+                }}
+              >
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-8 bg-white shadow-md group-hover:scale-110 transition-transform duration-300">
                   <reason.icon className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
+
+                {/* 🔥 FORCE DARK TEXT (THIS FIXES YOUR ISSUE) */}
+                <h3 className="text-2xl font-bold mb-4 tracking-tight text-black">
                   {reason.title}
                 </h3>
-                <p className="text-slate-600 leading-relaxed font-normal">
+
+                <p className="leading-relaxed font-normal text-gray-700">
                   {reason.description}
                 </p>
               </div>

@@ -71,16 +71,16 @@ export default function ProductShowcase() {
   return (
     <section 
       id="ProductShowcase" 
-      className="py-24 md:py-32 bg-sky-50 relative overflow-hidden transition-colors duration-500"
+      className="py-24 md:py-32 bg-primary relative overflow-hidden transition-colors duration-500"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-24">
-          <h2 className="text-5xl lg:text-[64px] font-black text-[#0F172A] leading-[1.1] tracking-tight">
-            Product <span className="text-[#2563EB]">Showcase</span>
-          </h2>
-        </div>
+  <h2 className="text-5xl lg:text-[64px] font-black text-primary leading-[1.1] tracking-tight">
+    Product <span className="text-brand">Showcase</span>
+  </h2>
+</div>
 
         <div className="space-y-16">
           {products.map((product) => (

@@ -191,11 +191,11 @@ const staggerItem: Variants = {
 
 export default function SolutionsPage() {
   return (
-    <main className="bg-sky-50 min-h-screen">
+    <main className="min-h-screen bg-[var(--color-background)]">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-44 pb-24 bg-sky-50 relative overflow-hidden">
+      <section className="pt-44 pb-24 bg-[var(--color-background)] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.div
             initial="hidden"
@@ -203,10 +203,10 @@ export default function SolutionsPage() {
             variants={fadeUp}
             className="space-y-6"
           >
-            <h1 className="text-6xl lg:text-7xl font-bold text-[#0F172A] tracking-tighter">
-              Industry <span className="text-blue-600">Specializations</span>
+            <h1 className="text-6xl lg:text-7xl font-bold text-[var(--color-heading)] tracking-tighter">
+              Industry <span className="text-[var(--color-brand)]">Specializations</span>
             </h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-xl text-[var(--color-body)] max-w-2xl mx-auto font-medium leading-relaxed">
               Tailored data intelligence for the sectors that drive the global economy.
             </p>
           </motion.div>
@@ -223,79 +223,101 @@ export default function SolutionsPage() {
             <section
               key={industry.id}
               id={industry.id}
-              className={`py-28 lg:py-36 border-t border-slate-100 ${isReversed ? 'bg-blue-50' : 'bg-white'}`}
+              className={`py-28 lg:py-36 border-t border-[var(--color-border-light)] ${
+                isReversed
+                  ? "bg-[var(--color-background)]"
+                  : "bg-[var(--color-background-secondary)]"
+              }`}
             >
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className={`grid lg:grid-cols-2 gap-16 lg:gap-24 items-start ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
-                  
-                  {/* Problem/Context Column */}
-                  <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={fadeUp}
-                    className="space-y-10"
-                  >
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-4">
-                        <div className="p-4 rounded-2xl bg-white shadow-sm border border-slate-100 text-blue-600">
-                          <Icon size={32} />
-                        </div>
-                        <h2 className="text-4xl font-bold text-[#0F172A] tracking-tight">{industry.title}</h2>
-                      </div>
-                      <p className="text-2xl font-bold text-slate-900 leading-tight">
-                        {industry.intro}
-                      </p>
-                      
-                      <div className="space-y-4 pt-6">
-                        <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Industry Challenges</h4>
-                        <div className="grid gap-3">
-                          {industry.challenges.map((challenge, i) => (
-                            <div key={i} className="flex items-start gap-3 p-4 bg-white/50 rounded-xl border border-slate-100">
-                              <AlertCircle size={18} className="text-red-500 mt-0.5 shrink-0" />
-                              <span className="text-slate-600 font-bold text-sm leading-relaxed">{challenge}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
-                  {/* Solutions Column - STAGGERED ANIMATION */}
-                  <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={staggerContainer}
-                    className="space-y-6"
-                  >
-                    <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Our Solutions</h4>
-                    <div className="grid gap-4"> {/* Reduced gap between cards */}
-                      {industry.solutions.map((sol, i) => (
-                        <motion.div
-                          variants={staggerItem}
-                          whileHover={{ x: isReversed ? -5 : 5 }}
-                          key={i}
-                          // Reduced padding from p-8 to p-6 and border radius to 3xl for a smaller card look
-                          className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all group"
-                        >
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="p-1.5 rounded-lg bg-blue-50 text-blue-600">
-                              <ShieldCheck size={18} />
-                            </div>
-                            <h4 className="text-base font-bold text-[#0F172A] group-hover:text-blue-600 transition-colors">
-                              {sol.title}
-                            </h4>
-                          </div>
-                          <p className="text-slate-500 font-medium leading-relaxed text-xs">
-                            {sol.desc}
-                          </p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
+  {/* Problem Column */}
+  <div className={isReversed ? "lg:order-2" : "lg:order-1"}>
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeUp}
+      className="space-y-10 relative z-10"
+    >
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <div className="p-4 rounded-2xl bg-[var(--card-bg)] shadow-[var(--shadow-card)] border border-[var(--color-border)] text-[var(--color-brand)]">
+            <Icon size={32} />
+          </div>
+          <h2 className="text-4xl font-bold text-[var(--color-heading)] tracking-tight">
+            {industry.title}
+          </h2>
+        </div>
 
-                </div>
+        <p className="text-2xl font-bold text-[var(--color-heading)] leading-tight">
+          {industry.intro}
+        </p>
+
+        <div className="space-y-4 pt-6">
+          <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-subtle)]">
+            Industry Challenges
+          </h4>
+
+          <div className="grid gap-3">
+            {industry.challenges.map((challenge, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--color-border-light)]"
+              >
+                <AlertCircle size={18} className="text-red-500 mt-0.5 shrink-0" />
+                <span className="text-slate-600 dark:!text-black font-bold text-sm leading-relaxed">
+                  {challenge}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+
+  {/* Solutions Column */}
+  <div className={isReversed ? "lg:order-1" : "lg:order-2"}>
+    <motion.div 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={staggerContainer}
+      className="space-y-6 relative z-10"
+    >
+      <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--color-subtle)]">
+        Our Solutions
+      </h4>
+
+      <div className="grid gap-4">
+        {industry.solutions.map((sol, i) => (
+          <motion.div
+            variants={staggerItem}
+            whileHover={{ x: isReversed ? -5 : 5 }}
+            key={i}
+            className="p-6 bg-[var(--card-bg)] rounded-3xl border border-[var(--color-border-light)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all group"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-1.5 rounded-lg bg-[var(--color-background-secondary)] text-[var(--color-brand)]">
+                <ShieldCheck size={18} />
+              </div>
+
+              <h4 className="text-base font-bold text-[#0F172A] dark:!text-black group-hover:text-blue-600 transition-colors">
+  {sol.title}
+</h4>
+</div>
+<p className="text-slate-500 dark:!text-black font-medium leading-relaxed text-xs">
+  {sol.desc}
+</p>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  </div>
+
+</div>
               </div>
             </section>
           );
