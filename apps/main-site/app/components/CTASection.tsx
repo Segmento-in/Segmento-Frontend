@@ -27,21 +27,22 @@ export default function CTASection() {
             <div className="flex justify-center">
 
               <Link
-                href="/contact"
-                className="
-                  px-10 py-4
-                  bg-[#2563EB]
-                  text-white
-                  font-bold text-lg
-                  rounded-lg
-                  hover:bg-blue-600
-                  transition-all
-                  hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)]
-                  active:scale-[0.98]
-                "
-              >
-                contact us
-              </Link>
+  href="/contact"
+  className="
+    px-10 py-4
+    text-white
+    font-bold text-lg
+    rounded-lg
+    transition-all
+    active:scale-[0.98]
+  "
+  style={{
+    backgroundColor: "var(--color-button)",
+    boxShadow: "0 8px 20px rgba(37,99,235,0.3)",
+  }}
+>
+  contact us
+</Link>
 
             </div>
 

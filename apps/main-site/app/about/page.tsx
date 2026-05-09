@@ -69,7 +69,13 @@ export default function AboutPage() {
           <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--color-heading)] mb-8 tracking-tight leading-[1.05]">
               Securing the World's Data with <br />
-              <span className="text-blue-500">Transparent AI</span>
+             <span
+  style={{
+    color: "var(--color-button)",
+  }}
+>
+  Transparent AI
+</span>
             </h1>
             <p className="text-lg text-[var(--color-subtle)] max-w-xl mb-10 leading-relaxed font-medium">
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
@@ -202,7 +208,7 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      {/* Stats Section */}
+      
       <section className="py-20">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <motion.div 
@@ -210,16 +216,17 @@ export default function AboutPage() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="bg-[var(--card-bg)] rounded-3xl p-10 md:p-14 border border-[var(--color-border)] shadow-[var(--shadow-card)] flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden"
+      className="bg-[var(--card-bg)] rounded-3xl p-10 md:p-14 border border-[var(--color-border)] shadow-[var(--shadow-card)] flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden transition-colors duration-300"
     >
       
       {/* Background Accent */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--color-background-secondary)] blur-[100px] rounded-full -z-10" />
 
       {/* TITLE */}
-      <h2 className="text-4xl font-extrabold tracking-tight 
-        text-[#0F172A] 
-        dark:text-white">
+      <h2 
+        className="text-4xl font-extrabold tracking-tight transition-colors duration-300"
+        style={{ color: "var(--color-heading)" }}
+      >
         By the Numbers
       </h2>
 
@@ -228,26 +235,27 @@ export default function AboutPage() {
         {/* Stat 1 */}
         <div className="flex items-center gap-5 group">
           <div className="w-14 h-14 
-            bg-slate-100 
-            dark:bg-[#111827] 
+            bg-white dark:bg-slate-100
             rounded-2xl flex items-center justify-center 
             border border-[var(--color-border)] 
+            shadow-sm
             group-hover:scale-110 transition-all duration-300">
             
-            <Database className="w-6 h-6 
-              text-[#0F172A] 
-              dark:text-white" />
+            <Database className="w-6 h-6 text-[#0F172A]" />
           </div>
 
           <div>
-            <div className="text-4xl font-bold tracking-tighter 
-              text-[#0F172A] 
-              dark:text-white">
+            <div 
+              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
+              style={{ color: "var(--color-heading)" }}
+            >
               10B+
             </div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
-              text-slate-500 
-              dark:text-gray-300">
+
+            <div 
+              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
+              style={{ color: "var(--color-subtle)" }}
+            >
               Scanned
             </div>
           </div>
@@ -256,26 +264,27 @@ export default function AboutPage() {
         {/* Stat 2 */}
         <div className="flex items-center gap-5 group">
           <div className="w-14 h-14 
-            bg-slate-100 
-            dark:bg-[#111827] 
+            bg-white dark:bg-slate-100
             rounded-2xl flex items-center justify-center 
             border border-[var(--color-border)] 
+            shadow-sm
             group-hover:scale-110 transition-all duration-300">
             
-            <LockIcon className="w-6 h-6 
-              text-[#0F172A] 
-              dark:text-white" />
+            <LockIcon className="w-6 h-6 text-[#0F172A]" />
           </div>
 
           <div>
-            <div className="text-4xl font-bold tracking-tighter 
-              text-[#0F172A] 
-              dark:text-white">
+            <div 
+              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
+              style={{ color: "var(--color-heading)" }}
+            >
               0
             </div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
-              text-slate-500 
-              dark:text-gray-300">
+
+            <div 
+              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
+              style={{ color: "var(--color-subtle)" }}
+            >
               Breaches
             </div>
           </div>
@@ -284,26 +293,27 @@ export default function AboutPage() {
         {/* Stat 3 */}
         <div className="flex items-center gap-5 group">
           <div className="w-14 h-14 
-            bg-slate-100 
-            dark:bg-[#111827] 
+            bg-white dark:bg-slate-100
             rounded-2xl flex items-center justify-center 
             border border-[var(--color-border)] 
+            shadow-sm
             group-hover:scale-110 transition-all duration-300">
             
-            <Laptop className="w-6 h-6 
-              text-[#0F172A] 
-              dark:text-white" />
+            <Laptop className="w-6 h-6 text-[#0F172A]" />
           </div>
 
           <div>
-            <div className="text-4xl font-bold tracking-tighter 
-              text-[#0F172A] 
-              dark:text-white">
+            <div 
+              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
+              style={{ color: "var(--color-heading)" }}
+            >
               100%
             </div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] 
-              text-slate-500 
-              dark:text-gray-300">
+
+            <div 
+              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
+              style={{ color: "var(--color-subtle)" }}
+            >
               Client-Side
             </div>
           </div>
@@ -326,11 +336,16 @@ export default function AboutPage() {
         Join Our Engineering-First Team
       </h2>
 
-      <Link href="/careers">
-        <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
-          View Open Roles
-        </button>
-      </Link>
+  <Link href="/careers">
+  <button
+    className="px-8 py-4 text-white font-bold rounded-lg relative z-10 shadow-xl transition-all hover:opacity-90"
+    style={{
+      backgroundColor: "var(--color-button)",
+    }}
+  >
+    View Open Roles
+  </button>
+</Link>
 
     </div>
 

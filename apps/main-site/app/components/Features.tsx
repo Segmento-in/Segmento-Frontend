@@ -66,12 +66,18 @@ export default function Features() {
                   <reason.icon className="w-6 h-6 text-blue-600" />
                 </div>
 
-                {/* 🔥 FORCE DARK TEXT (THIS FIXES YOUR ISSUE) */}
-                <h3 className="text-2xl font-bold mb-4 tracking-tight text-black">
+                {/* Updated Dark Mode Compatible Text */}
+                <h3
+                  className="text-2xl font-bold mb-4 tracking-tight transition-colors duration-300"
+                  style={{ color: "var(--color-heading)" }}
+                >
                   {reason.title}
                 </h3>
 
-                <p className="leading-relaxed font-normal text-gray-700">
+                <p
+                  className="leading-relaxed font-normal transition-colors duration-300"
+                  style={{ color: "var(--color-body)" }}
+                >
                   {reason.description}
                 </p>
               </div>
