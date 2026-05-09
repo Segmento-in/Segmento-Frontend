@@ -81,21 +81,30 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-slate-100"
+          ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-[var(--color-border)]"
           : "bg-transparent py-4"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0">
+          {/* LOGO SECTION */}
+          <Link href="/" className="flex items-center shrink-0 relative w-[180px] h-[28px]">
             <Image
               src="/images/logo-final.png"
               alt="Segmento"
               width={180}
               height={28}
               priority
+              className="logo-light"
+            />
+            <Image
+              src="/images/logo-final1.png"
+              alt="Segmento"
+              width={180}
+              height={28}
+              priority
+              className="logo-dark"
             />
           </Link>
 
@@ -114,7 +123,7 @@ export default function Navbar() {
                     className={`text-sm font-bold transition-all duration-200 flex items-center space-x-1 ${
                       activeDropdown === link.name
                         ? "text-[#2563EB]"
-                        : "text-[var(--nav-text)] hover:text-[var(--nav-text)]"
+                        : "text-[var(--nav-text)] hover:text-[#2563EB]"
                     }`}
                   >
                     <span>{link.name}</span>
@@ -124,7 +133,7 @@ export default function Navbar() {
                           rotate: activeDropdown === link.name ? 180 : 0,
                         }}
                       >
-                        <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                        <ChevronDown className="w-3.5 h-3.5 opacity-70" />
                       </motion.span>
                     )}
                   </Link>
@@ -139,15 +148,15 @@ export default function Navbar() {
                       transition={{ duration: 0.15 }}
                       className="absolute top-full left-0 pt-2 z-50 min-w-56"
                     >
-                      <div className="bg-white rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] border border-slate-100 p-1.5 overflow-hidden">
+                      <div className="bg-[var(--card-bg)] rounded-xl shadow-lg border border-[var(--color-border-light)] p-1.5 overflow-hidden">
                         <div className="flex flex-col">
                           {link.dropdown.map((item) => (
                             <Link
                               key={item.name}
                               href={item.href}
-                              className="group/item flex items-center px-4 py-2.5 rounded-lg hover:bg-slate-50 transition-colors"
+                              className="group/item flex items-center px-4 py-2.5 rounded-lg hover:bg-[var(--color-background-secondary)] transition-colors"
                             >
-                              <span className="text-sm font-semibold text-slate-600 group-hover/item:text-[#2563EB] transition-colors whitespace-nowrap">
+                              <span className="text-sm font-semibold text-[var(--color-body)] group-hover/item:text-[#2563EB] transition-colors whitespace-nowrap">
                                 {item.name}
                               </span>
                             </Link>
@@ -161,57 +170,47 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Theme Toggle (desktop only) */}
-          <div className="hidden md:flex shrink-0">
+          <div className="hidden md:flex items-center gap-4 shrink-0">
             <ThemeToggle />
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:flex shrink-0">
             <Link
               href="/contact"
-              className="px-5 py-2 text-sm font-black rounded-xl transition-all duration-300 active:scale-[0.96] bg-[var(--color-brand)] text-[var(--color-background)] hover:bg-[var(--color-button)] hover:text-white"
+              className="px-5 py-2 text-sm font-black rounded-xl transition-all duration-300 active:scale-[0.96] bg-[var(--color-brand)] text-white hover:bg-[var(--color-brand-hover)]"
             >
               Get Started
             </Link>
           </div>
 
-          {/* ✅ MOBILE: Toggle + Hamburger (ONLY CHANGE HERE) */}
+          {/* MOBILE ACTIONS */}
           <div className="md:hidden flex items-center gap-2">
-            
-            {/* Toggle FIRST */}
             <ThemeToggle />
-
-            {/* Hamburger */}
             <button
-              className="p-2"
+              className="p-2 text-[var(--nav-text)]"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (
-                <X className="w-6 h-6 text-white stroke-white" />
+                <X className="w-6 h-6" />
               ) : (
-                <Menu className="w-6 h-6 text-white stroke-white" />
+                <Menu className="w-6 h-6" />
               )}
             </button>
-
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu (UNCHANGED) */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 top-[64px] md:hidden bg-white z-40 overflow-y-auto border-t border-slate-100"
+            className="fixed inset-0 top-[64px] md:hidden bg-[var(--color-background)] z-40 overflow-y-auto border-t border-[var(--color-border-light)]"
           >
             <div className="p-6 space-y-4">
               {navLinks.map((link) => (
                 <div
                   key={link.name}
-                  className="border-b border-slate-50 pb-4 last:border-0"
+                  className="border-b border-[var(--color-border-light)] pb-4 last:border-0"
                 >
                   {link.dropdown ? (
                     <div className="space-y-2">
@@ -221,7 +220,7 @@ export default function Navbar() {
                             mobileMenuOpen === link.name ? null : link.name
                           )
                         }
-                        className="w-full flex items-center justify-between text-xl font-black text-slate-900 px-2"
+                        className="w-full flex items-center justify-between text-xl font-black text-[var(--color-heading)] px-2"
                       >
                         <span>{link.name}</span>
                         <motion.div
@@ -230,7 +229,7 @@ export default function Navbar() {
                               mobileMenuOpen === link.name ? 180 : 0,
                           }}
                         >
-                          <ChevronDown className="w-5 h-5 text-slate-400" />
+                          <ChevronDown className="w-5 h-5 opacity-50" />
                         </motion.div>
                       </button>
 
@@ -247,7 +246,7 @@ export default function Navbar() {
                                 <Link
                                   key={item.name}
                                   href={item.href}
-                                  className="block px-4 py-3 bg-slate-50 rounded-xl text-slate-600 font-bold active:bg-blue-50 active:text-[#2563EB] transition-all text-sm"
+                                  className="block px-4 py-3 bg-[var(--color-background-secondary)] rounded-xl text-[var(--color-body)] font-bold active:text-[#2563EB] transition-all text-sm"
                                   onClick={() => setIsOpen(false)}
                                 >
                                   {item.name}
@@ -261,7 +260,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       href={link.href!}
-                      className="block px-2 text-xl font-black text-slate-900 active:text-[#2563EB]"
+                      className="block px-2 text-xl font-black text-[var(--color-heading)] active:text-[#2563EB]"
                       onClick={() => setIsOpen(false)}
                     >
                       {link.name}
@@ -273,7 +272,7 @@ export default function Navbar() {
               <div className="pt-4">
                 <Link
                   href="/contact"
-                  className="block w-full py-4 bg-[#2563EB] text-white text-center font-black rounded-2xl shadow-lg shadow-blue-500/25 active:scale-[0.98] transition-transform"
+                  className="block w-full py-4 bg-[var(--color-brand)] text-white text-center font-black rounded-2xl shadow-lg active:scale-[0.98] transition-transform"
                   onClick={() => setIsOpen(false)}
                 >
                   Get Started

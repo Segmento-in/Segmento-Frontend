@@ -197,3 +197,22 @@
 .theme-switch .slider {
   background-color: var(--color-subtle);
 }
+/* ================= LOGO SWITCHING ================= */
+
+/* Default: Show light, hide dark */
+.logo-dark {
+  display: none !important;
+}
+
+.logo-light {
+  display: block !important;
+}
+
+/* When data-theme is dark: Show dark, hide light */
+[data-theme="dark"] .logo-dark {
+  display: block !important;
+}
+
+[data-theme="dark"] .logo-light {
+  display: none !important;
+}
