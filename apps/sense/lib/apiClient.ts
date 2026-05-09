@@ -52,6 +52,101 @@ export interface ModelInfo {
     description: string;
 }
 
+// ==================== EVALUATOR TYPES ====================
+
+export interface EvaluatorModel {
+    key: string;
+    label: string;
+    hf_id: string;
+    type: 'NER' | 'GLiNER' | 'Rule-based' | 'Statistical' | 'Rule+ML';
+    params: string;
+    f1_benchmark: number;
+    lazy: boolean;
+    description: string;
+}
+
+export interface GTSpan {
+    type: string;
+    canonical: string;
+    start: number;
+    end: number;
+}
+
+export interface EvaluatorParseResponse {
+    text: string;
+    gt_spans: GTSpan[];
+    has_gt: boolean;
+    format_detected: string;
+    doc_count: number;
+    char_count: number;
+}
+
+export interface EvaluatorPrediction {
+    text: string;
+    label: string;
+    canonical: string;
+    start: number;
+    end: number;
+    score: number;
+    source: string;
+    result?: 'TP' | 'FP' | 'FN';
+}
+
+export interface MetricRow {
+    entity_type: string;
+    tp: number;
+    fp: number;
+    fn: number;
+    precision: number;
+    recall: number;
+    f1: number;
+}
+
+export interface ModelScanResult {
+    predictions: EvaluatorPrediction[];
+    comparison: {
+        TP: EvaluatorPrediction[];
+        FP: EvaluatorPrediction[];
+        FN: EvaluatorPrediction[];
+    };
+    metrics: MetricRow[];
+    coverage: { in_scope: string[]; out_of_scope: string[] };
+    failures: {
+        missed: Array<{ entity_type: string; value: string; context: string; reason: string }>;
+        false_positives: Array<{ entity_type: string; value: string; confidence: number }>;
+    };
+}
+
+export interface EvaluatorScanResponse {
+    per_model: Record<string, ModelScanResult>;
+    has_gt: boolean;
+    elapsed: number;
+}
+
+export interface BatchDocResult {
+    doc_index: number;
+    error?: string;
+    [modelKey: string]: { f1: number; precision: number; recall: number; tp: number; fp: number; fn: number } | number | string | undefined;
+}
+
+export interface BatchEvalResponse {
+    aggregate: Record<string, { f1: number; precision: number; recall: number; tp: number; fp: number; fn: number }>;
+    per_doc: BatchDocResult[];
+    n_docs_evaluated: number;
+}
+
+export interface PinnedResult {
+    label: string;
+    modelKey: string;
+    f1: number;
+    precision: number;
+    recall: number;
+    tp: number;
+    fp: number;
+    fn: number;
+    timestamp: number;
+}
+
 class APIClient {
     private baseURL: string;
 
@@ -426,6 +521,68 @@ class APIClient {
 
     async healthCheck() {
         const response = await fetch(`${this.baseURL}/health`);
+        return this.handleResponse(response);
+    }
+
+    // ==================== EVALUATOR ====================
+
+    async evaluatorGetModels(): Promise<{ models: EvaluatorModel[] }> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/models`);
+        return this.handleResponse(response);
+    }
+
+    async evaluatorParse(
+        file: File,
+        format: string = 'auto',
+        docIndex: number = 0,
+        schema?: Record<string, string>,
+    ): Promise<EvaluatorParseResponse> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('format', format);
+        formData.append('doc_index', docIndex.toString());
+        if (schema) formData.append('schema', JSON.stringify(schema));
+        const response = await fetch(`${this.baseURL}/api/evaluator/parse`, {
+            method: 'POST',
+            body: formData,
+        });
+        return this.handleResponse(response);
+    }
+
+    async evaluatorScan(
+        text: string,
+        gt_spans: GTSpan[] = [],
+        model_keys: string[] = ['deberta'],
+        conf_threshold: number = 0.5,
+        entropy_threshold: number = 4.5,
+    ): Promise<EvaluatorScanResponse> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/scan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, gt_spans, model_keys, conf_threshold, entropy_threshold }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async evaluatorBatch(
+        file: File,
+        format: string = 'nemotron',
+        nDocs: number = 50,
+        modelKeys: string[] = ['deberta'],
+        confThreshold: number = 0.5,
+        entropyThreshold: number = 4.5,
+    ): Promise<BatchEvalResponse> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('format', format);
+        formData.append('n_docs', nDocs.toString());
+        formData.append('model_keys', modelKeys.join(','));
+        formData.append('conf_threshold', confThreshold.toString());
+        formData.append('entropy_threshold', entropyThreshold.toString());
+        const response = await fetch(`${this.baseURL}/api/evaluator/batch`, {
+            method: 'POST',
+            body: formData,
+        });
         return this.handleResponse(response);
     }
 }
