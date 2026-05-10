@@ -16,30 +16,39 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-
-        {/* ALWAYS START IN LIGHT MODE */}
+        {/* THEME SCRIPT */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              document.documentElement.setAttribute('data-theme', 'light');
+              (function () {
+                const savedTheme = sessionStorage.getItem("theme");
+
+                if (savedTheme === "dark") {
+                  document.documentElement.dataset.theme = "dark";
+                } else {
+                  document.documentElement.dataset.theme = "light";
+                }
+              })();
             `,
           }}
         />
 
-        {/* Fonts */}
+        {/* GOOGLE FONTS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
       </head>
 
-      <body className="antialiased bg-sky-50 dark:bg-primary text-body">
+      <body className="antialiased bg-sky-50 text-body transition-colors duration-300">
         {children}
         <Chatbot />
       </body>
