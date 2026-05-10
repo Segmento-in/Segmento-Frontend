@@ -37,10 +37,10 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
             const layout = {
                 paper_bgcolor: 'transparent',
                 plot_bgcolor: 'transparent',
-                font: { color: '#94a3b8', size: 11 },
+                font: { color: '#475569', size: 11 },
                 margin: { t: 20, r: 10, b: 60, l: 10 },
-                xaxis: { showgrid: false, color: '#334155' },
-                yaxis: { range: [0, 1], showgrid: true, gridcolor: '#1e293b', color: '#334155' },
+                xaxis: { showgrid: false, color: '#64748b' },
+                yaxis: { range: [0, 1], showgrid: true, gridcolor: '#e2e8f0', color: '#64748b' },
                 legend: { orientation: 'h', y: -0.25, font: { size: 10 } },
                 bargap: 0.25,
             };
@@ -66,7 +66,7 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                 }], {
                     paper_bgcolor: 'transparent',
                     plot_bgcolor: 'transparent',
-                    font: { color: '#94a3b8', size: 11 },
+                    font: { color: '#475569', size: 11 },
                     margin: { t: 20, r: 20, b: 20, l: 20 },
                     legend: { font: { size: 10 } },
                     showlegend: true,
@@ -88,10 +88,10 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                     ],
                     {
                         paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
-                        font: { color: '#94a3b8', size: 11 },
+                        font: { color: '#475569', size: 11 },
                         margin: { t: 20, r: 10, b: 40, l: 40 },
-                        xaxis: { range: [0, 1], title: 'Confidence', color: '#334155', showgrid: false },
-                        yaxis: { title: 'Count', color: '#334155', showgrid: true, gridcolor: '#1e293b' },
+                        xaxis: { range: [0, 1], title: 'Confidence', color: '#64748b', showgrid: false },
+                        yaxis: { title: 'Count', color: '#64748b', showgrid: true, gridcolor: '#e2e8f0' },
                         barmode: 'overlay', legend: { font: { size: 10 } },
                     },
                     { responsive: true, displayModeBar: false },
@@ -113,7 +113,7 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                     {modelKeys.map(k => (
                         <button key={k} onClick={() => update({ activeModelKey: k })}
                             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                                state.activeModelKey === k ? 'bg-emerald-600 text-white' : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                                state.activeModelKey === k ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-100'
                             }`}>{k}</button>
                     ))}
                 </div>
@@ -127,12 +127,12 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                         { label: 'Precision', value: overall.precision,  desc: 'TP / (TP+FP)', icon: Crosshair,color: overall.precision },
                         { label: 'Recall',    value: overall.recall,     desc: 'TP / (TP+FN)', icon: Eye,      color: overall.recall },
                     ].map(({ label, value, desc, icon: Icon, color }) => (
-                        <div key={label} className="flex flex-col items-center gap-2 py-7 rounded-2xl border border-white/5 bg-[#0F1629]">
+                        <div key={label} className="flex flex-col items-center gap-2 py-7 rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100">
                             <Icon size={18} className={F1_TXT(color)} />
                             <span className={`text-4xl font-black tabular-nums ${F1_TXT(color)}`}>
                                 {value.toFixed(3)}
                             </span>
-                            <span className="text-sm font-bold text-white">{label}</span>
+                            <span className="text-sm font-bold text-slate-900">{label}</span>
                             <span className="text-[10px] text-slate-500">{desc}</span>
                         </div>
                     ))}
@@ -141,32 +141,32 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
 
             {/* Charts row */}
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-5">
-                <div className="rounded-2xl border border-white/5 bg-[#0F1629] p-4">
-                    <p className="text-xs font-bold text-slate-400 mb-3 tracking-wider uppercase">F1 / Precision / Recall per Entity</p>
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-4">
+                    <p className="text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase">F1 / Precision / Recall per Entity</p>
                     <div ref={chartRef} className="w-full h-[260px]" />
                 </div>
-                <div className="rounded-2xl border border-white/5 bg-[#0F1629] p-4">
-                    <p className="text-xs font-bold text-slate-400 mb-3 tracking-wider uppercase">TP / FP / FN Split</p>
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-4">
+                    <p className="text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase">TP / FP / FN Split</p>
                     <div ref={donutRef} className="w-full h-[220px]" />
                 </div>
             </div>
 
             {/* Confidence histogram */}
-            <div className="rounded-2xl border border-white/5 bg-[#0F1629] p-4">
-                <p className="text-xs font-bold text-slate-400 mb-3 tracking-wider uppercase">Confidence Distribution</p>
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-4">
+                <p className="text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase">Confidence Distribution</p>
                 <div ref={histRef} className="w-full h-[200px]" />
             </div>
 
             {/* Per-entity table */}
             {perType.length > 0 && (
-                <div className="rounded-2xl border border-white/5 bg-[#0F1629] overflow-hidden">
-                    <div className="px-5 py-3 border-b border-white/5">
-                        <p className="text-xs font-bold text-slate-400 tracking-wider uppercase">Per-Entity Breakdown</p>
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 overflow-hidden">
+                    <div className="px-5 py-3 border-b border-slate-200">
+                        <p className="text-xs font-bold text-slate-500 tracking-wider uppercase">Per-Entity Breakdown</p>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-xs">
                             <thead>
-                                <tr className="border-b border-white/5">
+                                <tr className="border-b border-slate-200">
                                     {['Entity Type', 'TP', 'FP', 'FN', 'Precision', 'Recall', 'F1'].map(h => (
                                         <th key={h} className="px-4 py-2.5 text-left text-slate-500 font-semibold">{h}</th>
                                     ))}
@@ -174,13 +174,13 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                             </thead>
                             <tbody>
                                 {perType.sort((a, b) => b.f1 - a.f1).map(row => (
-                                    <tr key={row.entity_type} className="border-b border-white/[0.03] hover:bg-white/[0.02]">
-                                        <td className="px-4 py-2.5 font-mono text-slate-300">{row.entity_type}</td>
+                                    <tr key={row.entity_type} className="border-b border-slate-100 hover:bg-slate-50">
+                                        <td className="px-4 py-2.5 font-mono text-slate-700">{row.entity_type}</td>
                                         <td className="px-4 py-2.5 text-emerald-400 font-mono">{row.tp}</td>
                                         <td className="px-4 py-2.5 text-orange-400 font-mono">{row.fp}</td>
                                         <td className="px-4 py-2.5 text-red-400 font-mono">{row.fn}</td>
-                                        <td className="px-4 py-2.5 font-mono text-slate-300">{row.precision.toFixed(3)}</td>
-                                        <td className="px-4 py-2.5 font-mono text-slate-300">{row.recall.toFixed(3)}</td>
+                                        <td className="px-4 py-2.5 font-mono text-slate-700">{row.precision.toFixed(3)}</td>
+                                        <td className="px-4 py-2.5 font-mono text-slate-700">{row.recall.toFixed(3)}</td>
                                         <td className="px-4 py-2.5">
                                             <span className={`font-black font-mono ${F1_TXT(row.f1)}`}>{row.f1.toFixed(3)}</span>
                                         </td>
@@ -199,11 +199,11 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
                         placeholder={`Label this run, e.g. "${state.activeModelKey} — doc 0"`}
                         value={pinLabel}
                         onChange={e => setPinLabel(e.target.value)}
-                        className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50"
+                        className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:border-emerald-300"
                     />
                     <button
                         onClick={() => { pinResult(state.activeModelKey, pinLabel || `${state.activeModelKey} — run`); setPinLabel(''); }}
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-bold transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-500 text-white text-xs font-bold transition-colors"
                     >
                         <Pin size={12} /> Pin Result
                     </button>
@@ -215,8 +215,8 @@ export default function MetricsTab({ state, update, pinResult }: Props) {
 
 function Empty({ message }: { message: string }) {
     return (
-        <div className="flex flex-col items-center justify-center gap-4 py-24 rounded-2xl border border-white/5 bg-[#0F1629]">
-            <AlertCircle size={32} className="text-slate-600" />
+        <div className="flex flex-col items-center justify-center gap-4 py-24 rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100">
+            <AlertCircle size={32} className="text-slate-500" />
             <p className="text-sm text-slate-500 max-w-xs text-center">{message}</p>
         </div>
     );

@@ -87,8 +87,8 @@ export default function DocumentViewTab({ state, update }: Props) {
                                     onClick={() => update({ activeModelKey: k })}
                                     className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                                         state.activeModelKey === k
-                                            ? 'bg-emerald-600 text-white'
-                                            : 'bg-white/5 text-slate-400 hover:bg-white/10'
+                                            ? 'bg-emerald-500 text-white'
+                                            : 'bg-slate-100 text-slate-500 hover:bg-slate-100'
                                     }`}>
                                     {k}
                                 </button>
@@ -103,17 +103,17 @@ export default function DocumentViewTab({ state, update }: Props) {
                         <button
                             disabled={state.docIndex <= 0}
                             onClick={() => update({ docIndex: state.docIndex - 1 })}
-                            className="p-1.5 rounded-lg border border-white/10 text-slate-400 disabled:opacity-30 hover:border-white/20 transition-colors"
+                            className="p-1.5 rounded-lg border border-slate-200 text-slate-500 disabled:opacity-30 hover:border-slate-300 transition-colors"
                         >
                             <ChevronLeft size={14} />
                         </button>
-                        <span className="text-xs text-slate-400 font-mono">
+                        <span className="text-xs text-slate-500 font-mono">
                             Doc {(state.docIndex ?? 0) + 1} / {state.parseResult.doc_count}
                         </span>
                         <button
                             disabled={state.docIndex >= state.parseResult.doc_count - 1}
                             onClick={() => update({ docIndex: state.docIndex + 1 })}
-                            className="p-1.5 rounded-lg border border-white/10 text-slate-400 disabled:opacity-30 hover:border-white/20 transition-colors"
+                            className="p-1.5 rounded-lg border border-slate-200 text-slate-500 disabled:opacity-30 hover:border-slate-300 transition-colors"
                         >
                             <ChevronRight size={14} />
                         </button>
@@ -123,10 +123,10 @@ export default function DocumentViewTab({ state, update }: Props) {
 
             {/* Legend */}
             {hasGT && (
-                <div className="flex flex-wrap gap-3 px-4 py-3 rounded-xl border border-white/5 bg-[#0F1629]">
+                <div className="flex flex-wrap gap-3 px-4 py-3 rounded-xl border border-slate-200 bg-white shadow-sm border-slate-100">
                     {Object.entries(RESULT_COLORS).filter(([k]) => k !== 'DET').map(([key, c]) => (
                         <div key={key} className="flex items-center gap-1.5">
-                            <span style={{ background: c.bg, borderBottom: `2px solid ${c.border}`, borderRadius: 3, padding: '1px 6px', fontSize: 11 }} className="text-white font-mono">
+                            <span style={{ background: c.bg, borderBottom: `2px solid ${c.border}`, borderRadius: 3, padding: '1px 6px', fontSize: 11 }} className="text-slate-900 font-mono">
                                 {key}
                             </span>
                             <span className="text-[10px] text-slate-500">
@@ -138,10 +138,10 @@ export default function DocumentViewTab({ state, update }: Props) {
             )}
 
             {/* Document content */}
-            <div className="rounded-2xl border border-white/5 bg-[#0F1629] p-6 overflow-x-auto">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-6 overflow-x-auto">
                 {text ? (
                     <p
-                        className="text-sm text-slate-300 leading-7 whitespace-pre-wrap font-mono"
+                        className="text-sm text-slate-700 leading-7 whitespace-pre-wrap font-mono"
                         dangerouslySetInnerHTML={{ __html: highlightedHtml }}
                     />
                 ) : (
@@ -157,7 +157,7 @@ export default function DocumentViewTab({ state, update }: Props) {
                         { label: 'False Positives', value: modelData.comparison.FP.length, color: 'text-orange-400' },
                         { label: 'False Negatives', value: modelData.comparison.FN.length, color: 'text-red-400' },
                     ].map(s => (
-                        <div key={s.label} className="flex flex-col items-center gap-1 py-4 rounded-2xl border border-white/5 bg-[#0F1629]">
+                        <div key={s.label} className="flex flex-col items-center gap-1 py-4 rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100">
                             <span className={`text-2xl font-black ${s.color}`}>{s.value}</span>
                             <span className="text-[10px] text-slate-500 tracking-widest uppercase">{s.label}</span>
                         </div>
@@ -170,8 +170,8 @@ export default function DocumentViewTab({ state, update }: Props) {
 
 function Empty({ message }: { message: string }) {
     return (
-        <div className="flex flex-col items-center justify-center gap-4 py-24 rounded-2xl border border-white/5 bg-[#0F1629]">
-            <AlertCircle size={32} className="text-slate-600" />
+        <div className="flex flex-col items-center justify-center gap-4 py-24 rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100">
+            <AlertCircle size={32} className="text-slate-500" />
             <p className="text-sm text-slate-500 max-w-xs text-center">{message}</p>
         </div>
     );

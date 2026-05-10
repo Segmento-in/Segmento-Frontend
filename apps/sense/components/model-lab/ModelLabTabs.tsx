@@ -45,21 +45,21 @@ export default function ModelLabTabs({ state, update, pinResult, removePin, clea
     return (
         <section className="max-w-7xl mx-auto px-4 pb-24">
             {/* Tab bar */}
-            <div className="flex gap-1 p-1.5 rounded-2xl border border-white/5 bg-[#0F1629] mb-8 overflow-x-auto scrollbar-none">
+            <div className="flex gap-1 p-1.5 rounded-2xl border border-slate-200 bg-white shadow-sm mb-8 overflow-x-auto scrollbar-none">
                 {TABS.map((tab, idx) => (
                     <button
                         key={tab.id}
                         onClick={() => update({ activeTab: idx })}
                         className={`relative flex-shrink-0 px-4 sm:px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
                             state.activeTab === idx
-                                ? 'text-white'
-                                : 'text-slate-500 hover:text-slate-300'
+                                ? 'text-emerald-800'
+                                : 'text-slate-500 hover:text-slate-700'
                         }`}
                     >
                         {state.activeTab === idx && (
                             <motion.div
                                 layoutId="tab-pill"
-                                className="absolute inset-0 bg-emerald-700/60 rounded-xl border border-emerald-500/30"
+                                className="absolute inset-0 bg-emerald-100 rounded-xl border border-emerald-300"
                                 transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
                             />
                         )}
