@@ -32,8 +32,10 @@ export default function BlogPage() {
                         <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-white rounded-full shadow-sm">
                             Segmento Insights
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight text-slate-900 dark:text-white">
-                            The <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Blog</span>
+                        <h1   className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight"
+  style={{ color: "var(--color-heading)" }}
+>
+  The <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Blog</span>
                         </h1>
                         <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-2xl mx-auto">
                             Deep dives into data privacy, AI governance, and the future of enterprise tech.

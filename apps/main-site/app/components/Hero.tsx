@@ -53,7 +53,13 @@ export default function Hero() {
               style={{ color: "var(--color-heading)" }}
             >
               AI-Driven <br />
-              <span className="text-[#2563EB]">Data Solutions</span> <br />
+              <span
+  style={{
+    color: "var(--color-button)",
+  }}
+>
+  Data Solutions
+</span> <br />
             </h1>
 
             <p

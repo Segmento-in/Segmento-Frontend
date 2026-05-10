@@ -60,9 +60,15 @@ export default function ContactPage() {
                   className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:bg-slate-400/20 focus:border-blue-400 outline-none transition-all resize-none font-medium text-sm"
                 />
 
-                <button className="w-full py-4 bg-blue-600 text-white text-md font-bold rounded-xl hover:bg-blue-500 active:scale-[0.98] transition-all mt-2 shadow-lg shadow-blue-900/20 uppercase tracking-wider">
-                  Send Message
-                </button>
+        <button
+  className="w-full py-4 text-white text-md font-bold rounded-xl active:scale-[0.98] transition-all mt-2 shadow-lg uppercase tracking-wider hover:opacity-90"
+  style={{
+    backgroundColor: "var(--color-button)",
+    boxShadow: "0 10px 25px rgba(56,189,248,0.25)",
+  }}
+>
+  Send Message
+</button>
               </form>
             </div>
 

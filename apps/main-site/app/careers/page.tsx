@@ -115,20 +115,21 @@ export default function CareersPage() {
 
         /* ✅ FIX HOVER PROPERLY FOR BOTH THEMES */
         onMouseEnter={(e) => {
-          const isDark =
-            document.documentElement.getAttribute("data-theme") === "dark";
+  const isDark =
+    document.documentElement.getAttribute("data-theme") === "dark";
 
-          e.currentTarget.style.background = isDark
-            ? "#e5e7eb"   // gray in dark mode (your requirement)
-            : "#f8fafc";  // light mode hover
+  e.currentTarget.style.background = isDark
+    ? "#1e293b"
+    : "#f8fafc";
 
-          e.currentTarget.style.color = isDark ? "#000000" : "inherit";
-        }}
-
+  e.currentTarget.style.color = isDark
+    ? "#f8fafc"
+    : "#0f172a";
+}}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "transparent";
-          e.currentTarget.style.color = "var(--color-heading)";
-        }}
+  e.currentTarget.style.background = "transparent";
+  e.currentTarget.style.color = "var(--color-heading)";
+}}
       >
         {/* ROLE */}
         <td className="px-8 py-6">
@@ -153,22 +154,23 @@ export default function CareersPage() {
         {/* BUTTON */}
         <td className="px-8 py-6 text-right">
           <Link
-            href={`/careers/${role.id}`}
-            className="
-              inline-flex items-center gap-2
-              px-5 py-2.5
-              text-[10px] uppercase tracking-widest
-              font-bold rounded
-              transition-all
-            "
-            style={{
-              backgroundColor: "#3b82f6", // ROYAL BLUE (dark mode fixed)
-              color: "#ffffff",
-            }}
-          >
-            Apply Now
-            <ArrowRight className="w-3 h-3" />
-          </Link>
+  href={`/careers/${role.id}`}
+  className="
+    inline-flex items-center gap-2
+    px-5 py-2.5
+    text-[10px] uppercase tracking-widest
+    font-bold rounded
+    transition-all duration-300
+    hover:opacity-90
+  "
+  style={{
+    backgroundColor: "var(--color-button)",
+    color: "#ffffff",
+  }}
+>
+  Apply Now
+  <ArrowRight className="w-3 h-3" />
+</Link>
         </td>
       </motion.tr>
     ))}

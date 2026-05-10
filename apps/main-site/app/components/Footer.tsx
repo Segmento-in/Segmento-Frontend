@@ -170,17 +170,17 @@ export default function Footer() {
         }
 
         [data-theme="dark"] .footer-link:hover {
-          color: #4169E1 !important;
-        }
+  color: #38bdf8 !important;
+}
 
         /* SOCIAL ICONS */
         [data-theme="dark"] .social-icon {
           color: #d1d5db !important;
         }
 
-        [data-theme="dark"] .social-icon:hover {
-          color: #4169E1 !important;
-        }
+       [data-theme="dark"] .social-icon:hover {
+  color: #38bdf8 !important;
+}
 
         /* LEGAL */
         [data-theme="dark"] .footer-legal {
@@ -188,8 +188,8 @@ export default function Footer() {
         }
 
         [data-theme="dark"] .footer-legal a:hover {
-          color: #4169E1 !important;
-        }
+  color: #38bdf8 !important;
+}
 
         /* COPYRIGHT */
         [data-theme="dark"] .footer-copy {

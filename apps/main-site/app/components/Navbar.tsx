@@ -122,8 +122,8 @@ export default function Navbar() {
                     href={link.href || "#"}
                     className={`text-sm font-bold transition-all duration-200 flex items-center space-x-1 ${
                       activeDropdown === link.name
-                        ? "text-[#2563EB]"
-                        : "text-[var(--nav-text)] hover:text-[#2563EB]"
+  ? "text-[var(--color-button)]"
+  : "text-[var(--nav-text)] hover:text-[var(--color-button)]"
                     }`}
                   >
                     <span>{link.name}</span>
@@ -156,7 +156,7 @@ export default function Navbar() {
                               href={item.href}
                               className="group/item flex items-center px-4 py-2.5 rounded-lg hover:bg-[var(--color-background-secondary)] transition-colors"
                             >
-                              <span className="text-sm font-semibold text-[var(--color-body)] group-hover/item:text-[#2563EB] transition-colors whitespace-nowrap">
+                              <span className="text-sm font-semibold text-[var(--color-body)] group-hover/item:text-[var(--color-button)] transition-colors whitespace-nowrap">
                                 {item.name}
                               </span>
                             </Link>

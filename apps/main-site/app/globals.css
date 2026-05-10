@@ -53,41 +53,38 @@
 
 /* ================= DARK MODE ================= */
 [data-theme="dark"] {
-  --color-background: #121212;
-  --color-background-secondary: #1a1a1b;
-  --color-background-tertiary: #1e1e1f;
+  --color-background: #0b1120;
+  --color-background-secondary: #111827;
+  --color-background-tertiary: #1e293b;
 
-  --color-heading: #e5e7eb;
-  --color-body: #d1d5db;
-  --color-subtle: #9ca3af;
-  --card-bg: #e5e7eb; /* gray-200 */
-  --color-brand: #3b82f6;
-  --color-brand-hover: #2563eb;
+  --color-heading: #f8fafc;
+  --color-body: #cbd5e1;
+  --color-subtle: #94a3b8;
 
-  
-  --color-button: #3b82f6;        /* royal blue in dark mode */
-  --color-button-hover: #2563eb;
+  --color-brand: #38bdf8;
+  --color-brand-hover: #0ea5e9;
+
+  --color-button: #38bdf8;
+  --color-button-hover: #0ea5e9;
   --color-button-text: #ffffff;
 
+  --color-border: #334155;
+  --color-border-light: rgba(255,255,255,0.08);
 
-  --color-border: #33373a;
-  --color-border-light: #444c56;
+  --nav-bg: rgba(11,17,32,0.92);
+  --nav-text: #f8fafc;
 
-  --nav-bg: rgba(18,18,18,0.95);
-  --nav-text: #e5e7eb;
+  /* EXACT PULSE STYLE CARD */
+  --card-bg: #111827;
 
-  /* 🔥 CARD COLOR (YOUR REQUIREMENT) */
-  --card-bg: #e2e8f0; /* slate-200 */
+  --shadow-soft: 0 4px 10px rgba(0,0,0,0.4);
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.45);
+  --shadow-card-hover: 0 12px 30px rgba(0,0,0,0.6);
 
-  /* 🔥 Better shadows for dark */
-  --shadow-soft: 0 4px 10px rgba(0,0,0,0.5);
-  --shadow-card: 0 4px 10px rgba(0,0,0,0.5);
-  --shadow-card-hover: 0 10px 25px rgba(0,0,0,0.7);
-
-  --ticker-bg: #d1d5db; /* gray-300 */
---ticker-text: #0f172a; /* dark text */
---ticker-subtle: #374151;
---ticker-divider: #9ca3af;
+  --ticker-bg: #111827;
+  --ticker-text: #f8fafc;
+  --ticker-subtle: #94a3b8;
+  --ticker-divider: #334155;
 }
 
 /* ================= BASE ================= */
@@ -156,11 +153,28 @@
   box-shadow: var(--shadow-card);
   transition: all 0.3s ease;
 }
+/* DARK MODE CARD TEXT FIX */
+[data-theme="dark"] .card-3d h1,
+[data-theme="dark"] .card-3d h2,
+[data-theme="dark"] .card-3d h3,
+[data-theme="dark"] .card-3d h4,
+[data-theme="dark"] .card-3d h5,
+[data-theme="dark"] .card-3d h6 {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .card-3d p,
+[data-theme="dark"] .card-3d span,
+[data-theme="dark"] .card-3d li,
+[data-theme="dark"] .card-3d div {
+  color: #cbd5e1 !important;
+}
 
 .card-3d:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-card-hover);
 }
+
 
 /* Navbar */
 .glass-nav {
