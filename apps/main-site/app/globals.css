@@ -36,6 +36,17 @@
   /* 🔥 NEW (IMPORTANT) */
   --card-bg: #ffffff;
 
+  /* Mega menu */
+  --mega-bg: #ffffff;
+  --mega-border: rgba(0,0,0,0.08);
+  --mega-item-hover: #f4f6f9;
+  --mega-icon-bg: #f0f2f5;
+  --mega-icon-border: rgba(0,0,0,0.07);
+  --mega-icon-color: #555565;
+  --mega-label: #9fa6b0;
+  --mega-title: #111827;
+  --mega-subtitle: #6b7280;
+
   --font-family-sans: "Inter", sans-serif;
 
   --tracking-tightest: -0.02em;
@@ -82,6 +93,17 @@
 
   /* EXACT PULSE STYLE CARD */
   --card-bg: #111827;
+
+  /* Mega menu dark */
+  --mega-bg: #1a2540;
+  --mega-border: rgba(255,255,255,0.08);
+  --mega-item-hover: rgba(255,255,255,0.06);
+  --mega-icon-bg: rgba(255,255,255,0.07);
+  --mega-icon-border: rgba(255,255,255,0.1);
+  --mega-icon-color: #94a3b8;
+  --mega-label: #64748b;
+  --mega-title: #f1f5f9;
+  --mega-subtitle: #94a3b8;
 
   --shadow-soft: 0 4px 10px rgba(0,0,0,0.4);
   --shadow-card: 0 4px 12px rgba(0,0,0,0.45);
@@ -189,6 +211,37 @@
   background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
+}
+
+/* ================= MEGA MENU ================= */
+.mega-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.mega-item:hover {
+  background: var(--mega-item-hover);
+}
+.mega-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--mega-icon-bg);
+  border: 1px solid var(--mega-icon-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+.mega-item:hover .mega-icon-box {
+  background: var(--mega-item-hover);
 }
 
 /* ================= SCROLLBAR ================= */
