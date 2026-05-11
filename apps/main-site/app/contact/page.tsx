@@ -76,55 +76,40 @@ export default function ContactPage() {
             <div className="flex flex-col gap-6">
               
               {/* INFO CARD */}
-              <div className="
-                bg-white 
-                rounded-[2rem] p-8 border border-slate-200 shadow-[0_8px_40px_rgba(0,0,0,0.04)]
-                
-                [data-theme=dark]:bg-[var(--card-bg)]
-                [data-theme=dark]:border-[var(--color-border)]
-                [data-theme=dark]:!text-black
-              ">
-                <div className="mb-8">
-                  <h3 className="
-                    text-[11px] font-black uppercase tracking-[0.3em] mb-6
-                    text-slate-400
-                    [data-theme=dark]:!text-black
-                  ">
+              <div className="card-3d p-8">
+                <div className="mb-6">
+                  {/* Pill Tag */}
+                  <div className="pill-tag">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
                     Global Office Locations
-                  </h3>
-
-                  <div className="grid sm:grid-cols-1 gap-8">
-                    <LocationItem
-                      icon={<MapPin className="w-5 h-5 text-blue-600" />}
-                      city="Vishakhapatnam"
-                      address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
-                    />
                   </div>
+                </div>
+
+                <div className="grid sm:grid-cols-1 gap-8">
+                  <LocationItem
+                    icon={<MapPin className="w-5 h-5 text-[var(--color-brand)]" />}
+                    city="Vishakhapatnam"
+                    address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
+                  />
                 </div>
               </div>
 
               {/* SUPPORT CARD */}
-              <div className="
-                bg-white rounded-[1.5rem] p-8 border border-slate-200 flex items-center gap-6 group hover:shadow-lg transition-all cursor-pointer
-                
-                [data-theme=dark]:bg-[var(--card-bg)]
-                [data-theme=dark]:border-[var(--color-border)]
-                [data-theme=dark]:!text-black
-              ">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Mail className="w-6 h-6 text-slate-900 [data-theme=dark]:!text-black" />
+              <div className="card-3d p-8 flex items-center gap-6 group cursor-pointer transition-all hover:-translate-y-2">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform" style={{ background: "var(--color-background-secondary)", border: "1px solid var(--color-border-light)" }}>
+                  <Mail className="w-6 h-6 text-[var(--color-heading)]" />
                 </div>
 
                 <div>
-                  <p className="text-sm font-bold text-[#0F172A] [data-theme=dark]:!text-black">
+                  <p className="text-sm font-bold text-[var(--color-heading)]">
                     Direct Support
                   </p>
 
-                  <p className="text-base text-blue-600 font-bold my-0.5">
+                  <p className="text-base font-bold my-0.5 text-[var(--color-brand)]">
                     info@segmento.in
                   </p>
 
-                  <p className="text-xs text-slate-400 font-medium tracking-tight [data-theme=dark]:!text-black">
+                  <p className="text-xs font-medium tracking-tight text-[var(--color-subtle)]">
                     24/7 Critical Support for Enterprise Clients
                   </p>
                 </div>

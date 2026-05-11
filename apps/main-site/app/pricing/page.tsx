@@ -106,15 +106,29 @@ export default function PricingPage() {
               return (
                 <div
                   key={tier.name}
-                  className={`rounded-3xl p-10 flex flex-col transition-all ${
+                  className={`rounded-3xl p-10 flex flex-col transition-all border border-slate-200 dark:border-slate-800 ${
                     isEnterprise
-                      ? "bg-slate-900 text-white"
+                      ? "bg-slate-900 text-white shadow-2xl"
                       : "card-3d"
                   }`}
                 >
+                  {/* Pill Tag */}
+                  <div className="mb-6">
+                    <div className="pill-tag" style={{
+                      backgroundColor: isEnterprise ? "rgba(255,255,255,0.1)" : undefined,
+                      borderColor: isEnterprise ? "rgba(255,255,255,0.1)" : undefined,
+                      color: isEnterprise ? "#fff" : undefined,
+                    }}>
+                      <span className="w-1.5 h-1.5 rounded-full" style={{
+                        backgroundColor: isEnterprise ? "#fff" : "var(--color-brand)"
+                      }}></span>
+                      {tier.name} Plan
+                    </div>
+                  </div>
+
                   {/* TITLE */}
                   <h3
-                    className="text-2xl font-black mb-2"
+                    className="text-4xl font-black mb-2"
                     style={{
                       color: isEnterprise
                         ? "#fff"

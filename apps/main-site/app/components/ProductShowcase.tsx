@@ -90,27 +90,55 @@ export default function ProductShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 bg-white border-2 p-8 md:p-12 transition-all duration-500 hover:-translate-y-2 rounded-none group/card
-                ${product.color === 'blue' ? 'border-blue-100 hover:border-blue-400 shadow-[0_20px_50px_-20px_rgba(59,130,246,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(59,130,246,0.25)]' :
-                  product.color === 'indigo' ? 'border-indigo-100 hover:border-indigo-400 shadow-[0_20px_50px_-20px_rgba(79,70,229,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(79,70,229,0.25)]' :
-                  product.color === 'sky' ? 'border-sky-100 hover:border-sky-400 shadow-[0_20px_50px_-20px_rgba(14,165,233,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(14,165,233,0.25)]' :
-                  product.color === 'purple' ? 'border-purple-100 hover:border-purple-400 shadow-[0_20px_50px_-20px_rgba(147,51,234,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(147,51,234,0.25)]' :
-                  'border-emerald-100 hover:border-emerald-400 shadow-[0_20px_50px_-20px_rgba(16,185,129,0.15)] hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.25)]'
+              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 card-3d p-8 md:p-12 transition-all duration-500 hover:-translate-y-2 group/card
+                ${product.color === 'blue' ? 'hover:border-blue-300 hover:shadow-[0_40px_80px_-20px_rgba(59,130,246,0.18)]' :
+                  product.color === 'indigo' ? 'hover:border-indigo-300 hover:shadow-[0_40px_80px_-20px_rgba(79,70,229,0.18)]' :
+                  product.color === 'sky' ? 'hover:border-sky-300 hover:shadow-[0_40px_80px_-20px_rgba(14,165,233,0.18)]' :
+                  product.color === 'purple' ? 'hover:border-purple-300 hover:shadow-[0_40px_80px_-20px_rgba(147,51,234,0.18)]' :
+                  'hover:border-emerald-300 hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.18)]'
                 }`}
             >
               {/* Content Side - Fixed to Left */}
               <div className="flex-1 space-y-6 order-2 lg:order-1">
-                <h3 className="text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight leading-[1.1]">
+                {/* Pill Tag */}
+                <div className="pill-tag" style={{
+                  backgroundColor:
+                    product.color === 'blue' ? 'rgba(59,130,246,0.08)' :
+                    product.color === 'indigo' ? 'rgba(79,70,229,0.08)' :
+                    product.color === 'sky' ? 'rgba(14,165,233,0.08)' :
+                    product.color === 'purple' ? 'rgba(147,51,234,0.08)' :
+                    'rgba(16,185,129,0.08)',
+                  color:
+                    product.color === 'blue' ? '#2563eb' :
+                    product.color === 'indigo' ? '#4f46e5' :
+                    product.color === 'sky' ? '#0284c7' :
+                    product.color === 'purple' ? '#7c3aed' :
+                    '#059669',
+                  borderColor: 'transparent',
+                }}>
+                  <span className="w-1.5 h-1.5 rounded-full" style={{
+                    backgroundColor:
+                      product.color === 'blue' ? '#2563eb' :
+                      product.color === 'indigo' ? '#4f46e5' :
+                      product.color === 'sky' ? '#0284c7' :
+                      product.color === 'purple' ? '#7c3aed' :
+                      '#059669',
+                  }} />
+                  {product.name}
+                </div>
+
+                <h3 className="text-4xl lg:text-5xl font-black tracking-tight leading-[1.1]" style={{ color: "var(--color-heading)" }}>
                   {product.title}
                 </h3>
-                <p className="text-[19px] text-slate-500 leading-relaxed font-medium max-w-xl">
+                <p className="text-[19px] leading-relaxed font-medium max-w-xl" style={{ color: "var(--color-body)" }}>
                   {product.description}
                 </p>
                 
                 <div className="pt-4">
                   <Link
                     href={product.link}
-                    className="inline-flex items-center gap-3 px-6 py-3 bg-[#0F172A] text-white font-bold rounded-none hover:bg-slate-900 transition-all shadow-lg active:scale-95 group"
+                    className="inline-flex items-center gap-3 px-6 py-3 font-bold rounded-xl hover:opacity-90 transition-all shadow-lg active:scale-95 group text-white"
+                    style={{ background: "var(--color-brand)" }}
                   >
                     <span>Explore {product.name.split(" ")[1]}</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -120,13 +148,16 @@ export default function ProductShowcase() {
 
               {/* Preview Side - Fixed to Right */}
               <div className="flex-1 w-full relative order-1 lg:order-2">
-                <div className={`absolute -top-4 left-6 z-20 inline-flex items-center px-4 py-1.5 rounded-full text-[13px] font-black tracking-widest uppercase shadow-md border ${
-                  product.color === 'blue' ? 'bg-blue-600 text-white border-blue-400' :
-                  product.color === 'indigo' ? 'bg-indigo-600 text-white border-indigo-400' :
-                  product.color === 'sky' ? 'bg-sky-600 text-white border-sky-400' :
-                  product.color === 'purple' ? 'bg-purple-600 text-white border-purple-400' :
-                  'bg-emerald-600 text-white border-emerald-400'
-                }`}>
+                <div className={`absolute -top-4 left-6 z-20 pill-tag shadow-md` } style={{
+                  backgroundColor:
+                    product.color === 'blue' ? '#2563eb' :
+                    product.color === 'indigo' ? '#4f46e5' :
+                    product.color === 'sky' ? '#0284c7' :
+                    product.color === 'purple' ? '#7c3aed' :
+                    '#059669',
+                  color: '#fff',
+                  borderColor: 'transparent',
+                }}>
                   {product.name}
                 </div>
 
@@ -138,7 +169,7 @@ export default function ProductShowcase() {
                     product.color === 'purple' ? 'bg-purple-400' : 'bg-emerald-400'
                   }`} />
                   
-                  <div className="relative bg-white rounded-none p-3 shadow-[0_32px_64px_-16px_rgba(15,23,42,0.12)] border border-slate-200/60 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className="relative rounded-2xl p-3 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]" style={{ background: "var(--card-bg)", boxShadow: "0 32px 64px -16px rgba(15,23,42,0.12)", border: "1px solid var(--color-border-light)" }}>
                     
                     {/* Mock Browser Header */}
                     <div className="flex items-center gap-1.5 mb-4 px-3 py-1">

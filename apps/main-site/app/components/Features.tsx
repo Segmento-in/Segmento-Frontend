@@ -52,14 +52,14 @@ export default function Features() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group"
             >
-              <div
-                className="h-full rounded-xl p-10 transition-all duration-300 hover:-translate-y-2"
-                style={{
-                  background: "var(--card-bg)",
-                  border: "1px solid var(--color-border)",
-                  boxShadow: "var(--shadow-card)",
-                }}
-              >
+              <div className="h-full p-10 transition-all duration-300 hover:-translate-y-2 card-3d flex flex-col">
+                {/* Pill Tag */}
+                <div className="mb-6">
+                  <div className="pill-tag">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
+                    Feature
+                  </div>
+                </div>
                 {/* Icon */}
                 <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-8 bg-white shadow-md group-hover:scale-110 transition-transform duration-300">
                   <reason.icon className="w-6 h-6 text-blue-600" />

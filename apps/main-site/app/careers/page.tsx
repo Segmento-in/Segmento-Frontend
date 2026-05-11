@@ -73,112 +73,51 @@ export default function CareersPage() {
           </motion.div>
         </header>
 
-        {/* TABLE */}
-        <div className="border-2 border-black overflow-hidden">
+        {/* CARDS GRID */}
+        <div className="grid md:grid-cols-2 gap-8">
+          <AnimatePresence>
+            {filteredRoles.map((role, index) => (
+              <motion.div
+                key={role.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="card-3d p-8 flex flex-col transition-all duration-300 hover:-translate-y-2 group"
+              >
+                {/* Top Section */}
+                <div className="flex justify-between items-start mb-6">
+                  {/* Pill Tag */}
+                  <div className="pill-tag">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
+                    {role.team}
+                  </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--color-subtle)] uppercase tracking-wider">
+                    <Globe className="w-3.5 h-3.5" /> {role.location}
+                  </div>
+                </div>
 
-              {/* HEADER */}
-              <thead className="bg-black text-white">
-                <tr>
-                  <th className="px-8 py-4 text-[10px] uppercase tracking-[0.4em]">
-                    Role & Type
-                  </th>
-                  <th className="px-8 py-4 text-[10px] uppercase tracking-[0.4em] hidden sm:table-cell">
-                    Location
-                  </th>
-                  <th className="px-8 py-4 text-[10px] uppercase tracking-[0.4em] text-right">
-                    Action
-                  </th>
-                </tr>
-              </thead>
+                {/* Role Info */}
+                <h3 className="text-2xl font-black text-[var(--color-heading)] mb-2">
+                  {role.title}
+                </h3>
+                <div className="flex items-center gap-2 mb-8 text-sm font-semibold text-[var(--color-body)]">
+                  <Clock className="w-4 h-4 text-[var(--color-brand)]" /> {role.type}
+                </div>
 
-              {/* BODY */}
-              <tbody
-  style={{
-    background: "var(--color-background-secondary)",
-    color: "var(--color-heading)",
-  }}
->
-  <AnimatePresence>
-    {filteredRoles.map((role, index) => (
-      <motion.tr
-        key={role.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.05 }}
-        className="border-b last:border-b-0 transition-all"
-        style={{
-          borderColor: "var(--color-border)",
-        }}
-
-        /* ✅ FIX HOVER PROPERLY FOR BOTH THEMES */
-        onMouseEnter={(e) => {
-  const isDark =
-    document.documentElement.getAttribute("data-theme") === "dark";
-
-  e.currentTarget.style.background = isDark
-    ? "#1e293b"
-    : "#f8fafc";
-
-  e.currentTarget.style.color = isDark
-    ? "#f8fafc"
-    : "#0f172a";
-}}
-        onMouseLeave={(e) => {
-  e.currentTarget.style.background = "transparent";
-  e.currentTarget.style.color = "var(--color-heading)";
-}}
-      >
-        {/* ROLE */}
-        <td className="px-8 py-6">
-          <h3 className="text-lg font-medium">
-            {role.title}
-          </h3>
-
-          <div className="flex items-center gap-3 mt-1 text-[10px] uppercase tracking-widest opacity-70">
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" /> {role.type}
-            </span>
-          </div>
-        </td>
-
-        {/* LOCATION */}
-        <td className="px-8 py-6 hidden sm:table-cell">
-          <div className="flex items-center gap-2 text-[11px] uppercase">
-            <Globe className="w-4 h-4" /> Remote
-          </div>
-        </td>
-
-        {/* BUTTON */}
-        <td className="px-8 py-6 text-right">
-          <Link
-  href={`/careers/${role.id}`}
-  className="
-    inline-flex items-center gap-2
-    px-5 py-2.5
-    text-[10px] uppercase tracking-widest
-    font-bold rounded
-    transition-all duration-300
-    hover:opacity-90
-  "
-  style={{
-    backgroundColor: "var(--color-button)",
-    color: "#ffffff",
-  }}
->
-  Apply Now
-  <ArrowRight className="w-3 h-3" />
-</Link>
-        </td>
-      </motion.tr>
-    ))}
-  </AnimatePresence>
-</tbody>
-
-            </table>
-          </div>
+                {/* Action */}
+                <div className="mt-auto pt-4 border-t border-[var(--color-border-light)]">
+                  <Link
+                    href={`/careers/${role.id}`}
+                    className="inline-flex items-center gap-2 text-[13px] font-bold text-[var(--color-brand)] uppercase tracking-widest group-hover:gap-3 transition-all"
+                  >
+                    Apply Now
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
       </main>
