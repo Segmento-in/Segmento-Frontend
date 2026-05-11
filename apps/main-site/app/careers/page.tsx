@@ -24,7 +24,7 @@ export default function CareersPage() {
   );
 
   return (
-    <div className="bg-primary min-h-screen font-sans">
+    <div className="min-h-screen font-sans">
       <Navbar />
       <div className="h-24" />
 

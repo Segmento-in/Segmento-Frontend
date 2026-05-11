@@ -78,11 +78,11 @@ export default function PricingPage() {
 }, []);
 
   return (
-    <main className="min-h-screen bg-primary">
+    <main className="min-h-screen">
       <Navbar />
 
       {/* HERO */}
-      <section className="pt-32 pb-16 bg-primary">
+      <section className="pt-32 pb-16">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -187,7 +187,7 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-primary">
+      <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
 
           <div className="text-center mb-12">

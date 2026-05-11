@@ -27,7 +27,6 @@ export default function Hero() {
   return (
     <section
       className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden"
-      style={{ background: "var(--color-background)" }}
     >
       {/* Background Glow (adjusts automatically) */}
       <div

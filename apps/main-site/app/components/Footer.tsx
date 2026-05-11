@@ -59,7 +59,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer-wrapper bg-slate-50 pt-16 pb-10 relative overflow-hidden border-t border-slate-200 transition-colors duration-500">
+    <footer className="footer-wrapper pt-16 pb-10 relative overflow-hidden border-t border-slate-200 transition-colors duration-500">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 

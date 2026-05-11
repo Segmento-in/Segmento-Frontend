@@ -14,7 +14,10 @@
   --color-button-hover: #1d4ed8;
   --color-button-text: #ffffff;
 
-  --color-background: #ECF7FF;
+  --color-background: #ffffff;
+  --bg-blob-1: rgba(147, 210, 255, 0.35);
+  --bg-blob-2: rgba(180, 240, 200, 0.28);
+  --bg-blob-3: rgba(255, 240, 170, 0.22);
   --color-background-secondary: #D8EDFF;
   --color-background-tertiary: #E4F2FF;
 
@@ -54,6 +57,9 @@
 /* ================= DARK MODE ================= */
 [data-theme="dark"] {
   --color-background: #0b1120;
+  --bg-blob-1: rgba(147, 210, 255, 0.18);
+  --bg-blob-2: rgba(180, 240, 200, 0.14);
+  --bg-blob-3: rgba(255, 240, 170, 0.11);
   --color-background-secondary: #111827;
   --color-background-tertiary: #1e293b;
 
@@ -94,10 +100,10 @@
   }
 
   body {
-    background: var(--color-background);
+    background-color: var(--color-background);
     color: var(--color-body);
     font-family: var(--font-family-sans);
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -109,6 +115,8 @@
     line-height: var(--leading-relaxed);
   }
 }
+
+
 
 /* ================= UTIL CLASSES ================= */
 

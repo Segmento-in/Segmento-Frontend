@@ -8,10 +8,10 @@ import { Mail, MapPin } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-sky-50 bg-primary">
+    <main className="min-h-screen">
       <Navbar />
 
-      <section className="pt-24 pb-24 bg-sky-50 bg-primary">
+      <section className="pt-24 pb-24">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-start">
             

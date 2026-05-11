@@ -13,7 +13,7 @@ const statsData = [
 
 export default function StatsTicker() {
   return (
-    <section className="py-8 bg-white overflow-hidden border-y border-slate-100 group">
+    <section className="py-8 overflow-hidden border-y border-slate-100 group">
       <div className="relative flex items-center">
         {/* The "Lens" Overlay - Creates the fade-in/out effect at edges */}
         <div 

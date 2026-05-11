@@ -22,12 +22,12 @@ export default function BlogPage() {
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden bg-primary selection:bg-indigo-100 selection:text-indigo-900 flex flex-col transition-colors duration-300">
+        <div className="min-h-screen overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900 flex flex-col transition-colors duration-300">
             <Navbar />
 
             <main className="flex-grow">
                 {/* Hero Section */}
-                <motion.section className="relative border-b border-light bg-primary py-24 transition-colors duration-300">
+                <motion.section className="relative border-b border-light py-24 transition-colors duration-300">
                     <div className="container mx-auto px-4 text-center">
                         <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-white rounded-full shadow-sm">
                             Segmento Insights
@@ -44,7 +44,7 @@ export default function BlogPage() {
                 </motion.section>
 
                 {/* Blog Grid Section */}
-                <div className="py-20 bg-primary transition-colors duration-300">
+                <div className="py-20 transition-colors duration-300">
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
                             

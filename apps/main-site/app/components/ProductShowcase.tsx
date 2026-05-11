@@ -71,7 +71,7 @@ export default function ProductShowcase() {
   return (
     <section 
       id="ProductShowcase" 
-      className="py-24 md:py-32 bg-primary relative overflow-hidden transition-colors duration-500"
+      className="py-24 md:py-32 relative overflow-hidden transition-colors duration-500"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
       

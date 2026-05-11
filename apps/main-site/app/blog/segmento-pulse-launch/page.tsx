@@ -5,7 +5,7 @@ import { ArrowLeft, TrendingUp, Sparkles, Zap, CheckCircle2 } from "lucide-react
 
 export default function SegmentoPulseLaunchPage() {
     return (
-        <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 overflow-x-hidden">
+        <div className="min-h-screen text-slate-900 selection:bg-blue-100 overflow-x-hidden">
             {/* AMBIENT BACKGROUND ELEMENTS */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 rounded-full blur-[120px]" />
