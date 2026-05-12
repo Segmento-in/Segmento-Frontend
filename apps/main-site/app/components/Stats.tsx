@@ -13,13 +13,13 @@ const statsData = [
 
 export default function StatsTicker() {
   return (
-    <section className="py-8 overflow-hidden border-y border-slate-100 group">
+    <section className="py-8 overflow-hidden border-y border-[var(--color-border-light)] group transition-colors duration-300">
       <div className="relative flex items-center">
         {/* The "Lens" Overlay - Creates the fade-in/out effect at edges */}
         <div 
           className="absolute inset-0 z-20 pointer-events-none" 
           style={{
-            background: 'linear-gradient(90deg, white 0%, transparent 10%, transparent 90%, white 100%)'
+            background: 'linear-gradient(90deg, var(--color-background) 0%, transparent 10%, transparent 90%, var(--color-background) 100%)'
           }}
         />
 
@@ -48,14 +48,14 @@ export default function StatsTicker() {
                     <div className="text-blue-600 opacity-80 group-hover:scale-110 transition-transform duration-500">
                       {stat.icon}
                     </div>
-                    <span className="text-4xl md:text-5xl font-black text-[#0F172A] tracking-tighter">
+                    <span className="text-4xl md:text-5xl font-black text-[var(--color-heading)] tracking-tighter transition-colors duration-300">
                       {stat.value}
                     </span>
                   </div>
 
                   {/* Label Group */}
                   <div className="flex flex-col justify-center">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] leading-none">
+                    <span className="text-[10px] font-black text-[var(--color-subtle)] uppercase tracking-[0.3em] leading-none transition-colors duration-300">
                       {stat.label}
                     </span>
                     <div className="h-0.5 w-6 bg-blue-600 mt-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -63,8 +63,8 @@ export default function StatsTicker() {
 
                   {/* Geometric Divider (The "Round and Round" element) */}
                   <div className="ml-4 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full border-2 border-slate-200" />
-                    <ChevronRight className="w-4 h-4 text-slate-200 -ml-1" />
+                    <div className="w-2 h-2 rounded-full border-2 border-[var(--color-border)] transition-colors duration-300" />
+                    <ChevronRight className="w-4 h-4 text-[var(--color-subtle)] -ml-1 transition-colors duration-300" />
                   </div>
                 </div>
               ))}

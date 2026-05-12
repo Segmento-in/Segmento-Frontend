@@ -31,7 +31,7 @@ const products = [
     name: "Segmento Collect",
     title: "AI-Powered Data Collection Platform",
     description: "Segmento Collector enables seamless data aggregation from multiple sources through intelligent connectors. Automate data ingestion, unify workflows, and transform raw inputs into actionable insights with AI-driven orchestration. Built-in recovery mechanisms ensure data continuity, including a 24-hour recovery window.",
-    link: "/collector",
+    link: "/collect",
     color: "sky",
   },
   {
@@ -39,15 +39,15 @@ const products = [
     name: "Segmento Resolve",
     title: "Data Request & Ticket Management Platform",
     description: "Segmento Resolve helps manage data requests and tickets in a simple and organized way. It allows tracking and clear visibility to ensure smooth and efficient operations.",
-    link: "https://segmento-resolve.vercel.app/",
+    link: "/resolve",
     color: "emerald",
   },
   {
     id: "sprintiq",
-    name: "Segmento Sprintiq",
+    name: "Segmento SprintQL",
     title: "Collaborative Retrospective Management Platform",
-    description: "Segmento Sprintiq helps you run retrospectives in a simple and organized way. Capture feedback, collaborate in real time, and turn ideas into clear action items for continuous improvement.",
-    link: "https://segmento-retro-omega.vercel.app/",
+    description: "Segmento SprintQL helps you run retrospectives in a simple and organized way. Capture feedback, collaborate in real time, and turn ideas into clear action items for continuous improvement.",
+    link: "/sprintql",
     color: "purple",
   },
 ];

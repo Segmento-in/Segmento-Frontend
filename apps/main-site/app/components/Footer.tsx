@@ -17,11 +17,11 @@ const footerLinks = [
   {
     title: "Products",
     links: [
-      { name: "Segmento Pulse", href: "/#pulse" },
-      { name: "Segmento Sense", href: "/#sense" },
-      { name: "Segmento Resolve", href: "/#resolve" },
-      { name: "Segmento SprintIQ", href: "/#sprint" },
-      { name: "Segmento Collect", href: "/#collect" },
+      { name: "Segmento Pulse",    href: "/pulse"    },
+      { name: "Segmento Sense",    href: "/sense"    },
+      { name: "Segmento Resolve",  href: "/resolve"  },
+      { name: "Segmento SprintQL", href: "/sprintql" },
+      { name: "Segmento Collect",  href: "/collect"  },
     ],
   },
   {
