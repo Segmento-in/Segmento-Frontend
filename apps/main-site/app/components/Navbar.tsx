@@ -58,16 +58,16 @@ const navLinks: NavLink[] = [
         {
           label: "Data Intelligence",
           items: [
-            { name: "Segmento Pulse",   subtitle: "Real-time news & trends engine",          href: "/pulse",     icon: Newspaper },
-            { name: "Segmento Sense",   subtitle: "AI-enabled data classification",           href: "/sense",     icon: Shield    },
-            { name: "Segmento Collect", subtitle: "AI-powered data collection platform",      href: "/collector", icon: Database  },
+            { name: "Segmento Pulse",    subtitle: "Real-time news & trends engine",          href: "/pulse",     icon: Newspaper },
+            { name: "Segmento Sense",    subtitle: "AI-enabled data classification",           href: "/sense",     icon: Shield    },
+            { name: "Segmento Collect",  subtitle: "AI-powered data collection platform",      href: "/collect",   icon: Database  },
           ],
         },
         {
           label: "Workflow Tools",
           items: [
-            { name: "Segmento Resolve",  subtitle: "Data request & ticket management",        href: "https://segmento-resolve.vercel.app/",    icon: Ticket, isExternal: true },
-            { name: "Segmento SprintIQ", subtitle: "Collaborative retrospective management",  href: "https://segmento-retro-omega.vercel.app/", icon: Users,  isExternal: true },
+            { name: "Segmento Resolve",  subtitle: "Data request & ticket management",        href: "/resolve",   icon: Ticket },
+            { name: "Segmento SprintQL", subtitle: "Collaborative retrospective management",  href: "/sprintql",  icon: Users },
           ],
         },
       ],

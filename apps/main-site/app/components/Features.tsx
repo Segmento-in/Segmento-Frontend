@@ -61,8 +61,11 @@ export default function Features() {
                   </div>
                 </div>
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-8 bg-white shadow-md group-hover:scale-110 transition-transform duration-300">
-                  <reason.icon className="w-6 h-6 text-blue-600" />
+                <div 
+                  className="w-12 h-12 rounded-lg flex items-center justify-center mb-8 shadow-md group-hover:scale-110 transition-all duration-300"
+                  style={{ background: "var(--color-background-tertiary)" }}
+                >
+                  <reason.icon className="w-6 h-6 text-[var(--color-brand)]" />
                 </div>
 
                 {/* Updated Dark Mode Compatible Text */}
