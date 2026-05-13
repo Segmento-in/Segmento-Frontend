@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* CSS Variables for theme */
   --color-background: #ffffff;
@@ -34,7 +36,32 @@
   --spacing-component: clamp(1rem, 3vw, 2rem);
   --spacing-element: clamp(0.5rem, 2vw, 1rem);
 }
+.dark {
+  --color-background:#242837;         
+  --color-foreground: #ffffff;
 
+  --color-card: #0f172a;
+  --color-card-foreground: #ffffff;
+
+  --color-popover: #0f172a;
+  --color-popover-foreground: #ffffff;
+
+  --color-primary: #38BDF8;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #1e293b;
+  --color-secondary-foreground: #ffffff;
+
+  --color-muted: #1e293b;
+  --color-muted-foreground: #94A3B8;
+
+  --color-accent: #1e293b;
+  --color-accent-foreground: #ffffff;
+
+  --color-border: #1E293B;
+  --color-input: #1E293B;
+  --color-ring: #38BDF8;
+}
 html {
   scroll-behavior: smooth;
   /* Prevent text size adjustment on mobile */
@@ -44,17 +71,17 @@ html {
 }
 
 body {
-  background: var(--color-background);
+  background-color: var(--color-background);
   color: var(--color-foreground);
-  font-feature-settings: "rlig" 1, "calt" 1;
-  /* Improve font rendering on mobile */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Safe area for notched devices */
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
+.dark body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
 
 
 /* Animated grid background */

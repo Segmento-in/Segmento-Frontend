@@ -151,20 +151,20 @@ export default function UploadScanTab({ state, update }: Props) {
     const overall    = activeData?.metrics?.find(r => r.entity_type === 'OVERALL');
 
     return (
-        <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6">
+        <div  className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6 text-slate-900 dark:text-slate-100">
 
             {/* ── LEFT: Model Selector ─────────────────────────────────────────── */}
             <div className="flex flex-col gap-4">
-                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-5">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#111827] shadow-sm p-5">
                     <div className="flex items-center justify-between mb-4">
-                        <span className="text-sm font-bold text-slate-900 tracking-wide">Select Models</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-wide">Select Models</span>
                         <div className="flex gap-2">
                             <button onClick={selectAll}
                                 className="text-[10px] font-semibold px-2 py-1 rounded-lg bg-emerald-100 text-emerald-400 hover:bg-emerald-200 transition-colors">
                                 All
                             </button>
                             <button onClick={clearAll}
-                                className="text-[10px] font-semibold px-2 py-1 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-100 transition-colors">
+                                className="text-[10px] font-semibold px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                                 Clear
                             </button>
                         </div>
@@ -179,8 +179,8 @@ export default function UploadScanTab({ state, update }: Props) {
                                     onClick={() => toggleModel(model.key)}
                                     className={`flex items-start gap-3 p-3 rounded-xl border text-left transition-all duration-150 ${
                                         selected
-                                            ? 'border-emerald-300 bg-emerald-50'
-                                            : 'border-slate-200 bg-slate-50 hover:border-slate-200'
+    ? 'border-emerald-300 bg-emerald-50 dark:bg-emerald-500/10'
+    : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#1E293B] hover:border-slate-300 dark:hover:border-slate-600'
                                     }`}
                                 >
                                     <div className="mt-0.5 flex-shrink-0">
@@ -191,7 +191,7 @@ export default function UploadScanTab({ state, update }: Props) {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <span className="text-xs font-bold text-slate-900 truncate">{model.label}</span>
+                                            <span className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{model.label}</span>
                                             {model.lazy && (
                                                 <span className="text-[8px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 font-mono flex-shrink-0">
                                                     LAZY
@@ -203,7 +203,7 @@ export default function UploadScanTab({ state, update }: Props) {
                                                 {model.type}
                                             </span>
                                             {model.params !== '—' && (
-                                                <span className="text-[9px] text-slate-500">{model.params}</span>
+                                                <span className="text-[9px] text-slate-500 dark:text-slate-400">{model.params}</span>
                                             )}
                                             {model.f1_benchmark > 0 && (
                                                 <span className={`text-[9px] font-bold ml-auto flex-shrink-0 ${F1_COLOR(model.f1_benchmark)}`}>
@@ -218,7 +218,7 @@ export default function UploadScanTab({ state, update }: Props) {
                     </div>
 
                     {state.selectedModels.length > 0 && (
-                        <div className="mt-3 px-3 py-2 rounded-xl bg-emerald-50 border border-emerald-200">
+                        <div className="mt-3 px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-800">
                             <span className="text-[11px] text-emerald-400 font-semibold">
                                 {state.selectedModels.length} model{state.selectedModels.length > 1 ? 's' : ''} selected
                             </span>
@@ -227,10 +227,10 @@ export default function UploadScanTab({ state, update }: Props) {
                 </div>
 
                 {/* Thresholds */}
-                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-5">
+                <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-5">
                     <div className="flex items-center gap-2 mb-4">
                         <Settings2 size={13} className="text-slate-500" />
-                        <span className="text-sm font-bold text-slate-900">Thresholds</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-slate-100">Thresholds</span>
                     </div>
                     <div className="flex flex-col gap-4">
                         <label className="flex flex-col gap-1.5">
@@ -271,7 +271,7 @@ export default function UploadScanTab({ state, update }: Props) {
                             ? 'border-emerald-400/70 bg-emerald-50'
                             : state.uploadedFile
                                 ? 'border-emerald-300 bg-emerald-50'
-                                : 'border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-100'
+                                : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#111827] hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                 >
                     <input ref={fileRef} type="file"
@@ -287,11 +287,11 @@ export default function UploadScanTab({ state, update }: Props) {
                         </div>
                     ) : (
                         <div className="flex flex-col items-center gap-3">
-                            <div className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
                                 <Upload size={22} className="text-slate-500" />
                             </div>
-                            <p className="text-sm font-semibold text-slate-900">Drop a dataset file here</p>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Drop a dataset file here</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">
                                 .parquet · .json · .csv · .txt · .pdf · .avro
                             </p>
                         </div>
@@ -301,8 +301,8 @@ export default function UploadScanTab({ state, update }: Props) {
                 {/* Config row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Format picker */}
-                    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-5">
-                        <span className="block text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase">Dataset Format</span>
+                    <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-5">
+                        <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-3 tracking-wider uppercase">Dataset Format</span>
                         <div className="flex flex-col gap-2">
                             {FORMAT_OPTIONS.map(opt => (
                                 <label key={opt.value} className="flex items-start gap-2.5 cursor-pointer group">
@@ -311,7 +311,7 @@ export default function UploadScanTab({ state, update }: Props) {
                                         onChange={() => update({ formatHint: opt.value })}
                                         className="mt-0.5 accent-emerald-500 flex-shrink-0" />
                                     <div>
-                                        <span className={`text-xs font-semibold ${state.formatHint === opt.value ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'}`}>
+                                        <span className={`text-xs font-semibold ${state.formatHint === opt.value ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300'}`}>
                                             {opt.label}
                                         </span>
                                         <p className="text-[10px] text-slate-500 mt-0.5">{opt.desc}</p>
@@ -323,7 +323,7 @@ export default function UploadScanTab({ state, update }: Props) {
 
                     {/* Scan mode + doc index */}
                     <div className="flex flex-col gap-4">
-                        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-5">
+                        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-5">
                             <span className="block text-xs font-bold text-slate-500 mb-3 tracking-wider uppercase">Scan Mode</span>
                             <div className="flex gap-2">
                                 {(['single', 'batch'] as const).map(mode => (
@@ -332,7 +332,7 @@ export default function UploadScanTab({ state, update }: Props) {
                                         className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
                                             state.scanMode === mode
                                                 ? 'bg-emerald-500 text-white'
-                                                : 'bg-slate-100 text-slate-500 hover:bg-slate-100'
+                                                : ':bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
                                         }`}>
                                         {mode === 'single' ? '📄 Single Doc' : '📦 Batch Eval'}
                                     </button>
@@ -355,13 +355,13 @@ export default function UploadScanTab({ state, update }: Props) {
                                     <label className="block text-[11px] text-slate-500 mb-1.5">Doc index (0-based)</label>
                                     <input type="number" min={0} value={state.docIndex}
                                         onChange={e => update({ docIndex: parseInt(e.target.value) || 0 })}
-                                        className="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 text-xs focus:outline-none focus:border-emerald-300" />
+                                       className="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:border-emerald-300" />
                                 </div>
                             )}
                         </div>
 
                         {/* Schema upload (collapsible) */}
-                        <div className="rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100 p-4">
+                        <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm p-4">
                             <button
                                 onClick={() => setSchemaOpen(o => !o)}
                                 className="flex items-center justify-between w-full text-left"
@@ -379,7 +379,7 @@ export default function UploadScanTab({ state, update }: Props) {
                                         placeholder='{"text_col": "text", "spans_col": "spans"}'
                                         value={schemaText}
                                         onChange={e => setSchemaText(e.target.value)}
-                                        className="w-full px-3 py-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 text-xs font-mono resize-none focus:outline-none focus:border-emerald-300"
+                                        className="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-mono resize-none focus:outline-none focus:border-emerald-300"
                                     />
                                     {schemaError && (
                                         <p className="text-[10px] text-red-400 mt-1">{schemaError}</p>
@@ -392,7 +392,7 @@ export default function UploadScanTab({ state, update }: Props) {
 
                 {/* Error message */}
                 {state.error && (
-                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 bg-red-50">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-500/10">
                         <AlertCircle size={16} className="text-red-400 flex-shrink-0" />
                         <span className="text-sm text-red-600">{state.error}</span>
                     </div>
@@ -400,7 +400,7 @@ export default function UploadScanTab({ state, update }: Props) {
 
                 {/* Parse result info banner */}
                 {state.parseResult && (
-                    <div className="flex flex-wrap items-center gap-4 px-5 py-3 rounded-xl border border-emerald-200 bg-emerald-50">
+                    <div className="flex flex-wrap items-center gap-4 px-5 py-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-500/10">
                         <div className="flex items-center gap-2">
                             <FileText size={13} className="text-emerald-400" />
                             <span className="text-xs text-emerald-700 font-semibold">
@@ -427,7 +427,7 @@ export default function UploadScanTab({ state, update }: Props) {
                         ].map(c => {
                             const Icon = c.icon;
                             return (
-                                <div key={c.label} className="flex flex-col items-center gap-1.5 p-4 rounded-2xl border border-slate-200 bg-white shadow-sm border-slate-100">
+                                <div key={c.label} className="flex flex-col items-center gap-1.5 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
                                     <Icon size={14} className={c.color} />
                                     <span className={`text-xl font-black ${c.color}`}>{c.value}</span>
                                     <span className="text-[10px] text-slate-500 tracking-widest uppercase">{c.label}</span>
@@ -442,7 +442,7 @@ export default function UploadScanTab({ state, update }: Props) {
                     <button
                         onClick={runPipeline}
                         disabled={state.isLoading}
-                        className="flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-bold text-sm transition-all"
+                        className="flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm transition-all"
                     >
                         {state.isLoading ? (
                             <>
@@ -459,7 +459,7 @@ export default function UploadScanTab({ state, update }: Props) {
                     {(state.uploadedFile || state.scanResult) && (
                         <button
                             onClick={resetAll}
-                            className="px-5 py-4 rounded-2xl border border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-300 transition-all"
+                            className="px-5 py-4 rounded-2xl border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:border-slate-300 dark:hover:border-slate-600 transition-all"
                         >
                             <RotateCcw size={15} />
                         </button>

@@ -97,11 +97,12 @@ export function SenseComparisonTable() {
     return (
         <section
             id="comparison-table"
-            className="relative py-20 xl:py-32 bg-[#F8FAFF] overflow-hidden"
+            className="relative py-20 xl:py-32 bg-[#F8FAFF] dark:bg-[#020617] overflow-hidden transition-colors duration-500"
         >
             {/* Background Ambient Glows */}
-            <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-100/50 blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-indigo-100/40 blur-[100px] pointer-events-none" />
+            <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-100/50 dark:bg-blue-500/10 blur-[120px] pointer-events-none transition-colors duration-500" />
+
+<div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-indigo-100/40 dark:bg-indigo-500/10 blur-[100px] pointer-events-none transition-colors duration-500" />
 
             <div className="container relative mx-auto px-6 z-10 max-w-7xl">
                 {/* Header */}
@@ -115,11 +116,11 @@ export function SenseComparisonTable() {
                     <div className="flex items-center justify-center gap-4 mb-8">
                         <span className="h-[2.5px] w-10 bg-blue-600" />
                     </div>
-                    <h2 className="text-4xl xl:text-7xl font-black text-[#0F172A] leading-[0.95] tracking-tighter mb-8">
+                    <h2 className="text-4xl xl:text-7xl font-black text-[#0F172A] dark:text-white">
                         See Why Engineering Teams  <br />
                         <span className="text-blue-600">Choose Sense</span>
                     </h2>
-                    <p className="text-lg xl:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
+                    <p className="text-lg xl:text-xl text-slate-500 dark:text-slate-400">
                         Commercial PII tools hide their logic and charge extra for essential features like OCR. Discover how our Consensus Engine and Explainable AI outperform traditional platforms by giving you total control over the "False Positive vs. Missed Data" trade-off.
                     </p>
                 </motion.div>
@@ -136,7 +137,7 @@ export function SenseComparisonTable() {
                     }}
                     className="mb-10"
                 >
-                    <div className="bg-white/70 backdrop-blur-xl border border-white rounded-2xl p-6 xl:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]">
+                    <div className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl p-6 xl:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] transition-colors duration-500">
                         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h3 className="text-lg font-black text-[#0F172A] tracking-tight">
@@ -190,7 +191,7 @@ export function SenseComparisonTable() {
                                                         ? "border-blue-500 bg-blue-50 shadow-sm"
                                                         : isDisabled
                                                           ? "border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed"
-                                                          : "border-slate-200 bg-white hover:border-blue-300 hover:shadow-sm cursor-pointer"
+                                                         : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-sm cursor-pointer transition-colors"
                                                 }
                                             `}
                                         >
@@ -213,7 +214,7 @@ export function SenseComparisonTable() {
 
                         {/* Selected chips */}
                         <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1.5 bg-blue-600 text-white text-xs font-black rounded-lg tracking-wide">
+                            <span className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg border border-slate-200 dark:border-slate-700 transition-colors">
                                 SEGMENTO SENSE
                             </span>
                             <span className="text-slate-400 font-bold text-sm self-center">
@@ -241,7 +242,7 @@ export function SenseComparisonTable() {
                         delay: 0.3,
                         ease: [0.16, 1, 0.3, 1],
                     }}
-                    className="bg-white/70 backdrop-blur-xl border border-white rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] overflow-hidden"
+                   className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] dark:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] overflow-hidden transition-colors duration-500"
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[700px]">
@@ -264,7 +265,7 @@ export function SenseComparisonTable() {
                                             key={comp.id}
                                             className="py-5 px-4 text-center min-w-[140px]"
                                         >
-                                            <div className="text-sm font-bold text-[#0F172A]">
+                                            <div className="text-sm font-bold text-[#0F172A] dark:text-white">
                                                 {comp.name}
                                             </div>
                                             <div className="text-[10px] text-slate-400 mt-0.5 font-medium">
@@ -304,7 +305,7 @@ export function SenseComparisonTable() {
                                                                 className={`w-4 h-4 ${meta.color}`}
                                                             />
                                                         </div>
-                                                        <span className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">
+                                                        <span className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400">
                                                             {category}
                                                         </span>
                                                     </div>
@@ -319,12 +320,12 @@ export function SenseComparisonTable() {
                                                 return (
                                                     <tr
                                                         key={`${category}-${idx}`}
-                                                        className="border-b border-slate-50 hover:bg-blue-50/30 transition-colors"
+                                                       className="border-b border-slate-50 dark:border-slate-800 hover:bg-blue-50/30 dark:hover:bg-blue-500/5 transition-colors"
                                                     >
                                                         {/* Criteria Label */}
                                                         <td className="py-4 px-6">
                                                             <div className="flex items-start gap-2">
-                                                                <span className="text-sm font-bold text-[#0F172A]">
+                                                                <span className="text-sm font-bold text-[#0F172A] dark:text-slate-100">
                                                                     {row.label}
                                                                 </span>
                                                                 {row.insight && (
@@ -364,7 +365,7 @@ export function SenseComparisonTable() {
                                                         </td>
 
                                                         {/* Segmento Value (highlighted) */}
-                                                        <td className="py-4 px-4 text-center bg-blue-50/50">
+                                                        <td className="py-4 px-4 text-center bg-blue-50/50 dark:bg-blue-500/10 transition-colors">
                                                             <span className="text-sm font-bold text-blue-700">
                                                                 {
                                                                     row.segmentoValue
@@ -381,7 +382,7 @@ export function SenseComparisonTable() {
                                                                     }
                                                                     className="py-4 px-4 text-center"
                                                                 >
-                                                                    <span className="text-sm text-slate-600">
+                                                                    <span className="text-sm text-slate-600 dark:text-slate-300">
                                                                         {row
                                                                             .competitorValues[
                                                                             comp

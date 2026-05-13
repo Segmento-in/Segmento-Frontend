@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Eye, SlidersHorizontal, WifiOff, TestTube2, Wrench } from "lucide-react";
+import {
+  Eye,
+  SlidersHorizontal,
+  WifiOff,
+  TestTube2,
+  Wrench,
+} from "lucide-react";
 
 const DIFFERENTIATORS = [
   {
@@ -48,7 +54,15 @@ const DIFFERENTIATORS = [
 
 export function WhyChooseSense() {
   return (
-    <section className="py-20 bg-slate-50">
+    <section
+      className="
+        py-20
+
+        bg-slate-50
+
+        dark:bg-[#020617]
+      "
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -58,22 +72,49 @@ export function WhyChooseSense() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+          <p
+            className="
+              text-xs font-bold uppercase tracking-widest mb-3
+
+              text-indigo-600
+
+              dark:text-indigo-400
+            "
+          >
             Why Segmento Sense
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#0F172A] tracking-tight mb-4">
+
+          <h2
+            className="
+              text-4xl sm:text-5xl font-black tracking-tight mb-4
+
+              text-[#0F172A]
+
+              dark:text-white
+            "
+          >
             Built different. By design.
           </h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            These aren&apos;t marketing checkboxes. They are deliberate architectural decisions that
-            took 18 months to get right.
+
+          <p
+            className="
+              text-lg max-w-2xl mx-auto
+
+              text-slate-500
+
+              dark:text-slate-400
+            "
+          >
+            These aren&apos;t marketing checkboxes. They are deliberate
+            architectural decisions that took 18 months to get right.
           </p>
         </motion.div>
 
-        {/* Cards grid */}
+        {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {DIFFERENTIATORS.map((item, i) => {
             const Icon = item.icon;
+
             return (
               <motion.div
                 key={item.number}
@@ -81,17 +122,37 @@ export function WhyChooseSense() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, delay: i * 0.1 }}
-                className="group relative bg-white border border-slate-200/80 rounded-2xl p-7 overflow-hidden hover:-translate-y-1.5 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.12)] hover:border-slate-300/80 transition-all duration-300"
+                className="
+                  group relative overflow-hidden rounded-2xl p-7
+                  transition-all duration-300
+
+                  bg-white border border-slate-200/80
+                  hover:-translate-y-1.5
+                  hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.12)]
+                  hover:border-slate-300/80
+
+                  dark:bg-[#0F172A]
+                  dark:border-white/10
+                  dark:hover:border-indigo-500/30
+                  dark:hover:shadow-[0_20px_50px_-15px_rgba(99,102,241,0.18)]
+                "
               >
-                {/* Background blob */}
+                {/* Background Glow */}
                 <div
-                  className="absolute -bottom-8 -right-8 w-36 h-36 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="
+                    absolute -bottom-8 -right-8
+                    w-36 h-36 rounded-full blur-3xl
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-500
+                  "
                   style={{ background: item.color }}
                 />
 
                 {/* Number */}
                 <div
-                  className="text-5xl font-black mb-5 leading-none opacity-15"
+                  className="
+                    text-5xl font-black mb-5 leading-none opacity-15
+                  "
                   style={{ color: item.color }}
                 >
                   {item.number}
@@ -99,19 +160,43 @@ export function WhyChooseSense() {
 
                 {/* Icon */}
                 <div
-                  className="inline-flex items-center justify-center w-11 h-11 rounded-xl mb-4"
-                  style={{ backgroundColor: item.bg, color: item.color }}
+                  className="
+                    inline-flex items-center justify-center
+                    w-11 h-11 rounded-xl mb-4
+                  "
+                  style={{
+                    backgroundColor: item.bg,
+                    color: item.color,
+                  }}
                 >
                   <Icon className="w-5 h-5" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-black text-[#0F172A] mb-3 leading-snug">
+                <h3
+                  className="
+                    text-lg font-black leading-snug mb-3
+
+                    text-[#0F172A]
+
+                    dark:text-white
+                  "
+                >
                   {item.title}
                 </h3>
 
                 {/* Body */}
-                <p className="text-sm text-slate-500 leading-relaxed">{item.body}</p>
+                <p
+                  className="
+                    text-sm leading-relaxed
+
+                    text-slate-500
+
+                    dark:text-slate-400
+                  "
+                >
+                  {item.body}
+                </p>
               </motion.div>
             );
           })}

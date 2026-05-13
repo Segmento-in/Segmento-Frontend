@@ -8,7 +8,7 @@ import {
 } from "@/ui/accordion"
 import { Button } from "@/ui/button"
 import { motion } from "framer-motion"
-import { HelpCircle, MessageSquare, ArrowRight } from "lucide-react"
+import { MessageSquare, ArrowRight } from "lucide-react"
 
 const faqs = [
     {
@@ -47,23 +47,23 @@ const faqs = [
 ]
 
 const bubbles = [
-    { color: "bg-[#00B4FF]", size: "w-24 h-24", top: "15%", left: "15%", delay: 0 },
-    { color: "bg-[#4CAF50]", size: "w-16 h-16", top: "20%", left: "65%", delay: 0.2 },
-    { color: "bg-[#FFB300]", size: "w-36 h-36", top: "40%", left: "25%", delay: 0.1 },
-    { color: "bg-[#F44336]", size: "w-14 h-14", top: "68%", left: "70%", delay: 0.3 },
-    { color: "bg-[#9C27B0]", size: "w-20 h-20", top: "78%", left: "20%", delay: 0.4 },
+    { color: "bg-[#00B4FF]", darkColor: "dark:bg-[#0095d9]", size: "w-24 h-24", top: "15%", left: "15%", delay: 0 },
+    { color: "bg-[#4CAF50]", darkColor: "dark:bg-[#3f9142]", size: "w-16 h-16", top: "20%", left: "65%", delay: 0.2 },
+    { color: "bg-[#FFB300]", darkColor: "dark:bg-[#d49400]", size: "w-36 h-36", top: "40%", left: "25%", delay: 0.1 },
+    { color: "bg-[#F44336]", darkColor: "dark:bg-[#d7372c]", size: "w-14 h-14", top: "68%", left: "70%", delay: 0.3 },
+    { color: "bg-[#9C27B0]", darkColor: "dark:bg-[#7f1f90]", size: "w-20 h-20", top: "78%", left: "20%", delay: 0.4 },
 ]
 
 export default function FAQSection() {
     return (
-        <section className="py-20 bg-white relative overflow-hidden">
+        <section className="py-20 bg-white dark:bg-[#020617] relative overflow-hidden transition-colors duration-300">
             {/* Minimalist Background Grid */}
-            <div className="absolute inset-0 bg-[radial-gradient(#f1f5f9_1px,transparent_1px)] [background-size:24px_24px] opacity-70 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(#f1f5f9_1px,transparent_1px)] dark:bg-[radial-gradient(rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:24px_24px] opacity-70 pointer-events-none" />
 
             <div className="container mx-auto px-6 max-w-6xl relative z-10">
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
                     
-                    {/* Left Side: Animated Bubbles (Scaled down for professional look) */}
+                    {/* Left Side: Animated Bubbles */}
                     <div className="w-full lg:w-1/2 relative h-[350px] md:h-[450px] hidden sm:block">
                         {bubbles.map((bubble, i) => (
                             <motion.div
@@ -75,7 +75,7 @@ export default function FAQSection() {
                                     scale: { delay: bubble.delay, type: "spring", stiffness: 100 },
                                     y: { duration: 5 + i, repeat: Infinity, ease: "easeInOut" }
                                 }}
-                                className={`absolute ${bubble.size} ${bubble.color} rounded-full flex items-center justify-center shadow-lg border-[6px] border-white`}
+                                className={`absolute ${bubble.size} ${bubble.color} ${bubble.darkColor} rounded-full flex items-center justify-center shadow-lg border-[6px] border-white dark:border-slate-900 transition-colors duration-300`}
                                 style={{ top: bubble.top, left: bubble.left }}
                             >
                                 <span className="text-white font-bold text-2xl md:text-3xl select-none">?</span>
@@ -92,10 +92,10 @@ export default function FAQSection() {
                             viewport={{ once: true }}
                             className="mb-10"
                         >
-                            <h2 className="text-3xl md:text-4xl font-bold text-[#6200EA] tracking-tight mb-3">
+                            <h2 className="text-3xl md:text-4xl font-bold text-[#6200EA] dark:text-violet-400 tracking-tight mb-3 transition-colors duration-300">
                                 FAQ
                             </h2>
-                            <div className="w-12 h-1 bg-[#6200EA] rounded-full" />
+                            <div className="w-12 h-1 bg-[#6200EA] dark:bg-violet-400 rounded-full transition-colors duration-300" />
                         </motion.div>
 
                         <Accordion type="single" collapsible className="w-full">
@@ -109,13 +109,14 @@ export default function FAQSection() {
                                 >
                                     <AccordionItem 
                                         value={`item-${idx}`} 
-                                        className="border-b border-slate-100 last:border-0"
+                                        className="border-b border-slate-100 dark:border-slate-800 last:border-0 transition-colors duration-300"
                                     >
-                                        <AccordionTrigger className="text-left font-semibold text-slate-800 py-5 text-base md:text-lg hover:no-underline hover:text-[#6200EA] transition-colors group-data-[state=open]:text-[#6200EA]">
+                                        <AccordionTrigger className="text-left font-semibold text-slate-800 dark:text-slate-100 py-5 text-base md:text-lg hover:no-underline hover:text-[#6200EA] dark:hover:text-violet-400 transition-colors group-data-[state=open]:text-[#6200EA] dark:group-data-[state=open]:text-violet-400">
                                             <span className="leading-snug">{faq.question}</span>
                                         </AccordionTrigger>
-                                        <AccordionContent className="text-slate-500 leading-relaxed font-normal pb-6 text-sm md:text-[0.95rem]">
-                                            <div className="pl-4 border-l border-slate-200">
+
+                                        <AccordionContent className="text-slate-500 dark:text-slate-400 leading-relaxed font-normal pb-6 text-sm md:text-[0.95rem] transition-colors duration-300">
+                                            <div className="pl-4 border-l border-slate-200 dark:border-slate-700 transition-colors duration-300">
                                                 {faq.answer}
                                             </div>
                                         </AccordionContent>
@@ -124,27 +125,34 @@ export default function FAQSection() {
                             ))}
                         </Accordion>
 
-                        {/* Professional CTA Card */}
+                        {/* CTA Card */}
                         <motion.div 
                             initial={{ opacity: 0, scale: 0.98 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            className="mt-12 p-6 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between gap-4"
+                            className="mt-12 p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4 transition-colors duration-300"
                         >
                             <div className="flex items-center gap-4">
-                                <div className="hidden sm:flex w-12 h-12 bg-white rounded-xl shadow-sm items-center justify-center text-[#6200EA]">
+                                <div className="hidden sm:flex w-12 h-12 bg-white dark:bg-slate-800 rounded-xl shadow-sm items-center justify-center text-[#6200EA] dark:text-violet-400 transition-colors duration-300">
                                     <MessageSquare size={20} />
                                 </div>
+
                                 <div>
-                                    <h4 className="text-sm font-bold text-slate-900">Still have questions?</h4>
-                                    <p className="text-xs text-slate-500 font-medium">We're here to help you secure your data.</p>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white transition-colors duration-300">
+                                        Still have questions?
+                                    </h4>
+
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium transition-colors duration-300">
+                                        We're here to help you secure your data.
+                                    </p>
                                 </div>
                             </div>
+
                             <a
-  href="https://www.segmento.in/contact"
-  className="block w-full sm:w-auto"
-> 
-                                <Button className="bg-[#6200EA] hover:bg-[#4500AB] text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
+                                href="https://www.segmento.in/contact"
+                                className="block w-full sm:w-auto"
+                            > 
+                                <Button className="bg-[#6200EA] hover:bg-[#4500AB] dark:bg-violet-600 dark:hover:bg-violet-500 text-white rounded-lg px-5 h-10 text-xs font-bold transition-all flex items-center gap-2">
                                     Contact Us
                                     <ArrowRight size={14} />
                                 </Button>

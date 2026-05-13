@@ -19,11 +19,23 @@ const FILTER_BUTTONS: { key: FilterKey; label: string }[] = [
   { key: "trainable", label: "Trainable" },
 ];
 
-function SortIcon({ sortKey, activeKey, dir }: { sortKey: SortKey; activeKey: SortKey; dir: 1 | -1 }) {
-  if (sortKey !== activeKey) return <ArrowUpDown className="w-3.5 h-3.5 opacity-40" />;
-  return dir === 1
-    ? <ArrowDown className="w-3.5 h-3.5 text-indigo-500" />
-    : <ArrowUp className="w-3.5 h-3.5 text-indigo-500" />;
+function SortIcon({
+  sortKey,
+  activeKey,
+  dir,
+}: {
+  sortKey: SortKey;
+  activeKey: SortKey;
+  dir: 1 | -1;
+}) {
+  if (sortKey !== activeKey)
+    return <ArrowUpDown className="w-3.5 h-3.5 opacity-40" />;
+
+  return dir === 1 ? (
+    <ArrowDown className="w-3.5 h-3.5 text-indigo-500" />
+  ) : (
+    <ArrowUp className="w-3.5 h-3.5 text-indigo-500" />
+  );
 }
 
 export function ModelComparisonTable() {
@@ -42,18 +54,41 @@ export function ModelComparisonTable() {
 
   const filteredSorted = useMemo(() => {
     let data = [...AI_MODELS];
-    if (filter === "inuse") data = data.filter((m) => m.inUse);
-    else if (filter === "trainable") data = data.filter((m) => m.trainable === "yes");
-    else if (filter !== "all") data = data.filter((m) => m.layer === filter);
 
-    if (sortKey === "metric") data.sort((a, b) => (b.metricVal - a.metricVal) * sortDir);
-    if (sortKey === "latency") data.sort((a, b) => (a.latencyRaw - b.latencyRaw) * sortDir);
+    if (filter === "inuse") {
+      data = data.filter((m) => m.inUse);
+    } else if (filter === "trainable") {
+      data = data.filter((m) => m.trainable === "yes");
+    } else if (filter !== "all") {
+      data = data.filter((m) => m.layer === filter);
+    }
+
+    if (sortKey === "metric") {
+      data.sort((a, b) => (b.metricVal - a.metricVal) * sortDir);
+    }
+
+    if (sortKey === "latency") {
+      data.sort((a, b) => (a.latencyRaw - b.latencyRaw) * sortDir);
+    }
+
     return data;
   }, [filter, sortKey, sortDir]);
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      className="
+        py-20
+        bg-white
+        dark:bg-[#020617]
+        relative
+        overflow-hidden
+      "
+    >
+      {/* Dark Mode Ambient Glow */}
+      <div className="hidden dark:block absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-500/10 blur-[140px] rounded-full pointer-events-none" />
+      <div className="hidden dark:block absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/10 blur-[140px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -62,14 +97,17 @@ export function ModelComparisonTable() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">
+          <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3">
             Technical Comparison
           </p>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#0F172A] tracking-tight mb-4">
+
+          <h2 className="text-4xl sm:text-5xl font-black text-[#0F172A] dark:text-white tracking-tight mb-4">
             Every model. Every metric.
           </h2>
-          <p className="text-lg text-slate-500 max-w-xl mx-auto">
-            Filter and sort across the full stack. Click column headers to re-rank by accuracy or speed.
+
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto">
+            Filter and sort across the full stack. Click column headers to
+            re-rank by accuracy or speed.
           </p>
         </motion.div>
 
@@ -85,11 +123,31 @@ export function ModelComparisonTable() {
             <button
               key={btn.key}
               onClick={() => setFilter(btn.key)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-                filter === btn.key
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200"
-                  : "bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-700 hover:-translate-y-0.5"
-              }`}
+              className={`
+                px-4 py-2 rounded-full text-sm font-semibold border
+                transition-all duration-200
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-indigo-500
+
+                ${
+                  filter === btn.key
+                    ? `
+                      bg-indigo-600 text-white border-indigo-600
+                      shadow-md shadow-indigo-200
+                      dark:shadow-indigo-900/40
+                    `
+                    : `
+                      bg-white dark:bg-white/5
+                      text-slate-500 dark:text-slate-300
+                      border-slate-200 dark:border-white/10
+                      hover:border-slate-300 dark:hover:border-indigo-500/40
+                      hover:text-slate-700 dark:hover:text-white
+                      hover:-translate-y-0.5
+                      backdrop-blur-xl
+                    `
+                }
+              `}
             >
               {btn.label}
             </button>
@@ -97,9 +155,11 @@ export function ModelComparisonTable() {
         </motion.div>
 
         {/* Live count */}
-        <p className="text-center text-sm text-slate-400 font-medium mb-6">
+        <p className="text-center text-sm text-slate-400 dark:text-slate-500 font-medium mb-6">
           Showing{" "}
-          <span className="text-[#0F172A] font-bold">{filteredSorted.length}</span>{" "}
+          <span className="text-[#0F172A] dark:text-white font-bold">
+            {filteredSorted.length}
+          </span>{" "}
           model{filteredSorted.length !== 1 ? "s" : ""}
         </p>
 
@@ -109,68 +169,99 @@ export function ModelComparisonTable() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-[0_8px_30px_-8px_rgba(15,23,42,0.1)]"
+          className="
+            bg-white
+            dark:bg-white/5
+            border border-slate-200 dark:border-white/10
+            rounded-2xl
+            overflow-hidden
+            backdrop-blur-xl
+            shadow-[0_8px_30px_-8px_rgba(15,23,42,0.1)]
+            dark:shadow-[0_20px_60px_-12px_rgba(59,130,246,0.15)]
+          "
         >
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px]">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+                <tr className="bg-slate-50 dark:bg-white/[0.03] border-b border-slate-200 dark:border-white/10">
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Model
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Layer
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Architecture
                   </th>
+
                   <th
-                    className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors select-none"
+                    className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors select-none"
                     onClick={() => handleSort("metric")}
                   >
                     <span className="flex items-center gap-1.5">
                       Top Metric
-                      <SortIcon sortKey="metric" activeKey={sortKey} dir={sortDir} />
+                      <SortIcon
+                        sortKey="metric"
+                        activeKey={sortKey}
+                        dir={sortDir}
+                      />
                     </span>
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Context Window
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Best For
                   </th>
-                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500">
+
+                  <th className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                     Trainable
                   </th>
+
                   <th
-                    className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 cursor-pointer hover:text-indigo-600 transition-colors select-none"
+                    className="px-5 py-4 text-left text-[11px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors select-none"
                     onClick={() => handleSort("latency")}
                   >
                     <span className="flex items-center gap-1.5">
                       Latency
-                      <SortIcon sortKey="latency" activeKey={sortKey} dir={sortDir} />
+                      <SortIcon
+                        sortKey="latency"
+                        activeKey={sortKey}
+                        dir={sortDir}
+                      />
                     </span>
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+
+              <tbody className="divide-y divide-slate-50 dark:divide-white/5">
                 {filteredSorted.map((model, i) => {
                   const meta = LAYER_META[model.layer];
+
                   return (
                     <motion.tr
                       key={model.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3, delay: i * 0.03 }}
-                      className="hover:bg-slate-50/70 transition-colors"
+                      className="
+                        hover:bg-slate-50/70
+                        dark:hover:bg-white/[0.03]
+                        transition-colors
+                      "
                     >
-                      {/* Model name + IN USE badge */}
+                      {/* Model name */}
                       <td className="px-5 py-4 max-w-[220px]">
-                        <div className="text-sm font-bold text-[#0F172A] font-mono leading-snug mb-1">
+                        <div className="text-sm font-bold text-[#0F172A] dark:text-white font-mono leading-snug mb-1">
                           {model.name}
                         </div>
+
                         {model.inUse && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20">
                             <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
                             In Use
                           </span>
@@ -192,49 +283,55 @@ export function ModelComparisonTable() {
                       </td>
 
                       {/* Architecture */}
-                      <td className="px-5 py-4 text-sm text-slate-600 max-w-[180px]">
+                      <td className="px-5 py-4 text-sm text-slate-600 dark:text-slate-300 max-w-[180px]">
                         {model.arch}
                       </td>
 
                       {/* Metric */}
                       <td className="px-5 py-4">
-                        <div className="text-base font-black text-[#0F172A]">
+                        <div className="text-base font-black text-[#0F172A] dark:text-white">
                           {model.metricDisplay}
                         </div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">{model.metricLabel}</div>
+
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                          {model.metricLabel}
+                        </div>
                       </td>
 
                       {/* Context Window */}
                       <td className="px-5 py-4">
-                        <span className="px-2 py-1 rounded-md text-xs font-mono font-bold text-indigo-700 bg-indigo-50 border border-indigo-100">
+                        <span className="px-2 py-1 rounded-md text-xs font-mono font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20">
                           {model.context}
                         </span>
                       </td>
 
                       {/* Best For */}
-                      <td className="px-5 py-4 text-sm text-slate-500 max-w-[220px] leading-relaxed">
+                      <td className="px-5 py-4 text-sm text-slate-500 dark:text-slate-400 max-w-[220px] leading-relaxed">
                         {model.bestFor}
                       </td>
 
                       {/* Trainable */}
                       <td className="px-5 py-4">
                         {model.trainable === "yes" && (
-                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/20">
                             Yes
                           </span>
                         )}
+
                         {model.trainable === "limited" && (
-                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20">
                             Limited
                           </span>
                         )}
+
                         {model.trainable === "partial" && (
-                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20">
                             Partial
                           </span>
                         )}
+
                         {model.trainable === "customizable" && (
-                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                          <span className="px-2.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/20">
                             Customizable
                           </span>
                         )}
@@ -242,7 +339,7 @@ export function ModelComparisonTable() {
 
                       {/* Latency */}
                       <td className="px-5 py-4">
-                        <span className="px-2 py-1 rounded-md text-xs font-mono font-bold text-slate-700 bg-slate-100 border border-slate-200">
+                        <span className="px-2 py-1 rounded-md text-xs font-mono font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10">
                           {model.latency}
                         </span>
                       </td>

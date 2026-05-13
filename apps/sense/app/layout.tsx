@@ -2,36 +2,52 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
+import { SenseNavbar } from "@/components/SenseNavbar";
+
 const inter = Inter({
-    variable: "--font-sans",
-    subsets: ["latin"],
-    display: "swap",
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const playfair = Playfair_Display({
-    variable: "--font-serif",
-    subsets: ["latin"],
-    display: "swap",
+  variable: "--font-serif",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-    title: "Segmento Sense | Intelligent Data Classification",
-    description: "Automate Data Classification with AI",
+  title: "Segmento Sense | Intelligent Data Classification",
+  description: "Automate Data Classification with AI",
 };
 
-import { SenseNavbar } from "@/components/SenseNavbar";
-
 export default function MainLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-            <body className="antialiased min-h-screen flex flex-col">
-                <SenseNavbar />
-                <main className="grow">{children}</main>
-            </body>
-        </html>
-    );
+  return (
+   <html
+  lang="en"
+  suppressHydrationWarning
+  className={`${inter.variable} ${playfair.variable}`}
+>
+  <body
+    className="
+      antialiased
+      min-h-screen
+      flex
+      flex-col
+      bg-[var(--color-background)]
+      text-[var(--color-foreground)]
+    "
+  >
+        <SenseNavbar />
+
+        <main className="grow">
+          {children}
+        </main>
+      </body>
+    </html>
+  );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles, FlaskConical } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 // Per-character flicker animation for "UNDER THE HOOD"
 function GlitchText({ text }: { text: string }) {
@@ -158,10 +159,15 @@ export function SenseNavbar() {
 
                 {/* RIGHT SECTION */}
                 <div className="flex items-center gap-2">
+                
+                {/* MOBILE THEME TOGGLE */}
+<div className="md:hidden order-1">
+    <ThemeToggle />
+</div>
 
                     {/* MOBILE MENU BUTTON (FIRST) */}
                     <button
-                        className="lg:hidden text-white p-2.5 bg-white/5 rounded-xl border border-white/10 order-1"
+                        className="lg:hidden text-white p-2.5 bg-white/5 rounded-xl border border-white/10 order-2"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -183,29 +189,68 @@ export function SenseNavbar() {
                     </a>
 
                     {/* DESKTOP ACTIONS */}
-                    <div className="hidden md:flex items-center gap-3">
-                        <Link href="/demo">
-                            <motion.button
-                                whileHover={{ scale: 1.03, y: -1 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="bg-white text-[#020617] px-6 py-2.5 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2"
-                            >
-                                TRY FOR FREE
-                                <ArrowUpRight size={14} strokeWidth={3} />
-                            </motion.button>
-                        </Link>
+                    {/* DESKTOP ACTIONS */}
+<div className="hidden md:flex items-center gap-3">
 
-                        <a href={backUrl}>
-                            <motion.button
-                                whileHover={{ scale: 1.03, y: -1 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-[11px] font-black flex items-center gap-2"
-                            >
-                                <ArrowLeft size={14} strokeWidth={3} />
-                                {backText}
-                            </motion.button>
-                        </a>
-                    </div>
+    {/* THEME TOGGLE */}
+    <ThemeToggle />
+
+    <Link href="/demo">
+    <motion.button
+        whileHover={{ scale: 1.03, y: -1 }}
+        whileTap={{ scale: 0.97 }}
+        className="
+            bg-white
+            text-[#020617]
+            dark:bg-primary
+            dark:text-white
+            px-6
+            py-2.5
+            rounded-xl
+            text-[11px]
+            font-black
+            shadow-xl
+            flex
+            items-center
+            gap-2
+            transition-colors
+        "
+    >
+        <span className="text-[#020617] dark:text-black">
+            TRY FOR FREE
+        </span>
+
+        <ArrowUpRight
+            size={14}
+            strokeWidth={3}
+            className="text-[#020617] dark:text-black"
+        />
+    </motion.button>
+</Link>
+    <a href={backUrl}>
+        <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            className="
+                bg-blue-600
+                dark:bg-primary
+                text-white
+                px-6
+                py-2.5
+                rounded-xl
+                text-[11px]
+                font-black
+                flex
+                items-center
+                gap-2
+                transition-colors
+            "
+        >
+            <ArrowLeft size={14} strokeWidth={3} />
+            {backText}
+        </motion.button>
+    </a>
+</div>
                 </div>
             </div>
 
