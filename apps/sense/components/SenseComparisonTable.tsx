@@ -140,7 +140,7 @@ export function SenseComparisonTable() {
                     <div className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl p-6 xl:p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)] transition-colors duration-500">
                         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
                             <div>
-                                <h3 className="text-lg font-black text-[#0F172A] tracking-tight">
+                                <h3 className="text-lg font-black text-[#0F172A] dark:text-white tracking-tight">
                                   Compare Sense vs. Legacy Platforms
                                 </h3>
                                 <p className="text-sm text-slate-500 mt-1">
