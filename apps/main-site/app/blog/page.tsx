@@ -22,7 +22,7 @@ export default function BlogPage() {
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden bg-blue-100 selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+        <div className="min-h-screen overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900 flex flex-col" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
             <Navbar />
 
             <main className="flex-grow">
@@ -31,7 +31,7 @@ export default function BlogPage() {
                     initial="hidden"
                     animate="visible"
                     variants={fadeInUp}
-                    className="relative border-b border-slate-100 bg-sky-50 py-24"
+                    className="relative border-b py-24" style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border)" }}
                 >
                     <div className="container mx-auto px-4 text-center">
                         <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-white rounded-full shadow-sm">
@@ -47,7 +47,7 @@ export default function BlogPage() {
                 </motion.section>
 
                 {/* Blog Grid Section */}
-                <div className="py-20 bg-sky-50">
+                <div className="py-20" style={{ background: "var(--theme-bg)" }}>
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
                             

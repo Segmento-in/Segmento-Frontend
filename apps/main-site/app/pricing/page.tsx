@@ -64,15 +64,16 @@ export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <main className="min-h-screen bg-sky-50">
+    <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      <section className="pt-32 pb-16 bg-sky-50">
+      <section className="pt-32 pb-16" style={{ background: "var(--theme-bg)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-black text-slate-900 mb-8 tracking-tight"
+            className="text-5xl md:text-6xl font-black mb-8 tracking-tight"
+            style={{ color: "var(--theme-fg)" }}
           >
             Transparent Pricing 
           </motion.h1>
@@ -83,25 +84,24 @@ export default function PricingPage() {
             {tiers.map((tier) => (
               <div
                 key={tier.name}
-                className={`relative rounded-3xl p-10 flex flex-col text-left transition-all duration-300 ${
-                  tier.theme === "navy"
-                    ? "bg-slate-800 text-white shadow-2xl border-0"
-                    : "bg-white border border-slate-300 shadow-xl"
+                className={`relative flex flex-col text-left transition-all duration-300 bento-tile ${
+                  tier.theme === "navy" ? "ring-2 ring-brand shadow-[0_0_30px_var(--theme-brand-glow)]" : ""
                 }`}
+                style={{ padding: "2.5rem", borderRadius: "1.5rem" }}
               >
-                <h3 className={`text-2xl font-black mb-2 ${tier.theme === "navy" ? "text-white" : "text-slate-900"}`}>
+                <h3 className="text-2xl font-black mb-2 text-foreground">
                   {tier.name}
                 </h3>
-                <p className={`text-sm mb-8 leading-relaxed font-medium h-10 ${tier.theme === "navy" ? "text-slate-300" : "text-slate-500"}`}>
+                <p className="text-sm mb-8 leading-relaxed font-medium h-10 text-foreground-subtle">
                   {tier.description}
                 </p>
 
                 <div className="flex items-baseline gap-2 mb-8">
-                  <span className={`text-5xl font-black ${tier.theme === "navy" ? "text-white" : "text-slate-900"}`}>
+                  <span className="text-5xl font-black text-foreground">
                     {typeof tier.price === "number" ? `$${isAnnual ? Math.floor(tier.price * 0.8) : tier.price}` : tier.price}
                   </span>
                   {typeof tier.price === "number" && (
-                    <span className={`text-lg font-bold ${tier.theme === "navy" ? "text-slate-400" : "text-slate-400"}`}>
+                    <span className="text-lg font-bold text-foreground-muted">
                       /mo
                     </span>
                   )}
@@ -110,10 +110,10 @@ export default function PricingPage() {
                 <div className="flex-1 space-y-4 mb-12">
                   {tier.features.map((feature, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <div className={`mt-1 p-0.5 rounded-full ${tier.theme === "navy" ? "bg-blue-500/20" : "bg-blue-50"}`}>
-                        <Check className={`w-3.5 h-3.5 ${tier.theme === "navy" ? "text-blue-400" : "text-[#2563EB]"}`} />
+                      <div className="mt-1 p-0.5 rounded-full" style={{ background: "var(--theme-bg-surface-high)" }}>
+                        <Check className="w-3.5 h-3.5 text-brand" />
                       </div>
-                      <span className={`text-[14px] font-semibold ${tier.theme === "navy" ? "text-slate-200" : "text-slate-700"}`}>
+                      <span className="text-[14px] font-semibold text-foreground-subtle">
                         {feature}
                       </span>
                     </div>
@@ -123,8 +123,8 @@ export default function PricingPage() {
                 <button
                   className={`w-full py-5 px-6 rounded-2xl font-black text-sm uppercase tracking-wider transition-all hover:-translate-y-1 active:scale-[0.98] ${
                     tier.theme === "navy"
-                      ? "bg-blue-600 text-white hover:bg-blue-500 shadow-lg"
-                      : "bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-300"
+                      ? "bg-brand text-white shadow-lg hover:opacity-90"
+                      : "bg-surface-high text-foreground hover:text-brand border border-theme"
                   }`}
                 >
                   {tier.cta}
@@ -135,29 +135,29 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-sky-50">
+      <section className="py-16" style={{ background: "var(--theme-bg)" }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: "var(--theme-fg)" }}>
               Frequently Asked Questions
             </h2>
-            <p className="text-lg text-slate-600">
-              Everything you need to know about our pricing and services.
-            </p>
+              <p className="text-lg text-foreground-subtle">
+                Everything you need to know about our pricing and services.
+              </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-slate-50 border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+              <div key={index} className="bento-tile group" style={{ padding: 0 }}>
                 <button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-100 transition-colors"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-surface-high transition-colors"
                 >
-                  <span className="text-lg font-black text-slate-900">{faq.question}</span>
+                  <span className="text-lg font-black text-foreground group-hover:text-brand transition-colors">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-3 h-3 text-slate-500" />
+                    <ChevronUp className="w-5 h-5 text-foreground-muted" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-500" />
+                    <ChevronDown className="w-5 h-5 text-foreground-muted" />
                   )}
                 </button>
                 <AnimatePresence>
@@ -170,7 +170,7 @@ export default function PricingPage() {
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-6 pt-2">
-                        <p className="text-sm text-slate-600 leading-relaxed">{faq.answer}</p>
+                        <p className="text-sm text-foreground-subtle leading-relaxed font-medium">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}

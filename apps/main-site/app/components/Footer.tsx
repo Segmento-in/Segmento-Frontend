@@ -64,7 +64,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-50 pt-16 pb-10 relative overflow-hidden border-t border-slate-200">
+    <footer className="pt-16 pb-10 relative overflow-hidden border-t" style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border-subtle)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-16">
           
@@ -99,13 +99,14 @@ export default function Footer() {
               transition={{ delay: colIdx * 0.05 }}
               className="col-span-1"
             >
-              <h4 className="font-bold text-slate-900 mb-5 text-[11px] uppercase tracking-[0.15em]">{column.title}</h4>
+              <h4 className="font-bold mb-5 text-[11px] uppercase tracking-[0.15em]" style={{ color: "var(--theme-fg)" }}>{column.title}</h4>
               <ul className="space-y-3">
                 {column.links.map((link, linkIdx) => (
                   <li key={`${column.title}-link-${linkIdx}`}>
                     <Link
                       href={link.href}
-                      className="text-slate-500 hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
+                      className="hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
+                      style={{ color: "var(--theme-fg-subtle)" }}
                     >
                       <span className="relative">
                         {link.name}
@@ -120,7 +121,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col items-center justify-center gap-6">
+        <div className="pt-8 border-t flex flex-col items-center justify-center gap-6" style={{ borderColor: "var(--theme-border-subtle)" }}>
           
           {/* Social Icons */}
           <div className="flex items-center space-x-6">
@@ -129,7 +130,8 @@ export default function Footer() {
                 key={idx}
                 href={social.href}
                 whileHover={{ y: -3, scale: 1.1 }}
-                className="text-slate-400 hover:text-[#2563EB] transition-colors p-1"
+                className="hover:text-[#2563EB] transition-colors p-1"
+                style={{ color: "var(--theme-fg-muted)" }}
               >
                 <social.icon className={`${social.size} fill-current`} />
               </motion.a>
@@ -138,7 +140,7 @@ export default function Footer() {
 
           <div className="flex flex-col items-center justify-center gap-4 w-full">
             {/* Legal Links */}
-            <div className="flex items-center justify-center space-x-8 text-[12px] font-bold text-slate-500">
+            <div className="flex items-center justify-center space-x-8 text-[12px] font-bold" style={{ color: "var(--theme-fg-subtle)" }}>
               {['Legal', 'Privacy', 'Terms', 'Help'].map((item) => (
                 <Link 
                   key={item} 
@@ -146,13 +148,13 @@ export default function Footer() {
                   className="hover:text-[#2563EB] transition-colors relative group"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-slate-300 transition-all group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-px transition-all group-hover:w-full" style={{ background: "var(--theme-border)" }} />
                 </Link>
               ))}
             </div>
 
             {/* Copyright */}
-            <p className="text-slate-400 text-[11px] font-medium text-center">
+            <p className="text-[11px] font-medium text-center" style={{ color: "var(--theme-fg-muted)" }}>
               © {currentYear} Segmento Inc. All rights reserved.
             </p>
           </div>
