@@ -95,62 +95,78 @@ export default function PricingPage() {
       </section>
 
       {/* PRICING */}
-      <section className="pb-24">
+      <section className="pb-24 relative overflow-hidden">
+        {/* Decorative Background Orbs */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
+        
         <div className="max-w-5xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-8">
+          {/* Added pt-8 to ensure there is enough top-clearance so the card top doesn't clip when translating up on hover */}
+          <div className="grid md:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto pt-8">
+            {tiers.map((tier) => (
+              <div
+                key={tier.name}
+                className={`relative flex flex-col text-left transition-all duration-500 ease-out bento-tile ${
+                  tier.name === "Enterprise" 
+                    ? "ring-2 ring-brand shadow-[0_0_40px_rgba(59,130,246,0.08)] hover:shadow-[0_20px_50px_rgba(59,130,246,0.16)] hover:-translate-y-2" 
+                    : "hover:shadow-[0_20px_40px_rgba(0,0,0,0.04)] hover:-translate-y-2"
+                }`}
+                style={{ padding: "3rem 2.5rem", borderRadius: "2rem" }}
+              >
+                {/* Visual Accent for Enterprise */}
+                {tier.name === "Enterprise" && (
+                  <div className="absolute top-0 right-0 left-0 h-[4px] bg-gradient-to-r from-blue-500 via-blue-400 to-indigo-500" />
+                )}
 
-            <div className="grid md:grid-cols-2 gap-8 mb-28 items-stretch max-w-4xl mx-auto">
-              {tiers.map((tier) => (
-                <div
-                  key={tier.name}
-                  className={`relative flex flex-col text-left transition-all duration-300 bento-tile ${
-                    tier.name === "Enterprise" ? "ring-2 ring-brand shadow-[0_0_30px_var(--theme-brand-glow)]" : ""
-                  }`}
-                  style={{ padding: "2.5rem", borderRadius: "1.5rem" }}
-                >
-                  <h3 className="text-2xl font-black mb-2 text-foreground">
+                <div className="mb-6 flex justify-between items-start">
+                  <h3 className="text-3xl font-black tracking-tight text-foreground">
                     {tier.name}
                   </h3>
-                  <p className="text-sm mb-8 leading-relaxed font-medium h-10 text-foreground-subtle">
-                    {tier.description}
-                  </p>
-
-                  <div className="flex items-baseline gap-2 mb-8">
-                    <span className="text-5xl font-black text-foreground">
-                      {typeof tier.price === "number" ? `$${tier.price}` : tier.price}
+                  {tier.name === "Enterprise" && (
+                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-brand/10 text-brand rounded-full">
+                      Popular
                     </span>
-                    {typeof tier.price === "number" && (
-                      <span className="text-lg font-bold text-foreground-muted">
-                        /mo
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex-1 space-y-4 mb-12">
-                    {tier.features.map((feature, i) => (
-                      <div key={i} className="flex items-start gap-3">
-                        <div className="mt-1 p-0.5 rounded-full" style={{ background: "var(--theme-bg-surface-high)" }}>
-                          <Check className="w-3.5 h-3.5 text-brand" />
-                        </div>
-                        <span className="text-[14px] font-semibold text-foreground-subtle">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    className={`w-full py-5 px-6 rounded-2xl font-black text-sm uppercase tracking-wider transition-all hover:-translate-y-1 active:scale-[0.98] ${
-                      tier.name === "Enterprise"
-                        ? "bg-brand text-white shadow-lg hover:opacity-90"
-                        : "bg-surface-high text-foreground hover:text-brand border border-theme"
-                    }`}
-                  >
-                    {tier.cta}
-                  </button>
+                  )}
                 </div>
-              ))}
-            </div>
+
+                <p className="text-sm mb-8 leading-relaxed font-medium min-h-[48px] text-foreground-subtle">
+                  {tier.description}
+                </p>
+
+                <div className="flex items-baseline gap-2 mb-8">
+                  <span className="text-5xl font-black text-foreground tracking-tight">
+                    {typeof tier.price === "number" ? `$${tier.price}` : tier.price}
+                  </span>
+                  {typeof tier.price === "number" && (
+                    <span className="text-lg font-bold text-foreground-muted">
+                      /mo
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-4 mb-12">
+                  {tier.features.map((feature, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="mt-1 p-0.5 rounded-full shrink-0" style={{ background: "var(--theme-bg-surface-high)" }}>
+                        <Check className="w-3.5 h-3.5 text-brand" />
+                      </div>
+                      <span className="text-[14px] font-semibold text-foreground-subtle leading-normal">
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  className={`w-full py-4.5 px-6 rounded-2xl font-black text-xs uppercase tracking-wider transition-all active:scale-[0.98] cursor-pointer ${
+                    tier.name === "Enterprise"
+                      ? "bg-brand text-white shadow-lg shadow-blue-500/20 hover:bg-brand-hover hover:shadow-blue-500/30"
+                      : "bg-surface-high text-foreground hover:text-brand border border-theme hover:bg-surface-high/80"
+                  }`}
+                >
+                  {tier.cta}
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
