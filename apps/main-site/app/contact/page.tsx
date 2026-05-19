@@ -91,14 +91,6 @@ export default function ContactPage() {
                     />
                   </div>
                 </div>
-
-                <div className="grid sm:grid-cols-1 gap-8">
-                  <LocationItem
-                    icon={<MapPin className="w-5 h-5 text-[var(--color-brand)]" />}
-                    city="Vishakhapatnam"
-                    address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
-                  />
-                </div>
               </div>
 
               {/* Support Card - BORDERED */}
