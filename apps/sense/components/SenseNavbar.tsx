@@ -4,7 +4,33 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight } from "lucide-react";
+import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles, FlaskConical } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import Image from "next/image";
+
+
+// Per-character flicker animation for "UNDER THE HOOD"
+function GlitchText({ text }: { text: string }) {
+    return (
+        <span className="flex items-center">
+            {text.split("").map((char, i) => (
+                <motion.span
+                    key={i}
+                    className="font-mono text-purple-400"
+                    animate={{ opacity: [0.15, 1, 0.3, 0.9, 0.15] }}
+                    transition={{
+                        duration: 2.8,
+                        repeat: Infinity,
+                        delay: i * 0.07,
+                        ease: "easeInOut",
+                    }}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </motion.span>
+            ))}
+        </span>
+    );
+}
 
 export function SenseNavbar() {
     const pathname = usePathname();
@@ -16,14 +42,13 @@ export function SenseNavbar() {
         document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset";
     }, [mobileMenuOpen]);
 
-    const isInsideSense = pathname === "/pricing" || pathname?.includes('/demo');
+    const isInsideSense = pathname?.includes('/demo') || pathname?.includes('/ai-engine') || pathname?.includes('/model-lab');
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
     const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Compare", href: "/#comparison-table" },
-        { name: "Pricing", href: "/pricing" },
     ];
 
     if (!mounted) return <div className="h-16 bg-[#020617]" />;
@@ -33,28 +58,39 @@ export function SenseNavbar() {
             <div className="container mx-auto px-6 flex items-center justify-between">
 
                 {/* LOGO */}
-                <Link href="/" className="flex items-center gap-3 group whitespace-nowrap z-[110]">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-blue-600 blur-lg opacity-40 group-hover:opacity-80 transition-opacity" />
-                        <div className="relative w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-xl flex items-center justify-center border border-white/20">
-                            <Zap size={18} className="text-white fill-white" />
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-white font-black text-lg tracking-tighter leading-none uppercase">
-                            SEGMENTO
-                        </span>
-                        <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="relative flex h-1.5 w-1.5">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-                            </span>
-                            <span className="text-slate-500 font-bold text-[9px] tracking-[0.3em] uppercase">
-                                SENSE
-                            </span>
-                        </div>
-                    </div>
-                </Link>
+                <Link
+  href="/"
+  className="flex items-center gap-0 group whitespace-nowrap z-[110]"
+>
+  <div className="relative">
+    <div className="absolute inset-0 group-hover:opacity-80 transition-opacity" />
+
+    
+   <img
+  src="/sense/images/logo.png"
+  alt="Logo"
+  className="w-18 h-18 object-contain scale-150 -mr-4"
+/>
+    
+  </div>
+
+  <div className="flex flex-col">
+    <span className="text-white font-black text-lg tracking-tighter leading-none uppercase">
+      SEGMENTO
+    </span>
+
+    <div className="flex items-center gap-1.5 mt-0.5">
+      <span className="relative flex h-1.5 w-1.5">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+      </span>
+
+      <span className="text-slate-500 font-bold text-[9px] tracking-[0.3em] uppercase">
+        SENSE
+      </span>
+    </div>
+  </div>
+</Link>
 
                 {/* DESKTOP NAV */}
                 <div className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.08] rounded-full p-1 relative">
@@ -78,14 +114,73 @@ export function SenseNavbar() {
                             </div>
                         );
                     })}
+
+                    {/* Thin divider before AI ENGINE */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* AI ENGINE — special pill item */}
+                    <div className="relative flex items-center">
+                        <Link href="/ai-engine">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <Sparkles size={9} className="text-purple-400" />
+                                    <span className="text-[13px] font-bold">AI ENGINE</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase">
+                                    <GlitchText text="UNDER THE HOOD" />
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname?.includes('/ai-engine') && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-purple-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
+
+                    {/* Thin divider before MODEL LAB */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* MODEL LAB — evaluator observatory */}
+                    <div className="relative flex items-center">
+                        <Link href="/model-lab">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname?.includes('/model-lab') ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <FlaskConical size={9} className="text-emerald-400" />
+                                    <span className="text-[13px] font-bold">MODEL LAB</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-emerald-500/70 font-mono">
+                                    BENCHMARK
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname?.includes('/model-lab') && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-emerald-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* RIGHT SECTION */}
                 <div className="flex items-center gap-2">
+                
+                {/* MOBILE THEME TOGGLE */}
+<div className="md:hidden order-1">
+    <ThemeToggle />
+</div>
 
                     {/* MOBILE MENU BUTTON (FIRST) */}
                     <button
-                        className="lg:hidden text-white p-2.5 bg-white/5 rounded-xl border border-white/10 order-1"
+                        className="lg:hidden text-white p-2.5 bg-white/5 rounded-xl border border-white/10 order-2"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -107,29 +202,68 @@ export function SenseNavbar() {
                     </a>
 
                     {/* DESKTOP ACTIONS */}
-                    <div className="hidden md:flex items-center gap-3">
-                        <Link href="/demo">
-                            <motion.button
-                                whileHover={{ scale: 1.03, y: -1 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="bg-white text-[#020617] px-6 py-2.5 rounded-xl text-[11px] font-black shadow-xl flex items-center gap-2"
-                            >
-                                TRY FOR FREE
-                                <ArrowUpRight size={14} strokeWidth={3} />
-                            </motion.button>
-                        </Link>
+                    {/* DESKTOP ACTIONS */}
+<div className="hidden md:flex items-center gap-3">
 
-                        <a href={backUrl}>
-                            <motion.button
-                                whileHover={{ scale: 1.03, y: -1 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-[11px] font-black flex items-center gap-2"
-                            >
-                                <ArrowLeft size={14} strokeWidth={3} />
-                                {backText}
-                            </motion.button>
-                        </a>
-                    </div>
+    {/* THEME TOGGLE */}
+    <ThemeToggle />
+
+    <Link href="/demo">
+    <motion.button
+        whileHover={{ scale: 1.03, y: -1 }}
+        whileTap={{ scale: 0.97 }}
+        className="
+            bg-white
+            text-[#020617]
+            dark:bg-primary
+            dark:text-white
+            px-6
+            py-2.5
+            rounded-xl
+            text-[11px]
+            font-black
+            shadow-xl
+            flex
+            items-center
+            gap-2
+            transition-colors
+        "
+    >
+        <span className="text-[#020617] dark:text-black">
+            TRY FOR FREE
+        </span>
+
+        <ArrowUpRight
+            size={14}
+            strokeWidth={3}
+            className="text-[#020617] dark:text-black"
+        />
+    </motion.button>
+</Link>
+    <a href={backUrl}>
+        <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
+            className="
+                bg-blue-600
+                dark:bg-primary
+                text-white
+                px-6
+                py-2.5
+                rounded-xl
+                text-[11px]
+                font-black
+                flex
+                items-center
+                gap-2
+                transition-colors
+            "
+        >
+            <ArrowLeft size={14} strokeWidth={3} />
+            {backText}
+        </motion.button>
+    </a>
+</div>
                 </div>
             </div>
 
@@ -173,7 +307,39 @@ export function SenseNavbar() {
                                 ))}
                             </div>
 
-                            <div className="mt-auto">
+                            <div className="mt-auto flex flex-col gap-3">
+                                {/* AI ENGINE mobile entry */}
+                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Sparkles size={12} className="text-purple-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
+                                                <GlitchText text="UNDER THE HOOD" />
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-purple-400" />
+                                    </div>
+                                </Link>
+
+                                {/* MODEL LAB mobile entry */}
+                                <Link href="/model-lab" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-[#052015] to-[#051a0d]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <FlaskConical size={12} className="text-emerald-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">MODEL LAB</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-emerald-500/70 font-mono">
+                                                BENCHMARK
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-emerald-400" />
+                                    </div>
+                                </Link>
+
                                 <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
                                     <button className="w-full bg-white text-[#020617] py-5 rounded-2xl font-black text-lg">
                                         TRY FOR FREE

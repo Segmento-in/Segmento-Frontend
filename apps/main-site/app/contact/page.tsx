@@ -76,7 +76,7 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Right Side: Info & Trusted */}
+            {/* RIGHT SIDE */}
             <div className="flex flex-col gap-6">
 
               {/* Main Info Card - ADJUSTED TO CONTENT */}
@@ -92,9 +92,12 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div>
-                  <div className="max-w-2xl">
-                  </div>
+                <div className="grid sm:grid-cols-1 gap-8">
+                  <LocationItem
+                    icon={<MapPin className="w-5 h-5 text-[var(--color-brand)]" />}
+                    city="Vishakhapatnam"
+                    address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
+                  />
                 </div>
               </div>
 
@@ -103,6 +106,7 @@ export default function ContactPage() {
                 <div className="w-14 h-14 rounded-2xl border transition-transform group-hover:scale-110 flex items-center justify-center" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
                   <Mail className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
                 </div>
+
                 <div>
                   <p className="text-sm font-bold text-foreground">Direct Support</p>
                   <p className="text-base text-brand font-bold my-0.5">info@segmento.in</p>
@@ -120,7 +124,7 @@ export default function ContactPage() {
   );
 }
 
-// Sub-components
+/* SUB COMPONENT */
 function LocationItem({ icon, city, address }: { icon: React.ReactNode, city: string, address: string }) {
   return (
     <div className="space-y-3">

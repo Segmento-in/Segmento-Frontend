@@ -18,72 +18,67 @@ const nextConfig: any = {
 
   async rewrites() {
     return [
+      // ── Pulse ─────────────────────────────────────────────────────────────
       {
         source: '/pulse',
-        missing: [
-          {
-            type: 'host',
-            value: 'pulse.segmento.in',
-          },
-        ],
+        missing: [{ type: 'host', value: 'pulse.segmento.in' }],
         destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3001'
           : 'https://pulse.segmento.in')}/pulse`,
       },
       {
         source: '/pulse/:path*',
-        missing: [
-          {
-            type: 'host',
-            value: 'pulse.segmento.in',
-          },
-        ],
+        missing: [{ type: 'host', value: 'pulse.segmento.in' }],
         destination: `${process.env.PULSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3001'
           : 'https://pulse.segmento.in')}/pulse/:path*`,
       },
+      // ── Sense ─────────────────────────────────────────────────────────────
       {
-        source: '/products/data-classification',
-        missing: [
-          {
-            type: 'host',
-            value: 'sense.segmento.in',
-          },
-        ],
+        source: '/sense',
+        missing: [{ type: 'host', value: 'sense.segmento.in' }],
         destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3002'
-          : 'https://sense.segmento.in')}/products/data-classification`,
+          : 'https://sense.segmento.in')}/sense`,
       },
       {
-        source: '/products/data-classification/:path*',
-        missing: [
-          {
-            type: 'host',
-            value: 'sense.segmento.in',
-          },
-        ],
+        source: '/sense/:path*',
+        missing: [{ type: 'host', value: 'sense.segmento.in' }],
         destination: `${process.env.SENSE_URL || (process.env.NODE_ENV === 'development'
           ? 'http://127.0.0.1:3002'
-          : 'https://sense.segmento.in')}/products/data-classification/:path*`,
+          : 'https://sense.segmento.in')}/sense/:path*`,
       },
     ];
   },
 
-  // ✅ ADD THIS PART
+  // ── Redirects for external apps ───────────────────────────────────────────
   async redirects() {
     return [
+      // Resolve — redirect until Vercel redeployed with base: '/resolve'
       {
-        source: '/products/segmento-resolve',
+        source: '/resolve',
         destination: 'https://ticket-management-frontend-tau.vercel.app/',
         permanent: false,
       },
       {
-        source: '/products/segmento-sprintq',
-        destination: 'https://segmento-retro-omega.vercel.app',
+        source: '/resolve/:path*',
+        destination: 'https://ticket-management-frontend-tau.vercel.app/:path*',
+        permanent: false,
+      },
+      // SprintQL — redirect until Vercel redeployed with base: '/sprintql'
+      {
+        source: '/sprintql',
+        destination: 'https://segmento-retro-frontend.vercel.app/',
         permanent: false,
       },
       {
-        source: '/products/segmento-collect',
+        source: '/sprintql/:path*',
+        destination: 'https://segmento-retro-frontend.vercel.app/:path*',
+        permanent: false,
+      },
+      // Collect — always redirect (no local codebase)
+      {
+        source: '/collect',
         destination: 'https://segmento-collect.onrender.com',
         permanent: false,
       },

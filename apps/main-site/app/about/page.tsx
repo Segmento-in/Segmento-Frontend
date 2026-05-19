@@ -4,22 +4,23 @@ import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { 
-  Shield, 
-  Brain, 
-  Globe, 
-  Users, 
-  Linkedin, 
-  Database, 
+import Link from "next/link";
+import {
+  Shield,
+  Brain,
+  Globe,
+  Users,
+  Linkedin,
+  Database,
   Lock as LockIcon, // Renamed to avoid conflict with built-in TS 'Lock' type
-  Laptop 
+  Laptop
 } from "lucide-react";
 
 const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/images/director.jfif",
+  image: "/shadow1.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -52,7 +53,7 @@ const team = [
     image: "/images/vijayalakshmi.png",
     linkedin: "http://www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
   },
- 
+
 ];
 
 export default function AboutPage() {
@@ -68,7 +69,13 @@ export default function AboutPage() {
           <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.05]" style={{ color: "var(--theme-fg)" }}>
               Securing the World's Data with <br />
-              <span className="text-blue-500">Transparent AI</span>
+              <span
+                style={{
+                  color: "var(--color-button)",
+                }}
+              >
+                Transparent AI
+              </span>
             </h1>
             <p className="text-lg text-foreground-subtle max-w-[500px] mb-10 leading-relaxed font-medium">
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
@@ -78,10 +85,10 @@ export default function AboutPage() {
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center rounded-full overflow-hidden">
               <div className="absolute inset-12 bg-blue-100/30 blur-[80px] rounded-full" />
-              <motion.div 
+              <motion.div
                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 8, repeat: Infinity }}
-                className="absolute inset-0 border border-blue-100 rounded-full" 
+                className="absolute inset-0 border border-blue-100 rounded-full"
               />
               <div className="relative z-10 w-full h-full flex items-center justify-center p-8">
                 <img
@@ -100,7 +107,7 @@ export default function AboutPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight" style={{ color: "var(--theme-fg)" }}>Mission</h2>
           <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
-            <motion.div 
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               className="absolute -inset-20 bg-linear-to-r from-blue-300 via-white to-blue-200 opacity-0 group-hover:opacity-100 blur-[20px] transition-opacity duration-700"
@@ -131,9 +138,9 @@ export default function AboutPage() {
             <div className="max-w-4xl mx-auto bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
               <div className="grid md:grid-cols-3 items-center">
                 <div className="md:col-span-1 aspect-square relative overflow-hidden bg-surface-high">
-                  <img 
-                    src={director.image} 
-                    alt={director.name} 
+                  <img
+                    src={director.image}
+                    alt={director.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20"
                   />
                   <div className="absolute inset-0 bg-brand-glow pointer-events-none"></div>
@@ -160,28 +167,28 @@ export default function AboutPage() {
               <div key={member.name} className="bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
                 {/* aspect-[16/10] makes the image shorter and wider */}
                 <div className={`aspect-[16/16] w-full relative overflow-hidden bg-surface-high`}>
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`} 
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`}
                   />
                   {member.name === "Thambabattula Mohan" && (
                     <div className="absolute inset-0 bg-brand-glow pointer-events-none" />
                   )}
                   <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                   <div className="flex items-center w-full">
-  {/* Other elements like member name or role */}
-  
+                    <div className="flex items-center w-full">
+                      {/* Other elements like member name or role */}
 
-  {/* The LinkedIn icon with ml-auto will now sit on the far right */}
- <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-  <div className="flex items-center w-full">
-    <a href={member.linkedin} className="ml-auto flex-shrink-0">
-      <Linkedin className="w-4 h-4 text-white" />
-    </a>
-  </div>
-</div>
-</div>
+
+                      {/* The LinkedIn icon with ml-auto will now sit on the far right */}
+                      <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                        <div className="flex items-center w-full">
+                          <a href={member.linkedin} className="ml-auto flex-shrink-0">
+                            <Linkedin className="w-4 h-4 text-white" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="p-6">
@@ -197,10 +204,10 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      {/* Stats Section */}
+
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -210,7 +217,7 @@ export default function AboutPage() {
           >
             {/* Background Accent */}
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-50/50 blur-[100px] rounded-full -z-10" />
-            
+
             <h2 className="text-4xl font-extrabold text-foreground tracking-tight">
               By the Numbers
             </h2>
@@ -219,7 +226,7 @@ export default function AboutPage() {
               {/* Stat 1: Scanned */}
               <div className="flex items-center gap-5 group">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                   <Database className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                  <Database className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
                 </div>
                 <div>
                   <div className="text-4xl font-bold text-foreground tracking-tighter">10B+</div>
@@ -230,7 +237,7 @@ export default function AboutPage() {
               {/* Stat 2: Breaches */}
               <div className="flex items-center gap-5 group">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                   <LockIcon className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                  <LockIcon className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
                 </div>
                 <div>
                   <div className="text-4xl font-bold text-foreground tracking-tighter">0</div>
@@ -241,7 +248,7 @@ export default function AboutPage() {
               {/* Stat 3: Client-Side */}
               <div className="flex items-center gap-5 group">
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                   <Laptop className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                  <Laptop className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
                 </div>
                 <div>
                   <div className="text-4xl font-bold text-foreground tracking-tighter">100%</div>
@@ -254,18 +261,40 @@ export default function AboutPage() {
       </section>
 
       {/* Join Team CTA */}
-      <section className="py-24 px-4 mb-24">
+      <section className="py-24 px-4 mb-24 dark-careers-section">
         <div className="max-w-5xl mx-auto">
-          <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group">
-              <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight">
-                Join Our Engineering-First Team
-              </h2>
-              <button className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-lg relative z-10 hover:bg-blue-600 shadow-xl transition-all">
+          <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group dark-careers-box">
+            <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight dark-careers-text">
+              Join Our Engineering-First Team
+            </h2>
+            <Link href="/careers">
+              <button
+                className="px-8 py-4 text-white font-bold rounded-lg relative z-10 shadow-xl transition-all hover:opacity-90"
+                style={{
+                  backgroundColor: "var(--color-button)",
+                }}
+              >
                 View Open Roles
               </button>
+            </Link>
           </div>
         </div>
+
+        {/* ✅ DARK MODE FIX */}
+        <style jsx global>{`
+          [data-theme="dark"] .dark-careers-section {
+            background: #000000 !important; /* section black */
+          }
+
+          [data-theme="dark"] .dark-careers-box {
+            background: #e5e7eb !important; /* GRAY box (what you want) */
+          }
+
+          [data-theme="dark"] .dark-careers-text {
+            color: #000000 !important; /* black text on gray box */
+          }
+        `}</style>
       </section>
 
       <Footer />

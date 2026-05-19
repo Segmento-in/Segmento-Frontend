@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import CTASection from "./components/CTASection";
-import Footer from "./components/Footer";
 import Chatbot from "./components/Chatbot";
 
 /**
@@ -21,9 +18,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   /**
    * We join all three font variable class names together.
    * This makes --font-syne, --font-mona-sans, and --font-dm-mono

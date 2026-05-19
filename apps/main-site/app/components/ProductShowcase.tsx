@@ -9,8 +9,8 @@ import Link from 'next/link'
 // Desktop (lg): restores the intended asymmetric span.
 function getColClass(span: number): string {
   const map: Record<number, string> = {
-    4:  'col-span-12 lg:col-span-4',
-    8:  'col-span-12 lg:col-span-8',
+    4: 'col-span-12 lg:col-span-4',
+    8: 'col-span-12 lg:col-span-8',
     12: 'col-span-12',
   }
   return map[span] ?? 'col-span-12'
@@ -135,11 +135,9 @@ function BentoCard({ product: p, index }: { product: typeof PRODUCTS[0]; index: 
        * Mobile  → flex-col (text on top, preview below — always visible)
        * Desktop → lg:flex-row for wide cards, flex-col for narrow
        */
-      className={`bento-tile flex flex-col gap-5 relative overflow-hidden ${
-        getColClass(p.span)
-      } ${
-        isWide ? 'lg:flex-row lg:items-center lg:gap-8' : ''
-      }`}
+      className={`bento-tile flex flex-col gap-5 relative overflow-hidden ${getColClass(p.span)
+        } ${isWide ? 'lg:flex-row lg:items-center lg:gap-8' : ''
+        }`}
       style={{ minHeight: isFull ? 260 : isWide ? 220 : 300 }}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -213,20 +211,20 @@ function BentoCard({ product: p, index }: { product: typeof PRODUCTS[0]; index: 
 // ── Routes to the correct inline UI preview ──────────────────────────────────
 function PreviewRouter({ id, accent, wide }: { id: string; accent: string; wide: boolean }) {
   switch (id) {
-    case 'pulse':    return <PulsePreview accent={accent} />
-    case 'sense':    return <SensePreview accent={accent} />
-    case 'collect':  return <CollectPreview accent={accent} />
-    case 'resolve':  return <ResolvePreview accent={accent} />
+    case 'pulse': return <PulsePreview accent={accent} />
+    case 'sense': return <SensePreview accent={accent} />
+    case 'collect': return <CollectPreview accent={accent} />
+    case 'resolve': return <ResolvePreview accent={accent} />
     case 'sprintql': return <SprintQLPreview accent={accent} wide={wide} />
-    default:         return null
+    default: return null
   }
 }
 
 // ── PULSE: live news feed ─────────────────────────────────────────────────────
 const NEWS_ITEMS = [
   { tag: 'Privacy', title: 'EU Parliament updates Data Act enforcement rules', time: '2m ago' },
-  { tag: 'Global',  title: 'Emerging tech trends shifting in APAC markets',   time: '5m ago' },
-  { tag: 'Tech',    title: 'New encryption standards detected in enterprise',  time: '12m ago' },
+  { tag: 'Global', title: 'Emerging tech trends shifting in APAC markets', time: '5m ago' },
+  { tag: 'Tech', title: 'New encryption standards detected in enterprise', time: '12m ago' },
 ]
 
 function PulsePreview({ accent }: { accent: string }) {
@@ -364,9 +362,9 @@ function CollectPreview({ accent }: { accent: string }) {
 // ── RESOLVE: ticket board ─────────────────────────────────────────────────────
 function ResolvePreview({ accent }: { accent: string }) {
   const tickets = [
-    { id: '#721', status: 'Resolved',     priority: 'High',   statusColor: '#10e898' },
-    { id: '#724', status: 'In Progress',  priority: 'High',   statusColor: '#f59e0b' },
-    { id: '#728', status: 'In Progress',  priority: 'Medium', statusColor: '#f59e0b' },
+    { id: '#721', status: 'Resolved', priority: 'High', statusColor: '#10e898' },
+    { id: '#724', status: 'In Progress', priority: 'High', statusColor: '#f59e0b' },
+    { id: '#728', status: 'In Progress', priority: 'Medium', statusColor: '#f59e0b' },
   ]
   return (
     <div className="bento-tile-inner" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -403,9 +401,9 @@ function ResolvePreview({ accent }: { accent: string }) {
 // ── SPRINTQL: retro board (full width) ───────────────────────────────────────
 function SprintQLPreview({ accent, wide }: { accent: string; wide: boolean }) {
   const cols = [
-    { title: 'Went Well',    color: '#10e898', items: ['CI pipeline 40% faster', 'Zero regressions this sprint'] },
-    { title: 'To Improve',   color: '#f59e0b', items: ['Review cycle too long', 'More async standups'] },
-    { title: 'Action Items', color: accent,    items: ['Add PR template', 'Schedule retro for Week 6'] },
+    { title: 'Went Well', color: '#10e898', items: ['CI pipeline 40% faster', 'Zero regressions this sprint'] },
+    { title: 'To Improve', color: '#f59e0b', items: ['Review cycle too long', 'More async standups'] },
+    { title: 'Action Items', color: accent, items: ['Add PR template', 'Schedule retro for Week 6'] },
   ]
   return (
     <div

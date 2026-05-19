@@ -8,16 +8,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { value: "50+",    label: "PII Types Detected" },
-  { value: "100%",   label: "Client-Side" },
-  { value: "99.9%",  label: "Accuracy" },
-  { value: "0ms",    label: "Cloud Egress" },
-  { value: "400+",   label: "Formats Supported" },
-  { value: "GDPR",   label: "Compliant" },
-  { value: "HIPAA",  label: "Ready" },
-  { value: "DPDP",   label: "Certified" },
+  { value: "50+", label: "PII Types Detected" },
+  { value: "100%", label: "Client-Side" },
+  { value: "99.9%", label: "Accuracy" },
+  { value: "0ms", label: "Cloud Egress" },
+  { value: "400+", label: "Formats Supported" },
+  { value: "GDPR", label: "Compliant" },
+  { value: "HIPAA", label: "Ready" },
+  { value: "DPDP", label: "Certified" },
   { value: "Real-Time", label: "Redaction" },
-  { value: "18",     label: "AI Models" },
+  { value: "18", label: "AI Models" },
 ];
 
 // Separator glyph between items

@@ -58,16 +58,16 @@ const navLinks: NavLink[] = [
         {
           label: "Data Intelligence",
           items: [
-            { name: "Segmento Pulse",    subtitle: "Real-time news & trends engine",          href: "/pulse",     icon: Newspaper },
-            { name: "Segmento Sense",    subtitle: "AI-enabled data classification",           href: "/sense",     icon: Shield    },
-            { name: "Segmento Collect",  subtitle: "AI-powered data collection platform",      href: "/collect",   icon: Database  },
+            { name: "Segmento Pulse", subtitle: "Real-time news & trends engine", href: "/pulse", icon: Newspaper },
+            { name: "Segmento Sense", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
+            { name: "Segmento Collect", subtitle: "AI-powered data collection platform", href: "/collect", icon: Database },
           ],
         },
         {
           label: "Workflow Tools",
           items: [
-            { name: "Segmento Resolve",  subtitle: "Data request & ticket management",        href: "/resolve",   icon: Ticket },
-            { name: "Segmento SprintQL", subtitle: "Collaborative retrospective management",  href: "/sprintql",  icon: Users },
+            { name: "Segmento Resolve", subtitle: "Data request & ticket management", href: "/resolve", icon: Ticket },
+            { name: "Segmento SprintQL", subtitle: "Collaborative retrospective management", href: "/sprintql", icon: Users },
           ],
         },
       ],
@@ -88,19 +88,19 @@ const navLinks: NavLink[] = [
         {
           label: "By Industry",
           items: [
-            { name: "Finance",       subtitle: "Automate financial data workflows",      href: "/solutions#finance",       icon: Building2    },
-            { name: "Healthcare",    subtitle: "HIPAA-compliant data intelligence",      href: "/solutions#healthcare",    icon: Heart        },
-            { name: "Media",         subtitle: "Content intelligence at scale",          href: "/solutions#media",         icon: Monitor      },
-            { name: "Banking",       subtitle: "Secure banking data operations",         href: "/solutions#banking",       icon: Briefcase    },
-            { name: "eCommerce",     subtitle: "Customer data & privacy compliance",     href: "/solutions#ecommerce",     icon: ShoppingCart },
-            { name: "Manufacturing", subtitle: "Operational data intelligence",          href: "/solutions#manufacturing", icon: Factory      },
+            { name: "Finance", subtitle: "Automate financial data workflows", href: "/solutions#finance", icon: Building2 },
+            { name: "Healthcare", subtitle: "HIPAA-compliant data intelligence", href: "/solutions#healthcare", icon: Heart },
+            { name: "Media", subtitle: "Content intelligence at scale", href: "/solutions#media", icon: Monitor },
+            { name: "Banking", subtitle: "Secure banking data operations", href: "/solutions#banking", icon: Briefcase },
+            { name: "eCommerce", subtitle: "Customer data & privacy compliance", href: "/solutions#ecommerce", icon: ShoppingCart },
+            { name: "Manufacturing", subtitle: "Operational data intelligence", href: "/solutions#manufacturing", icon: Factory },
           ],
         },
         {
           label: "By Function",
           items: [
-            { name: "Higher Education",  subtitle: "Research data compliance",   href: "/solutions#higher-education",  icon: GraduationCap },
-            { name: "Telecommunication", subtitle: "Network data governance",    href: "/solutions#telecommunication", icon: Radio         },
+            { name: "Higher Education", subtitle: "Research data compliance", href: "/solutions#higher-education", icon: GraduationCap },
+            { name: "Telecommunication", subtitle: "Network data governance", href: "/solutions#telecommunication", icon: Radio },
           ],
         },
       ],
@@ -113,17 +113,17 @@ const navLinks: NavLink[] = [
         {
           label: "Learn",
           items: [
-            { name: "Blog",          subtitle: "Data privacy news & insights",       href: "/blog",         icon: Rss      },
-            { name: "Case Studies",  subtitle: "Real-world implementation stories",  href: "/case-studies", icon: FileText },
-            { name: "Documentation", subtitle: "Technical guides & API reference",   href: "/docs",         icon: BookOpen },
+            { name: "Blog", subtitle: "Data privacy news & insights", href: "/blog", icon: Rss },
+            { name: "Case Studies", subtitle: "Real-world implementation stories", href: "/case-studies", icon: FileText },
+            { name: "Documentation", subtitle: "Technical guides & API reference", href: "/docs", icon: BookOpen },
           ],
         },
         {
           label: "Company",
           items: [
-            { name: "Careers", subtitle: "Join our growing team",  href: "/careers", icon: Briefcase },
-            { name: "Contact", subtitle: "Get in touch with us",   href: "/contact", icon: Phone     },
-            { name: "About",   subtitle: "Our mission & story",    href: "/about",   icon: Info      },
+            { name: "Careers", subtitle: "Join our growing team", href: "/careers", icon: Briefcase },
+            { name: "Contact", subtitle: "Get in touch with us", href: "/contact", icon: Phone },
+            { name: "About", subtitle: "Our mission & story", href: "/about", icon: Info },
           ],
         },
       ],
@@ -270,18 +270,18 @@ function MegaPanel({
 // ─── Main Navbar ───────────────────────────────────────────────────────────────
 
 export default function Navbar() {
-  const [isOpen, setIsOpen]                 = useState(false);
-  const [scrolled, setScrolled]             = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
-  const [panelLeft, setPanelLeft]           = useState(0);
-  const [arrowLeft, setArrowLeft]           = useState(0);
+  const [panelLeft, setPanelLeft] = useState(0);
+  const [arrowLeft, setArrowLeft] = useState(0);
   // Track dark/light for logo switching — driven by MutationObserver on html[data-theme]
-  const [isDarkTheme, setIsDarkTheme]       = useState(true); // default dark (matches layout.tsx)
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // default dark (matches layout.tsx)
 
-  const closeTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const containerRef  = useRef<HTMLDivElement>(null);
-  const triggerRefs   = useRef<Map<string, HTMLElement>>(new Map());
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRefs = useRef<Map<string, HTMLElement>>(new Map());
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -303,7 +303,7 @@ export default function Navbar() {
   }, []);
 
   const computePosition = useCallback((name: string) => {
-    const trigger   = triggerRefs.current.get(name);
+    const trigger = triggerRefs.current.get(name);
     const container = containerRef.current;
     if (!trigger || !container) return;
 
@@ -311,8 +311,8 @@ export default function Navbar() {
     const cRect = container.getBoundingClientRect();
     const triggerCenter = tRect.left - cRect.left + tRect.width / 2;
 
-    const menu      = navLinks.find(l => l.name === name)?.megaMenu;
-    const panelW    = menu?.featured ? 740 : 560;
+    const menu = navLinks.find(l => l.name === name)?.megaMenu;
+    const panelW = menu?.featured ? 740 : 560;
 
     let left = triggerCenter - panelW / 2;
     left = Math.max(0, Math.min(left, cRect.width - panelW));
@@ -348,9 +348,8 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-[var(--color-border)]" : "bg-transparent py-4"
-      }`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-[var(--color-border)]" : "bg-transparent py-4"
+        }`}>
         {/* Container — relative anchor for mega panels */}
         <div ref={containerRef} className="max-w-7xl mx-auto px-6" style={{ position: "relative" }}>
           <div className="flex items-center justify-between h-14">
@@ -375,9 +374,8 @@ export default function Navbar() {
                     <div key={link.name} onMouseEnter={() => handleEnter(link.name)} onMouseLeave={handleLeave}>
                       <button
                         ref={(el) => { if (el) triggerRefs.current.set(link.name, el); }}
-                        className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                          isActive ? "bg-black/8 text-[var(--nav-text)]" : "text-[var(--nav-text)] hover:bg-black/5"
-                        }`}
+                        className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isActive ? "bg-black/8 text-[var(--nav-text)]" : "text-[var(--nav-text)] hover:bg-black/5"
+                          }`}
                         style={{ background: isActive ? "rgba(0,0,0,0.07)" : undefined }}
                       >
                         <span>{link.name}</span>

@@ -1,7 +1,7 @@
 import path from "path";
 
 const nextConfig: any = {
-    basePath: '/products/data-classification',
+    basePath: '/sense',
     output: 'standalone',
 
     // REMOVED: outputFileTracingRoot — was causing doubled Vercel path:
@@ -20,7 +20,7 @@ const nextConfig: any = {
         return [
             {
                 source: '/',
-                destination: '/products/data-classification',
+                destination: '/sense',
                 basePath: false,
                 permanent: false,
             }

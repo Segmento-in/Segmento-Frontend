@@ -16,7 +16,7 @@ export default function Home() {
       <Features />
       <HowItWorks />
       <ProductShowcase />
-      
+
       <CTASection />
       <Footer />
     </main>

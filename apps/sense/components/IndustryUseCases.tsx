@@ -16,7 +16,8 @@ const industries = [
         title: "Protect financial data with confidence",
         description: "Extract key insights from investor decks and SEC filings while protecting customer PII.",
         features: ["Detect SSNs", "SOX & GLBA compliance", "PCI-DSS protection", "Data masking"],
-        lightBg: "bg-blue-50/50"
+        lightBg: "bg-blue-50/50",
+        darkBg: "dark:bg-blue-500/10"
     },
     {
         id: "healthcare",
@@ -26,7 +27,8 @@ const industries = [
         title: "HIPAA-compliant patient protection",
         description: "Automatically detect and protect PHI across all systems with comprehensive security.",
         features: ["PHI detection", "HIPAA automation", "Records protection", "De-identification"],
-        lightBg: "bg-rose-50/50"
+        lightBg: "bg-rose-50/50",
+        darkBg: "dark:bg-rose-500/10"
     },
     {
         id: "legal",
@@ -36,7 +38,8 @@ const industries = [
         title: "Attorney-client privilege protection",
         description: "Protect sensitive legal documents and case files with precision PII detection.",
         features: ["Classification", "Client privacy", "Case security", "Access control"],
-        lightBg: "bg-violet-50/50"
+        lightBg: "bg-violet-50/50",
+        darkBg: "dark:bg-violet-500/10"
     },
     {
         id: "insurance",
@@ -46,7 +49,8 @@ const industries = [
         title: "Policy holder data security",
         description: "Secure policy holder information and claims data across all digital systems.",
         features: ["PII protection", "Claims security", "Underwriting", "Compliance"],
-        lightBg: "bg-cyan-50/50"
+        lightBg: "bg-cyan-50/50",
+        darkBg: "dark:bg-cyan-500/10"
     },
     {
         id: "retail",
@@ -56,7 +60,8 @@ const industries = [
         title: "Customer data protection",
         description: "CCPA and GDPR compliance for customer data with automated detection.",
         features: ["Customer PII", "GDPR compliance", "Payment protection", "Governance"],
-        lightBg: "bg-amber-50/50"
+        lightBg: "bg-amber-50/50",
+        darkBg: "dark:bg-amber-500/10"
     },
     {
         id: "technology",
@@ -66,7 +71,8 @@ const industries = [
         title: "User data governance at scale",
         description: "API security and data governance for building data-intensive applications.",
         features: ["Data discovery", "API scanning", "Dev protection", "DevOps sync"],
-        lightBg: "bg-emerald-50/50"
+        lightBg: "bg-emerald-50/50",
+        darkBg: "dark:bg-emerald-500/10"
     },
 ]
 
@@ -75,33 +81,37 @@ export function IndustryUseCases() {
     const current = industries.find(i => i.id === activeTab) || industries[0]
 
     return (
-        <section className="pt-0 pb-24 bg-[#FBFDFF] relative overflow-hidden">
+        <section className="pt-0 pb-24 bg-[#FBFDFF] dark:bg-[#111827] relative overflow-hidden transition-colors duration-300">
             {/* Dynamic Background Glow */}
             <motion.div 
                 animate={{ backgroundColor: current.color }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[140px] opacity-[0.04] pointer-events-none" 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-[140px] opacity-[0.04] dark:opacity-[0.06] pointer-events-none" 
             />
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10">
                 
-                {/* Centered Header Section - Tightened top margin */}
+                {/* Centered Header Section */}
                 <div className="flex flex-col items-center text-center pt-16 mb-20">
                     <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         className="flex items-center gap-3 mb-6"
                     >
-                        <div className="h-[2px] w-6 bg-blue-600 rounded-full" />
-                        <span className="text-[11px] font-black uppercase tracking-[0.4em] text-blue-600">Enterprise Solutions</span>
-                        <div className="h-[2px] w-6 bg-blue-600 rounded-full" />
+                        <div className="h-[2px] w-6 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                        <span className="text-[11px] font-black uppercase tracking-[0.4em] text-blue-600 dark:text-blue-400">
+                            Enterprise Solutions
+                        </span>
+                        <div className="h-[2px] w-6 bg-blue-600 dark:bg-blue-400 rounded-full" />
                     </motion.div>
                     
-                    <h2 className="text-5xl md:text-7xl font-black text-slate-900 leading-[0.9] tracking-tighter mb-6">
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white leading-[0.9] tracking-tighter mb-6 transition-colors duration-300">
                         Powering the <br />
-                        <span className="text-blue-600">Industry Leaders.</span>
+                        <span className="text-blue-600 dark:text-blue-400">
+                            Industry Leaders.
+                        </span>
                     </h2>
                     
-                    <p className="text-slate-500 font-medium text-lg max-w-xl leading-relaxed">
+                    <p className="text-slate-500 dark:text-slate-400 font-medium text-lg max-w-xl leading-relaxed transition-colors duration-300">
                         Precision data security and PII protection tailored for high-stakes 
                         environments and global compliance standards.
                     </p>
@@ -111,15 +121,15 @@ export function IndustryUseCases() {
                 <div className="grid lg:grid-cols-[280px_1fr] gap-8 items-start">
                     
                     {/* Vertical Navigation */}
-                    <div className="flex flex-col gap-2 p-3 bg-white/80 backdrop-blur-md rounded-[32px] border border-slate-200/60 shadow-sm">
+                    <div className="flex flex-col gap-2 p-3 bg-white/80 dark:bg-[#1F2937]/90 backdrop-blur-md rounded-[32px] border border-slate-200/60 dark:border-white/10 shadow-sm transition-colors duration-300">
                         {industries.map((item) => (
                             <button
                                 key={item.id}
                                 onClick={() => setActiveTab(item.id)}
                                 className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl text-sm font-bold transition-all duration-300 group
                                     ${activeTab === item.id 
-                                        ? "text-white shadow-lg shadow-blue-200/50" 
-                                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+                                        ? "text-white shadow-lg shadow-blue-200/50 dark:shadow-blue-900/30" 
+                                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
                                     }`}
                                 style={activeTab === item.id ? { backgroundColor: item.color } : {}}
                             >
@@ -135,7 +145,7 @@ export function IndustryUseCases() {
                     </div>
 
                     {/* Content Display Panel */}
-                    <div className="relative min-h-[500px] rounded-[48px] overflow-hidden border border-slate-200/60 bg-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] transition-all duration-500">
+                    <div className="relative min-h-[500px] rounded-[48px] overflow-hidden border border-slate-200/60 dark:border-white/10 bg-white dark:bg-[#1F2937] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4)] transition-all duration-500">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeTab}
@@ -149,17 +159,18 @@ export function IndustryUseCases() {
                                     <motion.div 
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
-                                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 font-black text-[10px] uppercase tracking-widest ${current.lightBg}`}
+                                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 font-black text-[10px] uppercase tracking-widest ${current.lightBg} ${current.darkBg}`}
                                         style={{ color: current.color }}
                                     >
                                         <Zap className="h-3 w-3 fill-current" />
                                         Deployment Active
                                     </motion.div>
 
-                                    <h3 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+                                    <h3 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6 transition-colors duration-300">
                                         {current.title}
                                     </h3>
-                                    <p className="text-xl text-slate-500 font-medium leading-relaxed mb-12">
+
+                                    <p className="text-xl text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-12 transition-colors duration-300">
                                         {current.description}
                                     </p>
                                 </div>
@@ -171,16 +182,25 @@ export function IndustryUseCases() {
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: idx * 0.1 }}
-                                            whileHover={{ y: -5, backgroundColor: "#fff", boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)" }}
-                                            className="flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border border-slate-100 group transition-all"
+                                            whileHover={{ 
+                                                y: -5,
+                                                boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)"
+                                            }}
+                                            className="flex items-center gap-4 p-5 rounded-3xl bg-slate-50 dark:bg-[#111827] border border-slate-100 dark:border-white/5 group transition-all duration-300"
                                         >
                                             <div 
                                                 className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-sm"
                                                 style={{ backgroundColor: `${current.color}15` }}
                                             >
-                                                <CheckCircle2 className="h-5 w-5" style={{ color: current.color }} />
+                                                <CheckCircle2 
+                                                    className="h-5 w-5" 
+                                                    style={{ color: current.color }} 
+                                                />
                                             </div>
-                                            <span className="text-sm font-bold text-slate-700">{f}</span>
+
+                                            <span className="text-sm font-bold text-slate-700 dark:text-slate-200 transition-colors duration-300">
+                                                {f}
+                                            </span>
                                         </motion.div>
                                     ))}
                                 </div>

@@ -4,9 +4,9 @@ import React from "react";
 import { motion, Variants } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { 
-  ShoppingCart, Building2, Heart, GraduationCap, 
-  Factory, Radio, Tv, CreditCard, ArrowRight, 
+import {
+  ShoppingCart, Building2, Heart, GraduationCap,
+  Factory, Radio, Tv, CreditCard, ArrowRight,
   ShieldCheck, AlertCircle
 } from "lucide-react";
 
@@ -160,13 +160,13 @@ const industries = [
 // Animation Variants
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.8, 
-      ease: "easeOut" as const 
-    } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut" as const
+    }
   }
 };
 
@@ -182,8 +182,8 @@ const staggerContainer: Variants = {
 
 const staggerItem: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.5, ease: "easeOut" }
   }
@@ -206,7 +206,7 @@ export default function SolutionsPage() {
             <h1 className="text-6xl lg:text-7xl font-bold tracking-tighter" style={{ color: "var(--theme-fg)" }}>
               Industry <span className="text-blue-600">Specializations</span>
             </h1>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
+            <p className="text-xl text-[var(--color-body)] max-w-2xl mx-auto font-medium leading-relaxed">
               Tailored data intelligence for the sectors that drive the global economy.
             </p>
           </motion.div>
@@ -228,9 +228,9 @@ export default function SolutionsPage() {
             >
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <div className={`grid lg:grid-cols-2 gap-16 lg:gap-24 items-start ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
-                  
+
                   {/* Problem/Context Column */}
-                  <motion.div 
+                  <motion.div
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -247,7 +247,7 @@ export default function SolutionsPage() {
                       <p className="text-2xl font-bold text-foreground-subtle leading-tight">
                         {industry.intro}
                       </p>
-                      
+
                       <div className="space-y-4 pt-6">
                         <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-foreground-muted">Industry Challenges</h4>
                         <div className="grid gap-3">
@@ -263,7 +263,7 @@ export default function SolutionsPage() {
                   </motion.div>
 
                   {/* Solutions Column - STAGGERED ANIMATION */}
-                  <motion.div 
+                  <motion.div
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -295,7 +295,6 @@ export default function SolutionsPage() {
                       ))}
                     </div>
                   </motion.div>
-
                 </div>
               </div>
             </section>
@@ -303,7 +302,7 @@ export default function SolutionsPage() {
         })}
       </div>
 
-      <Footer />
+  <Footer />
     </main>
   );
 }
