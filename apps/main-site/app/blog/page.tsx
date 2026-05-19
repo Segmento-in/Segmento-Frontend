@@ -11,31 +11,36 @@ import Footer from "../components/Footer";
 export default function BlogPage() {
     const fadeInUp: Variants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { 
-                duration: 0.5, 
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.5,
                 ease: "easeOut" as const
-            } 
+            }
         }
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900 flex flex-col transition-colors duration-300">
+        <div className="min-h-screen overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900 flex flex-col" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
             <Navbar />
 
             <main className="flex-grow">
-                {/* Hero Section */}
-                <motion.section className="relative border-b border-light py-24 transition-colors duration-300">
+                {/* Hero Section - Updated bg to blue-100 */}
+                <motion.section
+                    initial="hidden"
+                    animate="visible"
+                    variants={fadeInUp}
+                    className="relative border-b py-24" style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border)" }}
+                >
                     <div className="container mx-auto px-4 text-center">
                         <div className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-indigo-600 uppercase bg-white rounded-full shadow-sm">
                             Segmento Insights
                         </div>
-                        <h1   className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight"
-  style={{ color: "var(--color-heading)" }}
->
-  The <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Blog</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-tight"
+                            style={{ color: "var(--color-heading)" }}
+                        >
+                            The <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Blog</span>
                         </h1>
                         <p className="text-lg md:text-xl text-muted font-medium leading-relaxed max-w-2xl mx-auto">
                             Deep dives into data privacy, AI governance, and the future of enterprise tech.
@@ -44,12 +49,12 @@ export default function BlogPage() {
                 </motion.section>
 
                 {/* Blog Grid Section */}
-                <div className="py-20 transition-colors duration-300">
+                <div className="py-20" style={{ background: "var(--theme-bg)" }}>
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-                            
+
                             {/* 1. Featured Post */}
-                            <motion.div 
+                            <motion.div
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
@@ -91,7 +96,7 @@ export default function BlogPage() {
                             </motion.div>
 
                             {/* 2. Standard Post */}
-                            <motion.div 
+                            <motion.div
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
@@ -116,7 +121,7 @@ export default function BlogPage() {
                             </motion.div>
 
                             {/* 3. Coming Soon */}
-                            <motion.div 
+                            <motion.div
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
@@ -124,7 +129,7 @@ export default function BlogPage() {
                                 className="relative card-3d p-8 flex flex-col items-center justify-center text-center group overflow-hidden border-light"
                             >
                                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl" />
-                                
+
                                 <div className="relative z-10">
                                     <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-500 shadow-lg">
                                         <Newspaper className="w-7 h-7 text-white" />

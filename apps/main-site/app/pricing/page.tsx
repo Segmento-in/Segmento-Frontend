@@ -60,35 +60,34 @@ export default function PricingPage() {
   const [isDark, setIsDark] = useState(false);
 
   // 🔥 Detect theme from HTML
- useEffect(() => {
-  const updateTheme = () => {
-    const theme = document.documentElement.getAttribute("data-theme");
-    setIsDark(theme === "dark");
-  };
+  useEffect(() => {
+    const updateTheme = () => {
+      const theme = document.documentElement.getAttribute("data-theme");
+      setIsDark(theme === "dark");
+    };
 
-  updateTheme();
+    updateTheme();
 
-  const observer = new MutationObserver(updateTheme);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["data-theme"],
-  });
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
-  return () => observer.disconnect();
-}, []);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      {/* HERO */}
-      <section className="pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+      <section className="pt-32 pb-16" style={{ background: "var(--theme-bg)" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-black mb-8"
-           style={{ color: "var(--color-heading)" }}
+            className="text-5xl md:text-6xl font-black mb-8 tracking-tight"
+            style={{ color: "var(--theme-fg)" }}
           >
             Transparent Pricing
           </motion.h1>
@@ -100,141 +99,85 @@ export default function PricingPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
 
-            {tiers.map((tier) => {
-              const isEnterprise = tier.name === "Enterprise";
-
-              return (
+            <div className="grid md:grid-cols-2 gap-8 mb-28 items-stretch max-w-4xl mx-auto">
+              {tiers.map((tier) => (
                 <div
                   key={tier.name}
-                  className={`rounded-3xl p-10 flex flex-col transition-all border border-slate-200 dark:border-slate-800 ${
-                    isEnterprise
-                      ? "bg-slate-900 text-white shadow-2xl"
-                      : "card-3d"
+                  className={`relative flex flex-col text-left transition-all duration-300 bento-tile ${
+                    tier.name === "Enterprise" ? "ring-2 ring-brand shadow-[0_0_30px_var(--theme-brand-glow)]" : ""
                   }`}
+                  style={{ padding: "2.5rem", borderRadius: "1.5rem" }}
                 >
-                  {/* Pill Tag */}
-                  <div className="mb-6">
-                    <div className="pill-tag" style={{
-                      backgroundColor: isEnterprise ? "rgba(255,255,255,0.1)" : undefined,
-                      borderColor: isEnterprise ? "rgba(255,255,255,0.1)" : undefined,
-                      color: isEnterprise ? "#fff" : undefined,
-                    }}>
-                      <span className="w-1.5 h-1.5 rounded-full" style={{
-                        backgroundColor: isEnterprise ? "#fff" : "var(--color-brand)"
-                      }}></span>
-                      {tier.name} Plan
-                    </div>
-                  </div>
-
-                  {/* TITLE */}
-                  <h3
-                    className="text-4xl font-black mb-2"
-                    style={{
-                      color: isEnterprise
-                        ? "#fff"
-                        : isDark
-                        ? "#000" // 🔥 FORCE BLACK
-                        : "var(--color-heading)",
-                    }}
-                  >
+                  <h3 className="text-2xl font-black mb-2 text-foreground">
                     {tier.name}
                   </h3>
-
-                  {/* DESC */}
-                  <p
-                    className="text-sm mb-6"
-                    style={{
-                      color: isEnterprise
-                        ? "#cbd5e1"
-                        : isDark
-                        ? "#000" // 🔥 FORCE BLACK
-                        : "var(--color-body)",
-                    }}
-                  >
+                  <p className="text-sm mb-8 leading-relaxed font-medium h-10 text-foreground-subtle">
                     {tier.description}
                   </p>
 
-                  {/* PRICE */}
-                  <div
-                    className="text-5xl font-black mb-6"
-                    style={{
-                      color: isEnterprise
-                        ? "#fff"
-                        : isDark
-                        ? "#000" // 🔥 FORCE BLACK
-                        : "var(--color-heading)",
-                    }}
-                  >
-                    {typeof tier.price === "number" ? `$${tier.price}` : tier.price}
+                  <div className="flex items-baseline gap-2 mb-8">
+                    <span className="text-5xl font-black text-foreground">
+                      {typeof tier.price === "number" ? `$${tier.price}` : tier.price}
+                    </span>
+                    {typeof tier.price === "number" && (
+                      <span className="text-lg font-bold text-foreground-muted">
+                        /mo
+                      </span>
+                    )}
                   </div>
 
-                  {/* FEATURES */}
-                  <div className="flex-1 space-y-3 mb-10">
-                    {tier.features.map((f, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <Check className="w-4 h-4 text-[var(--color-brand)]" />
-                        <span
-                          className="text-sm font-semibold"
-                          style={{
-                            color: isEnterprise
-                              ? "#e2e8f0"
-                              : isDark
-                              ? "#000" // 🔥 FORCE BLACK
-                              : "var(--color-body)",
-                          }}
-                        >
-                          {f}
+                  <div className="flex-1 space-y-4 mb-12">
+                    {tier.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="mt-1 p-0.5 rounded-full" style={{ background: "var(--theme-bg-surface-high)" }}>
+                          <Check className="w-3.5 h-3.5 text-brand" />
+                        </div>
+                        <span className="text-[14px] font-semibold text-foreground-subtle">
+                          {feature}
                         </span>
                       </div>
                     ))}
                   </div>
 
-                  <button className="btn-3d-primary py-4 text-sm font-bold uppercase">
+                  <button
+                    className={`w-full py-5 px-6 rounded-2xl font-black text-sm uppercase tracking-wider transition-all hover:-translate-y-1 active:scale-[0.98] ${
+                      tier.name === "Enterprise"
+                        ? "bg-brand text-white shadow-lg hover:opacity-90"
+                        : "bg-surface-high text-foreground hover:text-brand border border-theme"
+                    }`}
+                  >
                     {tier.cta}
                   </button>
                 </div>
-              );
-            })}
-
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-6">
-
+      <section className="py-16" style={{ background: "var(--theme-bg)" }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2
-              className="text-3xl font-black mb-4"
-              style={{ color: "var(--color-heading)" }}
-            >
-              FAQs
+            <h2 className="text-3xl md:text-4xl font-black mb-4" style={{ color: "var(--theme-fg)" }}>
+              Frequently Asked Questions
             </h2>
-            <p style={{ color: "var(--color-heading)" }}>
-              Everything you need to know.
+            <p className="text-lg text-foreground-subtle">
+              Everything you need to know about our pricing and services.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {faqs.map((faq, index) => (
-              <div key={index} className="card-3d overflow-hidden">
-
+              <div key={index} className="bento-tile group" style={{ padding: 0 }}>
                 <button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full px-6 py-5 flex justify-between items-center"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-surface-high transition-colors"
                 >
-                  <span
-                    className="font-bold"
-                    style={{ color: isDark ? "#000" : "var(--color-heading)" }}
-                  >
-                    {faq.question}
-                  </span>
-
+                  <span className="text-lg font-black text-foreground group-hover:text-brand transition-colors">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-4 h-4 text-muted" />
+                    <ChevronUp className="w-5 h-5 text-foreground-muted" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-muted" />
+                    <ChevronDown className="w-5 h-5 text-foreground-muted" />
                   )}
                 </button>
 
@@ -245,11 +188,8 @@ export default function PricingPage() {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                     >
-                      <div
-                        className="px-6 pb-6 text-sm"
-                        style={{ color: isDark ? "#000" : "var(--color-body)" }}
-                      >
-                        {faq.answer}
+                      <div className="px-6 pb-6 pt-2">
+                        <p className="text-sm text-foreground-subtle leading-relaxed font-medium">{faq.answer}</p>
                       </div>
                     </motion.div>
                   )}

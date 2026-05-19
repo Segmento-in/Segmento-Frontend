@@ -5,15 +5,15 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
-import { 
-  Shield, 
-  Brain, 
-  Globe, 
-  Users, 
-  Linkedin, 
-  Database, 
+import {
+  Shield,
+  Brain,
+  Globe,
+  Users,
+  Linkedin,
+  Database,
   Lock as LockIcon, // Renamed to avoid conflict with built-in TS 'Lock' type
-  Laptop 
+  Laptop
 } from "lucide-react";
 
 const director = {
@@ -53,45 +53,42 @@ const team = [
     image: "/images/vijayalakshmi.png",
     linkedin: "http://www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
   },
- 
+
 ];
 
 export default function AboutPage() {
   return (
-   <main className="min-h-screen bg-[var(--color-background)] text-[var(--color-body)]">
+    <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden bg-[var(--color-background)]">
+      <section className="pt-32 pb-24 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
         <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--color-heading)] mb-8 tracking-tight leading-[1.05]">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.05]" style={{ color: "var(--theme-fg)" }}>
               Securing the World's Data with <br />
-             <span
-  style={{
-    color: "var(--color-button)",
-  }}
->
-  Transparent AI
-</span>
+              <span
+                style={{
+                  color: "var(--color-button)",
+                }}
+              >
+                Transparent AI
+              </span>
             </h1>
-            <p className="text-lg text-[var(--color-subtle)] max-w-xl mb-10 leading-relaxed font-medium">
+            <p className="text-lg text-foreground-subtle max-w-[500px] mb-10 leading-relaxed font-medium">
               Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
             </p>
-            <div className="flex flex-wrap gap-4">
-              
-            </div>
           </div>
 
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center rounded-full overflow-hidden">
               <div className="absolute inset-12 bg-blue-100/30 blur-[80px] rounded-full" />
-              <motion.div 
+              <motion.div
                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 8, repeat: Infinity }}
-                className="absolute inset-0 border border-blue-100 rounded-full" 
+                className="absolute inset-0 border border-blue-100 rounded-full"
               />
               <div className="relative z-10 w-full h-full flex items-center justify-center p-8">
                 <img
@@ -106,21 +103,21 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-24 relative overflow-hidden bg-[var(--color-background)]">
+      <section className="py-24 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-heading)] mb-12 tracking-tight">Mission</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight" style={{ color: "var(--theme-fg)" }}>Mission</h2>
           <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
-            <motion.div 
+            <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               className="absolute -inset-20 bg-linear-to-r from-blue-300 via-white to-blue-200 opacity-0 group-hover:opacity-100 blur-[20px] transition-opacity duration-700"
             />
-            <div className="relative z-10 bg-blue-100rounded-3xl p-12 border border-slate-100 group-hover:border-transparent transition-all duration-500">
-              <h3 className="text-3xl md:text-4xl font-bold text-[var(--color-heading)] mb-8 leading-[1.15]">
+            <div className="relative z-10 bento-tile transition-all duration-500" style={{ padding: "3rem" }}>
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-8 leading-[1.15]">
                 Our Mission: Moving Beyond <br />
-                <span className="text-slate-900 group-hover:text-blue-600 transition-colors duration-500">Black-Box Security</span>
+                <span className="text-brand transition-colors duration-500">Black-Box Security</span>
               </h3>
-              <p className="text-lg text-slate- leading-relaxed max-w-3xl mx-auto font-medium">
+              <p className="text-lg text-foreground-subtle leading-relaxed max-w-3xl mx-auto font-medium">
                 Segmento is transparent approach to enhance the data endure black-box security, and soscd enable all roomdeats, what alioit your ultra world that some orienting mares the data to mindent explainable security engineening, our global software resources overs the tinrh to choose and clear organization.
               </p>
             </div>
@@ -129,37 +126,36 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership Section */}
-      <section className="py-32 bg-[var(--color-background)]">
+      <section className="py-32" style={{ background: "var(--theme-bg-surface)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-[var(--color-heading)] mb-4 tracking-tight">Leadership</h2>
-            <p className="text-[var(--color-subtle)] max-w-2xl mx-auto font-medium">The visionary team behind Segmento's privacy-centric data intelligence.</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight" style={{ color: "var(--theme-fg)" }}>Leadership</h2>
+            <p className="text-slate-500 max-w-2xl mx-auto font-medium">The visionary team behind Segmento's privacy-centric data intelligence.</p>
           </div>
 
           {/* Featured Director Card - Colorful and Balanced */}
           <div className="mb-20">
-            <div className="max-w-4xl mx-auto bg-[var(--color-card)] rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-xl transition-all duration-500">
+            <div className="max-w-4xl mx-auto bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
               <div className="grid md:grid-cols-3 items-center">
-                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-50">
-                  <img 
-                    src={director.image} 
-                    alt={director.name} 
+                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-surface-high">
+                  <img
+                    src={director.image}
+                    alt={director.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-blue-50/60 to-blue-100/50 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-brand-glow pointer-events-none"></div>
                 </div>
                 <div className="md:col-span-2 p-8 md:p-10">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-2xl font-bold text-[var(--color-heading)
-                      ] mb-1">{director.name}</h3>
-                      <p className="text-blue-600 font-bold uppercase tracking-widest text-[10px]">{director.role}</p>
+                      <h3 className="text-2xl font-bold text-foreground mb-1">{director.name}</h3>
+                      <p className="text-brand font-bold uppercase tracking-widest text-[10px]">{director.role}</p>
                     </div>
-                    <a href={director.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#0077b5]">
+                    <a href={director.linkedin} target="_blank" rel="noopener noreferrer" className="text-foreground-muted hover:text-[#0077b5]">
                       <Linkedin className="w-5 h-5" />
                     </a>
                   </div>
-                  <p className="text-[var(--color-subtle)] text-xs leading-relaxed">{director.bio}</p>
+                  <p className="text-sm text-foreground-subtle leading-relaxed font-medium">{director.bio}</p>
                 </div>
               </div>
             </div>
@@ -168,38 +164,38 @@ export default function AboutPage() {
           {/* Team Grid - Reduced height, Colorful, and Full Bio Display */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {team.map((member) => (
-              <div key={member.name} className="bg-[var(--color-card)] rounded-2xl overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div key={member.name} className="bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
                 {/* aspect-[16/10] makes the image shorter and wider */}
-                <div className={`aspect-[16/16] w-full relative overflow-hidden ${member.name === "Thambabattula Mohan" ? "bg-gradient-to-br from-blue-50 to-blue-50" : "bg-white-100"}`}>
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`} 
+                <div className={`aspect-[16/16] w-full relative overflow-hidden bg-surface-high`}>
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`}
                   />
                   {member.name === "Thambabattula Mohan" && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-blue-50/60 to-blue-100/50 pointer-events-none" />
+                    <div className="absolute inset-0 bg-brand-glow pointer-events-none" />
                   )}
                   <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                   <div className="flex items-center w-full">
-  {/* Other elements like member name or role */}
-  
+                    <div className="flex items-center w-full">
+                      {/* Other elements like member name or role */}
 
-  {/* The LinkedIn icon with ml-auto will now sit on the far right */}
- <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-  <div className="flex items-center w-full">
-    <a href={member.linkedin} className="ml-auto flex-shrink-0">
-      <Linkedin className="w-4 h-4 text-white" />
-    </a>
-  </div>
-</div>
-</div>
+
+                      {/* The LinkedIn icon with ml-auto will now sit on the far right */}
+                      <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                        <div className="flex items-center w-full">
+                          <a href={member.linkedin} className="ml-auto flex-shrink-0">
+                            <Linkedin className="w-4 h-4 text-white" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-[var(--color-heading)]mb-1 group-hover:text-blue-600 transition-colors">{member.name}</h3>
-                  <p className="text-blue-500 text-[10px] font-bold uppercase tracking-widest mb-3">{member.role}</p>
+                  <h3 className="text-lg font-bold text-foreground mb-1 group-hover:text-brand transition-colors">{member.name}</h3>
+                  <p className="text-brand text-[10px] font-bold uppercase tracking-widest mb-3">{member.role}</p>
                   {/* line-clamp removed to show full info */}
-                  <p className="text-[var(--color-subtle)] text-xs leading-relaxed">{member.bio}</p>
+                  <p className="text-foreground-subtle text-xs leading-relaxed">{member.bio}</p>
                 </div>
               </div>
             ))}
@@ -208,165 +204,98 @@ export default function AboutPage() {
       </section>
 
       {/* Stats Section */}
-      
+
       <section className="py-20">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
-      className="bg-[var(--card-bg)] rounded-3xl p-10 md:p-14 border border-[var(--color-border)] shadow-[var(--shadow-card)] flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden transition-colors duration-300"
-    >
-      
-      {/* Background Accent */}
-      <div className="absolute -top-24 -right-24 w-64 h-64 bg-[var(--color-background-secondary)] blur-[100px] rounded-full -z-10" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bento-tile flex flex-col lg:flex-row items-center justify-between gap-12"
+            style={{ padding: "3rem", borderRadius: "1.5rem" }}
+          >
+            {/* Background Accent */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-50/50 blur-[100px] rounded-full -z-10" />
 
-      {/* TITLE */}
-      <h2 
-        className="text-4xl font-extrabold tracking-tight transition-colors duration-300"
-        style={{ color: "var(--color-heading)" }}
-      >
-        By the Numbers
-      </h2>
+            <h2 className="text-4xl font-extrabold text-foreground tracking-tight">
+              By the Numbers
+            </h2>
 
-      <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+              {/* Stat 1: Scanned */}
+              <div className="flex items-center gap-5 group">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
+                  <Database className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                </div>
+                <div>
+                  <div className="text-4xl font-bold text-foreground tracking-tighter">10B+</div>
+                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Scanned</div>
+                </div>
+              </div>
 
-        {/* Stat 1 */}
-        <div className="flex items-center gap-5 group">
-          <div className="w-14 h-14 
-            bg-white dark:bg-slate-100
-            rounded-2xl flex items-center justify-center 
-            border border-[var(--color-border)] 
-            shadow-sm
-            group-hover:scale-110 transition-all duration-300">
-            
-            <Database className="w-6 h-6 text-[#0F172A]" />
-          </div>
+              {/* Stat 2: Breaches */}
+              <div className="flex items-center gap-5 group">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
+                  <LockIcon className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                </div>
+                <div>
+                  <div className="text-4xl font-bold text-foreground tracking-tighter">0</div>
+                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Breaches</div>
+                </div>
+              </div>
 
-          <div>
-            <div 
-              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
-              style={{ color: "var(--color-heading)" }}
-            >
-              10B+
+              {/* Stat 3: Client-Side */}
+              <div className="flex items-center gap-5 group">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
+                  <Laptop className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+                </div>
+                <div>
+                  <div className="text-4xl font-bold text-foreground tracking-tighter">100%</div>
+                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Client-Side</div>
+                </div>
+              </div>
             </div>
-
-            <div 
-              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
-              style={{ color: "var(--color-subtle)" }}
-            >
-              Scanned
-            </div>
-          </div>
+          </motion.div>
         </div>
-
-        {/* Stat 2 */}
-        <div className="flex items-center gap-5 group">
-          <div className="w-14 h-14 
-            bg-white dark:bg-slate-100
-            rounded-2xl flex items-center justify-center 
-            border border-[var(--color-border)] 
-            shadow-sm
-            group-hover:scale-110 transition-all duration-300">
-            
-            <LockIcon className="w-6 h-6 text-[#0F172A]" />
-          </div>
-
-          <div>
-            <div 
-              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
-              style={{ color: "var(--color-heading)" }}
-            >
-              0
-            </div>
-
-            <div 
-              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
-              style={{ color: "var(--color-subtle)" }}
-            >
-              Breaches
-            </div>
-          </div>
-        </div>
-
-        {/* Stat 3 */}
-        <div className="flex items-center gap-5 group">
-          <div className="w-14 h-14 
-            bg-white dark:bg-slate-100
-            rounded-2xl flex items-center justify-center 
-            border border-[var(--color-border)] 
-            shadow-sm
-            group-hover:scale-110 transition-all duration-300">
-            
-            <Laptop className="w-6 h-6 text-[#0F172A]" />
-          </div>
-
-          <div>
-            <div 
-              className="text-4xl font-bold tracking-tighter transition-colors duration-300"
-              style={{ color: "var(--color-heading)" }}
-            >
-              100%
-            </div>
-
-            <div 
-              className="text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-300"
-              style={{ color: "var(--color-subtle)" }}
-            >
-              Client-Side
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </motion.div>
-  </div>
-</section>
+      </section>
 
       {/* Join Team CTA */}
       <section className="py-24 px-4 mb-24 dark-careers-section">
-  <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group dark-careers-box">
+            <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight dark-careers-text">
+              Join Our Engineering-First Team
+            </h2>
+            <Link href="/careers">
+              <button
+                className="px-8 py-4 text-white font-bold rounded-lg relative z-10 shadow-xl transition-all hover:opacity-90"
+                style={{
+                  backgroundColor: "var(--color-button)",
+                }}
+              >
+                View Open Roles
+              </button>
+            </Link>
+          </div>
+        </div>
 
-    <div className="bg-[#0F172A] rounded-2xl p-12 md:p-20 text-center relative overflow-hidden group dark-careers-box">
+        {/* ✅ DARK MODE FIX */}
+        <style jsx global>{`
+          [data-theme="dark"] .dark-careers-section {
+            background: #000000 !important; /* section black */
+          }
 
-      <div className="absolute inset-0 bg-blue-600/5 blur-[120px] group-hover:bg-blue-600/10 transition-colors" />
+          [data-theme="dark"] .dark-careers-box {
+            background: #e5e7eb !important; /* GRAY box (what you want) */
+          }
 
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10 tracking-tight dark-careers-text">
-        Join Our Engineering-First Team
-      </h2>
-
-  <Link href="/careers">
-  <button
-    className="px-8 py-4 text-white font-bold rounded-lg relative z-10 shadow-xl transition-all hover:opacity-90"
-    style={{
-      backgroundColor: "var(--color-button)",
-    }}
-  >
-    View Open Roles
-  </button>
-</Link>
-
-    </div>
-
-  </div>
-
-  {/* ✅ DARK MODE FIX */}
-  <style jsx global>{`
-    [data-theme="dark"] .dark-careers-section {
-      background: #000000 !important; /* section black */
-    }
-
-    [data-theme="dark"] .dark-careers-box {
-      background: #e5e7eb !important; /* GRAY box (what you want) */
-    }
-
-    [data-theme="dark"] .dark-careers-text {
-      color: #000000 !important; /* black text on gray box */
-    }
-  `}</style>
-
-</section>
+          [data-theme="dark"] .dark-careers-text {
+            color: #000000 !important; /* black text on gray box */
+          }
+        `}</style>
+      </section>
 
       <Footer />
     </main>

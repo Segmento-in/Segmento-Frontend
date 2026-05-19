@@ -5,9 +5,7 @@ import Link from "next/link";
 
 export default function CTASection() {
   return (
-    <section
-      className="py-24 px-4 bg-sky-50 transition-colors duration-500 dark-section"
-    >
+    <section className="py-24 px-4" style={{ background: "var(--theme-bg)" }}>
       <div className="max-w-7xl mx-auto">
 
         <motion.div
@@ -27,8 +25,8 @@ export default function CTASection() {
             <div className="flex justify-center">
 
               <Link
-  href="/contact"
-  className="
+                href="/contact"
+                className="
     px-10 py-4
     text-white
     font-bold text-lg
@@ -36,13 +34,13 @@ export default function CTASection() {
     transition-all
     active:scale-[0.98]
   "
-  style={{
-    backgroundColor: "var(--color-button)",
-    boxShadow: "0 8px 20px rgba(37,99,235,0.3)",
-  }}
->
-  contact us
-</Link>
+                style={{
+                  backgroundColor: "var(--color-button)",
+                  boxShadow: "0 8px 20px rgba(37,99,235,0.3)",
+                }}
+              >
+                contact us
+              </Link>
 
             </div>
 

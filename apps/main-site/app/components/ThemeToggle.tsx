@@ -10,16 +10,18 @@ export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
   // LOAD SESSION THEME
+  // Falls back to the existing data-theme on <html> (set by layout.tsx)
+  // so we never stomp the server-side default (dark) on fresh sessions.
   useEffect(() => {
     const savedTheme = sessionStorage.getItem("theme");
+    const htmlTheme = document.documentElement.dataset.theme as string | undefined;
 
-    if (savedTheme === DARK) {
-      setIsDark(true);
-      document.documentElement.dataset.theme = DARK;
-    } else {
-      setIsDark(false);
-      document.documentElement.dataset.theme = LIGHT;
-    }
+    // Priority: sessionStorage > existing html attr > DARK (safe fallback)
+    const resolved = savedTheme ?? htmlTheme ?? DARK;
+
+    const dark = resolved === DARK;
+    setIsDark(dark);
+    document.documentElement.dataset.theme = resolved;
   }, []);
 
   const toggle = () => {

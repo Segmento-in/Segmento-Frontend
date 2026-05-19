@@ -4,40 +4,47 @@ import React from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Mail, MapPin } from "lucide-react";
+import {
+  Mail, MapPin, Globe, ShieldCheck,
+  Lock, CheckCircle2, Building2, Smartphone,
+  Zap, Command, Shield
+} from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      <section className="pt-24 pb-24">
+      <section className="pt-24 pb-24" style={{ background: "var(--theme-bg)" }}>
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-start">
-            
-            {/* LEFT FORM (UNCHANGED) */}
-            <div className="bg-[#334155] rounded-[2rem] px-10 py-8 lg:px-12 lg:py-10 shadow-2xl border border-slate-500/30 flex flex-col">
-              <h1 className="text-[36px] leading-[1.1] font-bold text-white mb-8 tracking-tight">
+
+            {/* Left: Contact Form Card - BENTO TILE THEME */}
+            <div className="bento-tile flex flex-col" style={{ padding: "3rem", borderRadius: "2rem" }}>
+              <h1 className="text-[36px] leading-[1.1] font-bold text-foreground mb-8 tracking-tight">
                 Contact Segmento
               </h1>
 
               <form className="space-y-5 flex-1">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="relative group">
-                    <label className="absolute -top-2.5 left-4 px-1 bg-[#334155] text-[10px] font-extrabold text-slate-300 uppercase tracking-widest z-10">
+                    <label className="absolute -top-2.5 left-4 px-1 text-[10px] font-extrabold text-foreground-muted uppercase tracking-widest z-10" style={{ background: "var(--theme-bg-surface)" }}>
                       Full Name
                     </label>
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:border-blue-400 outline-none transition-all font-medium text-sm"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Enter Your Full Name"
+                        className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
+                        style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                      />
+                    </div>
                   </div>
-
                   <input
                     type="email"
                     placeholder="Work Email"
-                    className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:bg-slate-400/20 focus:border-blue-400 outline-none transition-all font-medium text-sm"
+                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
+                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
                   />
                 </div>
 
@@ -45,43 +52,43 @@ export default function ContactPage() {
                   <input
                     type="text"
                     placeholder="Company Name"
-                    className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:bg-slate-400/20 focus:border-blue-400 outline-none transition-all font-medium text-sm"
+                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
+                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
                   />
                   <input
                     type="tel"
                     placeholder="Phone Number"
-                    className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:bg-slate-400/20 focus:border-blue-400 outline-none transition-all font-medium text-sm"
+                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
+                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
                   />
                 </div>
 
                 <textarea
                   rows={4}
                   placeholder="Message / Reason for Inquiry"
-                  className="w-full px-4 py-3 bg-slate-400/10 border border-slate-400/30 rounded-xl text-white placeholder:text-slate-400 focus:bg-slate-400/20 focus:border-blue-400 outline-none transition-all resize-none font-medium text-sm"
+                  className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all resize-none font-medium text-sm"
+                  style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
                 />
 
-        <button
-  className="w-full py-4 text-white text-md font-bold rounded-xl active:scale-[0.98] transition-all mt-2 shadow-lg uppercase tracking-wider hover:opacity-90"
-  style={{
-    backgroundColor: "var(--color-button)",
-    boxShadow: "0 10px 25px rgba(56,189,248,0.25)",
-  }}
->
-  Send Message
-</button>
+                <button className="w-full py-4 bg-brand text-white text-md font-bold rounded-xl hover:opacity-90 active:scale-[0.98] transition-all mt-2 shadow-lg shadow-brand/20 uppercase tracking-wider">
+                  Send Message
+                </button>
               </form>
             </div>
 
             {/* RIGHT SIDE */}
             <div className="flex flex-col gap-6">
-              
-              {/* INFO CARD */}
-              <div className="card-3d p-8">
-                <div className="mb-6">
-                  {/* Pill Tag */}
-                  <div className="pill-tag">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
-                    Global Office Locations
+
+              {/* Main Info Card - ADJUSTED TO CONTENT */}
+              <div className="bento-tile" style={{ padding: "2rem", borderRadius: "2rem" }}>
+                <div className="mb-8">
+                  <h3 className="text-[11px] font-black text-foreground-muted uppercase tracking-[0.3em] mb-6">Global Office Locations</h3>
+                  <div className="grid sm:grid-cols-1 gap-8">
+                    <LocationItem
+                      icon={<MapPin className="w-5 h-5 text-brand" />}
+                      city="Vishakhapatnam"
+                      address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
+                    />
                   </div>
                 </div>
 
@@ -94,24 +101,16 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* SUPPORT CARD */}
-              <div className="card-3d p-8 flex items-center gap-6 group cursor-pointer transition-all hover:-translate-y-2">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform" style={{ background: "var(--color-background-secondary)", border: "1px solid var(--color-border-light)" }}>
-                  <Mail className="w-6 h-6 text-[var(--color-heading)]" />
+              {/* Support Card - BORDERED */}
+              <div className="bento-tile flex items-center gap-6 group hover:border-brand hover:-translate-y-2 transition-all cursor-pointer" style={{ padding: "2rem", borderRadius: "1.5rem" }}>
+                <div className="w-14 h-14 rounded-2xl border transition-transform group-hover:scale-110 flex items-center justify-center" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
+                  <Mail className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
                 </div>
 
                 <div>
-                  <p className="text-sm font-bold text-[var(--color-heading)]">
-                    Direct Support
-                  </p>
-
-                  <p className="text-base font-bold my-0.5 text-[var(--color-brand)]">
-                    info@segmento.in
-                  </p>
-
-                  <p className="text-xs font-medium tracking-tight text-[var(--color-subtle)]">
-                    24/7 Critical Support for Enterprise Clients
-                  </p>
+                  <p className="text-sm font-bold text-foreground">Direct Support</p>
+                  <p className="text-base text-brand font-bold my-0.5">info@segmento.in</p>
+                  <p className="text-xs text-foreground-subtle font-medium tracking-tight">24/7 Critical Support for Enterprise Clients</p>
                 </div>
               </div>
 
@@ -130,22 +129,10 @@ function LocationItem({ icon, city, address }: { icon: React.ReactNode, city: st
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2">
-        <div className="text-blue-600">{icon}</div>
-
-        <p className="
-          text-[16px] font-black tracking-tight
-          text-[#0F172A]
-          [data-theme=dark]:!text-black
-        ">
-          {city}
-        </p>
+        <div className="text-brand">{icon}</div>
+        <p className="text-[16px] font-black text-foreground tracking-tight">{city}</p>
       </div>
-
-      <div className="
-        text-[13px] leading-relaxed font-medium pl-7
-        text-slate-500
-        [data-theme=dark]:!text-black
-      ">
+      <div className="text-[13px] text-foreground-subtle leading-relaxed font-medium pl-7">
         {address.split('\n').map((line, i) => (
           <span key={i} className="block whitespace-nowrap">
             {line.trim()}

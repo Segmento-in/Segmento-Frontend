@@ -24,7 +24,7 @@ export default function CareersPage() {
   );
 
   return (
-    <div className="min-h-screen font-sans">
+    <div className="min-h-screen font-sans" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
       <div className="h-24" />
 
@@ -35,14 +35,18 @@ export default function CareersPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b-4 border-black pb-10"
+            className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10"
+            style={{ borderBottom: "4px solid var(--theme-border)" }}
           >
             <div>
-              <h1 className="text-4xl md:text-5xl font-black text-primary uppercase">
-                Open <span className="text-[var(--color-brand)]">Positions</span>
+              <h1
+                className="text-4xl md:text-5xl font-black uppercase"
+                style={{ color: "var(--theme-fg)" }}
+              >
+                Open <span style={{ color: "var(--theme-brand)" }}>Positions</span>
               </h1>
 
-              <p className="text-muted text-sm font-bold uppercase tracking-widest mt-2">
+              <p className="text-sm font-bold uppercase tracking-widest mt-2" style={{ color: "var(--theme-fg-muted)" }}>
                 Join the Segmento distributed team
               </p>
             </div>
@@ -54,21 +58,15 @@ export default function CareersPage() {
                 placeholder="Search roles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="
-                  w-full pl-12 pr-4 py-4
-                  bg-secondary text-primary
-                  border-2 border-black
-                  uppercase tracking-widest text-[10px]
-                  outline-none transition-all
-                  focus:bg-white
-                "
+                className="w-full pl-12 pr-4 py-4 uppercase tracking-widest text-[10px] outline-none transition-all"
                 style={{
-                  backgroundColor: "var(--color-background-secondary)",
-                  color: "var(--color-heading)"
+                  background: "var(--theme-bg-surface)",
+                  color: "var(--theme-fg)",
+                  border: "2px solid var(--theme-border)",
+                  borderRadius: 4,
                 }}
               />
-
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "var(--theme-fg-muted)" }} />
             </div>
           </motion.div>
         </header>
@@ -82,34 +80,36 @@ export default function CareersPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="card-3d p-8 flex flex-col transition-all duration-300 hover:-translate-y-2 group"
+                className="bento-tile flex flex-col transition-all duration-300 hover:-translate-y-2 group"
+                style={{ padding: "2rem" }}
               >
                 {/* Top Section */}
                 <div className="flex justify-between items-start mb-6">
                   {/* Pill Tag */}
-                  <div className="pill-tag">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand)]"></span>
+                  <div className="chip">
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--theme-brand)" }}></span>
                     {role.team}
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--color-subtle)] uppercase tracking-wider">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--theme-fg-muted)" }}>
                     <Globe className="w-3.5 h-3.5" /> {role.location}
                   </div>
                 </div>
 
                 {/* Role Info */}
-                <h3 className="text-2xl font-black text-[var(--color-heading)] mb-2">
+                <h3 className="text-2xl font-black mb-2" style={{ color: "var(--theme-fg)" }}>
                   {role.title}
                 </h3>
-                <div className="flex items-center gap-2 mb-8 text-sm font-semibold text-[var(--color-body)]">
-                  <Clock className="w-4 h-4 text-[var(--color-brand)]" /> {role.type}
+                <div className="flex items-center gap-2 mb-8 text-sm font-semibold" style={{ color: "var(--theme-fg-subtle)" }}>
+                  <Clock className="w-4 h-4" style={{ color: "var(--theme-brand)" }} /> {role.type}
                 </div>
 
                 {/* Action */}
-                <div className="mt-auto pt-4 border-t border-[var(--color-border-light)]">
+                <div className="mt-auto pt-4" style={{ borderTop: "1px solid var(--theme-border-subtle)" }}>
                   <Link
                     href={`/careers/${role.id}`}
-                    className="inline-flex items-center gap-2 text-[13px] font-bold text-[var(--color-brand)] uppercase tracking-widest group-hover:gap-3 transition-all"
+                    className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-widest group-hover:gap-3 transition-all"
+                    style={{ color: "var(--theme-brand)" }}
                   >
                     Apply Now
                     <ArrowRight className="w-4 h-4" />

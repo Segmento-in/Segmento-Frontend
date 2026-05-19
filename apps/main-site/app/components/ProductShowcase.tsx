@@ -1,381 +1,440 @@
-"use client";
+'use client'
 
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowRight, Lock, Shield, Zap, Activity, EyeOff, Search, Clock, 
-  TrendingUp, Users, MessageSquare, CheckCircle2, Ticket, ListChecks, 
-  ChevronRight, Filter, Database, RefreshCw, Layers
-} from "lucide-react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { motion } from 'framer-motion'
+import { ArrowRight, Activity, Clock, EyeOff, Database, RefreshCw, Ticket, CheckCircle2 } from 'lucide-react'
+import Link from 'next/link'
 
-const products = [
-  {
-    id: "pulse",
-    name: "Segmento Pulse",
-    title: "Real-time News & Trends Engine",
-    description: "Harness global data intelligence with emerging headlines and real-time trend tracking. Stay ahead with our proprietary News & Trends engine designed for global data privacy updates.",
-    link: "/pulse",
-    color: "blue",
-  },
-  {
-    id: "sense",
-    name: "Segmento Sense",
-    title: "AI Enabled Data Classification",
-    description: "Advanced text extraction and perimeter defense featuring client-side OCR and automated PII redaction. Experience the power of Explainable AI in every classification task.",
-    link: "/sense",
-    color: "indigo",
-  },
-  {
-    id: "collector",
-    name: "Segmento Collect",
-    title: "AI-Powered Data Collection Platform",
-    description: "Segmento Collector enables seamless data aggregation from multiple sources through intelligent connectors. Automate data ingestion, unify workflows, and transform raw inputs into actionable insights with AI-driven orchestration. Built-in recovery mechanisms ensure data continuity, including a 24-hour recovery window.",
-    link: "/collect",
-    color: "sky",
-  },
-  {
-    id: "resolve",
-    name: "Segmento Resolve",
-    title: "Data Request & Ticket Management Platform",
-    description: "Segmento Resolve helps manage data requests and tickets in a simple and organized way. It allows tracking and clear visibility to ensure smooth and efficient operations.",
-    link: "/resolve",
-    color: "emerald",
-  },
-  {
-    id: "sprintiq",
-    name: "Segmento SprintQL",
-    title: "Collaborative Retrospective Management Platform",
-    description: "Segmento SprintQL helps you run retrospectives in a simple and organized way. Capture feedback, collaborate in real time, and turn ideas into clear action items for continuous improvement.",
-    link: "/sprintql",
-    color: "purple",
-  },
-];
+// Maps a design span (4 / 8 / 12) → Tailwind responsive col-span classes.
+// Mobile: always full width (col-span-12 on a 1-col grid = full width).
+// Desktop (lg): restores the intended asymmetric span.
+function getColClass(span: number): string {
+  const map: Record<number, string> = {
+    4: 'col-span-12 lg:col-span-4',
+    8: 'col-span-12 lg:col-span-8',
+    12: 'col-span-12',
+  }
+  return map[span] ?? 'col-span-12'
+}
 
-const newsUpdates = [
-  { tag: "Privacy", title: "EU Parliament updates Data Act...", time: "2m ago" },
-  { tag: "Global", title: "Emerging tech trends in APAC markets", time: "5m ago" },
-  { tag: "Tech", title: "New Encryption standards detected", time: "12m ago" },
-];
+// ── Product data — keeps all copy in one place ──────────────────────────────
+const PRODUCTS = [
+  {
+    id: 'pulse',
+    name: 'Segmento Pulse',
+    headline: 'Real-Time News & Intelligence Engine',
+    description:
+      'Harness global data intelligence with emerging headlines and real-time trend tracking. Built for data privacy professionals.',
+    link: '/pulse',
+    accent: '#3b82f6',       // blue
+    glow: 'rgba(59,130,246,0.15)',
+    tags: ['GDPR', 'DPDP'],
+    // Bento col span (Tailwind native — bento-grid has 12 cols)
+    span: 8,
+  },
+  {
+    id: 'sense',
+    name: 'Segmento Sense',
+    headline: 'AI Classification & Redaction',
+    description:
+      'Automated PII detection and obfuscation. Explainable AI with 99.8% confidence. Fully client-side.',
+    link: '/products/data-classification',
+    accent: '#8b5cf6',       // violet
+    glow: 'rgba(139,92,246,0.15)',
+    tags: ['GDPR', 'DPDP'],
+    span: 4,
+  },
+  {
+    id: 'collect',
+    name: 'Segmento Collect',
+    headline: 'Universal Data Pipeline',
+    description:
+      'Securely ingest from any source to any destination. Built-in 24-hour recovery window.',
+    link: 'https://segmento-collect.onrender.com',
+    accent: '#06b6d4',       // cyan
+    glow: 'rgba(6,182,212,0.15)',
+    tags: ['GDPR', 'DPDP'],
+    span: 4,
+  },
+  {
+    id: 'resolve',
+    name: 'Segmento Resolve',
+    headline: 'DSAR Kanban Board',
+    description:
+      'Manage and fulfil data subject requests efficiently. Real-time cursors. 98% SLA.',
+    link: 'https://ticket-management-frontend-tau.vercel.app/',
+    accent: '#10b981',       // emerald
+    glow: 'rgba(16,185,129,0.15)',
+    tags: ['GDPR', 'DPDP'],
+    span: 8,
+  },
+  {
+    id: 'sprintql',
+    name: 'Segmento SprintQL',
+    headline: 'Collaborative Retrospectives',
+    description:
+      'Multiplayer retrospective board with real-time cursors. Capture feedback, collaborate live, and turn ideas into clear action items.',
+    link: 'https://segmento-retro-omega.vercel.app/',
+    accent: '#a855f7',       // purple
+    glow: 'rgba(168,85,247,0.15)',
+    tags: ['GDPR', 'DPDP'],
+    span: 12,
+  },
+]
 
 export default function ProductShowcase() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % 3);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section 
-      id="ProductShowcase" 
-      className="py-24 md:py-32 relative overflow-hidden transition-colors duration-500"
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-24">
-  <h2 className="text-5xl lg:text-[64px] font-black text-primary leading-[1.1] tracking-tight">
-    Product <span className="text-brand">Showcase</span>
-  </h2>
-</div>
+    <section id="ProductShowcase" className="relative overflow-hidden" style={{ padding: '6rem 0' }}>
+      {/* Top divider */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'var(--theme-border-subtle)' }} />
 
-        <div className="space-y-16">
-          {products.map((product) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 card-3d p-8 md:p-12 transition-all duration-500 hover:-translate-y-2 group/card
-                ${product.color === 'blue' ? 'hover:border-blue-300 hover:shadow-[0_40px_80px_-20px_rgba(59,130,246,0.18)]' :
-                  product.color === 'indigo' ? 'hover:border-indigo-300 hover:shadow-[0_40px_80px_-20px_rgba(79,70,229,0.18)]' :
-                  product.color === 'sky' ? 'hover:border-sky-300 hover:shadow-[0_40px_80px_-20px_rgba(14,165,233,0.18)]' :
-                  product.color === 'purple' ? 'hover:border-purple-300 hover:shadow-[0_40px_80px_-20px_rgba(147,51,234,0.18)]' :
-                  'hover:border-emerald-300 hover:shadow-[0_40px_80px_-20px_rgba(16,185,129,0.18)]'
-                }`}
-            >
-              {/* Content Side - Fixed to Left */}
-              <div className="flex-1 space-y-6 order-2 lg:order-1">
-                {/* Pill Tag */}
-                <div className="pill-tag" style={{
-                  backgroundColor:
-                    product.color === 'blue' ? 'rgba(59,130,246,0.08)' :
-                    product.color === 'indigo' ? 'rgba(79,70,229,0.08)' :
-                    product.color === 'sky' ? 'rgba(14,165,233,0.08)' :
-                    product.color === 'purple' ? 'rgba(147,51,234,0.08)' :
-                    'rgba(16,185,129,0.08)',
-                  color:
-                    product.color === 'blue' ? '#2563eb' :
-                    product.color === 'indigo' ? '#4f46e5' :
-                    product.color === 'sky' ? '#0284c7' :
-                    product.color === 'purple' ? '#7c3aed' :
-                    '#059669',
-                  borderColor: 'transparent',
-                }}>
-                  <span className="w-1.5 h-1.5 rounded-full" style={{
-                    backgroundColor:
-                      product.color === 'blue' ? '#2563eb' :
-                      product.color === 'indigo' ? '#4f46e5' :
-                      product.color === 'sky' ? '#0284c7' :
-                      product.color === 'purple' ? '#7c3aed' :
-                      '#059669',
-                  }} />
-                  {product.name}
-                </div>
+      <div className="section-container">
+        {/* Section header */}
+        <motion.div
+          className="text-center"
+          style={{ marginBottom: '4rem' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="chip w-fit mx-auto" style={{ marginBottom: '1.25rem' }}>Platform</div>
+          <h2 className="text-headline-md" style={{ marginBottom: '0.75rem' }}>
+            Five products.{' '}
+            <span style={{ color: 'var(--theme-brand)' }}>One platform.</span>
+          </h2>
+          <p className="text-body-lg mx-auto" style={{ maxWidth: '36rem' }}>
+            Every tool in the Segmento suite is built around a single principle:
+            your data stays yours.
+          </p>
+        </motion.div>
 
-                <h3 className="text-4xl lg:text-5xl font-black tracking-tight leading-[1.1]" style={{ color: "var(--color-heading)" }}>
-                  {product.title}
-                </h3>
-                <p className="text-[19px] leading-relaxed font-medium max-w-xl" style={{ color: "var(--color-body)" }}>
-                  {product.description}
-                </p>
-                
-                <div className="pt-4">
-                  <Link
-                    href={product.link}
-                    className="inline-flex items-center gap-3 px-6 py-3 font-bold rounded-xl hover:opacity-90 transition-all shadow-lg active:scale-95 group text-white"
-                    style={{ background: "var(--color-brand)" }}
-                  >
-                    <span>Explore {product.name.split(" ")[1]}</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Preview Side - Fixed to Right */}
-              <div className="flex-1 w-full relative order-1 lg:order-2">
-                <div className={`absolute -top-4 left-6 z-20 pill-tag shadow-md` } style={{
-                  backgroundColor:
-                    product.color === 'blue' ? '#2563eb' :
-                    product.color === 'indigo' ? '#4f46e5' :
-                    product.color === 'sky' ? '#0284c7' :
-                    product.color === 'purple' ? '#7c3aed' :
-                    '#059669',
-                  color: '#fff',
-                  borderColor: 'transparent',
-                }}>
-                  {product.name}
-                </div>
-
-                <div className="relative group">
-                  <div className={`absolute -inset-4 blur-3xl opacity-20 transition-opacity group-hover:opacity-40 ${
-                    product.color === 'blue' ? 'bg-blue-400' : 
-                    product.color === 'indigo' ? 'bg-indigo-400' : 
-                    product.color === 'sky' ? 'bg-sky-400' : 
-                    product.color === 'purple' ? 'bg-purple-400' : 'bg-emerald-400'
-                  }`} />
-                  
-                  <div className="relative rounded-2xl p-3 overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]" style={{ background: "var(--card-bg)", boxShadow: "0 32px 64px -16px rgba(15,23,42,0.12)", border: "1px solid var(--color-border-light)" }}>
-                    
-                    {/* Mock Browser Header */}
-                    <div className="flex items-center gap-1.5 mb-4 px-3 py-1">
-                      <div className="w-2 h-2 rounded-full bg-red-400" />
-                      <div className="w-2 h-2 rounded-full bg-amber-400" />
-                      <div className="w-2 h-2 rounded-full bg-emerald-400" />
-                      <div className="ml-6 h-3 w-40 bg-slate-50 rounded-full border border-slate-100 flex items-center px-2">
-                        <Lock className="w-2 h-2 text-slate-300 mr-2" />
-                        <div className="w-20 h-1 bg-slate-100 rounded-full" />
-                      </div>
-                    </div>
-
-                    {/* Content Area */}
-                    <div className="bg-slate-50/50 rounded-none p-5 min-h-[340px] border border-slate-100 relative overflow-hidden">
-                      
-                      {/* PULSE PREVIEW */}
-                      {product.id === "pulse" && (
-                        <div className="space-y-4">
-                          <div className="bg-white p-4 rounded-none border border-blue-100 shadow-sm relative overflow-hidden">
-                            <div className="flex justify-between items-center mb-4">
-                              <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Intelligence</span>
-                              </div>
-                            </div>
-                            <div className="space-y-3">
-                              {newsUpdates.map((news, idx) => (
-                                <div key={idx} className="flex items-center gap-3 p-2 rounded-none hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-                                  <div className="px-2 py-0.5 rounded-none bg-blue-50 text-[8px] font-black text-blue-600 uppercase">{news.tag}</div>
-                                  <div className="flex-1 text-[11px] font-semibold text-slate-700 truncate">{news.title}</div>
-                                  <div className="text-[9px] text-slate-400 flex items-center gap-1"><Clock className="w-2.5 h-2.5" />{news.time}</div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="h-24 bg-slate-900 rounded-none p-4 relative overflow-hidden">
-                            <Activity className="w-4 h-4 text-blue-400 mb-2" />
-                            <div className="absolute inset-x-0 bottom-0 h-10 flex items-end">
-                              {[...Array(15)].map((_, i) => (
-                                <motion.div key={i} animate={{ height: [5, 25, 10, 20, 5] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }} className="flex-1 bg-blue-500/30 border-t border-blue-400/50" />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* SENSE PREVIEW */}
-                      {product.id === "sense" && (
-                        <div className="h-full flex flex-col gap-4">
-                          <div className="bg-slate-900 p-5 border border-slate-800 shadow-2xl relative overflow-hidden flex-1 rounded-none">
-                            <div className="flex items-center gap-2 mb-4">
-                              <Search className="w-3 h-3 text-indigo-400" />
-                              <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest">PII Scanner Active</span>
-                            </div>
-                            <div className="font-mono text-[11px] space-y-3">
-                              <div className="text-slate-400 flex items-center gap-2"><span className="text-indigo-500">→</span> Analyzing file...</div>
-                              <div className="p-3 bg-slate-800/50 border border-slate-700/50 relative">
-                                <p className="text-slate-300">Email: <span className="bg-red-500/20 text-red-300 px-1 rounded-none inline-flex items-center gap-1"><EyeOff className="w-2 h-2" /> REDACTED</span></p>
-                                <motion.div animate={{ top: ['0%', '100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} className="absolute left-0 right-0 h-px bg-indigo-400 shadow-[0_0_10px_indigo] opacity-50" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="h-16 bg-white rounded-none border border-slate-200 p-4 flex items-center justify-between">
-                             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">AI Confidence</div>
-                             <div className="text-sm font-black text-slate-900">99.8%</div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* COLLECTOR PREVIEW */}
-                      {product.id === "collector" && (
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between px-2">
-                             <div className="flex items-center gap-2">
-                                <Database className="w-4 h-4 text-sky-600" />
-                                <span className="text-xs font-black text-slate-800">Pipeline Status</span>
-                             </div>
-                             <div className="flex items-center gap-1 text-[10px] text-emerald-500 font-bold uppercase">
-                                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                                Live
-                             </div>
-                          </div>
-                          <div className="bg-white p-4 rounded-none border border-sky-100 shadow-sm relative overflow-hidden">
-                             <div className="grid grid-cols-3 gap-2 mb-4">
-                                {[1,2,3].map(i => (
-                                  <div key={i} className="h-12 bg-slate-50 rounded-none border border-slate-100 flex flex-col items-center justify-center gap-1">
-                                    <div className="w-4 h-1 bg-sky-200 rounded-full" />
-                                    <div className="w-6 h-1 bg-slate-200 rounded-full" />
-                                  </div>
-                                ))}
-                             </div>
-                             <div className="relative py-2">
-                                <div className="absolute inset-0 flex items-center">
-                                  <div className="w-full border-t-2 border-dashed border-sky-100" />
-                                </div>
-                                <div className="relative flex justify-center">
-                                  <div className="bg-sky-600 p-2 rounded-none shadow-lg">
-                                    <RefreshCw className="w-4 h-4 text-white animate-spin-slow" />
-                                  </div>
-                                </div>
-                             </div>
-                             <div className="mt-4 flex items-center justify-center gap-2">
-                                <Layers className="w-3 h-3 text-sky-400" />
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Unifying 12+ Sources</span>
-                             </div>
-                          </div>
-                          <div className="bg-slate-900 p-3 rounded-none flex items-center justify-between text-white border border-slate-800">
-                             <div className="flex items-center gap-2">
-                                <Shield className="w-3 h-3 text-sky-400" />
-                                <span className="text-[9px] font-bold uppercase">24h Recovery Window Active</span>
-                             </div>
-                             <div className="text-[10px] font-mono text-sky-400">00:00:00</div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* RESOLVE PREVIEW */}
-                      {product.id === "resolve" && (
-                        <div className="h-full flex flex-col gap-4">
-                          <div className="flex items-center justify-between px-2">
-                             <div className="flex items-center gap-2">
-                                <Ticket className="w-4 h-4 text-emerald-600" />
-                                <span className="text-xs font-black text-slate-800">Requests Dashboard</span>
-                             </div>
-                             <Filter className="w-3 h-3 text-slate-400" />
-                          </div>
-                          <div className="bg-white rounded-none border border-slate-200 overflow-hidden shadow-sm flex-1">
-                            <table className="w-full text-left text-[10px]">
-                              <thead className="bg-slate-50 border-b border-slate-100">
-                                <tr>
-                                  <th className="px-3 py-2 font-bold text-slate-400">ID</th>
-                                  <th className="px-3 py-2 font-bold text-slate-400">Status</th>
-                                  <th className="px-3 py-2 font-bold text-slate-400">Priority</th>
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-slate-50">
-                                {['#721', '#724', '#728'].map((id, i) => (
-                                  <tr key={id}>
-                                    <td className="px-3 py-3 font-bold text-slate-900">{id}</td>
-                                    <td className="px-3 py-3">
-                                      <span className={`px-2 py-0.5 rounded-none text-[8px] font-bold ${i === 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
-                                        {i === 0 ? 'Resolved' : 'In Progress'}
-                                      </span>
-                                    </td>
-                                    <td className="px-3 py-3 text-slate-400 font-medium">High</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                          <div className="p-3 bg-emerald-600 rounded-none flex items-center justify-between text-white">
-                             <div className="flex items-center gap-2">
-                               <ListChecks className="w-4 h-4" />
-                               <span className="text-[10px] font-bold uppercase tracking-wider">98% Service Level</span>
-                             </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* SPRINTIQ PREVIEW */}
-                      {product.id === "sprintiq" && (
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between px-2">
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-purple-600" />
-                              <span className="text-xs font-black text-slate-800">Q1 Retrospective</span>
-                            </div>
-                            <div className="flex -space-x-2">
-                              {[1,2,3,4].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-slate-200" />)}
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div className="p-3 bg-white border border-purple-100 rounded-none shadow-sm">
-                              <div className="text-[9px] font-bold text-purple-600 mb-2 uppercase">Went Well</div>
-                              <div className="space-y-2">
-                                <div className="h-1.5 w-full bg-purple-50" />
-                                <div className="h-1.5 w-4/5 bg-purple-50" />
-                              </div>
-                            </div>
-                            <div className="p-3 bg-white border border-slate-100 rounded-none shadow-sm">
-                              <div className="text-[9px] font-bold text-slate-400 mb-2 uppercase">Action Items</div>
-                              <div className="flex items-center gap-2">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                                <div className="h-1.5 w-full bg-slate-100" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="bg-purple-600 p-4 rounded-none flex items-center justify-between text-white shadow-lg shadow-purple-200">
-                             <div className="flex items-center gap-3">
-                               <MessageSquare className="w-4 h-4" />
-                               <span className="text-[11px] font-bold">12 Active Comments</span>
-                             </div>
-                             <ChevronRight className="w-4 h-4 opacity-50" />
-                          </div>
-                        </div>
-                      )}
-
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 pointer-events-none" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+        {/* ── Bento grid: 12 columns ── */}
+        <div className="bento-grid">
+          {PRODUCTS.map((p, i) => (
+            <BentoCard key={p.id} product={p} index={i} />
           ))}
         </div>
       </div>
     </section>
-  );
-}            
+  )
+}
+
+// ── BentoCard — renders one product tile at its configured col-span ─────────
+function BentoCard({ product: p, index }: { product: typeof PRODUCTS[0]; index: number }) {
+  const isWide = p.span >= 8   // col-8 and col-12 get side-by-side on desktop
+  const isFull = p.span === 12
+
+  return (
+    <motion.div
+      /**
+       * Grid span: Tailwind responsive classes only — NO inline gridColumn.
+       * Mobile  → col-span-12 (full width, 1-column grid from bento-grid CSS)
+       * Desktop → lg:col-span-4 / 8 / 12 (restores asymmetric layout)
+       *
+       * Flex direction:
+       * Mobile  → flex-col (text on top, preview below — always visible)
+       * Desktop → lg:flex-row for wide cards, flex-col for narrow
+       */
+      className={`bento-tile flex flex-col gap-5 relative overflow-hidden ${getColClass(p.span)
+        } ${isWide ? 'lg:flex-row lg:items-center lg:gap-8' : ''
+        }`}
+      style={{ minHeight: isFull ? 260 : isWide ? 220 : 300 }}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {/* Subtle accent glow — decorative, pointer-events off */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute', top: -40, right: -40,
+          width: 180, height: 180, borderRadius: '50%',
+          background: p.glow, filter: 'blur(50px)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* ── Text side ── */}
+      <div
+        className="relative z-10"
+        style={{ flex: isFull ? '0 0 40%' : isWide ? '0 0 45%' : undefined }}
+      >
+        {/* Product name chip + compliance chips */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: '1rem' }}>
+          <span
+            className="text-label-caps"
+            style={{
+              padding: '3px 10px', borderRadius: 999,
+              border: `1px solid ${p.accent}`,
+              color: p.accent, fontSize: 10,
+              background: `${p.accent}14`,
+            }}
+          >
+            {p.name}
+          </span>
+          {p.tags.map((t) => (
+            <span key={t} className="chip">{t}</span>
+          ))}
+        </div>
+
+        {/* Headline — Syne */}
+        <h3 className="text-headline-sm" style={{ marginBottom: '0.75rem' }}>{p.headline}</h3>
+
+        {/* Description — Mona Sans */}
+        <p className="text-body-md" style={{ marginBottom: '1.25rem', maxWidth: '26rem' }}>
+          {p.description}
+        </p>
+
+        {/* CTA pill */}
+        <Link
+          href={p.link}
+          className="btn-secondary"
+          style={{ fontSize: 13, padding: '0.5rem 1.25rem' }}
+        >
+          Explore <ArrowRight size={13} />
+        </Link>
+      </div>
+
+      {/* ── Preview side ──
+          Always visible. On mobile: full-width below text.
+          PreviewScaler ensures the preview shrinks gracefully on small screens
+          instead of overflowing — same ResizeObserver pattern as Hero mockup.
+      */}
+      <div className="flex-1 min-w-0 relative z-10">
+        <PreviewRouter id={p.id} accent={p.accent} wide={isWide} />
+      </div>
+    </motion.div>
+  )
+}
+
+// ── Routes to the correct inline UI preview ──────────────────────────────────
+function PreviewRouter({ id, accent, wide }: { id: string; accent: string; wide: boolean }) {
+  switch (id) {
+    case 'pulse': return <PulsePreview accent={accent} />
+    case 'sense': return <SensePreview accent={accent} />
+    case 'collect': return <CollectPreview accent={accent} />
+    case 'resolve': return <ResolvePreview accent={accent} />
+    case 'sprintql': return <SprintQLPreview accent={accent} wide={wide} />
+    default: return null
+  }
+}
+
+// ── PULSE: live news feed ─────────────────────────────────────────────────────
+const NEWS_ITEMS = [
+  { tag: 'Privacy', title: 'EU Parliament updates Data Act enforcement rules', time: '2m ago' },
+  { tag: 'Global', title: 'Emerging tech trends shifting in APAC markets', time: '5m ago' },
+  { tag: 'Tech', title: 'New encryption standards detected in enterprise', time: '12m ago' },
+]
+
+function PulsePreview({ accent }: { accent: string }) {
+  return (
+    <div className="bento-tile-inner" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: accent, display: 'inline-block' }} className="animate-pulse" />
+        <span className="text-label-caps" style={{ color: accent }}>Live Intelligence</span>
+      </div>
+      {NEWS_ITEMS.map((n) => (
+        <div
+          key={n.tag}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '6px 8px', borderRadius: 6,
+            background: 'var(--theme-bg)',
+            border: '1px solid var(--theme-border-subtle)',
+          }}
+        >
+          <span
+            style={{
+              padding: '1px 6px', borderRadius: 999, fontSize: 8, fontWeight: 700,
+              background: `${accent}18`, color: accent, fontFamily: 'monospace',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {n.tag}
+          </span>
+          <span style={{ flex: 1, fontSize: 10, fontWeight: 500, color: 'var(--theme-fg-subtle)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {n.title}
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+            <Clock size={8} color="var(--theme-fg-muted)" />
+            <span style={{ fontSize: 8, color: 'var(--theme-fg-muted)', fontFamily: 'monospace' }}>{n.time}</span>
+          </div>
+        </div>
+      ))}
+      {/* Mini activity bar */}
+      <div style={{ marginTop: 4, height: 28, background: 'var(--theme-bg)', borderRadius: 6, border: '1px solid var(--theme-border-subtle)', display: 'flex', alignItems: 'flex-end', padding: '4px 6px', gap: 2, overflow: 'hidden' }}>
+        <Activity size={10} color={accent} style={{ flexShrink: 0, marginRight: 4 }} />
+        {Array.from({ length: 18 }).map((_, i) => (
+          <motion.div
+            key={i}
+            style={{ flex: 1, background: `${accent}50`, borderRadius: 1 }}
+            animate={{ height: [4, 14, 6, 18, 4] }}
+            transition={{ repeat: Infinity, duration: 1.6, delay: i * 0.08 }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── SENSE: PII scanner output ─────────────────────────────────────────────────
+function SensePreview({ accent }: { accent: string }) {
+  return (
+    <div className="bento-tile-inner" style={{ display: 'flex', flexDirection: 'column', gap: 6, position: 'relative' }}>
+      <div className="scanner-line" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <EyeOff size={11} color={accent} />
+        <span className="text-label-caps" style={{ color: accent }}>PII Scanner Active</span>
+      </div>
+      {/* Redacted lines */}
+      {[['Name', 'NAME', 'SURNAME'], ['Email', 'EMAIL'], ['Address', 'STREET']].map(([label, ...tags]) => (
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: 8, fontWeight: 600, color: 'var(--theme-fg-muted)', fontFamily: 'monospace', minWidth: 40 }}>{label}:</span>
+          {tags.map((t) => (
+            <span key={t} className="chip-redacted"><EyeOff size={7} />{t}</span>
+          ))}
+        </div>
+      ))}
+      <div style={{ marginTop: 4, padding: '5px 8px', borderRadius: 6, background: `${accent}0e`, border: `1px solid ${accent}25`, display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 9, color: accent, fontFamily: 'monospace', fontWeight: 600 }}>AI Confidence</span>
+        <span style={{ fontSize: 9, color: '#10e898', fontFamily: 'monospace', fontWeight: 700 }}>99.8%</span>
+      </div>
+    </div>
+  )
+}
+
+// ── COLLECT: pipeline flow ────────────────────────────────────────────────────
+function CollectPreview({ accent }: { accent: string }) {
+  const sources = ['📊 CSV', '🗄 SQL', '☁️ S3']
+  return (
+    <div className="bento-tile-inner" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Database size={11} color={accent} />
+          <span className="text-label-caps" style={{ color: accent }}>Pipeline Status</span>
+        </div>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 8, fontWeight: 700, color: '#10e898', fontFamily: 'monospace' }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#10e898', display: 'inline-block' }} />
+          LIVE
+        </span>
+      </div>
+      {/* Source → Collector → Dest */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {sources.map((s) => (
+            <div key={s} style={{ padding: '3px 7px', borderRadius: 4, background: 'var(--theme-bg)', border: '1px solid var(--theme-border-subtle)', fontSize: 8, color: 'var(--theme-fg-subtle)', whiteSpace: 'nowrap' }}>
+              {s}
+            </div>
+          ))}
+        </div>
+        {/* Animated connector line */}
+        <div style={{ flex: 1, height: 1, borderTop: `1px dashed ${accent}50`, position: 'relative', overflow: 'hidden' }}>
+          <motion.div
+            style={{ position: 'absolute', top: -2, width: 8, height: 5, borderRadius: 2, background: accent }}
+            animate={{ left: ['-10%', '110%'] }}
+            transition={{ repeat: Infinity, duration: 1.4, ease: 'linear' }}
+          />
+        </div>
+        {/* Collector hub */}
+        <div style={{ width: 30, height: 30, borderRadius: '50%', background: `${accent}18`, border: `1px solid ${accent}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}>
+            <RefreshCw size={12} color={accent} />
+          </motion.div>
+        </div>
+        {/* Animated out line */}
+        <div style={{ flex: 1, height: 1, borderTop: `1px dashed ${accent}50`, position: 'relative', overflow: 'hidden' }}>
+          <motion.div
+            style={{ position: 'absolute', top: -2, width: 8, height: 5, borderRadius: 2, background: accent }}
+            animate={{ left: ['-10%', '110%'] }}
+            transition={{ repeat: Infinity, duration: 1.4, ease: 'linear', delay: 0.7 }}
+          />
+        </div>
+        <div style={{ padding: '3px 7px', borderRadius: 4, background: 'var(--theme-bg)', border: '1px solid var(--theme-border-subtle)', fontSize: 8, color: 'var(--theme-fg-subtle)', whiteSpace: 'nowrap' }}>
+          🎯 Dest
+        </div>
+      </div>
+      <div style={{ fontSize: 8, fontFamily: 'monospace', color: accent, fontWeight: 600 }}>24h Recovery Window Active</div>
+    </div>
+  )
+}
+
+// ── RESOLVE: ticket board ─────────────────────────────────────────────────────
+function ResolvePreview({ accent }: { accent: string }) {
+  const tickets = [
+    { id: '#721', status: 'Resolved', priority: 'High', statusColor: '#10e898' },
+    { id: '#724', status: 'In Progress', priority: 'High', statusColor: '#f59e0b' },
+    { id: '#728', status: 'In Progress', priority: 'Medium', statusColor: '#f59e0b' },
+  ]
+  return (
+    <div className="bento-tile-inner" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Ticket size={11} color={accent} />
+          <span className="text-label-caps" style={{ color: accent }}>DSAR Requests</span>
+        </div>
+        <span style={{ fontSize: 8, color: '#10e898', fontFamily: 'monospace', fontWeight: 700 }}>98% SLA</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {tickets.map((t) => (
+          <div
+            key={t.id}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '5px 8px', borderRadius: 5,
+              background: 'var(--theme-bg)',
+              border: '1px solid var(--theme-border-subtle)',
+            }}
+          >
+            <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--theme-fg)', fontFamily: 'monospace', minWidth: 28 }}>{t.id}</span>
+            <span style={{ flex: 1, fontSize: 8, padding: '1px 6px', borderRadius: 999, background: `${t.statusColor}18`, color: t.statusColor, fontWeight: 600, fontFamily: 'monospace' }}>
+              {t.status}
+            </span>
+            <span style={{ fontSize: 8, color: 'var(--theme-fg-muted)', fontFamily: 'monospace' }}>{t.priority}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── SPRINTQL: retro board (full width) ───────────────────────────────────────
+function SprintQLPreview({ accent, wide }: { accent: string; wide: boolean }) {
+  const cols = [
+    { title: 'Went Well', color: '#10e898', items: ['CI pipeline 40% faster', 'Zero regressions this sprint'] },
+    { title: 'To Improve', color: '#f59e0b', items: ['Review cycle too long', 'More async standups'] },
+    { title: 'Action Items', color: accent, items: ['Add PR template', 'Schedule retro for Week 6'] },
+  ]
+  return (
+    <div
+      className="bento-tile-inner"
+      style={{ display: 'grid', gridTemplateColumns: wide ? 'repeat(3, 1fr)' : '1fr', gap: 8 }}
+    >
+      {cols.map((c) => (
+        <div key={c.title} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: c.color, display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ fontSize: 9, fontWeight: 700, color: c.color, fontFamily: 'monospace', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              {c.title}
+            </span>
+          </div>
+          {c.items.map((item) => (
+            <div
+              key={item}
+              style={{
+                padding: '5px 8px', borderRadius: 5, fontSize: 9,
+                color: 'var(--theme-fg-subtle)',
+                background: 'var(--theme-bg)',
+                border: '1px solid var(--theme-border-subtle)',
+                display: 'flex', alignItems: 'center', gap: 5,
+              }}
+            >
+              <CheckCircle2 size={8} color={c.color} style={{ flexShrink: 0 }} />
+              {item}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}

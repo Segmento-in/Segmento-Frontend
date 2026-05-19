@@ -17,11 +17,11 @@ const footerLinks = [
   {
     title: "Products",
     links: [
-      { name: "Segmento Pulse",    href: "/pulse"    },
-      { name: "Segmento Sense",    href: "/sense"    },
-      { name: "Segmento Resolve",  href: "/resolve"  },
+      { name: "Segmento Pulse", href: "/pulse" },
+      { name: "Segmento Sense", href: "/sense" },
+      { name: "Segmento Resolve", href: "/resolve" },
       { name: "Segmento SprintQL", href: "/sprintql" },
-      { name: "Segmento Collect",  href: "/collect"  },
+      { name: "Segmento Collect", href: "/collect" },
     ],
   },
   {
@@ -59,8 +59,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer-wrapper pt-16 pb-10 relative overflow-hidden border-t border-slate-200 transition-colors duration-500">
-
+    <footer className="pt-16 pb-10 relative overflow-hidden border-t" style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border-subtle)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* GRID */}
@@ -92,16 +91,14 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h4 className="footer-title font-bold mb-5 text-[11px] uppercase tracking-[0.15em]">
-                {column.title}
-              </h4>
-
+              <h4 className="font-bold mb-5 text-[11px] uppercase tracking-[0.15em]" style={{ color: "var(--theme-fg)" }}>{column.title}</h4>
               <ul className="space-y-3">
                 {column.links.map((link, idx) => (
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className="footer-link text-[13px] font-semibold transition-all duration-300 flex items-center hover:text-[#4169E1]"
+                      className="hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
+                      style={{ color: "var(--theme-fg-subtle)" }}
                     >
                       {link.name}
                     </Link>
@@ -112,34 +109,43 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* BOTTOM */}
-        <div className="pt-8 border-t flex flex-col items-center gap-6 footer-bottom">
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t flex flex-col items-center justify-center gap-6" style={{ borderColor: "var(--theme-border-subtle)" }}>
 
-          {/* SOCIAL */}
-          <div className="flex space-x-6">
+          {/* Social Icons */}
+          <div className="flex items-center space-x-6">
             {socialLinks.map((social, idx) => (
               <motion.a
                 key={idx}
                 href={social.href}
                 whileHover={{ y: -3, scale: 1.1 }}
-                className="social-icon transition-all duration-300 hover:text-[#4169E1]"
+                className="hover:text-[#2563EB] transition-colors p-1"
+                style={{ color: "var(--theme-fg-muted)" }}
               >
                 <social.icon className={`${social.size} fill-current`} />
               </motion.a>
             ))}
           </div>
 
-          {/* LEGAL */}
-          <div className="flex space-x-8 text-[12px] font-bold footer-legal">
-            {["Legal", "Privacy", "Terms", "Help"].map((item) => (
-              <Link
-                key={item}
-                href={`/#${item.toLowerCase()}`}
-                className="transition-all duration-300 hover:text-[#4169E1]"
-              >
-                {item}
-              </Link>
-            ))}
+          <div className="flex flex-col items-center justify-center gap-4 w-full">
+            {/* Legal Links */}
+            <div className="flex items-center justify-center space-x-8 text-[12px] font-bold" style={{ color: "var(--theme-fg-subtle)" }}>
+              {['Legal', 'Privacy', 'Terms', 'Help'].map((item) => (
+                <Link
+                  key={item}
+                  href={`/#${item.toLowerCase()}`}
+                  className="hover:text-[#2563EB] transition-colors relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px transition-all group-hover:w-full" style={{ background: "var(--theme-border)" }} />
+                </Link>
+              ))}
+            </div>
+
+            {/* Copyright */}
+            <p className="text-[11px] font-medium text-center" style={{ color: "var(--theme-fg-muted)" }}>
+              © {currentYear} Segmento Inc. All rights reserved.
+            </p>
           </div>
 
           {/* COPYRIGHT */}

@@ -1,309 +1,783 @@
 @import "tailwindcss";
 
-/* ================= UTILITIES ================= */
-.bg-nav { background: var(--nav-bg); }
-.text-nav { color: var(--nav-text); }
+/* ════════════════════════════════════════════════════════════════════════════
+   HYBRID B+C DARK MODE ARCHITECTURE
+   ─────────────────────────────────────────────────────────────────────────
+   Option C (escape hatch): Registers the `dark:` prefix so we can write
+   things like `dark:opacity-50` for structural/non-color edge cases.
+   Think of it as a surgical tool — use sparingly.
 
-/* ================= ROOT (LIGHT MODE - UNCHANGED) ================= */
-:root {
-  --nav-bg: rgba(255,255,255,0.9);
-  --nav-text: #1a202c;
-  --card-bg: #ffffff;
+   Example usage in JSX:
+     <img class="opacity-100 dark:opacity-50" />
+     <div class="block dark:hidden" />
+   ──────────────────────────────────────────────────────────────────────── */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-  --color-button: #2563eb;
-  --color-button-hover: #1d4ed8;
-  --color-button-text: #ffffff;
+/* ════════════════════════════════════════════════════════════════════════════
+   OPTION B: @theme inline
+   ─────────────────────────────────────────────────────────────────────────
+   "inline" = Tailwind reads these at RUNTIME (not compile time).
+   So `bg-background` automatically switches when data-theme changes.
+   These variables point to the [data-theme] vars defined below.
+   ──────────────────────────────────────────────────────────────────────── */
+@theme inline {
+  /* ── Font Families ── */
+  /* These read from the CSS variables injected by next/font in layout.tsx */
+  --font-sans: var(--font-mona-sans);
+  /* body / UI text      */
+  --font-display: var(--font-syne);
+  /* headlines / display */
+  --font-mono: var(--font-dm-mono);
+  /* code / data / meta  */
 
-  --color-background: #ffffff;
-  --bg-blob-1: rgba(147, 210, 255, 0.35);
-  --bg-blob-2: rgba(180, 240, 200, 0.28);
-  --bg-blob-3: rgba(255, 240, 170, 0.22);
-  --color-background-secondary: #D8EDFF;
-  --color-background-tertiary: #E4F2FF;
+  /* ── Semantic Color Tokens (proxies → [data-theme] vars) ── */
+  --color-background: var(--theme-bg);
+  --color-surface: var(--theme-bg-surface);
+  --color-surface-high: var(--theme-bg-surface-high);
+  --color-foreground: var(--theme-fg);
+  --color-foreground-subtle: var(--theme-fg-subtle);
+  --color-foreground-muted: var(--theme-fg-muted);
+  --color-brand: var(--theme-brand);
+  --color-brand-hover: var(--theme-brand-hover);
+  --color-brand-fg: var(--theme-brand-fg);
+  --color-brand-glow: var(--theme-brand-glow);
+  --color-secondary: var(--theme-secondary);
+  --color-border: var(--theme-border);
+  --color-border-subtle: var(--theme-border-subtle);
+  --color-success: var(--theme-success);
+  --color-error: var(--theme-error);
+  --color-warning: var(--theme-warning);
 
-  --color-heading: #0f172a;
-  --color-body: #334155;
-  --color-subtle: #64748b;
+  /* ── Spacing Scale — DESIGN.md baseline: 4px ── */
+  --spacing-xs: 0.5rem;
+  /* 8px  */
+  --spacing-sm: 1rem;
+  /* 16px */
+  --spacing-md: 1.5rem;
+  /* 24px */
+  --spacing-lg: 2.5rem;
+  /* 40px */
+  --spacing-xl: 4rem;
+  /* 64px */
+  --spacing-gutter: 1.5rem;
+  /* 24px gutter between bento tiles */
 
-  --color-brand: #2563eb;
-  --color-brand-hover: #1d4ed8;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
+  /* ── Border Radius Scale — DESIGN.md ── */
+  --radius-sm: 0.25rem;
+  /* 4px  — small chips/tags  */
+  --radius-inner: 0.5rem;
+  /* 8px  — nested inner cards */
+  --radius-bento: 0.75rem;
+  /* 12px — primary bento tiles */
+  --radius-lg: 1rem;
+  /* 16px — large modals        */
+  --radius-pill: 9999px;
+  /* pill — buttons / toggles   */
+}
 
-  --color-border: #e2e8f0;
-  --color-border-light: #f1f5f9;
+/* ════════════════════════════════════════════════════════════════════════════
+   LIGHT THEME
+   Source: DESIGN.md color palette — "High-Contrast Light" foundation
+   Personality: Brutalist Minimalism — functional, precise, airy
+   ──────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* Backgrounds */
+  --theme-bg: #fcf8ff;
+  /* page canvas          */
+  --theme-bg-surface: #f0ecf4;
+  /* bento tile fill      */
+  --theme-bg-surface-high: #eae7ee;
+  /* nested inner cards   */
 
-  /* 🔥 NEW (IMPORTANT) */
-  --card-bg: #ffffff;
+  /* Text */
+  --theme-fg: #1b1b20;
+  /* primary text — deep charcoal */
+  --theme-fg-subtle: #454654;
+  /* secondary text               */
+  --theme-fg-muted: #757686;
+  /* placeholder / captions       */
 
-  /* Mega menu */
+  /* Brand — Electric Indigo */
+  --theme-brand: #384cd3;
+  --theme-brand-hover: #1c32be;
+  --theme-brand-fg: #ffffff;
+  --theme-brand-glow: rgba(56, 76, 211, 0.15);
+
+  /* Secondary accent */
+  --theme-secondary: #236582;
+
+  /* Borders — 1px only, no heavy shadows per DESIGN.md */
+  --theme-border: #c5c5d7;
+  --theme-border-subtle: #e4e1e9;
+
+  /* Status */
+  --theme-success: #1a7f5a;
+  --theme-error: #ba1a1a;
+  --theme-warning: #7a5900;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   DARK THEME
+   Source: Blueprint v2.0 visual language
+   Base: #0a0a0f · Brand: #5B6EF5 (Electric Indigo per DESIGN.md)
+   Personality: AI-native, deep dark, precise
+   ──────────────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  /* Backgrounds — layered depth system */
+  --theme-bg: #0a0a0f;
+  /* page canvas — near black     */
+  --theme-bg-surface: #111118;
+  /* bento tile fill              */
+  --theme-bg-surface-high: #18181f;
+  /* nested inner cards           */
+
+  /* Text */
+  --theme-fg: #f0f0f5;
+  /* primary text — off-white     */
+  --theme-fg-subtle: #a0a0b5;
+  /* secondary text               */
+  --theme-fg-muted: #6b6b82;
+  /* placeholder / captions       */
+
+  /* Brand — Electric Indigo (same hue, dark-optimized brightness) */
+  --theme-brand: #5b6ef5;
+  --theme-brand-hover: #4a5ce8;
+  --theme-brand-fg: #ffffff;
+  --theme-brand-glow: rgba(91, 110, 245, 0.22);
+
+  /* Secondary accent — cyan/sky */
+  --theme-secondary: #a0dcfd;
+
+  /* Borders — thin and subtle on dark */
+  --theme-border: #2a2a3a;
+  --theme-border-subtle: #1e1e2a;
+
+  /* Status */
+  --theme-success: #10e898;
+  --theme-error: #ff4d4f;
+  --theme-warning: #f59e0b;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   NAVBAR COMPATIBILITY TOKENS
+   ─────────────────────────────────────────────────────────────────────────
+   The production Navbar.tsx uses a separate CSS variable namespace
+   (--nav-*, --color-*, --mega-*) inherited from the cloned git repo.
+   These are aliased here to the existing --theme-* token system so we don't
+   maintain two separate palettes.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* Light theme aliases */
+[data-theme="light"] {
+  /* Nav */
+  --nav-bg: rgba(252, 248, 255, 0.90);
+  --nav-text: var(--theme-fg);
+
+  /* Generic color aliases */
+  --color-brand: var(--theme-brand);
+  --color-brand-hover: var(--theme-brand-hover);
+  --color-background: var(--theme-bg);
+  --color-background-secondary: var(--theme-bg-surface);
+  --color-background-tertiary: var(--theme-bg-surface-high);
+  --color-heading: var(--theme-fg);
+  --color-body: var(--theme-fg-subtle);
+  --color-border: var(--theme-border);
+  --color-border-light: var(--theme-border-subtle);
+
+  /* Mega-menu panel */
   --mega-bg: #ffffff;
-  --mega-border: rgba(0,0,0,0.08);
+  --mega-border: rgba(0, 0, 0, 0.08);
   --mega-item-hover: #f4f6f9;
   --mega-icon-bg: #f0f2f5;
-  --mega-icon-border: rgba(0,0,0,0.07);
+  --mega-icon-border: rgba(0, 0, 0, 0.07);
   --mega-icon-color: #555565;
   --mega-label: #9fa6b0;
   --mega-title: #111827;
   --mega-subtitle: #6b7280;
-
-  --font-family-sans: "Inter", sans-serif;
-
-  --tracking-tightest: -0.02em;
-  --leading-relaxed: 1.6;
-
-  --shadow-soft: 0 8px 30px rgba(0,0,0,0.04);
-  --shadow-card: 0 8px 40px rgba(0,0,0,0.04);
-  --shadow-card-hover: 0 20px 40px rgba(0,0,0,0.08);
-
-  --shadow-button: 0 4px 0 #1d4ed8;
-  --shadow-button-active: 0 2px 0 #1d4ed8;
-
-  --ticker-bg: #ffffff;
-  --ticker-text: #0f172a;
-  --ticker-subtle: #94a3b8;
-  --ticker-divider: #e2e8f0;
 }
 
-/* ================= DARK MODE ================= */
+/* Dark theme aliases */
 [data-theme="dark"] {
-  --color-background: #0b1120;
-  --bg-blob-1: rgba(147, 210, 255, 0.18);
-  --bg-blob-2: rgba(180, 240, 200, 0.14);
-  --bg-blob-3: rgba(255, 240, 170, 0.11);
-  --color-background-secondary: #111827;
-  --color-background-tertiary: #1e293b;
+  /* Nav */
+  --nav-bg: rgba(10, 10, 15, 0.92);
+  --nav-text: var(--theme-fg);
 
-  --color-heading: #f8fafc;
-  --color-body: #cbd5e1;
-  --color-subtle: #94a3b8;
+  /* Generic color aliases */
+  --color-brand: var(--theme-brand);
+  --color-brand-hover: var(--theme-brand-hover);
+  --color-background: var(--theme-bg);
+  --color-background-secondary: var(--theme-bg-surface);
+  --color-background-tertiary: var(--theme-bg-surface-high);
+  --color-heading: var(--theme-fg);
+  --color-body: var(--theme-fg-subtle);
+  --color-border: var(--theme-border);
+  --color-border-light: var(--theme-border-subtle);
 
-  --color-brand: #38bdf8;
-  --color-brand-hover: #0ea5e9;
-
-  --color-button: #38bdf8;
-  --color-button-hover: #0ea5e9;
-  --color-button-text: #ffffff;
-
-  --color-border: #334155;
-  --color-border-light: rgba(255,255,255,0.08);
-
-  --nav-bg: rgba(11,17,32,0.92);
-  --nav-text: #f8fafc;
-
-  /* EXACT PULSE STYLE CARD */
-  --card-bg: #1e293b;
-
-  /* Mega menu dark */
+  /* Mega-menu panel — dark */
   --mega-bg: #1a2540;
-  --mega-border: rgba(255,255,255,0.08);
-  --mega-item-hover: rgba(255,255,255,0.06);
-  --mega-icon-bg: rgba(255,255,255,0.07);
-  --mega-icon-border: rgba(255,255,255,0.1);
+  --mega-border: rgba(255, 255, 255, 0.08);
+  --mega-item-hover: rgba(255, 255, 255, 0.06);
+  --mega-icon-bg: rgba(255, 255, 255, 0.07);
+  --mega-icon-border: rgba(255, 255, 255, 0.10);
   --mega-icon-color: #94a3b8;
   --mega-label: #64748b;
   --mega-title: #f1f5f9;
   --mega-subtitle: #94a3b8;
-
-  --shadow-soft: 0 4px 10px rgba(0,0,0,0.4);
-  --shadow-card: 0 4px 12px rgba(0,0,0,0.45);
-  --shadow-card-hover: 0 12px 30px rgba(0,0,0,0.6);
-
-  --ticker-bg: #111827;
-  --ticker-text: #f8fafc;
-  --ticker-subtle: #94a3b8;
-  --ticker-divider: #334155;
 }
 
-/* ================= BASE ================= */
+/* ════════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   Global defaults applied to every HTML element on every page.
+   ──────────────────────────────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-body);
-    font-family: var(--font-family-sans);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--theme-bg);
+    color: var(--theme-fg);
+    /* Mona Sans is the default body font */
+    font-family: var(--font-mona-sans, system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Subtle radial glow from the top — gives the page depth on dark mode */
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,
+        rgba(91, 110, 245, 0.06),
+        transparent);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color-heading);
+  /* Headlines use Syne — the display typeface */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-syne, system-ui, sans-serif);
     font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--theme-fg);
+    line-height: 1.1;
   }
 
   p {
-    line-height: var(--leading-relaxed);
+    line-height: 1.6;
+    color: var(--theme-fg-subtle);
+  }
+
+  /* Accessible focus ring — styled to brand color, not browser default */
+  :focus-visible {
+    outline: 2px solid var(--theme-brand);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar — minimal, matches dark theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--theme-bg-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--theme-border);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-fg-muted);
+  }
+
+  /* Page entrance fade */
+  @keyframes fade-in-page {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-page-enter {
+    animation: fade-in-page 0.45s ease-out both;
   }
 }
 
+/* ════════════════════════════════════════════════════════════════════════════
+   CUSTOM UTILITIES
+   ──────────────────────────────────────────────────────────────────────── */
+@layer utilities {
 
+  /* ── Bento Grid System ─────────────────────────────────────────────────
+     Think of a bento box: different-sized compartments in a fixed grid.
+     12-column grid. Each tile snaps to the grid. No free-floating cards.
+     Source: DESIGN.md — "Fixed-Fluid Bento Grid" model
+   ─────────────────────────────────────────────────────────────────────── */
 
-/* ================= UTIL CLASSES ================= */
+  /* The wrapper grid container */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--spacing-gutter, 1.5rem);
+  }
 
-/* Backgrounds */
-.bg-primary { background-color: var(--color-background); }
-.bg-secondary { background-color: var(--color-background-secondary); }
-.bg-tertiary { background-color: var(--color-background-tertiary); }
+  /* A single tile — the fundamental unit of the bento layout */
+  .bento-tile {
+    border-radius: var(--radius-bento);
+    /* 12px — DESIGN.md spec */
+    border: 1px solid var(--theme-border);
+    /* 1px only — no shadows  */
+    background-color: var(--theme-bg-surface);
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
+    /* one soft lift layer */
+    padding: 1.5rem;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
 
-/* Text */
-.text-primary { color: var(--color-heading); }
-.text-body { color: var(--color-body); }
-.text-muted { color: var(--color-subtle); }
+  /* Hover: border shifts to brand (darkens), no expanding shadow — brutalist rule */
+  .bento-tile:hover {
+    border-color: var(--theme-brand);
+    box-shadow: 0px 4px 24px var(--theme-brand-glow);
+  }
 
-/* Borders */
-.border-light { border-color: var(--color-border-light); }
-.border-primary { border-color: var(--color-border); }
+  /* Nested inner card — tighter radius per DESIGN.md */
+  .bento-tile-inner {
+    border-radius: var(--radius-inner);
+    border: 1px solid var(--theme-border-subtle);
+    background-color: var(--theme-bg-surface-high);
+    padding: 1rem;
+  }
 
-/* ================= COMPONENT STYLES ================= */
+  /* Column span helpers (use with bento-grid parent) */
+  .bento-col-3 {
+    grid-column: span 3;
+  }
 
-/* Buttons */
-.btn-3d-primary {
-  background-color: var(--color-brand);
-  color: white;
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow-button);
-  transition: all 0.2s ease;
-}
+  /* 1/4 width */
+  .bento-col-4 {
+    grid-column: span 4;
+  }
 
+  /* 1/3 width */
+  .bento-col-6 {
+    grid-column: span 6;
+  }
 
+  /* 1/2 width */
+  .bento-col-8 {
+    grid-column: span 8;
+  }
 
-.btn-3d-primary:hover {
-  background-color: var(--color-brand-hover);
-  transform: translateY(2px);
-  box-shadow: var(--shadow-button-active);
-}
+  /* 2/3 width */
+  .bento-col-9 {
+    grid-column: span 9;
+  }
 
-/* Cards */
-.card-3d {
-  background-color: var(--card-bg);
-  border: 1px solid var(--color-border-light);
-  border-radius: 1.5rem;
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s ease;
-}
+  /* 3/4 width */
+  .bento-col-12 {
+    grid-column: span 12;
+  }
 
-/* Pill Tag */
-.pill-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background-color: var(--color-background-secondary);
-  color: var(--color-brand);
-  border: 1px solid var(--color-border-light);
-}
-/* DARK MODE CARD TEXT FIX */
-[data-theme="dark"] .card-3d h1,
-[data-theme="dark"] .card-3d h2,
-[data-theme="dark"] .card-3d h3,
-[data-theme="dark"] .card-3d h4,
-[data-theme="dark"] .card-3d h5,
-[data-theme="dark"] .card-3d h6 {
-  color: #f8fafc !important;
-}
+  /* full width */
 
-[data-theme="dark"] .card-3d p,
-[data-theme="dark"] .card-3d span,
-[data-theme="dark"] .card-3d li,
-[data-theme="dark"] .card-3d div {
-  color: #cbd5e1 !important;
-}
+  /* Mobile: all spans collapse to single column */
+  @media (max-width: 768px) {
 
-.card-3d:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
-}
+    .bento-col-3,
+    .bento-col-4,
+    .bento-col-6,
+    .bento-col-8,
+    .bento-col-9,
+    .bento-col-12 {
+      grid-column: span 12;
+    }
+  }
 
+  /* ── 1px Border Utilities ──────────────────────────────────────────────
+     DESIGN.md: "Physical separation is achieved through 1px solid borders."
+     No thick borders, no heavy drop shadows.
+   ─────────────────────────────────────────────────────────────────────── */
+  .border-theme {
+    border: 1px solid var(--theme-border);
+  }
 
-/* Navbar */
-.glass-nav {
-  background: var(--nav-bg);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
-}
+  .border-theme-subtle {
+    border: 1px solid var(--theme-border-subtle);
+  }
 
-/* ================= MEGA MENU ================= */
-.mega-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  transition: background 0.15s ease;
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-}
-.mega-item:hover {
-  background: var(--mega-item-hover);
-}
-.mega-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--mega-icon-bg);
-  border: 1px solid var(--mega-icon-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.15s ease;
-}
-.mega-item:hover .mega-icon-box {
-  background: var(--mega-item-hover);
-}
+  .border-theme-brand {
+    border: 1px solid var(--theme-brand);
+  }
 
-/* ================= SCROLLBAR ================= */
-::-webkit-scrollbar {
-  width: 7px;
-}
+  /* AI-native gradient border — flags AI-powered features per DESIGN.md */
+  .border-ai {
+    border: 1px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image:
+      linear-gradient(var(--theme-bg-surface), var(--theme-bg-surface)),
+      linear-gradient(135deg, var(--theme-brand), var(--theme-secondary));
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--color-background-secondary);
-}
+  /* ── Pill Button System ────────────────────────────────────────────────
+     DESIGN.md: "All interactive action elements are pill-shaped."
+     The visual contrast between rectangular tiles and circular buttons
+     makes interactive zones instantly recognizable.
+   ─────────────────────────────────────────────────────────────────────── */
 
-::-webkit-scrollbar-thumb {
-  background: var(--color-subtle);
-  border-radius: 5px;
-}
+  /* Primary filled pill — main CTA */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--theme-brand);
+    color: var(--theme-brand-fg);
+    font-family: var(--font-mona-sans, sans-serif);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.15s ease;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-body);
-}
+  .btn-primary:hover {
+    background-color: var(--theme-brand-hover);
+    box-shadow: 0 0 28px var(--theme-brand-glow);
+  }
 
-/* ================= THEME TOGGLE ================= */
-.theme-switch {
-  position: relative;
-  width: 48px;
-  height: 24px;
-}
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
 
-.theme-switch .slider {
-  background-color: var(--color-subtle);
-}
-/* ================= LOGO SWITCHING ================= */
+  /* Secondary outlined pill — ghost button */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    color: var(--theme-fg);
+    font-family: var(--font-mona-sans, sans-serif);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    border: 1px solid var(--theme-border);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      transform 0.15s ease;
+  }
 
-/* Default: Show light, hide dark */
-.logo-dark {
-  display: none !important;
-}
+  .btn-secondary:hover {
+    border-color: var(--theme-fg-subtle);
+    background-color: var(--theme-bg-surface);
+  }
 
-.logo-light {
-  display: block !important;
-}
+  .btn-secondary:active {
+    transform: scale(0.97);
+  }
 
-/* When data-theme is dark: Show dark, hide light */
-[data-theme="dark"] .logo-dark {
-  display: block !important;
-}
+  /* ── Typography Scale Utilities ────────────────────────────────────────
+     Matches DESIGN.md typography spec exactly.
+     Syne for display/headlines. Mona Sans for body. DM Mono for data.
+   ─────────────────────────────────────────────────────────────────────── */
 
-[data-theme="dark"] .logo-light {
-  display: none !important;
+  /* Big hero headline — clamp() makes it responsive automatically */
+  .text-display-lg {
+    font-family: var(--font-syne, sans-serif);
+    font-size: clamp(2.75rem, 5.5vw, 3.75rem);
+    /* 44px → 60px — matches target visual weight */
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--theme-fg);
+  }
+
+  /* Section headlines */
+  .text-headline-md {
+    font-family: var(--font-syne, sans-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--theme-fg);
+  }
+
+  .text-headline-sm {
+    font-family: var(--font-syne, sans-serif);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--theme-fg);
+  }
+
+  /* Body text */
+  .text-body-lg {
+    font-family: var(--font-mona-sans, sans-serif);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--theme-fg-subtle);
+  }
+
+  .text-body-md {
+    font-family: var(--font-mona-sans, sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--theme-fg-subtle);
+  }
+
+  /* DM Mono — signals "machine data" to the user */
+  .text-technical {
+    font-family: var(--font-dm-mono, monospace);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  /* All-caps label — used in bento tile headers and tags */
+  .text-label-caps {
+    font-family: var(--font-dm-mono, monospace);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Compliance / Status Chip ──────────────────────────────────────────
+     Small pill-shaped tags for GDPR, DPDP, HIPAA badges seen in blueprint.
+     Low-saturation background + high-contrast text per DESIGN.md.
+   ─────────────────────────────────────────────────────────────────────── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-bg-surface-high);
+    color: var(--theme-fg-subtle);
+    font-family: var(--font-dm-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* PII redaction chip — used inside the Sense UI mockup (green) */
+  .chip-redacted {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background-color: rgba(16, 232, 152, 0.12);
+    border: 1px solid rgba(16, 232, 152, 0.3);
+    color: #10e898;
+    font-family: var(--font-dm-mono, monospace);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Glass Nav ─────────────────────────────────────────────────────────
+     Sticky navbar glassmorphism effect per ui-ux-pro-max skill.
+   ─────────────────────────────────────────────────────────────────────── */
+  .glass-nav {
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--theme-border-subtle);
+  }
+
+  /* Light mode override for glass nav */
+  [data-theme="light"] .glass-nav {
+    background: rgba(252, 248, 255, 0.80);
+    border-bottom: 1px solid var(--theme-border-subtle);
+  }
+
+  /* ── Section Layout Helpers ────────────────────────────────────────────*/
+  /* Max-width container with consistent horizontal padding */
+  .section-container {
+    max-width: 80rem;
+    /* 1280px */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .section-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  /* ── Marquee Animation (logo strip) ───────────────────────────────────
+     The scrolling partner logos strip in the blueprint.
+     Pure CSS — no library needed.
+   ─────────────────────────────────────────────────────────────────────── */
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    /* wider than the viewport — content repeats */
+    animation: marquee-scroll 28s linear infinite;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+    /* pause on hover — nice touch */
+  }
+
+  /* ── Scanner Line Animation (PII sweep in Sense mockup) ───────────────*/
+  @keyframes scanner-sweep {
+    0% {
+      top: 0%;
+      opacity: 0;
+    }
+
+    5% {
+      opacity: 1;
+    }
+
+    95% {
+      opacity: 1;
+    }
+
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  .scanner-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        var(--theme-brand),
+        transparent);
+    animation: scanner-sweep 2.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* ── Touch Targets — accessibility minimum 44×44px ───────────────────*/
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* ── Navbar Utilities ──────────────────────────────────────────────────
+     Used by the production Navbar.tsx (mega-menu variant).
+     .bg-nav   — scrolled-state background, reads --nav-bg token
+     .mega-item — each link row inside the mega panel
+     .mega-icon-box — the small icon square in each mega row
+   ──────────────────────────────────────────────────────────────────────*/
+  .bg-nav {
+    background: var(--nav-bg);
+  }
+
+  .mega-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    transition: background 0.15s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .mega-item:hover {
+    background: var(--mega-item-hover);
+  }
+
+  .mega-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--mega-icon-bg);
+    border: 1px solid var(--mega-icon-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+  }
+
+  .mega-item:hover .mega-icon-box {
+    background: var(--mega-item-hover);
+  }
+
+  /* ── Logo Theme Switching ───────────────────────────────────────────────
+     .logo-light — visible on light theme, hidden on dark
+     .logo-dark  — visible on dark theme, hidden on light
+     Pure display toggling — no position tricks needed.
+     The parent <Link> already has `relative w-[180px] h-[28px]` via Tailwind.
+   ──────────────────────────────────────────────────────────────────────*/
+  .logo-light {
+    display: block !important;
+  }
+
+  .logo-dark {
+    display: none !important;
+  }
+
+  [data-theme="dark"] .logo-light {
+    display: none !important;
+  }
+
+  [data-theme="dark"] .logo-dark {
+    display: block !important;
+  }
 }
