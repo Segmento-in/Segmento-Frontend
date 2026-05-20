@@ -20,7 +20,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/shadow1.png",
+  image: "/images/director1.png",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -43,7 +43,7 @@ const team = [
     name: "Thambabattula Mohan",
     role: "Data Developer",
     bio: "Thambabattula Mohan is a Data Developer at Segmento, focused on designing and building robust data pipelines, databases, and analytical systems that support data-driven decision-making.",
-    image: "/shadow1.png",
+    image: "/images/mohan.png",
     linkedin: "http://www.linkedin.com/in/mohan-thambabattula",
   },
   {
@@ -56,209 +56,672 @@ const team = [
 
 ];
 
+const milestones = [
+  {
+    month: "NOV",
+    year: "2025",
+    title: "Segmento is Founded",
+    description:
+      "On November 27, 2025, Segmento was incorporated with a bold mandate: build privacy-first, AI-native data products for the modern enterprise — where data finds itself, protects itself, and works for you.",
+    color: "#5b6ef5",
+  },
+  {
+    month: "DEC",
+    year: "2025",
+    title: "Segmento Sense v1 Ships",
+    description:
+      "Our first product — an AI-powered data classification and PII redaction engine — reaches production. 99.8% AI confidence. Fully client-side processing. No sensitive data ever leaves your environment.",
+    color: "#8b5cf6",
+  },
+  {
+    month: "JAN",
+    year: "2026",
+    title: "Segmento Pulse Goes Live",
+    description:
+      "Segmento Pulse launches on January 10, 2026 — a real-time technology intelligence hub delivering curated AI, cloud, and data privacy news directly to enterprise teams worldwide.",
+    color: "#3b82f6",
+  },
+  {
+    month: "FEB",
+    year: "2026",
+    title: "Collect & Resolve Join the Platform",
+    description:
+      "Segmento Collect (universal data pipeline with 24-hour recovery window) and Segmento Resolve (DSAR Kanban board with 98% SLA) expand the suite — giving enterprises a full end-to-end data governance stack.",
+    color: "#06b6d4",
+  },
+  {
+    month: "MAY",
+    year: "2026",
+    title: "Five Products. One Platform.",
+    description:
+      "Segmento SprintQL — a multiplayer collaborative retrospectives board — completes the platform suite. Five AI-native products, one shared privacy-first foundation, built to power the modern data-driven enterprise.",
+    color: "#10b981",
+  },
+];
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
-        <div className="absolute top-0 right-0 w-125 h-125 bg-blue-50/50 blur-[120px] rounded-full -z-10" />
+      {/* Hero Section — Investate-inspired */}
+      <section className="pt-32 pb-0 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-          <div className="text-left animate-in fade-in slide-in-from-left-4 duration-1000">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight leading-[1.05]" style={{ color: "var(--theme-fg)" }}>
-              Securing the World's Data with <br />
-              <span
-                style={{
-                  color: "var(--color-button)",
-                }}
-              >
-                Transparent AI
-              </span>
-            </h1>
-            <p className="text-lg text-foreground-subtle max-w-[500px] mb-10 leading-relaxed font-medium">
-              Segmento is committed to engineering-first, explainable security, from real-world data intelligence for global organizations.
+        {/* Subtle brand glow top-left */}
+        <div
+          className="absolute top-0 left-0 w-[600px] h-[400px] -z-10 pointer-events-none"
+          style={{ background: "radial-gradient(ellipse at top left, var(--theme-brand-glow), transparent 70%)" }}
+        />
+
+        <div className="section-container">
+
+          {/* ── Row 1: Brand label + Headline | Description ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="mb-14"
+          >
+            {/* Brand eyebrow label */}
+            <p
+              className="text-label-caps mb-6"
+              style={{ color: "var(--theme-brand)" }}
+            >
+              We are Segmento
             </p>
-          </div>
 
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center rounded-full overflow-hidden">
-              <div className="absolute inset-12 bg-blue-100/30 blur-[80px] rounded-full" />
-              <motion.div
-                animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 8, repeat: Infinity }}
-                className="absolute inset-0 border border-blue-100 rounded-full"
-              />
-              <div className="relative z-10 w-full h-full flex items-center justify-center p-8">
-                <img
-                  src="/brain1.png"
-                  alt="Neural Network Intelligence"
-                  className="w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(59,130,246,0.25)]"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            {/* 2-column: headline left, description right */}
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 items-end">
 
-      {/* Mission Section */}
-      <section className="py-24 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight" style={{ color: "var(--theme-fg)" }}>Mission</h2>
-          <div className="relative group p-1.5 rounded-3xl bg-transparent transition-all duration-500 overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.08)]">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-20 bg-linear-to-r from-blue-300 via-white to-blue-200 opacity-0 group-hover:opacity-100 blur-[20px] transition-opacity duration-700"
-            />
-            <div className="relative z-10 bento-tile transition-all duration-500" style={{ padding: "3rem" }}>
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-8 leading-[1.15]">
-                Our Mission: Moving Beyond <br />
-                <span className="text-brand transition-colors duration-500">Black-Box Security</span>
-              </h3>
-              <p className="text-lg text-foreground-subtle leading-relaxed max-w-3xl mx-auto font-medium">
-                Segmento is transparent approach to enhance the data endure black-box security, and soscd enable all roomdeats, what alioit your ultra world that some orienting mares the data to mindent explainable security engineening, our global software resources overs the tinrh to choose and clear organization.
+              {/* Left — big punchy headline (DOM first = mobile stacks correctly) */}
+              <h1 className="text-display-lg leading-[1.08]" style={{ color: "var(--theme-fg)" }}>
+                We set out to build{" "}
+                <span style={{ color: "var(--theme-fg-subtle)" }}>
+                  a new kind of data intelligence.
+                </span>
+              </h1>
+
+              {/* Right — short description (DOM second = sits right on desktop) */}
+              <p
+                className="text-body-lg lg:pb-2"
+                style={{ color: "var(--theme-fg-subtle)" }}
+              >
+                Together — the engineers and enterprises of Segmento — we are
+                reinventing how sensitive data is found, protected, and
+                orchestrated, end-to-end.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      {/* Leadership Section */}
-      <section className="py-32" style={{ background: "var(--theme-bg-surface)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight" style={{ color: "var(--theme-fg)" }}>Leadership</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto font-medium">The visionary team behind Segmento's privacy-centric data intelligence.</p>
-          </div>
-
-          {/* Featured Director Card - Colorful and Balanced */}
-          <div className="mb-20">
-            <div className="max-w-4xl mx-auto bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
-              <div className="grid md:grid-cols-3 items-center">
-                <div className="md:col-span-1 aspect-square relative overflow-hidden bg-surface-high">
-                  <img
-                    src={director.image}
-                    alt={director.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-20"
-                  />
-                  <div className="absolute inset-0 bg-brand-glow pointer-events-none"></div>
-                </div>
-                <div className="md:col-span-2 p-8 md:p-10">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-1">{director.name}</h3>
-                      <p className="text-brand font-bold uppercase tracking-widest text-[10px]">{director.role}</p>
-                    </div>
-                    <a href={director.linkedin} target="_blank" rel="noopener noreferrer" className="text-foreground-muted hover:text-[#0077b5]">
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  </div>
-                  <p className="text-sm text-foreground-subtle leading-relaxed font-medium">{director.bio}</p>
-                </div>
-              </div>
+          {/* ── Row 2: Two side-by-side photos ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+            className="grid grid-cols-2 gap-4 lg:gap-6"
+          >
+            {/* Photo left — team celebration */}
+            <div className="relative overflow-hidden rounded-xl lg:rounded-2xl aspect-[4/3] w-full">
+              <img
+                src="/hero-team.png"
+                alt="Segmento team celebrating a milestone"
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+              {/* Thin brand-tinted overlay on hover */}
+              <div
+                className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
+                style={{ background: "var(--theme-brand-glow)" }}
+              />
             </div>
-          </div>
 
-          {/* Team Grid - Reduced height, Colorful, and Full Bio Display */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member) => (
-              <div key={member.name} className="bento-tile group hover:-translate-y-2 transition-all duration-300" style={{ padding: 0 }}>
-                {/* aspect-[16/10] makes the image shorter and wider */}
-                <div className={`aspect-[16/16] w-full relative overflow-hidden bg-surface-high`}>
+            {/* Photo right — collaboration / workspace */}
+            <div className="relative overflow-hidden rounded-xl lg:rounded-2xl aspect-[4/3] w-full">
+              <img
+                src="/hero-workspace.png"
+                alt="Segmento team collaborating at work"
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
+                style={{ background: "var(--theme-brand-glow)" }}
+              />
+            </div>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* Our Story Section — editorial asymmetric layout */}
+      <section className="py-24 lg:py-32 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
+
+        {/* Faint divider line top */}
+        <div className="section-container">
+          <div
+            className="w-full h-px mb-16"
+            style={{ background: "var(--theme-border)" }}
+          />
+        </div>
+
+        <div className="section-container">
+          {/* Asymmetric grid: 2fr left (heading) | 3fr right (content) */}
+          <div className="grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-20">
+
+            {/* ── LEFT: Section heading ── */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <h2
+                className="text-headline-md lg:text-4xl font-bold tracking-tight flex items-center gap-2"
+                style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)" }}
+              >
+                Our Story
+                <span
+                  className="text-2xl font-light"
+                  style={{ color: "var(--theme-brand)" }}
+                >
+                  ↗
+                </span>
+              </h2>
+            </motion.div>
+
+            {/* ── RIGHT: Story paragraphs + founder quote ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+            >
+              {/* Story body paragraphs */}
+              <div className="space-y-5 mb-10">
+                <p
+                  className="text-body-lg leading-relaxed"
+                  style={{ color: "var(--theme-fg-subtle)" }}
+                >
+                  Segmento was born on{" "}
+                  <span style={{ color: "var(--theme-fg)", fontWeight: 600 }}>
+                    November 27, 2025
+                  </span>{" "}
+                  — an auspicious day that marked the beginning of something
+                  different. Our mission from day one was unambiguous: build
+                  privacy-first, AI-native data products that solve real
+                  enterprise challenges without compromise.
+                </p>
+
+                <p
+                  className="text-body-lg leading-relaxed"
+                  style={{ color: "var(--theme-fg-subtle)" }}
+                >
+                  We started by asking a hard question: why should an enterprise
+                  have to send raw sensitive data to a third party just to
+                  understand it? Every existing tool required data to leave its
+                  origin — creating a hidden liability. Segmento&apos;s answer was
+                  to build the world&apos;s first fully{" "}
+                  <span style={{ color: "var(--theme-fg)", fontWeight: 600 }}>
+                    client-side data intelligence platform
+                  </span>
+                  . Data finds, classifies, and governs itself — without ever
+                  leaving your environment.
+                </p>
+
+                <p
+                  className="text-body-lg leading-relaxed"
+                  style={{ color: "var(--theme-fg-subtle)" }}
+                >
+                  Within weeks of launch, we shipped{" "}
+                  <span style={{ color: "var(--theme-fg)", fontWeight: 600 }}>
+                    Segmento Sense
+                  </span>{" "}
+                  — our AI-native data classification framework — and followed in
+                  January 2026 with{" "}
+                  <span style={{ color: "var(--theme-fg)", fontWeight: 600 }}>
+                    Segmento Pulse
+                  </span>
+                  , a real-time technology intelligence hub. Both products share
+                  the same foundation: intelligence that works for you, not
+                  against your privacy.
+                </p>
+              </div>
+
+              {/* Thin separator */}
+              <div
+                className="w-full h-px mb-8"
+                style={{ background: "var(--theme-border-subtle)" }}
+              />
+
+              {/* Founder chip: avatar + name + role */}
+              <div className="flex items-center gap-3 mb-5">
+                <div
+                  className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border"
+                  style={{
+                    borderColor: "var(--theme-border)",
+                    background: "var(--theme-bg-surface-high)",
+                  }}
+                >
                   <img
-                    src={member.image}
-                    alt={member.name}
-                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${member.name === "Thambabattula Mohan" ? "opacity-20" : ""}`}
+                    src="/images/director1.png"
+                    alt="Geetha Reddy K"
+                    className="w-full h-full object-cover object-top"
                   />
-                  {member.name === "Thambabattula Mohan" && (
-                    <div className="absolute inset-0 bg-brand-glow pointer-events-none" />
-                  )}
-                  <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                    <div className="flex items-center w-full">
-                      {/* Other elements like member name or role */}
-
-
-                      {/* The LinkedIn icon with ml-auto will now sit on the far right */}
-                      <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/40 via-transparent to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                        <div className="flex items-center w-full">
-                          <a href={member.linkedin} className="ml-auto flex-shrink-0">
-                            <Linkedin className="w-4 h-4 text-white" />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-foreground mb-1 group-hover:text-brand transition-colors">{member.name}</h3>
-                  <p className="text-brand text-[10px] font-bold uppercase tracking-widest mb-3">{member.role}</p>
-                  {/* line-clamp removed to show full info */}
-                  <p className="text-foreground-subtle text-xs leading-relaxed">{member.bio}</p>
+                <div>
+                  <p
+                    className="font-semibold text-sm leading-tight"
+                    style={{ color: "var(--theme-fg)", fontFamily: "var(--font-mona-sans)" }}
+                  >
+                    Geetha Reddy K
+                  </p>
+                  <p
+                    className="text-label-caps mt-0.5"
+                    style={{ color: "var(--theme-fg-muted)" }}
+                  >
+                    Executive Director &amp; Founder
+                  </p>
                 </div>
               </div>
-            ))}
+
+              {/* Pull quote */}
+              <blockquote
+                className="text-body-md italic leading-relaxed"
+                style={{
+                  color: "var(--theme-fg-subtle)",
+                  fontFamily: "var(--font-mona-sans)",
+                  borderLeft: "2px solid var(--theme-brand)",
+                  paddingLeft: "1.25rem",
+                }}
+              >
+                &ldquo;We didn&apos;t build Segmento to add another tool to the
+                stack. We built it to give enterprises the foundation they never
+                had — one where data finds itself, protects itself, and works for
+                you.&rdquo;
+              </blockquote>
+            </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Leadership Section — Nectar-style glassmorphism grid */}
+      <section className="py-24 lg:py-32" style={{ background: "var(--theme-bg-surface)" }}>
+        <div className="section-container">
+
+          {/* ── Section header ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bento-tile flex flex-col lg:flex-row items-center justify-between gap-12"
-            style={{ padding: "3rem", borderRadius: "1.5rem" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center mb-16"
           >
-            {/* Background Accent */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-50/50 blur-[100px] rounded-full -z-10" />
-
-            <h2 className="text-4xl font-extrabold text-foreground tracking-tight">
-              By the Numbers
+            <p
+              className="text-label-caps mb-3"
+              style={{ color: "var(--theme-brand)" }}
+            >
+              Founder &amp; Leadership Team
+            </p>
+            <h2
+              className="text-headline-md lg:text-4xl font-bold tracking-tight mb-4"
+              style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)" }}
+            >
+              Meet the People Behind Segmento
             </h2>
+            <p
+              className="text-body-md mx-auto"
+              style={{ color: "var(--theme-fg-subtle)", maxWidth: "520px" }}
+            >
+              From strategy to culture, our team inspires innovation and growth
+              every step of the way.
+            </p>
+          </motion.div>
 
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
-              {/* Stat 1: Scanned */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                  <Database className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+          {/* ── Featured Director card — horizontal ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-10"
+          >
+            <div
+              className="bento-tile overflow-hidden group"
+              style={{ padding: 0 }}
+            >
+              <div className="grid md:grid-cols-[300px_1fr]">
+                {/* Photo */}
+                <div
+                  className="relative overflow-hidden"
+                  style={{ minHeight: "320px" }}
+                >
+                  <img
+                    src={director.image}
+                    alt={director.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
                 </div>
-                <div>
-                  <div className="text-4xl font-bold text-foreground tracking-tighter">10B+</div>
-                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Scanned</div>
-                </div>
-              </div>
-
-              {/* Stat 2: Breaches */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                  <LockIcon className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-foreground tracking-tighter">0</div>
-                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Breaches</div>
-                </div>
-              </div>
-
-              {/* Stat 3: Client-Side */}
-              <div className="flex items-center gap-5 group">
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center border transition-all duration-300 group-hover:scale-110" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                  <Laptop className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
-                </div>
-                <div>
-                  <div className="text-4xl font-bold text-foreground tracking-tighter">100%</div>
-                  <div className="text-xs font-semibold text-foreground-muted uppercase tracking-[0.2em]">Client-Side</div>
+                {/* Info */}
+                <div className="p-8 lg:p-10 flex flex-col justify-center">
+                  <p
+                    className="text-label-caps mb-3"
+                    style={{ color: "var(--theme-brand)" }}
+                  >
+                    Executive Director &amp; Founder
+                  </p>
+                  <h3
+                    className="text-2xl font-bold mb-3"
+                    style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)" }}
+                  >
+                    {director.name}
+                  </h3>
+                  <div
+                    className="w-8 h-px mb-5"
+                    style={{ background: "var(--theme-brand)" }}
+                  />
+                  <p
+                    className="text-body-md leading-relaxed mb-6"
+                    style={{ color: "var(--theme-fg-subtle)" }}
+                  >
+                    {director.bio}
+                  </p>
+                  <a
+                    href={director.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 w-fit transition-opacity hover:opacity-70"
+                    style={{ color: "var(--theme-fg-muted)" }}
+                  >
+                    <Linkedin className="w-4 h-4" />
+                    <span className="text-label-caps">LinkedIn</span>
+                  </a>
                 </div>
               </div>
             </div>
           </motion.div>
+
+          {/* ── Team grid — 4 members, glassmorphism photo cards ── */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {team.map((member, i) => (
+              <motion.div
+                key={member.name}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
+                className="relative overflow-hidden rounded-2xl group cursor-pointer"
+                style={{
+                  aspectRatio: "3/4",
+                  border: "1px solid var(--theme-border)",
+                }}
+              >
+                {/* Photo — object-top biases crop toward face */}
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+
+                {/* Permanent gradient — ensures text legibility always */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 45%, transparent 100%)",
+                  }}
+                />
+
+                {/* Glassmorphism name card — bottom */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 p-4"
+                  style={{
+                    background: "rgba(10, 10, 15, 0.50)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    borderTop: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <h3
+                    className="font-semibold text-sm leading-tight mb-0.5"
+                    style={{
+                      color: "#ffffff",
+                      fontFamily: "var(--font-mona-sans)",
+                    }}
+                  >
+                    {member.name}
+                  </h3>
+                  <p
+                    className="text-label-caps mb-2.5"
+                    style={{ color: "rgba(255,255,255,0.55)" }}
+                  >
+                    {member.role}
+                  </p>
+                  {/* LinkedIn — slides in on hover */}
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{ color: "var(--theme-brand)" }}
+                  >
+                    <Linkedin className="w-3.5 h-3.5" />
+                    <span className="text-label-caps">Connect</span>
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </section>
+
+
+      {/* Journey Timeline Section — Nectar-exact alternating single-row */}
+      <section className="py-24 lg:py-32 relative overflow-hidden" style={{ background: "var(--theme-bg)" }}>
+        <div className="section-container">
+
+          {/* Top rule */}
+          <div className="w-full h-px mb-16" style={{ background: "var(--theme-border)" }} />
+
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center mb-20"
+          >
+            <span className="chip mb-4 inline-flex" style={{ borderColor: "var(--theme-brand)", color: "var(--theme-brand)" }}>
+              Milestones
+            </span>
+            <h2 className="text-headline-md lg:text-4xl font-bold tracking-tight mb-4" style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)" }}>
+              The Journey of Segmento
+            </h2>
+            <p className="text-body-md mx-auto" style={{ color: "var(--theme-fg-subtle)", maxWidth: "520px" }}>
+              Our journey is more than just dates — it&apos;s a story of growth, innovation,
+              and relentless dedication to building AI-native data intelligence for the modern enterprise.
+            </p>
+          </motion.div>
+
+          {/* Timeline */}
+          <div className="relative">
+
+            {/* Desktop centre spine */}
+            <div
+              className="hidden md:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2"
+              style={{ width: "1.5px", background: "var(--theme-border)" }}
+            />
+            {/* Mobile left spine */}
+            <div
+              className="md:hidden absolute top-0 bottom-0"
+              style={{ left: "28px", width: "1.5px", background: "var(--theme-border)" }}
+            />
+
+            <div>
+              {milestones.map((m, i) => {
+                const isLeft = i % 2 === 0;
+                return (
+                  <motion.div
+                    key={m.title}
+                    initial={{ opacity: 0, y: 28 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.65, ease: "easeOut", delay: i * 0.1 }}
+                    className="relative"
+                    style={{ paddingBottom: "52px" }}
+                  >
+                    {/* ── DESKTOP ── */}
+                    <div className="hidden md:grid md:grid-cols-2" style={{ minHeight: "100px" }}>
+
+                      {isLeft ? (
+                        <>
+                          {/* LEFT col: text + [badge][line][▶] flush right */}
+                          <div className="flex items-center justify-end">
+                            {/* Text block */}
+                            <div className="text-right" style={{ maxWidth: "300px", paddingRight: "20px" }}>
+                              <p
+                                className="mb-1.5"
+                                style={{ color: m.color, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "var(--font-dm-mono)" }}
+                              >
+                                {m.month} {m.year}
+                              </p>
+                              <h3
+                                className="mb-2"
+                                style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)", fontSize: "16px", fontWeight: 700, lineHeight: 1.35 }}
+                              >
+                                {m.title}
+                              </h3>
+                              <p style={{ color: "var(--theme-fg-subtle)", fontSize: "13.5px", lineHeight: 1.65 }}>
+                                {m.description}
+                              </p>
+                            </div>
+                            {/* Badge */}
+                            <div
+                              className="flex flex-col items-center justify-center rounded-xl flex-shrink-0"
+                              style={{ background: m.color, padding: "10px 18px", minWidth: "74px" }}
+                            >
+                              <span style={{ color: "rgba(255,255,255,0.72)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "var(--font-dm-mono)" }}>
+                                {m.month}
+                              </span>
+                              <span style={{ color: "#fff", fontSize: "40px", fontWeight: 800, lineHeight: 1.05, fontFamily: "var(--font-dm-mono)" }}>
+                                {m.year.slice(2)}
+                              </span>
+                            </div>
+                            {/* Connector line */}
+                            <div style={{ width: "52px", height: "2px", background: m.color, flexShrink: 0 }} />
+                            {/* Triangle → pointing right toward spine */}
+                            <div style={{
+                              width: 0, height: 0, flexShrink: 0,
+                              borderTop: "8px solid transparent",
+                              borderBottom: "8px solid transparent",
+                              borderLeft: `10px solid ${m.color}`,
+                            }} />
+                          </div>
+                          {/* RIGHT col: empty */}
+                          <div />
+                        </>
+                      ) : (
+                        <>
+                          {/* LEFT col: empty */}
+                          <div />
+                          {/* RIGHT col: [◀][line][badge] then text */}
+                          <div className="flex items-center justify-start">
+                            {/* Triangle ◀ pointing left toward spine */}
+                            <div style={{
+                              width: 0, height: 0, flexShrink: 0,
+                              borderTop: "8px solid transparent",
+                              borderBottom: "8px solid transparent",
+                              borderRight: `10px solid ${m.color}`,
+                            }} />
+                            {/* Connector line */}
+                            <div style={{ width: "52px", height: "2px", background: m.color, flexShrink: 0 }} />
+                            {/* Badge */}
+                            <div
+                              className="flex flex-col items-center justify-center rounded-xl flex-shrink-0"
+                              style={{ background: m.color, padding: "10px 18px", minWidth: "74px" }}
+                            >
+                              <span style={{ color: "rgba(255,255,255,0.72)", fontSize: "9px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "var(--font-dm-mono)" }}>
+                                {m.month}
+                              </span>
+                              <span style={{ color: "#fff", fontSize: "40px", fontWeight: 800, lineHeight: 1.05, fontFamily: "var(--font-dm-mono)" }}>
+                                {m.year.slice(2)}
+                              </span>
+                            </div>
+                            {/* Text block */}
+                            <div className="text-left" style={{ maxWidth: "300px", paddingLeft: "20px" }}>
+                              <p
+                                className="mb-1.5"
+                                style={{ color: m.color, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "var(--font-dm-mono)" }}
+                              >
+                                {m.month} {m.year}
+                              </p>
+                              <h3
+                                className="mb-2"
+                                style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)", fontSize: "16px", fontWeight: 700, lineHeight: 1.35 }}
+                              >
+                                {m.title}
+                              </h3>
+                              <p style={{ color: "var(--theme-fg-subtle)", fontSize: "13.5px", lineHeight: 1.65 }}>
+                                {m.description}
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* ── MOBILE: stacked with left spine ── */}
+                    <div className="md:hidden relative" style={{ paddingLeft: "56px" }}>
+                      {/* Mobile spine dot */}
+                      <div
+                        className="absolute z-10 rounded-full"
+                        style={{
+                          left: "22px", top: "14px",
+                          width: "12px", height: "12px",
+                          background: m.color,
+                          boxShadow: `0 0 10px ${m.color}80`,
+                          border: "2px solid var(--theme-bg)",
+                        }}
+                      />
+                      {/* Mobile badge */}
+                      <div
+                        className="inline-flex flex-col items-center justify-center rounded-lg mb-3"
+                        style={{ background: m.color, padding: "6px 14px", minWidth: "58px" }}
+                      >
+                        <span style={{ color: "rgba(255,255,255,0.72)", fontSize: "8px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "var(--font-dm-mono)" }}>
+                          {m.month}
+                        </span>
+                        <span style={{ color: "#fff", fontSize: "30px", fontWeight: 800, lineHeight: 1.05, fontFamily: "var(--font-dm-mono)" }}>
+                          {m.year.slice(2)}
+                        </span>
+                      </div>
+                      <h3 className="mb-1.5" style={{ color: "var(--theme-fg)", fontFamily: "var(--font-syne)", fontSize: "15px", fontWeight: 700 }}>
+                        {m.title}
+                      </h3>
+                      <p style={{ color: "var(--theme-fg-subtle)", fontSize: "13px", lineHeight: 1.65 }}>
+                        {m.description}
+                      </p>
+                    </div>
+
+                  </motion.div>
+                );
+              })}
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
 
       {/* Join Team CTA */}
       <section className="py-24 px-4 mb-24 dark-careers-section">

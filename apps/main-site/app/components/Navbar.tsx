@@ -122,7 +122,6 @@ const navLinks: NavLink[] = [
           label: "Company",
           items: [
             { name: "Careers", subtitle: "Join our growing team", href: "/careers", icon: Briefcase },
-            { name: "Contact", subtitle: "Get in touch with us", href: "/contact", icon: Phone },
             { name: "About", subtitle: "Our mission & story", href: "/about", icon: Info },
           ],
         },
@@ -137,8 +136,6 @@ const navLinks: NavLink[] = [
       },
     },
   },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Careers", href: "/careers" },
   { name: "Contact", href: "/contact" },
 ];
 
