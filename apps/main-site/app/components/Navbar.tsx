@@ -49,8 +49,6 @@ interface NavLink {
 // ─── Nav Data ─────────────────────────────────────────────────────────────────
 
 const navLinks: NavLink[] = [
-  { name: "Home", href: "/" },
-  { name: "About", href: "/about" },
   {
     name: "Products",
     megaMenu: {
