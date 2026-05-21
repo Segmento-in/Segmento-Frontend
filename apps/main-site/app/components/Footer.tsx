@@ -148,10 +148,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* COPYRIGHT */}
-          <p className="text-[11px] footer-copy text-center">
-            © {currentYear} Segmento Inc. All rights reserved.
-          </p>
 
         </div>
       </div>

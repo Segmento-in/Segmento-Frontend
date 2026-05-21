@@ -60,7 +60,7 @@
   --spacing-xl: 4rem;
   /* 64px */
   --spacing-gutter: 1.5rem;
-  /* 24px gutter between bento tiles */
+  /* 24px gutter between besnto tiles */
 
   /* ── Border Radius Scale — DESIGN.md ── */
   --radius-sm: 0.25rem;
@@ -114,6 +114,32 @@
   --theme-success: #1a7f5a;
   --theme-error: #ba1a1a;
   --theme-warning: #7a5900;
+
+  /* ── Nav & Generic Aliases ─────────────────────────────────────────── */
+  --nav-bg: rgba(252, 248, 255, 0.90);
+  --nav-text: var(--theme-fg);
+
+  --color-brand: var(--theme-brand);
+  --color-brand-hover: var(--theme-brand-hover);
+  --color-background: var(--theme-bg);
+  --color-background-secondary: var(--theme-bg-surface);
+  --color-background-tertiary: var(--theme-bg-surface-high);
+  --color-heading: var(--theme-fg);
+  --color-body: var(--theme-fg-subtle);
+  --color-border: var(--theme-border);
+  --color-border-light: var(--theme-border-subtle);
+  --color-button: var(--theme-brand);
+
+  /* ── Mega-menu panel ───────────────────────────────────────────────── */
+  --mega-bg: #ffffff;
+  --mega-border: rgba(0, 0, 0, 0.08);
+  --mega-item-hover: #f4f6f9;
+  --mega-icon-bg: #f0f2f5;
+  --mega-icon-border: rgba(0, 0, 0, 0.07);
+  --mega-icon-color: #555565;
+  --mega-label: #9fa6b0;
+  --mega-title: #111827;
+  --mega-subtitle: #6b7280;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -156,53 +182,11 @@
   --theme-success: #10e898;
   --theme-error: #ff4d4f;
   --theme-warning: #f59e0b;
-}
 
-/* ════════════════════════════════════════════════════════════════════════════
-   NAVBAR COMPATIBILITY TOKENS
-   ─────────────────────────────────────────────────────────────────────────
-   The production Navbar.tsx uses a separate CSS variable namespace
-   (--nav-*, --color-*, --mega-*) inherited from the cloned git repo.
-   These are aliased here to the existing --theme-* token system so we don't
-   maintain two separate palettes.
-   ──────────────────────────────────────────────────────────────────────── */
-
-/* Light theme aliases */
-[data-theme="light"] {
-  /* Nav */
-  --nav-bg: rgba(252, 248, 255, 0.90);
-  --nav-text: var(--theme-fg);
-
-  /* Generic color aliases */
-  --color-brand: var(--theme-brand);
-  --color-brand-hover: var(--theme-brand-hover);
-  --color-background: var(--theme-bg);
-  --color-background-secondary: var(--theme-bg-surface);
-  --color-background-tertiary: var(--theme-bg-surface-high);
-  --color-heading: var(--theme-fg);
-  --color-body: var(--theme-fg-subtle);
-  --color-border: var(--theme-border);
-  --color-border-light: var(--theme-border-subtle);
-
-  /* Mega-menu panel */
-  --mega-bg: #ffffff;
-  --mega-border: rgba(0, 0, 0, 0.08);
-  --mega-item-hover: #f4f6f9;
-  --mega-icon-bg: #f0f2f5;
-  --mega-icon-border: rgba(0, 0, 0, 0.07);
-  --mega-icon-color: #555565;
-  --mega-label: #9fa6b0;
-  --mega-title: #111827;
-  --mega-subtitle: #6b7280;
-}
-
-/* Dark theme aliases */
-[data-theme="dark"] {
-  /* Nav */
+  /* ── Nav & Generic Aliases ─────────────────────────────────────────── */
   --nav-bg: rgba(10, 10, 15, 0.92);
   --nav-text: var(--theme-fg);
 
-  /* Generic color aliases */
   --color-brand: var(--theme-brand);
   --color-brand-hover: var(--theme-brand-hover);
   --color-background: var(--theme-bg);
@@ -212,8 +196,9 @@
   --color-body: var(--theme-fg-subtle);
   --color-border: var(--theme-border);
   --color-border-light: var(--theme-border-subtle);
+  --color-button: var(--theme-brand);
 
-  /* Mega-menu panel — dark */
+  /* ── Mega-menu panel — dark ────────────────────────────────────────── */
   --mega-bg: #1a2540;
   --mega-border: rgba(255, 255, 255, 0.08);
   --mega-item-hover: rgba(255, 255, 255, 0.06);
@@ -224,6 +209,8 @@
   --mega-title: #f1f5f9;
   --mega-subtitle: #94a3b8;
 }
+
+
 
 /* ════════════════════════════════════════════════════════════════════════════
    BASE STYLES
