@@ -189,7 +189,7 @@
       "source_file": "package.json",
       "source_location": "L20",
       "id": "main_site_package_devdependencies",
-      "community": 7,
+      "community": 3,
       "norm_label": "devdependencies"
     },
     {
@@ -198,7 +198,7 @@
       "source_file": "package.json",
       "source_location": "L21",
       "id": "main_site_package_devdependencies_tailwindcss_postcss",
-      "community": 7,
+      "community": 3,
       "norm_label": "@tailwindcss/postcss"
     },
     {
@@ -207,7 +207,7 @@
       "source_file": "package.json",
       "source_location": "L22",
       "id": "main_site_package_devdependencies_types_node",
-      "community": 7,
+      "community": 3,
       "norm_label": "@types/node"
     },
     {
@@ -216,7 +216,7 @@
       "source_file": "package.json",
       "source_location": "L23",
       "id": "main_site_package_devdependencies_types_react",
-      "community": 7,
+      "community": 3,
       "norm_label": "@types/react"
     },
     {
@@ -225,7 +225,7 @@
       "source_file": "package.json",
       "source_location": "L24",
       "id": "main_site_package_devdependencies_types_react_dom",
-      "community": 7,
+      "community": 3,
       "norm_label": "@types/react-dom"
     },
     {
@@ -234,7 +234,7 @@
       "source_file": "package.json",
       "source_location": "L25",
       "id": "main_site_package_devdependencies_eslint",
-      "community": 7,
+      "community": 3,
       "norm_label": "eslint"
     },
     {
@@ -243,7 +243,7 @@
       "source_file": "package.json",
       "source_location": "L26",
       "id": "main_site_package_devdependencies_eslint_config_next",
-      "community": 7,
+      "community": 3,
       "norm_label": "eslint-config-next"
     },
     {
@@ -252,7 +252,7 @@
       "source_file": "package.json",
       "source_location": "L27",
       "id": "main_site_package_devdependencies_tailwindcss",
-      "community": 7,
+      "community": 3,
       "norm_label": "tailwindcss"
     },
     {
@@ -261,7 +261,7 @@
       "source_file": "package.json",
       "source_location": "L28",
       "id": "main_site_package_devdependencies_typescript",
-      "community": 7,
+      "community": 3,
       "norm_label": "typescript"
     },
     {
@@ -486,7 +486,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L1",
       "id": "app_page_tsx",
-      "community": 8,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -495,7 +495,7 @@
       "source_file": "app/page.tsx",
       "source_location": "L10",
       "id": "app_page_home",
-      "community": 8,
+      "community": 2,
       "norm_label": "home()"
     },
     {
@@ -504,7 +504,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L1",
       "id": "app_about_page_tsx",
-      "community": 18,
+      "community": 0,
       "norm_label": "page.tsx"
     },
     {
@@ -513,7 +513,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L19",
       "id": "about_page_director",
-      "community": 18,
+      "community": 0,
       "norm_label": "director"
     },
     {
@@ -522,7 +522,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L27",
       "id": "about_page_team",
-      "community": 18,
+      "community": 0,
       "norm_label": "team"
     },
     {
@@ -531,7 +531,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L59",
       "id": "about_page_milestones",
-      "community": 18,
+      "community": 0,
       "norm_label": "milestones"
     },
     {
@@ -540,7 +540,7 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L102",
       "id": "about_page_aboutpage",
-      "community": 18,
+      "community": 0,
       "norm_label": "aboutpage()"
     },
     {
@@ -684,7 +684,7 @@
       "source_file": "app/components/CTASection.tsx",
       "source_location": "L1",
       "id": "app_components_ctasection_tsx",
-      "community": 8,
+      "community": 5,
       "norm_label": "ctasection.tsx"
     },
     {
@@ -693,7 +693,7 @@
       "source_file": "app/components/CTASection.tsx",
       "source_location": "L6",
       "id": "components_ctasection_ctasection",
-      "community": 8,
+      "community": 5,
       "norm_label": "ctasection()"
     },
     {
@@ -702,7 +702,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L1",
       "id": "app_components_features_tsx",
-      "community": 16,
+      "community": 2,
       "norm_label": "features.tsx"
     },
     {
@@ -711,7 +711,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L16",
       "id": "components_features_fadeup",
-      "community": 16,
+      "community": 2,
       "norm_label": "fadeup()"
     },
     {
@@ -720,7 +720,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L24",
       "id": "components_features_dataflowdiagram",
-      "community": 16,
+      "community": 2,
       "norm_label": "dataflowdiagram()"
     },
     {
@@ -729,7 +729,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L136",
       "id": "components_features_brainvisual",
-      "community": 16,
+      "community": 2,
       "norm_label": "brainvisual()"
     },
     {
@@ -738,7 +738,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L186",
       "id": "components_features_iconbadge",
-      "community": 16,
+      "community": 2,
       "norm_label": "iconbadge()"
     },
     {
@@ -747,7 +747,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L209",
       "id": "components_features_categorychip",
-      "community": 16,
+      "community": 2,
       "norm_label": "categorychip()"
     },
     {
@@ -756,7 +756,7 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L234",
       "id": "components_features_features",
-      "community": 16,
+      "community": 2,
       "norm_label": "features()"
     },
     {
@@ -805,10 +805,28 @@
       "norm_label": "hero.tsx"
     },
     {
+      "label": "PRODUCTS",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L13",
+      "id": "components_hero_products",
+      "community": 6,
+      "norm_label": "products"
+    },
+    {
+      "label": "PID",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L21",
+      "id": "components_hero_pid",
+      "community": 6,
+      "norm_label": "pid"
+    },
+    {
       "label": "fadeUp()",
       "file_type": "code",
       "source_file": "app/components/Hero.tsx",
-      "source_location": "L14",
+      "source_location": "L23",
       "id": "components_hero_fadeup",
       "community": 6,
       "norm_label": "fadeup()"
@@ -817,82 +835,100 @@
       "label": "Hero()",
       "file_type": "code",
       "source_file": "app/components/Hero.tsx",
-      "source_location": "L20",
+      "source_location": "L29",
       "id": "components_hero_hero",
       "community": 6,
       "norm_label": "hero()"
     },
     {
-      "label": "AppShellMockup()",
+      "label": "HeroShells.tsx",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L144",
-      "id": "components_hero_appshellmockup",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L1",
+      "id": "app_components_heroshells_tsx",
       "community": 6,
-      "norm_label": "appshellmockup()"
+      "norm_label": "heroshells.tsx"
     },
     {
-      "label": "BrowserChrome()",
+      "label": "S",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L168",
-      "id": "components_hero_browserchrome",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L4",
+      "id": "components_heroshells_s",
       "community": 6,
-      "norm_label": "browserchrome()"
+      "norm_label": "s"
     },
     {
-      "label": "AppSidebar()",
+      "label": "Chrome()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L199",
-      "id": "components_hero_appsidebar",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L13",
+      "id": "components_heroshells_chrome",
       "community": 6,
-      "norm_label": "appsidebar()"
+      "norm_label": "chrome()"
     },
     {
-      "label": "DocumentPane()",
+      "label": "Sidebar()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L252",
-      "id": "components_hero_documentpane",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L27",
+      "id": "components_heroshells_sidebar",
       "community": 6,
-      "norm_label": "documentpane()"
+      "norm_label": "sidebar()"
     },
     {
-      "label": "ScannedBadge()",
+      "label": "Shell()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L340",
-      "id": "components_hero_scannedbadge",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L46",
+      "id": "components_heroshells_shell",
       "community": 6,
-      "norm_label": "scannedbadge()"
+      "norm_label": "shell()"
     },
     {
-      "label": "PIIChip()",
+      "label": "SenseShell()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L351",
-      "id": "components_hero_piichip",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L58",
+      "id": "components_heroshells_senseshell",
       "community": 6,
-      "norm_label": "piichip()"
+      "norm_label": "senseshell()"
     },
     {
-      "label": "FieldRow()",
+      "label": "PulseShell()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L361",
-      "id": "components_hero_fieldrow",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L102",
+      "id": "components_heroshells_pulseshell",
       "community": 6,
-      "norm_label": "fieldrow()"
+      "norm_label": "pulseshell()"
     },
     {
-      "label": "InlineLine()",
+      "label": "CollectShell()",
       "file_type": "code",
-      "source_file": "app/components/Hero.tsx",
-      "source_location": "L377",
-      "id": "components_hero_inlineline",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L146",
+      "id": "components_heroshells_collectshell",
       "community": 6,
-      "norm_label": "inlineline()"
+      "norm_label": "collectshell()"
+    },
+    {
+      "label": "ResolveShell()",
+      "file_type": "code",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L194",
+      "id": "components_heroshells_resolveshell",
+      "community": 6,
+      "norm_label": "resolveshell()"
+    },
+    {
+      "label": "SprintQLShell()",
+      "file_type": "code",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L231",
+      "id": "components_heroshells_sprintqlshell",
+      "community": 6,
+      "norm_label": "sprintqlshell()"
     },
     {
       "label": "HowItWorks.tsx",
@@ -1024,7 +1060,7 @@
       "label": "FeaturedCard()",
       "file_type": "code",
       "source_file": "app/components/Navbar.tsx",
-      "source_location": "L144",
+      "source_location": "L142",
       "id": "components_navbar_featuredcard",
       "community": 0,
       "norm_label": "featuredcard()"
@@ -1033,7 +1069,7 @@
       "label": "MegaPanel()",
       "file_type": "code",
       "source_file": "app/components/Navbar.tsx",
-      "source_location": "L171",
+      "source_location": "L169",
       "id": "components_navbar_megapanel",
       "community": 0,
       "norm_label": "megapanel()"
@@ -1042,7 +1078,7 @@
       "label": "Navbar()",
       "file_type": "code",
       "source_file": "app/components/Navbar.tsx",
-      "source_location": "L269",
+      "source_location": "L267",
       "id": "components_navbar_navbar",
       "community": 0,
       "norm_label": "navbar()"
@@ -1161,7 +1197,7 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L1",
       "id": "app_components_stats_tsx",
-      "community": 8,
+      "community": 2,
       "norm_label": "stats.tsx"
     },
     {
@@ -1170,7 +1206,7 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L10",
       "id": "components_stats_stats",
-      "community": 8,
+      "community": 2,
       "norm_label": "stats"
     },
     {
@@ -1179,7 +1215,7 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L24",
       "id": "components_stats_dot",
-      "community": 8,
+      "community": 2,
       "norm_label": "dot()"
     },
     {
@@ -1188,7 +1224,7 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L42",
       "id": "components_stats_statsticker",
-      "community": 8,
+      "community": 2,
       "norm_label": "statsticker()"
     },
     {
@@ -1435,11 +1471,1253 @@
       "norm_label": "components"
     },
     {
+      "label": "segmento_upgraded_blueprint.md",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L1",
+      "id": "segmento_upgraded_blueprint_md",
+      "community": 7,
+      "norm_label": "segmento_upgraded_blueprint.md"
+    },
+    {
+      "label": "Segmento Main-Site \u2014 Upgraded Content Blueprint v2.0",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L1",
+      "id": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "community": 7,
+      "norm_label": "segmento main-site \u2014 upgraded content blueprint v2.0"
+    },
+    {
+      "label": "FULL PAGE FLOW",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L11",
+      "id": "main_site_segmento_upgraded_blueprint_full_page_flow",
+      "community": 7,
+      "norm_label": "full page flow"
+    },
+    {
+      "label": "code:block1 (NAVBAR)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L13",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_1",
+      "community": 7,
+      "norm_label": "code:block1 (navbar)"
+    },
+    {
+      "label": "NAVBAR",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L40",
+      "id": "main_site_segmento_upgraded_blueprint_navbar",
+      "community": 7,
+      "norm_label": "navbar"
+    },
+    {
+      "label": "code:block2 ([Segmento Logo]  Home  About  Products \u25be  Solutions \u25be  Resou)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L42",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_2",
+      "community": 7,
+      "norm_label": "code:block2 ([segmento logo]  home  about  products \u25be  solutions \u25be  resou)"
+    },
+    {
+      "label": "Products Dropdown",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L46",
+      "id": "main_site_segmento_upgraded_blueprint_products_dropdown",
+      "community": 7,
+      "norm_label": "products dropdown"
+    },
+    {
+      "label": "Design Notes",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L55",
+      "id": "main_site_segmento_upgraded_blueprint_design_notes",
+      "community": 7,
+      "norm_label": "design notes"
+    },
+    {
+      "label": "SECTION 1 \u2014 HERO",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L63",
+      "id": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "community": 19,
+      "norm_label": "section 1 \u2014 hero"
+    },
+    {
+      "label": "Announcement Badge (pill above headline)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L68",
+      "id": "main_site_segmento_upgraded_blueprint_announcement_badge_pill_above_headline",
+      "community": 19,
+      "norm_label": "announcement badge (pill above headline)"
+    },
+    {
+      "label": "code:block3 (\u26a1 Now live: Segmento Sense 2.0 \u2014 AI PII Detection)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L69",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_3",
+      "community": 19,
+      "norm_label": "code:block3 (\u26a1 now live: segmento sense 2.0 \u2014 ai pii detection)"
+    },
+    {
+      "label": "H1 Headline",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L76",
+      "id": "main_site_segmento_upgraded_blueprint_h1_headline",
+      "community": 19,
+      "norm_label": "h1 headline"
+    },
+    {
+      "label": "code:block4 (The complete data intelligence platform.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L77",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_4",
+      "community": 19,
+      "norm_label": "code:block4 (the complete data intelligence platform.)"
+    },
+    {
+      "label": "Subheadline",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L89",
+      "id": "main_site_segmento_upgraded_blueprint_subheadline",
+      "community": 19,
+      "norm_label": "subheadline"
+    },
+    {
+      "label": "code:block5 (The AI-native platform that finds, protects, and orchestrate)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L90",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_5",
+      "community": 19,
+      "norm_label": "code:block5 (the ai-native platform that finds, protects, and orchestrate)"
+    },
+    {
+      "label": "Primary CTA Button",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L102",
+      "id": "main_site_segmento_upgraded_blueprint_primary_cta_button",
+      "community": 19,
+      "norm_label": "primary cta button"
+    },
+    {
+      "label": "code:block6 (Get Started  \u2192)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L103",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_6",
+      "community": 19,
+      "norm_label": "code:block6 (get started  \u2192)"
+    },
+    {
+      "label": "Secondary CTA Button",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L108",
+      "id": "main_site_segmento_upgraded_blueprint_secondary_cta_button",
+      "community": 19,
+      "norm_label": "secondary cta button"
+    },
+    {
+      "label": "code:block7 (Explore Products)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L109",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_7",
+      "community": 19,
+      "norm_label": "code:block7 (explore products)"
+    },
+    {
+      "label": "Trust Line (small text below buttons)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L114",
+      "id": "main_site_segmento_upgraded_blueprint_trust_line_small_text_below_buttons",
+      "community": 19,
+      "norm_label": "trust line (small text below buttons)"
+    },
+    {
+      "label": "code:block8 (GDPR \u00b7 HIPAA \u00b7 DPDP Ready  \u00b7  100% Client-Side Processing  \u00b7)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L115",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_8",
+      "community": 19,
+      "norm_label": "code:block8 (gdpr \u00b7 hipaa \u00b7 dpdp ready  \u00b7  100% client-side processing  \u00b7)"
+    },
+    {
+      "label": "Hero Visual \u2014 RIGHT SIDE (Critical)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L121",
+      "id": "main_site_segmento_upgraded_blueprint_hero_visual_right_side_critical",
+      "community": 19,
+      "norm_label": "hero visual \u2014 right side (critical)"
+    },
+    {
+      "label": "code:block9 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L126",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_9",
+      "community": 19,
+      "norm_label": "code:block9 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510)"
+    },
+    {
+      "label": "SECTION 2 \u2014 TRUST STRIP",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L152",
+      "id": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "community": 22,
+      "norm_label": "section 2 \u2014 trust strip"
+    },
+    {
+      "label": "Layout",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L156",
+      "id": "main_site_segmento_upgraded_blueprint_layout",
+      "community": 22,
+      "norm_label": "layout"
+    },
+    {
+      "label": "Left Side \u2014 Compliance Badges (monochromatic icons)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L159",
+      "id": "main_site_segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
+      "community": 22,
+      "norm_label": "left side \u2014 compliance badges (monochromatic icons)"
+    },
+    {
+      "label": "code:block10 ([GDPR]  [HIPAA]  [DPDP Act]  [SOC 2]  [ISO 27001])",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L160",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_10",
+      "community": 22,
+      "norm_label": "code:block10 ([gdpr]  [hipaa]  [dpdp act]  [soc 2]  [iso 27001])"
+    },
+    {
+      "label": "Separator",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L165",
+      "id": "main_site_segmento_upgraded_blueprint_separator",
+      "community": 22,
+      "norm_label": "separator"
+    },
+    {
+      "label": "code:block11 (\u00b7)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L166",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_11",
+      "community": 22,
+      "norm_label": "code:block11 (\u00b7)"
+    },
+    {
+      "label": "Right Side \u2014 Ecosystem Logos (grayed out, monochrome)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L170",
+      "id": "main_site_segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
+      "community": 22,
+      "norm_label": "right side \u2014 ecosystem logos (grayed out, monochrome)"
+    },
+    {
+      "label": "code:block12 ([AWS]  [Snowflake]  [Google Cloud]  [Azure]  [Databricks]  [)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L171",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_12",
+      "community": 22,
+      "norm_label": "code:block12 ([aws]  [snowflake]  [google cloud]  [azure]  [databricks]  [)"
+    },
+    {
+      "label": "Caption text (small, centered below)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L175",
+      "id": "main_site_segmento_upgraded_blueprint_caption_text_small_centered_below",
+      "community": 22,
+      "norm_label": "caption text (small, centered below)"
+    },
+    {
+      "label": "code:block13 (Compliance-ready from day one. Connects with your existing s)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L176",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_13",
+      "community": 22,
+      "norm_label": "code:block13 (compliance-ready from day one. connects with your existing s)"
+    },
+    {
+      "label": "SECTION 3 \u2014 FEATURES (\"Why Segmento?\")",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L184",
+      "id": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "community": 16,
+      "norm_label": "section 3 \u2014 features (\"why segmento?\")"
+    },
+    {
+      "label": "Section Label (pill tag)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L186",
+      "id": "main_site_segmento_upgraded_blueprint_section_label_pill_tag",
+      "community": 16,
+      "norm_label": "section label (pill tag)"
+    },
+    {
+      "label": "code:block14 (Why Segmento)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L187",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_14",
+      "community": 16,
+      "norm_label": "code:block14 (why segmento)"
+    },
+    {
+      "label": "Section Heading",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L191",
+      "id": "main_site_segmento_upgraded_blueprint_section_heading",
+      "community": 16,
+      "norm_label": "section heading"
+    },
+    {
+      "label": "code:block15 (Built different. By design.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L192",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_15",
+      "community": 16,
+      "norm_label": "code:block15 (built different. by design.)"
+    },
+    {
+      "label": "Section Subtext",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L196",
+      "id": "main_site_segmento_upgraded_blueprint_section_subtext",
+      "community": 16,
+      "norm_label": "section subtext"
+    },
+    {
+      "label": "code:block16 (We didn't bolt security on after. We started with it.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L197",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_16",
+      "community": 16,
+      "norm_label": "code:block16 (we didn't bolt security on after. we started with it.)"
+    },
+    {
+      "label": "BENTO GRID LAYOUT",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L203",
+      "id": "main_site_segmento_upgraded_blueprint_bento_grid_layout",
+      "community": 16,
+      "norm_label": "bento grid layout"
+    },
+    {
+      "label": "code:block17 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L205",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_17",
+      "community": 16,
+      "norm_label": "code:block17 (\u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510)"
+    },
+    {
+      "label": "HERO TILE \u2014 100% Client-Side Processing",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L226",
+      "id": "main_site_segmento_upgraded_blueprint_hero_tile_100_client_side_processing",
+      "community": 16,
+      "norm_label": "hero tile \u2014 100% client-side processing"
+    },
+    {
+      "label": "code:block18 (Your data never leaves your walls.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L230",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_18",
+      "community": 16,
+      "norm_label": "code:block18 (your data never leaves your walls.)"
+    },
+    {
+      "label": "code:block19 (Every scan, every classification, every redaction runs entir)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L234",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_19",
+      "community": 16,
+      "norm_label": "code:block19 (every scan, every classification, every redaction runs entir)"
+    },
+    {
+      "label": "MEDIUM TILE \u2014 Explainable AI",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L243",
+      "id": "main_site_segmento_upgraded_blueprint_medium_tile_explainable_ai",
+      "community": 16,
+      "norm_label": "medium tile \u2014 explainable ai"
+    },
+    {
+      "label": "code:block20 (AI that explains itself.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L247",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_20",
+      "community": 16,
+      "norm_label": "code:block20 (ai that explains itself.)"
+    },
+    {
+      "label": "code:block21 (No black boxes. Every classification comes with a clear reas)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L251",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_21",
+      "community": 16,
+      "norm_label": "code:block21 (no black boxes. every classification comes with a clear reas)"
+    },
+    {
+      "label": "SMALL TILE \u2014 Zero-Trust Data Handling",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L258",
+      "id": "main_site_segmento_upgraded_blueprint_small_tile_zero_trust_data_handling",
+      "community": 16,
+      "norm_label": "small tile \u2014 zero-trust data handling"
+    },
+    {
+      "label": "code:block22 (Zero-trust by default.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L262",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_22",
+      "community": 16,
+      "norm_label": "code:block22 (zero-trust by default.)"
+    },
+    {
+      "label": "code:block23 (GDPR, HIPAA, and DPDP-ready from day one.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L266",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_23",
+      "community": 16,
+      "norm_label": "code:block23 (gdpr, hipaa, and dpdp-ready from day one.)"
+    },
+    {
+      "label": "WIDE TILE \u2014 Enterprise Scale",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L273",
+      "id": "main_site_segmento_upgraded_blueprint_wide_tile_enterprise_scale",
+      "community": 16,
+      "norm_label": "wide tile \u2014 enterprise scale"
+    },
+    {
+      "label": "code:block24 (Built to scale with you.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L277",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_24",
+      "community": 16,
+      "norm_label": "code:block24 (built to scale with you.)"
+    },
+    {
+      "label": "code:block25 (From 10 users to 10,000 \u2014 process millions of data events pe)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L281",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_25",
+      "community": 16,
+      "norm_label": "code:block25 (from 10 users to 10,000 \u2014 process millions of data events pe)"
+    },
+    {
+      "label": "SECTION 4 \u2014 STATS TICKER",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L290",
+      "id": "main_site_segmento_upgraded_blueprint_section_4_stats_ticker",
+      "community": 7,
+      "norm_label": "section 4 \u2014 stats ticker"
+    },
+    {
+      "label": "code:block26 (5 Products  \u00b7  50+ PII Types Detected  \u00b7  100% Client-Side P)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L294",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_26",
+      "community": 7,
+      "norm_label": "code:block26 (5 products  \u00b7  50+ pii types detected  \u00b7  100% client-side p)"
+    },
+    {
+      "label": "SECTION 5 \u2014 HOW IT WORKS",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L308",
+      "id": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "community": 18,
+      "norm_label": "section 5 \u2014 how it works"
+    },
+    {
+      "label": "Section Label (pill tag)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L310",
+      "id": "main_site_segmento_upgraded_blueprint_section_label_pill_tag_310",
+      "community": 18,
+      "norm_label": "section label (pill tag)"
+    },
+    {
+      "label": "code:block27 (How It Works)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L311",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_27",
+      "community": 18,
+      "norm_label": "code:block27 (how it works)"
+    },
+    {
+      "label": "Section Heading",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L315",
+      "id": "main_site_segmento_upgraded_blueprint_section_heading_315",
+      "community": 18,
+      "norm_label": "section heading"
+    },
+    {
+      "label": "code:block28 (Up and running in minutes.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L316",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_28",
+      "community": 18,
+      "norm_label": "code:block28 (up and running in minutes.)"
+    },
+    {
+      "label": "Section Subtext",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L320",
+      "id": "main_site_segmento_upgraded_blueprint_section_subtext_320",
+      "community": 18,
+      "norm_label": "section subtext"
+    },
+    {
+      "label": "code:block29 (Three steps. Zero complexity. Full control.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L321",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_29",
+      "community": 18,
+      "norm_label": "code:block29 (three steps. zero complexity. full control.)"
+    },
+    {
+      "label": "Step 1 \u2014 CONNECT",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L327",
+      "id": "main_site_segmento_upgraded_blueprint_step_1_connect",
+      "community": 18,
+      "norm_label": "step 1 \u2014 connect"
+    },
+    {
+      "label": "code:block30 (Connect)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L331",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_30",
+      "community": 18,
+      "norm_label": "code:block30 (connect)"
+    },
+    {
+      "label": "code:block31 (Plug into your stack in minutes. 12+ source types,)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L335",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_31",
+      "community": 18,
+      "norm_label": "code:block31 (plug into your stack in minutes. 12+ source types,)"
+    },
+    {
+      "label": "Step 2 \u2014 DETECT",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L344",
+      "id": "main_site_segmento_upgraded_blueprint_step_2_detect",
+      "community": 18,
+      "norm_label": "step 2 \u2014 detect"
+    },
+    {
+      "label": "code:block32 (Detect)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L348",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_32",
+      "community": 18,
+      "norm_label": "code:block32 (detect)"
+    },
+    {
+      "label": "code:block33 (Sense finds every PII entity, credential, and sensitive)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L352",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_33",
+      "community": 18,
+      "norm_label": "code:block33 (sense finds every pii entity, credential, and sensitive)"
+    },
+    {
+      "label": "Step 3 \u2014 CONTROL",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L361",
+      "id": "main_site_segmento_upgraded_blueprint_step_3_control",
+      "community": 18,
+      "norm_label": "step 3 \u2014 control"
+    },
+    {
+      "label": "code:block34 (Control)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L365",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_34",
+      "community": 18,
+      "norm_label": "code:block34 (control)"
+    },
+    {
+      "label": "code:block35 (Redact. Resolve. Report. Set policies, track requests,)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L369",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_35",
+      "community": 18,
+      "norm_label": "code:block35 (redact. resolve. report. set policies, track requests,)"
+    },
+    {
+      "label": "Layout",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L376",
+      "id": "main_site_segmento_upgraded_blueprint_layout_376",
+      "community": 18,
+      "norm_label": "layout"
+    },
+    {
+      "label": "SECTION 6 \u2014 PRODUCT SHOWCASE",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L383",
+      "id": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "community": 8,
+      "norm_label": "section 6 \u2014 product showcase"
+    },
+    {
+      "label": "Section Label",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L385",
+      "id": "main_site_segmento_upgraded_blueprint_section_label",
+      "community": 8,
+      "norm_label": "section label"
+    },
+    {
+      "label": "code:block36 (Our Products)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L386",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_36",
+      "community": 8,
+      "norm_label": "code:block36 (our products)"
+    },
+    {
+      "label": "Section Heading",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L390",
+      "id": "main_site_segmento_upgraded_blueprint_section_heading_390",
+      "community": 8,
+      "norm_label": "section heading"
+    },
+    {
+      "label": "code:block37 (Five tools. One platform.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L391",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_37",
+      "community": 8,
+      "norm_label": "code:block37 (five tools. one platform.)"
+    },
+    {
+      "label": "Section Subtext",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L395",
+      "id": "main_site_segmento_upgraded_blueprint_section_subtext_395",
+      "community": 8,
+      "norm_label": "section subtext"
+    },
+    {
+      "label": "code:block38 (Each product solves a specific problem.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L396",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_38",
+      "community": 8,
+      "norm_label": "code:block38 (each product solves a specific problem.)"
+    },
+    {
+      "label": "Product 1 \u2014 Segmento Pulse *(Left text / Right visual)*",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L403",
+      "id": "main_site_segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
+      "community": 8,
+      "norm_label": "product 1 \u2014 segmento pulse *(left text / right visual)*"
+    },
+    {
+      "label": "code:block39 (Know what's happening before it hits you.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L408",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_39",
+      "community": 8,
+      "norm_label": "code:block39 (know what's happening before it hits you.)"
+    },
+    {
+      "label": "code:block40 (Pulse tracks global data privacy news, regulatory changes,)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L412",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_40",
+      "community": 8,
+      "norm_label": "code:block40 (pulse tracks global data privacy news, regulatory changes,)"
+    },
+    {
+      "label": "Product 2 \u2014 Segmento Sense *(Right text / Left visual \u2014 alternates)*",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L429",
+      "id": "main_site_segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
+      "community": 8,
+      "norm_label": "product 2 \u2014 segmento sense *(right text / left visual \u2014 alternates)*"
+    },
+    {
+      "label": "code:block41 (Find sensitive data. Before someone else does.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L434",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_41",
+      "community": 8,
+      "norm_label": "code:block41 (find sensitive data. before someone else does.)"
+    },
+    {
+      "label": "code:block42 (Sense uses explainable AI to detect, classify, and redact PI)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L438",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_42",
+      "community": 8,
+      "norm_label": "code:block42 (sense uses explainable ai to detect, classify, and redact pi)"
+    },
+    {
+      "label": "Product 3 \u2014 Segmento Collect *(Left text / Right visual)*",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L455",
+      "id": "main_site_segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
+      "community": 8,
+      "norm_label": "product 3 \u2014 segmento collect *(left text / right visual)*"
+    },
+    {
+      "label": "code:block43 (Every source. One pipeline.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L460",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_43",
+      "community": 8,
+      "norm_label": "code:block43 (every source. one pipeline.)"
+    },
+    {
+      "label": "code:block44 (Collect aggregates data from 12+ source types through intell)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L464",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_44",
+      "community": 8,
+      "norm_label": "code:block44 (collect aggregates data from 12+ source types through intell)"
+    },
+    {
+      "label": "Product 4 \u2014 Segmento Resolve *(Right text / Left visual \u2014 alternates)*",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L481",
+      "id": "main_site_segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
+      "community": 8,
+      "norm_label": "product 4 \u2014 segmento resolve *(right text / left visual \u2014 alternates)*"
+    },
+    {
+      "label": "code:block45 (No more lost tickets. No more missed SLAs.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L486",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_45",
+      "community": 8,
+      "norm_label": "code:block45 (no more lost tickets. no more missed slas.)"
+    },
+    {
+      "label": "code:block46 (Resolve turns chaotic data requests into a structured, track)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L490",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_46",
+      "community": 8,
+      "norm_label": "code:block46 (resolve turns chaotic data requests into a structured, track)"
+    },
+    {
+      "label": "Product 5 \u2014 Segmento SprintQL *(Left text / Right visual)*",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L506",
+      "id": "main_site_segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
+      "community": 8,
+      "norm_label": "product 5 \u2014 segmento sprintql *(left text / right visual)*"
+    },
+    {
+      "label": "code:block47 (Retrospectives that actually drive change.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L511",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_47",
+      "community": 8,
+      "norm_label": "code:block47 (retrospectives that actually drive change.)"
+    },
+    {
+      "label": "code:block48 (SprintQL makes retros fast, collaborative, and actionable.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L515",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_48",
+      "community": 8,
+      "norm_label": "code:block48 (sprintql makes retros fast, collaborative, and actionable.)"
+    },
+    {
+      "label": "SECTION 7 \u2014 ECOSYSTEM STRIP",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L532",
+      "id": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "community": 7,
+      "norm_label": "section 7 \u2014 ecosystem strip"
+    },
+    {
+      "label": "Section Label",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L534",
+      "id": "main_site_segmento_upgraded_blueprint_section_label_534",
+      "community": 7,
+      "norm_label": "section label"
+    },
+    {
+      "label": "code:block49 (Connects with your entire stack)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L535",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_49",
+      "community": 7,
+      "norm_label": "code:block49 (connects with your entire stack)"
+    },
+    {
+      "label": "Layout",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L539",
+      "id": "main_site_segmento_upgraded_blueprint_layout_539",
+      "community": 7,
+      "norm_label": "layout"
+    },
+    {
+      "label": "Logos to include",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L545",
+      "id": "main_site_segmento_upgraded_blueprint_logos_to_include",
+      "community": 7,
+      "norm_label": "logos to include"
+    },
+    {
+      "label": "code:block50 (Row 1: AWS \u00b7 Snowflake \u00b7 Google Cloud \u00b7 Azure \u00b7 Databricks \u00b7)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L546",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_50",
+      "community": 7,
+      "norm_label": "code:block50 (row 1: aws \u00b7 snowflake \u00b7 google cloud \u00b7 azure \u00b7 databricks \u00b7)"
+    },
+    {
+      "label": "Caption (centered, below marquee)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L552",
+      "id": "main_site_segmento_upgraded_blueprint_caption_centered_below_marquee",
+      "community": 7,
+      "norm_label": "caption (centered, below marquee)"
+    },
+    {
+      "label": "code:block51 (12+ source types. Native connectors. Zero custom engineering)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L553",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_51",
+      "community": 7,
+      "norm_label": "code:block51 (12+ source types. native connectors. zero custom engineering)"
+    },
+    {
+      "label": "SECTION 8 \u2014 CTA SECTION",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L561",
+      "id": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "community": 20,
+      "norm_label": "section 8 \u2014 cta section"
+    },
+    {
+      "label": "Layout",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L563",
+      "id": "main_site_segmento_upgraded_blueprint_layout_563",
+      "community": 20,
+      "norm_label": "layout"
+    },
+    {
+      "label": "Heading",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L566",
+      "id": "main_site_segmento_upgraded_blueprint_heading",
+      "community": 20,
+      "norm_label": "heading"
+    },
+    {
+      "label": "code:block52 (Ready to take control of your data?)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L567",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_52",
+      "community": 20,
+      "norm_label": "code:block52 (ready to take control of your data?)"
+    },
+    {
+      "label": "Subtext",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L571",
+      "id": "main_site_segmento_upgraded_blueprint_subtext",
+      "community": 20,
+      "norm_label": "subtext"
+    },
+    {
+      "label": "code:block53 (Start with one product. Or explore all five.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L572",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_53",
+      "community": 20,
+      "norm_label": "code:block53 (start with one product. or explore all five.)"
+    },
+    {
+      "label": "Primary Button",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L577",
+      "id": "main_site_segmento_upgraded_blueprint_primary_button",
+      "community": 20,
+      "norm_label": "primary button"
+    },
+    {
+      "label": "code:block54 (Get Started  \u2192)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L578",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_54",
+      "community": 20,
+      "norm_label": "code:block54 (get started  \u2192)"
+    },
+    {
+      "label": "Secondary Button",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L582",
+      "id": "main_site_segmento_upgraded_blueprint_secondary_button",
+      "community": 20,
+      "norm_label": "secondary button"
+    },
+    {
+      "label": "code:block55 (Talk to Us)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L583",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_55",
+      "community": 20,
+      "norm_label": "code:block55 (talk to us)"
+    },
+    {
+      "label": "Trust micro-line (below buttons)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L588",
+      "id": "main_site_segmento_upgraded_blueprint_trust_micro_line_below_buttons",
+      "community": 20,
+      "norm_label": "trust micro-line (below buttons)"
+    },
+    {
+      "label": "code:block56 (No data leaves your environment \u00b7 GDPR \u00b7 HIPAA \u00b7 DPDP Ready)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L589",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_56",
+      "community": 20,
+      "norm_label": "code:block56 (no data leaves your environment \u00b7 gdpr \u00b7 hipaa \u00b7 dpdp ready)"
+    },
+    {
+      "label": "SECTION 9 \u2014 FOOTER",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L597",
+      "id": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "community": 21,
+      "norm_label": "section 9 \u2014 footer"
+    },
+    {
+      "label": "Tagline under logo",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L599",
+      "id": "main_site_segmento_upgraded_blueprint_tagline_under_logo",
+      "community": 21,
+      "norm_label": "tagline under logo"
+    },
+    {
+      "label": "code:block57 (The complete data intelligence platform.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L600",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_57",
+      "community": 21,
+      "norm_label": "code:block57 (the complete data intelligence platform.)"
+    },
+    {
+      "label": "Column: Products",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L604",
+      "id": "main_site_segmento_upgraded_blueprint_column_products",
+      "community": 21,
+      "norm_label": "column: products"
+    },
+    {
+      "label": "Column: Company",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L611",
+      "id": "main_site_segmento_upgraded_blueprint_column_company",
+      "community": 21,
+      "norm_label": "column: company"
+    },
+    {
+      "label": "Column: Legal",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L617",
+      "id": "main_site_segmento_upgraded_blueprint_column_legal",
+      "community": 21,
+      "norm_label": "column: legal"
+    },
+    {
+      "label": "Column: Compliance",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L622",
+      "id": "main_site_segmento_upgraded_blueprint_column_compliance",
+      "community": 21,
+      "norm_label": "column: compliance"
+    },
+    {
+      "label": "Compliance badges row (bottom of footer)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L628",
+      "id": "main_site_segmento_upgraded_blueprint_compliance_badges_row_bottom_of_footer",
+      "community": 21,
+      "norm_label": "compliance badges row (bottom of footer)"
+    },
+    {
+      "label": "code:block58 ([GDPR] [HIPAA] [DPDP] [SOC 2] [ISO 27001])",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L629",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_58",
+      "community": 21,
+      "norm_label": "code:block58 ([gdpr] [hipaa] [dpdp] [soc 2] [iso 27001])"
+    },
+    {
+      "label": "Copyright line",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L633",
+      "id": "main_site_segmento_upgraded_blueprint_copyright_line",
+      "community": 21,
+      "norm_label": "copyright line"
+    },
+    {
+      "label": "code:block59 (\u00a9 2025 Segmento. Built in India \ud83c\uddee\ud83c\uddf3. All rights reserved.)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L634",
+      "id": "main_site_segmento_upgraded_blueprint_codeblock_59",
+      "community": 21,
+      "norm_label": "code:block59 (\u00a9 2025 segmento. built in india \ud83c\uddee\ud83c\uddf3. all rights reserved.)"
+    },
+    {
+      "label": "COMPLETE SECTION ORDER (Final)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L640",
+      "id": "main_site_segmento_upgraded_blueprint_complete_section_order_final",
+      "community": 7,
+      "norm_label": "complete section order (final)"
+    },
+    {
+      "label": "DESIGN TOKENS (Non-negotiable)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L657",
+      "id": "main_site_segmento_upgraded_blueprint_design_tokens_non_negotiable",
+      "community": 7,
+      "norm_label": "design tokens (non-negotiable)"
+    },
+    {
+      "label": "DRIBBBLE / MOBBIN MASTER SEARCH LIST",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L676",
+      "id": "main_site_segmento_upgraded_blueprint_dribbble_mobbin_master_search_list",
+      "community": 7,
+      "norm_label": "dribbble / mobbin master search list"
+    },
+    {
+      "label": "KEY DESIGN RULES (Locked)",
+      "file_type": "document",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L696",
+      "id": "main_site_segmento_upgraded_blueprint_key_design_rules_locked",
+      "community": 7,
+      "norm_label": "key design rules (locked)"
+    },
+    {
+      "label": "AppShellMockup()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L144",
+      "community": 6,
+      "norm_label": "appshellmockup()",
+      "id": "components_hero_appshellmockup"
+    },
+    {
+      "label": "BrowserChrome()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L168",
+      "community": 6,
+      "norm_label": "browserchrome()",
+      "id": "components_hero_browserchrome"
+    },
+    {
+      "label": "AppSidebar()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L199",
+      "community": 6,
+      "norm_label": "appsidebar()",
+      "id": "components_hero_appsidebar"
+    },
+    {
+      "label": "DocumentPane()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L252",
+      "community": 6,
+      "norm_label": "documentpane()",
+      "id": "components_hero_documentpane"
+    },
+    {
+      "label": "ScannedBadge()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L340",
+      "community": 6,
+      "norm_label": "scannedbadge()",
+      "id": "components_hero_scannedbadge"
+    },
+    {
+      "label": "PIIChip()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L351",
+      "community": 6,
+      "norm_label": "piichip()",
+      "id": "components_hero_piichip"
+    },
+    {
+      "label": "FieldRow()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L361",
+      "community": 6,
+      "norm_label": "fieldrow()",
+      "id": "components_hero_fieldrow"
+    },
+    {
+      "label": "InlineLine()",
+      "file_type": "code",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L377",
+      "community": 6,
+      "norm_label": "inlineline()",
+      "id": "components_hero_inlineline"
+    },
+    {
       "label": "reasons",
       "file_type": "code",
       "source_file": "app/components/Features.tsx",
       "source_location": "L6",
-      "community": 16,
+      "community": 2,
       "norm_label": "reasons",
       "id": "components_features_reasons"
     },
@@ -1457,7 +2735,7 @@
       "file_type": "code",
       "source_file": "app/components/Stats.tsx",
       "source_location": "L6",
-      "community": 8,
+      "community": 2,
       "norm_label": "statsdata",
       "id": "components_stats_statsdata"
     },
@@ -1645,9 +2923,9 @@
       "source_file": "package.json",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "main_site_package_dependencies",
-      "target": "main_site_package_dependencies_next_themes",
-      "confidence_score": 1.0
+      "target": "main_site_package_dependencies_next_themes"
     },
     {
       "relation": "contains",
@@ -2203,9 +3481,9 @@
       "source_file": "app/about/page.tsx",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_about_page_tsx",
-      "target": "about_page_milestones",
-      "confidence_score": 1.0
+      "target": "about_page_milestones"
     },
     {
       "relation": "contains",
@@ -2329,9 +3607,9 @@
       "source_file": "app/careers/page.tsx",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_careers_page_tsx",
-      "target": "app_components_navbar_tsx",
-      "confidence_score": 1.0
+      "target": "app_components_navbar_tsx"
     },
     {
       "relation": "imports_from",
@@ -2340,9 +3618,9 @@
       "source_file": "app/careers/page.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_careers_page_tsx",
-      "target": "app_components_footer_tsx",
-      "confidence_score": 1.0
+      "target": "app_components_footer_tsx"
     },
     {
       "relation": "contains",
@@ -2350,9 +3628,9 @@
       "source_file": "app/careers/page.tsx",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_careers_page_tsx",
-      "target": "careers_page_openroles",
-      "confidence_score": 1.0
+      "target": "careers_page_openroles"
     },
     {
       "relation": "contains",
@@ -2360,9 +3638,9 @@
       "source_file": "app/careers/page.tsx",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_careers_page_tsx",
-      "target": "careers_page_careerspage",
-      "confidence_score": 1.0
+      "target": "careers_page_careerspage"
     },
     {
       "relation": "contains",
@@ -2400,9 +3678,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_features_tsx",
-      "target": "components_features_fadeup",
-      "confidence_score": 1.0
+      "target": "components_features_fadeup"
     },
     {
       "relation": "contains",
@@ -2410,9 +3688,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_features_tsx",
-      "target": "components_features_dataflowdiagram",
-      "confidence_score": 1.0
+      "target": "components_features_dataflowdiagram"
     },
     {
       "relation": "contains",
@@ -2420,9 +3698,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L136",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_features_tsx",
-      "target": "components_features_brainvisual",
-      "confidence_score": 1.0
+      "target": "components_features_brainvisual"
     },
     {
       "relation": "contains",
@@ -2430,9 +3708,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L186",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_features_tsx",
-      "target": "components_features_iconbadge",
-      "confidence_score": 1.0
+      "target": "components_features_iconbadge"
     },
     {
       "relation": "contains",
@@ -2440,9 +3718,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L209",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_features_tsx",
-      "target": "components_features_categorychip",
-      "confidence_score": 1.0
+      "target": "components_features_categorychip"
     },
     {
       "relation": "contains",
@@ -2471,9 +3749,9 @@
       "source_file": "app/components/Features.tsx",
       "source_location": "L247",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_features_features",
-      "target": "components_features_fadeup",
-      "confidence_score": 1.0
+      "target": "components_features_fadeup"
     },
     {
       "relation": "contains",
@@ -2537,6 +3815,92 @@
       "confidence_score": 1.0,
       "source": "app_pricing_page_tsx",
       "target": "app_components_footer_tsx"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "app_components_heroshells_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_heroshells_senseshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_heroshells_pulseshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_heroshells_collectshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_heroshells_resolveshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_heroshells_sprintqlshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_hero_products",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/Hero.tsx",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "app_components_hero_tsx",
+      "target": "components_hero_pid",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -2652,6 +4016,96 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_s",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_chrome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_sidebar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_senseshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_pulseshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L146",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_collectshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L194",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_resolveshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/components/HeroShells.tsx",
+      "source_location": "L231",
+      "weight": 1.0,
+      "source": "app_components_heroshells_tsx",
+      "target": "components_heroshells_sprintqlshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "app/components/HowItWorks.tsx",
       "source_location": "L7",
       "weight": 1.0,
@@ -2726,9 +4180,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "app_components_themetoggle_tsx",
-      "confidence_score": 1.0
+      "target": "app_components_themetoggle_tsx"
     },
     {
       "relation": "contains",
@@ -2736,9 +4190,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "components_navbar_megaitem",
-      "confidence_score": 1.0
+      "target": "components_navbar_megaitem"
     },
     {
       "relation": "contains",
@@ -2746,9 +4200,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "components_navbar_megasection",
-      "confidence_score": 1.0
+      "target": "components_navbar_megasection"
     },
     {
       "relation": "contains",
@@ -2756,9 +4210,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "components_navbar_megafeatured",
-      "confidence_score": 1.0
+      "target": "components_navbar_megafeatured"
     },
     {
       "relation": "contains",
@@ -2786,9 +4240,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "components_navbar_featuredcard",
-      "confidence_score": 1.0
+      "target": "components_navbar_featuredcard"
     },
     {
       "relation": "contains",
@@ -2796,9 +4250,9 @@
       "source_file": "app/components/Navbar.tsx",
       "source_location": "L171",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_navbar_tsx",
-      "target": "components_navbar_megapanel",
-      "confidence_score": 1.0
+      "target": "components_navbar_megapanel"
     },
     {
       "relation": "contains",
@@ -2980,9 +4434,9 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_stats_tsx",
-      "target": "components_stats_stats",
-      "confidence_score": 1.0
+      "target": "components_stats_stats"
     },
     {
       "relation": "contains",
@@ -2990,9 +4444,9 @@
       "source_file": "app/components/Stats.tsx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_stats_tsx",
-      "target": "components_stats_dot",
-      "confidence_score": 1.0
+      "target": "components_stats_dot"
     },
     {
       "relation": "contains",
@@ -3020,9 +4474,9 @@
       "source_file": "app/components/ThemeToggle.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "app_components_themetoggle_tsx",
-      "target": "components_themetoggle_themetoggle",
-      "confidence_score": 1.0
+      "target": "components_themetoggle_themetoggle"
     },
     {
       "relation": "contains",
@@ -3150,9 +4604,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_brand_style",
-      "confidence_score": 1.0
+      "target": "main_site_design_brand_style"
     },
     {
       "relation": "contains",
@@ -3160,9 +4614,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_colors",
-      "confidence_score": 1.0
+      "target": "main_site_design_colors"
     },
     {
       "relation": "contains",
@@ -3170,9 +4624,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_typography",
-      "confidence_score": 1.0
+      "target": "main_site_design_typography"
     },
     {
       "relation": "contains",
@@ -3180,9 +4634,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_layout_spacing",
-      "confidence_score": 1.0
+      "target": "main_site_design_layout_spacing"
     },
     {
       "relation": "contains",
@@ -3190,9 +4644,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L142",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_elevation_depth",
-      "confidence_score": 1.0
+      "target": "main_site_design_elevation_depth"
     },
     {
       "relation": "contains",
@@ -3200,9 +4654,9 @@
       "source_file": "DESIGN.md",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_shapes",
-      "confidence_score": 1.0
+      "target": "main_site_design_shapes"
     },
     {
       "relation": "contains",
@@ -3210,8 +4664,1298 @@
       "source_file": "DESIGN.md",
       "source_location": "L157",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_md",
-      "target": "main_site_design_components",
+      "target": "main_site_design_components"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "segmento_upgraded_blueprint_md",
+      "target": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_full_page_flow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_navbar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L152",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L184",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L290",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_4_stats_ticker",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L308",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L383",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L532",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L561",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L597",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L640",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_complete_section_order_final",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L657",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_design_tokens_non_negotiable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L676",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_dribbble_mobbin_master_search_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L696",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_segmento_main_site_upgraded_content_blueprint_v2_0",
+      "target": "main_site_segmento_upgraded_blueprint_key_design_rules_locked",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_full_page_flow",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_navbar",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_navbar",
+      "target": "main_site_segmento_upgraded_blueprint_products_dropdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_navbar",
+      "target": "main_site_segmento_upgraded_blueprint_design_notes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_announcement_badge_pill_above_headline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_h1_headline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_subheadline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_primary_cta_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_secondary_cta_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_trust_line_small_text_below_buttons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_1_hero",
+      "target": "main_site_segmento_upgraded_blueprint_hero_visual_right_side_critical",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_announcement_badge_pill_above_headline",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_h1_headline",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_4",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_subheadline",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_5",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_primary_cta_button",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_6",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L109",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_secondary_cta_button",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_7",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_trust_line_small_text_below_buttons",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_8",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_hero_visual_right_side_critical",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_9",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L156",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "target": "main_site_segmento_upgraded_blueprint_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "target": "main_site_segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L165",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "target": "main_site_segmento_upgraded_blueprint_separator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L170",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "target": "main_site_segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_2_trust_strip",
+      "target": "main_site_segmento_upgraded_blueprint_caption_text_small_centered_below",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L160",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_10",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_separator",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_11",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_12",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L176",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_caption_text_small_centered_below",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_13",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L186",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_section_label_pill_tag",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L191",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_section_heading",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_section_subtext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_bento_grid_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L226",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_hero_tile_100_client_side_processing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_medium_tile_explainable_ai",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L258",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_small_tile_zero_trust_data_handling",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L273",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_3_features_why_segmento",
+      "target": "main_site_segmento_upgraded_blueprint_wide_tile_enterprise_scale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_label_pill_tag",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_14",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_heading",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_15",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_subtext",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_16",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_bento_grid_layout",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_17",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L230",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_hero_tile_100_client_side_processing",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_18",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_hero_tile_100_client_side_processing",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_19",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L247",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_medium_tile_explainable_ai",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_20",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L251",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_medium_tile_explainable_ai",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_21",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L262",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_small_tile_zero_trust_data_handling",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_22",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L266",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_small_tile_zero_trust_data_handling",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_23",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L277",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_wide_tile_enterprise_scale",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_24",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L281",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_wide_tile_enterprise_scale",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_25",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L294",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_4_stats_ticker",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_26",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_section_label_pill_tag_310",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L315",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_section_heading_315",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L320",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_section_subtext_320",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L327",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_step_1_connect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L344",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_step_2_detect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L361",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_step_3_control",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L376",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_5_how_it_works",
+      "target": "main_site_segmento_upgraded_blueprint_layout_376",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L311",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_label_pill_tag_310",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_27",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L316",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_heading_315",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_28",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L321",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_subtext_320",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_29",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L331",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_1_connect",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_30",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L335",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_1_connect",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_31",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L348",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_2_detect",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_32",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_2_detect",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_33",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L365",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_3_control",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_34",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L369",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_step_3_control",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_35",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L385",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_section_label",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L390",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_section_heading_390",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L395",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_section_subtext_395",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L403",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L429",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L455",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L481",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L506",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_6_product_showcase",
+      "target": "main_site_segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L386",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_label",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_36",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L391",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_heading_390",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_37",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L396",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_subtext_395",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_38",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L408",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_39",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L412",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_40",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L434",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_41",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L438",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_42",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L460",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_43",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L464",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_44",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L486",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_45",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L490",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_46",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L511",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_47",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L515",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_48",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L534",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "target": "main_site_segmento_upgraded_blueprint_section_label_534",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L539",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "target": "main_site_segmento_upgraded_blueprint_layout_539",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L545",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "target": "main_site_segmento_upgraded_blueprint_logos_to_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L552",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_7_ecosystem_strip",
+      "target": "main_site_segmento_upgraded_blueprint_caption_centered_below_marquee",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L535",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_label_534",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_49",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L546",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_logos_to_include",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_50",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L553",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_caption_centered_below_marquee",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_51",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L563",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_layout_563",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L566",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_heading",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L571",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_subtext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L577",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_primary_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L582",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_secondary_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L588",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_8_cta_section",
+      "target": "main_site_segmento_upgraded_blueprint_trust_micro_line_below_buttons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L567",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_heading",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_52",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L572",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_subtext",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_53",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L578",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_primary_button",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_54",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L583",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_secondary_button",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_55",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L589",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_trust_micro_line_below_buttons",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_56",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L599",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_tagline_under_logo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L604",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_column_products",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L611",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_column_company",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L617",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_column_legal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L622",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_column_compliance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L628",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_compliance_badges_row_bottom_of_footer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L633",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_section_9_footer",
+      "target": "main_site_segmento_upgraded_blueprint_copyright_line",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L600",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_tagline_under_logo",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_57",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L629",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_compliance_badges_row_bottom_of_footer",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_58",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "segmento_upgraded_blueprint.md",
+      "source_location": "L634",
+      "weight": 1.0,
+      "source": "main_site_segmento_upgraded_blueprint_copyright_line",
+      "target": "main_site_segmento_upgraded_blueprint_codeblock_59",
       "confidence_score": 1.0
     },
     {
@@ -3246,5 +5990,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e3691a11a740886960d4ae7994e5552713ae2b52"
+  "built_at_commit": "63757dc85376c588b25cecf4603c8ddc54c70eff"
 }
