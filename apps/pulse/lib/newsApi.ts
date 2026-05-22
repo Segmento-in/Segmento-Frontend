@@ -182,9 +182,28 @@ export async function fetchNewsByCategory(
     try {
         const API_BASE = getApiBase();
 
-        // ── Umbrella slug: fan out to all real sub-categories ────────────────
+        // ── Umbrella slug: try backend aggregation, fallback to manual fan-out ────────────────
         const subCategories = UMBRELLA_CATEGORIES[category];
         if (subCategories) {
+            // OPTIMIZATION: Try the single backend aggregation endpoint first.
+            // This prevents the massive network overhead of 10 simultaneous Vercel -> Backend requests.
+            try {
+                const response = await fetch(`${API_BASE}/api/news/umbrella/${category}?limit=${limit}`, {
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json', 'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)' }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const articles = data.articles || [];
+                    return Promise.all(articles.map(sanitizeArticlePayload));
+                }
+                console.warn(`[newsApi] Umbrella endpoint failed with status ${response.status}. Falling back to manual fan-out.`);
+            } catch (umbrellaError) {
+                console.error(`[newsApi] Umbrella endpoint error for ${category}. Falling back to manual fan-out.`, umbrellaError);
+            }
+
+            // FALLBACK: Manual fan-out if the aggregation endpoint is unavailable
             // Fetch all sub-categories in parallel. Limit per sub-category is
             // smaller so we don't overshoot the total by 10x.
             const perCatLimit = Math.max(5, Math.ceil(limit / subCategories.length));
