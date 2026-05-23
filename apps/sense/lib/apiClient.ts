@@ -533,13 +533,16 @@ class APIClient {
 
     async evaluatorParse(
         file: File,
-        format: string = 'auto',
+        fileType: string = 'auto',
         docIndex: number = 0,
         schema?: Record<string, string>,
+        category: string = 'unstructured',
     ): Promise<EvaluatorParseResponse> {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('format', format);
+        formData.append('format', fileType);      // legacy compat
+        formData.append('file_type', fileType);   // new param
+        formData.append('category', category);
         formData.append('doc_index', docIndex.toString());
         if (schema) formData.append('schema', JSON.stringify(schema));
         const response = await fetch(`${this.baseURL}/api/evaluator/parse`, {
