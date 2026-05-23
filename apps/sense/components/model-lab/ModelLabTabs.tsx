@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, BarChart2, AlertTriangle, GitCompare } from 'lucide-react';
+import { Upload, FileText, BarChart2, AlertTriangle, GitCompare, Layers } from 'lucide-react';
 import { ModelLabState } from '@/app/model-lab/ModelLabClient';
 import { EvaluatorModel, apiClient } from '@/lib/apiClient';
 import UploadScanTab from './tabs/UploadScanTab';
@@ -10,8 +10,10 @@ import DocumentViewTab from './tabs/DocumentViewTab';
 import MetricsTab from './tabs/MetricsTab';
 import FailuresTab from './tabs/FailuresTab';
 import CompareTab from './tabs/CompareTab';
+import FormatScanTab from './tabs/FormatScanTab';
 
 const TABS = [
+    { icon: Layers,        label: '🗂️ Format Scan',   id: 'formatscan' },
     { icon: Upload,        label: '📁 Upload & Scan', id: 'upload' },
     { icon: FileText,      label: '📄 Document View', id: 'docview' },
     { icon: BarChart2,     label: '📊 Metrics', id: 'metrics' },
@@ -93,20 +95,24 @@ export default function ModelLabTabs({
                     transition={{ duration: 0.25 }}
                 >
                     {state.activeTab === 0 && (
+                        <FormatScanTab modelCatalogue={state.modelCatalogue} />
+                    )}
+
+                    {state.activeTab === 1 && (
                         <UploadScanTab
                             state={state}
                             update={update}
                         />
                     )}
 
-                    {state.activeTab === 1 && (
+                    {state.activeTab === 2 && (
                         <DocumentViewTab
                             state={state}
                             update={update}
                         />
                     )}
 
-                    {state.activeTab === 2 && (
+                    {state.activeTab === 3 && (
                         <MetricsTab
                             state={state}
                             update={update}
@@ -114,14 +120,14 @@ export default function ModelLabTabs({
                         />
                     )}
 
-                    {state.activeTab === 3 && (
+                    {state.activeTab === 4 && (
                         <FailuresTab
                             state={state}
                             update={update}
                         />
                     )}
 
-                    {state.activeTab === 4 && (
+                    {state.activeTab === 5 && (
                         <CompareTab
                             state={state}
                             update={update}
