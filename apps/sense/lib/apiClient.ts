@@ -135,6 +135,23 @@ export interface BatchEvalResponse {
     n_docs_evaluated: number;
 }
 
+export interface VideoJobStatus {
+    status: 'queued' | 'extracting' | 'scanning' | 'done' | 'error' | 'cancelled';
+    progress: number;             // 0-100
+    stage_detail: string;         // human-readable current stage
+    result: {
+        per_model: Record<string, ModelScanResult>;
+        has_gt: boolean;
+        elapsed: number;
+        union_total: number;
+        ranked: Array<{ model_key: string; pii_count: number; accuracy: number; rank: number }>;
+        parsed_text: string;      // source-attributed extracted text
+    } | null;
+    error: string | null;
+    created_at: number;
+    model_keys: string[];
+}
+
 export interface PinnedResult {
     label: string;
     modelKey: string;
@@ -588,6 +605,32 @@ class APIClient {
         });
         return this.handleResponse(response);
     }
+
+    // ── Video PII (async job queue) ──────────────────────────────────────────
+
+    async videoUpload(
+        file: File,
+        modelKeys: string[],
+    ): Promise<{ job_id: string; status: string; file_size_mb: number; model_keys: string[] }> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('model_keys', modelKeys.join(','));
+        const response = await fetch(`${this.baseURL}/api/video/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+        return this.handleResponse(response);
+    }
+
+    async videoStatus(jobId: string): Promise<VideoJobStatus> {
+        const response = await fetch(`${this.baseURL}/api/video/status/${jobId}`);
+        return this.handleResponse(response);
+    }
+
+    async videoCancel(jobId: string): Promise<void> {
+        await fetch(`${this.baseURL}/api/video/cancel/${jobId}`, { method: 'DELETE' });
+    }
 }
 
 export const apiClient = new APIClient();
+

@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
     Upload, Play, RotateCcw, CheckCircle2, CheckSquare, Square,
-    ChevronDown, ChevronUp, AlertCircle, Layers, FileText,
+    AlertCircle, Layers, FileText, Video, XCircle,
 } from 'lucide-react';
-import { ModelLabState } from '@/app/model-lab/ModelLabClient';
-import { EvaluatorModel, apiClient } from '@/lib/apiClient';
+import { EvaluatorModel, VideoJobStatus, apiClient } from '@/lib/apiClient';
 import ModelShowdown, { getPiiColor } from '@/components/model-lab/ModelShowdown';
 
 // ── File categories & types ───────────────────────────────────────────────────
@@ -15,7 +14,7 @@ const CATEGORIES = [
     {
         key: 'unstructured',
         label: '📄 Unstructured',
-        desc: 'Documents, emails, plain text',
+        desc: 'Documents, emails, plain text, video',
         types: [
             { ext: 'txt',  label: 'Plain Text (.txt)',        accept: '.txt' },
             { ext: 'pdf',  label: 'PDF Document (.pdf)',      accept: '.pdf' },
@@ -27,6 +26,11 @@ const CATEGORIES = [
             { ext: 'eml',  label: 'Email (.eml)',             accept: '.eml' },
             { ext: 'epub', label: 'eBook (.epub)',            accept: '.epub' },
             { ext: 'pptx', label: 'PowerPoint (.pptx)',      accept: '.pptx' },
+            { ext: 'mp4',  label: '🎬 MP4 Video (.mp4)',      accept: '.mp4'  },
+            { ext: 'mkv',  label: '🎬 MKV Video (.mkv)',      accept: '.mkv'  },
+            { ext: 'avi',  label: '🎬 AVI Video (.avi)',      accept: '.avi'  },
+            { ext: 'mov',  label: '🎬 MOV Video (.mov)',      accept: '.mov'  },
+            { ext: 'webm', label: '🎬 WebM Video (.webm)',    accept: '.webm' },
         ],
     },
     {
@@ -73,6 +77,10 @@ const TYPE_COLORS: Record<string, string> = {
     'Rule+ML':     'border-cyan-500/50 text-cyan-300 bg-cyan-500/10',
 };
 
+// ── Video format detection ────────────────────────────────────────────────────
+
+const VIDEO_TYPES = new Set(['mp4', 'mkv', 'avi', 'mov', 'webm']);
+
 // ── State shape (local to this tab) ──────────────────────────────────────────
 
 interface FormatScanState {
@@ -86,6 +94,11 @@ interface FormatScanState {
     showdownData: any | null;
     parsedChars: number;
     parsedText: string;
+    // video async job
+    videoJobId: string | null;
+    videoProgress: number;
+    videoStage: string;
+    videoStatus: VideoJobStatus['status'] | null;
 }
 
 const INITIAL: FormatScanState = {
@@ -99,6 +112,10 @@ const INITIAL: FormatScanState = {
     showdownData: null,
     parsedChars: 0,
     parsedText: '',
+    videoJobId: null,
+    videoProgress: 0,
+    videoStage: '',
+    videoStatus: null,
 };
 
 interface Props {
@@ -113,6 +130,43 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
     const [isDragging, setIsDragging] = useState(false);
 
     const patch = (p: Partial<FormatScanState>) => setS(prev => ({ ...prev, ...p }));
+
+    // ── Video job polling ─────────────────────────────────────────────────────
+    const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    useEffect(() => {
+        if (!s.videoJobId) return;
+        pollRef.current = setInterval(async () => {
+            try {
+                const status = await apiClient.videoStatus(s.videoJobId!);
+                patch({ videoProgress: status.progress, videoStage: status.stage_detail, videoStatus: status.status });
+                if (status.status === 'done' && status.result) {
+                    clearInterval(pollRef.current!);
+                    patch({
+                        isLoading: false, videoJobId: null,
+                        showdownData: status.result,
+                        parsedText: status.result.parsed_text ?? '',
+                        parsedChars: (status.result.parsed_text ?? '').length,
+                    });
+                } else if (status.status === 'error') {
+                    clearInterval(pollRef.current!);
+                    patch({ isLoading: false, videoJobId: null, error: status.error ?? 'Video processing failed.' });
+                } else if (status.status === 'cancelled') {
+                    clearInterval(pollRef.current!);
+                    patch({ isLoading: false, videoJobId: null, error: 'Job cancelled.' });
+                }
+            } catch { /* network hiccup — keep polling */ }
+        }, 3000);
+        return () => { if (pollRef.current) clearInterval(pollRef.current); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [s.videoJobId]);
+
+    const cancelVideo = async () => {
+        if (!s.videoJobId) return;
+        try { await apiClient.videoCancel(s.videoJobId); } catch {}
+        if (pollRef.current) clearInterval(pollRef.current);
+        patch({ isLoading: false, videoJobId: null, videoStatus: 'cancelled', error: null });
+    };
 
     const activeCat = CATEGORIES.find(c => c.key === s.category) ?? CATEGORIES[0];
     const activeType = activeCat.types.find(t => t.ext === s.fileType) ?? activeCat.types[0];
@@ -144,25 +198,29 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
         if (!s.uploadedFile) { patch({ error: 'Upload a file first.' }); return; }
         if (s.selectedModels.length === 0) { patch({ error: 'Select at least one model.' }); return; }
 
-        patch({ isLoading: true, error: null, loadingStage: 'Parsing file…', showdownData: null });
+        patch({ isLoading: true, error: null, showdownData: null, parsedText: '', videoJobId: null });
 
-        try {
-            // Step 1: Parse
-            const parsed = await apiClient.evaluatorParse(s.uploadedFile, s.fileType, 0);
-            patch({ parsedChars: parsed.char_count, parsedText: parsed.text, loadingStage: `Running ${s.selectedModels.length} models…` });
-
-            // Step 2: Scan
-            const scan = await apiClient.evaluatorScan(
-                parsed.text,
-                [],
-                s.selectedModels,
-                0.5,
-                4.5,
-            );
-
-            patch({ showdownData: scan, isLoading: false, loadingStage: '' });
-        } catch (err: any) {
-            patch({ isLoading: false, loadingStage: '', error: err?.message ?? 'Backend error.' });
+        if (VIDEO_TYPES.has(s.fileType)) {
+            // ── Async path: video job queue ────────────────────────────────
+            try {
+                patch({ loadingStage: 'Uploading video…', videoProgress: 0, videoStage: 'Uploading…', videoStatus: 'queued' });
+                const { job_id } = await apiClient.videoUpload(s.uploadedFile, s.selectedModels);
+                // useEffect above takes over polling once videoJobId is set
+                patch({ videoJobId: job_id, loadingStage: 'Video queued — processing in background…' });
+            } catch (err: any) {
+                patch({ isLoading: false, loadingStage: '', error: err?.message ?? 'Upload failed.' });
+            }
+        } else {
+            // ── Sync path: existing 30-format pipeline (unchanged) ─────────
+            patch({ loadingStage: 'Parsing file…' });
+            try {
+                const parsed = await apiClient.evaluatorParse(s.uploadedFile, s.fileType, 0);
+                patch({ parsedChars: parsed.char_count, parsedText: parsed.text, loadingStage: `Running ${s.selectedModels.length} models…` });
+                const scan = await apiClient.evaluatorScan(parsed.text, [], s.selectedModels, 0.5, 4.5);
+                patch({ showdownData: scan, isLoading: false, loadingStage: '' });
+            } catch (err: any) {
+                patch({ isLoading: false, loadingStage: '', error: err?.message ?? 'Backend error.' });
+            }
         }
     };
 
@@ -344,15 +402,20 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
                             disabled={s.isLoading}
                             className="flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm transition-all shadow-lg shadow-emerald-200 dark:shadow-emerald-900/30"
                         >
-                            {s.isLoading ? (
+                            {s.isLoading && !s.videoJobId ? (
                                 <>
                                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                     {s.loadingStage || 'Processing…'}
                                 </>
+                            ) : s.isLoading && s.videoJobId ? (
+                                <>
+                                    <Video size={15} className="animate-pulse" />
+                                    Video processing…
+                                </>
                             ) : (
                                 <>
-                                    <Play size={15} />
-                                    Run Model Showdown
+                                    {VIDEO_TYPES.has(s.fileType) ? <Video size={15} /> : <Play size={15} />}
+                                    {VIDEO_TYPES.has(s.fileType) ? 'Start Video Scan' : 'Run Model Showdown'}
                                 </>
                             )}
                         </button>
@@ -363,6 +426,60 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
                             </button>
                         )}
                     </div>
+
+                    {/* ── Video progress panel ── */}
+                    {s.videoJobId && (
+                        <div className="rounded-2xl border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 p-5 space-y-4">
+                            {/* Stage pills */}
+                            <div className="flex flex-wrap gap-2">
+                                {(['extracting', 'scanning', 'done'] as const).map((stage) => {
+                                    const labels: Record<string, string> = {
+                                        extracting: '1 · Extract',
+                                        scanning:   '2 · Scan PII',
+                                        done:       '3 · Done',
+                                    };
+                                    const isActive = s.videoStatus === stage;
+                                    const isPast = s.videoStatus === 'done' && stage !== 'done' ||
+                                                   s.videoStatus === 'scanning' && stage === 'extracting';
+                                    return (
+                                        <span key={stage} className={`px-3 py-1 rounded-full text-[10px] font-bold border transition-all ${
+                                            isActive  ? 'bg-blue-500 text-white border-blue-600' :
+                                            isPast    ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-300' :
+                                                        'bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700'
+                                        }`}>
+                                            {labels[stage]}
+                                        </span>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Progress bar */}
+                            <div className="space-y-1.5">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold">{s.videoStage || 'Processing…'}</span>
+                                    <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">{s.videoProgress}%</span>
+                                </div>
+                                <div className="w-full h-2.5 rounded-full bg-blue-100 dark:bg-blue-900/50 overflow-hidden">
+                                    <div
+                                        className="h-full rounded-full bg-gradient-to-r from-blue-400 to-emerald-400 transition-all duration-700"
+                                        style={{ width: `${s.videoProgress}%` }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Cancel */}
+                            <div className="flex items-center justify-between">
+                                <span className="text-[10px] text-slate-400">Polling every 3s — this may take a few minutes for long videos</span>
+                                <button
+                                    onClick={cancelVideo}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-red-200 dark:border-red-800 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 text-[11px] font-semibold transition-all"
+                                >
+                                    <XCircle size={12} /> Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
 
