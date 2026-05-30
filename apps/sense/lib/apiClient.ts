@@ -1,7 +1,7 @@
 // API Client for Segmento Sense Backend
 // Base URL for HuggingFace Spaces deployment
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
-//const API_BASE_URL = 'http://localhost:7860';
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+const API_BASE_URL = 'http://localhost:7860';
 
 
 export interface PIIMatch {
@@ -630,7 +630,95 @@ class APIClient {
     async videoCancel(jobId: string): Promise<void> {
         await fetch(`${this.baseURL}/api/video/cancel/${jobId}`, { method: 'DELETE' });
     }
+
+    // ==================== DRIVE SCAN (Model Lab) ====================
+
+    async driveFolderBrowse(
+        authType: string,
+        credentials: Record<string, unknown>,
+        folderId: string,
+    ): Promise<{ items: import('./apiClient').DriveItem[]; folder_id: string }> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/drive/browse`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ auth_type: authType, credentials, folder_id: folderId }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async driveFolderScan(
+        authType: string,
+        credentials: Record<string, unknown>,
+        fileRefs: { id: string; name: string; mimeType: string }[],
+        modelKeys: string[],
+    ): Promise<import('./apiClient').DriveFolderScanResponse> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/drive/scan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                auth_type: authType,
+                credentials,
+                file_refs: fileRefs,
+                model_keys: modelKeys,
+            }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async driveTagFiles(
+        authType: string,
+        credentials: Record<string, unknown>,
+        filesToTag: { file_id: string; pii_detected: boolean; pii_count: number }[],
+        humanReadable: boolean = false,
+    ): Promise<{ tagged: import('./apiClient').DriveTagResult[]; scan_ts: string }> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/drive/tag`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ auth_type: authType, credentials, files_to_tag: filesToTag, human_readable: humanReadable }),
+        });
+        return this.handleResponse(response);
+    }
 }
 
 export const apiClient = new APIClient();
 
+// ==================== DRIVE SCAN TYPES (Model Lab) ====================
+
+export interface DriveItem {
+    id: string;
+    name: string;
+    mimeType: string;
+    isFolder: boolean;
+    ext: string;
+    /** High-level media category: 'document' | 'image' | 'video' | 'audio' | 'folder' | 'other' */
+    mediaType: 'document' | 'image' | 'video' | 'audio' | 'folder' | 'other';
+    parseable: boolean;
+    tooBig: boolean;
+    sizeBytes: number;
+    path: string;
+    parentId: string;
+}
+
+export interface DriveFileScanResult {
+    file_id: string;
+    file_name: string;
+    mime_type: string;
+    pii_detected: boolean;
+    pii_count: number;
+    char_count: number;
+    scan_data: EvaluatorScanResponse | null;
+    error: string | null;
+}
+
+export interface DriveFolderScanResponse {
+    results: DriveFileScanResult[];
+    total_files: number;
+    total_pii_files: number;
+    elapsed: number;
+}
+
+export interface DriveTagResult {
+    file_id: string;
+    success: boolean;
+    error: string | null;
+}

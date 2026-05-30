@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, BarChart2, AlertTriangle, GitCompare, Layers } from 'lucide-react';
+import { Upload, FileText, BarChart2, AlertTriangle, GitCompare, Layers, Cloud } from 'lucide-react';
 import { ModelLabState } from '@/app/model-lab/ModelLabClient';
 import { EvaluatorModel, apiClient } from '@/lib/apiClient';
 import UploadScanTab from './tabs/UploadScanTab';
@@ -11,6 +11,7 @@ import MetricsTab from './tabs/MetricsTab';
 import FailuresTab from './tabs/FailuresTab';
 import CompareTab from './tabs/CompareTab';
 import FormatScanTab from './tabs/FormatScanTab';
+import DriveScanTab from './tabs/DriveScanTab';
 
 const TABS = [
     { icon: Layers,        label: '🗂️ Format Scan',   id: 'formatscan' },
@@ -19,6 +20,7 @@ const TABS = [
     { icon: BarChart2,     label: '📊 Metrics', id: 'metrics' },
     { icon: AlertTriangle, label: '🔍 Failures', id: 'failures' },
     { icon: GitCompare,    label: '📌 Compare', id: 'compare' },
+    { icon: Cloud,         label: '☁️ Drive Scan', id: 'drivescan' },
 ];
 
 interface Props {
@@ -134,6 +136,10 @@ export default function ModelLabTabs({
                             removePin={removePin}
                             clearPins={clearPins}
                         />
+                    )}
+
+                    {state.activeTab === 6 && (
+                        <DriveScanTab modelCatalogue={state.modelCatalogue} />
                     )}
                 </motion.div>
             </AnimatePresence>
