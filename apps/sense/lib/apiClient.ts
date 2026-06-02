@@ -698,6 +698,7 @@ export interface DriveItem {
     path: string;
     parentId: string;
     appProperties?: any;
+    webViewLink?: string;
 }
 
 export interface DriveFileScanResult {
