@@ -42,7 +42,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     // --- State: Scan & Results ---
     const [isScanning, setIsScanning] = useState(false);
     const [scanResults, setScanResults] = useState<DriveFileScanResult[]>([]);
-    
+
     // --- State: Tagging ---
     const [isTagging, setIsTagging] = useState(false);
     const [tagSuccess, setTagSuccess] = useState(false);
@@ -117,7 +117,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
             const isAlreadyScanned = item.appProperties?.segmento_pii_detected === 'true' || item.appProperties?.segmento_pii_detected === true;
             if (!item.isFolder && item.parseable && !isAlreadyScanned) newSel.add(item.id);
         });
-        
+
         if (newSel.size === selectedIds.size) {
             setSelectedIds(new Set<string>()); // Toggle off
         } else {
@@ -144,7 +144,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         setError(null);
         setScanResults([]);
         setTagStatuses({});
-        
+
         try {
             const res = await apiClient.driveFolderScan(
                 authType,
@@ -152,7 +152,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                 filesToScan,
                 Array.from(selectedModels)
             );
-            
+
             setScanResults(res.results);
         } catch (err: any) {
             setError(err.message || "Scan failed.");
@@ -161,23 +161,23 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
             setIsScanning(false);
         }
     };
-    
+
     const handleTag = async () => {
         if (!credentials) return;
-        
+
         const filesToTag = scanResults.map(r => ({
             file_id: r.file_id,
             pii_detected: r.pii_detected,
             pii_count: r.pii_count
         }));
-        
+
         if (filesToTag.length === 0) return;
-        
+
         setIsTagging(true);
         try {
             const res = await apiClient.driveTagFiles(authType, credentials, filesToTag, tagVisibility === 'api_and_human');
-            
-            const newStatuses: Record<string, {success: boolean, error: string|null}> = {};
+
+            const newStatuses: Record<string, { success: boolean, error: string | null }> = {};
             res.tagged.forEach(t => {
                 newStatuses[t.file_id] = { success: t.success, error: t.error };
             });
@@ -185,7 +185,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
             setTagSuccess(true);
             setTimeout(() => setTagSuccess(false), 3000);
         } catch (err: any) {
-             setError(err.message || "Tagging failed.");
+            setError(err.message || "Tagging failed.");
         } finally {
             setIsTagging(false);
         }
@@ -195,12 +195,12 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         const allData = scanResults.map(r => r.scan_data).filter(Boolean);
         if (allData.length === 0) return null;
         if (allData.length === 1) return allData[0];
-        
+
         // Aggregate
         const per_model: Record<string, any> = {};
         let union_total = 0;
         let elapsed = 0;
-        
+
         allData.forEach(d => {
             if (!d) return;
             union_total += d.union_total || 0;
@@ -219,7 +219,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                 }
                 const agg = per_model[modelKey];
                 agg.pii_count += res.pii_count || 0;
-                
+
                 // Aggregate predictions and append file_name for autonomy
                 const parentResult = scanResults.find(sr => sr.scan_data === d);
                 if (res.predictions && Array.isArray(res.predictions)) {
@@ -240,7 +240,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
 
         Object.keys(per_model).forEach(k => {
             const accuracies = allData.map(d => d.per_model?.[k]?.accuracy || 0);
-            per_model[k].accuracy = accuracies.reduce((a,b) => a+b, 0) / (accuracies.length || 1);
+            per_model[k].accuracy = accuracies.reduce((a, b) => a + b, 0) / (accuracies.length || 1);
         });
 
         const ranked = Object.entries(per_model).map(([model_key, res]) => ({
@@ -288,7 +288,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                             <Cloud className="w-6 h-6 text-blue-500" />
                             <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Connect Google Drive</h2>
                         </div>
-                        
+
                         <div className="flex gap-4 p-1 bg-slate-100 dark:bg-slate-900 rounded-lg w-fit">
                             <button
                                 onClick={() => setAuthType('service_account')}
@@ -310,14 +310,14 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                     Upload JSON Key
                                 </label>
                                 <div className="flex items-center gap-4">
-                                    <input 
-                                        type="file" 
-                                        accept=".json" 
-                                        onChange={handleSAUpload} 
-                                        className="hidden" 
+                                    <input
+                                        type="file"
+                                        accept=".json"
+                                        onChange={handleSAUpload}
+                                        className="hidden"
                                         id="sa-upload"
                                     />
-                                    <label 
+                                    <label
                                         htmlFor="sa-upload"
                                         className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg cursor-pointer transition-colors text-sm font-medium"
                                     >
@@ -343,7 +343,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                         placeholder="ya29.a0Ael9sF..."
                                         className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                     />
-                                    <button 
+                                    <button
                                         onClick={handleOauthSubmit}
                                         className="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-white transition-colors"
                                     >
@@ -399,11 +399,10 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                     <button
                                         key={model.key}
                                         onClick={() => toggleModel(model.key)}
-                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${
-                                            selectedModels.has(model.key) 
-                                                ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300' 
+                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${selectedModels.has(model.key)
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300'
                                                 : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 hover:border-slate-300'
-                                        }`}
+                                            }`}
                                     >
                                         <div className={`w-2 h-2 rounded-full ${selectedModels.has(model.key) ? 'bg-blue-500' : 'bg-slate-300'}`} />
                                         {model.name}
@@ -416,14 +415,14 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center justify-between">
                                 <h3 className="font-semibold text-slate-900 dark:text-white">Select Assets to Scan</h3>
-                                <button 
+                                <button
                                     onClick={selectAllParseable}
                                     className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
                                 >
                                     Select All Parseable
                                 </button>
                             </div>
-                            
+
                             <ConnectorPreviewUI
                                 items={items}
                                 selectedIds={selectedIds}
@@ -433,7 +432,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 onOpenFile={handleOpenFile}
                                 connectorType="Google Drive"
                             />
-                            
+
                             <div className="flex items-center justify-between mt-2 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
                                 <div className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                     <span className="text-blue-600 dark:text-blue-400">{selectedIds.size}</span> items selected
@@ -459,7 +458,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         className="flex flex-col gap-6"
                     >
                         <div className="flex items-center gap-4">
-                            <button 
+                            <button
                                 onClick={() => { setStep('BROWSE'); setScanResults([]); }}
                                 className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg"
                             >
@@ -502,9 +501,9 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                         Update the `appProperties` of the scanned files in Google Drive with the PII detection results. This allows third-party tools (like DLP systems) to enforce policies.
                                     </p>
                                 </div>
-                                
+
                                 <div className="flex flex-col gap-3 min-w-[200px]">
-                                    <select 
+                                    <select
                                         value={tagVisibility}
                                         onChange={(e) => setTagVisibility(e.target.value as any)}
                                         className="w-full px-3 py-2 bg-white dark:bg-[#0B1120] border border-blue-200 dark:border-blue-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 outline-none"
@@ -512,13 +511,12 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                         <option value="api_only">API Properties (Hidden)</option>
                                         <option value="api_and_human">API + Description (Visible)</option>
                                     </select>
-                                    
+
                                     <button
                                         onClick={handleTag}
                                         disabled={isTagging || tagSuccess}
-                                        className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 ${
-                                            tagSuccess ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
-                                        }`}
+                                        className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 ${tagSuccess ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                                            }`}
                                     >
                                         {isTagging ? <Loader2 className="w-4 h-4 animate-spin" /> : (tagSuccess ? <CheckCircle2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />)}
                                         {isTagging ? 'Writing Tags...' : (tagSuccess ? 'Tags Enforced!' : 'Enforce Policies')}
@@ -526,7 +524,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 </div>
                             </div>
                         )}
-                        
+
                     </motion.div>
                 )}
             </AnimatePresence>
