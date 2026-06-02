@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-05-22)
+# Graph Report - main-site  (2026-06-01)
 
 ## Corpus Check
-- 31 files · ~991,139 words
+- 31 files · ~989,920 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 308 nodes · 317 edges · 23 communities (22 shown, 1 thin omitted)
+- 309 nodes · 324 edges · 22 communities (21 shown, 1 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `63757dc8`
+- Built from commit: `7faa99b2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,7 +19,6 @@
 - [[_COMMUNITY_TSConfig Setup|TSConfig Setup]]
 - [[_COMMUNITY_Components & Main Page|Components & Main Page]]
 - [[_COMMUNITY_Dependencies|Dependencies]]
-- [[_COMMUNITY_Product Showcase UI|Product Showcase UI]]
 - [[_COMMUNITY_Layout & Chatbot|Layout & Chatbot]]
 - [[_COMMUNITY_Hero Component|Hero Component]]
 - [[_COMMUNITY_Dev Dependencies|Dev Dependencies]]
@@ -50,7 +49,7 @@
 - `POST()` --calls--> `getAppwriteClient()`  [EXTRACTED]
   app/api/contact/route.ts → app/lib/db.ts
 
-## Communities (23 total, 1 thin omitted)
+## Communities (22 total, 1 thin omitted)
 
 ### Community 0 - "Pages & About"
 Cohesion: 0.06
@@ -68,17 +67,13 @@ Nodes (7): fadeUp(), Features(), reasons, POLICIES, STEPS, STATS, statsData
 Cohesion: 0.08
 Nodes (25): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom (+17 more)
 
-### Community 4 - "Product Showcase UI"
-Cohesion: 0.18
-Nodes (4): BentoCard(), getColClass(), NEWS_ITEMS, PRODUCTS
-
 ### Community 5 - "Layout & Chatbot"
 Cohesion: 0.21
 Nodes (5): metadata, Message, dmMono, monaSans, syne
 
 ### Community 6 - "Hero Component"
-Cohesion: 0.11
-Nodes (10): fadeUp(), Hero(), PID, PRODUCTS, CollectShell(), PulseShell(), ResolveShell(), S (+2 more)
+Cohesion: 0.07
+Nodes (14): fadeUp(), Hero(), PID, PRODUCTS, CollectShell(), PulseShell(), ResolveShell(), S (+6 more)
 
 ### Community 7 - "Dev Dependencies"
 Cohesion: 0.09
@@ -129,7 +124,7 @@ Nodes (10): Caption text (small, centered below), code:block10 ([GDPR]  [HIPAA] 
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Dev Dependencies` to `Solutions Page`, `Community 16`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`?**
-  _High betweenness centrality (0.157) - this node is a cross-community bridge._
+  _High betweenness centrality (0.156) - this node is a cross-community bridge._
 - **Why does `SECTION 6 — PRODUCT SHOWCASE` connect `Solutions Page` to `Dev Dependencies`?**
   _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `Community 16` to `Dev Dependencies`?**

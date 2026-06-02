@@ -103,13 +103,16 @@ export function getPiiColor(label: string) {
 
 // ── PII Badge ──────────────────────────────────────────────────────────────
 
-function PiiBadge({ text, label, isUnique }: { text: string; label: string; isUnique?: boolean }) {
+function PiiBadge({ text, label, isUnique, fileName }: { text: string; label: string; isUnique?: boolean; fileName?: string }) {
     const c = getPiiColor(label);
     return (
-        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border text-[10px] font-medium ${c.bg} ${c.text} ${c.border} ${isUnique ? 'ring-1 ring-purple-400' : ''}`}>
-            <span className="font-mono opacity-60 text-[8px]">{label}</span>
-            <span className="max-w-[120px] truncate" title={text}>"{text}"</span>
-        </span>
+        <div className={`flex flex-col p-2 rounded-lg border bg-white dark:bg-slate-900/50 ${c.border} ${isUnique ? 'ring-1 ring-purple-400 shadow-sm' : 'shadow-sm'}`}>
+            {fileName && (
+                <span className="text-[9px] text-slate-400 font-medium truncate max-w-[150px] mb-1 border-b border-slate-100 dark:border-slate-800 pb-0.5">{fileName}</span>
+            )}
+            <span className={`text-xs font-mono font-medium truncate max-w-[200px] ${c.text}`}>{text}</span>
+            <span className={`text-[9px] uppercase font-bold tracking-wider mt-0.5 opacity-70 ${c.text}`}>{label}</span>
+        </div>
     );
 }
 
@@ -129,17 +132,13 @@ function ModelCard({
 
     // Build detected PII list — filter out FN (missed) items from predictions
     const detected: Prediction[] = (modelResult.predictions ?? [])
-        .filter(p => p.result !== 'FN' && p.text && p.label)
-        .filter(p => {
-            // deduplicate by (text, label)
-            return true;
-        });
+        .filter(p => p.result !== 'FN' && p.text && p.label);
 
     // Deduplicate detected for display
     const seen = new Set<string>();
     const uniqueDetected: Prediction[] = [];
     for (const p of detected) {
-        const key = `${p.label}::${p.text}`;
+        const key = `${(p as any).file_name || 'Unknown File'}::${p.label}::${p.text}`;
         if (!seen.has(key)) { seen.add(key); uniqueDetected.push(p); }
     }
 
@@ -212,7 +211,7 @@ function ModelCard({
                 )}
             </div>
 
-            {/* Detected PII items — NEW SECTION */}
+            {/* Detected PII items */}
             {uniqueDetected.length > 0 && (
                 <div className="px-4 pb-3 border-t border-slate-100 dark:border-slate-800 mt-2 pt-3">
                     <div className="flex items-center gap-1.5 mb-2">
@@ -220,15 +219,27 @@ function ModelCard({
                         <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Detected PII</p>
                         <span className="ml-auto text-[9px] font-mono text-slate-400">{uniqueDetected.length} items</span>
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
-                        {visiblePii.map((p, i) => (
-                            <PiiBadge
-                                key={i}
-                                text={p.text}
-                                label={p.label}
-                                isUnique={p.result === 'FP'}
-                            />
-                        ))}
+                    <div className="flex flex-col gap-3">
+                        {Array.from(new Set(visiblePii.map((p: any) => p.file_name || 'Unknown File'))).map(fileName => {
+                            const filePii = visiblePii.filter((p: any) => (p.file_name || 'Unknown File') === fileName);
+                            return (
+                                <div key={fileName} className="flex flex-col gap-1.5 border-l-2 border-slate-200 dark:border-slate-700 pl-2">
+                                    <p className="text-[9px] font-semibold text-slate-500 italic truncate" title={String(fileName)}>
+                                        {String(fileName)}
+                                    </p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {filePii.map((p, i) => (
+                                            <PiiBadge
+                                                key={i}
+                                                text={p.text}
+                                                label={p.label}
+                                                isUnique={p.result === 'FP'}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                     {uniqueDetected.length > SHOW_LIMIT && (
                         <button

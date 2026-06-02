@@ -3,28 +3,14 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Cloud,
-    Folder,
-    FileText,
-    CheckCircle2,
-    XCircle,
-    ChevronRight,
-    Search,
-    Play,
-    Tag,
-    AlertCircle,
-    Loader2,
-    File,
-    Image as ImageIcon,
-    Video,
-    Music,
-    RefreshCw,
-    Key,
-    Lock
+    Cloud, Folder, CheckCircle2, XCircle, ChevronRight, Search, Play, Tag,
+    AlertCircle, Loader2, RefreshCw, Key, Lock, ArrowLeft
 } from 'lucide-react';
 
 import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 import ModelShowdown from '../ModelShowdown';
+import ConnectorPreviewUI from '../ConnectorPreviewUI';
+import DocumentViewerModal from '../DocumentViewerModal';
 
 interface Props {
     modelCatalogue: EvaluatorModel[];
@@ -47,7 +33,6 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     const [isBrowsing, setIsBrowsing] = useState(false);
     const [items, setItems] = useState<DriveItem[]>([]);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-    const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
 
     // --- State: Config ---
     const [selectedModels, setSelectedModels] = useState<Set<string>>(new Set(['deberta', 'regex']));
@@ -57,12 +42,14 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     // --- State: Scan & Results ---
     const [isScanning, setIsScanning] = useState(false);
     const [scanResults, setScanResults] = useState<DriveFileScanResult[]>([]);
-    const [scanProgress, setScanProgress] = useState({ current: 0, total: 0 });
-    const [expandedResultId, setExpandedResultId] = useState<string | null>(null);
     
     // --- State: Tagging ---
     const [isTagging, setIsTagging] = useState(false);
+    const [tagSuccess, setTagSuccess] = useState(false);
     const [tagStatuses, setTagStatuses] = useState<Record<string, { success: boolean; error: string | null }>>({});
+
+    // --- State: Document Viewer Modal ---
+    const [viewerFileId, setViewerFileId] = useState<string | null>(null);
 
     // ==================== HANDLERS ====================
 
@@ -109,25 +96,12 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         try {
             const res = await apiClient.driveFolderBrowse(authType, credentials, folderInput);
             setItems(res.items);
-            
-            // Auto-expand root folders
-            const rootIds = new Set<string>();
-            res.items.filter(i => i.isFolder).forEach(f => rootIds.add(f.id));
-            setExpandedFolders(rootIds);
-            
             setStep('BROWSE');
         } catch (err: any) {
             setError(err.message || "Failed to browse folder.");
         } finally {
             setIsBrowsing(false);
         }
-    };
-
-    const toggleFolder = (id: string) => {
-        const newExpanded = new Set(expandedFolders);
-        if (newExpanded.has(id)) newExpanded.delete(id);
-        else newExpanded.add(id);
-        setExpandedFolders(newExpanded);
     };
 
     const toggleSelection = (id: string) => {
@@ -140,9 +114,15 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     const selectAllParseable = () => {
         const newSel = new Set<string>();
         items.forEach(item => {
-            if (!item.isFolder && item.parseable) newSel.add(item.id);
+            const isAlreadyScanned = item.appProperties?.segmento_pii_detected === 'true' || item.appProperties?.segmento_pii_detected === true;
+            if (!item.isFolder && item.parseable && !isAlreadyScanned) newSel.add(item.id);
         });
-        setSelectedIds(newSel);
+        
+        if (newSel.size === selectedIds.size) {
+            setSelectedIds(new Set<string>()); // Toggle off
+        } else {
+            setSelectedIds(newSel);
+        }
     };
 
     const toggleModel = (key: string) => {
@@ -166,18 +146,6 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         setTagStatuses({});
         
         try {
-            // We use the batch endpoint that does them sequentially to avoid OOM
-            // We can simulate progress if we had SSE, but for now we rely on the backend 
-            // returning all at once. In a real prod environment we'd chunk this or use websockets.
-            // For now, we'll just show a loading state.
-            
-            // To simulate per-file progress for the UX, we'll chunk it frontend-side 
-            // into batches of 1 if requested, but to save HTTP overhead we'll just send them all.
-            // Actually, per the plan: "Sequential per-file scan — RAM safe on 16GB HF Spaces" is done in backend.
-            // So we just await the single request.
-            
-            setScanProgress({ current: 0, total: filesToScan.length });
-            
             const res = await apiClient.driveFolderScan(
                 authType,
                 credentials,
@@ -186,9 +154,9 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
             );
             
             setScanResults(res.results);
-            setScanProgress({ current: filesToScan.length, total: filesToScan.length });
         } catch (err: any) {
             setError(err.message || "Scan failed.");
+            setStep('BROWSE'); // fallback
         } finally {
             setIsScanning(false);
         }
@@ -214,6 +182,8 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                 newStatuses[t.file_id] = { success: t.success, error: t.error };
             });
             setTagStatuses(newStatuses);
+            setTagSuccess(true);
+            setTimeout(() => setTagSuccess(false), 3000);
         } catch (err: any) {
              setError(err.message || "Tagging failed.");
         } finally {
@@ -221,200 +191,188 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         }
     };
 
-    // ==================== RENDERERS ====================
-
-    // Recursive tree renderer
-    const renderTree = (parentId: string, depth = 0) => {
-        // If parentId is the root folder itself (which we might not have in the list if we queried 'folderId in parents')
-        // Actually, our API returns all items inside folder_id.
-        // We need to group by parentId, but drive API list doesn't give us tree easily without manual mapping.
-        // For simplicity, we just list files with their path.
+    const getModelShowdownData = () => {
+        const allData = scanResults.map(r => r.scan_data).filter(Boolean);
+        if (allData.length === 0) return null;
+        if (allData.length === 1) return allData[0];
         
-        const sorted = [...items].sort((a, b) => a.path.localeCompare(b.path));
+        // Aggregate
+        const per_model: Record<string, any> = {};
+        let union_total = 0;
+        let elapsed = 0;
         
-        return (
-            <div className="space-y-1 mt-4 border border-slate-200 dark:border-slate-800 rounded-lg p-2 bg-slate-50 dark:bg-slate-900/50 max-h-[400px] overflow-y-auto">
-                {/* Legend */}
-                <div className="flex flex-wrap gap-2 px-2 py-1.5 mb-1 border-b border-slate-200 dark:border-slate-800 text-xs text-slate-500">
-                    <span className="flex items-center gap-1"><FileText className="w-3 h-3 text-red-400" /> Document</span>
-                    <span className="flex items-center gap-1"><ImageIcon className="w-3 h-3 text-blue-400" /> Image (OCR)</span>
-                    <span className="flex items-center gap-1"><Video className="w-3 h-3 text-purple-400" /> Video (AI transcript)</span>
-                    <span className="flex items-center gap-1"><Music className="w-3 h-3 text-green-400" /> Audio (AI transcript)</span>
-                </div>
-                {sorted.map(item => {
-                    if (item.isFolder) return null;
+        allData.forEach(d => {
+            union_total += d.union_total || 0;
+            elapsed += d.elapsed || 0;
+            Object.entries(d.per_model || {}).forEach(([modelKey, res]: [string, any]) => {
+                if (!per_model[modelKey]) {
+                    per_model[modelKey] = {
+                        pii_count: 0,
+                        accuracy: 0,
+                        type_counts: {},
+                        unique_count: 0,
+                        missed_count: 0,
+                        consensus_count: 0,
+                        predictions: [],
+                    };
+                }
+                const agg = per_model[modelKey];
+                agg.pii_count += res.pii_count || 0;
+                
+                // Aggregate predictions and append file_name for autonomy
+                const parentResult = scanResults.find(sr => sr.scan_data === d);
+                if (res.predictions && Array.isArray(res.predictions)) {
+                    const mappedPredictions = res.predictions.map((p: any) => ({
+                        ...p,
+                        file_name: parentResult?.file_name || 'Unknown File'
+                    }));
+                    agg.predictions.push(...mappedPredictions);
+                }
+                Object.entries(res.type_counts || {}).forEach(([k, v]: [string, any]) => {
+                    agg.type_counts[k] = (agg.type_counts[k] || 0) + v;
+                });
+                agg.unique_count += res.unique_count || 0;
+                agg.missed_count += res.missed_count || 0;
+                agg.consensus_count += res.consensus_count || 0;
+            });
+        });
 
-                    const isSelected = selectedIds.has(item.id);
-                    const canParse = item.parseable;
+        Object.keys(per_model).forEach(k => {
+            const accuracies = allData.map(d => d.per_model?.[k]?.accuracy || 0);
+            per_model[k].accuracy = accuracies.reduce((a,b) => a+b, 0) / (accuracies.length || 1);
+        });
 
-                    // Icon + badge based on mediaType
-                    let fileIcon = <File className="w-4 h-4 text-slate-400" />;
-                    let mediaBadge: React.ReactNode = null;
-                    const mt = item.mediaType;
-                    if (mt === 'image') {
-                        fileIcon = <ImageIcon className="w-4 h-4 text-blue-400" />;
-                        mediaBadge = canParse ? <span className="text-xs font-medium text-blue-600 dark:text-blue-400 px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 rounded">OCR</span> : null;
-                    } else if (mt === 'video') {
-                        fileIcon = <Video className="w-4 h-4 text-purple-400" />;
-                        mediaBadge = canParse ? <span className="text-xs font-medium text-purple-600 dark:text-purple-400 px-2 py-0.5 bg-purple-50 dark:bg-purple-900/20 rounded">Video AI</span> : null;
-                    } else if (mt === 'audio') {
-                        fileIcon = <Music className="w-4 h-4 text-green-400" />;
-                        mediaBadge = canParse ? <span className="text-xs font-medium text-green-600 dark:text-green-400 px-2 py-0.5 bg-green-50 dark:bg-green-900/20 rounded">Audio AI</span> : null;
-                    } else if (item.ext === 'pdf') {
-                        fileIcon = <FileText className="w-4 h-4 text-red-400" />;
-                    } else if (mt === 'document') {
-                        fileIcon = <FileText className="w-4 h-4 text-slate-500" />;
-                    }
+        const ranked = Object.entries(per_model).map(([model_key, res]) => ({
+            model_key,
+            pii_count: res.pii_count,
+            accuracy: res.accuracy,
+            rank: 0
+        })).sort((a, b) => {
+            if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
+            return b.pii_count - a.pii_count;
+        }).map((r, i) => ({ ...r, rank: i + 1 }));
 
-                    return (
-                        <div
-                            key={item.id}
-                            onClick={() => canParse && toggleSelection(item.id)}
-                            className={`flex items-center gap-3 p-2 rounded-md cursor-pointer transition-colors ${
-                                !canParse ? 'opacity-50 cursor-not-allowed' :
-                                isSelected ? 'bg-emerald-50 dark:bg-emerald-500/10' : 'hover:bg-slate-100 dark:hover:bg-slate-800'
-                            }`}
-                        >
-                            <div className="flex-shrink-0 pt-0.5">
-                                <div className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                    isSelected
-                                    ? 'bg-emerald-500 border-emerald-500 text-white'
-                                    : 'border-slate-300 dark:border-slate-600'
-                                }`}>
-                                    {isSelected && <CheckCircle2 className="w-3 h-3" />}
-                                </div>
-                            </div>
-
-                            {fileIcon}
-
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{item.name}</p>
-                                <p className="text-xs text-slate-500 truncate">{item.path} • {(item.sizeBytes / 1024).toFixed(1)} KB</p>
-                            </div>
-
-                            {canParse && mediaBadge}
-
-                            {!canParse && (
-                                <span className="text-xs font-medium text-amber-600 dark:text-amber-400 px-2 py-1 bg-amber-50 dark:bg-amber-900/20 rounded">
-                                    {item.tooBig ? '> 50MB' : 'Unsupported'}
-                                </span>
-                            )}
-                        </div>
-                    );
-                })}
-                {items.length === 0 && (
-                    <div className="p-8 text-center text-slate-500 text-sm">No files found.</div>
-                )}
-            </div>
-        );
+        return {
+            per_model,
+            ranked,
+            union_total,
+            elapsed
+        };
     };
 
-    return (
-        <div className="max-w-4xl mx-auto space-y-6">
-            
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl">
-                    <Cloud className="w-6 h-6" />
-                </div>
-                <div>
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Drive Folder Scan</h2>
-                    <p className="text-slate-500 dark:text-slate-400">Scan entire Google Drive folders securely in-memory.</p>
-                </div>
-            </div>
+    const handleOpenFile = (fileId: string) => {
+        setViewerFileId(fileId);
+    };
 
+    // ==================== RENDER ====================
+
+    return (
+        <div className="flex flex-col gap-6 p-4">
             {error && (
-                <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-600 rounded-lg border border-red-100 dark:bg-red-900/20 dark:border-red-800">
+                    <AlertCircle className="w-5 h-5 shrink-0" />
+                    <p className="text-sm font-medium">{error}</p>
                 </div>
             )}
 
-            {/* Wizard Content */}
             <AnimatePresence mode="wait">
-                
-                {/* STEP 1: AUTH */}
+                {/* 1. AUTHENTICATION */}
                 {step === 'AUTH' && (
                     <motion.div
                         key="auth"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm"
+                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                        className="p-6 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-6"
                     >
-                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm">1</span>
-                            Connect to Google Drive
-                        </h3>
+                        <div className="flex items-center gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                            <Cloud className="w-6 h-6 text-blue-500" />
+                            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Connect Google Drive</h2>
+                        </div>
                         
-                        <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg mb-6 w-fit">
+                        <div className="flex gap-4 p-1 bg-slate-100 dark:bg-slate-900 rounded-lg w-fit">
                             <button
                                 onClick={() => setAuthType('service_account')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${authType === 'service_account' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${authType === 'service_account' ? 'bg-white dark:bg-slate-800 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500 hover:text-slate-700'}`}
                             >
-                                Service Account (JSON)
+                                Service Account JSON
                             </button>
                             <button
                                 onClick={() => setAuthType('oauth2_token')}
-                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${authType === 'oauth2_token' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+                                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${authType === 'oauth2_token' ? 'bg-white dark:bg-slate-800 shadow-sm text-slate-900 dark:text-slate-100' : 'text-slate-500 hover:text-slate-700'}`}
                             >
                                 OAuth2 Token
                             </button>
                         </div>
-                        
-                        {authType === 'service_account' ? (
-                            <div className="space-y-4">
-                                <p className="text-sm text-slate-500">Upload your Google Cloud Service Account JSON key.</p>
-                                <label className="block w-full border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                                    <input type="file" accept=".json" className="hidden" onChange={handleSAUpload} />
-                                    <Key className="w-8 h-8 mx-auto text-slate-400 mb-3" />
-                                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        {saFileName || "Click to upload JSON key"}
-                                    </p>
+
+                        {authType === 'service_account' && (
+                            <div className="space-y-4 max-w-md">
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    Upload JSON Key
                                 </label>
+                                <div className="flex items-center gap-4">
+                                    <input 
+                                        type="file" 
+                                        accept=".json" 
+                                        onChange={handleSAUpload} 
+                                        className="hidden" 
+                                        id="sa-upload"
+                                    />
+                                    <label 
+                                        htmlFor="sa-upload"
+                                        className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg cursor-pointer transition-colors text-sm font-medium"
+                                    >
+                                        <Key className="w-4 h-4" />
+                                        Choose File
+                                    </label>
+                                    {saFileName && <span className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> {saFileName} loaded</span>}
+                                </div>
+                                <p className="text-xs text-slate-500">Requires a Google Cloud Service Account with Drive API access.</p>
                             </div>
-                        ) : (
-                            <div className="space-y-4">
-                                <p className="text-sm text-slate-500">Paste your OAuth2 Access Token. <br/>Note: You must generate this via Google OAuth Playground or gcloud CLI.</p>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        )}
+
+                        {authType === 'oauth2_token' && (
+                            <div className="space-y-4 max-w-md">
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    Access Token
+                                </label>
+                                <div className="flex gap-2">
                                     <input
                                         type="password"
                                         value={oauthToken}
-                                        onChange={e => setOauthToken(e.target.value)}
-                                        placeholder="ya29.a0..."
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white font-mono text-sm"
+                                        onChange={(e) => setOauthToken(e.target.value)}
+                                        placeholder="ya29.a0Ael9sF..."
+                                        className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                                     />
+                                    <button 
+                                        onClick={handleOauthSubmit}
+                                        className="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-white transition-colors"
+                                    >
+                                        Apply
+                                    </button>
                                 </div>
-                                <button
-                                    onClick={handleOauthSubmit}
-                                    disabled={!oauthToken.trim()}
-                                    className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg font-medium hover:bg-slate-800 dark:hover:bg-slate-100 disabled:opacity-50 transition-colors"
-                                >
-                                    Confirm Token
-                                </button>
+                                {credentials?.access_token && <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Token applied</p>}
                             </div>
                         )}
-                        
+
                         {credentials && (
-                            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-                                <h4 className="text-sm font-medium text-slate-900 dark:text-white mb-2">Folder to Scan</h4>
-                                <div className="flex gap-3">
+                            <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-4 max-w-xl">
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    Target Folder URL or ID
+                                </label>
+                                <div className="flex gap-2">
                                     <div className="relative flex-1">
-                                        <Folder className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                        <Folder className="absolute left-3 top-2.5 w-5 h-5 text-slate-400" />
                                         <input
                                             type="text"
                                             value={folderInput}
-                                            onChange={e => setFolderInput(e.target.value)}
-                                            placeholder="Paste Folder ID or full URL..."
-                                            className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-slate-900 dark:text-white"
-                                            onKeyDown={e => e.key === 'Enter' && handleBrowse()}
+                                            onChange={(e) => setFolderInput(e.target.value)}
+                                            placeholder="e.g. 1A2b3C4d5E6f7G8h9I0j"
+                                            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 outline-none"
                                         />
                                     </div>
                                     <button
                                         onClick={handleBrowse}
-                                        disabled={!folderInput.trim() || isBrowsing}
-                                        className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium disabled:opacity-50 transition-colors"
+                                        disabled={isBrowsing || !folderInput.trim()}
+                                        className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
                                     >
                                         {isBrowsing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
                                         Browse
@@ -425,292 +383,162 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                     </motion.div>
                 )}
 
-                {/* STEP 2: BROWSE */}
+                {/* 2. BROWSE & CONFIG */}
                 {step === 'BROWSE' && (
                     <motion.div
                         key="browse"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm"
+                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                        className="flex flex-col gap-6"
                     >
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm">2</span>
-                                Select Files
-                            </h3>
-                            <button onClick={() => setStep('AUTH')} className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
-                                Change Folder
-                            </button>
-                        </div>
-                        
-                        <div className="flex items-center gap-3 mb-2">
-                            <button onClick={selectAllParseable} className="text-sm text-blue-600 dark:text-blue-400 hover:underline">Select All Parseable</button>
-                            <span className="text-slate-300 dark:text-slate-700">|</span>
-                            <button onClick={() => setSelectedIds(new Set())} className="text-sm text-slate-500 hover:underline">Clear</button>
-                            
-                            <div className="ml-auto text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
-                                {selectedIds.size} selected
-                            </div>
-                        </div>
-                        
-                        {renderTree(folderInput)}
-                        
-                        <div className="mt-6 flex justify-end">
-                            <button
-                                onClick={() => setStep('CONFIG')}
-                                disabled={selectedIds.size === 0}
-                                className="flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-medium disabled:opacity-50 hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
-                            >
-                                Continue to Config <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-
-                {/* STEP 3: CONFIG */}
-                {step === 'CONFIG' && (
-                    <motion.div
-                        key="config"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm"
-                    >
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm">3</span>
-                                Configure Scan
-                            </h3>
-                            <button onClick={() => setStep('BROWSE')} className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
-                                Back to Files
-                            </button>
-                        </div>
-                        
-                        <div className="space-y-4 mb-8">
-                            <h4 className="text-sm font-medium text-slate-700 dark:text-slate-300">Select Models</h4>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2">
+                        {/* Selected Models Configuration */}
+                        <div className="p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
+                            <h3 className="font-semibold text-slate-900 dark:text-white">Active Scanners</h3>
+                            <div className="flex flex-wrap gap-2">
                                 {modelCatalogue.map(model => (
-                                    <div
+                                    <button
                                         key={model.key}
                                         onClick={() => toggleModel(model.key)}
-                                        className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                                            selectedModels.has(model.key)
-                                                ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
-                                                : 'bg-white border-slate-200 hover:border-slate-300 dark:bg-slate-900/50 dark:border-slate-800 dark:hover:border-slate-700'
+                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${
+                                            selectedModels.has(model.key) 
+                                                ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300' 
+                                                : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 hover:border-slate-300'
                                         }`}
                                     >
-                                        <div className="flex items-center justify-between mb-1">
-                                            <span className="font-semibold text-slate-900 dark:text-slate-100">{model.label}</span>
-                                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                                                selectedModels.has(model.key) ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-300 dark:border-slate-600'
-                                            }`}>
-                                                {selectedModels.has(model.key) && <CheckCircle2 className="w-3.5 h-3.5" />}
-                                            </div>
-                                        </div>
-                                        <span className="text-xs text-slate-500">{model.type} • {model.params}</span>
-                                    </div>
+                                        <div className={`w-2 h-2 rounded-full ${selectedModels.has(model.key) ? 'bg-blue-500' : 'bg-slate-300'}`} />
+                                        {model.name}
+                                    </button>
                                 ))}
                             </div>
                         </div>
-                        
-                        <div className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl mb-6">
-                            <div className="flex flex-col gap-4">
-                                <label className="flex items-start gap-3 cursor-pointer">
-                                    <div className="pt-1">
-                                        <input 
-                                            type="checkbox" 
-                                            className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                                            checked={enableTagging}
-                                            onChange={e => setEnableTagging(e.target.checked)}
-                                        />
-                                    </div>
-                                    <div>
-                                        <p className="font-medium text-slate-900 dark:text-white flex items-center gap-2">
-                                            <Tag className="w-4 h-4 text-emerald-500" />
-                                            Enable Metadata Tagging
-                                        </p>
-                                        <p className="text-sm text-slate-500 mt-1">
-                                            Requires `drive.metadata` scope. A "Tag Files" button will appear after scanning.
-                                        </p>
-                                    </div>
-                                </label>
-                                
-                                {enableTagging && (
-                                    <div className="ml-7 pl-4 border-l-2 border-slate-200 dark:border-slate-800 flex flex-col gap-3">
-                                        <label className="flex items-center gap-2 cursor-pointer">
-                                            <input 
-                                                type="radio" 
-                                                name="tagVisibility"
-                                                value="api_only"
-                                                checked={tagVisibility === 'api_only'}
-                                                onChange={() => setTagVisibility('api_only')}
-                                                className="text-blue-600 focus:ring-blue-500"
-                                            />
-                                            <span className="text-sm text-slate-700 dark:text-slate-300">
-                                                <strong>API Only</strong> (Hidden appProperties - Secure)
-                                            </span>
-                                        </label>
-                                        <label className="flex items-center gap-2 cursor-pointer">
-                                            <input 
-                                                type="radio" 
-                                                name="tagVisibility"
-                                                value="api_and_human"
-                                                checked={tagVisibility === 'api_and_human'}
-                                                onChange={() => setTagVisibility('api_and_human')}
-                                                className="text-blue-600 focus:ring-blue-500"
-                                            />
-                                            <span className="text-sm text-slate-700 dark:text-slate-300">
-                                                <strong>API + Human Eye</strong> (Adds to file description for visibility)
-                                            </span>
-                                        </label>
-                                    </div>
-                                )}
+
+                        {/* File Explorer (Connector Preview) */}
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center justify-between">
+                                <h3 className="font-semibold text-slate-900 dark:text-white">Select Assets to Scan</h3>
+                                <button 
+                                    onClick={selectAllParseable}
+                                    className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                                >
+                                    Select All Parseable
+                                </button>
                             </div>
-                        </div>
-                        
-                        <div className="flex justify-end gap-3 border-t border-slate-200 dark:border-slate-800 pt-6">
-                            <button
-                                onClick={handleScan}
-                                disabled={selectedModels.size === 0}
-                                className="flex items-center gap-2 px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-medium disabled:opacity-50 transition-colors shadow-sm"
-                            >
-                                <Play className="w-5 h-5 fill-current" />
-                                Start Scan ({selectedIds.size} files, {selectedModels.size} models)
-                            </button>
+                            
+                            <ConnectorPreviewUI
+                                items={items}
+                                selectedIds={selectedIds}
+                                onToggleSelection={toggleSelection}
+                                isScanning={isScanning}
+                                scanResults={scanResults}
+                                onOpenFile={handleOpenFile}
+                                connectorType="Google Drive"
+                            />
+                            
+                            <div className="flex items-center justify-between mt-2 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
+                                <div className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    <span className="text-blue-600 dark:text-blue-400">{selectedIds.size}</span> items selected
+                                </div>
+                                <button
+                                    onClick={handleScan}
+                                    disabled={selectedIds.size === 0 || selectedModels.size === 0}
+                                    className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/20"
+                                >
+                                    <Play className="w-4 h-4 fill-current" />
+                                    Run Scan Pipeline
+                                </button>
+                            </div>
                         </div>
                     </motion.div>
                 )}
 
-                {/* STEP 4: RESULTS */}
+                {/* 3. SCANNING & RESULTS */}
                 {step === 'RESULTS' && (
                     <motion.div
                         key="results"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="space-y-6"
+                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                        className="flex flex-col gap-6"
                     >
-                        {isScanning ? (
-                            <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center shadow-sm">
-                                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <Loader2 className="w-8 h-8 animate-spin" />
-                                </div>
-                                <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">Scanning Files...</h3>
-                                <p className="text-slate-500">
-                                    {scanProgress.total > 0 ? `Streaming in-memory safely. This may take a moment.` : `Initializing...`}
-                                </p>
-                            </div>
-                        ) : (
-                            <>
-                                {/* Summary Banner */}
-                                <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Scan Complete</h3>
-                                        <p className="text-slate-500">
-                                            Scanned {scanResults.length} files • {scanResults.filter(r => r.pii_detected).length} contain PII • {scanResults.filter(r => r.error).length} errors
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <button onClick={() => setStep('BROWSE')} className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                                            Scan More
-                                        </button>
-                                        
-                                        {enableTagging && scanResults.length > 0 && (
-                                            <button 
-                                                onClick={handleTag}
-                                                disabled={isTagging}
-                                                className="flex items-center gap-2 px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm disabled:opacity-50"
-                                            >
-                                                {isTagging ? <Loader2 className="w-4 h-4 animate-spin" /> : <Tag className="w-4 h-4" />}
-                                                {isTagging ? 'Tagging...' : 'Tag PII in Drive'}
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
+                        <div className="flex items-center gap-4">
+                            <button 
+                                onClick={() => { setStep('BROWSE'); setScanResults([]); }}
+                                className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg"
+                            >
+                                <ArrowLeft className="w-5 h-5" />
+                            </button>
+                            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Scan Results</h2>
+                        </div>
 
-                                {/* Per-file results */}
-                                <div className="space-y-4">
-                                    {scanResults.map(res => (
-                                        <div key={res.file_id} className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                                            
-                                            {/* Card Header */}
-                                            <div 
-                                                onClick={() => setExpandedResultId(expandedResultId === res.file_id ? null : res.file_id)}
-                                                className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors"
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    {res.pii_detected ? (
-                                                        <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
-                                                            <AlertCircle className="w-4 h-4" />
-                                                        </div>
-                                                    ) : res.error ? (
-                                                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                                                            <AlertCircle className="w-4 h-4" />
-                                                        </div>
-                                                    ) : (
-                                                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                                                            <CheckCircle2 className="w-4 h-4" />
-                                                        </div>
-                                                    )}
-                                                    
-                                                    <div>
-                                                        <p className="font-medium text-slate-900 dark:text-white">{res.file_name}</p>
-                                                        <p className="text-xs text-slate-500">{res.mime_type} • {res.char_count.toLocaleString()} chars</p>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className="flex items-center gap-4">
-                                                    {tagStatuses[res.file_id] && (
-                                                        <span className={`text-xs font-medium px-2 py-1 rounded flex items-center gap-1 ${
-                                                            tagStatuses[res.file_id].success 
-                                                            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400'
-                                                            : 'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400'
-                                                        }`}>
-                                                            <Tag className="w-3 h-3" />
-                                                            {tagStatuses[res.file_id].success ? 'Tagged' : 'Tag Failed'}
-                                                        </span>
-                                                    )}
-                                                
-                                                    {res.error ? (
-                                                        <span className="text-sm font-medium text-amber-600 dark:text-amber-400 px-3 py-1 bg-amber-50 dark:bg-amber-900/20 rounded-full">Error</span>
-                                                    ) : (
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="h-1.5 w-24 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                                                <div className={`h-full ${res.pii_detected ? 'bg-red-500 w-full' : 'bg-emerald-500 w-full'}`} />
-                                                            </div>
-                                                            <span className={`text-sm font-bold w-16 text-right ${res.pii_detected ? 'text-red-600 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
-                                                                {res.pii_detected ? `${res.pii_count} PII` : 'Clean'}
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                    <ChevronRight className={`w-5 h-5 text-slate-400 transition-transform ${expandedResultId === res.file_id ? 'rotate-90' : ''}`} />
-                                                </div>
-                                            </div>
-                                            
-                                            {/* Card Body (Expanded) */}
-                                            {expandedResultId === res.file_id && (
-                                                <div className="border-t border-slate-200 dark:border-slate-800 p-4 bg-slate-50 dark:bg-[#0F172A]">
-                                                    {res.error ? (
-                                                        <p className="text-amber-600 dark:text-amber-400 text-sm py-4">{res.error}</p>
-                                                    ) : res.scan_data ? (
-                                                        <ModelShowdown 
-                                                            data={res.scan_data as any}
-                                                            modelCatalogue={modelCatalogue}
-                                                        />
-                                                    ) : (
-                                                        <p className="text-slate-500 text-sm py-4">No scan data available.</p>
-                                                    )}
-                                                </div>
-                                            )}
-                                            
-                                        </div>
-                                    ))}
+                        {!isScanning && scanResults.length > 0 && (
+                            <div className="p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="font-semibold text-slate-800 dark:text-slate-100">Model Performance (Across Scanned Files)</h3>
                                 </div>
-                            </>
+                                {getModelShowdownData() && (
+                                    <ModelShowdown data={getModelShowdownData()} modelCatalogue={modelCatalogue} />
+                                )}
+                            </div>
                         )}
+
+                        {/* File Explorer (Connector Preview) */}
+                        <ConnectorPreviewUI
+                            items={items.filter(i => selectedIds.has(i.id) || scanResults.some(r => r.file_id === i.id))} // show only selected/scanned
+                            selectedIds={selectedIds}
+                            onToggleSelection={toggleSelection}
+                            isScanning={isScanning}
+                            scanResults={scanResults}
+                            onOpenFile={handleOpenFile}
+                            connectorType="Google Drive"
+                        />
+
+                        {/* Tagging Action */}
+                        {!isScanning && scanResults.length > 0 && (
+                            <div className="p-5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div>
+                                    <h3 className="font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
+                                        <Tag className="w-5 h-5" />
+                                        Write Tags to Drive
+                                    </h3>
+                                    <p className="text-sm text-blue-700/80 dark:text-blue-200/70 mt-1 max-w-xl">
+                                        Update the `appProperties` of the scanned files in Google Drive with the PII detection results. This allows third-party tools (like DLP systems) to enforce policies.
+                                    </p>
+                                </div>
+                                
+                                <div className="flex flex-col gap-3 min-w-[200px]">
+                                    <select 
+                                        value={tagVisibility}
+                                        onChange={(e) => setTagVisibility(e.target.value as any)}
+                                        className="w-full px-3 py-2 bg-white dark:bg-[#0B1120] border border-blue-200 dark:border-blue-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 outline-none"
+                                    >
+                                        <option value="api_only">API Properties (Hidden)</option>
+                                        <option value="api_and_human">API + Description (Visible)</option>
+                                    </select>
+                                    
+                                    <button
+                                        onClick={handleTag}
+                                        disabled={isTagging || tagSuccess}
+                                        className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 ${
+                                            tagSuccess ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                                        }`}
+                                    >
+                                        {isTagging ? <Loader2 className="w-4 h-4 animate-spin" /> : (tagSuccess ? <CheckCircle2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />)}
+                                        {isTagging ? 'Writing Tags...' : (tagSuccess ? 'Tags Enforced!' : 'Enforce Policies')}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                        
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {viewerFileId && (
+                <DocumentViewerModal
+                    fileInfo={items.find(i => i.id === viewerFileId)!}
+                    scanResult={scanResults.find(r => r.file_id === viewerFileId)!}
+                    credentials={credentials}
+                    authType={authType}
+                    onClose={() => setViewerFileId(null)}
+                />
+            )}
         </div>
     );
 }
