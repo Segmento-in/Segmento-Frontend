@@ -202,6 +202,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         let elapsed = 0;
         
         allData.forEach(d => {
+            if (!d) return;
             union_total += d.union_total || 0;
             elapsed += d.elapsed || 0;
             Object.entries(d.per_model || {}).forEach(([modelKey, res]: [string, any]) => {
