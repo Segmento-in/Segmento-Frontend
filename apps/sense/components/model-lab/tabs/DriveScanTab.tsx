@@ -239,7 +239,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         });
 
         Object.keys(per_model).forEach(k => {
-            const accuracies = allData.map(d => (d?.per_model?.[k] as any)?.accuracy || 0);
+            const accuracies = allData.map(d => d?.per_model?.[k]?.accuracy || 0);
             per_model[k].accuracy = accuracies.reduce((a, b) => a + b, 0) / (accuracies.length || 1);
         });
 
