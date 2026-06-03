@@ -121,6 +121,8 @@ export interface EvaluatorScanResponse {
     per_model: Record<string, ModelScanResult>;
     has_gt: boolean;
     elapsed: number;
+    union_total: number;
+    ranked: Array<{ model_key: string; pii_count: number; accuracy: number; rank: number }>;
 }
 
 export interface BatchDocResult {
