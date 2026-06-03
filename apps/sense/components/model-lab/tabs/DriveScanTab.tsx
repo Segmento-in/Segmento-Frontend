@@ -239,7 +239,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         });
 
         Object.keys(per_model).forEach(k => {
-            const accuracies = allData.map(d => d.per_model?.[k]?.accuracy || 0);
+            const accuracies = allData.map(d => (d?.per_model?.[k] as any)?.accuracy || 0);
             per_model[k].accuracy = accuracies.reduce((a, b) => a + b, 0) / (accuracies.length || 1);
         });
 
@@ -350,7 +350,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                         Apply
                                     </button>
                                 </div>
-                                {credentials?.access_token && <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Token applied</p>}
+                                {credentials?.access_token != null && <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Token applied</p>}
                             </div>
                         )}
 
@@ -400,12 +400,12 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                         key={model.key}
                                         onClick={() => toggleModel(model.key)}
                                         className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${selectedModels.has(model.key)
-                                                ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300'
-                                                : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 hover:border-slate-300'
+                                            ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300'
+                                            : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 hover:border-slate-300'
                                             }`}
                                     >
                                         <div className={`w-2 h-2 rounded-full ${selectedModels.has(model.key) ? 'bg-blue-500' : 'bg-slate-300'}`} />
-                                        {model.name}
+                                        {model.label}
                                     </button>
                                 ))}
                             </div>
@@ -472,9 +472,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 <div className="flex items-center justify-between mb-4">
                                     <h3 className="font-semibold text-slate-800 dark:text-slate-100">Model Performance (Across Scanned Files)</h3>
                                 </div>
-                                {getModelShowdownData() && (
-                                    <ModelShowdown data={getModelShowdownData()} modelCatalogue={modelCatalogue} />
-                                )}
+                                {(() => { const sd = getModelShowdownData(); return sd && <ModelShowdown data={sd} modelCatalogue={modelCatalogue} />; })()}
                             </div>
                         )}
 
