@@ -2,9 +2,9 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    LayoutGrid, List, File, FileText, Image as ImageIcon, Video, Music, 
-    CheckCircle2, AlertCircle, Loader2, Maximize2, ShieldAlert, Folder, Tag
+import {
+    LayoutGrid, List, File, FileText, Image as ImageIcon, Video, Music,
+    CheckCircle2, AlertCircle, Loader2, Maximize2, ShieldAlert, Folder, Tag, Sparkles
 } from 'lucide-react';
 import { DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 
@@ -29,15 +29,15 @@ export default function ConnectorPreviewUI({
 }: Props) {
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [currentPathPrefix, setCurrentPathPrefix] = useState('');
-    
+
     // Compute visible items based on current path prefix
     const visibleItems = useMemo(() => {
         return items.filter(item => {
             if (currentPathPrefix === '') {
                 return !item.path.includes('/');
             } else {
-                return item.path.startsWith(currentPathPrefix + '/') && 
-                       item.path.indexOf('/', currentPathPrefix.length + 1) === -1;
+                return item.path.startsWith(currentPathPrefix + '/') &&
+                    item.path.indexOf('/', currentPathPrefix.length + 1) === -1;
             }
         });
     }, [items, currentPathPrefix]);
@@ -69,7 +69,7 @@ export default function ConnectorPreviewUI({
             <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
                 <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap">
                     <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                    <button 
+                    <button
                         onClick={() => setCurrentPathPrefix('')}
                         className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-500"
                     >
@@ -80,7 +80,7 @@ export default function ConnectorPreviewUI({
                         return (
                             <React.Fragment key={pathSoFar}>
                                 <span className="text-slate-400">/</span>
-                                <button 
+                                <button
                                     onClick={() => setCurrentPathPrefix(pathSoFar)}
                                     className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-500"
                                 >
@@ -94,13 +94,13 @@ export default function ConnectorPreviewUI({
                     </span>
                 </div>
                 <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg ml-4 shrink-0">
-                    <button 
+                    <button
                         onClick={() => setViewMode('grid')}
                         className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500'}`}
                     >
                         <LayoutGrid className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                         onClick={() => setViewMode('list')}
                         className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white' : 'text-slate-500'}`}
                     >
@@ -112,7 +112,7 @@ export default function ConnectorPreviewUI({
             {/* Scanning Overlay */}
             <AnimatePresence>
                 {isScanning && (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -136,11 +136,14 @@ export default function ConnectorPreviewUI({
                         {sortedItems.map(item => {
                             const isSelected = selectedIds.has(item.id);
                             const status = getScanStatus(item.id);
-                            const isAlreadyScanned = item.appProperties?.segmento_pii_detected === 'true' || item.appProperties?.segmento_pii_detected === true;
-                            
+                            const appProps = item.appProperties;
+                            const isAlreadyScanned = appProps?.segmento_pii_detected === 'true' || appProps?.segmento_pii_detected === true;
+                            // File visited Drive before but no segmento tag at all → truly new / never scanned
+                            const isNeverScanned = !isAlreadyScanned && appProps !== undefined && appProps !== null && !('segmento_pii_detected' in (appProps ?? {}));
+
                             if (item.isFolder) {
                                 return (
-                                    <div 
+                                    <div
                                         key={item.id}
                                         onClick={() => setCurrentPathPrefix(item.path)}
                                         className="relative group flex flex-col p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 hover:border-blue-400 cursor-pointer transition-all"
@@ -158,16 +161,16 @@ export default function ConnectorPreviewUI({
                             }
 
                             return (
-                                <div 
+                                <div
                                     key={item.id}
                                     onClick={() => !status && item.parseable && onToggleSelection(item.id)}
-                                    className={`relative group flex flex-col p-3 rounded-xl border transition-all ${
-                                        !item.parseable ? 'opacity-50 cursor-not-allowed border-slate-200 dark:border-slate-800' :
-                                        status ? 'cursor-pointer hover:border-blue-400 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700' :
-                                        isAlreadyScanned ? 'bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer' :
-                                        isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400 ring-1 ring-blue-400 shadow-sm' : 
-                                        'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-400 cursor-pointer'
-                                    }`}
+                                    className={`relative group flex flex-col p-3 rounded-xl border transition-all ${!item.parseable ? 'opacity-50 cursor-not-allowed border-slate-200 dark:border-slate-800' :
+                                            status ? 'cursor-pointer hover:border-blue-400 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700' :
+                                                isAlreadyScanned ? 'bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer' :
+                                                    isNeverScanned ? 'bg-amber-50/40 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/40 hover:border-amber-400 cursor-pointer' :
+                                                        isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400 ring-1 ring-blue-400 shadow-sm' :
+                                                            'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-400 cursor-pointer'
+                                        }`}
                                 >
                                     {/* Selection / Status indicator */}
                                     <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
@@ -186,20 +189,24 @@ export default function ConnectorPreviewUI({
                                                 <Tag className="w-3 h-3 fill-current" />
                                                 <span className="text-[10px] font-bold tracking-wide uppercase">File Contains PII</span>
                                             </div>
+                                        ) : isNeverScanned ? (
+                                            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-400 text-white shadow-md shadow-amber-400/20">
+                                                <Sparkles className="w-3 h-3" />
+                                                <span className="text-[10px] font-bold tracking-wide uppercase">New — Not Scanned</span>
+                                            </div>
                                         ) : (
                                             item.parseable && (
-                                                <div className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                                    isSelected ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-300 dark:border-slate-600 bg-white/50'
-                                                }`}>
+                                                <div className={`w-4 h-4 rounded border flex items-center justify-center ${isSelected ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-300 dark:border-slate-600 bg-white/50'
+                                                    }`}>
                                                     {isSelected && <CheckCircle2 className="w-3 h-3" />}
                                                 </div>
                                             )
                                         )}
                                     </div>
-                                    
+
                                     {/* Open Action (if scanned) */}
                                     {status && (
-                                        <button 
+                                        <button
                                             onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
                                             className="absolute top-2 right-2 p-1.5 bg-slate-900/80 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:bg-blue-600"
                                             title="Open Document Viewer"
@@ -229,11 +236,13 @@ export default function ConnectorPreviewUI({
                         {sortedItems.map(item => {
                             const isSelected = selectedIds.has(item.id);
                             const status = getScanStatus(item.id);
-                            const isAlreadyScanned = item.appProperties?.segmento_pii_detected === 'true' || item.appProperties?.segmento_pii_detected === true;
-                            
+                            const appProps = item.appProperties;
+                            const isAlreadyScanned = appProps?.segmento_pii_detected === 'true' || appProps?.segmento_pii_detected === true;
+                            const isNeverScanned = !isAlreadyScanned && appProps !== undefined && appProps !== null && !('segmento_pii_detected' in (appProps ?? {}));
+
                             if (item.isFolder) {
                                 return (
-                                    <div 
+                                    <div
                                         key={item.id}
                                         onClick={() => setCurrentPathPrefix(item.path)}
                                         className="flex items-center gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 hover:border-blue-400 cursor-pointer transition-colors"
@@ -252,16 +261,16 @@ export default function ConnectorPreviewUI({
                             }
 
                             return (
-                                <div 
+                                <div
                                     key={item.id}
                                     onClick={() => !status && item.parseable && onToggleSelection(item.id)}
-                                    className={`flex items-center gap-4 p-3 rounded-lg border transition-colors ${
-                                        !item.parseable ? 'opacity-50 cursor-not-allowed border-transparent' :
-                                        status ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800' :
-                                        isAlreadyScanned ? 'bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer' :
-                                        isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400' : 
-                                        'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800/50 hover:border-slate-300 cursor-pointer'
-                                    }`}
+                                    className={`flex items-center gap-4 p-3 rounded-lg border transition-colors ${!item.parseable ? 'opacity-50 cursor-not-allowed border-transparent' :
+                                            status ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800' :
+                                                isAlreadyScanned ? 'bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer' :
+                                                    isNeverScanned ? 'bg-amber-50/40 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800/40 hover:border-amber-400 cursor-pointer' :
+                                                        isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400' :
+                                                            'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800/50 hover:border-slate-300 cursor-pointer'
+                                        }`}
                                 >
                                     <div className="flex-shrink-0 flex items-center justify-center">
                                         {status ? (
@@ -279,21 +288,25 @@ export default function ConnectorPreviewUI({
                                                 <Tag className="w-3 h-3 fill-current" />
                                                 <span className="text-[10px] font-bold tracking-wide uppercase">File Contains PII</span>
                                             </div>
+                                        ) : isNeverScanned ? (
+                                            <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-400 text-white shadow-md shadow-amber-400/20">
+                                                <Sparkles className="w-3 h-3" />
+                                                <span className="text-[10px] font-bold tracking-wide uppercase">New — Not Scanned</span>
+                                            </div>
                                         ) : (
                                             item.parseable && (
-                                                <div className={`w-4 h-4 rounded border flex items-center justify-center ${
-                                                    isSelected ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-300 dark:border-slate-600'
-                                                }`}>
+                                                <div className={`w-4 h-4 rounded border flex items-center justify-center ${isSelected ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-300 dark:border-slate-600'
+                                                    }`}>
                                                     {isSelected && <CheckCircle2 className="w-3 h-3" />}
                                                 </div>
                                             )
                                         )}
                                     </div>
-                                    
+
                                     <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0">
                                         {getFileIcon(item, "w-4 h-4")}
                                     </div>
-                                    
+
                                     <div className="flex-1 min-w-0 flex items-center">
                                         <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate flex-1">
                                             {item.name}
@@ -302,11 +315,11 @@ export default function ConnectorPreviewUI({
                                             {item.path}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="flex items-center gap-4 shrink-0 w-32 justify-end">
                                         <span className="text-xs text-slate-500 font-mono">{(item.sizeBytes / 1024).toFixed(0)}KB</span>
                                         {status && (
-                                            <button 
+                                            <button
                                                 onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
                                                 className="px-3 py-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold rounded hover:bg-blue-600 transition-colors"
                                             >
@@ -319,7 +332,7 @@ export default function ConnectorPreviewUI({
                         })}
                     </div>
                 )}
-                
+
                 {visibleItems.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-slate-500">
                         <Folder className="w-12 h-12 mb-3 text-slate-300 dark:text-slate-700" />

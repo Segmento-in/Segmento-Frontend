@@ -115,12 +115,21 @@ export interface ModelScanResult {
         missed: Array<{ entity_type: string; value: string; context: string; reason: string }>;
         false_positives: Array<{ entity_type: string; value: string; confidence: number }>;
     };
+    // Extra summary fields returned by _build_showdown_result (alongside the standard fields above)
+    pii_count: number;
+    accuracy: number;
+    type_counts: Record<string, number>;
+    unique_count: number;
+    missed_count: number;
+    consensus_count: number;
 }
 
 export interface EvaluatorScanResponse {
     per_model: Record<string, ModelScanResult>;
     has_gt: boolean;
     elapsed: number;
+    union_total: number;
+    ranked: Array<{ model_key: string; pii_count: number; accuracy: number; rank: number }>;
 }
 
 export interface BatchDocResult {
@@ -698,6 +707,7 @@ export interface DriveItem {
     path: string;
     parentId: string;
     appProperties?: any;
+    webViewLink?: string;
 }
 
 export interface DriveFileScanResult {
