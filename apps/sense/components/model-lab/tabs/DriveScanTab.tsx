@@ -415,12 +415,24 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center justify-between">
                                 <h3 className="font-semibold text-slate-900 dark:text-white">Select Assets to Scan</h3>
-                                <button
-                                    onClick={selectAllParseable}
-                                    className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
-                                >
-                                    Select All Parseable
-                                </button>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={handleBrowse}
+                                        disabled={isBrowsing}
+                                        title="Re-fetch files from Drive (picks up newly added files)"
+                                        className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors disabled:opacity-50"
+                                    >
+                                        <RefreshCw className={`w-3.5 h-3.5 ${isBrowsing ? 'animate-spin' : ''}`} />
+                                        Refresh Files
+                                    </button>
+                                    <div className="w-px h-4 bg-slate-200 dark:bg-slate-700" />
+                                    <button
+                                        onClick={selectAllParseable}
+                                        className="text-sm text-blue-600 dark:text-blue-400 font-medium hover:underline"
+                                    >
+                                        Select All Parseable
+                                    </button>
+                                </div>
                             </div>
 
                             <ConnectorPreviewUI
