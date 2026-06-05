@@ -6,7 +6,7 @@ import {
     LayoutGrid, List, File, FileText, Image as ImageIcon, Video, Music,
     CheckCircle2, AlertCircle, Maximize2, ShieldAlert, ShieldCheck, Folder, Tag, Sparkles
 } from 'lucide-react';
-import { DriveItem, DriveFileScanResult } from '@/lib/apiClient';
+import { DriveItem, DriveFileScanResult, FileCatalogEntry } from '@/lib/apiClient';
 
 interface Props {
     items: DriveItem[];
@@ -16,18 +16,37 @@ interface Props {
     scanResults: DriveFileScanResult[];
     onOpenFile: (fileId: string) => void;
     connectorType?: string;
+    catalogData?: FileCatalogEntry[];
+    lastSession?: any;
 }
 
 // ── Badge state helpers ──────────────────────────────────────────────────────
-function getPiiState(item: DriveItem) {
+function getPiiState(item: DriveItem, catalogData?: FileCatalogEntry[], lastSession?: any) {
+    const catalogItem = catalogData?.find(c => c.file_id === item.id);
+    
+    if (catalogItem?.scan_status === 'pii_found') return 'pii' as const;
+    if (catalogItem?.scan_status === 'clean') return 'clean' as const;
+    if (catalogItem?.scan_status === 'unscanned') return 'unscanned' as const;
+    
+    if (catalogItem?.first_seen_at && lastSession?.triggered_at) {
+        const firstSeen = new Date(catalogItem.first_seen_at).getTime();
+        const lastScan = new Date(lastSession.triggered_at).getTime();
+        if (firstSeen > lastScan) {
+            return 'new' as const;
+        }
+    }
+    
     const tag = item.appProperties?.segmento_pii_detected;
     if (tag === 'true'  || tag === true)  return 'pii' as const;
     if (tag === 'false' || tag === false) return 'clean' as const;
+    
+    if (!catalogItem || !lastSession) return 'new' as const;
+    
     return 'unscanned' as const;
 }
 
 // ── Sub-components ───────────────────────────────────────────────────────────
-function PiiBadge({ state }: { state: 'pii' | 'clean' | 'unscanned' }) {
+function PiiBadge({ state }: { state: 'pii' | 'clean' | 'unscanned' | 'new' }) {
     if (state === 'pii') return (
         <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-rose-500 text-white shadow-md shadow-rose-500/20">
             <Tag className="w-3 h-3 fill-current" />
@@ -40,10 +59,16 @@ function PiiBadge({ state }: { state: 'pii' | 'clean' | 'unscanned' }) {
             <span className="text-[10px] font-bold tracking-wide uppercase">Scanned — No PII</span>
         </div>
     );
-    return (
-        <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-400 text-white shadow-md shadow-amber-400/20">
+    if (state === 'new') return (
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-blue-500 text-white shadow-md shadow-blue-500/20">
             <Sparkles className="w-3 h-3" />
-            <span className="text-[10px] font-bold tracking-wide uppercase">Not Scanned</span>
+            <span className="text-[10px] font-bold tracking-wide uppercase">New File</span>
+        </div>
+    );
+    return (
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-slate-400 text-white shadow-md shadow-slate-400/20">
+            <Folder className="w-3 h-3" />
+            <span className="text-[10px] font-bold tracking-wide uppercase">Unscanned</span>
         </div>
     );
 }
@@ -58,9 +83,9 @@ function SelectionDot() {
 
 export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, isScanning, scanResults, onOpenFile,
-    connectorType = 'Google Drive'
+    connectorType = 'Google Drive', catalogData, lastSession
 }: Props) {
-    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
     const [currentPathPrefix, setCurrentPathPrefix] = useState('');
 
     const visibleItems = useMemo(() => items.filter(item => {
@@ -140,7 +165,7 @@ export default function ConnectorPreviewUI({
                         {sortedItems.map(item => {
                             const isSelected = selectedIds.has(item.id);
                             const status = getScanStatus(item.id);
-                            const piiState = getPiiState(item);
+                            const piiState = getPiiState(item, catalogData, lastSession);
 
                             if (item.isFolder) return (
                                 <div key={item.id} onClick={() => setCurrentPathPrefix(item.path)}
@@ -159,6 +184,7 @@ export default function ConnectorPreviewUI({
                                 status ? 'cursor-pointer hover:border-blue-400 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700' :
                                 piiState === 'pii' ? `bg-rose-50/30 dark:bg-rose-900/10 border-rose-200 dark:border-rose-800/50 hover:border-rose-400 cursor-pointer${isSelected ? ' ring-2 ring-blue-400' : ''}` :
                                 piiState === 'clean' ? `bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer${isSelected ? ' ring-2 ring-blue-400' : ''}` :
+                                piiState === 'new' ? `bg-blue-50/30 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800/50 hover:border-blue-400 cursor-pointer${isSelected ? ' ring-2 ring-blue-400' : ''}` :
                                 isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400 ring-1 ring-blue-400 shadow-sm' :
                                 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-400 cursor-pointer';
 
@@ -213,72 +239,111 @@ export default function ConnectorPreviewUI({
                         })}
                     </div>
                 ) : (
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col">
+                        <div className="sticky top-0 z-20 flex items-center gap-4 py-2 px-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-[#0B1120]/90 backdrop-blur text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                            <div className="w-[120px] flex-shrink-0">Status</div>
+                            <div className="w-8 flex-shrink-0" />
+                            <div className="flex-1 min-w-[200px]">Name</div>
+                            <div className="flex-1 min-w-[150px] hidden md:block">Path</div>
+                            <div className="w-20 text-right flex-shrink-0">Size</div>
+                            <div className="w-24 text-center flex-shrink-0">Action</div>
+                        </div>
                         {sortedItems.map(item => {
                             const isSelected = selectedIds.has(item.id);
                             const status = getScanStatus(item.id);
-                            const piiState = getPiiState(item);
+                            const piiState = getPiiState(item, catalogData, lastSession);
 
-                            if (item.isFolder) return (
-                                <div key={item.id} onClick={() => setCurrentPathPrefix(item.path)}
-                                    className="flex items-center gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 hover:border-blue-400 cursor-pointer transition-colors">
-                                    <div className="flex-shrink-0 w-4 h-4" />
-                                    <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shrink-0">
-                                        <Folder className="w-4 h-4 text-blue-500 fill-blue-500/20" />
+                            if (item.isFolder) {
+                                // Compute aggregate stats for this folder
+                                const children = catalogData?.filter(c => c.full_path?.startsWith(item.path + '/')) || [];
+                                const childFileCount = children.filter(c => !c.is_folder).length;
+                                const aggregatePii = children.reduce((sum, child) => sum + (child.pii_count || 0), 0);
+                                
+                                return (
+                                    <div key={item.id} onClick={() => setCurrentPathPrefix(item.path)}
+                                        className="flex items-center gap-4 py-2 px-4 border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer transition-colors group">
+                                        <div className="w-[120px] flex-shrink-0 flex items-center">
+                                            {aggregatePii > 0 && (
+                                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-600 border border-rose-200 dark:bg-rose-500/20 dark:border-rose-500/30">
+                                                    <AlertCircle className="w-3 h-3" />
+                                                    PII: {aggregatePii}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shrink-0 shadow-sm border border-slate-200 dark:border-slate-600">
+                                            <Folder className="w-4 h-4 text-blue-500 fill-blue-500/20" />
+                                        </div>
+                                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.name}</p>
+                                            <p className="text-[10px] text-slate-400">{childFileCount} files inside</p>
+                                        </div>
+                                        <div className="flex-1 hidden md:block" />
+                                        <div className="w-20" />
+                                        <div className="w-24 text-center text-xs text-slate-400 group-hover:text-blue-500 font-medium flex items-center justify-center gap-1">
+                                            Open <Folder className="w-3 h-3" />
+                                        </div>
                                     </div>
-                                    <div className="flex-1 min-w-0 flex items-center">
-                                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate flex-1">{item.name}</p>
-                                    </div>
-                                </div>
-                            );
+                                );
+                            }
 
                             const rowBg =
-                                !item.parseable ? 'opacity-50 cursor-not-allowed border-transparent' :
-                                status ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800' :
-                                piiState === 'pii' ? `bg-rose-50/30 dark:bg-rose-900/10 border-rose-200 dark:border-rose-800/50 hover:border-rose-400 cursor-pointer${isSelected ? ' ring-1 ring-blue-400' : ''}` :
-                                piiState === 'clean' ? `bg-emerald-50/30 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800/50 hover:border-emerald-400 cursor-pointer${isSelected ? ' ring-1 ring-blue-400' : ''}` :
-                                isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-400' :
-                                'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800/50 hover:border-slate-300 cursor-pointer';
+                                !item.parseable ? 'opacity-50 cursor-not-allowed bg-slate-50/50 dark:bg-slate-900/50' :
+                                isSelected ? 'bg-blue-50/50 dark:bg-blue-900/20' :
+                                'hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer';
 
                             return (
                                 <div key={item.id}
                                     onClick={() => !status && item.parseable && onToggleSelection(item.id)}
-                                    className={`flex items-center gap-3 p-3 rounded-lg border transition-colors ${rowBg}`}>
+                                    className={`flex items-center gap-4 py-3 px-4 border-b border-slate-100 dark:border-slate-800/50 transition-colors ${rowBg}`}>
 
-                                    {/* Status indicator */}
-                                    <div className="flex-shrink-0 flex items-center justify-center">
+                                    {/* Status Column */}
+                                    <div className="w-[120px] flex-shrink-0 flex items-center">
                                         {status ? (
                                             status.pii_detected ? (
-                                                <div className="w-5 h-5 rounded-full bg-red-100 text-red-600 flex items-center justify-center shadow-sm border border-red-200">
+                                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-semibold bg-red-100 text-red-600 border border-red-200 dark:bg-red-500/20 dark:border-red-500/30">
                                                     <AlertCircle className="w-3 h-3" />
+                                                    PII: {status.pii_count}
                                                 </div>
                                             ) : (
-                                                <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm border border-emerald-200">
+                                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-600 border border-emerald-200 dark:bg-emerald-500/20 dark:border-emerald-500/30">
                                                     <CheckCircle2 className="w-3 h-3" />
+                                                    Clean
                                                 </div>
                                             )
                                         ) : item.parseable ? (
                                             <PiiBadge state={piiState} />
-                                        ) : null}
+                                        ) : (
+                                            <span className="text-xs font-medium text-slate-400">Unsupported</span>
+                                        )}
                                     </div>
 
-                                    <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                                    {/* Icon Column */}
+                                    <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shrink-0 shadow-sm border border-slate-200 dark:border-slate-700">
                                         {getFileIcon(item, 'w-4 h-4')}
                                     </div>
 
-                                    <div className="flex-1 min-w-0 flex items-center">
-                                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate flex-1">{item.name}</p>
-                                        <p className="text-xs text-slate-500 truncate w-1/3 text-right">{item.path}</p>
+                                    {/* Name Column */}
+                                    <div className="flex-1 min-w-[200px] flex items-center">
+                                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate pr-2">{item.name}</p>
                                     </div>
 
-                                    <div className="flex items-center gap-3 shrink-0">
+                                    {/* Path Column */}
+                                    <div className="flex-1 min-w-[150px] hidden md:block">
+                                        <p className="text-xs text-slate-500 truncate" title={item.path}>{item.path}</p>
+                                    </div>
+
+                                    {/* Size Column */}
+                                    <div className="w-20 text-right flex-shrink-0">
                                         <span className="text-xs text-slate-500 font-mono">{(item.sizeBytes / 1024).toFixed(0)}KB</span>
-                                        {/* Selection dot */}
+                                    </div>
+                                    
+                                    {/* Action / Select Column */}
+                                    <div className="w-24 flex items-center justify-center shrink-0">
                                         {isSelected && !status && <SelectionDot />}
-                                        {/* Open viewer */}
                                         {status && (
                                             <button onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
-                                                className="px-3 py-1 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold rounded hover:bg-blue-600 transition-colors">
+                                                className="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:text-blue-600 hover:border-blue-400 text-xs font-semibold rounded-md shadow-sm transition-all flex items-center gap-1.5">
+                                                <Maximize2 className="w-3 h-3" />
                                                 View
                                             </button>
                                         )}

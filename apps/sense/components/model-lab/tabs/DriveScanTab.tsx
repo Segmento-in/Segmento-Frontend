@@ -4,10 +4,10 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Cloud, Folder, CheckCircle2, XCircle, ChevronRight, Search, Play, Tag,
-    AlertCircle, Loader2, RefreshCw, Key, Lock, ArrowLeft
+    AlertCircle, Loader2, RefreshCw, Key, Lock, ArrowLeft, Star
 } from 'lucide-react';
 
-import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry, CatalogResponse } from '@/lib/apiClient';
 import ModelShowdown from '../ModelShowdown';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
@@ -33,6 +33,8 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     const [isBrowsing, setIsBrowsing] = useState(false);
     const [items, setItems] = useState<DriveItem[]>([]);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
+    const [lastSession, setLastSession] = useState<any>(null);
 
     // --- State: Config ---
     const [selectedModels, setSelectedModels] = useState<Set<string>>(new Set(['deberta', 'regex']));
@@ -47,6 +49,9 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     const [isTagging, setIsTagging] = useState(false);
     const [tagSuccess, setTagSuccess] = useState(false);
     const [tagStatuses, setTagStatuses] = useState<Record<string, { success: boolean; error: string | null }>>({});
+
+    // --- State: Side Drawer ---
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // --- State: Document Viewer Modal ---
     const [viewerFileId, setViewerFileId] = useState<string | null>(null);
@@ -94,8 +99,13 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         setIsBrowsing(true);
         setError(null);
         try {
-            const res = await apiClient.driveFolderBrowse(authType, credentials, folderInput);
+            const [res, catalogRes] = await Promise.all([
+                apiClient.driveFolderBrowse(authType, credentials, folderInput),
+                apiClient.getFileCatalog('google_drive', 'default_uid')
+            ]);
             setItems(res.items);
+            setCatalogData(catalogRes.files || []);
+            setLastSession(catalogRes.last_session || null);
             setStep('BROWSE');
         } catch (err: any) {
             setError(err.message || "Failed to browse folder.");
@@ -144,6 +154,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         setError(null);
         setScanResults([]);
         setTagStatuses({});
+        setIsSidebarOpen(false);
 
         try {
             const res = await apiClient.driveFolderScan(
@@ -443,6 +454,8 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 scanResults={scanResults}
                                 onOpenFile={handleOpenFile}
                                 connectorType="Google Drive"
+                                catalogData={catalogData}
+                                lastSession={lastSession}
                             />
 
                             <div className="flex items-center justify-between mt-2 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
@@ -480,11 +493,17 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         </div>
 
                         {!isScanning && scanResults.length > 0 && (
-                            <div className="p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h3 className="font-semibold text-slate-800 dark:text-slate-100">Model Performance (Across Scanned Files)</h3>
+                            <div className="flex items-center justify-between p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                <div>
+                                    <h3 className="font-semibold text-slate-800 dark:text-slate-100">Scan Complete</h3>
+                                    <p className="text-sm text-slate-500">Processed {scanResults.length} files. Review the detailed performance breakdown.</p>
                                 </div>
-                                {(() => { const sd = getModelShowdownData(); return sd && <ModelShowdown data={sd} modelCatalogue={modelCatalogue} />; })()}
+                                <button
+                                    onClick={() => setIsSidebarOpen(true)}
+                                    className="px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-700 shadow-sm transition-colors"
+                                >
+                                    View PII Detection Details
+                                </button>
                             </div>
                         )}
 
@@ -497,6 +516,8 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                             scanResults={scanResults}
                             onOpenFile={handleOpenFile}
                             connectorType="Google Drive"
+                            catalogData={catalogData}
+                            lastSession={lastSession}
                         />
 
                         {/* Tagging Action */}
@@ -536,6 +557,45 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         )}
 
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {isSidebarOpen && !isScanning && scanResults.length > 0 && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsSidebarOpen(false)}
+                            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90]"
+                        />
+                        {/* Sidebar */}
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed top-0 right-0 h-full w-full max-w-xl bg-white dark:bg-[#0B1120] shadow-2xl z-[100] border-l border-slate-200 dark:border-slate-800 flex flex-col"
+                        >
+                            <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                                <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <Star className="w-5 h-5 text-emerald-500" />
+                                    Model Performance Details
+                                </h2>
+                                <button
+                                    onClick={() => setIsSidebarOpen(false)}
+                                    className="p-2 rounded-full hover:bg-slate-200 dark:bg-slate-800 text-slate-500 transition-colors"
+                                >
+                                    <XCircle className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-5">
+                                {(() => { const sd = getModelShowdownData(); return sd && <ModelShowdown data={sd} modelCatalogue={modelCatalogue} />; })()}
+                            </div>
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
 
