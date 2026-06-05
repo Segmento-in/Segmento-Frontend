@@ -4,11 +4,10 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Cloud, Folder, CheckCircle2, XCircle, ChevronRight, Search, Play, Tag,
-    AlertCircle, Loader2, RefreshCw, Key, Lock, ArrowLeft, Star
+    AlertCircle, Loader2, RefreshCw, Key, ArrowLeft
 } from 'lucide-react';
 
-import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry, CatalogResponse } from '@/lib/apiClient';
-import ModelShowdown from '../ModelShowdown';
+import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
 
@@ -36,22 +35,17 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
     const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
     const [lastSession, setLastSession] = useState<any>(null);
 
-    // --- State: Config ---
-    const [selectedModels, setSelectedModels] = useState<Set<string>>(new Set(['deberta', 'regex']));
-    const [enableTagging, setEnableTagging] = useState(false);
-    const [tagVisibility, setTagVisibility] = useState<'api_only' | 'api_and_human'>('api_only');
+    // All available model keys — run every model on every scan (no user selection)
+    const ALL_MODEL_KEYS = ['ensemble', 'regex', 'nltk', 'spacy', 'presidio', 'gliner', 'deberta', 'pasteproof', 'piiranha', 'nvidia_gliner', 'mmbert'];
 
     // --- State: Scan & Results ---
-    const [isScanning, setIsScanning] = useState(false);
+    const [scanningIds, setScanningIds] = useState<Set<string>>(new Set()); // per-file inline spinner
     const [scanResults, setScanResults] = useState<DriveFileScanResult[]>([]);
 
-    // --- State: Tagging ---
-    const [isTagging, setIsTagging] = useState(false);
-    const [tagSuccess, setTagSuccess] = useState(false);
-    const [tagStatuses, setTagStatuses] = useState<Record<string, { success: boolean; error: string | null }>>({});
-
-    // --- State: Side Drawer ---
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    // --- State: Per-file PII tag actions ---
+    // 'pending' = show tag prompt | 'tagged' = tagged | 'ignored' = dismissed
+    const [piiActions, setPiiActions] = useState<Record<string, 'pending' | 'tagged' | 'ignored'>>({});
+    const [tagVisibility, setTagVisibility] = useState<Record<string, 'api_only' | 'api_and_human'>>({});
 
     // --- State: Document Viewer Modal ---
     const [viewerFileId, setViewerFileId] = useState<string | null>(null);
@@ -135,141 +129,67 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         }
     };
 
-    const toggleModel = (key: string) => {
-        const next = new Set(selectedModels);
-        if (next.has(key)) next.delete(key);
-        else next.add(key);
-        setSelectedModels(next);
-    };
+    // toggleModel removed — all models run by default
 
     const handleScan = async () => {
-        if (selectedIds.size === 0 || selectedModels.size === 0 || !credentials) return;
+        if (selectedIds.size === 0 || !credentials) return;
 
         const filesToScan = items
             .filter(i => selectedIds.has(i.id))
             .map(i => ({ id: i.id, name: i.name, mimeType: i.mimeType }));
 
-        setIsScanning(true);
+        // Mark every selected file as "scanning" so inline spinners appear
+        setScanningIds(new Set(selectedIds));
         setStep('RESULTS');
         setError(null);
         setScanResults([]);
-        setTagStatuses({});
-        setIsSidebarOpen(false);
+        setPiiActions({});
+        setTagVisibility({});
 
         try {
             const res = await apiClient.driveFolderScan(
                 authType,
                 credentials,
                 filesToScan,
-                Array.from(selectedModels)
+                ALL_MODEL_KEYS
             );
 
             setScanResults(res.results);
+            setScanningIds(new Set()); // clear all inline spinners
+
+            // Refresh catalog after scan so badges update from DB
+            try {
+                const catalogRes = await apiClient.getFileCatalog('google_drive', 'default_uid');
+                setCatalogData(catalogRes.files || []);
+                setLastSession(catalogRes.last_session || null);
+            } catch {
+                // non-fatal — live scan results still show correct badges
+            }
+
         } catch (err: any) {
+            setScanningIds(new Set()); // clear spinners on error too
             setError(err.message || "Scan failed.");
-            setStep('BROWSE'); // fallback
-        } finally {
-            setIsScanning(false);
+            setStep('BROWSE');
         }
     };
 
-    const handleTag = async () => {
+
+    // Per-file inline tagging handler
+    const handlePerFileTag = async (fileId: string) => {
         if (!credentials) return;
-
-        const filesToTag = scanResults.map(r => ({
-            file_id: r.file_id,
-            pii_detected: r.pii_detected,
-            pii_count: r.pii_count
-        }));
-
-        if (filesToTag.length === 0) return;
-
-        setIsTagging(true);
+        const result = scanResults.find(r => r.file_id === fileId);
+        if (!result) return;
+        const vis = tagVisibility[fileId] ?? 'api_only';
+        const human = vis === 'api_and_human';
         try {
-            const res = await apiClient.driveTagFiles(authType, credentials, filesToTag, tagVisibility === 'api_and_human');
-
-            const newStatuses: Record<string, { success: boolean, error: string | null }> = {};
-            res.tagged.forEach(t => {
-                newStatuses[t.file_id] = { success: t.success, error: t.error };
-            });
-            setTagStatuses(newStatuses);
-            setTagSuccess(true);
-            setTimeout(() => setTagSuccess(false), 3000);
-        } catch (err: any) {
-            setError(err.message || "Tagging failed.");
-        } finally {
-            setIsTagging(false);
+            await apiClient.driveTagFiles(authType, credentials,
+                [{ file_id: fileId, pii_detected: result.pii_detected, pii_count: result.pii_count }],
+                human
+            );
+            setPiiActions(prev => ({ ...prev, [fileId]: 'tagged' }));
+        } catch {
+            // silently fail — badge stays pending so user can retry
         }
-    };
-
-    const getModelShowdownData = () => {
-        const allData = scanResults.map(r => r.scan_data).filter(Boolean);
-        if (allData.length === 0) return null;
-        if (allData.length === 1) return allData[0];
-
-        // Aggregate
-        const per_model: Record<string, any> = {};
-        let union_total = 0;
-        let elapsed = 0;
-
-        allData.forEach(d => {
-            if (!d) return;
-            union_total += d.union_total || 0;
-            elapsed += d.elapsed || 0;
-            Object.entries(d.per_model || {}).forEach(([modelKey, res]: [string, any]) => {
-                if (!per_model[modelKey]) {
-                    per_model[modelKey] = {
-                        pii_count: 0,
-                        accuracy: 0,
-                        type_counts: {},
-                        unique_count: 0,
-                        missed_count: 0,
-                        consensus_count: 0,
-                        predictions: [],
-                    };
-                }
-                const agg = per_model[modelKey];
-                agg.pii_count += res.pii_count || 0;
-
-                // Aggregate predictions and append file_name for autonomy
-                const parentResult = scanResults.find(sr => sr.scan_data === d);
-                if (res.predictions && Array.isArray(res.predictions)) {
-                    const mappedPredictions = res.predictions.map((p: any) => ({
-                        ...p,
-                        file_name: parentResult?.file_name || 'Unknown File'
-                    }));
-                    agg.predictions.push(...mappedPredictions);
-                }
-                Object.entries(res.type_counts || {}).forEach(([k, v]: [string, any]) => {
-                    agg.type_counts[k] = (agg.type_counts[k] || 0) + v;
-                });
-                agg.unique_count += res.unique_count || 0;
-                agg.missed_count += res.missed_count || 0;
-                agg.consensus_count += res.consensus_count || 0;
-            });
-        });
-
-        Object.keys(per_model).forEach(k => {
-            const accuracies = allData.map(d => d?.per_model?.[k]?.accuracy || 0);
-            per_model[k].accuracy = accuracies.reduce((a, b) => a + b, 0) / (accuracies.length || 1);
-        });
-
-        const ranked = Object.entries(per_model).map(([model_key, res]) => ({
-            model_key,
-            pii_count: res.pii_count,
-            accuracy: res.accuracy,
-            rank: 0
-        })).sort((a, b) => {
-            if (b.accuracy !== a.accuracy) return b.accuracy - a.accuracy;
-            return b.pii_count - a.pii_count;
-        }).map((r, i) => ({ ...r, rank: i + 1 }));
-
-        return {
-            per_model,
-            ranked,
-            union_total,
-            elapsed
-        };
     };
 
     const handleOpenFile = (fileId: string) => {
@@ -402,24 +322,12 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
                         className="flex flex-col gap-6"
                     >
-                        {/* Selected Models Configuration */}
-                        <div className="p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-4">
-                            <h3 className="font-semibold text-slate-900 dark:text-white">Active Scanners</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {modelCatalogue.map(model => (
-                                    <button
-                                        key={model.key}
-                                        onClick={() => toggleModel(model.key)}
-                                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors flex items-center gap-2 ${selectedModels.has(model.key)
-                                            ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-300'
-                                            : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-400 hover:border-slate-300'
-                                            }`}
-                                    >
-                                        <div className={`w-2 h-2 rounded-full ${selectedModels.has(model.key) ? 'bg-blue-500' : 'bg-slate-300'}`} />
-                                        {model.label}
-                                    </button>
-                                ))}
-                            </div>
+                        {/* Scanner info banner — all models run automatically */}
+                        <div className="px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center gap-3">
+                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0" />
+                            <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+                                All {ALL_MODEL_KEYS.length} detection engines are active — Ensemble, DeBERTa, Presidio, SpaCy, GLiNER and more will run on every scan.
+                            </p>
                         </div>
 
                         {/* File Explorer (Connector Preview) */}
@@ -450,12 +358,17 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 items={items}
                                 selectedIds={selectedIds}
                                 onToggleSelection={toggleSelection}
-                                isScanning={isScanning}
+                                scanningIds={scanningIds}
                                 scanResults={scanResults}
                                 onOpenFile={handleOpenFile}
                                 connectorType="Google Drive"
                                 catalogData={catalogData}
                                 lastSession={lastSession}
+                                piiActions={piiActions}
+                                fileTagVisibility={tagVisibility}
+                                onTagFile={handlePerFileTag}
+                                onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))}
+                                onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))}
                             />
 
                             <div className="flex items-center justify-between mt-2 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
@@ -464,7 +377,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                                 </div>
                                 <button
                                     onClick={handleScan}
-                                    disabled={selectedIds.size === 0 || selectedModels.size === 0}
+                                    disabled={selectedIds.size === 0 || scanningIds.size > 0}
                                     className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/20"
                                 >
                                     <Play className="w-4 h-4 fill-current" />
@@ -492,110 +405,51 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white">Scan Results</h2>
                         </div>
 
-                        {!isScanning && scanResults.length > 0 && (
-                            <div className="flex items-center justify-between p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div>
-                                    <h3 className="font-semibold text-slate-800 dark:text-slate-100">Scan Complete</h3>
-                                    <p className="text-sm text-slate-500">Processed {scanResults.length} files. Review the detailed performance breakdown.</p>
+                        {scanningIds.size === 0 && scanResults.length > 0 && (() => {
+                            const piiFiles = scanResults.filter(r => r.pii_detected).length;
+                            const cleanFiles = scanResults.filter(r => !r.pii_detected && !r.error).length;
+                            const totalPii = scanResults.reduce((s, r) => s + (r.pii_count || 0), 0);
+                            return (
+                                <div className="flex items-center gap-6 p-4 bg-white dark:bg-[#0B1120] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Files Scanned</p>
+                                        <p className="text-2xl font-black text-slate-900 dark:text-white">{scanResults.length}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">PII Files</p>
+                                        <p className="text-2xl font-black text-rose-500">{piiFiles}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Clean</p>
+                                        <p className="text-2xl font-black text-emerald-500">{cleanFiles}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total PII</p>
+                                        <p className="text-2xl font-black text-amber-500">{totalPii}</p>
+                                    </div>
                                 </div>
-                                <button
-                                    onClick={() => setIsSidebarOpen(true)}
-                                    className="px-4 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-700 shadow-sm transition-colors"
-                                >
-                                    View PII Detection Details
-                                </button>
-                            </div>
-                        )}
+                            );
+                        })()}
 
-                        {/* File Explorer (Connector Preview) */}
+                        {/* File Explorer (Connector Preview) — show ALL items so badge context is visible */}
                         <ConnectorPreviewUI
-                            items={items.filter(i => selectedIds.has(i.id) || scanResults.some(r => r.file_id === i.id))} // show only selected/scanned
+                            items={items}
                             selectedIds={selectedIds}
                             onToggleSelection={toggleSelection}
-                            isScanning={isScanning}
+                            scanningIds={scanningIds}
                             scanResults={scanResults}
                             onOpenFile={handleOpenFile}
                             connectorType="Google Drive"
                             catalogData={catalogData}
                             lastSession={lastSession}
+                            piiActions={piiActions}
+                            fileTagVisibility={tagVisibility}
+                            onTagFile={handlePerFileTag}
+                            onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))}
+                            onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))}
                         />
-
-                        {/* Tagging Action */}
-                        {!isScanning && scanResults.length > 0 && (
-                            <div className="p-5 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <div>
-                                    <h3 className="font-semibold text-blue-900 dark:text-blue-100 flex items-center gap-2">
-                                        <Tag className="w-5 h-5" />
-                                        Write Tags to Drive
-                                    </h3>
-                                    <p className="text-sm text-blue-700/80 dark:text-blue-200/70 mt-1 max-w-xl">
-                                        Update the `appProperties` of the scanned files in Google Drive with the PII detection results. This allows third-party tools (like DLP systems) to enforce policies.
-                                    </p>
-                                </div>
-
-                                <div className="flex flex-col gap-3 min-w-[200px]">
-                                    <select
-                                        value={tagVisibility}
-                                        onChange={(e) => setTagVisibility(e.target.value as any)}
-                                        className="w-full px-3 py-2 bg-white dark:bg-[#0B1120] border border-blue-200 dark:border-blue-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 outline-none"
-                                    >
-                                        <option value="api_only">API Properties (Hidden)</option>
-                                        <option value="api_and_human">API + Description (Visible)</option>
-                                    </select>
-
-                                    <button
-                                        onClick={handleTag}
-                                        disabled={isTagging || tagSuccess}
-                                        className={`w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors disabled:opacity-50 ${tagSuccess ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
-                                            }`}
-                                    >
-                                        {isTagging ? <Loader2 className="w-4 h-4 animate-spin" /> : (tagSuccess ? <CheckCircle2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />)}
-                                        {isTagging ? 'Writing Tags...' : (tagSuccess ? 'Tags Enforced!' : 'Enforce Policies')}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
 
                     </motion.div>
-                )}
-            </AnimatePresence>
-
-            <AnimatePresence>
-                {isSidebarOpen && !isScanning && scanResults.length > 0 && (
-                    <>
-                        {/* Backdrop */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsSidebarOpen(false)}
-                            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[90]"
-                        />
-                        {/* Sidebar */}
-                        <motion.div
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 h-full w-full max-w-xl bg-white dark:bg-[#0B1120] shadow-2xl z-[100] border-l border-slate-200 dark:border-slate-800 flex flex-col"
-                        >
-                            <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                                <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                    <Star className="w-5 h-5 text-emerald-500" />
-                                    Model Performance Details
-                                </h2>
-                                <button
-                                    onClick={() => setIsSidebarOpen(false)}
-                                    className="p-2 rounded-full hover:bg-slate-200 dark:bg-slate-800 text-slate-500 transition-colors"
-                                >
-                                    <XCircle className="w-5 h-5" />
-                                </button>
-                            </div>
-                            <div className="flex-1 overflow-y-auto p-5">
-                                {(() => { const sd = getModelShowdownData(); return sd && <ModelShowdown data={sd} modelCatalogue={modelCatalogue} />; })()}
-                            </div>
-                        </motion.div>
-                    </>
                 )}
             </AnimatePresence>
 

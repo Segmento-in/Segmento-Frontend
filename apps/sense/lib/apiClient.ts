@@ -714,12 +714,6 @@ class APIClient {
         return this.handleResponse(response);
     }
 
-    // ==================== CONNECTOR CATALOG ====================
-
-    async getFileCatalog(connectorType: string, uid: string = "default_uid"): Promise<CatalogResponse> {
-        const response = await fetch(`${this.baseURL}/api/connector/file-catalog?connector_type=${encodeURIComponent(connectorType)}&uid=${encodeURIComponent(uid)}`);
-        return this.handleResponse(response);
-    }
 }
 
 export const apiClient = new APIClient();
@@ -765,25 +759,4 @@ export interface DriveTagResult {
     file_id: string;
     success: boolean;
     error: string | null;
-}
-
-export interface FileCatalogEntry {
-    file_id: string;
-    file_name: string;
-    is_folder: boolean;
-    mime_type: string;
-    file_size_bytes: number;
-    parent_folder_id: string;
-    full_path: string;
-    first_seen_at: string;
-    scan_status: 'unscanned' | 'clean' | 'pii_found';
-    last_scan_at: string | null;
-    pii_count: number;
-    connector_type: string;
-}
-
-export interface CatalogResponse {
-    files: FileCatalogEntry[];
-    last_session: any;
-    sessions: any[];
 }
