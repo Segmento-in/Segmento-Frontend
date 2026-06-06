@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, BarChart2, AlertTriangle, GitCompare, Layers, Plug, ChevronDown } from 'lucide-react';
+import { Plug, ChevronRight } from 'lucide-react';
 import { ModelLabState } from '@/app/model-lab/ModelLabClient';
 import { EvaluatorModel, apiClient } from '@/lib/apiClient';
 import UploadScanTab from './tabs/UploadScanTab';
@@ -11,10 +12,6 @@ import MetricsTab from './tabs/MetricsTab';
 import FailuresTab from './tabs/FailuresTab';
 import CompareTab from './tabs/CompareTab';
 import FormatScanTab from './tabs/FormatScanTab';
-import DriveScanTab from './tabs/DriveScanTab';
-import S3ScanTab from './tabs/S3ScanTab';
-import AzureScanTab from './tabs/AzureScanTab';
-import GCSScanTab from './tabs/GCSScanTab';
 
 // ── Regular tabs (indices 0-5, unchanged) ──────────────────────────────────
 const TABS = [
@@ -26,39 +23,7 @@ const TABS = [
     { label: '📌 Compare',       id: 'compare' },
 ];
 
-// ── Connector registry ─────────────────────────────────────────────────────
-const CONNECTORS = [
-    {
-        id: 'drive' as const,
-        emoji: '☁️',
-        label: 'Google Drive',
-        description: 'Browse Drive folders & scan with AI models',
-        accent: { pill: 'bg-blue-600', ring: 'ring-blue-400/40', badge: 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700/50' },
-    },
-    {
-        id: 's3' as const,
-        emoji: '🪣',
-        label: 'Amazon S3',
-        description: 'Scan files from S3 buckets for PII',
-        accent: { pill: 'bg-orange-500', ring: 'ring-orange-400/40', badge: 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-700/50' },
-    },
-    {
-        id: 'azure' as const,
-        emoji: '🔷',
-        label: 'Azure Blob',
-        description: 'Scan blobs from Azure Storage containers',
-        accent: { pill: 'bg-sky-600', ring: 'ring-sky-400/40', badge: 'bg-sky-50 dark:bg-sky-900/20 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-700/50' },
-    },
-    {
-        id: 'gcs' as const,
-        emoji: '🗄️',
-        label: 'Google Cloud Storage',
-        description: 'Scan files from GCS buckets for PII',
-        accent: { pill: 'bg-amber-500', ring: 'ring-amber-400/40', badge: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-700/50' },
-    },
-] as const;
 
-type ConnectorId = typeof CONNECTORS[number]['id'];
 
 // ── Props ──────────────────────────────────────────────────────────────────
 interface Props {
@@ -72,11 +37,6 @@ interface Props {
 export default function ModelLabTabs({ state, update, pinResult, removePin, clearPins }: Props) {
     const didFetch = useRef(false);
 
-    // Local connector state — lives here, not in global ModelLabState
-    const [activeConnector, setActiveConnector] = useState<ConnectorId>('drive');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-
     // Fetch model catalogue once
     useEffect(() => {
         if (didFetch.current) return;
@@ -86,26 +46,6 @@ export default function ModelLabTabs({ state, update, pinResult, removePin, clea
             .then((res) => update({ modelCatalogue: res.models }))
             .catch(() => update({ modelCatalogue: FALLBACK_CATALOGUE }));
     }, [update]);
-
-    // Close dropdown on outside click
-    useEffect(() => {
-        const handler = (e: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-                setDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handler);
-        return () => document.removeEventListener('mousedown', handler);
-    }, []);
-
-    const selectConnector = (id: ConnectorId) => {
-        setActiveConnector(id);
-        update({ activeTab: 6 });
-        setDropdownOpen(false);
-    };
-
-    const isConnectorsActive = state.activeTab === 6;
-    const conn = CONNECTORS.find(c => c.id === activeConnector)!;
 
     return (
         <section className="max-w-7xl mx-auto px-4 pb-24 dark:bg-[#0F172A]">
@@ -147,83 +87,21 @@ export default function ModelLabTabs({ state, update, pinResult, removePin, clea
                 {/* Thin divider */}
                 <div className="w-px h-6 mx-1 bg-slate-200 dark:bg-slate-700 flex-shrink-0" />
 
-                {/* Connectors dropdown — outside overflow div, never clipped */}
-                <div className="relative flex-shrink-0" ref={dropdownRef}>
-                    <button
-                        onClick={() => {
-                            if (!isConnectorsActive) update({ activeTab: 6 });
-                            setDropdownOpen(prev => !prev);
-                        }}
-                        className={`relative flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                            isConnectorsActive
-                                ? 'text-emerald-800 dark:text-emerald-300'
-                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                        }`}
-                    >
-                        {isConnectorsActive && (
-                            <motion.div
-                                layoutId="tab-pill"
-                                className="absolute inset-0 bg-emerald-100 dark:bg-emerald-500/15 rounded-xl border border-emerald-300 dark:border-emerald-500/30"
-                                transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }}
-                            />
-                        )}
-                        <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
-                            <Plug className="w-3.5 h-3.5" />
-                            {isConnectorsActive
-                                ? <>{conn.emoji} {conn.label}</>
-                                : 'Connectors'
-                            }
-                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
-                        </span>
-                    </button>
-
-                    {/* Dropdown panel — absolutely positioned below button, z-50 escapes all parents */}
-                    <AnimatePresence>
-                        {dropdownOpen && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 6, scale: 0.97 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 4, scale: 0.97 }}
-                                transition={{ duration: 0.15 }}
-                                className="absolute right-0 top-full mt-2 w-72 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl z-50 p-2"
-                            >
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 px-3 py-2">
-                                    Data Connectors
-                                </p>
-                                {CONNECTORS.map(c => (
-                                    <button
-                                        key={c.id}
-                                        onClick={() => selectConnector(c.id)}
-                                        className={`w-full flex items-start gap-3 px-3 py-3 rounded-xl transition-all duration-150 text-left ${
-                                            activeConnector === c.id && isConnectorsActive
-                                                ? 'bg-slate-100 dark:bg-slate-800'
-                                                : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                                        }`}
-                                    >
-                                        <span className="text-xl leading-none mt-0.5">{c.emoji}</span>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-sm font-semibold text-slate-900 dark:text-white">{c.label}</span>
-                                                {activeConnector === c.id && isConnectorsActive && (
-                                                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
-                                                        Active
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate">{c.description}</p>
-                                        </div>
-                                    </button>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
+                {/* Connectors — now a navigation link to the dedicated page */}
+                <Link
+                    href="/model-lab/connectors"
+                    className="relative flex-shrink-0 flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-200 whitespace-nowrap"
+                >
+                    <Plug className="w-3.5 h-3.5" />
+                    Connectors
+                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                </Link>
             </div>
 
             {/* ── Tab panels ──────────────────────────────────────────── */}
             <AnimatePresence mode="wait">
                 <motion.div
-                    key={state.activeTab === 6 ? `connectors-${activeConnector}` : state.activeTab}
+                    key={state.activeTab}
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
@@ -236,11 +114,7 @@ export default function ModelLabTabs({ state, update, pinResult, removePin, clea
                     {state.activeTab === 4 && <FailuresTab state={state} update={update} />}
                     {state.activeTab === 5 && <CompareTab state={state} update={update} removePin={removePin} clearPins={clearPins} />}
 
-                    {/* Connectors panel — renders the active connector */}
-                    {state.activeTab === 6 && activeConnector === 'drive'  && <DriveScanTab modelCatalogue={state.modelCatalogue} />}
-                    {state.activeTab === 6 && activeConnector === 's3'     && <S3ScanTab    modelCatalogue={state.modelCatalogue} />}
-                    {state.activeTab === 6 && activeConnector === 'azure'  && <AzureScanTab modelCatalogue={state.modelCatalogue} />}
-                    {state.activeTab === 6 && activeConnector === 'gcs'    && <GCSScanTab   modelCatalogue={state.modelCatalogue} />}
+
                 </motion.div>
             </AnimatePresence>
         </section>
