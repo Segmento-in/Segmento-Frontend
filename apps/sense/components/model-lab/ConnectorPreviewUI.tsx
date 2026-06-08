@@ -32,6 +32,8 @@ interface Props {
     onTagFile?: (id: string) => void;
     onIgnoreFile?: (id: string) => void;
     onSetTagVisibility?: (id: string, visibility: 'api_only' | 'api_and_human') => void;
+    /** Controlled filter from parent filter tabs. Default = 'all'. */
+    filterMode?: 'all' | 'pii' | 'clean' | 'incremental' | 'unscanned';
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -150,14 +152,14 @@ const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_110px_100px]';
 export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, scanningIds, scanResults, onOpenFile,
     connectorType = 'Google Drive', catalogData, lastSession,
-    piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility
+    piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
+    filterMode = 'all'
 }: Props) {
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
     ]);
     const currentFolderId = breadcrumbs[breadcrumbs.length - 1].id;
 
-    const [incrementalOnly, setIncrementalOnly] = useState(false);
     const [sortKey, setSortKey] = useState<SortKey>('name');
     const [sortDir, setSortDir] = useState<SortDir>('asc');
 
@@ -186,12 +188,19 @@ export default function ConnectorPreviewUI({
     }, [items, currentFolderId]);
 
     const filteredItems = useMemo(() => {
-        if (!incrementalOnly) return currentItems;
+        if (filterMode === 'all') return currentItems;
         return currentItems.filter(item => {
+            if (item.isFolder) return true; // always show folders regardless of filter
             const state = getPiiState(item, catalogData, lastSession, scanResults);
-            return state === 'new';
+            switch (filterMode) {
+                case 'pii':         return state === 'pii';
+                case 'clean':       return state === 'clean';
+                case 'incremental': return state === 'new';
+                case 'unscanned':   return state === 'unscanned';
+                default:            return true;
+            }
         });
-    }, [currentItems, incrementalOnly, catalogData, lastSession, scanResults]);
+    }, [currentItems, filterMode, catalogData, lastSession, scanResults]);
 
     const sortedItems = useMemo(() => {
         const folders = filteredItems.filter(i => i.isFolder);
@@ -251,22 +260,6 @@ export default function ConnectorPreviewUI({
 
                 <div className="flex items-center gap-3 shrink-0">
                     <span className="text-xs text-slate-400 font-mono">{fileCount} files</span>
-                    {newCount > 0 && (
-                        <span className="text-xs bg-blue-500/10 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full font-semibold border border-blue-200 dark:border-blue-700">
-                            {newCount} new
-                        </span>
-                    )}
-                    <button
-                        onClick={() => setIncrementalOnly(v => !v)}
-                        title="Show only newly discovered files"
-                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all ${incrementalOnly
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20'
-                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-blue-400'
-                            }`}
-                    >
-                        <Filter className="w-3 h-3" />
-                        Incremental Only
-                    </button>
                 </div>
             </div>
 
@@ -287,13 +280,8 @@ export default function ConnectorPreviewUI({
                     <div className="flex flex-col items-center justify-center h-48 text-slate-400 gap-3">
                         <Folder className="w-10 h-10 text-slate-300 dark:text-slate-700" />
                         <p className="text-sm">
-                            {incrementalOnly ? 'No new files in this folder.' : 'No files found in this folder.'}
+                            {filterMode !== 'all' ? `No ${filterMode} files in this folder.` : 'No files found in this folder.'}
                         </p>
-                        {incrementalOnly && (
-                            <button onClick={() => setIncrementalOnly(false)} className="text-xs text-blue-500 hover:underline">
-                                Show all files
-                            </button>
-                        )}
                     </div>
                 ) : (
                     <AnimatePresence initial={false}>
