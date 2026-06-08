@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, Play, Eye, EyeOff } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount } from '@/lib/apiClient';
 
-interface Props { modelCatalogue: EvaluatorModel[]; }
+interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 type Step = 'AUTH' | 'BROWSE' | 'RESULTS';
 interface FileScanResult { blob: string; result: AnalysisResponse | null; error: string | null; }
 
-export default function AzureScanTab({ modelCatalogue }: Props) {
+export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
     const [step, setStep]             = useState<Step>('AUTH');
+    const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError]           = useState<string | null>(null);
     const [showConnStr, setShowConnStr] = useState(false);
 
@@ -39,7 +40,7 @@ export default function AzureScanTab({ modelCatalogue }: Props) {
             const res = await apiClient.listAzureContainers(connStr.trim());
             setContainers(res.containers || []);
             setSelectedContainer(''); setBlobs([]); setSelectedBlobs(new Set());
-            setStep('BROWSE');
+            changeStep('BROWSE');
         } catch (e: any) { setError(e.message || 'Failed to connect to Azure Storage.'); }
         finally { setIsConnecting(false); }
     };
@@ -63,7 +64,7 @@ export default function AzureScanTab({ modelCatalogue }: Props) {
 
     const handleScan = async () => {
         if (selectedBlobs.size === 0) return;
-        setIsScanning(true); setError(null); setResults([]); setStep('RESULTS');
+        setIsScanning(true); setError(null); setResults([]); changeStep('RESULTS');
         const blobList = Array.from(selectedBlobs);
         const out: FileScanResult[] = [];
         for (const blob of blobList) {
@@ -78,7 +79,7 @@ export default function AzureScanTab({ modelCatalogue }: Props) {
         setIsScanning(false);
     };
 
-    const resetToAuth = () => { setStep('AUTH'); setError(null); setContainers([]); setBlobs([]); setSelectedBlobs(new Set()); setResults([]); };
+    const resetToAuth = () => { changeStep('AUTH'); setError(null); setContainers([]); setBlobs([]); setSelectedBlobs(new Set()); setResults([]); };
 
     const Card = ({ children }: { children: React.ReactNode }) => (
         <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">{children}</div>
@@ -251,7 +252,7 @@ export default function AzureScanTab({ modelCatalogue }: Props) {
                                     </p>
                                 </div>
                                 {!isScanning && (
-                                    <button onClick={() => setStep('BROWSE')}
+                                    <button onClick={() => changeStep('BROWSE')}
                                         className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                     >Scan More</button>
                                 )}

@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount } from '@/lib/apiClient';
 
-interface Props { modelCatalogue: EvaluatorModel[]; }
+interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 
 type Step = 'AUTH' | 'BROWSE' | 'RESULTS';
 
@@ -20,8 +20,9 @@ const AWS_REGIONS = [
     'eu-west-1','eu-central-1','ap-south-1','ap-southeast-1','ap-northeast-1',
 ];
 
-export default function S3ScanTab({ modelCatalogue }: Props) {
+export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     const [step, setStep]           = useState<Step>('AUTH');
+    const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError]         = useState<string | null>(null);
     const [showSecret, setShowSecret] = useState(false);
 
@@ -50,7 +51,7 @@ export default function S3ScanTab({ modelCatalogue }: Props) {
             const res = await apiClient.listS3Buckets(creds.accessKey, creds.secretKey, creds.region);
             setBuckets(res.buckets || []);
             setSelectedBucket(''); setFiles([]); setSelectedFiles(new Set());
-            setStep('BROWSE');
+            changeStep('BROWSE');
         } catch (e: any) { setError(e.message || 'Failed to connect to AWS S3.'); }
         finally { setIsConnecting(false); }
     };
@@ -74,7 +75,7 @@ export default function S3ScanTab({ modelCatalogue }: Props) {
 
     const handleScan = async () => {
         if (selectedFiles.size === 0) return;
-        setIsScanning(true); setError(null); setResults([]); setStep('RESULTS');
+        setIsScanning(true); setError(null); setResults([]); changeStep('RESULTS');
         const fileList = Array.from(selectedFiles);
         const out: FileScanResult[] = [];
         for (const key of fileList) {
@@ -89,7 +90,7 @@ export default function S3ScanTab({ modelCatalogue }: Props) {
         setIsScanning(false);
     };
 
-    const resetToAuth = () => { setStep('AUTH'); setError(null); setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]); };
+    const resetToAuth = () => { changeStep('AUTH'); setError(null); setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]); };
 
     // ── Shared card wrapper ────────────────────────────────────────────────
     const Card = ({ children }: { children: React.ReactNode }) => (
@@ -317,7 +318,7 @@ export default function S3ScanTab({ modelCatalogue }: Props) {
                                 </div>
                                 {!isScanning && (
                                     <button
-                                        onClick={() => setStep('BROWSE')}
+                                        onClick={() => changeStep('BROWSE')}
                                         className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                     >
                                         Scan More

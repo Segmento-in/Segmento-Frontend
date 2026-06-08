@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Key, Loader2, Play } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount } from '@/lib/apiClient';
 
-interface Props { modelCatalogue: EvaluatorModel[]; }
+interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 type Step = 'AUTH' | 'BROWSE' | 'RESULTS';
 interface FileScanResult { fileName: string; result: AnalysisResponse | null; error: string | null; }
 
-export default function GCSScanTab({ modelCatalogue }: Props) {
+export default function GCSScanTab({ modelCatalogue, onStepChange }: Props) {
     const [step, setStep]             = useState<Step>('AUTH');
+    const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError]           = useState<string | null>(null);
 
     // AUTH
@@ -57,7 +58,7 @@ export default function GCSScanTab({ modelCatalogue }: Props) {
             const res = await apiClient.listGCSBuckets(credentials);
             setBuckets(res.buckets || []);
             setSelectedBucket(''); setFiles([]); setSelectedFiles(new Set());
-            setStep('BROWSE');
+            changeStep('BROWSE');
         } catch (e: any) { setError(e.message || 'Failed to connect to Google Cloud Storage.'); }
         finally { setIsConnecting(false); }
     };
@@ -81,7 +82,7 @@ export default function GCSScanTab({ modelCatalogue }: Props) {
 
     const handleScan = async () => {
         if (selectedFiles.size === 0 || !credentials) return;
-        setIsScanning(true); setError(null); setResults([]); setStep('RESULTS');
+        setIsScanning(true); setError(null); setResults([]); changeStep('RESULTS');
         const fileList = Array.from(selectedFiles);
         const out: FileScanResult[] = [];
         for (const fileName of fileList) {
@@ -97,7 +98,7 @@ export default function GCSScanTab({ modelCatalogue }: Props) {
     };
 
     const resetToAuth = () => {
-        setStep('AUTH'); setError(null); setCredentials(null); setSaFileName(null);
+        changeStep('AUTH'); setError(null); setCredentials(null); setSaFileName(null);
         setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]);
     };
 
@@ -267,7 +268,7 @@ export default function GCSScanTab({ modelCatalogue }: Props) {
                                     </p>
                                 </div>
                                 {!isScanning && (
-                                    <button onClick={() => setStep('BROWSE')}
+                                    <button onClick={() => changeStep('BROWSE')}
                                         className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                                     >Scan More</button>
                                 )}

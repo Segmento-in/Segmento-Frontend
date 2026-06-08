@@ -13,12 +13,15 @@ import DocumentViewerModal from '../DocumentViewerModal';
 
 interface Props {
     modelCatalogue: EvaluatorModel[];
+    onStepChange?: (step: Step) => void;
 }
 
 type Step = 'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS';
 
-export default function DriveScanTab({ modelCatalogue }: Props) {
+export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
     const [step, setStep] = useState<Step>('AUTH');
+
+    const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError] = useState<string | null>(null);
 
     // --- State: Auth ---
@@ -100,7 +103,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
             setItems(res.items);
             setCatalogData(catalogRes.files || []);
             setLastSession(catalogRes.last_session || null);
-            setStep('BROWSE');
+            changeStep('BROWSE');
         } catch (err: any) {
             setError(err.message || "Failed to browse folder.");
         } finally {
@@ -140,7 +143,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
 
         // Mark every selected file as "scanning" so inline spinners appear
         setScanningIds(new Set(selectedIds));
-        setStep('RESULTS');
+        changeStep('RESULTS');
         setError(null);
         setScanResults([]);
         setPiiActions({});
@@ -169,7 +172,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
         } catch (err: any) {
             setScanningIds(new Set()); // clear spinners on error too
             setError(err.message || "Scan failed.");
-            setStep('BROWSE');
+            changeStep('BROWSE');
         }
     };
 
@@ -397,7 +400,7 @@ export default function DriveScanTab({ modelCatalogue }: Props) {
                     >
                         <div className="flex items-center gap-4">
                             <button
-                                onClick={() => { setStep('BROWSE'); setScanResults([]); }}
+                                onClick={() => { changeStep('BROWSE'); setScanResults([]); }}
                                 className="p-2 text-slate-400 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg"
                             >
                                 <ArrowLeft className="w-5 h-5" />

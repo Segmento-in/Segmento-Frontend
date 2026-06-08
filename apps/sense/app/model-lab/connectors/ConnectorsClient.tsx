@@ -225,6 +225,10 @@ function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => vo
 export default function ConnectorsClient() {
     const [selected, setSelected] = useState<ConnectorId | null>(null);
     const [modelCatalogue, setModelCatalogue] = useState<EvaluatorModel[]>([]);
+    const [currentStep, setCurrentStep] = useState<'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS'>('AUTH');
+
+    // Reset step whenever user picks a different connector
+    useEffect(() => { setCurrentStep('AUTH'); }, [selected]);
 
     useEffect(() => {
         apiClient
@@ -360,59 +364,87 @@ export default function ConnectorsClient() {
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.25 }}
                     >
-                        {/* Detail hero: two-column split */}
-                        <div className="bg-white border-b border-slate-200">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-
-                                {/* LEFT — connector info */}
-                                <div>
-                                    {/* Back button */}
-                                    <button
-                                        onClick={() => setSelected(null)}
-                                        className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
-                                    >
-                                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                                        Back to Connectors
-                                    </button>
-
-                                    {/* Status badge */}
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
-                                        <span className="h-2 w-2 rounded-full bg-slate-400" />
-                                        Not Connected
+                        {/* Compact info bar — only shown after AUTH */}
+                        {currentStep !== 'AUTH' && (
+                            <div className="bg-white border-b border-slate-200 shadow-sm">
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
+                                    <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
+                                        {conn.emoji}
                                     </div>
-
-                                    {/* Big title */}
-                                    <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
-                                        {conn.titleLine1}
-                                    </h1>
-                                    <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
-                                        {conn.titleLine2}
-                                    </h1>
-                                    <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
-                                        Connector
-                                    </h1>
-
-                                    <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
-                                        {conn.description}
-                                    </p>
-
-                                    {/* Feature list */}
-                                    <div className="space-y-3">
-                                        {conn.features.map(({ Icon, text }) => (
-                                            <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
-                                                <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
-                                                <span>{text}</span>
-                                            </div>
-                                        ))}
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
+                                        <p className="text-xs text-slate-500 truncate">{conn.description}</p>
+                                    </div>
+                                    <div className="flex items-center gap-3 shrink-0">
+                                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
+                                            {conn.authType}
+                                        </span>
+                                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wide">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                            Connected
+                                        </div>
+                                        <button
+                                            onClick={() => setSelected(null)}
+                                            className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
+                                        >
+                                            <ArrowLeft className="w-3.5 h-3.5" />
+                                            Disconnect
+                                        </button>
                                     </div>
                                 </div>
+                            </div>
+                        )}
 
-                                {/* RIGHT — connector scan UI (Z) */}
-                                <div className="min-w-0">
-                                    {selected === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} />}
-                                    {selected === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} />}
-                                    {selected === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} />}
-                                    {selected === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} />}
+                        {/* Single layout wrapper — CSS changes by step, tab always mounted once */}
+                        <div className={currentStep === 'AUTH' ? 'bg-white border-b border-slate-200' : ''}>
+                            <div className={
+                                currentStep === 'AUTH'
+                                    ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
+                                    : 'max-w-7xl mx-auto px-4 sm:px-6 py-6'
+                            }>
+                                {/* LEFT hero panel — only visible in AUTH step */}
+                                {currentStep === 'AUTH' && (
+                                    <div>
+                                        <button
+                                            onClick={() => setSelected(null)}
+                                            className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
+                                        >
+                                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                                            Back to Connectors
+                                        </button>
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
+                                            <span className="h-2 w-2 rounded-full bg-slate-400" />
+                                            Not Connected
+                                        </div>
+                                        <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
+                                            {conn.titleLine1}
+                                        </h1>
+                                        <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
+                                            {conn.titleLine2}
+                                        </h1>
+                                        <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
+                                            Connector
+                                        </h1>
+                                        <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
+                                            {conn.description}
+                                        </p>
+                                        <div className="space-y-3">
+                                            {conn.features.map(({ Icon, text }) => (
+                                                <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
+                                                    <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
+                                                    <span>{text}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Scan tab — ALWAYS mounted here, never remounts when layout switches */}
+                                <div className={currentStep === 'AUTH' ? 'min-w-0' : 'w-full'}>
+                                    {selected === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
+                                    {selected === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
+                                    {selected === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
+                                    {selected === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
                                 </div>
                             </div>
                         </div>
