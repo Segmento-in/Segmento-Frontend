@@ -19,26 +19,16 @@ interface Props {
 
 type Step = 'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS';
 
-// ── Stat Card (dashboard metric tile) ────────────────────────────────────────
-function StatCard({ icon, label, value, sub, bg, highlight = false, highlightColor = 'text-slate-900' }: {
-    icon: React.ReactNode;
+// ── Dashboard Stat Card ────────
+function DashboardStatCard({ label, value, valueColor = 'text-slate-800' }: {
     label: string;
-    value: number;
-    sub: string;
-    bg: string;
-    highlight?: boolean;
-    highlightColor?: string;
+    value: number | string;
+    valueColor?: string;
 }) {
     return (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex items-start gap-3">
-            <div className={`w-9 h-9 rounded-xl ${bg} dark:bg-slate-800 flex items-center justify-center shrink-0`}>
-                {icon}
-            </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">{label}</p>
-                <p className={`text-2xl font-black leading-none ${highlight ? highlightColor : 'text-slate-900 dark:text-white'}`}>{value}</p>
-                <p className="text-[11px] text-slate-400 mt-0.5 truncate">{sub}</p>
-            </div>
+        <div className="flex flex-col justify-center px-6 py-5 cursor-default select-none">
+            <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500">{label}</p>
+            <p className={`text-4xl font-light leading-none tracking-tight ${valueColor}`}>{value}</p>
         </div>
     );
 }
@@ -389,175 +379,123 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
 
                 {/* 2. BROWSE & CONFIG */}
                 {step === 'BROWSE' && (
-                    <motion.div
-                        key="browse"
-                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-                        className="flex flex-col gap-5"
-                    >
-                        {/* ── Stat Cards Row ── */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <StatCard icon={<Files className="w-4 h-4 text-slate-500" />} label="Total Files" value={stats.total} sub="in this folder" bg="bg-slate-100" />
-                            <StatCard icon={<ShieldAlert className="w-4 h-4 text-rose-500" />} label="PII Found" value={stats.piiFiles} sub={stats.totalPiiEntities > 0 ? `${stats.totalPiiEntities} entities` : 'files with PII'} bg="bg-rose-50" highlight={stats.piiFiles > 0} highlightColor="text-rose-600" />
-                            <StatCard icon={<ShieldCheck className="w-4 h-4 text-emerald-500" />} label="Clean" value={stats.cleanFiles} sub="no PII detected" bg="bg-emerald-50" />
-                            <StatCard icon={<Sparkles className="w-4 h-4 text-blue-500" />} label="New Files" value={stats.newFiles} sub="since last scan" bg="bg-blue-50" />
+                    <motion.div key="browse" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex flex-col gap-6">
+
+                        {/* Stat Cards Row */}
+                        <div className="flex items-center divide-x divide-slate-200 border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden">
+                            <div className="flex-1"><DashboardStatCard label="Total Files" value={stats.total} /></div>
+                            <div className="flex-1"><DashboardStatCard label="PII Found" value={stats.piiFiles} valueColor="text-rose-600" /></div>
+                            <div className="flex-1"><DashboardStatCard label="Clean" value={stats.cleanFiles} valueColor="text-emerald-600" /></div>
+                            <div className="flex-1"><DashboardStatCard label="New Files" value={stats.newFiles} valueColor="text-blue-600" /></div>
                         </div>
 
-                        {/* ── Detection engines banner ── */}
-                        <div className="px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0" />
-                            <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
-                                All {ALL_MODEL_KEYS.length} detection engines are active — Ensemble, DeBERTa, Presidio, SpaCy, GLiNER and more will run on every scan.
-                            </p>
-                        </div>
-
-                        {/* ── Filter tabs + action buttons ── */}
-                        <div className="flex items-center justify-between gap-3 flex-wrap">
-                            <div className="flex items-center gap-0.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        {/* Underline filter tabs */}
+                        <div className="flex items-center border-b border-slate-200 px-2 mt-2">
+                            <div className="flex items-center gap-8">
                                 {([
-                                    { key: 'all',         label: 'All',        count: stats.total,         dot: 'bg-slate-400' },
-                                    { key: 'pii',         label: 'PII Found',  count: stats.piiFiles,      dot: 'bg-rose-500' },
-                                    { key: 'clean',       label: 'Clean',      count: stats.cleanFiles,    dot: 'bg-emerald-500' },
-                                    { key: 'incremental', label: 'Incremental',count: stats.newFiles,      dot: 'bg-blue-500' },
-                                    { key: 'unscanned',   label: 'Unscanned',  count: stats.unscannedFiles,dot: 'bg-slate-300' },
-                                ] as { key: FilterMode; label: string; count: number; dot: string }[]).map(tab => (
-                                    <button
-                                        key={tab.key}
-                                        onClick={() => setFilterMode(tab.key)}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                                            filterMode === tab.key
-                                                ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white'
-                                                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                                        }`}
-                                    >
-                                        <span className={`w-1.5 h-1.5 rounded-full ${tab.dot} shrink-0`} />
+                                    { key: 'all',         label: 'All' },
+                                    { key: 'pii',         label: 'PII Found' },
+                                    { key: 'clean',       label: 'Clean' },
+                                    { key: 'incremental', label: 'Incremental' },
+                                    { key: 'unscanned',   label: 'Unscanned' },
+                                ] as { key: FilterMode; label: string }[]).map(tab => (
+                                    <button key={tab.key} onClick={() => setFilterMode(tab.key)}
+                                        className={`pb-3 pt-2 text-sm font-semibold transition-colors border-b-2 -mb-px whitespace-nowrap ${filterMode === tab.key ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'}`}>
                                         {tab.label}
-                                        <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-full ${
-                                            filterMode === tab.key ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'bg-slate-200/60 dark:bg-slate-700/60 text-slate-400'
-                                        }`}>{tab.count}</span>
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center gap-2 shrink-0">
-                                <button
-                                    onClick={handleBrowse}
-                                    disabled={isBrowsing}
-                                    className="flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:border-blue-400 hover:text-blue-600 disabled:opacity-50 transition-all bg-white dark:bg-slate-800"
-                                >
-                                    <RefreshCw className={`w-3.5 h-3.5 ${isBrowsing ? 'animate-spin' : ''}`} />
-                                    Refresh Files
+                        </div>
+
+                        {/* Toolbar */}
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 px-3 py-2 bg-slate-100/80 rounded-lg w-64 border border-slate-200/50">
+                                    <Search className="w-4 h-4 text-slate-400" />
+                                    <input type="text" placeholder="Search" className="bg-transparent text-sm text-slate-700 outline-none w-full placeholder:text-slate-400" />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-3 shrink-0">
+                                <button onClick={handleBrowse} disabled={isBrowsing} className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 disabled:opacity-50 transition-colors px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 bg-white shadow-sm">
+                                    <RefreshCw className={`w-4 h-4 ${isBrowsing ? 'animate-spin' : ''}`} />Refresh
                                 </button>
-                                <button
-                                    onClick={selectAllParseable}
-                                    className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all bg-white dark:bg-slate-800"
-                                >
-                                    Select All Parseable
+                                <button onClick={selectAllParseable} className="flex items-center gap-2 text-sm font-semibold text-white transition-colors px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-sm whitespace-nowrap">
+                                    <CheckCircle2 className="w-4 h-4" /> Select All Parsable
                                 </button>
                             </div>
                         </div>
 
-                        {/* ── File table ── */}
-                        <ConnectorPreviewUI
-                            items={items}
-                            selectedIds={selectedIds}
-                            onToggleSelection={toggleSelection}
-                            scanningIds={scanningIds}
-                            scanResults={scanResults}
-                            onOpenFile={handleOpenFile}
-                            connectorType="Google Drive"
-                            catalogData={catalogData}
-                            lastSession={lastSession}
-                            piiActions={piiActions}
-                            fileTagVisibility={tagVisibility}
-                            onTagFile={handlePerFileTag}
-                            onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))}
-                            onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))}
-                            filterMode={filterMode}
-                        />
-
-                        {/* ── Bottom action bar ── */}
-                        <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-                            <div className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                <span className="text-blue-600 dark:text-blue-400 font-bold">{selectedIds.size}</span> items selected
-                            </div>
-                            <button
-                                onClick={handleScan}
-                                disabled={selectedIds.size === 0 || scanningIds.size > 0}
-                                className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-blue-500/20"
-                            >
-                                <Play className="w-4 h-4 fill-current" />
-                                Run Scan Pipeline
-                            </button>
-                        </div>
+                        {/* File table */}
+                        <ConnectorPreviewUI items={items} selectedIds={selectedIds} onToggleSelection={toggleSelection} scanningIds={scanningIds} scanResults={scanResults} onOpenFile={handleOpenFile} connectorType="Google Drive" catalogData={catalogData} lastSession={lastSession} piiActions={piiActions} fileTagVisibility={tagVisibility} onTagFile={handlePerFileTag} onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))} onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))} filterMode={filterMode} />
                     </motion.div>
                 )}
 
+
                 {/* 3. SCANNING & RESULTS */}
                 {step === 'RESULTS' && (
-                    <motion.div
-                        key="results"
-                        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                        className="flex flex-col gap-5"
-                    >
-                        {/* ── Stat cards (live update as scan progresses) ── */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <StatCard icon={<Files className="w-4 h-4 text-slate-500" />} label="Files Scanned" value={scanResults.length} sub={`of ${selectedIds.size} queued`} bg="bg-slate-100" />
-                            <StatCard icon={<ShieldAlert className="w-4 h-4 text-rose-500" />} label="PII Found" value={scanResults.filter(r => r.pii_detected).length} sub={stats.totalPiiEntities > 0 ? `${stats.totalPiiEntities} entities` : 'files with PII'} bg="bg-rose-50" highlight={scanResults.filter(r => r.pii_detected).length > 0} highlightColor="text-rose-600" />
-                            <StatCard icon={<ShieldCheck className="w-4 h-4 text-emerald-500" />} label="Clean" value={scanResults.filter(r => !r.pii_detected && !r.error).length} sub="no PII detected" bg="bg-emerald-50" />
-                            <StatCard icon={<BarChart3 className="w-4 h-4 text-amber-500" />} label="Total PII" value={stats.totalPiiEntities} sub="entities found" bg="bg-amber-50" highlight={stats.totalPiiEntities > 0} highlightColor="text-amber-600" />
+                    <motion.div key="results" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-6">
+
+                        {/* Top bar with back button */}
+                        <div className="flex items-center justify-between gap-4">
+                            <button onClick={() => { changeStep('BROWSE'); setScanResults([]); setFilterMode('all'); }}
+                                className="flex items-center gap-1.5 text-sm font-medium text-slate-600 border border-slate-200 px-4 py-2 rounded-xl hover:bg-slate-50 transition-all bg-white">
+                                <ArrowLeft className="w-3.5 h-3.5" />Back to Browse
+                            </button>
+                            <p className="text-sm text-slate-500">{scanningIds.size > 0 ? `Scanning ${scanningIds.size} files...` : `${scanResults.length} files processed`}</p>
                         </div>
 
-                        {/* ── Filter tabs (same as BROWSE, for navigating results) ── */}
-                        <div className="flex items-center justify-between gap-3 flex-wrap">
-                            <div className="flex items-center gap-0.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        {/* Stat Cards Row */}
+                        <div className="flex items-center divide-x divide-slate-200 border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden">
+                            <div className="flex-1"><DashboardStatCard label="Files Scanned" value={scanResults.length} /></div>
+                            <div className="flex-1"><DashboardStatCard label="PII Found" value={scanResults.filter(r => r.pii_detected).length} valueColor="text-rose-600" /></div>
+                            <div className="flex-1"><DashboardStatCard label="Clean" value={scanResults.filter(r => !r.pii_detected && !r.error).length} valueColor="text-emerald-600" /></div>
+                            <div className="flex-1"><DashboardStatCard label="Total PII" value={stats.totalPiiEntities} valueColor="text-amber-600" /></div>
+                        </div>
+
+                        {/* Underline filter tabs */}
+                        <div className="flex items-center border-b border-slate-200 px-2 mt-2">
+                            <div className="flex items-center gap-8">
                                 {([
-                                    { key: 'all',   label: 'All Results', count: items.filter(i => !i.isFolder).length, dot: 'bg-slate-400' },
-                                    { key: 'pii',   label: 'PII Found',   count: scanResults.filter(r => r.pii_detected).length, dot: 'bg-rose-500' },
-                                    { key: 'clean', label: 'Clean',       count: scanResults.filter(r => !r.pii_detected && !r.error).length, dot: 'bg-emerald-500' },
-                                ] as { key: FilterMode; label: string; count: number; dot: string }[]).map(tab => (
-                                    <button
-                                        key={tab.key}
-                                        onClick={() => setFilterMode(tab.key)}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                                            filterMode === tab.key
-                                                ? 'bg-white dark:bg-slate-700 shadow-sm text-slate-900 dark:text-white'
-                                                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                                        }`}
-                                    >
-                                        <span className={`w-1.5 h-1.5 rounded-full ${tab.dot} shrink-0`} />
+                                    { key: 'all',   label: 'All Results' },
+                                    { key: 'pii',   label: 'PII Found' },
+                                    { key: 'clean', label: 'Clean' },
+                                ] as { key: FilterMode; label: string }[]).map(tab => (
+                                    <button key={tab.key} onClick={() => setFilterMode(tab.key)}
+                                        className={`pb-3 pt-2 text-sm font-semibold transition-colors border-b-2 -mb-px whitespace-nowrap ${filterMode === tab.key ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'}`}>
                                         {tab.label}
-                                        <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-full ${
-                                            filterMode === tab.key ? 'bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-200' : 'bg-slate-200/60 dark:bg-slate-700/60 text-slate-400'
-                                        }`}>{tab.count}</span>
                                     </button>
                                 ))}
                             </div>
-                            <button
-                                onClick={() => { changeStep('BROWSE'); setScanResults([]); setFilterMode('all'); }}
-                                className="flex items-center gap-1.5 text-sm font-medium text-slate-500 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg hover:border-slate-400 hover:text-slate-700 transition-all bg-white dark:bg-slate-800"
-                            >
-                                <ArrowLeft className="w-3.5 h-3.5" />
-                                Back to Browse
-                            </button>
                         </div>
 
-                        {/* ── File table ── */}
-                        <ConnectorPreviewUI
-                            items={items}
-                            selectedIds={selectedIds}
-                            onToggleSelection={toggleSelection}
-                            scanningIds={scanningIds}
-                            scanResults={scanResults}
-                            onOpenFile={handleOpenFile}
-                            connectorType="Google Drive"
-                            catalogData={catalogData}
-                            lastSession={lastSession}
-                            piiActions={piiActions}
-                            fileTagVisibility={tagVisibility}
-                            onTagFile={handlePerFileTag}
-                            onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))}
-                            onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))}
-                            filterMode={filterMode}
-                        />
+                        {/* File table */}
+                        <ConnectorPreviewUI items={items} selectedIds={selectedIds} onToggleSelection={toggleSelection} scanningIds={scanningIds} scanResults={scanResults} onOpenFile={handleOpenFile} connectorType="Google Drive" catalogData={catalogData} lastSession={lastSession} piiActions={piiActions} fileTagVisibility={tagVisibility} onTagFile={handlePerFileTag} onIgnoreFile={(id) => setPiiActions(prev => ({ ...prev, [id]: 'ignored' }))} onSetTagVisibility={(id, v) => setTagVisibility(prev => ({ ...prev, [id]: v }))} filterMode={filterMode} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Floating selection pill */}
+            <AnimatePresence>
+                {step === 'BROWSE' && selectedIds.size > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+                        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50"
+                    >
+                        <div className="flex items-center gap-4 bg-[#1E1E1E] text-white px-5 py-2.5 rounded-full shadow-2xl border border-slate-700/60">
+                            <span className="text-sm font-medium pl-1">Selected: {selectedIds.size}</span>
+                            <div className="w-px h-4 bg-slate-600" />
+                            <button onClick={handleScan} disabled={scanningIds.size > 0}
+                                className="flex items-center gap-1.5 px-3 py-1 text-sm font-medium hover:text-blue-400 transition-colors disabled:opacity-50 whitespace-nowrap">
+                                <Play className="w-3.5 h-3.5 fill-current" /> Run Scan
+                            </button>
+                            <button onClick={() => setSelectedIds(new Set())}
+                                className="flex items-center gap-1.5 px-3 py-1 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                                <XCircle className="w-3.5 h-3.5" /> Clear
+                            </button>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

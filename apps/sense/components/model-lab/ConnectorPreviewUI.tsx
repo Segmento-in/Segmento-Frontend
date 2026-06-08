@@ -81,32 +81,16 @@ function getPiiState(
 // ── Badge ─────────────────────────────────────────────────────────────────────
 
 function PiiBadge({ state }: { state: PiiState }) {
-    const configs: Record<PiiState, { cls: string; icon: React.ReactNode; label: string }> = {
-        pii: {
-            cls: 'bg-rose-500 text-white shadow-rose-500/20',
-            icon: <Tag className="w-3 h-3 fill-current" />,
-            label: 'PII Found',
-        },
-        clean: {
-            cls: 'bg-emerald-500 text-white shadow-emerald-500/20',
-            icon: <ShieldCheck className="w-3 h-3" />,
-            label: 'Clean',
-        },
-        new: {
-            cls: 'bg-blue-500 text-white shadow-blue-500/20',
-            icon: <Sparkles className="w-3 h-3" />,
-            label: 'New',
-        },
-        unscanned: {
-            cls: 'bg-slate-400 text-white shadow-slate-400/20',
-            icon: <Folder className="w-3 h-3" />,
-            label: 'Unscanned',
-        },
+    const configs: Record<PiiState, { cls: string; label: string }> = {
+        pii: { cls: 'border-rose-200 text-rose-600', label: 'PII Found' },
+        clean: { cls: 'border-slate-200 text-slate-500', label: 'Clean' },
+        new: { cls: 'border-blue-200 text-blue-600', label: 'New' },
+        unscanned: { cls: 'border-slate-200 text-slate-500', label: 'Unscanned' },
     };
-    const { cls, icon, label } = configs[state];
+    const { cls, label } = configs[state];
     return (
-        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase shadow-md ${cls}`}>
-            {icon}{label}
+        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border bg-white ${cls}`}>
+            {label}
         </span>
     );
 }
@@ -124,12 +108,10 @@ function SortHeader({
     return (
         <button
             onClick={() => onSort(sortKey)}
-            className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors ${className}`}
+            className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-slate-600 transition-colors ${className}`}
         >
             {label}
-            {active
-                ? (dir === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)
-                : <ArrowUpDown className="w-3 h-3 opacity-30" />}
+            {active && (dir === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
         </button>
     );
 }
@@ -236,12 +218,12 @@ export default function ConnectorPreviewUI({
     ).length;
 
     return (
-        <div className="relative border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-[#0B1120] overflow-hidden flex flex-col shadow-inner" style={{ minHeight: 480, maxHeight: 640 }}>
+        <div className="relative bg-white flex flex-col h-[600px] mt-4 border-t border-slate-200">
 
             {/* ── Toolbar ─────────────────────────────────────────────────── */}
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shrink-0 gap-3">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-white shrink-0 gap-3">
                 <nav className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap flex-1 min-w-0">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shrink-0" />
                     {breadcrumbs.map((crumb, idx) => (
                         <React.Fragment key={idx}>
                             {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />}
@@ -264,14 +246,14 @@ export default function ConnectorPreviewUI({
             </div>
 
             {/* ── Table header ─────────────────────────────────────────────── */}
-            <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2 border-b border-slate-200 dark:border-slate-800 bg-slate-50/95 dark:bg-[#0B1120]/95 backdrop-blur shrink-0`}>
+            <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2 border-b border-slate-200 bg-white shrink-0`}>
                 <SortHeader label="Name" sortKey="name" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Type</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
                 <SortHeader label="Status" sortKey="status" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
                 <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
                 <SortHeader label="Last Scanned" sortKey="last_scanned" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
             </div>
 
             {/* ── Table body ───────────────────────────────────────────────── */}
@@ -402,11 +384,11 @@ function FolderRow({
             {/* Status */}
             <div className="flex items-center">
                 {hasPii ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-rose-100 text-rose-600 border border-rose-200 dark:bg-rose-500/20 dark:border-rose-500/30">
-                        <AlertCircle className="w-3 h-3" />PII: {piiCount}
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-rose-200 text-rose-600">
+                        PII: {piiCount}
                     </span>
                 ) : (
-                    <span className="text-[10px] text-slate-400 italic">Folder</span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-slate-200 text-slate-400">Folder</span>
                 )}
             </div>
 

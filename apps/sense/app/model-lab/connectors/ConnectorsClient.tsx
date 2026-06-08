@@ -240,49 +240,93 @@ export default function ConnectorsClient() {
     const conn = selected ? CONNECTORS.find((c) => c.id === selected)! : null;
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
+        <div className="flex min-h-screen bg-slate-50 text-slate-900">
 
-            {/* ── Sticky breadcrumb ─────────────────────────────────────── */}
-            <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-2">
+            {/* ── LEFT SIDEBAR ──────────────────────────────────────────── */}
+            <aside className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col sticky top-0 h-screen overflow-y-auto z-30">
+
+                {/* Sidebar header */}
+                <div className="px-4 pt-6 pb-4 border-b border-slate-100">
+                    <div className="flex items-center gap-2 mb-1">
+                        <Plug className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Data Connectors</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 pl-5 leading-snug">Scan cloud storage for PII</p>
+                </div>
+
+                {/* Back to Model Lab */}
+                <div className="px-3 pt-3">
                     <Link
                         href="/model-lab"
-                        className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors group"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors group"
                     >
                         <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
                         Model Lab
                     </Link>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-                    {!conn ? (
-                        <span className="flex items-center gap-2 text-sm font-semibold text-slate-900">
-                            <Plug className="w-3.5 h-3.5 text-emerald-600" />
-                            Connectors
-                        </span>
-                    ) : (
-                        <>
-                            <button
-                                onClick={() => setSelected(null)}
-                                className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
-                            >
-                                <Plug className="w-3.5 h-3.5 text-emerald-600" />
-                                Connectors
-                            </button>
-                            <ChevronRight className="w-3 h-3 text-slate-300 shrink-0" />
-                            <motion.span
-                                key={conn.id}
-                                initial={{ opacity: 0, x: -6 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="text-sm font-semibold text-slate-900"
-                            >
-                                {conn.label}
-                            </motion.span>
-                        </>
-                    )}
                 </div>
-            </div>
 
-            {/* ── Page views ───────────────────────────────────────────── */}
-            <AnimatePresence mode="wait">
+                {/* Divider */}
+                <div className="mx-4 mt-2 mb-2 border-t border-slate-100" />
+                <p className="px-4 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-300">Available</p>
+
+                {/* Connector list */}
+                <nav className="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
+                    {CONNECTORS.map((c) => {
+                        const isActive = selected === c.id;
+                        const isConnected = isActive && currentStep !== 'AUTH';
+                        return (
+                            <button
+                                key={c.id}
+                                onClick={() => setSelected(c.id)}
+                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
+                                    isActive
+                                        ? 'bg-slate-900 shadow-md'
+                                        : 'text-slate-600 hover:bg-slate-100'
+                                }`}
+                            >
+                                {/* Icon */}
+                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${
+                                    isActive ? 'bg-white/10' : c.accent.iconBg
+                                }`}>
+                                    {c.emoji}
+                                </div>
+
+                                {/* Name + auth type */}
+                                <div className="flex-1 min-w-0">
+                                    <p className={`text-sm font-semibold truncate ${
+                                        isActive ? 'text-white' : 'text-slate-800'
+                                    }`}>{c.label}</p>
+                                    <p className={`text-[10px] truncate ${
+                                        isActive ? 'text-slate-400' : 'text-slate-400'
+                                    }`}>{c.authType}</p>
+                                </div>
+
+                                {/* Status dot */}
+                                <span className={`w-2 h-2 rounded-full shrink-0 ${
+                                    isConnected ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' :
+                                    isActive ? 'bg-slate-600' : 'bg-slate-200'
+                                }`} />
+                            </button>
+                        );
+                    })}
+                </nav>
+
+                {/* Sidebar footer stats */}
+                <div className="px-4 py-4 border-t border-slate-100">
+                    <div className="flex items-center gap-3 text-[11px] text-slate-400">
+                        <div><span className="font-bold text-slate-600">4</span> connectors</div>
+                        <div className="w-px h-3 bg-slate-200" />
+                        <div><span className="font-bold text-emerald-500">11+</span> AI models</div>
+                        <div className="w-px h-3 bg-slate-200" />
+                        <div><span className="font-bold text-slate-600">0</span> stored</div>
+                    </div>
+                </div>
+            </aside>
+
+
+            {/* ── MAIN CONTENT ──────────────────────────────────────────────────── */}
+            <div className="flex-1 min-w-0 overflow-x-hidden">
+                <AnimatePresence mode="wait">
 
                 {/* ── GRID VIEW ────────────────────────────────────────── */}
                 {!selected && (
@@ -452,8 +496,9 @@ export default function ConnectorsClient() {
                         <div className="h-24" />
                     </motion.div>
                 )}
+                </AnimatePresence>
+            </div>
 
-            </AnimatePresence>
         </div>
     );
 }
