@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAutoRefresh } from '@/hooks/useAutoRefresh';
 import {
     Cloud, Folder, CheckCircle2, XCircle, ChevronRight, Search, Play, Tag,
     AlertCircle, Loader2, RefreshCw, Key, ArrowLeft,
@@ -75,6 +76,17 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
     const [filterMode, setFilterMode] = useState<FilterMode>('all');
     // --- State: RESULTS search ---
     const [resultSearch, setResultSearch] = useState('');
+
+    // --- Auto-refresh countdown (24h) ---
+    // DriveScanTab is always the Google Drive connector — key is fixed.
+    // We use a ref-forwarded callback so the hook always calls the latest handleBrowse.
+    const DRIVE_STORAGE_KEY = 'segmento_last_scan_google_drive';
+    const autoRefreshCallbackRef = React.useRef<() => void>(() => {});
+    const { timeLeftLabel, resetTimer } = useAutoRefresh({
+        storageKey: DRIVE_STORAGE_KEY,
+        // Stable wrapper — always delegates to the current ref value
+        onAutoRefresh: React.useCallback(() => autoRefreshCallbackRef.current(), []),
+    });
 
     // --- Computed stats (live, updates as scanResults stream in) ---
     const stats = useMemo(() => {
@@ -165,6 +177,8 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
             setCatalogData(catalogRes.files || []);
             setLastSession(catalogRes.last_session || null);
             changeStep('BROWSE');
+            // ✓ Write timestamp ONLY on success — signals a fresh browse completed
+            resetTimer();
         } catch (err: any) {
             setError(err.message || "Failed to browse folder.");
         } finally {
@@ -178,6 +192,13 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         else newSel.add(id);
         setSelectedIds(newSel);
     };
+
+    // Keep the auto-refresh ref pointing at the latest handleBrowse so the
+    // 24h timer always calls the current version without a stale closure.
+    // This is declared AFTER handleBrowse so it can safely reference it.
+    React.useEffect(() => {
+        autoRefreshCallbackRef.current = handleBrowse;
+    });
 
     const selectAllParseable = () => {
         const newSel = new Set<string>();
@@ -220,6 +241,9 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
 
             setScanResults(res.results);
             setScanningIds(new Set()); // clear all inline spinners
+
+            // ✓ Write timestamp ONLY after a successful scan resolves
+            resetTimer();
 
             // Refresh catalog after scan so badges update from DB
             try {
@@ -418,9 +442,17 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                                 </div>
                             </div>
                             <div className="flex items-center gap-3 shrink-0">
-                                <button onClick={handleBrowse} disabled={isBrowsing} className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 disabled:opacity-50 transition-colors px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 bg-white shadow-sm">
-                                    <RefreshCw className={`w-4 h-4 ${isBrowsing ? 'animate-spin' : ''}`} />Refresh
-                                </button>
+                                {/* Refresh button + countdown badge in a flex-col wrapper */}
+                                <div className="flex flex-col items-center gap-0.5">
+                                    <button onClick={handleBrowse} disabled={isBrowsing} className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 disabled:opacity-50 transition-colors px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50 bg-white shadow-sm">
+                                        <RefreshCw className={`w-4 h-4 ${isBrowsing ? 'animate-spin' : ''}`} />Refresh
+                                    </button>
+                                    {timeLeftLabel && (
+                                        <span className="text-[10px] text-slate-400 whitespace-nowrap text-center leading-none">
+                                            {timeLeftLabel}
+                                        </span>
+                                    )}
+                                </div>
                                 <button onClick={selectAllParseable} className="flex items-center gap-2 text-sm font-semibold text-white transition-colors px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 shadow-sm whitespace-nowrap">
                                     <CheckCircle2 className="w-4 h-4" /> Select All Parsable
                                 </button>

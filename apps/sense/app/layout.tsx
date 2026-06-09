@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 import { SenseNavbar } from "@/components/SenseNavbar";
+import ToastProvider from "@/components/ToastProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -43,6 +44,7 @@ export default function MainLayout({
     "
   >
         <SenseNavbar />
+        <ToastProvider />
 
         <main className="grow">
           {children}
