@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    AlertCircle, CheckCircle2, ChevronDown, ChevronRight,
-    Loader2, Play, Eye, EyeOff,
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight,
+    Loader2, Play, Eye, EyeOff, ArrowLeft, Download,
 } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount } from '@/lib/apiClient';
 
@@ -304,28 +303,48 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                 {/* ── STEP 3: RESULTS ──────────────────────────────────── */}
                 {step === 'RESULTS' && (
                     <motion.div key="results" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-                        {/* Summary */}
-                        <Card>
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                        {isScanning ? 'Scanning in progress…' : 'Scan Complete'}
-                                    </h3>
-                                    <p className="text-slate-500 text-sm mt-1">
-                                        {results.length} / {selectedFiles.size} files processed
-                                        {!isScanning && ` • ${results.filter(r => r.result && r.result.total_pii_found > 0).length} contain PII`}
-                                    </p>
+
+                        {/* ── Premium Dashboard Header ───────────────────────────── */}
+                        <div className="flex items-center justify-between gap-3 bg-white border border-slate-200 rounded-xl px-5 py-3 shadow-sm">
+                            <div className="flex items-center gap-3 shrink-0">
+                                <button
+                                    onClick={() => changeStep('BROWSE')}
+                                    className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all"
+                                >
+                                    <ArrowLeft className="w-3.5 h-3.5" />
+                                    Back
+                                </button>
+                                <div className="w-px h-5 bg-slate-200" />
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-sm font-bold text-slate-800">Scan Results</h2>
+                                    <span className="text-xs font-semibold text-white bg-orange-500 px-2 py-0.5 rounded-full tabular-nums">
+                                        {results.length}/{selectedFiles.size}
+                                    </span>
                                 </div>
-                                {!isScanning && (
-                                    <button
-                                        onClick={() => changeStep('BROWSE')}
-                                        className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                                    >
-                                        Scan More
-                                    </button>
-                                )}
                             </div>
-                        </Card>
+
+                            <div className="flex items-center gap-3 shrink-0">
+                                {isScanning ? (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-lg text-xs font-semibold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                                        Scanning…
+                                    </span>
+                                ) : results.length > 0 ? (
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-semibold">
+                                        <CheckCircle2 className="w-3.5 h-3.5" />
+                                        Scan Complete &middot; {results.filter(r => r.result && r.result.total_pii_found > 0).length} contain PII
+                                    </span>
+                                ) : null}
+                                <button
+                                    disabled
+                                    title="Export coming soon"
+                                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 text-slate-400 text-sm font-semibold bg-white cursor-not-allowed opacity-60 select-none"
+                                >
+                                    <Download className="w-3.5 h-3.5" />
+                                    Export
+                                </button>
+                            </div>
+                        </div>
 
                         {/* Scanning placeholder */}
                         {isScanning && results.length === 0 && (
@@ -368,9 +387,9 @@ function FileResultCard({
     const hasPii = result && result.total_pii_found > 0;
 
     return (
-        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-all hover:shadow-md">
             {/* Header row */}
-            <div onClick={onToggle} className="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+            <div onClick={onToggle} className="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors border-l-4 border-l-transparent hover:border-l-orange-400">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
                     error ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400'
                     : hasPii ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400'

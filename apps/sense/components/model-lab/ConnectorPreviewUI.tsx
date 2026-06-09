@@ -34,6 +34,10 @@ interface Props {
     onSetTagVisibility?: (id: string, visibility: 'api_only' | 'api_and_human') => void;
     /** Controlled filter from parent filter tabs. Default = 'all'. */
     filterMode?: 'all' | 'pii' | 'clean' | 'incremental' | 'unscanned';
+    /** Optional search query to filter items by name. */
+    searchQuery?: string;
+    /** Optional className to override the root container (e.g. flex-1 min-h-0 for full-height layout). */
+    className?: string;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -126,8 +130,31 @@ function getFolderAggregate(item: DriveItem, catalogData?: FileCatalogEntry[]) {
 }
 
 // Column grid: Name | Type | Status | Size | First Seen | Last Scanned | Scan Type
-// col widths:   1fr   70px   130px   90px   100px         110px          100px
-const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_110px_100px]';
+// col widths:   1fr   70px   130px   90px   100px  100px         110px          100px
+const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_100px_110px_100px]';
+
+// ── Score Component ──────────────────────────────────────────────────────────
+
+function ScoreCell({ state }: { state: PiiState | 'folder' }) {
+    if (state === 'unscanned' || state === 'new' || state === 'folder') return <div className="flex justify-center"><span className="text-[10px] text-slate-300 font-mono">—</span></div>;
+    
+    // Deterministic dummy score
+    const score = state === 'pii' ? 9 : 3;
+    const activeBars = Math.ceil(score / 2);
+    
+    return (
+        <div className="flex items-center gap-1.5 justify-center">
+            <div className="flex items-center gap-px">
+                {[1, 2, 3, 4, 5].map(i => {
+                    const isActive = i <= activeBars;
+                    const bg = isActive ? 'bg-[#D4E856]' : 'bg-slate-200';
+                    return <div key={i} className={`h-2.5 w-[3px] rounded-sm ${bg}`} />
+                })}
+            </div>
+            <span className="text-[10px] text-slate-400 font-mono font-medium border border-slate-200 rounded px-1">{score}/10</span>
+        </div>
+    );
+}
 
 // ── Main component ────────────────────────────────────────────────────────────
 
@@ -135,7 +162,7 @@ export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, scanningIds, scanResults, onOpenFile,
     connectorType = 'Google Drive', catalogData, lastSession,
     piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
-    filterMode = 'all'
+    filterMode = 'all', searchQuery = '', className
 }: Props) {
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
@@ -170,19 +197,28 @@ export default function ConnectorPreviewUI({
     }, [items, currentFolderId]);
 
     const filteredItems = useMemo(() => {
-        if (filterMode === 'all') return currentItems;
-        return currentItems.filter(item => {
-            if (item.isFolder) return true; // always show folders regardless of filter
-            const state = getPiiState(item, catalogData, lastSession, scanResults);
-            switch (filterMode) {
-                case 'pii':         return state === 'pii';
-                case 'clean':       return state === 'clean';
-                case 'incremental': return state === 'new';
-                case 'unscanned':   return state === 'unscanned';
-                default:            return true;
-            }
-        });
-    }, [currentItems, filterMode, catalogData, lastSession, scanResults]);
+        let base = currentItems;
+        // Apply filter mode
+        if (filterMode !== 'all') {
+            base = base.filter(item => {
+                if (item.isFolder) return true;
+                const state = getPiiState(item, catalogData, lastSession, scanResults);
+                switch (filterMode) {
+                    case 'pii':         return state === 'pii';
+                    case 'clean':       return state === 'clean';
+                    case 'incremental': return state === 'new';
+                    case 'unscanned':   return state === 'unscanned';
+                    default:            return true;
+                }
+            });
+        }
+        // Apply search query
+        if (searchQuery.trim()) {
+            const q = searchQuery.trim().toLowerCase();
+            base = base.filter(item => item.name.toLowerCase().includes(q));
+        }
+        return base;
+    }, [currentItems, filterMode, searchQuery, catalogData, lastSession, scanResults]);
 
     const sortedItems = useMemo(() => {
         const folders = filteredItems.filter(i => i.isFolder);
@@ -218,7 +254,7 @@ export default function ConnectorPreviewUI({
     ).length;
 
     return (
-        <div className="relative bg-white flex flex-col h-[600px] mt-4 border-t border-slate-200">
+        <div className={`relative bg-white flex flex-col border-t border-slate-200 ${className ?? 'h-[600px]'}`}>
 
             {/* ── Toolbar ─────────────────────────────────────────────────── */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-white shrink-0 gap-3">
@@ -246,11 +282,12 @@ export default function ConnectorPreviewUI({
             </div>
 
             {/* ── Table header ─────────────────────────────────────────────── */}
-            <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2 border-b border-slate-200 bg-white shrink-0`}>
+            <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50/80 shrink-0`}>
                 <SortHeader label="Name" sortKey="name" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
                 <SortHeader label="Status" sortKey="status" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Score</div>
                 <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
                 <SortHeader label="Last Scanned" sortKey="last_scanned" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
@@ -363,7 +400,7 @@ function FolderRow({
         <motion.div
             initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             onClick={() => onNavigate(item.id, item.name)}
-            className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer transition-colors group items-center`}
+            className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 border-l-transparent hover:border-l-blue-300 hover:bg-slate-50/80 dark:hover:bg-slate-800/30 cursor-pointer transition-all group items-center`}
         >
             {/* Name */}
             <div className="flex items-center gap-2 min-w-0">
@@ -394,6 +431,10 @@ function FolderRow({
 
             {/* Size — N/A */}
             <div className="text-right text-xs text-slate-400">—</div>
+            
+            {/* Score — N/A */}
+            <ScoreCell state="folder" />
+
             {/* First Seen — N/A */}
             <div className="text-center text-xs text-slate-400">—</div>
             {/* Last Scanned — N/A */}
@@ -435,19 +476,27 @@ function FileRow({
     const cat = catalogData?.find(c => c.file_id === item.id);
     const state = getPiiState(item, catalogData, lastSession, scanResults);
 
+    const borderAccent = isScanning
+        ? 'border-l-blue-400'
+        : !item.parseable
+            ? 'border-l-transparent'
+            : isSelected
+                ? 'border-l-blue-500'
+                : 'border-l-transparent hover:border-l-blue-300';
+
     const rowBg = isScanning
         ? 'bg-blue-50/40 dark:bg-blue-900/10'
         : !item.parseable
             ? 'opacity-50 cursor-not-allowed bg-slate-50/50 dark:bg-slate-900/50'
             : isSelected
-                ? 'bg-blue-50/60 dark:bg-blue-900/20 cursor-pointer'
-                : 'hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer';
+                ? 'bg-blue-50/50 dark:bg-blue-900/20 cursor-pointer'
+                : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30 cursor-pointer';
 
     return (
         <motion.div
             initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             onClick={() => scanResult ? onOpenFile(item.id) : (!isScanning && item.parseable && onToggle(item.id))}
-            className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-100 dark:border-slate-800/50 transition-colors items-center ${rowBg}`}
+            className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center ${rowBg} ${borderAccent}`}
         >
             {/* Name + icon */}
             <div className="flex items-center gap-2 min-w-0">
@@ -495,6 +544,9 @@ function FileRow({
                     {formatBytes(cat?.file_size_bytes || item.sizeBytes)}
                 </span>
             </div>
+
+            {/* Score */}
+            <ScoreCell state={state} />
 
             {/* First Seen */}
             <div className="text-center">

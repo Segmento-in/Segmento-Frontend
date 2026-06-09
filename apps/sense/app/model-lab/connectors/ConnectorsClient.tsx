@@ -240,10 +240,10 @@ export default function ConnectorsClient() {
     const conn = selected ? CONNECTORS.find((c) => c.id === selected)! : null;
 
     return (
-        <div className="flex min-h-screen bg-slate-50 text-slate-900">
+        <div className="flex flex-1 min-h-0 bg-white text-slate-900">
 
             {/* ── LEFT SIDEBAR ──────────────────────────────────────────── */}
-            <aside className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col sticky top-0 h-screen overflow-y-auto z-30">
+            <aside className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col overflow-y-auto z-30">
 
                 {/* Sidebar header */}
                 <div className="px-4 pt-6 pb-4 border-b border-slate-100">
@@ -325,7 +325,7 @@ export default function ConnectorsClient() {
 
 
             {/* ── MAIN CONTENT ──────────────────────────────────────────────────── */}
-            <div className="flex-1 min-w-0 overflow-x-hidden">
+            <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
                 <AnimatePresence mode="wait">
 
                 {/* ── GRID VIEW ────────────────────────────────────────── */}
@@ -336,6 +336,7 @@ export default function ConnectorsClient() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.22 }}
+                        className="overflow-y-auto"
                     >
                         {/* Hero */}
                         <div className="bg-white border-b border-slate-200">
@@ -407,11 +408,12 @@ export default function ConnectorsClient() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.25 }}
+                        className="flex flex-col flex-1 min-h-0 overflow-hidden"
                     >
                         {/* Compact info bar — only shown after AUTH */}
                         {currentStep !== 'AUTH' && (
-                            <div className="bg-white border-b border-slate-200 shadow-sm">
-                                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center gap-4">
+                            <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
+                                <div className="px-6 py-3 flex items-center gap-4">
                                     <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
                                         {conn.emoji}
                                     </div>
@@ -439,12 +441,16 @@ export default function ConnectorsClient() {
                             </div>
                         )}
 
-                        {/* Single layout wrapper — CSS changes by step, tab always mounted once */}
-                        <div className={currentStep === 'AUTH' ? 'bg-white border-b border-slate-200' : ''}>
+                        {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
+                        <div className={`flex flex-col ${
+                            currentStep === 'AUTH'
+                                ? 'flex-1 bg-white border-b border-slate-200'
+                                : 'flex-1 min-h-0 overflow-hidden'
+                        }`}>
                             <div className={
                                 currentStep === 'AUTH'
                                     ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
-                                    : 'max-w-7xl mx-auto px-4 sm:px-6 py-6'
+                                    : 'flex flex-col flex-1 min-h-0 h-full'
                             }>
                                 {/* LEFT hero panel — only visible in AUTH step */}
                                 {currentStep === 'AUTH' && (
@@ -483,8 +489,8 @@ export default function ConnectorsClient() {
                                     </div>
                                 )}
 
-                                {/* Scan tab — ALWAYS mounted here, never remounts when layout switches */}
-                                <div className={currentStep === 'AUTH' ? 'min-w-0' : 'w-full'}>
+                                {/* Scan tab — full width/height in BROWSE/RESULTS, right-column in AUTH */}
+                                <div className={currentStep === 'AUTH' ? 'min-w-0' : 'flex flex-col flex-1 min-h-0 h-full'}>
                                     {selected === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
                                     {selected === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
                                     {selected === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
@@ -493,7 +499,6 @@ export default function ConnectorsClient() {
                             </div>
                         </div>
 
-                        <div className="h-24" />
                     </motion.div>
                 )}
                 </AnimatePresence>
