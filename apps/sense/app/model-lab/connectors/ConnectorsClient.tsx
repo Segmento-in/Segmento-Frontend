@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap } from 'lucide-react';
+import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User } from 'lucide-react';
 import { apiClient, EvaluatorModel } from '@/lib/apiClient';
 
 import DriveScanTab from '@/components/model-lab/tabs/DriveScanTab';
@@ -221,23 +221,43 @@ function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => vo
     );
 }
 
+interface FlowState {
+    id: string;
+    connector: ConnectorId;
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 export default function ConnectorsClient() {
-    const [selected, setSelected] = useState<ConnectorId | null>(null);
     const [modelCatalogue, setModelCatalogue] = useState<EvaluatorModel[]>([]);
+
+    // Core state for new navigation behavior
+    // 'connectors' = connector grid, 'scan' = active configuring flow, 'results' = retained profile results
+    const [rightView, setRightView] = useState<'connectors' | 'scan' | 'results'>('connectors');
+    const [hasResults, setHasResults] = useState(false);
+    // Manage instances of scan flows
+    const [configuring, setConfiguring] = useState<FlowState | null>(null);
+    const [profile, setProfile] = useState<FlowState | null>(null);
+
+    // Track the step ONLY for the configuring flow
     const [currentStep, setCurrentStep] = useState<'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS'>('AUTH');
 
-    // Reset step whenever user picks a different connector
-    useEffect(() => { setCurrentStep('AUTH'); }, [selected]);
-
-    useEffect(() => {
-        apiClient
-            .evaluatorGetModels()
-            .then((r) => setModelCatalogue(r.models))
-            .catch(() => setModelCatalogue(FALLBACK_CATALOGUE));
-    }, []);
-
-    const conn = selected ? CONNECTORS.find((c) => c.id === selected)! : null;
+    const handleStepChange = (flowId: string, step: 'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS') => {
+        if (configuring?.id === flowId) {
+            setCurrentStep(step);
+        }
+        // Activate Profile as soon as there's browseable/scannable content
+        if ((step === 'BROWSE' || step === 'RESULTS') && configuring?.id === flowId) {
+            setHasResults(true);
+            setProfile(configuring);
+        }
+        // On RESULTS: switch view and clear the active configuring slot
+        if (step === 'RESULTS') {
+            setRightView('results');
+            if (configuring?.id === flowId) {
+                setConfiguring(null);
+            }
+        }
+    };
 
     return (
         <div className="flex flex-1 min-h-0 bg-white text-slate-900">
@@ -269,119 +289,98 @@ export default function ConnectorsClient() {
                 <div className="mx-4 mt-2 mb-2 border-t border-slate-100" />
                 <p className="px-4 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-300">Available</p>
 
-                {/* Connector list */}
+                {/* Navigation Buttons */}
                 <nav className="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
-                    {CONNECTORS.map((c) => {
-                        const isActive = selected === c.id;
-                        const isConnected = isActive && currentStep !== 'AUTH';
-                        return (
-                            <button
-                                key={c.id}
-                                onClick={() => setSelected(c.id)}
-                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
-                                    isActive
-                                        ? 'bg-slate-900 shadow-md'
-                                        : 'text-slate-600 hover:bg-slate-100'
-                                }`}
-                            >
-                                {/* Icon */}
-                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${
-                                    isActive ? 'bg-white/10' : c.accent.iconBg
-                                }`}>
-                                    {c.emoji}
-                                </div>
 
-                                {/* Name + auth type */}
-                                <div className="flex-1 min-w-0">
-                                    <p className={`text-sm font-semibold truncate ${
-                                        isActive ? 'text-white' : 'text-slate-800'
-                                    }`}>{c.label}</p>
-                                    <p className={`text-[10px] truncate ${
-                                        isActive ? 'text-slate-400' : 'text-slate-400'
-                                    }`}>{c.authType}</p>
-                                </div>
+                    {/* Profile Button — active when on results view, disabled if no scan yet */}
+                    <button
+                        onClick={() => { if (hasResults) setRightView('results'); }}
+                        disabled={!hasResults}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${rightView === 'results' && hasResults
+                                ? 'bg-slate-900 shadow-md text-white'
+                                : !hasResults
+                                    ? 'text-slate-300 cursor-not-allowed opacity-60'
+                                    : 'text-slate-600 hover:bg-slate-100'
+                            }`}
+                    >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${rightView === 'results' && hasResults ? 'bg-white/10' : !hasResults ? 'bg-slate-50 text-slate-300' : 'bg-emerald-50 text-emerald-600'
+                            }`}>
+                            <User className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate">Profile</p>
+                            <p className={`text-[10px] truncate ${rightView === 'results' ? 'text-slate-400' : !hasResults ? 'text-slate-300' : 'text-slate-400'}`}>Active Results</p>
+                        </div>
+                        {hasResults && (
+                            <span className={`w-2 h-2 rounded-full shrink-0 ${rightView === 'results' ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' : 'bg-emerald-400'}`} />
+                        )}
+                    </button>
 
-                                {/* Status dot */}
-                                <span className={`w-2 h-2 rounded-full shrink-0 ${
-                                    isConnected ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' :
-                                    isActive ? 'bg-slate-600' : 'bg-slate-200'
-                                }`} />
-                            </button>
-                        );
-                    })}
+                    {/* Connectors Button — always goes to the grid; parks in-progress flow to Profile */}
+                    <button
+                        onClick={() => {
+                            // If user is in a flow that's past AUTH (BROWSE/RESULTS), park it to Profile
+                            if (configuring && currentStep !== 'AUTH') {
+                                setProfile(configuring);
+                                setConfiguring(null);
+                                setHasResults(true);
+                            }
+                            setRightView('connectors');
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${(rightView === 'connectors' || rightView === 'scan')
+                                ? 'bg-slate-900 shadow-md text-white'
+                                : 'text-slate-600 hover:bg-slate-100'
+                            }`}
+                    >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${(rightView === 'connectors' || rightView === 'scan') ? 'bg-white/10' : 'bg-slate-100 text-slate-500'
+                            }`}>
+                            <LayoutGrid className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate">Connectors</p>
+                            <p className="text-[10px] truncate text-slate-400">Available Sources</p>
+                        </div>
+                        {/* Dot indicator when a scan flow is in progress */}
+                        {configuring && (
+                            <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 animate-pulse" />
+                        )}
+                    </button>
+
                 </nav>
 
                 {/* Sidebar footer stats */}
-                <div className="px-4 py-4 border-t border-slate-100">
+                <div className="px-4 py-4 border-t border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-3 text-[11px] text-slate-400">
-                        <div><span className="font-bold text-slate-600">4</span> connectors</div>
-                        <div className="w-px h-3 bg-slate-200" />
                         <div><span className="font-bold text-emerald-500">11+</span> AI models</div>
                         <div className="w-px h-3 bg-slate-200" />
                         <div><span className="font-bold text-slate-600">0</span> stored</div>
                     </div>
+                    <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
+                        N
+                    </div>
                 </div>
+
             </aside>
 
-
             {/* ── MAIN CONTENT ──────────────────────────────────────────────────── */}
-            <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
-                <AnimatePresence mode="wait">
+            <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative">
 
                 {/* ── GRID VIEW ────────────────────────────────────────── */}
-                {!selected && (
-                    <motion.div
-                        key="grid"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.22 }}
-                        className="overflow-y-auto"
-                    >
-                        {/* Hero */}
-                        <div className="bg-white border-b border-slate-200">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-                                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-                                    <div>
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <div className="p-2.5 bg-emerald-100 rounded-xl">
-                                                <Plug className="w-5 h-5 text-emerald-700" />
-                                            </div>
-                                            <span className="text-xs font-black uppercase tracking-[0.2em] text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
-                                                Data Connectors
-                                            </span>
-                                        </div>
-                                        <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-3">
-                                            Cloud PII Scanner
-                                        </h1>
-                                        <p className="text-base text-slate-500 max-w-xl leading-relaxed">
-                                            Connect to any cloud storage provider and run{' '}
-                                            <span className="font-semibold text-slate-700">11+ AI detection models</span>{' '}
-                                            in-memory. Zero data retention. Results in seconds.
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center gap-6 shrink-0">
-                                        <div className="text-center">
-                                            <p className="text-2xl font-black text-slate-900">4</p>
-                                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Connectors</p>
-                                        </div>
-                                        <div className="w-px h-8 bg-slate-200" />
-                                        <div className="text-center">
-                                            <p className="text-2xl font-black text-emerald-600">11+</p>
-                                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">AI Models</p>
-                                        </div>
-                                        <div className="w-px h-8 bg-slate-200" />
-                                        <div className="text-center">
-                                            <p className="text-2xl font-black text-slate-900">0</p>
-                                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Data Stored</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div className={`flex-col flex-1 min-h-0 overflow-y-auto ${rightView === 'connectors' ? 'flex' : 'hidden'}`}>
+                    {/* Hero */}
+                    <div className="bg-white border-b border-slate-200">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+                            <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                                Data Connectors
+                            </h1>
+                            <p className="mt-4 text-base text-slate-500 max-w-2xl">
+                                Select a storage connector to scan files and objects for PII. Segmento Sense analyzes your data strictly in-memory — ensuring zero retention and maximum security.
+                            </p>
                         </div>
+                    </div>
 
-                        {/* Card grid */}
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+                    <div className="flex-1 bg-slate-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
                             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
                                 Select a Connector
                             </p>
@@ -390,120 +389,138 @@ export default function ConnectorsClient() {
                                     <ConnectorCard
                                         key={c.id}
                                         conn={c}
-                                        onSelect={() => setSelected(c.id)}
+                                        onSelect={() => {
+                                            // If this connector is already in-progress, just resume it
+                                            if (configuring?.connector === c.id) {
+                                                setRightView('scan');
+                                            } else {
+                                                setConfiguring({ id: `flow-${Date.now()}`, connector: c.id });
+                                                setCurrentStep('AUTH');
+                                                setRightView('scan');
+                                            }
+                                        }}
                                     />
                                 ))}
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div className="h-20" />
-                    </motion.div>
-                )}
+                {/* ── MOUNTED SCAN FLOWS ──────────────────────────────────────── */}
+                {[profile, configuring]
+                    .filter((f): f is FlowState => f !== null)
+                    // Deduplicate: profile and configuring may temporarily point to the same flow
+                    .filter((f, idx, arr) => arr.findIndex(x => x.id === f.id) === idx)
+                    .map((flow) => {
+                    const isProfile = profile?.id === flow.id;
+                    const isVisible = (rightView === 'results' && isProfile) ||
+                        (rightView === 'scan' && configuring?.id === flow.id);
 
-                {/* ── DETAIL VIEW ──────────────────────────────────────── */}
-                {selected && conn && (
-                    <motion.div
-                        key={`detail-${selected}`}
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.25 }}
-                        className="flex flex-col flex-1 min-h-0 overflow-hidden"
-                    >
-                        {/* Compact info bar — only shown after AUTH */}
-                        {currentStep !== 'AUTH' && (
-                            <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
-                                <div className="px-6 py-3 flex items-center gap-4">
-                                    <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
-                                        {conn.emoji}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
-                                        <p className="text-xs text-slate-500 truncate">{conn.description}</p>
-                                    </div>
-                                    <div className="flex items-center gap-3 shrink-0">
-                                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
-                                            {conn.authType}
-                                        </span>
-                                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wide">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                            Connected
+                    const conn = CONNECTORS.find(c => c.id === flow.connector);
+                    if (!conn) return null;
+
+                    // Profile flow: show its internal step (not hardcoded to RESULTS)
+                    // The DriveScanTab etc. maintain their own internal step, but the outer
+                    // wrapper uses flowStep for info-bar and layout. Use the saved currentStep
+                    // for profile when it was parked, or 'RESULTS' if it completed a scan.
+                    const flowStep = isProfile ? (currentStep !== 'AUTH' ? currentStep : 'RESULTS') : currentStep;
+
+                    return (
+                        <div key={flow.id} className={`flex-col flex-1 min-h-0 overflow-hidden ${isVisible ? 'flex' : 'hidden'}`}>
+                            {/* Compact info bar — only shown after AUTH */}
+                            {flowStep !== 'AUTH' && (
+                                <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
+                                    <div className="px-6 py-3 flex items-center gap-4">
+                                        <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
+                                            {conn.emoji}
                                         </div>
-                                        <button
-                                            onClick={() => setSelected(null)}
-                                            className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
-                                        >
-                                            <ArrowLeft className="w-3.5 h-3.5" />
-                                            Disconnect
-                                        </button>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
+                                            <p className="text-xs text-slate-500 truncate">{conn.description}</p>
+                                        </div>
+                                        <div className="flex items-center gap-3 shrink-0">
+                                            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
+                                                {conn.authType}
+                                            </span>
+                                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wide">
+                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                Connected
+                                            </div>
+                                            {!isProfile && (
+                                                <button
+                                                    onClick={() => setConfiguring(null)}
+                                                    className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
+                                                >
+                                                    <ArrowLeft className="w-3.5 h-3.5" />
+                                                    Cancel
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
-                        <div className={`flex flex-col ${
-                            currentStep === 'AUTH'
-                                ? 'flex-1 bg-white border-b border-slate-200'
-                                : 'flex-1 min-h-0 overflow-hidden'
-                        }`}>
-                            <div className={
-                                currentStep === 'AUTH'
-                                    ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
-                                    : 'flex flex-col flex-1 min-h-0 h-full'
-                            }>
-                                {/* LEFT hero panel — only visible in AUTH step */}
-                                {currentStep === 'AUTH' && (
-                                    <div>
-                                        <button
-                                            onClick={() => setSelected(null)}
-                                            className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
-                                        >
-                                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                                            Back to Connectors
-                                        </button>
-                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
-                                            <span className="h-2 w-2 rounded-full bg-slate-400" />
-                                            Not Connected
+                            {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
+                            <div className={`flex flex-col ${flowStep === 'AUTH'
+                                    ? 'flex-1 bg-white border-b border-slate-200 overflow-y-auto'
+                                    : 'flex-1 min-h-0 overflow-hidden'
+                                }`}>
+                                <div className={
+                                    flowStep === 'AUTH'
+                                        ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
+                                        : 'flex flex-col flex-1 min-h-0 h-full'
+                                }>
+                                    {/* LEFT hero panel — only visible in AUTH step */}
+                                    {flowStep === 'AUTH' && (
+                                        <div>
+                                            <button
+                                                onClick={() => setConfiguring(null)}
+                                                className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
+                                            >
+                                                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                                                Back to Connectors
+                                            </button>
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
+                                                <span className="h-2 w-2 rounded-full bg-slate-400" />
+                                                Not Connected
+                                            </div>
+                                            <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
+                                                {conn.titleLine1}
+                                            </h1>
+                                            <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
+                                                {conn.titleLine2}
+                                            </h1>
+                                            <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
+                                                Connector
+                                            </h1>
+                                            <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
+                                                {conn.description}
+                                            </p>
+                                            <div className="space-y-3">
+                                                {conn.features.map(({ Icon, text }) => (
+                                                    <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
+                                                        <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
+                                                        <span>{text}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
-                                        <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
-                                            {conn.titleLine1}
-                                        </h1>
-                                        <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
-                                            {conn.titleLine2}
-                                        </h1>
-                                        <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
-                                            Connector
-                                        </h1>
-                                        <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
-                                            {conn.description}
-                                        </p>
-                                        <div className="space-y-3">
-                                            {conn.features.map(({ Icon, text }) => (
-                                                <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
-                                                    <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
-                                                    <span>{text}</span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                    )}
+
+                                    {/* Scan tab — full width/height in BROWSE/RESULTS, right-column in AUTH */}
+                                    <div className={flowStep === 'AUTH' ? 'min-w-0' : 'flex flex-col flex-1 min-h-0 h-full'}>
+                                        {conn.id === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                     </div>
-                                )}
-
-                                {/* Scan tab — full width/height in BROWSE/RESULTS, right-column in AUTH */}
-                                <div className={currentStep === 'AUTH' ? 'min-w-0' : 'flex flex-col flex-1 min-h-0 h-full'}>
-                                    {selected === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
-                                    {selected === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
-                                    {selected === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
-                                    {selected === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={setCurrentStep} />}
                                 </div>
                             </div>
                         </div>
+                    );
+                })}
 
-                    </motion.div>
-                )}
-                </AnimatePresence>
             </div>
-
         </div>
     );
 }

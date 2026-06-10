@@ -245,6 +245,17 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
             // ✓ Write timestamp ONLY after a successful scan resolves
             resetTimer();
 
+            // Notify user of successful scan
+            const piiCount = res.results.reduce((acc: number, r: DriveFileScanResult) => acc + (r.pii_count || 0), 0);
+            const fileCount = res.results.length;
+            window.dispatchEvent(new CustomEvent('segmento:toast', {
+                detail: {
+                    type: 'success',
+                    title: 'Scan complete',
+                    message: `Found ${piiCount} PII item(s) across ${fileCount} file(s).`,
+                }
+            }));
+
             // Refresh catalog after scan so badges update from DB
             try {
                 const catalogRes = await apiClient.getFileCatalog('google_drive', 'default_uid');
