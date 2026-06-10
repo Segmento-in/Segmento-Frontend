@@ -72,14 +72,17 @@ function getPiiState(
     if (tag === 'true' || tag === true) return 'pii';
     if (tag === 'false' || tag === false) return 'clean';
 
-    if (!lastSession) return 'new';
+    // If there is no previous session, then there are NO incremental files yet. 
+    // All files are just 'unscanned'.
+    if (!lastSession) return 'unscanned';
+    
     if (cat?.first_seen_at) {
         const firstSeen = new Date(cat.first_seen_at).getTime();
         const lastScan = new Date(lastSession.triggered_at).getTime();
         if (firstSeen > lastScan) return 'new';
     }
     if (cat) return 'unscanned';
-    return 'new';
+    return 'new'; // If it's not in catalog, and there IS a lastSession, it's new
 }
 
 // ── Badge ─────────────────────────────────────────────────────────────────────

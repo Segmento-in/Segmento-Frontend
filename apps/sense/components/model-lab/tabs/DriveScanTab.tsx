@@ -116,7 +116,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
             const tag = i.appProperties?.segmento_pii_detected;
             if (tag === 'true' || tag === true || tag === 'false' || tag === false) return false;
             if (cat?.scan_status === 'pii_found' || cat?.scan_status === 'clean') return false;
-            if (!lastSession) return true;
+            if (!lastSession) return false; // If there's no last session, it's a full load, not incremental
             if (cat?.first_seen_at) {
                 return new Date(cat.first_seen_at).getTime() > new Date(lastSession.triggered_at).getTime();
             }
@@ -430,7 +430,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                         <div className="flex items-center border-b border-slate-200 px-6 shrink-0">
                             <div className="flex items-center gap-8">
                                 {([
-                                    { key: 'all',         label: 'All' },
+                                    { key: 'all',         label: 'Full Load' },
                                     { key: 'pii',         label: 'PII Found' },
                                     { key: 'clean',       label: 'Clean' },
                                     { key: 'incremental', label: 'Incremental' },
@@ -557,9 +557,10 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                         <div className="flex items-center border-b border-slate-200 px-6 shrink-0">
                             <div className="flex items-center gap-8">
                                 {([
-                                    { key: 'all',   label: 'All Results' },
+                                    { key: 'all',   label: 'Full Load' },
                                     { key: 'pii',   label: 'PII Found' },
                                     { key: 'clean', label: 'Clean' },
+                                    { key: 'incremental', label: 'Incremental' },
                                 ] as { key: FilterMode; label: string }[]).map(tab => (
                                     <button key={tab.key} onClick={() => setFilterMode(tab.key)}
                                         className={`pb-3 pt-2.5 text-sm font-semibold transition-colors border-b-2 -mb-px whitespace-nowrap ${filterMode === tab.key ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'}`}>
