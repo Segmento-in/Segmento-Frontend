@@ -10,6 +10,7 @@ import DriveScanTab from '@/components/model-lab/tabs/DriveScanTab';
 import S3ScanTab from '@/components/model-lab/tabs/S3ScanTab';
 import AzureScanTab from '@/components/model-lab/tabs/AzureScanTab';
 import GCSScanTab from '@/components/model-lab/tabs/GCSScanTab';
+import DatabaseScanTab from '@/components/model-lab/tabs/DatabaseScanTab';
 
 // ── Fallback catalogue ────────────────────────────────────────────────────────
 const FALLBACK_CATALOGUE: EvaluatorModel[] = [
@@ -134,6 +135,33 @@ const CONNECTORS = [
             titleColor: 'text-amber-600',
             badge: 'bg-amber-50 text-amber-700 border-amber-200',
             featureIcon: 'text-amber-500',
+        },
+    },
+    {
+        id: 'database' as const,
+        emoji: '🗃️',
+        label: 'Relational Database',
+        titleLine1: 'SQL',
+        titleLine2: 'Database',
+        category: 'DATABASES',
+        description: 'Connect to PostgreSQL or MySQL, browse tables, and run PII scans fully in-memory.',
+        authType: 'Host / User / Password',
+        scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
+        features: [
+            { Icon: Shield, text: 'Rows scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Direct JDBC-style connection (host + credentials)' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Supports PostgreSQL & MySQL' },
+        ],
+        accent: {
+            cat: 'bg-violet-50 text-violet-600 border border-violet-100',
+            dot: 'bg-violet-500',
+            iconBg: 'bg-violet-50',
+            iconColor: 'text-violet-600',
+            btn: 'group-hover:bg-violet-600 group-hover:border-violet-600 group-hover:text-white group-hover:shadow-violet-500/25',
+            titleColor: 'text-violet-600',
+            badge: 'bg-violet-50 text-violet-700 border-violet-200',
+            featureIcon: 'text-violet-500',
         },
     },
 ] as const;
@@ -513,6 +541,7 @@ export default function ConnectorsClient() {
                                         {conn.id === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                     </div>
                                 </div>
                             </div>

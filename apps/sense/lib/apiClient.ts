@@ -41,6 +41,14 @@ export interface AnalysisResponse {
     original_image?: string;
 }
 
+export interface DatabaseCredentials {
+    host: string;
+    port: string;
+    database: string;
+    user: string;
+    password: string;
+}
+
 export interface Pattern {
     name: string;
     regex: string;
@@ -408,6 +416,42 @@ class APIClient {
             body: JSON.stringify(params),
         });
 
+        return this.handleResponse(response);
+    }
+
+    async listPostgresTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/postgresql/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async listMysqlTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/mysql/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanPostgresqlTable(credentials: DatabaseCredentials & { table: string }): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/postgresql`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanMysqlTable(credentials: DatabaseCredentials & { table: string }): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/mysql`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
         return this.handleResponse(response);
     }
 
