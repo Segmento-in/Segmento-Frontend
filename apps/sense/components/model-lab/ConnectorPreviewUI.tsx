@@ -65,8 +65,8 @@ function getPiiState(
     if (liveResult) return liveResult.pii_detected ? 'pii' : 'clean';
 
     const cat = catalogData?.find(c => c.file_id === item.id);
-    if (cat?.scan_status === 'pii_found') return 'pii';
-    if (cat?.scan_status === 'clean') return 'clean';
+    if (cat?.classification === 'pii_found') return 'pii';
+    if (cat?.classification === 'clean') return 'clean';
 
     const tag = item.appProperties?.segmento_pii_detected;
     if (tag === 'true' || tag === true) return 'pii';

@@ -71,7 +71,7 @@ export interface FileCatalogEntry {
     parent_folder_id?: string;
     full_path?: string;
     first_seen_at: string;
-    scan_status?: 'unscanned' | 'clean' | 'pii_found';
+    classification?: 'unscanned' | 'clean' | 'pii_found';
     scan_type?: 'external' | 'incremental';
     pii_count?: number;
     last_scanned_at?: string;

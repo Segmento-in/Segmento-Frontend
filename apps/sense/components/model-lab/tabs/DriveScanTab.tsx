@@ -100,12 +100,12 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         const piiFromCatalog = fileItems.filter(i => {
             if (scannedIds.has(i.id)) return false;
             const cat = catalogData.find(c => c.file_id === i.id);
-            return cat?.scan_status === 'pii_found' || i.appProperties?.segmento_pii_detected === 'true' || i.appProperties?.segmento_pii_detected === true;
+            return cat?.classification === 'pii_found' || i.appProperties?.segmento_pii_detected === 'true' || i.appProperties?.segmento_pii_detected === true;
         }).length;
         const cleanFromCatalog = fileItems.filter(i => {
             if (scannedIds.has(i.id)) return false;
             const cat = catalogData.find(c => c.file_id === i.id);
-            return cat?.scan_status === 'clean' || i.appProperties?.segmento_pii_detected === 'false' || i.appProperties?.segmento_pii_detected === false;
+            return cat?.classification === 'clean' || i.appProperties?.segmento_pii_detected === 'false' || i.appProperties?.segmento_pii_detected === false;
         }).length;
         const piiFiles = piiFromScan + piiFromCatalog;
         const cleanFiles = cleanFromScan + cleanFromCatalog;
@@ -115,7 +115,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
             const cat = catalogData.find(c => c.file_id === i.id);
             const tag = i.appProperties?.segmento_pii_detected;
             if (tag === 'true' || tag === true || tag === 'false' || tag === false) return false;
-            if (cat?.scan_status === 'pii_found' || cat?.scan_status === 'clean') return false;
+            if (cat?.classification === 'pii_found' || cat?.classification === 'clean') return false;
             if (!lastSession) return false; // If there's no last session, it's a full load, not incremental
             if (cat?.first_seen_at) {
                 return new Date(cat.first_seen_at).getTime() > new Date(lastSession.triggered_at).getTime();
