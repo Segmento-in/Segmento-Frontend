@@ -14,7 +14,7 @@ import { DriveItem, DriveFileScanResult, FileCatalogEntry } from '@/lib/apiClien
 
 type PiiState = 'pii' | 'clean' | 'unscanned' | 'new';
 // pii_count removed from sort keys (column removed)
-type SortKey = 'name' | 'status' | 'size' | 'first_seen' | 'last_scanned';
+type SortKey = 'name' | 'classification' | 'size' | 'first_seen' | 'last_scanned';
 type SortDir = 'asc' | 'desc';
 
 interface Props {
@@ -132,7 +132,7 @@ function getFolderAggregate(item: DriveItem, catalogData?: FileCatalogEntry[]) {
     return { piiCount, childCount: children.length, hasPii: piiCount > 0 };
 }
 
-// Column grid: Name | Type | Status | Size | First Seen | Last Scanned | Scan Type
+// Column grid: Name | Type | Classification | Size | First Seen | Last Scanned | Scan Type
 // col widths:   1fr   70px   130px   90px   100px  100px         110px          100px
 const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_100px_110px_100px]';
 
@@ -234,7 +234,7 @@ export default function ConnectorPreviewUI({
                 case 'size': return item.sizeBytes || 0;
                 case 'first_seen': return cat?.first_seen_at || '';
                 case 'last_scanned': return cat?.last_scanned_at || '';
-                case 'status': {
+                case 'classification': {
                     const s = getPiiState(item, catalogData, lastSession, scanResults);
                     return { pii: 0, clean: 1, new: 2, unscanned: 3 }[s];
                 }
@@ -288,7 +288,7 @@ export default function ConnectorPreviewUI({
             <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50/80 shrink-0`}>
                 <SortHeader label="Name" sortKey="name" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
-                <SortHeader label="Status" sortKey="status" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
+                <SortHeader label="Classification" sortKey="classification" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Score</div>
                 <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
@@ -421,7 +421,7 @@ function FolderRow({
             {/* Type */}
             <div className="text-xs text-slate-400">Folder</div>
 
-            {/* Status */}
+            {/* Classification */}
             <div className="flex items-center">
                 {hasPii ? (
                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-rose-200 text-rose-600">
@@ -528,7 +528,7 @@ function FileRow({
             {/* Type */}
             <div className="text-xs text-slate-400 uppercase font-mono">{item.ext || '—'}</div>
 
-            {/* Status */}
+            {/* Classification */}
             <div className="flex items-center">
                 {isScanning ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-700">

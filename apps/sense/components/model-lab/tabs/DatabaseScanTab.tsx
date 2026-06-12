@@ -472,7 +472,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                       Table Name
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
-                      Status
+                      Classification
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
                       Schema
@@ -647,7 +647,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                       Columns
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
-                      Status
+                      Classification
                     </th>
                   </tr>
                 </thead>
