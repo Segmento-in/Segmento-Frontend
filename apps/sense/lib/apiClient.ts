@@ -1,7 +1,7 @@
 // API Client for Segmento Sense Backend
-// Production: set NEXT_PUBLIC_API_URL in Vercel dashboard to your HF Spaces URL.
-// Local dev:  create frontend/apps/sense/.env.local with NEXT_PUBLIC_API_URL=http://localhost:7860
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+const NEXT_PUBLIC_API_URL = 'http://localhost:7860';
+
+export const API_BASE_URL = NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
 
 
 export interface PIIMatch {
