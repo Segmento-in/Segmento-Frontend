@@ -1,5 +1,5 @@
 // API Client for Segmento Sense Backend
-const NEXT_PUBLIC_API_URL = 'http://localhost:7860';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export const API_BASE_URL = NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
 
