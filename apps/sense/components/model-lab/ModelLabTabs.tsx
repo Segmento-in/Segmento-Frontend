@@ -84,18 +84,7 @@ export default function ModelLabTabs({ state, update, pinResult, removePin, clea
                     ))}
                 </div>
 
-                {/* Thin divider */}
-                <div className="w-px h-6 mx-1 bg-slate-200 dark:bg-slate-700 flex-shrink-0" />
 
-                {/* Connectors — now a navigation link to the dedicated page */}
-                <Link
-                    href="/model-lab/connectors"
-                    className="relative flex-shrink-0 flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-all duration-200 whitespace-nowrap"
-                >
-                    <Plug className="w-3.5 h-3.5" />
-                    Connectors
-                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                </Link>
             </div>
 
             {/* ── Tab panels ──────────────────────────────────────────── */}

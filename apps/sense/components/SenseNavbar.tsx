@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles, FlaskConical } from "lucide-react";
+import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles, FlaskConical, Network } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 
@@ -164,6 +164,33 @@ export function SenseNavbar() {
                             <motion.div
                                 layoutId="nav-pill"
                                 className="absolute inset-0 bg-emerald-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
+
+                    {/* Thin divider before CONNECTORS */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* CONNECTORS */}
+                    <div className="relative flex items-center">
+                        <Link href="/model-lab/connectors">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname?.includes('/model-lab/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <Network size={9} className="text-amber-400" />
+                                    <span className="text-[13px] font-bold">CONNECTORS</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-amber-500/70 font-mono">
+                                    DATA SOURCES
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname?.includes('/model-lab/connectors') && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-amber-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
@@ -337,6 +364,22 @@ export function SenseNavbar() {
                                             </div>
                                         </div>
                                         <ChevronRight size={16} className="text-emerald-400" />
+                                    </div>
+                                </Link>
+
+                                {/* CONNECTORS mobile entry */}
+                                <Link href="/model-lab/connectors" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Network size={12} className="text-amber-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">CONNECTORS</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-amber-500/70 font-mono">
+                                                DATA SOURCES
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-amber-400" />
                                     </div>
                                 </Link>
 

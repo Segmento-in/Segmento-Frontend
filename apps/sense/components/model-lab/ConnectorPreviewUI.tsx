@@ -65,8 +65,8 @@ function getPiiState(
     if (liveResult) return liveResult.pii_detected ? 'pii' : 'clean';
 
     const cat = catalogData?.find(c => c.file_id === item.id);
-    if (cat?.classification === 'pii_found') return 'pii';
-    if (cat?.classification === 'clean') return 'clean';
+    if (cat?.classification === 'SENSITIVE') return 'pii';
+    if (cat?.classification === 'NON-SENSITIVE') return 'clean';
 
     const tag = item.appProperties?.segmento_pii_detected;
     if (tag === 'true' || tag === true) return 'pii';
@@ -89,8 +89,8 @@ function getPiiState(
 
 function PiiBadge({ state }: { state: PiiState }) {
     const configs: Record<PiiState, { cls: string; label: string }> = {
-        pii: { cls: 'border-rose-200 text-rose-600', label: 'PII Found' },
-        clean: { cls: 'border-slate-200 text-slate-500', label: 'Clean' },
+        pii: { cls: 'border-rose-200 text-rose-600', label: 'SENSITIVE' },
+        clean: { cls: 'border-slate-200 text-slate-500', label: 'NON-SENSITIVE' },
         new: { cls: 'border-blue-200 text-blue-600', label: 'New' },
         unscanned: { cls: 'border-slate-200 text-slate-500', label: 'Unscanned' },
     };
@@ -125,39 +125,43 @@ function SortHeader({
 
 // ── Folder aggregate ──────────────────────────────────────────────────────────
 
-function getFolderAggregate(item: DriveItem, catalogData?: FileCatalogEntry[]) {
-    if (!catalogData) return { piiCount: 0, childCount: 0, hasPii: false };
+function getFolderAggregate(
+    item: DriveItem, 
+    catalogData?: FileCatalogEntry[],
+    scanResults?: DriveFileScanResult[]
+): {
+    piiCount: number; childCount: number; hasPii: boolean; totalSize: number; state: PiiState;
+} {
+    if (!catalogData) return { piiCount: 0, childCount: 0, hasPii: false, totalSize: 0, state: 'unscanned' };
     const children = catalogData.filter(c => c.parent_folder_id === item.id && !c.is_folder);
     const piiCount = children.reduce((s, c) => s + (c.pii_count || 0), 0);
-    return { piiCount, childCount: children.length, hasPii: piiCount > 0 };
+    const totalSize = children.reduce((s, c) => s + (c.file_size_bytes || 0), 0);
+    
+    // Check DB state
+    const dbHasPii = piiCount > 0 || children.some(c => c.classification === 'SENSITIVE');
+    const dbHasScanned = children.some(c => c.classification && c.classification !== 'unscanned');
+    
+    // Check Live state
+    const liveResults = scanResults?.filter(r => children.some(c => c.file_id === r.file_id)) || [];
+    const liveHasPii = liveResults.some(r => r.pii_detected);
+    const liveHasScanned = liveResults.length > 0;
+
+    const hasPii = dbHasPii || liveHasPii;
+    const hasScannedFiles = dbHasScanned || liveHasScanned;
+    
+    let state: PiiState = 'unscanned';
+    if (hasPii) {
+        state = 'pii';
+    } else if (children.length > 0 && hasScannedFiles) {
+        state = 'clean';
+    }
+    
+    return { piiCount, childCount: children.length, hasPii, totalSize, state };
 }
 
 // Column grid: Name | Type | Classification | Size | First Seen | Last Scanned | Scan Type
-// col widths:   1fr   70px   130px   90px   100px  100px         110px          100px
-const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_100px_110px_100px]';
-
-// ── Score Component ──────────────────────────────────────────────────────────
-
-function ScoreCell({ state }: { state: PiiState | 'folder' }) {
-    if (state === 'unscanned' || state === 'new' || state === 'folder') return <div className="flex justify-center"><span className="text-[10px] text-slate-300 font-mono">—</span></div>;
-    
-    // Deterministic dummy score
-    const score = state === 'pii' ? 9 : 3;
-    const activeBars = Math.ceil(score / 2);
-    
-    return (
-        <div className="flex items-center gap-1.5 justify-center">
-            <div className="flex items-center gap-px">
-                {[1, 2, 3, 4, 5].map(i => {
-                    const isActive = i <= activeBars;
-                    const bg = isActive ? 'bg-[#D4E856]' : 'bg-slate-200';
-                    return <div key={i} className={`h-2.5 w-[3px] rounded-sm ${bg}`} />
-                })}
-            </div>
-            <span className="text-[10px] text-slate-400 font-mono font-medium border border-slate-200 rounded px-1">{score}/10</span>
-        </div>
-    );
-}
+// col widths:   1fr   70px   130px   90px   100px  110px         100px
+const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_110px_100px]';
 
 // ── Main component ────────────────────────────────────────────────────────────
 
@@ -290,7 +294,6 @@ export default function ConnectorPreviewUI({
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
                 <SortHeader label="Classification" sortKey="classification" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
                 <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Score</div>
                 <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
                 <SortHeader label="Last Scanned" sortKey="last_scanned" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
@@ -314,6 +317,7 @@ export default function ConnectorPreviewUI({
                                     item={item}
                                     catalogData={catalogData}
                                     onNavigate={navigateInto}
+                                    scanResults={scanResults}
                                 />;
                             }
                             
@@ -391,13 +395,15 @@ export default function ConnectorPreviewUI({
 // ── Folder Row ────────────────────────────────────────────────────────────────
 
 function FolderRow({
-    item, catalogData, onNavigate
+    item, catalogData, onNavigate, scanResults
 }: {
     item: DriveItem;
     catalogData?: FileCatalogEntry[];
     onNavigate: (id: string, name: string) => void;
+    scanResults?: DriveFileScanResult[];
 }) {
-    const { piiCount, childCount, hasPii } = getFolderAggregate(item, catalogData);
+    const aggregate = getFolderAggregate(item, catalogData, scanResults);
+    const { piiCount, childCount, hasPii } = aggregate;
 
     return (
         <motion.div
@@ -423,20 +429,15 @@ function FolderRow({
 
             {/* Classification */}
             <div className="flex items-center">
-                {hasPii ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-rose-200 text-rose-600">
-                        PII: {piiCount}
-                    </span>
-                ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-white border border-slate-200 text-slate-400">Folder</span>
-                )}
+                <PiiBadge state={aggregate.state} />
             </div>
 
-            {/* Size — N/A */}
-            <div className="text-right text-xs text-slate-400">—</div>
-            
-            {/* Score — N/A */}
-            <ScoreCell state="folder" />
+            {/* Size */}
+            <div className="text-right">
+                <span className="text-xs text-slate-500 font-mono">
+                    {aggregate.totalSize > 0 ? formatBytes(aggregate.totalSize) : "—"}
+                </span>
+            </div>
 
             {/* First Seen — N/A */}
             <div className="text-center text-xs text-slate-400">—</div>
@@ -547,9 +548,6 @@ function FileRow({
                     {formatBytes(cat?.file_size_bytes || item.sizeBytes)}
                 </span>
             </div>
-
-            {/* Score */}
-            <ScoreCell state={state} />
 
             {/* First Seen */}
             <div className="text-center">

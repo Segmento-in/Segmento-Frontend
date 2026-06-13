@@ -1,5 +1,5 @@
 // API Client for Segmento Sense Backend
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const NEXT_PUBLIC_API_URL = "http://localhost:7860";
 
 export const API_BASE_URL = NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
 
@@ -71,7 +71,7 @@ export interface FileCatalogEntry {
     parent_folder_id?: string;
     full_path?: string;
     first_seen_at: string;
-    classification?: 'unscanned' | 'clean' | 'pii_found';
+    classification?: 'unscanned' | 'NON-SENSITIVE' | 'SENSITIVE';
     scan_type?: 'external' | 'incremental';
     pii_count?: number;
     last_scanned_at?: string;
