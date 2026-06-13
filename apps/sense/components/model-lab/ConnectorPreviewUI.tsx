@@ -38,6 +38,8 @@ interface Props {
     searchQuery?: string;
     /** Optional className to override the root container (e.g. flex-1 min-h-0 for full-height layout). */
     className?: string;
+    /** Render mode: 'drive' (default) uses Drive semantics; 'database' uses DB/table semantics. */
+    mode?: 'drive' | 'database';
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -134,7 +136,10 @@ function getFolderAggregate(
 } {
     if (!catalogData) return { piiCount: 0, childCount: 0, hasPii: false, totalSize: 0, state: 'unscanned' };
     const children = catalogData.filter(c => c.parent_folder_id === item.id && !c.is_folder);
-    const piiCount = children.reduce((s, c) => s + (c.pii_count || 0), 0);
+    const piiCount = children.reduce((s, c) => {
+        const types = c.metadata?.pii_types;
+        return s + (types ? Object.values(types).reduce((a, b) => a + b, 0) : 0);
+    }, 0);
     const totalSize = children.reduce((s, c) => s + (c.file_size_bytes || 0), 0);
     
     // Check DB state
@@ -169,7 +174,7 @@ export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, scanningIds, scanResults, onOpenFile,
     connectorType = 'Google Drive', catalogData, lastSession,
     piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
-    filterMode = 'all', searchQuery = '', className
+    filterMode = 'all', searchQuery = '', className, mode = 'drive'
 }: Props) {
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
@@ -290,13 +295,29 @@ export default function ConnectorPreviewUI({
 
             {/* ── Table header ─────────────────────────────────────────────── */}
             <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50/80 shrink-0`}>
-                <SortHeader label="Name" sortKey="name" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
-                <SortHeader label="Classification" sortKey="classification" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
-                <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
-                <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
-                <SortHeader label="Last Scanned" sortKey="last_scanned" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
-                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                {mode === 'database' ? (
+                    // ── Database mode headers ──────────────────────────────
+                    <>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Table Name</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">DB Type</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Classification</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Columns</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">First Seen</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Last Scanned</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                    </>
+                ) : (
+                    // ── Drive mode headers (unchanged) ─────────────────────
+                    <>
+                        <SortHeader label="Name" sortKey="name" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
+                        <SortHeader label="Classification" sortKey="classification" currentKey={sortKey} dir={sortDir} onSort={handleSort} />
+                        <SortHeader label="Size" sortKey="size" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-end" />
+                        <SortHeader label="First Seen" sortKey="first_seen" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
+                        <SortHeader label="Last Scanned" sortKey="last_scanned" currentKey={sortKey} dir={sortDir} onSort={handleSort} className="justify-center" />
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                    </>
+                )}
             </div>
 
             {/* ── Table body ───────────────────────────────────────────────── */}
@@ -318,6 +339,7 @@ export default function ConnectorPreviewUI({
                                     catalogData={catalogData}
                                     onNavigate={navigateInto}
                                     scanResults={scanResults}
+                                    mode={mode}
                                 />;
                             }
                             
@@ -337,6 +359,7 @@ export default function ConnectorPreviewUI({
                                         lastSession={lastSession}
                                         scanResults={scanResults}
                                         onOpenFile={onOpenFile}
+                                        mode={mode}
                                     />
                                     {needsTagPrompt && (
                                         <motion.div
@@ -395,15 +418,22 @@ export default function ConnectorPreviewUI({
 // ── Folder Row ────────────────────────────────────────────────────────────────
 
 function FolderRow({
-    item, catalogData, onNavigate, scanResults
+    item, catalogData, onNavigate, scanResults, mode = 'drive'
 }: {
     item: DriveItem;
     catalogData?: FileCatalogEntry[];
     onNavigate: (id: string, name: string) => void;
     scanResults?: DriveFileScanResult[];
+    mode?: 'drive' | 'database';
 }) {
     const aggregate = getFolderAggregate(item, catalogData, scanResults);
-    const { piiCount, childCount, hasPii } = aggregate;
+    const { childCount } = aggregate;
+
+    // DB mode: compute total column count from all child table metadata
+    const totalColumns = mode === 'database'
+        ? (catalogData?.filter(c => c.parent_folder_id === item.id && !c.is_folder)
+            .reduce((s, c) => s + (c.metadata?.column_count || 0), 0) ?? 0)
+        : 0;
 
     return (
         <motion.div
@@ -420,22 +450,32 @@ function FolderRow({
                     <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {item.name}
                     </p>
-                    <p className="text-[10px] text-slate-400">{childCount > 0 ? `${childCount} files inside` : 'Open to explore'}</p>
+                    <p className="text-[10px] text-slate-400">
+                        {mode === 'database'
+                            ? (childCount > 0 ? `${childCount} table${childCount !== 1 ? 's' : ''}` : 'No tables scanned')
+                            : (childCount > 0 ? `${childCount} files inside` : 'Open to explore')
+                        }
+                    </p>
                 </div>
             </div>
 
             {/* Type */}
-            <div className="text-xs text-slate-400">Folder</div>
+            <div className="text-xs text-slate-400">
+                {mode === 'database' ? 'Database' : 'Folder'}
+            </div>
 
             {/* Classification */}
             <div className="flex items-center">
                 <PiiBadge state={aggregate.state} />
             </div>
 
-            {/* Size */}
+            {/* Size (drive) / Columns (database) */}
             <div className="text-right">
                 <span className="text-xs text-slate-500 font-mono">
-                    {aggregate.totalSize > 0 ? formatBytes(aggregate.totalSize) : "—"}
+                    {mode === 'database'
+                        ? (totalColumns > 0 ? `${totalColumns} cols` : '—')
+                        : (aggregate.totalSize > 0 ? formatBytes(aggregate.totalSize) : '—')
+                    }
                 </span>
             </div>
 
@@ -465,7 +505,7 @@ function getFileIcon(item: DriveItem, cls = 'w-4 h-4') {
 
 function FileRow({
     item, isSelected, isScanning, onToggle, scanResult,
-    catalogData, lastSession, scanResults, onOpenFile
+    catalogData, lastSession, scanResults, onOpenFile, mode = 'drive'
 }: {
     item: DriveItem;
     isSelected: boolean;
@@ -476,6 +516,7 @@ function FileRow({
     lastSession?: any;
     scanResults: DriveFileScanResult[];
     onOpenFile: (id: string) => void;
+    mode?: 'drive' | 'database';
 }) {
     const cat = catalogData?.find(c => c.file_id === item.id);
     const state = getPiiState(item, catalogData, lastSession, scanResults);
@@ -527,7 +568,17 @@ function FileRow({
             </div>
 
             {/* Type */}
-            <div className="text-xs text-slate-400 uppercase font-mono">{item.ext || '—'}</div>
+            {mode === 'database' ? (
+                // DB mode: show connector_type badge
+                <div className="flex items-center">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border bg-violet-50 border-violet-200 text-violet-700">
+                        {(cat?.connector_type || item.mimeType || 'DB').toUpperCase()}
+                    </span>
+                </div>
+            ) : (
+                // Drive mode: show file extension
+                <div className="text-xs text-slate-400 uppercase font-mono">{item.ext || '—'}</div>
+            )}
 
             {/* Classification */}
             <div className="flex items-center">
@@ -542,10 +593,13 @@ function FileRow({
                 )}
             </div>
 
-            {/* Size */}
+            {/* Size (drive) / Columns (database) */}
             <div className="text-right">
                 <span className="text-xs text-slate-500 font-mono">
-                    {formatBytes(cat?.file_size_bytes || item.sizeBytes)}
+                    {mode === 'database'
+                        ? (cat?.metadata?.column_count != null ? `${cat.metadata.column_count} cols` : '—')
+                        : formatBytes(cat?.file_size_bytes || item.sizeBytes)
+                    }
                 </span>
             </div>
 
@@ -561,7 +615,12 @@ function FileRow({
 
             {/* Scan Type */}
             <div className="flex items-center justify-center shrink-0">
-                {isScanning ? (
+                {mode === 'database' ? (
+                    // DB mode: always show FULL LOAD pill
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-700 border border-blue-200">
+                        Full Load
+                    </span>
+                ) : isScanning ? (
                     <div className="flex flex-col items-center gap-0.5">
                         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                         <span className="text-[9px] text-blue-500 font-mono">scanning</span>
@@ -573,6 +632,10 @@ function FileRow({
                 ) : cat?.scan_type === 'external' ? (
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                         External
+                    </span>
+                ) : cat?.scan_type === 'FULL_LOAD' ? (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-700 border border-blue-200">
+                        Full Load
                     </span>
                 ) : isSelected && !scanResult ? (
                     <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center shadow">

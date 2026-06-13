@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Loader2, AlertCircle, Maximize2, ExternalLink } from 'lucide-react';
-import { apiClient, API_BASE_URL, DriveFileScanResult, DriveItem, EvaluatorPrediction } from '@/lib/apiClient';
+import { apiClient, DriveFileScanResult, DriveItem, EvaluatorPrediction } from '@/lib/apiClient';
 import { PII_LABEL_COLORS } from './ModelShowdown';
 
 interface Props {
@@ -38,27 +38,17 @@ export default function DocumentViewerModal({
         const fetchContent = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`${API_BASE_URL}/api/evaluator/drive/content-chunks`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        auth_type: authType,
-                        credentials,
-                        file_ref: {
-                            id: fileInfo.id,
-                            name: fileInfo.name,
-                            mimeType: fileInfo.mimeType
-                        },
-                        chunk_size: 3000 // 3000 chars per page for readability
-                    })
-                });
+                const data = await apiClient.driveContentChunks(
+                    authType,
+                    credentials,
+                    {
+                        id: fileInfo.id,
+                        name: fileInfo.name,
+                        mimeType: fileInfo.mimeType
+                    },
+                    3000
+                );
 
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.detail || 'Failed to fetch content');
-                }
-
-                const data = await res.json();
                 if (isMounted) {
                     setChunks(data.chunks || []);
                     setLoading(false);

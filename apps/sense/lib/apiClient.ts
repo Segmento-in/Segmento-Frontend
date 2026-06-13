@@ -72,9 +72,16 @@ export interface FileCatalogEntry {
     full_path?: string;
     first_seen_at: string;
     classification?: 'unscanned' | 'NON-SENSITIVE' | 'SENSITIVE';
-    scan_type?: 'external' | 'incremental';
-    pii_count?: number;
+    scan_type?: 'external' | 'incremental' | 'FULL_LOAD';
     last_scanned_at?: string;
+    /** DB-specific structural metadata (null/absent for Drive files) */
+    metadata?: {
+        column_count?: number;
+        row_count_scanned?: number;
+        pii_types?: Record<string, number>;
+    } | null;
+    /** connector_type is echoed back by /db/catalog for badge display */
+    connector_type?: string;
 }
 
 export interface CatalogResponse {
@@ -712,6 +719,13 @@ class APIClient {
         return this.handleResponse(response);
     }
 
+    async getDbCatalog(uid: string = "default_uid", connectorType?: string): Promise<CatalogResponse> {
+        const params = new URLSearchParams({ uid });
+        if (connectorType) params.set('connector_type', connectorType);
+        const response = await fetch(`${this.baseURL}/db/catalog?${params.toString()}`);
+        return this.handleResponse(response);
+    }
+
     async driveFolderBrowse(
         authType: string,
         credentials: Record<string, unknown>,
@@ -740,6 +754,20 @@ class APIClient {
                 file_refs: fileRefs,
                 model_keys: modelKeys,
             }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async driveContentChunks(authType: string, credentials: Record<string, unknown>, fileRef: { id: string, name: string, mimeType: string }, chunkSize: number = 3000): Promise<{ chunks: Array<{text: string, start_idx: number, end_idx: number}> }> {
+        const response = await fetch(`${this.baseURL}/api/evaluator/drive/content-chunks`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                auth_type: authType,
+                credentials,
+                file_ref: fileRef,
+                chunk_size: chunkSize
+            })
         });
         return this.handleResponse(response);
     }

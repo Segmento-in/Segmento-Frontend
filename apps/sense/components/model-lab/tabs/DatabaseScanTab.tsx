@@ -6,7 +6,8 @@ import {
   AlertCircle, CheckCircle2, ChevronRight, Loader2, Play,
   Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search
 } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, DatabaseCredentials } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, DatabaseCredentials, FileCatalogEntry, DriveItem } from '@/lib/apiClient';
+import ConnectorPreviewUI from '../ConnectorPreviewUI';
 
 interface TableScanEntry {
   tableName: string;
@@ -16,6 +17,24 @@ interface TableScanEntry {
 }
 
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
+
+/** Convert a FileCatalogEntry (DB table) to a DriveItem so ConnectorPreviewUI can render it */
+function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
+    return {
+        id: entry.file_id,
+        name: entry.file_name,
+        mimeType: entry.connector_type || 'database',
+        path: entry.full_path || entry.file_name,
+        isFolder: entry.is_folder || false,
+        parseable: !entry.is_folder,
+        ext: entry.connector_type ? entry.connector_type.substring(0, 2).toUpperCase() : 'DB',
+        sizeBytes: entry.file_size_bytes || 0,
+        mediaType: 'document',
+        appProperties: {},
+        tooBig: false,
+        parentId: entry.parent_folder_id || '',
+    };
+}
 
 type Step = 'AUTH' | 'BROWSE' | 'RESULTS';
 type DbType = 'postgresql' | 'mysql';
@@ -83,10 +102,23 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   const [scanEntries, setScanEntries] = useState<TableScanEntry[]>([]);
   const [scanningTableIds, setScanningTableIds] = useState<Set<string>>(new Set());
 
+  // Catalog data from Supabase (persisted across sessions)
+  const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
+  const [lastSession, setLastSession] = useState<any>(null);
+  const [showProfile, setShowProfile] = useState(false);
+
   // Filter + search (shared across BROWSE and RESULTS)
   type FilterMode = 'all' | 'pii' | 'clean' | 'unscanned';
   const [filterMode, setFilterMode] = useState<FilterMode>('all');
   const [resultSearch, setResultSearch] = useState('');
+
+  const fetchCatalog = async (dbType: DbType) => {
+    try {
+        const res = await apiClient.getDbCatalog('default_uid', dbType);
+        setCatalogData(res.files || []);
+        setLastSession(res.last_session || null);
+    } catch { /* non-fatal */ }
+  };
 
   const stats = useMemo(() => {
     const scanned = scanEntries.filter(e => e.status === 'scanned');
@@ -127,6 +159,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       setScanEntries([]);
       setFilterMode('all');
       setResultSearch('');
+      await fetchCatalog(dbType);
       changeStep('BROWSE');
     } catch (e: any) {
       setError(e.message || `Failed to connect to ${DB_DEFAULTS[dbType].label}.`);
@@ -180,6 +213,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         });
       }
     }
+    // Refresh catalog after all scans complete
+    await fetchCatalog(dbType);
   };
 
   const resetToAuth = () => {
@@ -240,22 +275,71 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
   const inputCls = `w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 dark:text-white text-sm`;
 
+  // catalogItems: convert catalog entries to DriveItem[] for ConnectorPreviewUI
+  const catalogItems = useMemo(() => catalogData.map(catalogEntryToDriveItem), [catalogData]);
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="flex flex-col flex-1 min-h-0 h-full">{
+    showProfile ? (
+      /* ── PROFILE: persisted catalog view ─────────────────────────── */
+      <div className="flex flex-col flex-1 min-h-0">
+        <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-slate-200 shrink-0">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setShowProfile(false)}
+              className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all">
+              <ArrowLeft className="w-3.5 h-3.5" /> Back
+            </button>
+            <div className="w-px h-5 bg-slate-200" />
+            <h2 className="text-sm font-bold text-slate-800">Persisted DB Catalog</h2>
+            <span className="text-xs font-semibold text-white bg-violet-600 px-2 py-0.5 rounded-full">{catalogData.length}</span>
+          </div>
+        </div>
+        {catalogData.length === 0 ? (
+          <div className="flex flex-col items-center justify-center flex-1 text-slate-400 gap-3">
+            <Database className="w-10 h-10 text-slate-300" />
+            <p className="text-sm">No scanned tables in catalog yet. Run a scan first.</p>
+          </div>
+        ) : (
+          <ConnectorPreviewUI
+            items={catalogItems}
+            selectedIds={new Set()}
+            onToggleSelection={() => {}}
+            scanningIds={new Set()}
+            scanResults={[]}
+            onOpenFile={() => {}}
+            connectorType="Database"
+            catalogData={catalogData}
+            lastSession={lastSession}
+            filterMode="all"
+            className="flex-1 min-h-0"
+            mode="database"
+          />
+        )}
+      </div>
+    ) : (
+    <div className="max-w-4xl mx-auto space-y-6 w-full overflow-y-auto p-6">
 
       {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className={`p-3 ${accentBg} rounded-xl`}>
-          <Database className="w-6 h-6" />
+      <div className="flex items-center justify-between gap-3 mb-8">
+        <div className="flex items-center gap-3">
+          <div className={`p-3 ${accentBg} rounded-xl`}>
+            <Database className="w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+              {DB_DEFAULTS[dbType].emoji} {DB_DEFAULTS[dbType].label} Scan
+            </h2>
+            <p className="text-slate-500 dark:text-slate-400">
+              Browse tables and scan for PII in-memory — zero data retention.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-            {DB_DEFAULTS[dbType].emoji} {DB_DEFAULTS[dbType].label} Scan
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400">
-            Browse tables and scan for PII in-memory — zero data retention.
-          </p>
-        </div>
+        {catalogData.length > 0 && (
+          <button onClick={() => setShowProfile(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-violet-200 bg-violet-50 text-violet-700 text-sm font-semibold hover:bg-violet-100 transition-colors">
+            <Database className="w-4 h-4" /> View Catalog ({catalogData.length})
+          </button>
+        )}
       </div>
 
       {/* Error banner */}
@@ -647,7 +731,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                       Columns
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
-                      Classification
+                      Status
                     </th>
                   </tr>
                 </thead>
@@ -836,6 +920,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+    )}{/* end showProfile ternary */}
     </div>
   );
 }
