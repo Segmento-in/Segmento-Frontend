@@ -158,7 +158,11 @@ async function _fetchSingleCategory(
         const response = await fetch(
             `${API_BASE}/api/news/${backendCategory}?page=${page}&limit=${limit}`,
             {
-                cache: 'no-store',
+                // [I6 — Frontend Caching] next.revalidate caches at the Next.js data-cache layer.
+                // First visitor fetches fresh from HuggingFace; all visitors within 5 min get
+                // the cached response. After 300s, Next.js revalidates in the background.
+                // searchNews() and analytics calls intentionally keep cache:'no-store'.
+                next: { revalidate: 300 },
                 headers: {
                     'Accept': 'application/json',
                     'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)'
@@ -189,7 +193,8 @@ export async function fetchNewsByCategory(
             // This prevents the massive network overhead of 10 simultaneous Vercel -> Backend requests.
             try {
                 const response = await fetch(`${API_BASE}/api/news/umbrella/${category}?limit=${limit}`, {
-                    cache: 'no-store',
+                    // [I6 — Frontend Caching] Umbrella endpoint also cached for 5 minutes.
+                    next: { revalidate: 300 },
                     headers: { 'Accept': 'application/json', 'User-Agent': 'SegmentoPulse/1.0 (Vercel Frontend)' }
                 });
                 

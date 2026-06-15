@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 import { use } from "react";
 
+// [I6 — Frontend Caching] Revalidate category pages every 5 minutes (ISR).
+export const revalidate = 300;
+
 // ── CATEGORY UI METADATA ────────────────────────────────────
 // We strictly preserve the aesthetic definitions (Colors, SVG Icons, Titles) designed for UI-2.
 type CategoryUI = {

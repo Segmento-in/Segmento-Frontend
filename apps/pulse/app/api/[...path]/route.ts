@@ -57,7 +57,17 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ path: string[] }> }
 ) {
-    return proxyRequest(request, await params);
+    const response = await proxyRequest(request, await params);
+    // [I6 — Frontend Caching] Cache-Control for Vercel Edge Cache and upstream CDNs.
+    // s-maxage=300: CDN caches the response for 5 minutes.
+    // stale-while-revalidate=600: CDN serves stale content for up to 10 minutes
+    // while it fetches a fresh response in the background.
+    // Only applied to GET (read-only) — POST/PUT/DELETE are never cached.
+    response.headers.set(
+        'Cache-Control',
+        'public, s-maxage=300, stale-while-revalidate=600'
+    );
+    return response;
 }
 
 export async function POST(

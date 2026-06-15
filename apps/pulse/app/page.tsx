@@ -1,6 +1,11 @@
 import { PulseBlogHomeClient } from "@/components/views/HomePageClient";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 
+// [I6 — Frontend Caching] Revalidate this page every 5 minutes (ISR).
+// Next.js will serve the cached page and regenerate in the background.
+// This prevents every page load from triggering a fresh HuggingFace fetch.
+export const revalidate = 300;
+
 export default async function Page() {
     // Phase 1: Fetch multiple categories in parallel to speed up SSR
     const [

@@ -1,6 +1,9 @@
 import { CategoryPageTemplate } from "@/components/views/CategoryPage";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 
+// [I6 — Frontend Caching] Revalidate latest articles page every 5 minutes (ISR).
+export const revalidate = 300;
+
 const TAGS = [
     "AI", "DATA", "CLOUD", "MAGZINES", "ARTICLES", "RESEARCH PAPERS"
 ];
