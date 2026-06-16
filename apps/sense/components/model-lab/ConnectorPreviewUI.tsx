@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     FileText, Image as ImageIcon, Video, Music,
     CheckCircle2, AlertCircle, Maximize2, ShieldCheck,
-    Folder, Tag, Sparkles, ChevronRight, Filter, ArrowUpDown,
-    ArrowUp, ArrowDown, Loader2
+    Folder, Tag, Sparkles, ChevronRight, ChevronDown, Filter, ArrowUpDown,
+    ArrowUp, ArrowDown, Loader2, Database
 } from 'lucide-react';
-import { DriveItem, DriveFileScanResult, FileCatalogEntry } from '@/lib/apiClient';
+import { DriveItem, DriveFileScanResult, FileCatalogEntry, ConnectorResultRow, ConnectorResultDetail } from '@/lib/apiClient';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ interface Props {
     items: DriveItem[];
     selectedIds: Set<string>;
     onToggleSelection: (id: string) => void;
-    scanningIds: Set<string>;        // files currently being scanned (inline spinner)
+    scanningIds: Set<string>;
     scanResults: DriveFileScanResult[];
     onOpenFile: (fileId: string) => void;
     connectorType?: string;
@@ -32,14 +32,17 @@ interface Props {
     onTagFile?: (id: string) => void;
     onIgnoreFile?: (id: string) => void;
     onSetTagVisibility?: (id: string, visibility: 'api_only' | 'api_and_human') => void;
-    /** Controlled filter from parent filter tabs. Default = 'all'. */
     filterMode?: 'all' | 'pii' | 'clean' | 'incremental' | 'unscanned';
-    /** Optional search query to filter items by name. */
     searchQuery?: string;
-    /** Optional className to override the root container (e.g. flex-1 min-h-0 for full-height layout). */
     className?: string;
-    /** Render mode: 'drive' (default) uses Drive semantics; 'database' uses DB/table semantics. */
     mode?: 'drive' | 'database';
+    /**
+     * When provided, render a flat read-only table of pre-mapped rows using the
+     * shared ConnectorResultRow contract. Drive navigation, selection, and folder
+     * browsing are all disabled. Cell content is rendered by renderResultCells()
+     * — the same function FileRow calls — so column layout is always in sync.
+     */
+    rows?: ConnectorResultRow[];
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -168,13 +171,24 @@ function getFolderAggregate(
 // col widths:   1fr   70px   130px   90px   100px  110px         100px
 const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_110px_100px]';
 
+// Map ConnectorResultRow classification to PiiState for PiiBadge
+function classificationToPiiState(cls: ConnectorResultRow['classification'], isScanning?: boolean): PiiState {
+    if (isScanning) return 'unscanned'; // badge hidden behind spinner anyway
+    switch (cls) {
+        case 'SENSITIVE':     return 'pii';
+        case 'NON-SENSITIVE': return 'clean';
+        case 'FOLDER':        return 'clean';
+        default:              return 'unscanned';
+    }
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, scanningIds, scanResults, onOpenFile,
     connectorType = 'Google Drive', catalogData, lastSession,
     piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
-    filterMode = 'all', searchQuery = '', className, mode = 'drive'
+    filterMode = 'all', searchQuery = '', className, mode = 'drive', rows,
 }: Props) {
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
@@ -264,6 +278,36 @@ export default function ConnectorPreviewUI({
     const newCount = currentItems.filter(i =>
         !i.isFolder && getPiiState(i, catalogData, lastSession, scanResults) === 'new'
     ).length;
+
+    // ── rows mode: flat read-only table (DB scan results) ──────────────────
+    if (rows) {
+        return (
+            <div className={`relative bg-white flex flex-col border-t border-slate-200 ${className ?? 'h-[600px]'}`}>
+                {/* Shared column headers — identical to Drive mode */}
+                <div className={`sticky top-0 z-20 grid ${GRID} gap-2 px-4 py-2.5 border-b border-slate-200 bg-slate-50/80 shrink-0`}>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Name</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Type</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Classification</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Size</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">First Seen</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Last Scanned</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                </div>
+                <div className="flex-1 overflow-y-auto">
+                    {rows.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-48 text-slate-400 gap-3">
+                            <Database className="w-10 h-10 text-slate-300" />
+                            <p className="text-sm">No results to display.</p>
+                        </div>
+                    ) : (
+                        <AnimatePresence initial={false}>
+                            {rows.map(row => <ResultRow key={row.id} row={row} />)}
+                        </AnimatePresence>
+                    )}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`relative bg-white flex flex-col border-t border-slate-200 ${className ?? 'h-[600px]'}`}>
@@ -494,7 +538,10 @@ function FolderRow({
 
 // ── File Row ──────────────────────────────────────────────────────────────────
 
-function getFileIcon(item: DriveItem, cls = 'w-4 h-4') {
+function getFileIcon(item: DriveItem | null, cls = 'w-4 h-4', itemType?: string): JSX.Element {
+    if (itemType === 'Table') return <Database className={`text-violet-500 ${cls}`} />;
+    if (itemType === 'Folder' || (item?.isFolder)) return <Folder className={`text-blue-500 fill-blue-500/20 ${cls}`} />;
+    if (!item) return <FileText className={`text-slate-500 ${cls}`} />;
     const mt = item.mediaType;
     if (mt === 'image') return <ImageIcon className={`text-blue-400 ${cls}`} />;
     if (mt === 'video') return <Video className={`text-purple-400 ${cls}`} />;
@@ -543,11 +590,11 @@ function FileRow({
             onClick={() => scanResult ? onOpenFile(item.id) : (!isScanning && item.parseable && onToggle(item.id))}
             className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center ${rowBg} ${borderAccent}`}
         >
-            {/* Name + icon */}
+            {/* Name + icon — Drive-specific: includes selection dot overlay */}
             <div className="flex items-center gap-2 min-w-0">
                 <div className="relative shrink-0">
                     <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-slate-200 dark:border-slate-700">
-                        {getFileIcon(item)}
+                        {getFileIcon(item, 'w-4 h-4', item.isFolder ? 'Folder' : undefined)}
                     </div>
                     {isSelected && !scanResult && !isScanning && (
                         <div className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-blue-500 border border-white dark:border-slate-900 flex items-center justify-center">
@@ -569,18 +616,16 @@ function FileRow({
 
             {/* Type */}
             {mode === 'database' ? (
-                // DB mode: show connector_type badge
                 <div className="flex items-center">
                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border bg-violet-50 border-violet-200 text-violet-700">
                         {(cat?.connector_type || item.mimeType || 'DB').toUpperCase()}
                     </span>
                 </div>
             ) : (
-                // Drive mode: show file extension
                 <div className="text-xs text-slate-400 uppercase font-mono">{item.ext || '—'}</div>
             )}
 
-            {/* Classification */}
+            {/* Classification — shared scanning-spinner affordance */}
             <div className="flex items-center">
                 {isScanning ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
@@ -593,7 +638,7 @@ function FileRow({
                 )}
             </div>
 
-            {/* Size (drive) / Columns (database) */}
+            {/* Size */}
             <div className="text-right">
                 <span className="text-xs text-slate-500 font-mono">
                     {mode === 'database'
@@ -616,7 +661,6 @@ function FileRow({
             {/* Scan Type */}
             <div className="flex items-center justify-center shrink-0">
                 {mode === 'database' ? (
-                    // DB mode: always show FULL LOAD pill
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-700 border border-blue-200">
                         Full Load
                     </span>
@@ -650,3 +694,124 @@ function FileRow({
         </motion.div>
     );
 }
+
+// ── renderResultCells ─────────────────────────────────────────────────────────
+// The single source of truth for what goes in each of the 7 cells of a
+// ConnectorResultRow. Both FileRow (Drive) and ResultRow (DB) call this.
+// Column order here MUST match the header order in the rows-mode header block
+// and the Drive-mode header block — same GRID template, same column index.
+
+function renderResultCells(row: ConnectorResultRow): JSX.Element[] {
+    const piiState = classificationToPiiState(row.classification, row.isScanning);
+    return [
+        // [0] Name
+        <div key="name" className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm border border-slate-200 dark:border-slate-700 shrink-0">
+                {getFileIcon(null, 'w-4 h-4', row.itemType)}
+            </div>
+            <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{row.name}</p>
+        </div>,
+
+        // [1] Type
+        <div key="type" className="flex items-center">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase border bg-violet-50 border-violet-200 text-violet-700">
+                {row.itemType}
+            </span>
+        </div>,
+
+        // [2] Classification
+        <div key="cls" className="flex items-center">
+            {row.isScanning ? (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                    <Loader2 className="w-3 h-3 animate-spin" />Scanning
+                </span>
+            ) : row.classification === 'Unsupported' ? (
+                <span className="text-xs font-medium text-slate-400">Unsupported</span>
+            ) : (
+                <PiiBadge state={piiState} />
+            )}
+        </div>,
+
+        // [3] Size
+        <div key="size" className="text-right">
+            <span className="text-xs text-slate-500 font-mono">{row.sizeLabel ?? '—'}</span>
+        </div>,
+
+        // [4] First Seen
+        <div key="first" className="text-center">
+            <span className="text-[10px] text-slate-400 font-mono">{formatDate(row.firstSeen)}</span>
+        </div>,
+
+        // [5] Last Scanned
+        <div key="last" className="text-center">
+            <span className="text-[10px] text-slate-400 font-mono">{formatDate(row.lastScanned)}</span>
+        </div>,
+
+        // [6] Scan Type + optional expand chevron
+        <div key="scan" className="flex items-center justify-center gap-1 shrink-0">
+            <span className="text-[10px] text-slate-400">{row.scanType ?? '—'}</span>
+        </div>,
+    ];
+}
+
+// ── ResultRow — read-only DB result row —————————————————————————————————
+// Renders the same 7 cells as FileRow via renderResultCells(),
+// but wraps them in a non-interactive, non-selectable container.
+// Includes an optional collapsible breakdown panel for rows with detail.
+
+function ResultRow({ row }: { row: ConnectorResultRow }) {
+    const [expanded, setExpanded] = useState(false);
+    const hasDetail = !!(row.detail && row.detail.breakdown.length > 0);
+
+    return (
+        <>
+            <motion.div
+                initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                className={`grid gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center border-l-transparent ${
+                    row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'
+                }`}
+                style={{ gridTemplateColumns: hasDetail ? '1fr 70px 130px 90px 100px 110px 100px 28px' : undefined }}
+            >
+                {/* 7 shared cells */}
+                <div className={`grid ${GRID} gap-2 col-span-full`}>
+                    {renderResultCells(row)}
+                </div>
+            </motion.div>
+            {/* Expand chevron row */}
+            {hasDetail && (
+                <div className="border-b border-slate-100 dark:border-slate-800/50">
+                    <button
+                        onClick={() => setExpanded(e => !e)}
+                        className="w-full flex items-center gap-1.5 px-4 py-1 text-[10px] font-semibold text-slate-400 hover:text-slate-700 transition-colors"
+                    >
+                        <ChevronDown className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+                        {expanded ? 'Hide' : 'Show'} PII breakdown
+                    </button>
+                    <AnimatePresence>
+                        {expanded && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden"
+                            >
+                                <div className="px-6 py-3 bg-red-50/40 flex flex-wrap gap-2">
+                                    {row.detail!.breakdown.map(b => (
+                                        <div
+                                            key={b.label}
+                                            className="flex items-center justify-between gap-2 px-3 py-1.5 bg-white border border-red-200 rounded-lg text-xs"
+                                        >
+                                            <span className="text-slate-600">{b.label}</span>
+                                            <span className="font-bold text-red-600">{b.count}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            )}
+        </>
+    );
+}
+

@@ -39,6 +39,8 @@ export interface AnalysisResponse {
     current_page?: number;
     image?: string;
     original_image?: string;
+    /** Row count actually fetched and scanned (capped at 100) — set by DB scan endpoints */
+    rows_scanned?: number;
 }
 
 export interface DatabaseCredentials {
@@ -831,4 +833,34 @@ export interface DriveTagResult {
     file_id: string;
     success: boolean;
     error: string | null;
+}
+
+// ==================== SHARED CONNECTOR ROW CONTRACT ====================
+// Used by ConnectorPreviewUI to render rows from any connector in a unified
+// table layout. Drive and DB connectors each have a thin adapter that maps
+// their native scan result shapes into this contract.
+
+export interface ConnectorResultDetail {
+    breakdown: Array<{ label: string; count: number }>;
+}
+
+export interface ConnectorResultRow {
+    /** Stable unique key for React reconciliation */
+    id: string;
+    /** Display name: file/folder name for Drive, `schema.table` for DB */
+    name: string;
+    /** Visual type label: 'PDF', 'MD', 'Folder', 'Table', etc. */
+    itemType: string;
+    classification: 'SENSITIVE' | 'NON-SENSITIVE' | 'UNSCANNED' | 'Unsupported' | 'FOLDER';
+    /** Pre-formatted size string, e.g. '1.2 MB' or '45 rows scanned'. null → renders as '—' */
+    sizeLabel: string | null;
+    /** ISO timestamp strings or null → renders as '—' */
+    firstSeen: string | null;
+    lastScanned: string | null;
+    scanType: string | null;
+    isFolder?: boolean;
+    /** True while this row's scan is in-flight — renders a spinner in the classification cell */
+    isScanning?: boolean;
+    /** Optional expandable breakdown (e.g. PII type chips). Absent for Drive rows. */
+    detail?: ConnectorResultDetail;
 }
