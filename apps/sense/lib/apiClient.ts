@@ -464,6 +464,15 @@ class APIClient {
         return this.handleResponse(response);
     }
 
+    async scanMetadata(credentials: DatabaseCredentials & { connector_type: 'postgresql' | 'mysql', table?: string }): Promise<CatalogResponse> {
+        const response = await fetch(`${this.baseURL}/api/connectors/metadata-scan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
     // ==================== CLOUD STORAGE - S3 ====================
 
     async listS3Buckets(access_key: string, secret_key: string, region: string) {
@@ -863,4 +872,6 @@ export interface ConnectorResultRow {
     isScanning?: boolean;
     /** Optional expandable breakdown (e.g. PII type chips). Absent for Drive rows. */
     detail?: ConnectorResultDetail;
+    /** Raw metadata from catalog if available */
+    metadata?: any;
 }

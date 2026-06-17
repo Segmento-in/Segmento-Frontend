@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AlertCircle, CheckCircle2, ChevronRight, Loader2, Play,
-  Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search
+  Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search, Shield
 } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, DatabaseCredentials, FileCatalogEntry, DriveItem, ConnectorResultRow } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
@@ -101,6 +101,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   // RESULTS — per-table scan tracking
   const [scanEntries, setScanEntries] = useState<TableScanEntry[]>([]);
   const [scanningTableIds, setScanningTableIds] = useState<Set<string>>(new Set());
+  const [lastScanMode, setLastScanMode] = useState<'full' | 'metadata'>('full');
 
   // Catalog data from Supabase (persisted across sessions)
   const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
@@ -146,9 +147,14 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     else                                 classification = 'UNSCANNED';
 
     const rowsScanned = entry.result?.rows_scanned ?? null;
-    const sizeLabel = entry.status === 'scanned' && rowsScanned != null
-      ? `${rowsScanned} rows scanned`
-      : null;
+    let sizeLabel = null;
+    if (entry.status === 'scanned') {
+      if (lastScanMode === 'metadata') {
+        sizeLabel = 'Zero Trust (Metadata Only)';
+      } else if (rowsScanned != null) {
+        sizeLabel = `${rowsScanned} rows scanned`;
+      }
+    }
 
     const detail = entry.status === 'scanned' && piiCounts.length > 0
       ? { breakdown: piiCounts.map(p => ({ label: p['PII Type'], count: p.Count })) }
@@ -165,6 +171,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       lastScanned: null,
       scanType: null,
       detail,
+      metadata: entry.result?.metadata, // Ensure we pass the mocked metadata down
     };
   }
 
@@ -215,7 +222,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     }
   };
 
-  const handleScan = async () => {
+  const handleScan = async (mode: 'full' | 'metadata' = 'full') => {
     if (selectedTableIds.size === 0) return;
     const tablesToScan = [...selectedTableIds];
 
@@ -226,6 +233,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     }));
     setScanEntries(initial);
     setScanningTableIds(new Set(tablesToScan));
+    setLastScanMode(mode);
     setFilterMode('all');
     setResultSearch('');
     changeStep('RESULTS');
@@ -233,10 +241,25 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     // Scan sequentially to avoid overwhelming the DB connection
     for (const tableName of tablesToScan) {
       try {
-        const res =
-          dbType === 'postgresql'
+        let res: AnalysisResponse;
+        if (mode === 'metadata') {
+          // Metadata scan hits the new endpoint which returns a CatalogResponse.
+          // We extract the table's entry and mock an AnalysisResponse to keep the UI flow happy.
+          const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: dbType, table: tableName });
+          const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === tableName);
+          const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
+          res = {
+            total_pii_found: flaggedColumns.length,
+            pii_counts: flaggedColumns.map((c: any) => ({ 'PII Type': c.matched_rule || 'PII', Count: 1 })),
+            rows_scanned: 0,
+            metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns } // Mock metadata to pass down
+          } as AnalysisResponse & { metadata?: any };
+        } else {
+          res = dbType === 'postgresql'
             ? await apiClient.scanPostgresqlTable({ ...creds, table: tableName })
             : await apiClient.scanMysqlTable({ ...creds, table: tableName });
+        }
+        
         setScanEntries(prev =>
           prev.map(e =>
             e.tableName === tableName
@@ -360,6 +383,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             filterMode="all"
             className="flex-1 min-h-0"
             mode="database"
+            isMetadataScan={lastScanMode === 'metadata'}
           />
         )}
       </div>
@@ -731,9 +755,17 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             {/* ── Stat Strip ─ shrink-0 */}
             <div className="grid grid-cols-4 divide-x divide-slate-200 border-b border-slate-200 bg-white shrink-0">
               <DashboardStatCard label="Tables Scanned" value={stats.scanned} />
-              <DashboardStatCard label="PII Found" value={stats.pii} valueColor="text-rose-600" />
+              <DashboardStatCard 
+                label={lastScanMode === 'metadata' ? "Potential PII Tables" : "PII Found"} 
+                value={stats.pii} 
+                valueColor="text-rose-600" 
+              />
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />
-              <DashboardStatCard label="Total PII Entities" value={stats.totalPii} valueColor="text-amber-600" />
+              <DashboardStatCard 
+                label={lastScanMode === 'metadata' ? "Potential PII Columns" : "Total PII Entities"} 
+                value={stats.totalPii} 
+                valueColor="text-amber-600" 
+              />
             </div>
 
             {/* ── Filter tabs ─ shrink-0 */}
@@ -767,6 +799,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
               className="flex-1 min-h-0"
               items={[]} selectedIds={new Set()} onToggleSelection={() => {}}
               scanningIds={new Set()} scanResults={[]} onOpenFile={() => {}}
+              isMetadataScan={lastScanMode === 'metadata'}
             />
           </motion.div>
         )}
@@ -789,7 +822,16 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
               </span>
               <div className="w-px h-4 bg-slate-600" />
               <button
-                onClick={handleScan}
+                onClick={() => handleScan('metadata')}
+                disabled={scanningTableIds.size > 0}
+                className="flex items-center gap-1.5 px-3 py-1 text-sm font-medium hover:text-emerald-400 transition-colors disabled:opacity-50 whitespace-nowrap"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                Metadata-Only Scan
+              </button>
+              <div className="w-px h-4 bg-slate-600" />
+              <button
+                onClick={() => handleScan('full')}
                 disabled={scanningTableIds.size > 0}
                 className="flex items-center gap-1.5 px-3 py-1 text-sm font-medium hover:text-blue-400 transition-colors disabled:opacity-50 whitespace-nowrap"
               >

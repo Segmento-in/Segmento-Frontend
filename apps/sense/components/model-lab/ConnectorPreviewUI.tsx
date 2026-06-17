@@ -43,6 +43,7 @@ interface Props {
      * — the same function FileRow calls — so column layout is always in sync.
      */
     rows?: ConnectorResultRow[];
+    isMetadataScan?: boolean;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -301,7 +302,7 @@ export default function ConnectorPreviewUI({
                         </div>
                     ) : (
                         <AnimatePresence initial={false}>
-                            {rows.map(row => <ResultRow key={row.id} row={row} />)}
+                            {rows.map(row => <ResultRow key={row.id} row={row} isMetadataScan={isMetadataScan} />)}
                         </AnimatePresence>
                     )}
                 </div>
@@ -584,11 +585,24 @@ function FileRow({
                 ? 'bg-blue-50/50 dark:bg-blue-900/20 cursor-pointer'
                 : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30 cursor-pointer';
 
+    const isMetadataRow = cat?.metadata?.scan_mode === 'metadata_only';
+    const flaggedColumns = cat?.metadata?.flagged_columns || [];
+    const [expanded, setExpanded] = useState(false);
+
+    const handleRowClick = () => {
+        if (isMetadataRow) {
+            setExpanded(!expanded);
+            return;
+        }
+        if (scanResult) onOpenFile(item.id);
+        else if (!isScanning && item.parseable) onToggle(item.id);
+    };
+
     return (
-        <motion.div
-            initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            onClick={() => scanResult ? onOpenFile(item.id) : (!isScanning && item.parseable && onToggle(item.id))}
-            className={`grid ${GRID} gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center ${rowBg} ${borderAccent}`}
+        <motion.div className="flex flex-col border-b border-slate-100 dark:border-slate-800/50">
+        <div
+            onClick={handleRowClick}
+            className={`grid ${GRID} gap-2 px-4 py-2.5 border-l-2 transition-all items-center ${rowBg} ${borderAccent}`}
         >
             {/* Name + icon — Drive-specific: includes selection dot overlay */}
             <div className="flex items-center gap-2 min-w-0">
@@ -691,6 +705,62 @@ function FileRow({
                     <span className="text-[10px] text-slate-400">—</span>
                 )}
             </div>
+        </div>
+        
+        {/* ── Schema Map View for Metadata Scans ── */}
+        <AnimatePresence>
+            {expanded && isMetadataRow && (
+                <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
+                >
+                    <div className="p-4 pl-12">
+                        <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                            Schema Map View (Zero Trust)
+                        </div>
+                        {flaggedColumns.length === 0 ? (
+                            <div className="text-sm text-slate-500 italic bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                No PII indicators found in schema.
+                            </div>
+                        ) : (
+                            <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
+                                <table className="w-full text-sm">
+                                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs uppercase tracking-wider">
+                                        <tr>
+                                            <th className="px-4 py-2 text-left font-semibold">Column Name</th>
+                                            <th className="px-4 py-2 text-left font-semibold">Matched Rule</th>
+                                            <th className="px-4 py-2 text-left font-semibold">Confidence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
+                                        {flaggedColumns.map((col: any, idx: number) => (
+                                            <tr key={idx}>
+                                                <td className="px-4 py-2.5 font-mono text-slate-700 dark:text-slate-300 text-xs">{col.name}</td>
+                                                <td className="px-4 py-2.5 text-slate-600 dark:text-slate-400">{col.matched_rule}</td>
+                                                <td className="px-4 py-2.5">
+                                                    {col.confidence === 'HIGH' ? (
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200">
+                                                            Sensitive
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
+                                                            Review Required
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
         </motion.div>
     );
 }
@@ -759,23 +829,27 @@ function renderResultCells(row: ConnectorResultRow): React.JSX.Element[] {
 // but wraps them in a non-interactive, non-selectable container.
 // Includes an optional collapsible breakdown panel for rows with detail.
 
-function ResultRow({ row }: { row: ConnectorResultRow }) {
+function ResultRow({ row, isMetadataScan }: { row: ConnectorResultRow, isMetadataScan?: boolean }) {
     const [expanded, setExpanded] = useState(false);
     const hasDetail = !!(row.detail && row.detail.breakdown.length > 0);
+    const isMetadataRow = isMetadataScan || row.metadata?.scan_mode === 'metadata_only';
+    const flaggedColumns = row.metadata?.flagged_columns || [];
+    
+    // Determine what panel to show on click
+    const isExpandable = hasDetail || isMetadataRow;
 
     return (
-        <>
-            <motion.div
-                initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className={`grid gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center border-l-transparent ${row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'
-                    }`}
+        <div className="flex flex-col border-b border-slate-100 dark:border-slate-800/50">
+            <div
+                onClick={() => isExpandable && setExpanded(!expanded)}
+                className={`grid gap-2 px-4 py-2.5 border-l-2 transition-all items-center border-l-transparent ${row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'} ${isExpandable ? 'cursor-pointer' : ''}`}
                 style={{ gridTemplateColumns: hasDetail ? '1fr 70px 130px 90px 100px 110px 100px 28px' : undefined }}
             >
                 {/* 7 shared cells */}
                 <div className={`grid ${GRID} gap-2 col-span-full`}>
                     {renderResultCells(row)}
                 </div>
-            </motion.div>
+            </div>
             {/* Expand chevron row */}
             {hasDetail && (
                 <div className="border-b border-slate-100 dark:border-slate-800/50">
@@ -810,7 +884,64 @@ function ResultRow({ row }: { row: ConnectorResultRow }) {
                     </AnimatePresence>
                 </div>
             )}
-        </>
+            
+            {/* ── Schema Map View for Metadata Scans ── */}
+            {isMetadataRow && (
+                <AnimatePresence>
+                    {expanded && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
+                        >
+                            <div className="p-4 pl-12">
+                                <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                                    Schema Map View (Zero Trust)
+                                </div>
+                                {flaggedColumns.length === 0 ? (
+                                    <div className="text-sm text-slate-500 italic bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                                        No PII indicators found in schema.
+                                    </div>
+                                ) : (
+                                    <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
+                                        <table className="w-full text-sm">
+                                            <thead className="bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs uppercase tracking-wider">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left font-semibold">Column Name</th>
+                                                    <th className="px-4 py-2 text-left font-semibold">Matched Rule</th>
+                                                    <th className="px-4 py-2 text-left font-semibold">Confidence</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
+                                                {flaggedColumns.map((col: any, idx: number) => (
+                                                    <tr key={idx}>
+                                                        <td className="px-4 py-2.5 font-mono text-slate-700 dark:text-slate-300 text-xs">{col.name}</td>
+                                                        <td className="px-4 py-2.5 text-slate-600 dark:text-slate-400">{col.matched_rule}</td>
+                                                        <td className="px-4 py-2.5">
+                                                            {col.confidence === 'HIGH' ? (
+                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200">
+                                                                    Sensitive
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
+                                                                    Review Required
+                                                                </span>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            )}
+        </div>
     );
 }
 
