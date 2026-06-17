@@ -80,7 +80,7 @@ function getPiiState(
     // If there is no previous session, then there are NO incremental files yet. 
     // All files are just 'unscanned'.
     if (!lastSession) return 'unscanned';
-    
+
     if (cat?.first_seen_at) {
         const firstSeen = new Date(cat.first_seen_at).getTime();
         const lastScan = new Date(lastSession.triggered_at).getTime();
@@ -131,7 +131,7 @@ function SortHeader({
 // ── Folder aggregate ──────────────────────────────────────────────────────────
 
 function getFolderAggregate(
-    item: DriveItem, 
+    item: DriveItem,
     catalogData?: FileCatalogEntry[],
     scanResults?: DriveFileScanResult[]
 ): {
@@ -144,11 +144,11 @@ function getFolderAggregate(
         return s + (types ? Object.values(types).reduce((a, b) => a + b, 0) : 0);
     }, 0);
     const totalSize = children.reduce((s, c) => s + (c.file_size_bytes || 0), 0);
-    
+
     // Check DB state
     const dbHasPii = piiCount > 0 || children.some(c => c.classification === 'SENSITIVE');
     const dbHasScanned = children.some(c => c.classification && c.classification !== 'unscanned');
-    
+
     // Check Live state
     const liveResults = scanResults?.filter(r => children.some(c => c.file_id === r.file_id)) || [];
     const liveHasPii = liveResults.some(r => r.pii_detected);
@@ -156,14 +156,14 @@ function getFolderAggregate(
 
     const hasPii = dbHasPii || liveHasPii;
     const hasScannedFiles = dbHasScanned || liveHasScanned;
-    
+
     let state: PiiState = 'unscanned';
     if (hasPii) {
         state = 'pii';
     } else if (children.length > 0 && hasScannedFiles) {
         state = 'clean';
     }
-    
+
     return { piiCount, childCount: children.length, hasPii, totalSize, state };
 }
 
@@ -175,10 +175,10 @@ const GRID = 'grid-cols-[1fr_70px_130px_90px_100px_110px_100px]';
 function classificationToPiiState(cls: ConnectorResultRow['classification'], isScanning?: boolean): PiiState {
     if (isScanning) return 'unscanned'; // badge hidden behind spinner anyway
     switch (cls) {
-        case 'SENSITIVE':     return 'pii';
+        case 'SENSITIVE': return 'pii';
         case 'NON-SENSITIVE': return 'clean';
-        case 'FOLDER':        return 'clean';
-        default:              return 'unscanned';
+        case 'FOLDER': return 'clean';
+        default: return 'unscanned';
     }
 }
 
@@ -230,11 +230,11 @@ export default function ConnectorPreviewUI({
                 if (item.isFolder) return true;
                 const state = getPiiState(item, catalogData, lastSession, scanResults);
                 switch (filterMode) {
-                    case 'pii':         return state === 'pii';
-                    case 'clean':       return state === 'clean';
+                    case 'pii': return state === 'pii';
+                    case 'clean': return state === 'clean';
                     case 'incremental': return state === 'new';
-                    case 'unscanned':   return state === 'unscanned';
-                    default:            return true;
+                    case 'unscanned': return state === 'unscanned';
+                    default: return true;
                 }
             });
         }
@@ -386,7 +386,7 @@ export default function ConnectorPreviewUI({
                                     mode={mode}
                                 />;
                             }
-                            
+
                             const sr = scanResults.find(r => r.file_id === item.id);
                             const actionState = piiActions[item.id];
                             const needsTagPrompt = sr && sr.pii_detected && (sr.pii_count || 0) > 0 && actionState !== 'ignored' && actionState !== 'tagged';
@@ -538,7 +538,7 @@ function FolderRow({
 
 // ── File Row ──────────────────────────────────────────────────────────────────
 
-function getFileIcon(item: DriveItem | null, cls = 'w-4 h-4', itemType?: string): JSX.Element {
+function getFileIcon(item: DriveItem | null, cls = 'w-4 h-4', itemType?: string): React.JSX.Element {
     if (itemType === 'Table') return <Database className={`text-violet-500 ${cls}`} />;
     if (itemType === 'Folder' || (item?.isFolder)) return <Folder className={`text-blue-500 fill-blue-500/20 ${cls}`} />;
     if (!item) return <FileText className={`text-slate-500 ${cls}`} />;
@@ -701,7 +701,7 @@ function FileRow({
 // Column order here MUST match the header order in the rows-mode header block
 // and the Drive-mode header block — same GRID template, same column index.
 
-function renderResultCells(row: ConnectorResultRow): JSX.Element[] {
+function renderResultCells(row: ConnectorResultRow): React.JSX.Element[] {
     const piiState = classificationToPiiState(row.classification, row.isScanning);
     return [
         // [0] Name
@@ -767,9 +767,8 @@ function ResultRow({ row }: { row: ConnectorResultRow }) {
         <>
             <motion.div
                 initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className={`grid gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center border-l-transparent ${
-                    row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'
-                }`}
+                className={`grid gap-2 px-4 py-2.5 border-b border-l-2 border-slate-100 dark:border-slate-800/50 transition-all items-center border-l-transparent ${row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'
+                    }`}
                 style={{ gridTemplateColumns: hasDetail ? '1fr 70px 130px 90px 100px 110px 100px 28px' : undefined }}
             >
                 {/* 7 shared cells */}
