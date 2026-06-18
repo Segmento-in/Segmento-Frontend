@@ -20,7 +20,7 @@ const director = {
   name: "Geetha Reddy K",
   role: "Executive Director at Segmento",
   bio: "Geetha Reddy K is the Executive Director of Segmento, a data technology startup established in 2025, focused on building innovative and privacy-centric data products. She is also the Founder of Aathidyam Restaurants, a recognised hospitality brand based in Visakhapatnam, showcasing her entrepreneurial drive across industries. Geeta holds a Bachelor of Arts (BA) in Public Administration from Andhra University, providing a strong foundation in governance, administration, and strategic leadership. In addition, she completed a Certification in Desktop Administration in 2000, reflecting her early exposure to technology and systems management. With a strong passion for business and entrepreneurship, she actively contributes to shaping Segmento's vision, values, and long-term growth. Alongside her professional accomplishments, she is also a homemaker, successfully balancing leadership responsibilities with family life through discipline and dedication.",
-  image: "/images/director1.png",
+  image: "/images/Female-placeholder.jpg",
   linkedin: "https://www.linkedin.com/in/geeta-reddy-karri-0126163a3",
 };
 
@@ -29,7 +29,7 @@ const team = [
     name: "Anuksha Shirgave",
     role: "Web & UI Developer",
     bio: "Anuksha Shirgave is a UI & Web Developer at Segmento, focused on building clean, responsive, and user-friendly web interfaces. She specializes in transforming ideas and designs into high-performance websites using modern frontend technologies.",
-    image: "/images/mem2.jpeg",
+    image: "/images/Female-placeholder.jpg",
     linkedin: "https://www.linkedin.com/in/anuksha-shirgave-703058232",
   },
   {
@@ -43,14 +43,14 @@ const team = [
     name: "Thambabattula Mohan",
     role: "Data Developer",
     bio: "Thambabattula Mohan is a Data Developer at Segmento, focused on designing and building robust data pipelines, databases, and analytical systems that support data-driven decision-making.",
-    image: "/images/mohan.png",
+    image: "/images/male-placeholder.jpg",
     linkedin: "http://www.linkedin.com/in/mohan-thambabattula",
   },
   {
     name: "Maddila Vijayalakshmi",
     role: "Full Stack Developer",
     bio: "Maddila Vijayalakshmi is a Full Stack Developer at Segmento, focused on building scalable, secure, and high-performance web applications.",
-    image: "/images/vijayalakshmi.png",
+    image: "/images/Female-placeholder.jpg",
     linkedin: "http://www.linkedin.com/in/maddila-vijayalakshmi-3320ba29a",
   },
 
@@ -301,7 +301,7 @@ export default function AboutPage() {
                   }}
                 >
                   <img
-                    src="/images/director1.png"
+                    src="/images/Female-placeholder.jpg"
                     alt="Geetha Reddy K"
                     className="w-full h-full object-cover object-top"
                   />
