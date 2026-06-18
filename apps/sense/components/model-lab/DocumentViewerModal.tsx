@@ -138,9 +138,9 @@ export default function DocumentViewerModal({
         setTagSuccess(null);
         try {
             const filesToTag = [{
-                file_id: scanResult.file_id,
-                pii_detected: scanResult.pii_detected,
-                pii_count: scanResult.pii_count
+                file_id: scanResult.file_id!,
+                pii_detected: scanResult.pii_detected!,
+                pii_count: scanResult.pii_count!
             }];
             const res = await apiClient.driveTagFiles(authType, credentials, filesToTag, true);
             if (res.tagged[0]?.success) {

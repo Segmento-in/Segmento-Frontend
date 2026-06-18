@@ -282,7 +282,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         const human = vis === 'api_and_human';
         try {
             await apiClient.driveTagFiles(authType, credentials,
-                [{ file_id: fileId, pii_detected: result.pii_detected, pii_count: result.pii_count }],
+                [{ file_id: fileId, pii_detected: !!result.pii_detected, pii_count: result.pii_count || 0 }],
                 human
             );
             setPiiActions(prev => ({ ...prev, [fileId]: 'tagged' }));

@@ -825,14 +825,16 @@ export interface DriveItem {
 }
 
 export interface DriveFileScanResult {
-    file_id: string;
-    file_name: string;
-    mime_type: string;
-    pii_detected: boolean;
-    pii_count: number;
-    char_count: number;
-    scan_data: EvaluatorScanResponse | null;
-    error: string | null;
+    file_id?: string;
+    fileId?: string; // Used by database connector map
+    file_name?: string;
+    mime_type?: string;
+    pii_detected?: boolean;
+    pii_count?: number;
+    char_count?: number;
+    scan_data?: EvaluatorScanResponse | null;
+    error?: string | null;
+    result?: AnalysisResponse; // Used by database connector to pass full AnalysisResponse
 }
 
 export interface DriveFolderScanResponse {

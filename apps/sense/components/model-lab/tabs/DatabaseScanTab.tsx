@@ -813,7 +813,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                   parseable: false,
                   ext: 'DB',
                   sizeBytes: 0,
-                  mediaType: 'document',
+                  mediaType: 'document' as const,
                   appProperties: {},
                   tooBig: false,
                   parentId: ''
@@ -827,7 +827,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                   parseable: true,
                   ext: 'DB',
                   sizeBytes: 0,
-                  mediaType: 'document',
+                  mediaType: 'document' as const,
                   appProperties: {},
                   tooBig: false,
                   parentId: creds.database
