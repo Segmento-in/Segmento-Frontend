@@ -67,8 +67,10 @@ function getPiiState(
     lastSession?: any,
     scanResults?: DriveFileScanResult[]
 ): PiiState {
-    const liveResult = scanResults?.find(r => r.file_id === item.id);
-    if (liveResult) return liveResult.pii_detected ? 'pii' : 'clean';
+    // @ts-ignore - handle both camelCase and snake_case depending on how it's passed
+    const liveResult = scanResults?.find(r => r.file_id === item.id || r.fileId === item.id);
+    // @ts-ignore
+    if (liveResult) return (liveResult.pii_detected || liveResult.result?.total_pii_found > 0 || liveResult.result?.metadata?.flagged_columns?.length > 0) ? 'pii' : 'clean';
 
     const cat = catalogData?.find(c => c.file_id === item.id);
     if (cat?.classification === 'SENSITIVE') return 'pii';
@@ -585,8 +587,8 @@ function FileRow({
                 ? 'bg-blue-50/50 dark:bg-blue-900/20 cursor-pointer'
                 : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30 cursor-pointer';
 
-    const isMetadataRow = cat?.metadata?.scan_mode === 'metadata_only';
-    const flaggedColumns = cat?.metadata?.flagged_columns || [];
+    const isMetadataRow = cat?.metadata?.scan_mode === 'metadata_only' || scanResult?.result?.metadata?.scan_mode === 'metadata_only';
+    const flaggedColumns = cat?.metadata?.flagged_columns || scanResult?.result?.metadata?.flagged_columns || [];
     const [expanded, setExpanded] = useState(false);
 
     const handleRowClick = () => {

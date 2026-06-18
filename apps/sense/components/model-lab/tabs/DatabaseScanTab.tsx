@@ -20,11 +20,17 @@ interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) 
 
 /** Convert a FileCatalogEntry (DB table) to a DriveItem so ConnectorPreviewUI can render it */
 function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
+    let path = entry.full_path || entry.file_name;
+    // Flatten DB paths to skip intermediate schema folders
+    if (!entry.is_folder && entry.parent_folder_id) {
+        path = `${entry.parent_folder_id}/${entry.file_name}`;
+    }
+    
     return {
         id: entry.file_id,
         name: entry.file_name,
         mimeType: entry.connector_type || 'database',
-        path: entry.full_path || entry.file_name,
+        path: path,
         isFolder: entry.is_folder || false,
         parseable: !entry.is_folder,
         ext: entry.connector_type ? entry.connector_type.substring(0, 2).toUpperCase() : 'DB',
@@ -794,11 +800,44 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
             {/* ── Results table — shared ConnectorPreviewUI rows path ─ flex-1 overflow-y-auto */}
             <ConnectorPreviewUI
-              rows={displayEntries.map(dbScanEntryToResultRow)}
+              mode="database"
               connectorType={DB_DEFAULTS[dbType].label}
               className="flex-1 min-h-0"
-              items={[]} selectedIds={new Set()} onToggleSelection={() => {}}
-              scanningIds={new Set()} scanResults={[]} onOpenFile={() => {}}
+              items={[
+                {
+                  id: creds.database,
+                  name: creds.database,
+                  mimeType: 'database',
+                  path: creds.database,
+                  isFolder: true,
+                  parseable: false,
+                  ext: 'DB',
+                  sizeBytes: 0,
+                  mediaType: 'document',
+                  appProperties: {},
+                  tooBig: false,
+                  parentId: ''
+                },
+                ...displayEntries.map(entry => ({
+                  id: `${creds.database}.${entry.tableName}`,
+                  name: entry.tableName,
+                  mimeType: 'database',
+                  path: `${creds.database}/${entry.tableName}`,
+                  isFolder: false,
+                  parseable: true,
+                  ext: 'DB',
+                  sizeBytes: 0,
+                  mediaType: 'document',
+                  appProperties: {},
+                  tooBig: false,
+                  parentId: creds.database
+                }))
+              ]}
+              selectedIds={new Set()} 
+              onToggleSelection={() => {}}
+              scanningIds={scanningTableIds} 
+              scanResults={displayEntries.filter(e => e.result).map(e => ({ fileId: `${creds.database}.${e.tableName}`, result: e.result! }))} 
+              onOpenFile={() => {}}
               isMetadataScan={lastScanMode === 'metadata'}
             />
           </motion.div>
