@@ -41,6 +41,8 @@ export interface AnalysisResponse {
     original_image?: string;
     /** Row count actually fetched and scanned (capped at 100) — set by DB scan endpoints */
     rows_scanned?: number;
+    /** Mocked metadata for zero-trust metadata scans */
+    metadata?: any;
 }
 
 export interface DatabaseCredentials {
@@ -81,6 +83,8 @@ export interface FileCatalogEntry {
         column_count?: number;
         row_count_scanned?: number;
         pii_types?: Record<string, number>;
+        scan_mode?: string;
+        flagged_columns?: any[];
     } | null;
     /** connector_type is echoed back by /db/catalog for badge display */
     connector_type?: string;
