@@ -189,7 +189,7 @@ export default function ConnectorPreviewUI({
     items, selectedIds, onToggleSelection, scanningIds, scanResults, onOpenFile,
     connectorType = 'Google Drive', catalogData, lastSession,
     piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
-    filterMode = 'all', searchQuery = '', className, mode = 'drive', rows,
+    filterMode = 'all', searchQuery = '', className, mode = 'drive', rows, isMetadataScan,
 }: Props) {
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
