@@ -6,7 +6,7 @@ import {
   AlertCircle, CheckCircle2, ChevronRight, Loader2, Play,
   Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search, Shield
 } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, DatabaseCredentials, FileCatalogEntry, DriveItem, ConnectorResultRow } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 
 interface TableScanEntry {
@@ -112,7 +112,6 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   // Catalog data from Supabase (persisted across sessions)
   const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
   const [lastSession, setLastSession] = useState<any>(null);
-  const [showProfile, setShowProfile] = useState(false);
 
   // Filter + search (shared across BROWSE and RESULTS)
   type FilterMode = 'all' | 'pii' | 'clean' | 'unscanned';
@@ -141,58 +140,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     };
   }, [scanEntries]);
 
-  // ── DB adapter: map a TableScanEntry → ConnectorResultRow ───────────────────
-  function dbScanEntryToResultRow(entry: TableScanEntry): ConnectorResultRow {
-    const qualifiedName = `${creds.database}.${entry.tableName}`;
-    const piiCount = entry.result?.total_pii_found ?? 0;
-    const piiCounts = entry.result?.pii_counts ?? [];
 
-    let classification: ConnectorResultRow['classification'];
-    if (entry.status === 'error')        classification = 'Unsupported';
-    else if (entry.status === 'scanned') classification = piiCount > 0 ? 'SENSITIVE' : 'NON-SENSITIVE';
-    else                                 classification = 'UNSCANNED';
-
-    const rowsScanned = entry.result?.rows_scanned ?? null;
-    let sizeLabel = null;
-    if (entry.status === 'scanned') {
-      if (lastScanMode === 'metadata') {
-        sizeLabel = 'Zero Trust (Metadata Only)';
-      } else if (rowsScanned != null) {
-        sizeLabel = `${rowsScanned} rows scanned`;
-      }
-    }
-
-    const detail = entry.status === 'scanned' && piiCounts.length > 0
-      ? { breakdown: piiCounts.map(p => ({ label: p['PII Type'], count: p.Count })) }
-      : undefined;
-
-    return {
-      id: qualifiedName,
-      name: qualifiedName,
-      itemType: 'Table',
-      classification,
-      isScanning: entry.status === 'scanning',
-      sizeLabel,
-      firstSeen: null,
-      lastScanned: null,
-      scanType: null,
-      detail,
-      metadata: entry.result?.metadata, // Ensure we pass the mocked metadata down
-    };
-  }
-
-  // ── Filtered + searched entries for display ─────────────────────────────
-  const displayEntries = useMemo(() => {
-    return scanEntries
-      .filter(e => {
-        if (filterMode === 'pii')   return e.status === 'scanned' && (e.result?.total_pii_found ?? 0) > 0;
-        if (filterMode === 'clean') return e.status === 'scanned' && (e.result?.total_pii_found ?? 0) === 0;
-        return true;
-      })
-      .filter(e =>
-        resultSearch ? e.tableName.toLowerCase().includes(resultSearch.toLowerCase()) : true
-      );
-  }, [scanEntries, filterMode, resultSearch, creds.database]);
 
   // ── Handlers ────────────────────────────────────────────────────────────
 
@@ -228,6 +176,12 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     }
   };
 
+  const getFileId = (tableName: string): string => {
+    return dbType === 'postgresql'
+      ? `${creds.database}.public.${tableName}`
+      : `${creds.database}.${tableName}`;
+  };
+
   const handleScan = async (mode: 'full' | 'metadata' = 'full') => {
     if (selectedTableIds.size === 0) return;
     const tablesToScan = [...selectedTableIds];
@@ -238,13 +192,16 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       status: 'scanning',
     }));
     setScanEntries(initial);
-    setScanningTableIds(new Set(tablesToScan));
+    setScanningTableIds(new Set(tablesToScan.map(getFileId)));
     setLastScanMode(mode);
     setFilterMode('all');
     setResultSearch('');
     changeStep('RESULTS');
 
     // Scan sequentially to avoid overwhelming the DB connection
+    let totalPiiFound = 0;
+    let errorCount = 0;
+
     for (const tableName of tablesToScan) {
       try {
         let res: AnalysisResponse;
@@ -254,6 +211,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: dbType, table: tableName });
           const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === tableName);
           const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
+          totalPiiFound += flaggedColumns.length;
           res = {
             total_pii_found: flaggedColumns.length,
             pii_counts: flaggedColumns.map((c: any) => ({ 'PII Type': c.matched_rule || 'PII', Count: 1 })),
@@ -264,6 +222,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           res = dbType === 'postgresql'
             ? await apiClient.scanPostgresqlTable({ ...creds, table: tableName })
             : await apiClient.scanMysqlTable({ ...creds, table: tableName });
+          totalPiiFound += res.total_pii_found || 0;
         }
         
         setScanEntries(prev =>
@@ -274,6 +233,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           ),
         );
       } catch (e: any) {
+        errorCount += 1;
         setScanEntries(prev =>
           prev.map(entry =>
             entry.tableName === tableName
@@ -284,13 +244,21 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       } finally {
         setScanningTableIds(prev => {
           const next = new Set(prev);
-          next.delete(tableName);
+          next.delete(getFileId(tableName));
           return next;
         });
       }
     }
     // Refresh catalog after all scans complete
     await fetchCatalog(dbType);
+
+    window.dispatchEvent(new CustomEvent('segmento:toast', {
+        detail: {
+            type: errorCount === 0 ? 'success' : 'warning',
+            title: 'Scan complete',
+            message: `Found ${totalPiiFound} PII item(s) across ${tablesToScan.length} table(s).`,
+        }
+    }));
   };
 
   const resetToAuth = () => {
@@ -355,73 +323,11 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   const catalogItems = useMemo(() => catalogData.map(catalogEntryToDriveItem), [catalogData]);
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 h-full">{
-    showProfile ? (
-      /* ── PROFILE: persisted catalog view ─────────────────────────── */
-      <div className="flex flex-col flex-1 min-h-0">
-        <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-slate-200 shrink-0">
-          <div className="flex items-center gap-3">
-            <button onClick={() => setShowProfile(false)}
-              className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all">
-              <ArrowLeft className="w-3.5 h-3.5" /> Back
-            </button>
-            <div className="w-px h-5 bg-slate-200" />
-            <h2 className="text-sm font-bold text-slate-800">Persisted DB Catalog</h2>
-            <span className="text-xs font-semibold text-white bg-violet-600 px-2 py-0.5 rounded-full">{catalogData.length}</span>
-          </div>
-        </div>
-        {catalogData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center flex-1 text-slate-400 gap-3">
-            <Database className="w-10 h-10 text-slate-300" />
-            <p className="text-sm">No scanned tables in catalog yet. Run a scan first.</p>
-          </div>
-        ) : (
-          <ConnectorPreviewUI
-            items={catalogItems}
-            selectedIds={new Set()}
-            onToggleSelection={() => {}}
-            scanningIds={new Set()}
-            scanResults={[]}
-            onOpenFile={() => {}}
-            connectorType="Database"
-            catalogData={catalogData}
-            lastSession={lastSession}
-            filterMode="all"
-            className="flex-1 min-h-0"
-            mode="database"
-            isMetadataScan={lastScanMode === 'metadata'}
-          />
-        )}
-      </div>
-    ) : (
-    <div className="max-w-4xl mx-auto space-y-6 w-full overflow-y-auto p-6">
-
-      {/* Header */}
-      <div className="flex items-center justify-between gap-3 mb-8">
-        <div className="flex items-center gap-3">
-          <div className={`p-3 ${accentBg} rounded-xl`}>
-            <Database className="w-6 h-6" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-              {DB_DEFAULTS[dbType].emoji} {DB_DEFAULTS[dbType].label} Scan
-            </h2>
-            <p className="text-slate-500 dark:text-slate-400">
-              Browse tables and scan for PII in-memory — zero data retention.
-            </p>
-          </div>
-        </div>
-        {catalogData.length > 0 && (
-          <button onClick={() => setShowProfile(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-violet-200 bg-violet-50 text-violet-700 text-sm font-semibold hover:bg-violet-100 transition-colors">
-            <Database className="w-4 h-4" /> View Catalog ({catalogData.length})
-          </button>
-        )}
-      </div>
+    <div className="flex flex-col flex-1 min-h-0 h-full">
 
       {/* Error banner */}
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl flex items-start gap-3">
+        <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl flex items-start gap-3 m-6 mb-0 shrink-0">
           <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
           <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
         </div>
@@ -431,7 +337,26 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
         {/* ── STAGE 1: AUTH ──────────────────────────────────────── */}
         {step === 'AUTH' && (
-          <motion.div key="auth" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
+          <motion.div key="auth" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+            className="max-w-4xl mx-auto space-y-6 w-full overflow-y-auto p-6"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between gap-3 mb-8">
+              <div className="flex items-center gap-3">
+                <div className={`p-3 ${accentBg} rounded-xl`}>
+                  <Database className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    {DB_DEFAULTS[dbType].emoji} {DB_DEFAULTS[dbType].label} Scan
+                  </h2>
+                  <p className="text-slate-500 dark:text-slate-400">
+                    Browse tables and scan for PII in-memory — zero data retention.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <Card>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
                 <StepBadge n={1} accentStep={accentStep} /> Connect to Database
@@ -800,44 +725,19 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
             {/* ── Results table — shared ConnectorPreviewUI rows path ─ flex-1 overflow-y-auto */}
             <ConnectorPreviewUI
-              mode="database"
-              connectorType={DB_DEFAULTS[dbType].label}
-              className="flex-1 min-h-0"
-              items={[
-                {
-                  id: creds.database,
-                  name: creds.database,
-                  mimeType: 'database',
-                  path: creds.database,
-                  isFolder: true,
-                  parseable: false,
-                  ext: 'DB',
-                  sizeBytes: 0,
-                  mediaType: 'document' as const,
-                  appProperties: {},
-                  tooBig: false,
-                  parentId: ''
-                },
-                ...displayEntries.map(entry => ({
-                  id: `${creds.database}.${entry.tableName}`,
-                  name: entry.tableName,
-                  mimeType: 'database',
-                  path: `${creds.database}/${entry.tableName}`,
-                  isFolder: false,
-                  parseable: true,
-                  ext: 'DB',
-                  sizeBytes: 0,
-                  mediaType: 'document' as const,
-                  appProperties: {},
-                  tooBig: false,
-                  parentId: creds.database
-                }))
-              ]}
-              selectedIds={new Set()} 
+              items={catalogItems}
+              selectedIds={new Set()}
               onToggleSelection={() => {}}
-              scanningIds={scanningTableIds} 
-              scanResults={displayEntries.filter(e => e.result).map(e => ({ fileId: `${creds.database}.${e.tableName}`, result: e.result! }))} 
+              scanningIds={scanningTableIds}
+              scanResults={[]}
               onOpenFile={() => {}}
+              connectorType="Database"
+              catalogData={catalogData}
+              lastSession={lastSession}
+              filterMode={filterMode}
+              searchQuery={resultSearch}
+              className="flex-1 min-h-0"
+              mode="database"
               isMetadataScan={lastScanMode === 'metadata'}
             />
           </motion.div>
@@ -888,8 +788,6 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
-    )}{/* end showProfile ternary */}
     </div>
   );
 }

@@ -176,7 +176,7 @@ export function SenseNavbar() {
                     <div className="relative flex items-center">
                         <Link href="/model-lab">
                             <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname?.includes('/model-lab') ? 'text-white' : 'text-slate-400 hover:text-white'
+                                pathname?.includes('/model-lab') && !pathname?.includes('/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
                             }`}>
                                 <div className="flex items-center gap-1">
                                     <FlaskConical size={9} className="text-emerald-400" />
@@ -187,7 +187,7 @@ export function SenseNavbar() {
                                 </div>
                             </div>
                         </Link>
-                        {pathname?.includes('/model-lab') && (
+                        {pathname?.includes('/model-lab') && !pathname?.includes('/connectors') && (
                             <motion.div
                                 layoutId="nav-pill"
                                 className="absolute inset-0 bg-emerald-700 rounded-full"
