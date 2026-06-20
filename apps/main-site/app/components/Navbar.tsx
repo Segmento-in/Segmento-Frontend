@@ -57,7 +57,7 @@ const navLinks: NavLink[] = [
           label: "Data Intelligence",
           items: [
             { name: "Segmento Pulse", subtitle: "Real-time news & trends engine", href: "/pulse", icon: Newspaper },
-            { name: "Segmento Sense", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
+            { name: "Data Classification", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
             { name: "Segmento Collect", subtitle: "AI-powered data collection platform", href: "/collect", icon: Database },
           ],
         },
