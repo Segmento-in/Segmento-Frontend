@@ -48,7 +48,11 @@ const CATEGORY_META: Record<
 const DEFAULT_SELECTED = ["spirion", "bigid", "aws-macie"]
 const MAX_COMPETITORS = 3
 
-export function SenseComparisonTable() {
+export interface SenseComparisonTableProps {
+    className?: string;
+}
+
+export function SenseComparisonTable({ className = '' }: SenseComparisonTableProps) {
     const [selected, setSelected] = useState<string[]>(DEFAULT_SELECTED)
     const [expandedInsight, setExpandedInsight] = useState<string | null>(null)
     const [showPicker, setShowPicker] = useState(false)
@@ -97,14 +101,14 @@ export function SenseComparisonTable() {
     return (
         <section
             id="comparison-table"
-            className="relative py-20 xl:py-32 bg-[#F8FAFF] dark:bg-[#020617] overflow-hidden transition-colors duration-500"
+            className={`relative py-20 xl:py-32 bg-[#F8FAFF] dark:bg-[#020617] overflow-hidden transition-colors duration-500 ${className}`}
         >
             {/* Background Ambient Glows */}
             <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-100/50 dark:bg-blue-500/10 blur-[120px] pointer-events-none transition-colors duration-500" />
 
-<div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-indigo-100/40 dark:bg-indigo-500/10 blur-[100px] pointer-events-none transition-colors duration-500" />
+            <div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-indigo-100/40 dark:bg-indigo-500/10 blur-[100px] pointer-events-none transition-colors duration-500" />
 
-            <div className="container relative mx-auto px-6 z-10 max-w-7xl">
+            <div className={`container relative mx-auto px-6 z-10 ${className ? 'max-w-full' : 'max-w-7xl'}`}>
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -141,7 +145,7 @@ export function SenseComparisonTable() {
                         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h3 className="text-lg font-black text-[#0F172A] dark:text-white tracking-tight">
-                                  Compare Sense vs. Legacy Platforms
+                                    Compare Sense vs. Other Platforms
                                 </h3>
                                 <p className="text-sm text-slate-500 mt-1">
                                     Choose up to {MAX_COMPETITORS} competitors
@@ -186,12 +190,11 @@ export function SenseComparisonTable() {
                                             disabled={isDisabled}
                                             className={`
                                                 relative text-left p-4 rounded-xl border-2 transition-all duration-200
-                                                ${
-                                                    isSelected
-                                                        ? "border-blue-500 bg-blue-50 shadow-sm"
-                                                        : isDisabled
-                                                          ? "border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed"
-                                                         : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-sm cursor-pointer transition-colors"
+                                                ${isSelected
+                                                    ? "border-blue-500 bg-blue-50 shadow-sm"
+                                                    : isDisabled
+                                                        ? "border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed"
+                                                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-sm cursor-pointer transition-colors"
                                                 }
                                             `}
                                         >
@@ -242,7 +245,7 @@ export function SenseComparisonTable() {
                         delay: 0.3,
                         ease: [0.16, 1, 0.3, 1],
                     }}
-                   className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] dark:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] overflow-hidden transition-colors duration-500"
+                    className="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white dark:border-slate-800 rounded-2xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] dark:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] overflow-hidden transition-colors duration-500"
                 >
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-[700px]">
@@ -320,7 +323,7 @@ export function SenseComparisonTable() {
                                                 return (
                                                     <tr
                                                         key={`${category}-${idx}`}
-                                                       className="border-b border-slate-50 dark:border-slate-800 hover:bg-blue-50/30 dark:hover:bg-blue-500/5 transition-colors"
+                                                        className="border-b border-slate-50 dark:border-slate-800 hover:bg-blue-50/30 dark:hover:bg-blue-500/5 transition-colors"
                                                     >
                                                         {/* Criteria Label */}
                                                         <td className="py-4 px-6">

@@ -192,7 +192,7 @@ export function HeroSection() {
                                     duration-500
                                 "
                             >
-                                Secure Your
+                                Find PII in Your
                                 <br />
 
                                 Data with
@@ -260,7 +260,7 @@ export function HeroSection() {
                                             gap-3
                                         "
                                     >
-                                       
+
 
                                         <span className="text-sm">
                                             Demo
@@ -379,16 +379,15 @@ export function HeroSection() {
                                                             contrast(1.2)
                                                             brightness(0.6)
                                                             saturate(0.9)
-                                                            ${
-                                                                activeIndex ===
+                                                            ${activeIndex ===
                                                                 index
-                                                                    ? "brightness(1.2) saturate(1.3)"
-                                                                    : ""
+                                                                ? "brightness(1.2) saturate(1.3)"
+                                                                : ""
                                                             }
                                                         `,
                                                         opacity:
                                                             activeIndex ===
-                                                            index
+                                                                index
                                                                 ? 1
                                                                 : 0.25
                                                     }}

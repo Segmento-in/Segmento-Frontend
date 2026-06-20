@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Menu, X, ArrowUpRight, ChevronRight, Sparkles, FlaskConical, Network } from "lucide-react";
+import { ArrowLeft, Zap, Menu, X, ChevronRight, Sparkles, FlaskConical, Network, Home, BarChart2 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 
@@ -46,10 +46,7 @@ export function SenseNavbar() {
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
     const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
-    const navLinks = [
-        { name: "Home", href: "/" },
-        { name: "Compare", href: "/#comparison-table" },
-    ];
+
 
     if (!mounted) return <div className="h-16 bg-[#020617]" />;
 
@@ -94,26 +91,56 @@ export function SenseNavbar() {
 
                 {/* DESKTOP NAV */}
                 <div className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.08] rounded-full p-1 relative">
-                    {navLinks.map((link) => {
-                        const isActive = pathname === link.href;
-                        return (
-                            <div key={link.name} className="relative flex items-center">
-                                <Link href={link.href}>
-                                    <span className={`relative z-10 px-6 py-1.5 rounded-full text-[13px] font-bold ${isActive ? "text-white" : "text-slate-400 hover:text-white"
-                                        }`}>
-                                        {link.name}
-                                    </span>
-                                </Link>
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="nav-pill"
-                                        className="absolute inset-0 bg-blue-600 rounded-full"
-                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                    />
-                                )}
+                    {/* HOME */}
+                    <div className="relative flex items-center">
+                        <Link href="/">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname === '/' ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <Home size={9} className="text-cyan-400" />
+                                    <span className="text-[13px] font-bold">HOME</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-cyan-500/70 font-mono">
+                                    DASHBOARD
+                                </div>
                             </div>
-                        );
-                    })}
+                        </Link>
+                        {pathname === '/' && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-cyan-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
+
+                    {/* Thin divider before COMPARE */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* COMPARE */}
+                    <div className="relative flex items-center">
+                        <Link href="/compare">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
+                                pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
+                            }`}>
+                                <div className="flex items-center gap-1">
+                                    <BarChart2 size={9} className="text-rose-400" />
+                                    <span className="text-[13px] font-bold">COMPARE</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-rose-500/70 font-mono">
+                                    VS OTHERS
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname === '/compare' && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-rose-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
 
                     {/* Thin divider before AI ENGINE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
@@ -235,38 +262,7 @@ export function SenseNavbar() {
     {/* THEME TOGGLE */}
     <ThemeToggle />
 
-    <Link href="/demo">
-    <motion.button
-        whileHover={{ scale: 1.03, y: -1 }}
-        whileTap={{ scale: 0.97 }}
-        className="
-            bg-white
-            text-[#020617]
-            dark:bg-primary
-            dark:text-white
-            px-6
-            py-2.5
-            rounded-xl
-            text-[11px]
-            font-black
-            shadow-xl
-            flex
-            items-center
-            gap-2
-            transition-colors
-        "
-    >
-        <span className="text-[#020617] dark:text-black">
-            TRY FOR FREE
-        </span>
 
-        <ArrowUpRight
-            size={14}
-            strokeWidth={3}
-            className="text-[#020617] dark:text-black"
-        />
-    </motion.button>
-</Link>
     <a href={backUrl}>
         <motion.button
             whileHover={{ scale: 1.03, y: -1 }}
@@ -318,20 +314,37 @@ export function SenseNavbar() {
                                     Menu
                                 </p>
 
-                                {navLinks.map((link) => (
-                                    <Link
-                                        key={link.name}
-                                        href={link.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between py-5 px-1 border-b border-white/[0.03] group"
-                                    >
-                                        <span className={`text-xl font-bold ${pathname === link.href ? "text-blue-500" : "text-slate-300"
-                                            }`}>
-                                            {link.name}
-                                        </span>
-                                        <ChevronRight size={18} />
-                                    </Link>
-                                ))}
+                                {/* HOME mobile entry */}
+                                <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-[#051f2e] to-[#03131c]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Home size={12} className="text-cyan-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">HOME</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-cyan-500/70 font-mono">
+                                                DASHBOARD
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-cyan-400" />
+                                    </div>
+                                </Link>
+
+                                {/* COMPARE mobile entry */}
+                                <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-rose-500/30 bg-gradient-to-br from-[#2e0515] to-[#1a030b]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <BarChart2 size={12} className="text-rose-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-rose-500/70 font-mono">
+                                                VS OTHERS
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-rose-400" />
+                                    </div>
+                                </Link>
                             </div>
 
                             <div className="mt-auto flex flex-col gap-3">
@@ -383,11 +396,7 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
-                                    <button className="w-full bg-white text-[#020617] py-5 rounded-2xl font-black text-lg">
-                                        TRY FOR FREE
-                                    </button>
-                                </Link>
+
                             </div>
                         </motion.div>
                     </>
