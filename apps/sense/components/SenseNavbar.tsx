@@ -149,10 +149,10 @@ export function SenseNavbar() {
                             <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/model-lab/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
                                 }`}>
                                 <div className="flex items-center gap-1">
-                                    <Network size={9} className="text-orange-400" />
+                                    <Network size={9} className="text-amber-400" />
                                     <span className="text-[13px] font-bold">CONNECTORS</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-orange-500/70 font-mono">
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-amber-500/70 font-mono">
                                     DATA SOURCES
                                 </div>
                             </div>
@@ -160,7 +160,7 @@ export function SenseNavbar() {
                         {pathname?.includes('/model-lab/connectors') && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-orange-700 rounded-full"
+                                className="absolute inset-0 bg-amber-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
@@ -373,17 +373,17 @@ export function SenseNavbar() {
                             <div className="mt-auto flex flex-col gap-3">
                                 {/* CONNECTORS mobile entry */}
                                 <Link href="/model-lab/connectors" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-orange-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <Network size={12} className="text-orange-300" />
+                                                <Network size={12} className="text-amber-300" />
                                                 <span className="text-sm font-black text-white tracking-widest uppercase">CONNECTORS</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-orange-500/70 font-mono">
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-amber-500/70 font-mono">
                                                 DATA SOURCES
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-orange-400" />
+                                        <ChevronRight size={16} className="text-amber-400" />
                                     </div>
                                 </Link>
 

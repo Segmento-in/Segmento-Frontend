@@ -17,6 +17,26 @@ type PiiState = 'pii' | 'clean' | 'unscanned' | 'new';
 type SortKey = 'name' | 'classification' | 'size' | 'first_seen' | 'last_scanned';
 type SortDir = 'asc' | 'desc';
 
+// ── Scan Type Map ─────────────────────────────────────────────────────────────
+// Maps backend scan_type string payloads to canonical UI labels (per
+// UBIQUITOUS_LANGUAGE.md) and distinct Tailwind color classes.
+
+const SCAN_TYPE_MAP: Record<string, { label: string; className: string }> = {
+    // Existing mappings — preserve exact existing colors
+    'incremental':           { label: 'Incremental Scan',              className: 'bg-purple-100 text-purple-700' },
+    'external':              { label: 'Full Load Scan',                className: 'bg-slate-100 text-slate-700' },   // Legacy fallback
+    'FULL_LOAD':             { label: 'Full Load Scan',                className: 'bg-blue-100 text-blue-700' },
+    // New canonical mappings
+    'metadata_only':         { label: 'Metadata-Only Scan',           className: 'bg-gray-100 text-gray-700' },
+    'METADATA_ONLY':         { label: 'Metadata-Only Scan',           className: 'bg-gray-100 text-gray-700' },
+    'sampling':              { label: 'Sampling Scan',                 className: 'bg-cyan-100 text-cyan-700' },
+    'SAMPLING':              { label: 'Sampling Scan',                 className: 'bg-cyan-100 text-cyan-700' },
+    'metadata_and_sampling': { label: 'Metadata-Only & Sampling Scan', className: 'bg-indigo-100 text-indigo-700' },
+    'METADATA_AND_SAMPLING': { label: 'Metadata-Only & Sampling Scan', className: 'bg-indigo-100 text-indigo-700' },
+};
+
+const DEFAULT_SCAN_TYPE = { label: '—', className: 'bg-transparent text-gray-400' };
+
 interface Props {
     items: DriveItem[];
     selectedIds: Set<string>;
@@ -676,36 +696,28 @@ function FileRow({
 
             {/* Scan Type */}
             <div className="flex items-center justify-center shrink-0">
-                {mode === 'database' ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-700 border border-blue-200">
-                        Full Load
-                    </span>
-                ) : isScanning ? (
+                {isScanning ? (
                     <div className="flex flex-col items-center gap-0.5">
                         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                         <span className="text-[9px] text-blue-500 font-mono">scanning</span>
                     </div>
-                ) : cat?.scan_type === 'incremental' ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50">
-                        Incremental
-                    </span>
-                ) : cat?.scan_type === 'external' ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                        External
-                    </span>
-                ) : cat?.scan_type === 'FULL_LOAD' ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-100 text-blue-700 border border-blue-200">
-                        Full Load
-                    </span>
                 ) : isSelected && !scanResult ? (
                     <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center shadow">
                         <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                     </div>
-                ) : item.parseable && !scanResult ? (
-                    <span className="text-[10px] text-slate-400">Select</span>
-                ) : (
-                    <span className="text-[10px] text-slate-400">—</span>
-                )}
+                ) : (() => {
+                    // Always derive scan type from backend payload — no mode bypass.
+                    const rawType = cat?.scan_type ?? null;
+                    const mapped = rawType ? (SCAN_TYPE_MAP[rawType] ?? SCAN_TYPE_MAP[rawType.toUpperCase()] ?? SCAN_TYPE_MAP[rawType.toLowerCase()] ?? DEFAULT_SCAN_TYPE) : DEFAULT_SCAN_TYPE;
+                    if (mapped === DEFAULT_SCAN_TYPE && item.parseable && !scanResult) {
+                        return <span className="text-[10px] text-slate-400">Select</span>;
+                    }
+                    return (
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${mapped.className}`}>
+                            {mapped.label}
+                        </span>
+                    );
+                })()}
             </div>
         </div>
         
@@ -819,9 +831,17 @@ function renderResultCells(row: ConnectorResultRow): React.JSX.Element[] {
             <span className="text-[10px] text-slate-400 font-mono">{formatDate(row.lastScanned)}</span>
         </div>,
 
-        // [6] Scan Type + optional expand chevron
+        // [6] Scan Type
         <div key="scan" className="flex items-center justify-center gap-1 shrink-0">
-            <span className="text-[10px] text-slate-400">{row.scanType ?? '—'}</span>
+            {(() => {
+                const rawType = row.scanType ?? null;
+                const mapped = rawType ? (SCAN_TYPE_MAP[rawType] ?? SCAN_TYPE_MAP[rawType.toUpperCase()] ?? SCAN_TYPE_MAP[rawType.toLowerCase()] ?? DEFAULT_SCAN_TYPE) : DEFAULT_SCAN_TYPE;
+                return (
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${mapped.className}`}>
+                        {mapped.label}
+                    </span>
+                );
+            })()}
         </div>,
     ];
 }
