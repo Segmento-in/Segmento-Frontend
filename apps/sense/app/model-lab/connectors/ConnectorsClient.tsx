@@ -320,29 +320,6 @@ export default function ConnectorsClient() {
                 {/* Navigation Buttons */}
                 <nav className="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
 
-                    {/* Profile Button — active when on results view, disabled if no scan yet */}
-                    <button
-                        onClick={() => { if (hasResults) setRightView('results'); }}
-                        disabled={!hasResults}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${rightView === 'results' && hasResults
-                                ? 'bg-slate-900 shadow-md text-white'
-                                : !hasResults
-                                    ? 'text-slate-300 cursor-not-allowed opacity-60'
-                                    : 'text-slate-600 hover:bg-slate-100'
-                            }`}
-                    >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${rightView === 'results' && hasResults ? 'bg-white/10' : !hasResults ? 'bg-slate-50 text-slate-300' : 'bg-emerald-50 text-emerald-600'
-                            }`}>
-                            <User className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold truncate">Profile</p>
-                            <p className={`text-[10px] truncate ${rightView === 'results' ? 'text-slate-400' : !hasResults ? 'text-slate-300' : 'text-slate-400'}`}>Active Results</p>
-                        </div>
-                        {hasResults && (
-                            <span className={`w-2 h-2 rounded-full shrink-0 ${rightView === 'results' ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' : 'bg-emerald-400'}`} />
-                        )}
-                    </button>
 
                     {/* Connectors Button — always goes to the grid; parks in-progress flow to Profile */}
                     <button

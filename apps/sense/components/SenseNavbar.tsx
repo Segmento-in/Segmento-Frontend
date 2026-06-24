@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Zap, Menu, X, ChevronRight, Sparkles, FlaskConical, Network, Home, BarChart2 } from "lucide-react";
+import { ArrowLeft, Zap, Menu, X, ChevronRight, Sparkles, FlaskConical, Network, Home, BarChart2, UserCircle } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
 
@@ -56,47 +56,46 @@ export function SenseNavbar() {
 
                 {/* LOGO */}
                 <Link
-  href="/"
-  className="flex items-center gap-0 group whitespace-nowrap z-[110]"
->
-  <div className="relative">
-    <div className="absolute inset-0 group-hover:opacity-80 transition-opacity" />
+                    href="/"
+                    className="flex items-center gap-0 group whitespace-nowrap z-[110]"
+                >
+                    <div className="relative">
+                        <div className="absolute inset-0 group-hover:opacity-80 transition-opacity" />
 
-    
-   <img
-  src="/sense/images/logo.png"
-  alt="Logo"
-  className="w-18 h-18 object-contain scale-150 -mr-4"
-/>
-    
-  </div>
 
-  <div className="flex flex-col">
-    <span className="text-white font-black text-lg tracking-tighter leading-none uppercase">
-      SEGMENTO
-    </span>
+                        <img
+                            src="/sense/images/logo.png"
+                            alt="Logo"
+                            className="w-18 h-18 object-contain scale-150 -mr-4"
+                        />
 
-    <div className="flex items-center gap-1.5 mt-0.5">
-      <span className="relative flex h-1.5 w-1.5">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-      </span>
+                    </div>
 
-      <span className="text-slate-500 font-bold text-[9px] tracking-[0.3em] uppercase">
-        SENSE
-      </span>
-    </div>
-  </div>
-</Link>
+                    <div className="flex flex-col">
+                        <span className="text-white font-black text-lg tracking-tighter leading-none uppercase">
+                            SEGMENTO
+                        </span>
+
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+                            </span>
+
+                            <span className="text-slate-500 font-bold text-[9px] tracking-[0.3em] uppercase">
+                                SENSE
+                            </span>
+                        </div>
+                    </div>
+                </Link>
 
                 {/* DESKTOP NAV */}
                 <div className="hidden lg:flex items-center bg-white/[0.03] border border-white/[0.08] rounded-full p-1 relative">
                     {/* HOME */}
                     <div className="relative flex items-center">
                         <Link href="/">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname === '/' ? 'text-white' : 'text-slate-400 hover:text-white'
-                            }`}>
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/' ? 'text-white' : 'text-slate-400 hover:text-white'
+                                }`}>
                                 <div className="flex items-center gap-1">
                                     <Home size={9} className="text-cyan-400" />
                                     <span className="text-[13px] font-bold">HOME</span>
@@ -121,14 +120,13 @@ export function SenseNavbar() {
                     {/* COMPARE */}
                     <div className="relative flex items-center">
                         <Link href="/compare">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
-                            }`}>
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
+                                }`}>
                                 <div className="flex items-center gap-1">
-                                    <BarChart2 size={9} className="text-rose-400" />
+                                    <BarChart2 size={9} className="text-yellow-400" />
                                     <span className="text-[13px] font-bold">COMPARE</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-rose-500/70 font-mono">
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-yellow-500/70 font-mono">
                                     VS OTHERS
                                 </div>
                             </div>
@@ -136,10 +134,54 @@ export function SenseNavbar() {
                         {pathname === '/compare' && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-rose-700 rounded-full"
+                                className="absolute inset-0 bg-yellow-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
+                    </div>
+
+                    {/* Thin divider before CONNECTORS */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* CONNECTORS */}
+                    <div className="relative flex items-center">
+                        <Link href="/model-lab/connectors">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/model-lab/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
+                                }`}>
+                                <div className="flex items-center gap-1">
+                                    <Network size={9} className="text-orange-400" />
+                                    <span className="text-[13px] font-bold">CONNECTORS</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-orange-500/70 font-mono">
+                                    DATA SOURCES
+                                </div>
+                            </div>
+                        </Link>
+                        {pathname?.includes('/model-lab/connectors') && (
+                            <motion.div
+                                layoutId="nav-pill"
+                                className="absolute inset-0 bg-orange-700 rounded-full"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            />
+                        )}
+                    </div>
+
+                    {/* Thin divider before CLASSIFIER */}
+                    <div className="w-px h-4 bg-white/10 mx-1" />
+
+                    {/* CLASSIFIER */}
+                    <div className="relative flex items-center">
+                        <a href="https://www.segmento.in/sense/demo" target="_blank" rel="noopener noreferrer">
+                            <div className="relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 text-slate-400 hover:text-white">
+                                <div className="flex items-center gap-1">
+                                    <Zap size={9} className="text-slate-400" />
+                                    <span className="text-[13px] font-bold">CLASSIFIER</span>
+                                </div>
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-slate-500/70 font-mono">
+                                    LIVE DEMO
+                                </div>
+                            </div>
+                        </a>
                     </div>
 
                     {/* Thin divider before AI ENGINE */}
@@ -148,9 +190,8 @@ export function SenseNavbar() {
                     {/* AI ENGINE — special pill item */}
                     <div className="relative flex items-center">
                         <Link href="/ai-engine">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
-                            }`}>
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
+                                }`}>
                                 <div className="flex items-center gap-1">
                                     <Sparkles size={9} className="text-purple-400" />
                                     <span className="text-[13px] font-bold">AI ENGINE</span>
@@ -175,9 +216,8 @@ export function SenseNavbar() {
                     {/* MODEL LAB — evaluator observatory */}
                     <div className="relative flex items-center">
                         <Link href="/model-lab">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname?.includes('/model-lab') && !pathname?.includes('/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
-                            }`}>
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/model-lab') && !pathname?.includes('/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
+                                }`}>
                                 <div className="flex items-center gap-1">
                                     <FlaskConical size={9} className="text-emerald-400" />
                                     <span className="text-[13px] font-bold">MODEL LAB</span>
@@ -195,42 +235,15 @@ export function SenseNavbar() {
                             />
                         )}
                     </div>
-
-                    {/* Thin divider before CONNECTORS */}
-                    <div className="w-px h-4 bg-white/10 mx-1" />
-
-                    {/* CONNECTORS */}
-                    <div className="relative flex items-center">
-                        <Link href="/model-lab/connectors">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${
-                                pathname?.includes('/model-lab/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
-                            }`}>
-                                <div className="flex items-center gap-1">
-                                    <Network size={9} className="text-amber-400" />
-                                    <span className="text-[13px] font-bold">CONNECTORS</span>
-                                </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-amber-500/70 font-mono">
-                                    DATA SOURCES
-                                </div>
-                            </div>
-                        </Link>
-                        {pathname?.includes('/model-lab/connectors') && (
-                            <motion.div
-                                layoutId="nav-pill"
-                                className="absolute inset-0 bg-amber-700 rounded-full"
-                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                        )}
-                    </div>
                 </div>
 
                 {/* RIGHT SECTION */}
                 <div className="flex items-center gap-2">
-                
-                {/* MOBILE THEME TOGGLE */}
-<div className="md:hidden order-1">
-    <ThemeToggle />
-</div>
+
+                    {/* MOBILE THEME TOGGLE */}
+                    <div className="md:hidden order-1">
+                        <ThemeToggle />
+                    </div>
 
                     {/* MOBILE MENU BUTTON (FIRST) */}
                     <button
@@ -256,18 +269,28 @@ export function SenseNavbar() {
                     </a>
 
                     {/* DESKTOP ACTIONS */}
-                    {/* DESKTOP ACTIONS */}
-<div className="hidden md:flex items-center gap-3">
+                    <div className="hidden md:flex items-center gap-3">
 
-    {/* THEME TOGGLE */}
-    <ThemeToggle />
+                        {/* PROFILE BUTTON */}
+                        <button
+                            onClick={() => {/* future: router.push('/profile') */}}
+                            className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                            aria-label="Profile"
+                            title="Profile (coming soon)"
+                        >
+                            <UserCircle className="h-4 w-4" />
+                            <span>Profile</span>
+                        </button>
+
+                        {/* THEME TOGGLE */}
+                        <ThemeToggle />
 
 
-    <a href={backUrl}>
-        <motion.button
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-            className="
+                        <a href={backUrl}>
+                            <motion.button
+                                whileHover={{ scale: 1.03, y: -1 }}
+                                whileTap={{ scale: 0.97 }}
+                                className="
                 bg-blue-600
                 dark:bg-primary
                 text-white
@@ -281,12 +304,12 @@ export function SenseNavbar() {
                 gap-2
                 transition-colors
             "
-        >
-            <ArrowLeft size={14} strokeWidth={3} />
-            {backText}
-        </motion.button>
-    </a>
-</div>
+                            >
+                                <ArrowLeft size={14} strokeWidth={3} />
+                                {backText}
+                            </motion.button>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -332,22 +355,54 @@ export function SenseNavbar() {
 
                                 {/* COMPARE mobile entry */}
                                 <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-rose-500/30 bg-gradient-to-br from-[#2e0515] to-[#1a030b]">
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-[#2e2b05] to-[#1a1903]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <BarChart2 size={12} className="text-rose-300" />
+                                                <BarChart2 size={12} className="text-yellow-300" />
                                                 <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-rose-500/70 font-mono">
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-yellow-500/70 font-mono">
                                                 VS OTHERS
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-rose-400" />
+                                        <ChevronRight size={16} className="text-yellow-400" />
                                     </div>
                                 </Link>
                             </div>
 
                             <div className="mt-auto flex flex-col gap-3">
+                                {/* CONNECTORS mobile entry */}
+                                <Link href="/model-lab/connectors" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-orange-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Network size={12} className="text-orange-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">CONNECTORS</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-orange-500/70 font-mono">
+                                                DATA SOURCES
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-orange-400" />
+                                    </div>
+                                </Link>
+
+                                {/* CLASSIFIER mobile entry */}
+                                <a href="https://www.segmento.in/sense/demo" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-500/30 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a]">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <Zap size={12} className="text-slate-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">CLASSIFIER</span>
+                                            </div>
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-slate-500/70 font-mono">
+                                                LIVE DEMO
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={16} className="text-slate-400" />
+                                    </div>
+                                </a>
+
                                 {/* AI ENGINE mobile entry */}
                                 <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
                                     <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
@@ -377,22 +432,6 @@ export function SenseNavbar() {
                                             </div>
                                         </div>
                                         <ChevronRight size={16} className="text-emerald-400" />
-                                    </div>
-                                </Link>
-
-                                {/* CONNECTORS mobile entry */}
-                                <Link href="/model-lab/connectors" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
-                                        <div className="flex flex-col">
-                                            <div className="flex items-center gap-2">
-                                                <Network size={12} className="text-amber-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">CONNECTORS</span>
-                                            </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-amber-500/70 font-mono">
-                                                DATA SOURCES
-                                            </div>
-                                        </div>
-                                        <ChevronRight size={16} className="text-amber-400" />
                                     </div>
                                 </Link>
 
