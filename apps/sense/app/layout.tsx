@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { SenseNavbar } from "@/components/SenseNavbar";
 import ToastProvider from "@/components/ToastProvider";
+import { AuthProvider } from "@/lib/authContext";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -43,12 +44,14 @@ export default function MainLayout({
       text-[var(--color-foreground)]
     "
   >
-        <SenseNavbar />
-        <ToastProvider />
+        <AuthProvider>
+          <SenseNavbar />
+          <ToastProvider />
 
-        <main className="grow">
-          {children}
-        </main>
+          <main className="grow">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

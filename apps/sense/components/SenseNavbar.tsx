@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Zap, Menu, X, ChevronRight, Sparkles, FlaskConical, Network, Home, BarChart2, UserCircle } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import Image from "next/image";
+import { useAuth } from "@/lib/authContext";
 
 
 // Per-character flicker animation for "UNDER THE HOOD"
@@ -34,6 +35,8 @@ function GlitchText({ text }: { text: string }) {
 
 export function SenseNavbar() {
     const pathname = usePathname();
+    const router = useRouter();
+    const { isLoggedIn, user } = useAuth();
     const [mounted, setMounted] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -273,13 +276,19 @@ export function SenseNavbar() {
 
                         {/* PROFILE BUTTON */}
                         <button
-                            onClick={() => {/* future: router.push('/profile') */}}
+                            onClick={() => router.push('/profile')}
                             className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                             aria-label="Profile"
-                            title="Profile (coming soon)"
+                            title={isLoggedIn ? `Signed in as ${user?.name}` : 'Profile'}
                         >
-                            <UserCircle className="h-4 w-4" />
-                            <span>Profile</span>
+                            {isLoggedIn ? (
+                                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">
+                                    {user?.name?.[0]?.toUpperCase() ?? '?'}
+                                </span>
+                            ) : (
+                                <UserCircle className="h-4 w-4" />
+                            )}
+                            <span>{isLoggedIn ? (user?.name?.split(' ')[0] ?? 'Me') : 'Profile'}</span>
                         </button>
 
                         {/* THEME TOGGLE */}

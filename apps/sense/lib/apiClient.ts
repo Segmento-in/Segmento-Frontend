@@ -1,4 +1,6 @@
 // API Client for Segmento Sense Backend
+import type { AuthUser } from './auth';
+
 const NEXT_PUBLIC_API_URL = "http://localhost:7860";
 
 export const API_BASE_URL = NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
@@ -215,7 +217,7 @@ export interface PinnedResult {
     timestamp: number;
 }
 
-class APIClient {
+export class APIClient {
     private baseURL: string;
 
     constructor(baseURL: string = API_BASE_URL) {
@@ -797,6 +799,48 @@ class APIClient {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ auth_type: authType, credentials, files_to_tag: filesToTag, human_readable: humanReadable }),
+        });
+        return this.handleResponse(response);
+    }
+    // ==================== AUTH ====================
+
+    async register(
+        name: string,
+        email: string,
+        password: string,
+    ): Promise<{ access_token: string | null; user: AuthUser }> {
+        const response = await fetch(`${this.baseURL}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async login(
+        email: string,
+        password: string,
+    ): Promise<{ access_token: string; user: AuthUser }> {
+        const response = await fetch(`${this.baseURL}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async getMe(token: string): Promise<AuthUser> {
+        const response = await fetch(`${this.baseURL}/api/auth/me`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
+    async logout(token: string): Promise<void> {
+        const response = await fetch(`${this.baseURL}/api/auth/logout`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
         });
         return this.handleResponse(response);
     }
