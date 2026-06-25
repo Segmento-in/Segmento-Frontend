@@ -1,9 +1,8 @@
 // API Client for Segmento Sense Backend
 import type { AuthUser } from './auth';
 
-const NEXT_PUBLIC_API_URL = "http://localhost:7860";
-
-export const API_BASE_URL = NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://shafisk17-sense-backend.hf.space';
 
 
 export interface PIIMatch {

@@ -1,2 +1,4 @@
 .next/
 graphify-out/
+.env.local
+.env
