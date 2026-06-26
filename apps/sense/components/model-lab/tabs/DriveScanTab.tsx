@@ -9,9 +9,11 @@ import {
     ShieldAlert, ShieldCheck, Files, Sparkles, BarChart3, Download
 } from 'lucide-react';
 
-import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
+import { useAuth } from '@/lib/authContext';
+import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
 interface Props {
     modelCatalogue: EvaluatorModel[];
@@ -41,6 +43,10 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
 
     const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError] = useState<string | null>(null);
+
+    const { token } = useAuth();
+    const [outOfCredits, setOutOfCredits] = useState(false);
+    const [creditsLeft, setCreditsLeft] = useState(0);
 
     // --- State: Auth ---
     const [authType, setAuthType] = useState<'service_account' | 'oauth2_token'>('service_account');
@@ -219,6 +225,19 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
     const handleScan = async () => {
         if (selectedIds.size === 0 || !credentials) return;
 
+        // Credit deduction gate
+        if (token) {
+            try {
+                await apiClient.deductCredits(token, 1);
+            } catch (e) {
+                if (e instanceof OutOfCreditsError) {
+                    setCreditsLeft(e.creditsRemaining);
+                    setOutOfCredits(true);
+                    return;
+                }
+            }
+        }
+
         const filesToScan = items
             .filter(i => selectedIds.has(i.id))
             .map(i => ({ id: i.id, name: i.name, mimeType: i.mimeType }));
@@ -299,6 +318,11 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
 
     return (
         <div className="flex flex-col flex-1 min-h-0 h-full">
+            <OutOfCreditsModal
+                open={outOfCredits}
+                onClose={() => setOutOfCredits(false)}
+                creditsRemaining={creditsLeft}
+            />
             {error && (
                 <div className="flex items-center gap-2 p-3 bg-red-50 text-red-600 rounded-lg border border-red-100 dark:bg-red-900/20 dark:border-red-800">
                     <AlertCircle className="w-5 h-5 shrink-0" />

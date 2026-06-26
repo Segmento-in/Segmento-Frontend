@@ -3,7 +3,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, Play, Eye, EyeOff, ArrowLeft, Download } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, PIICount } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError } from '@/lib/apiClient';
+import { useAuth } from '@/lib/authContext';
+import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 type Step = 'AUTH' | 'BROWSE' | 'RESULTS';
@@ -14,6 +16,10 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
     const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
     const [error, setError]           = useState<string | null>(null);
     const [showConnStr, setShowConnStr] = useState(false);
+
+    const { token } = useAuth();
+    const [outOfCredits, setOutOfCredits] = useState(false);
+    const [creditsLeft, setCreditsLeft] = useState(0);
 
     // AUTH
     const [connStr, setConnStr]       = useState('');
@@ -64,6 +70,20 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
 
     const handleScan = async () => {
         if (selectedBlobs.size === 0) return;
+
+        // Credit deduction gate
+        if (token) {
+            try {
+                await apiClient.deductCredits(token, 1);
+            } catch (e) {
+                if (e instanceof OutOfCreditsError) {
+                    setCreditsLeft(e.creditsRemaining);
+                    setOutOfCredits(true);
+                    return;
+                }
+            }
+        }
+
         setIsScanning(true); setError(null); setResults([]); changeStep('RESULTS');
         const blobList = Array.from(selectedBlobs);
         const out: FileScanResult[] = [];
@@ -90,6 +110,11 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
+            <OutOfCreditsModal
+                open={outOfCredits}
+                onClose={() => setOutOfCredits(false)}
+                creditsRemaining={creditsLeft}
+            />
 
             {/* Header */}
             <div className="flex items-center gap-3 mb-8">

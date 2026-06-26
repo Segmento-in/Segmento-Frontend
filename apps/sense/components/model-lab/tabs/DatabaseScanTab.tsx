@@ -6,8 +6,10 @@ import {
   AlertCircle, CheckCircle2, ChevronRight, Loader2, Play,
   Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search, Shield
 } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
+import { useAuth } from '@/lib/authContext';
+import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
 interface TableScanEntry {
   tableName: string;
@@ -92,6 +94,10 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { token } = useAuth();
+  const [outOfCredits, setOutOfCredits] = useState(false);
+  const [creditsLeft, setCreditsLeft] = useState(0);
 
   // AUTH
   const [dbType, setDbType] = useState<DbType>('postgresql');
@@ -184,6 +190,20 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
   const handleScan = async (mode: 'full' | 'metadata' = 'full') => {
     if (selectedTableIds.size === 0) return;
+
+    // Credit deduction gate
+    if (token) {
+        try {
+            await apiClient.deductCredits(token, 1);
+        } catch (e) {
+            if (e instanceof OutOfCreditsError) {
+                setCreditsLeft(e.creditsRemaining);
+                setOutOfCredits(true);
+                return;
+            }
+        }
+    }
+
     const tablesToScan = [...selectedTableIds];
 
     // Initialise all entries as 'scanning'
@@ -324,6 +344,12 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
   return (
     <div className="flex flex-col flex-1 min-h-0 h-full">
+
+      <OutOfCreditsModal
+        open={outOfCredits}
+        onClose={() => setOutOfCredits(false)}
+        creditsRemaining={creditsLeft}
+      />
 
       {/* Error banner */}
       {error && (

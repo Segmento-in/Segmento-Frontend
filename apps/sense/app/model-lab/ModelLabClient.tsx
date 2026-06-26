@@ -11,6 +11,8 @@ import {
     PinnedResult,
     MetricRow,
 } from '@/lib/apiClient';
+import { useAuth } from '@/lib/authContext';
+import AuthGate from '@/components/AuthGate';
 
 export interface ModelLabState {
     // File + parse state
@@ -76,6 +78,7 @@ const DEFAULT_STATE: ModelLabState = {
 
 export default function ModelLabClient() {
     const [state, setState] = useState<ModelLabState>(DEFAULT_STATE);
+    const { isLoggedIn } = useAuth();
 
     const update = useCallback((patch: Partial<ModelLabState>) => {
         setState(prev => ({ ...prev, ...patch }));
@@ -109,15 +112,17 @@ export default function ModelLabClient() {
     const clearPins = useCallback(() => update({ pinnedResults: [] }), [update]);
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
-            <ModelLabHero />
-            <ModelLabTabs
-                state={state}
-                update={update}
-                pinResult={pinResult}
-                removePin={removePin}
-                clearPins={clearPins}
-            />
-        </div>
+        <AuthGate featureName="the Model Lab">
+            <div className="min-h-screen bg-slate-50 text-slate-900">
+                <ModelLabHero />
+                <ModelLabTabs
+                    state={state}
+                    update={update}
+                    pinResult={pinResult}
+                    removePin={removePin}
+                    clearPins={clearPins}
+                />
+            </div>
+        </AuthGate>
     );
 }

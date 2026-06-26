@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
+import { apiClient, ProfileStatsResponse } from '@/lib/apiClient';
 
 // ── Toast helper — fires the segmento:toast custom event consumed by ToastProvider ──
 type ToastType = 'info' | 'success' | 'error' | 'warning';
@@ -17,7 +19,22 @@ function fireToast(title: string, type: ToastType = 'info', message?: string) {
 // ── Main Component ────────────────────────────────────────────────────────────
 
 export default function ProfileClient() {
-  const { user, isLoggedIn, login, register, logout } = useAuth();
+  const { user, isLoggedIn, login, register, logout, token } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [stats, setStats] = useState<ProfileStatsResponse | null>(null);
+  const [statsLoading, setStatsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn && token) {
+      setStatsLoading(true);
+      apiClient.getProfileStats(token)
+        .then(setStats)
+        .catch(err => console.error('Failed to load profile stats:', err))
+        .finally(() => setStatsLoading(false));
+    }
+  }, [isLoggedIn, token]);
 
   const [tab, setTab] = useState<'login' | 'register'>('login');
 
@@ -45,6 +62,10 @@ export default function ProfileClient() {
     try {
       await login(loginEmail, loginPassword);
       fireToast('Signed in', 'success', `Welcome back!`);
+      const returnUrl = searchParams.get('returnUrl');
+      if (returnUrl) {
+          router.push(returnUrl);
+      }
     } catch (err: any) {
       fireToast('Login failed', 'error', err?.message ?? 'Invalid credentials');
     } finally {
@@ -136,8 +157,44 @@ export default function ProfileClient() {
               </div>
             </div>
 
+            {/* Usage & Limits */}
+            <div className="space-y-3 mb-8 relative z-10">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 pl-1">Usage & Limits</h3>
+              
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Credits Remaining</span>
+                {statsLoading ? (
+                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
+                ) : (
+                  <span className="text-sm text-blue-400 font-semibold">
+                    {stats?.credits?.credits_remaining ?? '—'} <span className="text-slate-500 font-medium">/ {stats?.credits?.weekly_allowance ?? 100}</span>
+                  </span>
+                )}
+              </div>
+              
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Total Scans</span>
+                {statsLoading ? (
+                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
+                ) : (
+                  <span className="text-sm text-white font-medium">{stats?.total_scans ?? 0}</span>
+                )}
+              </div>
+              
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">PII Found</span>
+                {statsLoading ? (
+                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
+                ) : (
+                  <span className="text-sm text-emerald-400 font-medium">{stats?.total_pii_found ?? 0}</span>
+                )}
+              </div>
+            </div>
+
             {/* Meta info */}
             <div className="space-y-3 mb-8 relative z-10">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 pl-1">Account Info</h3>
+
               <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Member since</span>
                 <span className="text-sm text-white font-medium">{formatDate(user.created_at)}</span>

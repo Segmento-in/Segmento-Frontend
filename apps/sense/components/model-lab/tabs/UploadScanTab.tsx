@@ -7,7 +7,9 @@ import {
     CheckCircle2, Target, Eye, BarChart2,
 } from 'lucide-react';
 import { ModelLabState } from '@/app/model-lab/ModelLabClient';
-import { EvaluatorModel, apiClient } from '@/lib/apiClient';
+import { EvaluatorModel, apiClient, OutOfCreditsError } from '@/lib/apiClient';
+import { useAuth } from '@/lib/authContext';
+import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
 const FORMAT_OPTIONS = [
     { value: 'auto',       label: 'Auto-detect',              desc: 'Let the backend figure out the format' },
@@ -43,6 +45,10 @@ export default function UploadScanTab({ state, update }: Props) {
     const [schemaOpen, setSchemaOpen] = useState(false);
     const [schemaText, setSchemaText] = useState('');
     const [schemaError, setSchemaError] = useState('');
+
+    const { token } = useAuth();
+    const [outOfCredits, setOutOfCredits] = useState(false);
+    const [creditsLeft, setCreditsLeft] = useState(0);
 
     // ── FILE DRAG & DROP ─────────────────────────────────────────────────────
     const handleDrop = useCallback((e: React.DragEvent) => {
@@ -90,6 +96,19 @@ export default function UploadScanTab({ state, update }: Props) {
         if (state.selectedModels.length === 0) { update({ error: 'Select at least one model.' }); return; }
         const schema = parseSchema();
         if (schemaText && !schema) return; // schema parse error shown above
+
+        // Credit deduction gate
+        if (token) {
+            try {
+                await apiClient.deductCredits(token, 1);
+            } catch (e) {
+                if (e instanceof OutOfCreditsError) {
+                    setCreditsLeft(e.creditsRemaining);
+                    setOutOfCredits(true);
+                    return;
+                }
+            }
+        }
 
         update({ isLoading: true, error: null, loadingStage: 'Parsing file…' });
 
@@ -151,7 +170,12 @@ export default function UploadScanTab({ state, update }: Props) {
     const overall    = activeData?.metrics?.find(r => r.entity_type === 'OVERALL');
 
     return (
-        <div  className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6 text-slate-900 dark:text-slate-100">
+        <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6 text-slate-900 dark:text-slate-100">
+            <OutOfCreditsModal
+                open={outOfCredits}
+                onClose={() => setOutOfCredits(false)}
+                creditsRemaining={creditsLeft}
+            />
 
             {/* ── LEFT: Model Selector ─────────────────────────────────────────── */}
             <div className="flex flex-col gap-4">

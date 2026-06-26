@@ -216,6 +216,48 @@ export interface PinnedResult {
     timestamp: number;
 }
 
+// ==================== CREDIT TYPES ====================
+
+export interface CreditsResponse {
+    credits_remaining: number;
+    credits_used: number;
+    last_restored_at: string | null;
+    weekly_allowance: number;
+}
+
+export interface DeductCreditsResponse {
+    success: boolean;
+    credits_remaining: number;
+    message: string;
+}
+
+export interface ConnectorStatEntry {
+    connector_type: string;
+    total_sessions: number;
+    total_files: number;
+    total_pii: number;
+}
+
+export interface ProfileStatsResponse {
+    credits: CreditsResponse;
+    total_scans: number;
+    total_pii_found: number;
+    connector_stats: ConnectorStatEntry[];
+}
+
+/**
+ * Thrown by `apiClient.deductCredits()` when the backend returns HTTP 402
+ * (insufficient credits). Catch this specifically to show the OutOfCreditsModal.
+ */
+export class OutOfCreditsError extends Error {
+    public readonly creditsRemaining: number;
+    constructor(creditsRemaining: number) {
+        super('Out of scan credits');
+        this.name = 'OutOfCreditsError';
+        this.creditsRemaining = creditsRemaining;
+    }
+}
+
 export class APIClient {
     private baseURL: string;
 
@@ -844,9 +886,47 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
+    // ==================== CREDITS ====================
+
+    async getCredits(token: string): Promise<CreditsResponse> {
+        const response = await fetch(`${this.baseURL}/api/auth/credits`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
+    /**
+     * Atomically deduct credits before a scan.
+     * Throws an error with a specific shape when out of credits (HTTP 402).
+     */
+    async deductCredits(token: string, amount = 1): Promise<DeductCreditsResponse> {
+        const response = await fetch(
+            `${this.baseURL}/api/auth/credits/deduct?amount=${amount}`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+            },
+        );
+        if (response.status === 402) {
+            const body = await response.json().catch(() => ({}));
+            throw new OutOfCreditsError(body.credits_remaining ?? 0);
+        }
+        return this.handleResponse(response);
+    }
+
+    async getProfileStats(token: string): Promise<ProfileStatsResponse> {
+        const response = await fetch(`${this.baseURL}/api/auth/profile-stats`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
 }
 
 export const apiClient = new APIClient();
+
 
 // ==================== DRIVE SCAN TYPES (Model Lab) ====================
 
