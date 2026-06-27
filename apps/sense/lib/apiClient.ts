@@ -823,10 +823,11 @@ export class APIClient {
         authType: string,
         credentials: Record<string, unknown>,
         folderId: string,
+        token: string,
     ): Promise<{ items: import('./apiClient').DriveItem[]; folder_id: string }> {
         const response = await fetch(`${this.baseURL}/api/evaluator/drive/browse`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ auth_type: authType, credentials, folder_id: folderId }),
         });
         return this.handleResponse(response);
@@ -837,10 +838,11 @@ export class APIClient {
         credentials: Record<string, unknown>,
         fileRefs: { id: string; name: string; mimeType: string }[],
         modelKeys: string[],
+        token: string,
     ): Promise<import('./apiClient').DriveFolderScanResponse> {
         const response = await fetch(`${this.baseURL}/api/evaluator/drive/scan`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({
                 auth_type: authType,
                 credentials,
@@ -851,10 +853,10 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async driveContentChunks(authType: string, credentials: Record<string, unknown>, fileRef: { id: string, name: string, mimeType: string }, chunkSize: number = 3000): Promise<{ chunks: Array<{text: string, start_idx: number, end_idx: number}> }> {
+    async driveContentChunks(authType: string, credentials: Record<string, unknown>, fileRef: { id: string, name: string, mimeType: string }, chunkSize: number = 3000, token: string): Promise<{ chunks: Array<{text: string, start_idx: number, end_idx: number}> }> {
         const response = await fetch(`${this.baseURL}/api/evaluator/drive/content-chunks`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({
                 auth_type: authType,
                 credentials,
@@ -870,10 +872,11 @@ export class APIClient {
         credentials: Record<string, unknown>,
         filesToTag: { file_id: string; pii_detected: boolean; pii_count: number }[],
         humanReadable: boolean = false,
+        token: string,
     ): Promise<{ tagged: import('./apiClient').DriveTagResult[]; scan_ts: string }> {
         const response = await fetch(`${this.baseURL}/api/evaluator/drive/tag`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify({ auth_type: authType, credentials, files_to_tag: filesToTag, human_readable: humanReadable }),
         });
         return this.handleResponse(response);

@@ -176,7 +176,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         setError(null);
         try {
             const [res, catalogRes] = await Promise.all([
-                apiClient.driveFolderBrowse(authType, credentials, folderInput),
+                apiClient.driveFolderBrowse(authType, credentials, folderInput, token || ''),
                 apiClient.getFileCatalog('google_drive', token || '')
             ]);
             setItems(res.items);
@@ -255,7 +255,8 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                 authType,
                 credentials,
                 filesToScan,
-                ALL_MODEL_KEYS
+                ALL_MODEL_KEYS,
+                token || ''
             );
 
             setScanResults(res.results);

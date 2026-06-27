@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Loader2, AlertCircle, Maximize2, ExternalLink } from 'lucide-react';
 import { apiClient, DriveFileScanResult, DriveItem, EvaluatorPrediction } from '@/lib/apiClient';
 import { PII_LABEL_COLORS } from './ModelShowdown';
+import { useAuth } from '@/lib/authContext';
 
 interface Props {
     fileInfo: DriveItem;
@@ -26,6 +27,8 @@ export default function DocumentViewerModal({
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState(0);
 
+    const { token } = useAuth();
+
     const [isTagging, setIsTagging] = useState(false);
     const [tagSuccess, setTagSuccess] = useState<boolean | null>(null);
 
@@ -46,7 +49,8 @@ export default function DocumentViewerModal({
                         name: fileInfo.name,
                         mimeType: fileInfo.mimeType
                     },
-                    3000
+                    3000,
+                    token || ''
                 );
 
                 if (isMounted) {
@@ -142,7 +146,7 @@ export default function DocumentViewerModal({
                 pii_detected: scanResult.pii_detected!,
                 pii_count: scanResult.pii_count!
             }];
-            const res = await apiClient.driveTagFiles(authType, credentials, filesToTag, true);
+            const res = await apiClient.driveTagFiles(authType, credentials, filesToTag, true, token || '');
             if (res.tagged[0]?.success) {
                 setTagSuccess(true);
             } else {
