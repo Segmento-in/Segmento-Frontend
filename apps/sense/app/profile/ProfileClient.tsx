@@ -5,6 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
 import { apiClient, ProfileStatsResponse } from '@/lib/apiClient';
 
+import StatsBar from '@/components/profile/StatsBar';
+import PiiDonut from '@/components/profile/PiiDonut';
+import ConnectorsRanking from '@/components/profile/ConnectorsRanking';
+import ActivityHeatmap from '@/components/profile/ActivityHeatmap';
+import ScanFeed from '@/components/profile/ScanFeed';
+import RiskScore from '@/components/profile/RiskScore';
+import TopPiiBar from '@/components/profile/TopPiiBar';
+
 // ── Toast helper — fires the segmento:toast custom event consumed by ToastProvider ──
 type ToastType = 'info' | 'success' | 'error' | 'warning';
 
@@ -31,10 +39,16 @@ export default function ProfileClient() {
       setStatsLoading(true);
       apiClient.getProfileStats(token)
         .then(setStats)
-        .catch(err => console.error('Failed to load profile stats:', err))
+        .catch(err => {
+          console.error('Failed to load profile stats:', err);
+          if (err.message && err.message.toLowerCase().includes('token')) {
+            fireToast('Session Expired', 'error', 'Please log in again.');
+            logout();
+          }
+        })
         .finally(() => setStatsLoading(false));
     }
-  }, [isLoggedIn, token]);
+  }, [isLoggedIn, token, logout]);
 
   const [tab, setTab] = useState<'login' | 'register'>('login');
 
@@ -138,95 +152,102 @@ export default function ProfileClient() {
     const firstName = user.name?.split(' ')[0] ?? user.email;
 
     return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center px-6 py-24">
-        <div className="w-full max-w-md">
-          {/* Card */}
-          <div className="relative rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-10 shadow-2xl shadow-black/60 overflow-hidden">
-            {/* Glow */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-blue-600/10 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-purple-600/8 blur-3xl pointer-events-none" />
-
+      <div className="min-h-screen bg-[#020617] flex">
+        {/* Sidebar */}
+        <aside className="w-72 border-r border-slate-800 bg-[#020617] flex flex-col fixed inset-y-0 z-20">
+          <div className="p-6 flex-1 overflow-y-auto scrollbar-thin">
             {/* Avatar */}
-            <div className="flex flex-col items-center gap-4 mb-8 relative z-10">
+            <div className="flex flex-col items-center gap-4 mb-8">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25 text-white text-3xl font-black select-none">
                 {initial}
               </div>
               <div className="text-center">
-                <h1 className="text-2xl font-black text-white tracking-tight">{user.name}</h1>
+                <h1 className="text-xl font-black text-white tracking-tight">{user.name}</h1>
                 <p className="text-sm text-slate-400 mt-0.5">{user.email}</p>
               </div>
             </div>
 
-            {/* Usage & Limits */}
-            <div className="space-y-3 mb-8 relative z-10">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 pl-1">Usage & Limits</h3>
-              
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Credits Remaining</span>
+            {/* Credits Info */}
+            <div className="space-y-3 mb-8">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 pl-1">Usage & Limits</h3>
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.05] px-4 py-3">
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Credits</span>
                 {statsLoading ? (
-                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
+                  <span className="text-sm text-slate-400 animate-pulse">...</span>
                 ) : (
                   <span className="text-sm text-blue-400 font-semibold">
-                    {stats?.credits?.credits_remaining ?? '—'} <span className="text-slate-500 font-medium">/ {stats?.credits?.weekly_allowance ?? 100}</span>
+                    {stats?.remaining_credits ?? '—'} <span className="text-slate-500 font-medium">/ {stats?.total_credits ?? 100}</span>
                   </span>
-                )}
-              </div>
-              
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Total Scans</span>
-                {statsLoading ? (
-                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
-                ) : (
-                  <span className="text-sm text-white font-medium">{stats?.total_scans ?? 0}</span>
-                )}
-              </div>
-              
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">PII Found</span>
-                {statsLoading ? (
-                  <span className="text-sm text-slate-400 animate-pulse">Loading...</span>
-                ) : (
-                  <span className="text-sm text-emerald-400 font-medium">{stats?.total_pii_found ?? 0}</span>
                 )}
               </div>
             </div>
 
             {/* Meta info */}
-            <div className="space-y-3 mb-8 relative z-10">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 pl-1">Account Info</h3>
-
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
+            <div className="space-y-3 mb-8">
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 pl-1">Account Info</h3>
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.05] px-4 py-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Member since</span>
                 <span className="text-sm text-white font-medium">{formatDate(user.created_at)}</span>
               </div>
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
+              <div className="flex items-center justify-between rounded-xl bg-white/[0.02] border border-white/[0.05] px-4 py-3">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">User ID</span>
-                <span className="text-xs text-slate-400 font-mono truncate max-w-[180px]">{user.id}</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.07] px-4 py-3">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Auth Provider</span>
-                <span className="text-sm text-emerald-400 font-semibold">Supabase GoTrue</span>
+                <span className="text-xs text-slate-400 font-mono truncate max-w-[120px]" title={user.id}>{user.id}</span>
               </div>
             </div>
-
-            {/* Logout */}
+          </div>
+          
+          <div className="p-6 border-t border-slate-800 bg-slate-900/50 mt-auto">
             <button
               onClick={handleLogout}
               disabled={logoutLoading}
-              className="relative z-10 w-full rounded-xl bg-white/[0.06] hover:bg-red-500/10 border border-white/10 hover:border-red-500/30 text-white/70 hover:text-red-400 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full rounded-xl bg-white/[0.05] hover:bg-red-500/10 border border-white/[0.05] hover:border-red-500/30 text-white/70 hover:text-red-400 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {logoutLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
-                  </svg>
-                  Signing out…
-                </span>
-              ) : 'Sign Out'}
+              {logoutLoading ? 'Signing out…' : 'Sign Out'}
             </button>
           </div>
-        </div>
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 ml-72 p-8 min-h-screen bg-slate-50 dark:bg-slate-950">
+          <div className="max-w-6xl mx-auto space-y-6">
+            <header className="mb-8">
+              <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Security Dashboard</h1>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Overview of your Segmento Sense activities</p>
+            </header>
+
+            {statsLoading || !stats ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-8 h-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+                  <p className="text-sm text-slate-500 font-medium">Loading analytics...</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                <StatsBar stats={stats} />
+                
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-1">
+                    <RiskScore stats={stats} />
+                  </div>
+                  <div className="lg:col-span-1">
+                    <PiiDonut stats={stats} />
+                  </div>
+                  <div className="lg:col-span-1">
+                    <ConnectorsRanking stats={stats} />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <TopPiiBar stats={stats} />
+                  <ScanFeed stats={stats} />
+                </div>
+
+                <ActivityHeatmap stats={stats} />
+              </div>
+            )}
+          </div>
+        </main>
       </div>
     );
   }

@@ -239,10 +239,39 @@ export interface ConnectorStatEntry {
 }
 
 export interface ProfileStatsResponse {
-    credits: CreditsResponse;
+    total_credits: number;
+    used_credits: number;
+    remaining_credits: number;
     total_scans: number;
-    total_pii_found: number;
-    connector_stats: ConnectorStatEntry[];
+    total_files_scanned: number;
+    pii_fields_found: number;
+    needs_review_pending: number;
+    classification_breakdown: {
+        sensitive: number;
+        non_sensitive: number;
+        needs_review: number;
+    };
+    risk_score: number;
+    top_connectors: Array<{
+        connector_type: string;
+        scan_count: number;
+        last_scan: string;
+    }>;
+    recent_scans: Array<{
+        session_id: string;
+        connector_type: string;
+        started_at: string;
+        status: string;
+        file_count: number;
+    }>;
+    heatmap_data: Array<{
+        date: string;
+        count: number;
+    }>;
+    top_pii_categories: Array<{
+        category: string;
+        count: number;
+    }>;
 }
 
 /**
