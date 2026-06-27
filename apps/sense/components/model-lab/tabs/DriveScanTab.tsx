@@ -177,7 +177,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         try {
             const [res, catalogRes] = await Promise.all([
                 apiClient.driveFolderBrowse(authType, credentials, folderInput),
-                apiClient.getFileCatalog('google_drive', 'default_uid')
+                apiClient.getFileCatalog('google_drive', token || '')
             ]);
             setItems(res.items);
             setCatalogData(catalogRes.files || []);
@@ -277,7 +277,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
 
             // Refresh catalog after scan so badges update from DB
             try {
-                const catalogRes = await apiClient.getFileCatalog('google_drive', 'default_uid');
+                const catalogRes = await apiClient.getFileCatalog('google_drive', token || '');
                 setCatalogData(catalogRes.files || []);
                 setLastSession(catalogRes.last_session || null);
             } catch {

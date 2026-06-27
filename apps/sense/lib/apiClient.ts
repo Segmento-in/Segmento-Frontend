@@ -460,10 +460,10 @@ export class APIClient {
         user: string;
         password: string;
         table: string;
-    }): Promise<AnalysisResponse> {
+    }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/postgresql`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(params),
         });
 
@@ -477,10 +477,10 @@ export class APIClient {
         user: string;
         password: string;
         table: string;
-    }): Promise<AnalysisResponse> {
+    }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(params),
         });
 
@@ -494,10 +494,10 @@ export class APIClient {
         user: string;
         password: string;
         table: string;
-    }): Promise<AnalysisResponse> {
+    }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/mongodb`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(params),
         });
 
@@ -522,28 +522,28 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanPostgresqlTable(credentials: DatabaseCredentials & { table: string }): Promise<AnalysisResponse> {
+    async scanPostgresqlTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/postgresql`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
     }
 
-    async scanMysqlTable(credentials: DatabaseCredentials & { table: string }): Promise<AnalysisResponse> {
+    async scanMysqlTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
     }
 
-    async scanMetadata(credentials: DatabaseCredentials & { connector_type: 'postgresql' | 'mysql', table?: string }): Promise<CatalogResponse> {
+    async scanMetadata(credentials: DatabaseCredentials & { connector_type: 'postgresql' | 'mysql', table?: string }, token: string): Promise<CatalogResponse> {
         const response = await fetch(`${this.baseURL}/api/connectors/metadata-scan`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
@@ -801,15 +801,21 @@ export class APIClient {
 
     // ==================== DRIVE SCAN (Model Lab) ====================
 
-    async getFileCatalog(connectorType: string, uid: string = "default_uid"): Promise<CatalogResponse> {
-        const response = await fetch(`${this.baseURL}/api/connector/file-catalog?connector_type=${connectorType}&uid=${uid}`);
+    async getFileCatalog(connectorType: string, token: string): Promise<CatalogResponse> {
+        const response = await fetch(`${this.baseURL}/api/connector/file-catalog?connector_type=${connectorType}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        });
         return this.handleResponse(response);
     }
 
-    async getDbCatalog(uid: string = "default_uid", connectorType?: string): Promise<CatalogResponse> {
-        const params = new URLSearchParams({ uid });
+    async getDbCatalog(token: string, connectorType?: string): Promise<CatalogResponse> {
+        const params = new URLSearchParams();
         if (connectorType) params.set('connector_type', connectorType);
-        const response = await fetch(`${this.baseURL}/db/catalog?${params.toString()}`);
+        const response = await fetch(`${this.baseURL}/db/catalog?${params.toString()}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        });
         return this.handleResponse(response);
     }
 

@@ -126,7 +126,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
   const fetchCatalog = async (dbType: DbType) => {
     try {
-        const res = await apiClient.getDbCatalog('default_uid', dbType);
+        const res = await apiClient.getDbCatalog(token || '', dbType);
         setCatalogData(res.files || []);
         setLastSession(res.last_session || null);
     } catch { /* non-fatal */ }
@@ -228,7 +228,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         if (mode === 'metadata') {
           // Metadata scan hits the new endpoint which returns a CatalogResponse.
           // We extract the table's entry and mock an AnalysisResponse to keep the UI flow happy.
-          const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: dbType, table: tableName });
+          const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: dbType, table: tableName }, token || '');
           const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === tableName);
           const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
           totalPiiFound += flaggedColumns.length;
@@ -240,8 +240,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           } as AnalysisResponse & { metadata?: any };
         } else {
           res = dbType === 'postgresql'
-            ? await apiClient.scanPostgresqlTable({ ...creds, table: tableName })
-            : await apiClient.scanMysqlTable({ ...creds, table: tableName });
+            ? await apiClient.scanPostgresqlTable({ ...creds, table: tableName }, token || '')
+            : await apiClient.scanMysqlTable({ ...creds, table: tableName }, token || '');
           totalPiiFound += res.total_pii_found || 0;
         }
         

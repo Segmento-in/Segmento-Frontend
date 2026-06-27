@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { apiClient, AnalysisResponse } from '@/lib/apiClient';
+import { useAuth } from '@/lib/authContext';
 
 interface DatabaseConnectorProps {
     databaseType: 'PostgreSQL' | 'MySQL' | 'MongoDB';
@@ -25,6 +26,7 @@ export const DatabaseConnector: React.FC<DatabaseConnectorProps> = ({
     onLoading,
     onError,
 }) => {
+    const { token } = useAuth();
     const [credentials, setCredentials] = useState<DatabaseCredentials>({
         host: 'localhost',
         port: databaseType === 'PostgreSQL' ? '5432' : databaseType === 'MySQL' ? '3306' : '27017',
@@ -76,11 +78,11 @@ export const DatabaseConnector: React.FC<DatabaseConnectorProps> = ({
             let result;
 
             if (databaseType === 'PostgreSQL') {
-                result = await apiClient.connectPostgreSQL(credentials);
+                result = await apiClient.connectPostgreSQL(credentials, token || '');
             } else if (databaseType === 'MySQL') {
-                result = await apiClient.connectMySQL(credentials);
+                result = await apiClient.connectMySQL(credentials, token || '');
             } else {
-                result = await apiClient.connectMongoDB(credentials);
+                result = await apiClient.connectMongoDB(credentials, token || '');
             }
 
             onAnalysisComplete(result);
