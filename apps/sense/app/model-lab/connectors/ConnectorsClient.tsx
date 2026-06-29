@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User } from 'lucide-react';
 import { apiClient, EvaluatorModel } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
-import AuthGate from '@/components/AuthGate';
+import { useRouter } from 'next/navigation';
 
 import DriveScanTab from '@/components/model-lab/tabs/DriveScanTab';
 import S3ScanTab from '@/components/model-lab/tabs/S3ScanTab';
@@ -259,7 +259,16 @@ interface FlowState {
 // ── Main component ────────────────────────────────────────────────────────────
 export default function ConnectorsClient() {
     const [modelCatalogue, setModelCatalogue] = useState<EvaluatorModel[]>([]);
-    const { isLoggedIn } = useAuth();
+    const { isLoggedIn, user } = useAuth();
+    const router = useRouter();
+
+    const requireAuth = (): boolean => {
+        if (!user) {
+            router.push('/login?returnUrl=/model-lab/connectors');
+            return false;
+        }
+        return true;
+    };
 
     // Core state for new navigation behavior
     // 'connectors' = connector grid, 'scan' = active configuring flow, 'results' = retained profile results
@@ -273,6 +282,8 @@ export default function ConnectorsClient() {
     const [currentStep, setCurrentStep] = useState<'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS'>('AUTH');
 
     const handleStepChange = (flowId: string, step: 'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS') => {
+        if (!requireAuth()) return;
+        
         if (configuring?.id === flowId) {
             setCurrentStep(step);
         }
@@ -291,7 +302,6 @@ export default function ConnectorsClient() {
     };
 
     return (
-        <AuthGate featureName="Premium Connectors">
         <div className="flex flex-1 min-h-0 bg-white text-slate-900">
 
             {/* ── LEFT SIDEBAR ──────────────────────────────────────────── */}
@@ -532,6 +542,5 @@ export default function ConnectorsClient() {
 
             </div>
         </div>
-        </AuthGate>
     );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import AuthGate from '@/components/AuthGate';
 import { SourceSidebar, SourceConfig } from '@/components/pii-demo/SourceSidebar';
 import { FileUpload } from '@/components/pii-demo/FileUpload';
 import { ModelSelector } from '@/components/pii-demo/ModelSelector';
@@ -206,6 +207,7 @@ export default function PIIDemoPage() {
     };
 
     return (
+        <AuthGate featureName="Classifier">
         <div className="flex h-screen w-full bg-slate-50 dark:bg-[#05060B] text-slate-900 dark:text-gray-100 overflow-hidden font-sans">
             {/* 1. SIDEBAR - Issue badge removed and content adjusted */}
             <aside className={theme.sidebar}>
@@ -353,5 +355,6 @@ export default function PIIDemoPage() {
                 }
             `}</style>
         </div>
+        </AuthGate>
     );
 }

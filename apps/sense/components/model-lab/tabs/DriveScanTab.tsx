@@ -303,7 +303,8 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         try {
             await apiClient.driveTagFiles(authType, credentials,
                 [{ file_id: fileId, pii_detected: !!result.pii_detected, pii_count: result.pii_count || 0 }],
-                human
+                human,
+                token || ''
             );
             setPiiActions(prev => ({ ...prev, [fileId]: 'tagged' }));
         } catch {

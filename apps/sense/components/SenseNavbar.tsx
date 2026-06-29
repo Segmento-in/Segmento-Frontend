@@ -174,7 +174,7 @@ export function SenseNavbar() {
 
                     {/* CLASSIFIER */}
                     <div className="relative flex items-center">
-                        <a href="https://www.segmento.in/sense/demo" target="_blank" rel="noopener noreferrer">
+                        <Link href="/demo">
                             <div className="relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 text-slate-400 hover:text-white">
                                 <div className="flex items-center gap-1">
                                     <Zap size={9} className="text-slate-400" />
@@ -184,7 +184,7 @@ export function SenseNavbar() {
                                     LIVE DEMO
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Thin divider before AI ENGINE */}
@@ -397,7 +397,7 @@ export function SenseNavbar() {
                                 </Link>
 
                                 {/* CLASSIFIER mobile entry */}
-                                <a href="https://www.segmento.in/sense/demo" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                                <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
                                     <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-500/30 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
@@ -410,7 +410,7 @@ export function SenseNavbar() {
                                         </div>
                                         <ChevronRight size={16} className="text-slate-400" />
                                     </div>
-                                </a>
+                                </Link>
 
                                 {/* AI ENGINE mobile entry */}
                                 <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
