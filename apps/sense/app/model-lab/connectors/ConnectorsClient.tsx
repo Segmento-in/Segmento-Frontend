@@ -167,32 +167,6 @@ const CONNECTORS = [
             featureIcon: 'text-violet-500',
         },
     },
-    {
-        id: 'local-upload' as const,
-        emoji: <UploadCloud className="w-7 h-7 text-slate-700" /> as any,
-        label: 'Local Upload',
-        titleLine1: 'Local',
-        titleLine2: 'Upload',
-        category: 'LOCAL SYSTEM',
-        description: 'Scan local files for PII using the ensemble engine.',
-        authType: 'No Auth Required',
-        scanData: ['Local files & documents', 'File metadata & content', 'In-browser scanning'],
-        features: [
-            { Icon: Shield, text: 'Files processed securely' },
-            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
-            { Icon: Zap, text: 'Instant results in your browser' },
-        ],
-        accent: {
-            cat: 'bg-slate-100 text-slate-600 border border-slate-200',
-            dot: 'bg-slate-500',
-            iconBg: 'bg-slate-100',
-            iconColor: 'text-slate-600',
-            btn: 'group-hover:bg-slate-600 group-hover:border-slate-600 group-hover:text-white group-hover:shadow-slate-500/25',
-            titleColor: 'text-slate-600',
-            badge: 'bg-slate-100 text-slate-700 border-slate-200',
-            featureIcon: 'text-slate-500',
-        },
-    },
 ] as const;
 
 type ConnectorId = typeof CONNECTORS[number]['id'];
@@ -298,8 +272,8 @@ export default function ConnectorsClient() {
     };
 
     // Core state for new navigation behavior
-    // 'connectors' = connector grid, 'scan' = active configuring flow, 'results' = retained profile results
-    const [rightView, setRightView] = useState<'connectors' | 'scan' | 'results'>('connectors');
+    // 'connectors' = connector grid, 'scan' = active configuring flow, 'results' = retained profile results, 'local-upload' = full right panel
+    const [rightView, setRightView] = useState<'connectors' | 'scan' | 'results' | 'local-upload'>('connectors');
     const [hasResults, setHasResults] = useState(false);
     // Manage instances of scan flows
     const [configuring, setConfiguring] = useState<FlowState | null>(null);
@@ -390,6 +364,32 @@ export default function ConnectorsClient() {
                         {configuring && (
                             <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 animate-pulse" />
                         )}
+                    </button>
+
+                    {/* Local Upload Button */}
+                    <button
+                        onClick={() => {
+                            // If user is in a flow that's past AUTH (BROWSE/RESULTS), park it to Profile
+                            if (configuring && currentStep !== 'AUTH') {
+                                setProfile(configuring);
+                                setConfiguring(null);
+                                setHasResults(true);
+                            }
+                            setRightView('local-upload');
+                        }}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${rightView === 'local-upload'
+                                ? 'bg-slate-900 shadow-md text-white'
+                                : 'text-slate-600 hover:bg-slate-100'
+                            }`}
+                    >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${rightView === 'local-upload' ? 'bg-white/10' : 'bg-slate-100 text-slate-500'
+                            }`}>
+                            <UploadCloud className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate">Local Upload</p>
+                            <p className="text-[10px] truncate text-slate-400">Scan Browser Files</p>
+                        </div>
                     </button>
 
                 </nav>
@@ -560,7 +560,6 @@ export default function ConnectorsClient() {
                                         {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'local-upload' && <LocalUploadView />}
                                     </div>
                                 </div>
                             </div>
@@ -568,6 +567,11 @@ export default function ConnectorsClient() {
                     );
                 })}
 
+            </div>
+
+            {/* ── LOCAL UPLOAD DIRECT VIEW ──────────────────────────────────────── */}
+            <div className={`flex-col flex-1 min-h-0 ${rightView === 'local-upload' ? 'flex' : 'hidden'}`}>
+                <LocalUploadView />
             </div>
         </div>
     );

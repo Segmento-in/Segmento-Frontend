@@ -6,11 +6,51 @@ import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
 import { apiClient, OutOfCreditsError, AnalysisResponse, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
-import { Loader2, UploadCloud, AlertCircle } from 'lucide-react';
-import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
-import { Inspector } from '@/components/pii-demo/Inspector';
+import { Loader2, UploadCloud, AlertCircle, ArrowLeft, File } from 'lucide-react';
 import ConnectorPreviewUI from '@/components/model-lab/ConnectorPreviewUI';
 import DocumentViewerModal from '@/components/model-lab/DocumentViewerModal';
+
+// ── 3-D tilt card for File Types ─────────────────────────────────────────────
+function FileTypeCard({ type, onSelect }: { type: any; onSelect: () => void }) {
+    const cardRef = useRef<HTMLDivElement>(null);
+    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const el = cardRef.current;
+        if (!el) return;
+        const { left, top, width, height } = el.getBoundingClientRect();
+        const x = e.clientX - left;
+        const y = e.clientY - top;
+        const rx = ((y - height / 2) / height) * 12;
+        const ry = ((width / 2 - x) / width) * 12;
+        el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`;
+    };
+    const onMouseLeave = () => {
+        if (cardRef.current)
+            cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    };
+
+    return (
+        <div
+            ref={cardRef}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            onClick={onSelect}
+            style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
+            className="group bg-white border border-slate-200 rounded-2xl p-6 cursor-pointer shadow-sm hover:shadow-xl hover:border-slate-300 flex flex-col items-center justify-center text-center gap-4 h-full"
+        >
+            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:scale-110 transition-transform duration-500">
+                <File className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-slate-700 transition-colors leading-tight">
+                  {type.label.split(' (')[0]}
+              </h3>
+              <div className="mt-2 text-[10px] text-slate-400 font-mono bg-slate-50 border border-slate-100 px-2 py-1 rounded-md uppercase tracking-widest truncate max-w-[120px] mx-auto">
+                  {type.accept}
+              </div>
+            </div>
+        </div>
+    );
+}
 
 export default function LocalUploadView() {
   type CategoryKey = typeof CATEGORIES[number]['key'];
@@ -40,13 +80,11 @@ export default function LocalUploadView() {
   const handleFilesSelected = async (files: File[]) => {
     if (!files || files.length === 0) return;
 
-    // 1. ACTION-LEVEL AUTH GATE
     if (!isLoggedIn) {
       router.push('/profile?returnUrl=/model-lab/connectors');
       return;
     }
 
-    // 2. CLIENT-SIDE CREDIT GATE & OPTIMISTIC DECREMENT
     if (token) {
       try {
         await apiClient.deductCredits(token, files.length);
@@ -59,7 +97,6 @@ export default function LocalUploadView() {
       }
     }
 
-    // 4. TRANSITION
     setUploadedFiles(files);
     setScanningCount(files.length);
     setStep('scanning');
@@ -145,7 +182,6 @@ export default function LocalUploadView() {
     setStep('select-type');
   };
 
-  // Convert uploaded files to DriveItem and DriveFileScanResult for ConnectorPreviewUI and DocumentViewerModal
   const driveItems: DriveItem[] = uploadedFiles.map(f => ({
     id: f.name,
     name: f.name,
@@ -171,7 +207,7 @@ export default function LocalUploadView() {
   }));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-6 text-gray-900 min-h-[400px]">
+    <div className="flex flex-col flex-1 min-h-0 bg-slate-50 relative w-full">
       <OutOfCreditsModal
         open={outOfCredits}
         onClose={() => setOutOfCredits(false)}
@@ -179,107 +215,128 @@ export default function LocalUploadView() {
       />
 
       {step === 'select-type' && (
-        <>
-          {/* Navbar */}
-          <div className="flex items-center gap-6 border-b border-gray-200 mb-6">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat.key}
-                onClick={() => setSelectedCategory(cat.key as CategoryKey)}
-                className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
-                  selectedCategory === cat.key
-                    ? 'border-blue-600 text-blue-600 font-semibold'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                {cat.label.replace(/[^a-zA-Z-\s]/g, '').trim()}
-              </button>
-            ))}
+        <div className="flex-col flex-1 min-h-0 overflow-y-auto flex">
+          {/* Hero Header matching Connectors grid */}
+          <div className="bg-white border-b border-slate-200 shrink-0">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+              <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                Local Upload
+              </h1>
+              <p className="mt-4 text-base text-slate-500 max-w-2xl">
+                Select a file format to securely scan local files in your browser. Files are processed entirely in-memory ensuring zero retention and maximum security.
+              </p>
+            </div>
           </div>
 
-          {/* Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            {activeCategory.types.map(type => (
-              <div
-                key={type.ext}
-                onClick={() => {
-                  setSelectedFileType(type.ext);
-                  setStep('upload');
-                }}
-                className="border border-gray-200 rounded-lg p-4 hover:border-blue-500 hover:shadow-sm cursor-pointer transition-all bg-white flex flex-col items-center justify-center text-center gap-3"
-              >
-                <div className="text-gray-900 font-semibold text-sm">
-                  {type.label.split(' (')[0]}
-                </div>
-                <div className="text-xs text-gray-500 font-mono bg-gray-50 border border-gray-100 px-2 py-1 rounded">
-                  {type.accept}
-                </div>
+          {/* Grid Container */}
+          <div className="flex-1 bg-slate-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
+                Select File Type
+              </p>
+              
+              {/* Navbar */}
+              <div className="flex flex-wrap items-center gap-2 mb-8">
+                {CATEGORIES.map(cat => (
+                  <button
+                    key={cat.key}
+                    onClick={() => setSelectedCategory(cat.key as CategoryKey)}
+                    className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
+                      selectedCategory === cat.key
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                        : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
               </div>
-            ))}
+
+              {/* Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 pb-12">
+                {activeCategory.types.map(type => (
+                  <FileTypeCard
+                    key={type.ext}
+                    type={type}
+                    onSelect={() => {
+                      setSelectedFileType(type.ext);
+                      setStep('upload');
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </>
+        </div>
       )}
 
       {step === 'upload' && (
-        <div className="flex flex-col h-full min-h-[300px]">
-          {/* Back Breadcrumb */}
-          <button
-            onClick={() => {
-              setSelectedFileType(null);
-              setStep('select-type');
-            }}
-            className="text-sm text-gray-500 hover:text-gray-900 flex items-center gap-1 mb-6 cursor-pointer self-start transition-colors"
-          >
-            <span className="mr-1">←</span> Back to file types
-          </button>
+        <div className="flex-1 overflow-y-auto bg-slate-50 flex flex-col">
+          <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-12 flex flex-col flex-1 min-h-[500px]">
+            {/* Back Breadcrumb */}
+            <button
+              onClick={() => {
+                setSelectedFileType(null);
+                setStep('select-type');
+              }}
+              className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group self-start"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              Back to file types
+            </button>
 
-          {/* Dropzone */}
-          <div
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`flex-1 border-2 border-dashed rounded-xl p-12 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
-              isDragging
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-300 hover:border-blue-500 bg-white hover:bg-gray-50'
-            }`}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              onChange={handleFileInputChange}
-              className="hidden"
-              accept={activeTypeObj?.accept}
-            />
-            
-            <div className="space-y-4 flex flex-col items-center">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center border border-blue-100">
-                <UploadCloud className="w-8 h-8" />
-              </div>
+            {/* Dropzone */}
+            <div
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={`flex-1 border-2 border-dashed rounded-3xl p-16 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
+                isDragging
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-slate-300 hover:border-blue-500 bg-white hover:bg-slate-50/50 hover:shadow-lg'
+              }`}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                onChange={handleFileInputChange}
+                className="hidden"
+                accept={activeTypeObj?.accept}
+              />
               
-              <div>
-                <p className="text-lg text-gray-900 font-semibold">
-                  Upload {activeTypeObj ? activeTypeObj.label.split(' (')[0] : selectedFileType} Files
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  Drag and drop files here or <span className="text-blue-600 font-medium">browse</span>
-                </p>
+              <div className="space-y-6 flex flex-col items-center">
+                <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center border border-blue-100 shadow-sm">
+                  <UploadCloud className="w-10 h-10" />
+                </div>
+                
+                <div>
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+                    Upload {activeTypeObj ? activeTypeObj.label.split(' (')[0] : selectedFileType} Files
+                  </h2>
+                  <p className="text-base text-slate-500 mt-3 max-w-sm mx-auto">
+                    Drag and drop files here or <span className="text-blue-600 font-semibold underline decoration-blue-200 underline-offset-4">browse</span>
+                  </p>
+                </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+                  Multiple files supported
+                </div>
               </div>
-              <p className="text-xs text-gray-400">Multiple files supported.</p>
             </div>
           </div>
         </div>
       )}
 
       {step === 'scanning' && (
-        <div className="flex flex-col h-full min-h-[300px] items-center justify-center text-center">
-           <Loader2 className="w-10 h-10 text-blue-600 animate-spin mb-4" />
-           <p className="text-gray-900 font-semibold text-lg">
+        <div className="flex-1 bg-white flex flex-col items-center justify-center text-center p-12">
+           <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-8 border border-blue-100 animate-pulse">
+               <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+           </div>
+           <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-3">
              Scanning {scanningCount} file{scanningCount !== 1 ? 's' : ''} for PII...
-           </p>
-           <p className="text-sm text-gray-500 mt-2 max-w-sm mx-auto">
+           </h2>
+           <p className="text-slate-500 max-w-md mx-auto text-base">
              Our ensemble engine is securely processing your files in memory. 
              Results will appear shortly.
            </p>
@@ -287,60 +344,59 @@ export default function LocalUploadView() {
       )}
 
       {step === 'results' && (
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center justify-between border-b border-gray-200 pb-4">
-            <h2 className="text-xl font-bold text-gray-900">Scan Results</h2>
-            <button
-              onClick={chooseDifferentFile}
-              className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              Scan New Files
-            </button>
+        <div className="flex flex-col flex-1 min-h-0 bg-slate-50 overflow-hidden">
+          <div className="bg-white border-b border-slate-200 shrink-0 shadow-sm">
+             <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center border border-emerald-100">
+                        <File className="w-5 h-5" />
+                    </div>
+                    <div>
+                        <h2 className="text-lg font-black text-slate-900 leading-tight">Scan Results</h2>
+                        <p className="text-xs text-slate-500 font-medium">Local Upload • {scanningCount} file{scanningCount !== 1 ? 's' : ''}</p>
+                    </div>
+                </div>
+                <button 
+                  onClick={chooseDifferentFile} 
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-colors shadow-sm"
+                >
+                  Scan New Files
+                </button>
+             </div>
           </div>
-
-          {uploadedFiles.length === 1 && scanResults.length === 1 ? (
-            <div className="flex flex-col gap-8 bg-white text-gray-900">
-              <PIIAnalytics
-                piiCounts={scanResults[0].result.pii_counts}
-                schema={scanResults[0].result.schema}
-              />
-              {scanResults[0].result.inspector && (
-                <Inspector inspectorData={scanResults[0].result.inspector} />
-              )}
-            </div>
-          ) : (
-            <div className="bg-white text-gray-900">
+          <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 lg:p-8">
               <ConnectorPreviewUI
-                items={driveItems}
-                scanResults={mappedScanResults}
-                selectedIds={new Set()}
-                onToggleSelection={() => {}}
-                scanningIds={new Set()}
-                onOpenFile={(id) => setViewingFileId(id)}
-                connectorType="Local Upload"
+                  items={driveItems}
+                  scanResults={mappedScanResults}
+                  selectedIds={new Set()}
+                  onToggleSelection={() => {}}
+                  scanningIds={new Set()}
+                  onOpenFile={(id) => setViewingFileId(id)}
+                  connectorType="Local Upload"
               />
-            </div>
-          )}
+          </div>
         </div>
       )}
 
       {step === 'error' && (
-        <div className="flex flex-col h-full min-h-[300px] items-center justify-center text-center bg-white text-gray-900 border border-red-200 rounded-xl p-8">
-          <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Scan Failed</h2>
-          <p className="text-gray-600 mb-8 max-w-md">
+        <div className="flex-1 bg-white flex flex-col items-center justify-center text-center p-12">
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-8 border border-red-100">
+              <AlertCircle className="w-10 h-10 text-red-500" />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-3">Scan Failed</h2>
+          <p className="text-slate-500 mb-10 max-w-md mx-auto text-base">
             {scanError || 'An unexpected error occurred while scanning your files.'}
           </p>
           <div className="flex items-center gap-4">
             <button
               onClick={retryScan}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-sm"
             >
-              Retry
+              Retry Scan
             </button>
             <button
               onClick={chooseDifferentFile}
-              className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition-colors"
+              className="px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors"
             >
               Choose Different File
             </button>
