@@ -264,7 +264,7 @@ export default function ConnectorsClient() {
 
     const requireAuth = (): boolean => {
         if (!user) {
-            router.push('/login?returnUrl=/model-lab/connectors');
+            router.push('/profile?returnUrl=/model-lab/connectors');
             return false;
         }
         return true;

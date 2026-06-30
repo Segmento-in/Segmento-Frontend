@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { apiClient, AnalysisResponse } from '@/lib/apiClient';
+import { useAuth } from '@/lib/authContext';
+import { useRouter } from 'next/navigation';
 
 interface FileUploadProps {
     fileType: string;
@@ -20,6 +22,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, selectedModels
     const [pdfPage, setPdfPage] = useState(0);
     const [error, setError] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const { isLoggedIn } = useAuth();
+    const router = useRouter();
 
     // Reset all state when file type changes — prevents stale file/mask from carrying over
     useEffect(() => {
@@ -104,6 +109,11 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileType, selectedModels
 
     const handleScan = async () => {
         if (!selectedFile) return;
+
+        if (!isLoggedIn) {
+            router.push('/profile?returnUrl=/demo');
+            return;
+        }
 
         setError('');
         onError?.('');

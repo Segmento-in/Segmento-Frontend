@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import { EvaluatorModel, VideoJobStatus, apiClient } from '@/lib/apiClient';
 import ModelShowdown, { getPiiColor } from '@/components/model-lab/ModelShowdown';
+import { useAuth } from '@/lib/authContext';
+import { useRouter } from 'next/navigation';
 
 // ── File categories & types ───────────────────────────────────────────────────
 
@@ -129,6 +131,9 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
     const fileRef = useRef<HTMLInputElement>(null);
     const [isDragging, setIsDragging] = useState(false);
 
+    const { isLoggedIn } = useAuth();
+    const router = useRouter();
+
     const patch = (p: Partial<FormatScanState>) => setS(prev => ({ ...prev, ...p }));
 
     // ── Video job polling ─────────────────────────────────────────────────────
@@ -197,6 +202,11 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
     const runScan = async () => {
         if (!s.uploadedFile) { patch({ error: 'Upload a file first.' }); return; }
         if (s.selectedModels.length === 0) { patch({ error: 'Select at least one model.' }); return; }
+
+        if (!isLoggedIn) {
+            router.push('/profile?returnUrl=/model-lab');
+            return;
+        }
 
         patch({ isLoading: true, error: null, showdownData: null, parsedText: '', videoJobId: null });
 

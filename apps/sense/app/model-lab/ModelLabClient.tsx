@@ -12,7 +12,6 @@ import {
     MetricRow,
 } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
-import AuthGate from '@/components/AuthGate';
 
 export interface ModelLabState {
     // File + parse state
@@ -112,17 +111,15 @@ export default function ModelLabClient() {
     const clearPins = useCallback(() => update({ pinnedResults: [] }), [update]);
 
     return (
-        <AuthGate featureName="the Model Lab">
-            <div className="min-h-screen bg-slate-50 text-slate-900">
-                <ModelLabHero />
-                <ModelLabTabs
-                    state={state}
-                    update={update}
-                    pinResult={pinResult}
-                    removePin={removePin}
-                    clearPins={clearPins}
-                />
-            </div>
-        </AuthGate>
+        <div className="min-h-screen bg-slate-50 text-slate-900">
+            <ModelLabHero />
+            <ModelLabTabs
+                state={state}
+                update={update}
+                pinResult={pinResult}
+                removePin={removePin}
+                clearPins={clearPins}
+            />
+        </div>
     );
 }

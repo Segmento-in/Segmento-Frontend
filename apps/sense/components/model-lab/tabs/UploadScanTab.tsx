@@ -9,6 +9,7 @@ import {
 import { ModelLabState } from '@/app/model-lab/ModelLabClient';
 import { EvaluatorModel, apiClient, OutOfCreditsError } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
+import { useRouter } from 'next/navigation';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
 const FORMAT_OPTIONS = [
@@ -46,7 +47,8 @@ export default function UploadScanTab({ state, update }: Props) {
     const [schemaText, setSchemaText] = useState('');
     const [schemaError, setSchemaError] = useState('');
 
-    const { token } = useAuth();
+    const { token, isLoggedIn } = useAuth();
+    const router = useRouter();
     const [outOfCredits, setOutOfCredits] = useState(false);
     const [creditsLeft, setCreditsLeft] = useState(0);
 
@@ -96,6 +98,11 @@ export default function UploadScanTab({ state, update }: Props) {
         if (state.selectedModels.length === 0) { update({ error: 'Select at least one model.' }); return; }
         const schema = parseSchema();
         if (schemaText && !schema) return; // schema parse error shown above
+
+        if (!isLoggedIn) {
+            router.push('/profile?returnUrl=/model-lab');
+            return;
+        }
 
         // Credit deduction gate
         if (token) {
