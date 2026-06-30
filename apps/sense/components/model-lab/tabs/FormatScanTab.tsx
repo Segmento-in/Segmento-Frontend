@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 // ── File categories & types ───────────────────────────────────────────────────
 
-const CATEGORIES = [
+export const CATEGORIES = [
     {
         key: 'unstructured',
         label: '📄 Unstructured',
@@ -71,7 +71,7 @@ const CATEGORIES = [
     },
 ];
 
-const TYPE_COLORS: Record<string, string> = {
+export const TYPE_COLORS: Record<string, string> = {
     'Rule-based':  'border-emerald-300 text-emerald-700 bg-emerald-500/10',
     'Statistical': 'border-amber-500/50 text-amber-600 bg-amber-500/10',
     'GLiNER':      'border-purple-500/50 text-purple-600 bg-purple-500/10',

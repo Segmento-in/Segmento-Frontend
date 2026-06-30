@@ -3,12 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User } from 'lucide-react';
+import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User, UploadCloud } from 'lucide-react';
 import { apiClient, EvaluatorModel } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
 
 import DriveScanTab from '@/components/model-lab/tabs/DriveScanTab';
+import LocalUploadView from './LocalUploadView';
 import S3ScanTab from '@/components/model-lab/tabs/S3ScanTab';
 import AzureScanTab from '@/components/model-lab/tabs/AzureScanTab';
 import GCSScanTab from '@/components/model-lab/tabs/GCSScanTab';
@@ -164,6 +165,32 @@ const CONNECTORS = [
             titleColor: 'text-violet-600',
             badge: 'bg-violet-50 text-violet-700 border-violet-200',
             featureIcon: 'text-violet-500',
+        },
+    },
+    {
+        id: 'local-upload' as const,
+        emoji: <UploadCloud className="w-7 h-7 text-slate-700" /> as any,
+        label: 'Local Upload',
+        titleLine1: 'Local',
+        titleLine2: 'Upload',
+        category: 'LOCAL SYSTEM',
+        description: 'Scan local files for PII using the ensemble engine.',
+        authType: 'No Auth Required',
+        scanData: ['Local files & documents', 'File metadata & content', 'In-browser scanning'],
+        features: [
+            { Icon: Shield, text: 'Files processed securely' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Instant results in your browser' },
+        ],
+        accent: {
+            cat: 'bg-slate-100 text-slate-600 border border-slate-200',
+            dot: 'bg-slate-500',
+            iconBg: 'bg-slate-100',
+            iconColor: 'text-slate-600',
+            btn: 'group-hover:bg-slate-600 group-hover:border-slate-600 group-hover:text-white group-hover:shadow-slate-500/25',
+            titleColor: 'text-slate-600',
+            badge: 'bg-slate-100 text-slate-700 border-slate-200',
+            featureIcon: 'text-slate-500',
         },
     },
 ] as const;
@@ -533,6 +560,7 @@ export default function ConnectorsClient() {
                                         {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'local-upload' && <LocalUploadView />}
                                     </div>
                                 </div>
                             </div>
