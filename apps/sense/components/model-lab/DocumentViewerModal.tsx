@@ -6,6 +6,8 @@ import { X, ChevronLeft, ChevronRight, Loader2, AlertCircle, Maximize2, External
 import { apiClient, DriveFileScanResult, DriveItem, EvaluatorPrediction } from '@/lib/apiClient';
 import { PII_LABEL_COLORS } from './ModelShowdown';
 import { useAuth } from '@/lib/authContext';
+import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
+import { Inspector } from '@/components/pii-demo/Inspector';
 
 interface Props {
     fileInfo: DriveItem;
@@ -37,6 +39,11 @@ export default function DocumentViewerModal({
     const validPredictions = predictions.filter(p => p.result !== 'FN' && p.text);
 
     useEffect(() => {
+        if (authType === 'local' && scanResult.result) {
+            setLoading(false);
+            return;
+        }
+
         let isMounted = true;
         const fetchContent = async () => {
             setLoading(true);
@@ -67,7 +74,7 @@ export default function DocumentViewerModal({
 
         fetchContent();
         return () => { isMounted = false; };
-    }, [fileInfo.id, credentials, authType]);
+    }, [fileInfo.id, credentials, authType, scanResult.result, token]);
 
     // Renders text for the current chunk, inserting highlight nodes based on predictions
     const renderHighlightedText = () => {
@@ -240,7 +247,17 @@ export default function DocumentViewerModal({
 
                     {/* Body */}
                     <div className="flex-1 overflow-y-auto p-6 lg:p-10 bg-white dark:bg-[#0B1120]">
-                        {loading ? (
+                        {authType === 'local' && scanResult.result ? (
+                            <div className="flex flex-col gap-8 text-gray-900 dark:text-white max-w-7xl mx-auto w-full">
+                                <PIIAnalytics
+                                    piiCounts={scanResult.result.pii_counts || {}}
+                                    schema={scanResult.result.schema || []}
+                                />
+                                {scanResult.result.inspector && (
+                                    <Inspector inspectorData={scanResult.result.inspector} />
+                                )}
+                            </div>
+                        ) : loading ? (
                             <div className="flex flex-col items-center justify-center h-full text-slate-500">
                                 <Loader2 className="w-8 h-8 animate-spin mb-4 text-blue-500" />
                                 <p>Extracting and rendering document...</p>
@@ -263,7 +280,7 @@ export default function DocumentViewerModal({
                     </div>
 
                     {/* Footer / Pagination */}
-                    {!loading && chunks.length > 1 && (
+                    {!(authType === 'local' && scanResult.result) && !loading && chunks.length > 1 && (
                         <div className="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
                             <span className="text-sm text-slate-500">
                                 Page {page + 1} of {chunks.length}

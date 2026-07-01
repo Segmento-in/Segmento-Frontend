@@ -11,8 +11,9 @@ import ConnectorPreviewUI from '@/components/model-lab/ConnectorPreviewUI';
 import DocumentViewerModal from '@/components/model-lab/DocumentViewerModal';
 
 // ── 3-D tilt card for File Types ─────────────────────────────────────────────
-function FileTypeCard({ type, onSelect }: { type: any; onSelect: () => void }) {
+function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScanning: boolean; onFilesSelected: (files: File[]) => void }) {
     const cardRef = useRef<HTMLDivElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const el = cardRef.current;
         if (!el) return;
@@ -28,23 +29,49 @@ function FileTypeCard({ type, onSelect }: { type: any; onSelect: () => void }) {
             cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
     };
 
+    const handleClick = () => {
+        if (!isScanning && fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(e.target.files || []);
+        if (files.length > 0) {
+            onFilesSelected(files);
+        }
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
     return (
         <div
             ref={cardRef}
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
-            onClick={onSelect}
+            onClick={handleClick}
             style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
-            className="group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-blue-500/30 flex flex-col items-center justify-center text-center gap-4 h-full active:scale-95 overflow-hidden relative"
+            className={`group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-blue-500/30 flex flex-col items-center justify-center text-center gap-4 h-full overflow-hidden relative ${isScanning ? 'opacity-90 pointer-events-none' : 'active:scale-95'}`}
         >
+            <input 
+                type="file" 
+                multiple 
+                className="hidden" 
+                accept={type.accept}
+                ref={fileInputRef}
+                onChange={handleFileChange}
+            />
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center border border-slate-200/50 group-hover:scale-110 group-hover:border-blue-200 transition-all duration-500 relative z-10 shadow-sm">
-                <File className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                {isScanning ? (
+                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                ) : (
+                    <File className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                )}
             </div>
             <div className="relative z-10">
               <h3 className="text-[15px] font-black text-slate-900 group-hover:text-blue-600 transition-colors leading-tight">
-                  {type.label.split(' (')[0]}
+                  {isScanning ? 'Scanning...' : type.label.split(' (')[0]}
               </h3>
               <div className="mt-2.5 text-[9px] text-slate-500 font-mono bg-slate-100/80 border border-slate-200/60 px-2.5 py-1 rounded-lg uppercase tracking-widest truncate max-w-[120px] mx-auto group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors">
                   {type.accept}
@@ -57,16 +84,14 @@ function FileTypeCard({ type, onSelect }: { type: any; onSelect: () => void }) {
 export default function LocalUploadView() {
   type CategoryKey = typeof CATEGORIES[number]['key'];
   
-  const [step, setStep] = useState<'select-type' | 'upload' | 'scanning' | 'results' | 'error'>('select-type');
+  const [step, setStep] = useState<'select-type' | 'results' | 'error'>('select-type');
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('structured');
   const [selectedFileType, setSelectedFileType] = useState<string | null>(null);
+  const [scanningType, setScanningType] = useState<string | null>(null);
 
   const { isLoggedIn, token } = useAuth();
   const router = useRouter();
 
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  
   const [outOfCredits, setOutOfCredits] = useState(false);
   const [creditsLeft, setCreditsLeft] = useState(0);
   const [scanningCount, setScanningCount] = useState(0);
@@ -79,7 +104,7 @@ export default function LocalUploadView() {
   const activeCategory = CATEGORIES.find(c => c.key === selectedCategory) || CATEGORIES[2]; // defaults to structured
   const activeTypeObj = activeCategory.types.find(t => t.ext === selectedFileType);
 
-  const handleFilesSelected = async (files: File[]) => {
+  const handleFilesSelected = async (files: File[], ext: string) => {
     if (!files || files.length === 0) return;
 
     if (!isLoggedIn) {
@@ -101,36 +126,12 @@ export default function LocalUploadView() {
 
     setUploadedFiles(files);
     setScanningCount(files.length);
-    setStep('scanning');
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) {
-      handleFilesSelected(files);
-    }
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length > 0) {
-      handleFilesSelected(files);
-    }
+    setSelectedFileType(ext);
+    setScanningType(ext);
   };
 
   useEffect(() => {
-    if (step === 'scanning' && uploadedFiles.length > 0) {
+    if (scanningType && uploadedFiles.length > 0) {
       let isMounted = true;
       const runScans = async () => {
         try {
@@ -139,7 +140,7 @@ export default function LocalUploadView() {
               let result: AnalysisResponse;
               const models = ['ensemble', 'regex', 'nltk', 'spacy', 'presidio', 'gliner', 'deberta'];
               
-              switch (activeTypeObj?.ext || selectedFileType) {
+              switch (scanningType) {
                 case 'csv': result = await apiClient.uploadCSV(f, false, models); break;
                 case 'json': result = await apiClient.uploadJSON(f, false, models); break;
                 case 'parquet': result = await apiClient.uploadParquet(f, false, models); break;
@@ -158,11 +159,13 @@ export default function LocalUploadView() {
           
           if (isMounted) {
             setScanResults(results);
+            setScanningType(null);
             setStep('results');
           }
         } catch (err: any) {
           if (isMounted) {
             setScanError(err.message || 'Failed to scan files');
+            setScanningType(null);
             setStep('error');
           }
         }
@@ -170,11 +173,11 @@ export default function LocalUploadView() {
       runScans();
       return () => { isMounted = false; };
     }
-  }, [step, uploadedFiles, selectedFileType, activeTypeObj]);
+  }, [scanningType, uploadedFiles]);
 
   const retryScan = () => {
     setScanError(null);
-    setStep('scanning');
+    setScanningType(selectedFileType);
   };
 
   const chooseDifferentFile = () => {
@@ -260,10 +263,8 @@ export default function LocalUploadView() {
                   <FileTypeCard
                     key={type.ext}
                     type={type}
-                    onSelect={() => {
-                      setSelectedFileType(type.ext);
-                      setStep('upload');
-                    }}
+                    isScanning={scanningType === type.ext}
+                    onFilesSelected={(files) => handleFilesSelected(files, type.ext)}
                   />
                 ))}
               </div>
@@ -272,78 +273,7 @@ export default function LocalUploadView() {
         </div>
       )}
 
-      {step === 'upload' && (
-        <div className="flex-1 overflow-y-auto bg-slate-50 flex flex-col">
-          <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-12 flex flex-col flex-1 min-h-[500px]">
-            {/* Back Breadcrumb */}
-            <button
-              onClick={() => {
-                setSelectedFileType(null);
-                setStep('select-type');
-              }}
-              className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group self-start"
-            >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-              Back to file types
-            </button>
 
-            {/* Dropzone */}
-            <div
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-              onClick={() => fileInputRef.current?.click()}
-              className={`flex-1 border-2 border-dashed rounded-3xl p-16 text-center flex flex-col items-center justify-center cursor-pointer transition-all ${
-                isDragging
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-slate-300 hover:border-blue-500 bg-white hover:bg-slate-50/50 hover:shadow-lg'
-              }`}
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                onChange={handleFileInputChange}
-                className="hidden"
-                accept={activeTypeObj?.accept}
-              />
-              
-              <div className="space-y-6 flex flex-col items-center">
-                <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center border border-blue-100 shadow-sm">
-                  <UploadCloud className="w-10 h-10" />
-                </div>
-                
-                <div>
-                  <h2 className="text-3xl font-black text-slate-900 tracking-tight">
-                    Upload {activeTypeObj ? activeTypeObj.label.split(' (')[0] : selectedFileType} Files
-                  </h2>
-                  <p className="text-base text-slate-500 mt-3 max-w-sm mx-auto">
-                    Drag and drop files here or <span className="text-blue-600 font-semibold underline decoration-blue-200 underline-offset-4">browse</span>
-                  </p>
-                </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
-                  Multiple files supported
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {step === 'scanning' && (
-        <div className="flex-1 bg-white flex flex-col items-center justify-center text-center p-12">
-           <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-8 border border-blue-100 animate-pulse">
-               <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
-           </div>
-           <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-3">
-             Scanning {scanningCount} file{scanningCount !== 1 ? 's' : ''} for PII...
-           </h2>
-           <p className="text-slate-500 max-w-md mx-auto text-base">
-             Our ensemble engine is securely processing your files in memory. 
-             Results will appear shortly.
-           </p>
-        </div>
-      )}
 
       {step === 'results' && (
         <div className="flex flex-col flex-1 min-h-0 bg-slate-50 overflow-hidden">
