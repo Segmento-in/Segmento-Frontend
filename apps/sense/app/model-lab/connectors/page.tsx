@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ConnectorsPage() {
     return (
-        <main className="h-screen pt-16 flex flex-col bg-white text-slate-900 overflow-hidden">
+        <main className="h-screen pt-[76px] flex flex-col bg-white text-slate-900 overflow-hidden">
             <ConnectorsClient />
         </main>
     );

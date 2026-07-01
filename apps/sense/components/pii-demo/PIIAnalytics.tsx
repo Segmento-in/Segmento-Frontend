@@ -23,7 +23,7 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
         <div className="space-y-6">
             {/* Schema Section */}
             {schema && schema.length > 0 && (
-                <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                <div className="bg-white dark:bg-gradient-to-br dark:from-[#1A1A1A] dark:to-[#141E30] rounded-lg p-6 border border-slate-200 dark:border-[#3E2F5B]/30 shadow-sm dark:shadow-none">
                     <h3 className="text-xl font-semibold text-indigo-600 dark:text-[#B3945B] mb-4 flex items-center">
                         <span className="mr-2">🧬</span>
                         Data Schema Detected
@@ -38,7 +38,7 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                             </thead>
                             <tbody>
                                 {schema.map((col, idx) => (
-                                    <tr key={idx} className="border-b border-slate-300 dark:border-[#3E2F5B]/10 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors">
+                                    <tr key={idx} className="border-b border-slate-100 dark:border-[#3E2F5B]/10 hover:bg-slate-50 dark:hover:bg-[#3E2F5B]/10 transition-colors">
                                         <td className="py-2 px-3 text-slate-900 dark:text-white font-mono">{col.Column}</td>
                                         <td className="py-2 px-3 text-slate-600 dark:text-gray-300">{col.Type}</td>
                                     </tr>
@@ -50,7 +50,7 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
             )}
 
             {/* Analytics Section */}
-            <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg p-6 border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+            <div className="bg-white dark:bg-gradient-to-br dark:from-[#1A1A1A] dark:to-[#141E30] rounded-lg p-6 border border-slate-200 dark:border-[#3E2F5B]/30 shadow-sm dark:shadow-none">
                 <h3 className="text-xl font-semibold text-indigo-600 dark:text-[#B3945B] mb-6 flex items-center">
                     <span className="mr-2">📊</span>
                     PII Analytics
@@ -97,9 +97,9 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                         </div>
 
                         {/* Data Table */}
-                        <div className="overflow-hidden rounded-lg border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                        <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-[#3E2F5B]/30">
                             <table className="w-full">
-                                <thead className="bg-white dark:bg-[#3E2F5B]/20">
+                                <thead className="bg-slate-50 dark:bg-[#3E2F5B]/20">
                                     <tr>
                                         <th className="text-left py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">PII Type</th>
                                         <th className="text-right py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">Count</th>
@@ -112,7 +112,7 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                         return (
                                             <tr
                                                 key={idx}
-                                                className="border-b border-slate-300 dark:border-[#3E2F5B]/10 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors"
+                                                className="border-b border-slate-100 dark:border-[#3E2F5B]/10 hover:bg-slate-50 dark:hover:bg-[#3E2F5B]/10 transition-colors"
                                             >
                                                 <td className="py-3 px-4 text-slate-900 dark:text-white flex items-center">
                                                     <span

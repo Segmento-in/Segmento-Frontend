@@ -44,11 +44,11 @@ export const Inspector: React.FC<InspectorProps> = ({ inspectorData }) => {
     }));
 
     return (
-        <div className="bg-gradient-to-br from-[#1A1A1A] to-[#141E30] rounded-lg border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30 overflow-hidden">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-[#1A1A1A] dark:to-[#141E30] rounded-lg border border-slate-200 dark:border-[#3E2F5B]/30 shadow-sm dark:shadow-none overflow-hidden">
             {/* Header */}
             <button
                 onClick={() => setExpanded(!expanded)}
-                className="w-full flex items-center justify-between p-6 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors"
+                className="w-full flex items-center justify-between p-6 hover:bg-slate-50 dark:hover:bg-[#3E2F5B]/10 transition-colors"
             >
                 <h3 className="text-xl font-semibold text-indigo-600 dark:text-[#B3945B] flex items-center">
                     <span className="mr-2">🕵️</span>
@@ -66,7 +66,7 @@ export const Inspector: React.FC<InspectorProps> = ({ inspectorData }) => {
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30">
+                                <tr className="border-b border-slate-200 dark:border-[#3E2F5B]/30">
                                     <th className="text-left py-3 px-3 text-slate-500 dark:text-gray-400">Model</th>
                                     <th className="text-center py-3 px-3 text-slate-500 dark:text-gray-400">Detected PII</th>
                                     <th className="text-center py-3 px-3 text-slate-500 dark:text-gray-400">Missed PII</th>
@@ -77,7 +77,7 @@ export const Inspector: React.FC<InspectorProps> = ({ inspectorData }) => {
                                 {inspectorData.map((item, idx) => (
                                     <tr
                                         key={idx}
-                                        className="border-b border-slate-300 dark:border-[#3E2F5B]/10 hover:bg-slate-100 dark:bg-[#3E2F5B]/10 transition-colors"
+                                        className="border-b border-slate-100 dark:border-[#3E2F5B]/10 hover:bg-slate-50 dark:hover:bg-[#3E2F5B]/10 transition-colors"
                                     >
                                         <td className="py-3 px-3 text-slate-900 dark:text-white font-medium">{item.Model}</td>
                                         <td className="py-3 px-3 text-center text-green-400">{item['Detected PII']}</td>
@@ -129,7 +129,7 @@ export const Inspector: React.FC<InspectorProps> = ({ inspectorData }) => {
                                     return (
                                         <div
                                             key={idx}
-                                            className="bg-white dark:bg-[#3E2F5B]/20 rounded-lg p-4 border border-slate-300 dark:border-slate-200 dark:border-[#3E2F5B]/30"
+                                            className="bg-slate-50 dark:bg-[#3E2F5B]/20 rounded-lg p-4 border border-slate-200 dark:border-[#3E2F5B]/30"
                                         >
                                             <p className="text-xs text-slate-500 dark:text-gray-400 mb-1">{item.Model}</p>
                                             <p className="text-2xl font-bold text-indigo-600 dark:text-[#B3945B]">
