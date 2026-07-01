@@ -35,16 +35,18 @@ function FileTypeCard({ type, onSelect }: { type: any; onSelect: () => void }) {
             onMouseLeave={onMouseLeave}
             onClick={onSelect}
             style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
-            className="group bg-white border border-slate-200 rounded-2xl p-6 cursor-pointer shadow-sm hover:shadow-xl hover:border-slate-300 flex flex-col items-center justify-center text-center gap-4 h-full"
+            className="group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-blue-500/30 flex flex-col items-center justify-center text-center gap-4 h-full active:scale-95 overflow-hidden relative"
         >
-            <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:scale-110 transition-transform duration-500">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center border border-slate-200/50 group-hover:scale-110 group-hover:border-blue-200 transition-all duration-500 relative z-10 shadow-sm">
                 <File className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
             </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-900 group-hover:text-slate-700 transition-colors leading-tight">
+            <div className="relative z-10">
+              <h3 className="text-[15px] font-black text-slate-900 group-hover:text-blue-600 transition-colors leading-tight">
                   {type.label.split(' (')[0]}
               </h3>
-              <div className="mt-2 text-[10px] text-slate-400 font-mono bg-slate-50 border border-slate-100 px-2 py-1 rounded-md uppercase tracking-widest truncate max-w-[120px] mx-auto">
+              <div className="mt-2.5 text-[9px] text-slate-500 font-mono bg-slate-100/80 border border-slate-200/60 px-2.5 py-1 rounded-lg uppercase tracking-widest truncate max-w-[120px] mx-auto group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors">
                   {type.accept}
               </div>
             </div>

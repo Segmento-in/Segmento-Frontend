@@ -567,11 +567,11 @@ export default function ConnectorsClient() {
                     );
                 })}
 
-            </div>
-
             {/* ── LOCAL UPLOAD DIRECT VIEW ──────────────────────────────────────── */}
             <div className={`flex-col flex-1 min-h-0 ${rightView === 'local-upload' ? 'flex' : 'hidden'}`}>
                 <LocalUploadView />
+            </div>
+
             </div>
         </div>
     );
