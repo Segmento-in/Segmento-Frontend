@@ -54,6 +54,16 @@ export interface DatabaseCredentials {
     password: string;
 }
 
+export interface AwsRdsCredentials extends DatabaseCredentials {
+    engine: string;
+}
+
+export interface DynamoDbCredentials {
+    access_key: string;
+    secret_key: string;
+    region: string;
+}
+
 export interface Pattern {
     name: string;
     regex: string;
@@ -540,7 +550,43 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanMetadata(credentials: DatabaseCredentials & { connector_type: 'postgresql' | 'mysql', table?: string }, token: string): Promise<CatalogResponse> {
+    async listAwsRdsTables(credentials: AwsRdsCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/aws-rds/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanAwsRdsTable(credentials: AwsRdsCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/aws-rds`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async listDynamoDbTables(credentials: DynamoDbCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/dynamodb/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanDynamoDbTable(credentials: DynamoDbCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/dynamodb`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanMetadata(credentials: any, token: string): Promise<CatalogResponse> {
         const response = await fetch(`${this.baseURL}/api/connectors/metadata-scan`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -548,6 +594,7 @@ export class APIClient {
         });
         return this.handleResponse(response);
     }
+
 
     // ==================== CLOUD STORAGE - S3 ====================
 

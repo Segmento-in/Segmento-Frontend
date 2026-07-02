@@ -14,6 +14,8 @@ import S3ScanTab from '@/components/model-lab/tabs/S3ScanTab';
 import AzureScanTab from '@/components/model-lab/tabs/AzureScanTab';
 import GCSScanTab from '@/components/model-lab/tabs/GCSScanTab';
 import DatabaseScanTab from '@/components/model-lab/tabs/DatabaseScanTab';
+import AwsRdsScanTab from '@/components/model-lab/tabs/AwsRdsScanTab';
+import DynamoDbScanTab from '@/components/model-lab/tabs/DynamoDbScanTab';
 
 // ── Fallback catalogue ────────────────────────────────────────────────────────
 const FALLBACK_CATALOGUE: EvaluatorModel[] = [
@@ -165,6 +167,60 @@ const CONNECTORS = [
             titleColor: 'text-violet-600',
             badge: 'bg-violet-50 text-violet-700 border-violet-200',
             featureIcon: 'text-violet-500',
+        },
+    },
+    {
+        id: 'aws-rds' as const,
+        emoji: '🌩️',
+        label: 'AWS RDS',
+        titleLine1: 'AWS',
+        titleLine2: 'RDS',
+        category: 'AWS',
+        description: 'Connect to managed PostgreSQL/MySQL instances on AWS RDS and run PII scans fully in-memory.',
+        authType: 'Host / User / Password',
+        scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
+        features: [
+            { Icon: Shield, text: 'Rows scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Direct DB connection (host + credentials)' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Supports RDS Postgres & MySQL' },
+        ],
+        accent: {
+            cat: 'bg-indigo-50 text-indigo-600 border border-indigo-100',
+            dot: 'bg-indigo-500',
+            iconBg: 'bg-indigo-50',
+            iconColor: 'text-indigo-600',
+            btn: 'group-hover:bg-indigo-600 group-hover:border-indigo-600 group-hover:text-white group-hover:shadow-indigo-500/25',
+            titleColor: 'text-indigo-600',
+            badge: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+            featureIcon: 'text-indigo-500',
+        },
+    },
+    {
+        id: 'dynamodb' as const,
+        emoji: '⚡',
+        label: 'DynamoDB',
+        titleLine1: 'AWS',
+        titleLine2: 'DynamoDB',
+        category: 'AWS',
+        description: 'Connect to DynamoDB tables using IAM credentials and run AI-powered PII scans in-memory.',
+        authType: 'IAM Credentials',
+        scanData: ['DynamoDB Items', 'Table properties', 'PII entities per attribute'],
+        features: [
+            { Icon: Shield, text: 'Items scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'IAM Access Key authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Boto3 integrated scanning' },
+        ],
+        accent: {
+            cat: 'bg-rose-50 text-rose-600 border border-rose-100',
+            dot: 'bg-rose-500',
+            iconBg: 'bg-rose-50',
+            iconColor: 'text-rose-600',
+            btn: 'group-hover:bg-rose-600 group-hover:border-rose-600 group-hover:text-white group-hover:shadow-rose-500/25',
+            titleColor: 'text-rose-600',
+            badge: 'bg-rose-50 text-rose-700 border-rose-200',
+            featureIcon: 'text-rose-500',
         },
     },
 ] as const;
@@ -560,6 +616,8 @@ export default function ConnectorsClient() {
                                         {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'aws-rds' && <AwsRdsScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'dynamodb' && <DynamoDbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                     </div>
                                 </div>
                             </div>

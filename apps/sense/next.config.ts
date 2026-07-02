@@ -3,7 +3,6 @@ import path from "path";
 const nextConfig: any = {
     basePath: '/sense',
     output: 'standalone',
-    optimizeFonts: false,
 
     // REMOVED: outputFileTracingRoot — was causing doubled Vercel path:
     //   /vercel/path0/path0/apps/sense/.next/routes-manifest.json  ← WRONG
