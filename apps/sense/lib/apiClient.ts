@@ -523,8 +523,35 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
+    async listMongodbCollections(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/mongodb/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanMongodbTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/mongodb`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
     async listMysqlTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async listMariadbTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/mariadb/list-tables`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
@@ -543,6 +570,15 @@ export class APIClient {
 
     async scanMysqlTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+    async scanMariadbTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/mariadb`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(credentials),

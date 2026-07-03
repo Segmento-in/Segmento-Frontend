@@ -16,6 +16,8 @@ import GCSScanTab from '@/components/model-lab/tabs/GCSScanTab';
 import DatabaseScanTab from '@/components/model-lab/tabs/DatabaseScanTab';
 import AwsRdsScanTab from '@/components/model-lab/tabs/AwsRdsScanTab';
 import DynamoDbScanTab from '@/components/model-lab/tabs/DynamoDbScanTab';
+import MongodbScanTab from '@/components/model-lab/tabs/MongodbScanTab';
+import MariadbScanTab from '@/components/model-lab/tabs/MariadbScanTab';
 
 // ── Fallback catalogue ────────────────────────────────────────────────────────
 const FALLBACK_CATALOGUE: EvaluatorModel[] = [
@@ -221,6 +223,60 @@ const CONNECTORS = [
             titleColor: 'text-rose-600',
             badge: 'bg-rose-50 text-rose-700 border-rose-200',
             featureIcon: 'text-rose-500',
+        },
+    },
+    {
+        id: 'mongodb' as const,
+        emoji: '🍃',
+        label: 'MongoDB',
+        titleLine1: 'Mongo',
+        titleLine2: 'DB',
+        category: 'DATABASES',
+        description: 'Connect to MongoDB instances and scan collections for PII entities in-memory.',
+        authType: 'Host / User / Password',
+        scanData: ['Collections & Documents', 'BSON structure', 'Nested PII fields'],
+        features: [
+            { Icon: Shield, text: 'Documents scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Direct MongoDB connection (host + credentials)' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Recursive flattener for nested fields' },
+        ],
+        accent: {
+            cat: 'bg-green-50 text-green-600 border border-green-100',
+            dot: 'bg-green-500',
+            iconBg: 'bg-green-50',
+            iconColor: 'text-green-600',
+            btn: 'group-hover:bg-green-600 group-hover:border-green-600 group-hover:text-white group-hover:shadow-green-500/25',
+            titleColor: 'text-green-600',
+            badge: 'bg-green-50 text-green-700 border-green-200',
+            featureIcon: 'text-green-500',
+        },
+    },
+    {
+        id: 'mariadb' as const,
+        emoji: '🦭',
+        label: 'MariaDB',
+        titleLine1: 'Maria',
+        titleLine2: 'DB',
+        category: 'DATABASES',
+        description: 'Connect to MariaDB, browse tables, and run PII scans fully in-memory.',
+        authType: 'Host / User / Password',
+        scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
+        features: [
+            { Icon: Shield, text: 'Rows scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Direct DB connection (host + credentials)' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Proxy architecture using MySQL adapter' },
+        ],
+        accent: {
+            cat: 'bg-sky-50 text-sky-600 border border-sky-100',
+            dot: 'bg-sky-500',
+            iconBg: 'bg-sky-50',
+            iconColor: 'text-sky-600',
+            btn: 'group-hover:bg-sky-600 group-hover:border-sky-600 group-hover:text-white group-hover:shadow-sky-500/25',
+            titleColor: 'text-sky-600',
+            badge: 'bg-sky-50 text-sky-700 border-sky-200',
+            featureIcon: 'text-sky-500',
         },
     },
 ] as const;
@@ -618,6 +674,8 @@ export default function ConnectorsClient() {
                                         {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'aws-rds' && <AwsRdsScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'dynamodb' && <DynamoDbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'mongodb' && <MongodbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'mariadb' && <MariadbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                     </div>
                                 </div>
                             </div>
