@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowLeft, Download, Database, Search, Shield } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, DynamoDbCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
+import { Loader2, Database, AlertCircle } from 'lucide-react';
+import { apiClient, EvaluatorModel, AnalysisResponse, GlueCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
@@ -21,7 +21,7 @@ function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
     let path = entry.full_path || entry.file_name;
     if (!entry.is_folder && entry.parent_folder_id) path = `${entry.parent_folder_id}/${entry.file_name}`;
     return {
-        id: entry.file_id, name: entry.file_name, mimeType: entry.connector_type || 'dynamodb', path,
+        id: entry.file_id, name: entry.file_name, mimeType: entry.connector_type || 'glue', path,
         isFolder: entry.is_folder || false, parseable: !entry.is_folder, ext: 'DB', sizeBytes: entry.file_size_bytes || 0,
         mediaType: 'document', appProperties: {}, tooBig: false, parentId: entry.parent_folder_id || '',
     };
@@ -46,7 +46,7 @@ function DashboardStatCard({ label, value, valueColor = 'text-slate-800' }: { la
   );
 }
 
-export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props) {
+export default function AwsGlueScanTab({ modelCatalogue, onStepChange }: Props) {
   const [step, setStep] = useState<Step>('AUTH');
   const changeStep = (s: Step) => { setStep(s); onStepChange?.(s); };
   const [error, setError] = useState<string | null>(null);
@@ -54,15 +54,14 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
   const [outOfCredits, setOutOfCredits] = useState(false);
   const [creditsLeft, setCreditsLeft] = useState(0);
 
-  const [creds, setCreds] = useState<DynamoDbCredentials>({
-    region: 'us-east-1', access_key: '', secret_key: '',
+  const [creds, setCreds] = useState<GlueCredentials & { database_name: string }>({
+    access_key: '', secret_key: '', region: 'us-east-1', database_name: '',
   });
   const [isConnecting, setIsConnecting] = useState(false);
   const [tables, setTables] = useState<string[]>([]);
   const [selectedTableIds, setSelectedTableIds] = useState<Set<string>>(new Set());
   const [scanEntries, setScanEntries] = useState<TableScanEntry[]>([]);
   const [scanningTableIds, setScanningTableIds] = useState<Set<string>>(new Set());
-  const [lastScanMode, setLastScanMode] = useState<'full' | 'metadata'>('full');
   const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
   const [lastSession, setLastSession] = useState<any>(null);
 
@@ -73,26 +72,26 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
 
   const fetchCatalog = async () => {
     try {
-        const res = await apiClient.getDbCatalog(token || '', 'dynamodb');
+        const res = await apiClient.getDbCatalog(token || '', 'glue');
         setCatalogData(res.files || []);
         setLastSession(res.last_session || null);
     } catch { }
   };
 
   const handleConnect = async () => {
-    if (!creds.access_key || !creds.secret_key || !creds.region) return setError('Access Key, Secret Key, Region required.');
+    if (!creds.access_key || !creds.secret_key || !creds.region || !creds.database_name) return setError('All fields are required.');
     setIsConnecting(true); setError(null);
     try {
-      const res = await apiClient.listDynamoDbTables(creds);
+      const res = await apiClient.listGlueTables(creds);
       setTables(res.tables || []);
       setSelectedTableIds(new Set()); setScanEntries([]);
       await fetchCatalog();
       changeStep('BROWSE');
-    } catch (e: any) { setError(e.message || 'Failed to connect.'); } 
+    } catch (e: any) { setError(e.message || 'Failed to connect to AWS Glue.'); } 
     finally { setIsConnecting(false); }
   };
 
-  const handleScan = async (mode: 'full' | 'metadata' = 'full') => {
+  const handleScan = async () => {
     if (selectedTableIds.size === 0) return;
     if (token) {
         try { await apiClient.deductCredits(token, 1); } 
@@ -101,19 +100,12 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
     const tablesToScan = [...selectedTableIds];
     setScanEntries(tablesToScan.map(t => ({ tableName: t, status: 'scanning' })));
     setScanningTableIds(new Set(tablesToScan));
-    setLastScanMode(mode); changeStep('RESULTS');
+    changeStep('RESULTS');
 
     for (const t of tablesToScan) {
       try {
-        let res: AnalysisResponse;
-        if (mode === 'metadata') {
-          const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: 'dynamodb', table: t }, token || '');
-          const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === t);
-          const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
-          res = { total_pii_found: flaggedColumns.length, pii_counts: [], metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns } } as any;
-        } else {
-          res = await apiClient.scanConnector('dynamodb', { ...creds, table: t }, token || '');
-        }
+        // AWS Glue scans are essentially schema/metadata scans
+        const res = await apiClient.scanConnector('glue', { ...creds, table_name: t }, token || '');
         setScanEntries(prev => prev.map(e => e.tableName === t ? { ...e, status: 'scanned', result: res } : e));
       } catch (e: any) {
         setScanEntries(prev => prev.map(entry => entry.tableName === t ? { ...entry, status: 'error', error: e.message } : entry));
@@ -140,14 +132,16 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
         {step === 'AUTH' && (
           <motion.div key="auth" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-4xl mx-auto space-y-6 w-full p-6">
             <Card>
-              <h3 className="text-lg font-semibold mb-5 flex items-center gap-2"><StepBadge n={1} accentStep={accentStep} /> DynamoDB Connection</h3>
+              <h3 className="text-lg font-semibold mb-5 flex items-center gap-2"><StepBadge n={1} accentStep={accentStep} /> <Database className="w-5 h-5 text-orange-500" /> AWS Glue Catalog</h3>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1.5">Region</label>
-                  <input type="text" value={creds.region} onChange={e => setCreds(p => ({ ...p, region: e.target.value }))} className={inputCls} placeholder="us-east-1" />
+                <div><label className="block text-sm font-medium mb-1.5">AWS Access Key</label><input type="text" value={creds.access_key} onChange={e => setCreds(p => ({ ...p, access_key: e.target.value }))} className={inputCls} placeholder="AKIA..." /></div>
+                <div><label className="block text-sm font-medium mb-1.5">AWS Secret Key</label><input type="password" value={creds.secret_key} onChange={e => setCreds(p => ({ ...p, secret_key: e.target.value }))} className={inputCls} placeholder="••••••••" /></div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <div><label className="block text-sm font-medium mb-1.5">AWS Region</label><input type="text" value={creds.region} onChange={e => setCreds(p => ({ ...p, region: e.target.value }))} className={inputCls} placeholder="us-east-1" /></div>
+                  <div><label className="block text-sm font-medium mb-1.5">Database Name</label><input type="text" value={creds.database_name} onChange={e => setCreds(p => ({ ...p, database_name: e.target.value }))} className={inputCls} placeholder="default" /></div>
                 </div>
-                <div><label className="block text-sm font-medium mb-1.5">Access Key</label><input type="text" value={creds.access_key} onChange={e => setCreds(p => ({ ...p, access_key: e.target.value }))} className={inputCls} /></div>
-                <div><label className="block text-sm font-medium mb-1.5">Secret Key</label><input type="password" value={creds.secret_key} onChange={e => setCreds(p => ({ ...p, secret_key: e.target.value }))} className={inputCls} /></div>
+                
                 <button onClick={handleConnect} disabled={isConnecting} className={`w-full py-3 ${accentBtn} text-white rounded-xl font-medium disabled:opacity-50`}>
                   {isConnecting ? 'Connecting...' : 'Connect & List Tables'}
                 </button>
@@ -172,8 +166,7 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
             {selectedTableIds.size > 0 && (
               <div className="p-4 border-t bg-slate-50 flex gap-4">
-                <button onClick={() => handleScan('metadata')} className="flex-1 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold">Metadata Scan</button>
-                <button onClick={() => handleScan('full')} className="flex-1 py-2 bg-orange-600 text-white rounded-lg text-sm font-bold">Full Deep Scan</button>
+                <button onClick={() => handleScan()} className="flex-1 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-bold shadow-sm transition-all">Scan Schema Metadata</button>
               </div>
             )}
           </motion.div>
@@ -187,7 +180,7 @@ export default function DynamoDbScanTab({ modelCatalogue, onStepChange }: Props)
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />
               <DashboardStatCard label="Total Items" value={stats.totalPii} valueColor="text-amber-600" />
             </div>
-            <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={[]} onOpenFile={() => {}} connectorType="dynamodb" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={lastScanMode === 'metadata'} />
+            <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={[]} onOpenFile={() => {}} connectorType="glue" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={true} />
           </motion.div>
         )}
       </AnimatePresence>

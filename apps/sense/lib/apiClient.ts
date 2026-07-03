@@ -64,6 +64,33 @@ export interface DynamoDbCredentials {
     region: string;
 }
 
+export interface SlackCredentials {
+    token: string;
+    channel_id: string;
+}
+
+export interface GmailCredentials {
+    credentials: Record<string, any>;
+    auth_type?: string;
+}
+
+export interface ZendeskCredentials {
+    subdomain: string;
+    email: string;
+    api_token: string;
+}
+
+export interface SalesforceCredentials {
+    instance_url: string;
+    access_token: string;
+}
+
+export interface GlueCredentials {
+    access_key: string;
+    secret_key: string;
+    region: string;
+}
+
 export interface Pattern {
     name: string;
     regex: string;
@@ -532,14 +559,15 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanMongodbTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/mongodb`, {
+    async scanConnector(connectorType: string, payload: any, token: string): Promise<AnalysisResponse> {
+        const response = await fetch(`${this.baseURL}/api/connect/${connectorType}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify(payload),
         });
         return this.handleResponse(response);
     }
+
 
     async listMysqlTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql/list-tables`, {
@@ -559,32 +587,8 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanPostgresqlTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/postgresql`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(credentials),
-        });
-        return this.handleResponse(response);
-    }
 
-    async scanMysqlTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/mysql`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(credentials),
-        });
-        return this.handleResponse(response);
-    }
 
-    async scanMariadbTable(credentials: DatabaseCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/mariadb`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(credentials),
-        });
-        return this.handleResponse(response);
-    }
 
     async listAwsRdsTables(credentials: AwsRdsCredentials): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/aws-rds/list-tables`, {
@@ -595,14 +599,35 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanAwsRdsTable(credentials: AwsRdsCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/aws-rds`, {
+
+
+
+
+
+
+
+
+
+
+    async listGlueDatabases(credentials: GlueCredentials): Promise<{ databases: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/glue/list-databases`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
     }
+
+    async listGlueTables(credentials: GlueCredentials & { database_name: string }): Promise<{ tables: string[] }> {
+        const response = await fetch(`${this.baseURL}/api/connect/glue/list-tables`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        });
+        return this.handleResponse(response);
+    }
+
+
 
     async listDynamoDbTables(credentials: DynamoDbCredentials): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/dynamodb/list-tables`, {
@@ -613,14 +638,7 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async scanDynamoDbTable(credentials: DynamoDbCredentials & { table: string }, token: string): Promise<AnalysisResponse> {
-        const response = await fetch(`${this.baseURL}/api/connect/dynamodb`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(credentials),
-        });
-        return this.handleResponse(response);
-    }
+
 
     async scanMetadata(credentials: any, token: string): Promise<CatalogResponse> {
         const response = await fetch(`${this.baseURL}/api/connectors/metadata-scan`, {

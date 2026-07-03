@@ -18,6 +18,11 @@ import AwsRdsScanTab from '@/components/model-lab/tabs/AwsRdsScanTab';
 import DynamoDbScanTab from '@/components/model-lab/tabs/DynamoDbScanTab';
 import MongodbScanTab from '@/components/model-lab/tabs/MongodbScanTab';
 import MariadbScanTab from '@/components/model-lab/tabs/MariadbScanTab';
+import SlackScanTab from '@/components/model-lab/tabs/SlackScanTab';
+import GmailScanTab from '@/components/model-lab/tabs/GmailScanTab';
+import ZendeskScanTab from '@/components/model-lab/tabs/ZendeskScanTab';
+import SalesforceScanTab from '@/components/model-lab/tabs/SalesforceScanTab';
+import AwsGlueScanTab from '@/components/model-lab/tabs/AwsGlueScanTab';
 
 // ── Fallback catalogue ────────────────────────────────────────────────────────
 const FALLBACK_CATALOGUE: EvaluatorModel[] = [
@@ -277,6 +282,141 @@ const CONNECTORS = [
             titleColor: 'text-sky-600',
             badge: 'bg-sky-50 text-sky-700 border-sky-200',
             featureIcon: 'text-sky-500',
+        },
+    },
+    {
+        id: 'slack' as const,
+        emoji: '💬',
+        label: 'Slack',
+        titleLine1: 'Slack',
+        titleLine2: 'Workspace',
+        category: 'ENTERPRISE',
+        description: 'Connect to Slack channels and run AI-powered PII scans on messages in-memory.',
+        authType: 'Bot OAuth Token',
+        scanData: ['Channel messages', 'Sender details', 'PII entities per message'],
+        features: [
+            { Icon: Shield, text: 'Messages scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Bot OAuth Token authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Instant channel message analysis' },
+        ],
+        accent: {
+            cat: 'bg-rose-50 text-rose-600 border border-rose-100',
+            dot: 'bg-rose-500',
+            iconBg: 'bg-rose-50',
+            iconColor: 'text-rose-600',
+            btn: 'group-hover:bg-rose-600 group-hover:border-rose-600 group-hover:text-white group-hover:shadow-rose-500/25',
+            titleColor: 'text-rose-600',
+            badge: 'bg-rose-50 text-rose-700 border-rose-200',
+            featureIcon: 'text-rose-500',
+        },
+    },
+    {
+        id: 'gmail' as const,
+        emoji: '📧',
+        label: 'Gmail',
+        titleLine1: 'Google',
+        titleLine2: 'Mail',
+        category: 'ENTERPRISE',
+        description: 'Connect to Gmail inboxes and scan emails for sensitive PII fully in-memory.',
+        authType: 'Service Account / OAuth2',
+        scanData: ['Email bodies & subjects', 'Sender/Recipient details', 'PII entities per email'],
+        features: [
+            { Icon: Shield, text: 'Emails scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'OAuth2 & Service Account authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Rapid inbox analysis' },
+        ],
+        accent: {
+            cat: 'bg-red-50 text-red-600 border border-red-100',
+            dot: 'bg-red-500',
+            iconBg: 'bg-red-50',
+            iconColor: 'text-red-600',
+            btn: 'group-hover:bg-red-600 group-hover:border-red-600 group-hover:text-white group-hover:shadow-red-500/25',
+            titleColor: 'text-red-600',
+            badge: 'bg-red-50 text-red-700 border-red-200',
+            featureIcon: 'text-red-500',
+        },
+    },
+    {
+        id: 'zendesk' as const,
+        emoji: '🎧',
+        label: 'Zendesk',
+        titleLine1: 'Zendesk',
+        titleLine2: 'Support',
+        category: 'ENTERPRISE',
+        description: 'Connect to Zendesk support and run AI-powered PII scans on tickets in-memory.',
+        authType: 'API Token',
+        scanData: ['Support tickets', 'Requester details', 'PII entities per ticket'],
+        features: [
+            { Icon: Shield, text: 'Tickets scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'Basic Auth / API Token authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Instant ticket analysis' },
+        ],
+        accent: {
+            cat: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
+            dot: 'bg-emerald-500',
+            iconBg: 'bg-emerald-50',
+            iconColor: 'text-emerald-600',
+            btn: 'group-hover:bg-emerald-600 group-hover:border-emerald-600 group-hover:text-white group-hover:shadow-emerald-500/25',
+            titleColor: 'text-emerald-600',
+            badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+            featureIcon: 'text-emerald-500',
+        },
+    },
+    {
+        id: 'salesforce' as const,
+        emoji: '☁️',
+        label: 'Salesforce',
+        titleLine1: 'Salesforce',
+        titleLine2: 'CRM',
+        category: 'ENTERPRISE',
+        description: 'Connect to Salesforce CRM and scan records (Contacts/Leads) for sensitive PII fully in-memory.',
+        authType: 'OAuth2 / Token',
+        scanData: ['CRM Records', 'Field values', 'PII entities per record'],
+        features: [
+            { Icon: Shield, text: 'Records scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'OAuth2 Access Token authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Customizable SOQL queries' },
+        ],
+        accent: {
+            cat: 'bg-sky-50 text-sky-600 border border-sky-100',
+            dot: 'bg-sky-500',
+            iconBg: 'bg-sky-50',
+            iconColor: 'text-sky-600',
+            btn: 'group-hover:bg-sky-600 group-hover:border-sky-600 group-hover:text-white group-hover:shadow-sky-500/25',
+            titleColor: 'text-sky-600',
+            badge: 'bg-sky-50 text-sky-700 border-sky-200',
+            featureIcon: 'text-sky-500',
+        },
+    },
+    {
+        id: 'glue' as const,
+        emoji: '🏗️',
+        label: 'AWS Glue',
+        titleLine1: 'AWS',
+        titleLine2: 'Glue Catalog',
+        category: 'DATALAKES',
+        description: 'Connect to AWS Glue Data Catalog and scan schema definitions for sensitive indicators.',
+        authType: 'Access Keys',
+        scanData: ['Database schemas', 'Table structures', 'Column types and comments'],
+        features: [
+            { Icon: Shield, text: 'Metadata scanned in-memory — zero data retained' },
+            { Icon: Lock, text: 'IAM / Access Key authentication' },
+            { Icon: Cpu, text: '11+ AI models for precise PII detection' },
+            { Icon: Zap, text: 'Instant schema analysis' },
+        ],
+        accent: {
+            cat: 'bg-orange-50 text-orange-600 border border-orange-100',
+            dot: 'bg-orange-500',
+            iconBg: 'bg-orange-50',
+            iconColor: 'text-orange-600',
+            btn: 'group-hover:bg-orange-600 group-hover:border-orange-600 group-hover:text-white group-hover:shadow-orange-500/25',
+            titleColor: 'text-orange-600',
+            badge: 'bg-orange-50 text-orange-700 border-orange-200',
+            featureIcon: 'text-orange-500',
         },
     },
 ] as const;
@@ -676,6 +816,11 @@ export default function ConnectorsClient() {
                                         {conn.id === 'dynamodb' && <DynamoDbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'mongodb' && <MongodbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                         {conn.id === 'mariadb' && <MariadbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'slack' && <SlackScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'gmail' && <GmailScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'zendesk' && <ZendeskScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'salesforce' && <SalesforceScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {conn.id === 'glue' && <AwsGlueScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
                                     </div>
                                 </div>
                             </div>

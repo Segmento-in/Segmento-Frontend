@@ -240,8 +240,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           } as AnalysisResponse & { metadata?: any };
         } else {
           res = dbType === 'postgresql'
-            ? await apiClient.scanPostgresqlTable({ ...creds, table: tableName }, token || '')
-            : await apiClient.scanMysqlTable({ ...creds, table: tableName }, token || '');
+            ? await apiClient.scanConnector('postgresql', { ...creds, table: tableName }, token || '')
+            : await apiClient.scanConnector('mysql', { ...creds, table: tableName }, token || '');
           totalPiiFound += res.total_pii_found || 0;
         }
         

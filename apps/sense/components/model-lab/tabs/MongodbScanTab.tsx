@@ -116,7 +116,7 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
           const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
           res = { total_pii_found: flaggedColumns.length, pii_counts: [], metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns } } as any;
         } else {
-          res = await apiClient.scanMongodbTable({ ...creds, table: t }, token || '');
+          res = await apiClient.scanConnector('mongodb', { ...creds, table: t }, token || '');
         }
         setScanEntries(prev => prev.map(e => e.tableName === t ? { ...e, status: 'scanned', result: res } : e));
       } catch (e: any) {
