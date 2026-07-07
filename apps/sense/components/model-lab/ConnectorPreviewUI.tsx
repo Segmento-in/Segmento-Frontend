@@ -6,7 +6,7 @@ import {
     FileText, Image as ImageIcon, Video, Music,
     CheckCircle2, AlertCircle, Maximize2, ShieldCheck,
     Folder, Tag, Sparkles, ChevronRight, ChevronDown, Filter, ArrowUpDown,
-    ArrowUp, ArrowDown, Loader2, Database
+    ArrowUp, ArrowDown, Loader2, Database, BarChart3
 } from 'lucide-react';
 import { DriveItem, DriveFileScanResult, FileCatalogEntry, ConnectorResultRow, ConnectorResultDetail } from '@/lib/apiClient';
 
@@ -314,7 +314,7 @@ export default function ConnectorPreviewUI({
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Size</div>
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">First Seen</div>
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Last Scanned</div>
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Analysis</div>
                 </div>
                 <div className="flex-1 overflow-y-auto">
                     {rows.length === 0 ? (
@@ -371,7 +371,7 @@ export default function ConnectorPreviewUI({
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Columns</div>
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">First Seen</div>
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Last Scanned</div>
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Analysis</div>
                     </>
                 ) : (
                     // ── Drive mode headers (unchanged) ─────────────────────
@@ -694,22 +694,30 @@ function FileRow({
                 <span className="text-[10px] text-slate-400 font-mono">{formatDate(cat?.last_scanned_at)}</span>
             </div>
 
-            {/* Scan Type */}
+            {/* Scan Type / Action column */}
             <div className="flex items-center justify-center shrink-0">
                 {isScanning ? (
                     <div className="flex flex-col items-center gap-0.5">
                         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                         <span className="text-[9px] text-blue-500 font-mono">scanning</span>
                     </div>
-                ) : isSelected && !scanResult ? (
+                ) : scanResult ? (
+                    // ── Scanned: show Analyze button prominently ──────────
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
+                        className="flex items-center gap-1 px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all hover:shadow-md active:scale-95"
+                    >
+                        <BarChart3 className="w-3 h-3" />
+                        Analyze
+                    </button>
+                ) : isSelected ? (
                     <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center shadow">
                         <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                     </div>
                 ) : (() => {
-                    // Always derive scan type from backend payload — no mode bypass.
                     const rawType = cat?.scan_type ?? null;
                     const mapped = rawType ? (SCAN_TYPE_MAP[rawType] ?? SCAN_TYPE_MAP[rawType.toUpperCase()] ?? SCAN_TYPE_MAP[rawType.toLowerCase()] ?? DEFAULT_SCAN_TYPE) : DEFAULT_SCAN_TYPE;
-                    if (mapped === DEFAULT_SCAN_TYPE && item.parseable && !scanResult) {
+                    if (mapped === DEFAULT_SCAN_TYPE && item.parseable) {
                         return <span className="text-[10px] text-slate-400">Select</span>;
                     }
                     return (

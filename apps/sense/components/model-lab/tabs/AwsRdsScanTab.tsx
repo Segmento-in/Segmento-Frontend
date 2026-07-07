@@ -18,12 +18,11 @@ interface TableScanEntry {
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 
 function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
-    let path = entry.full_path || entry.file_name;
-    if (!entry.is_folder && entry.parent_folder_id) path = `${entry.parent_folder_id}/${entry.file_name}`;
+    // path MUST NOT contain '/' — ConnectorPreviewUI root filter: !item.path.includes('/')
     return {
-        id: entry.file_id, name: entry.file_name, mimeType: entry.connector_type || 'aws-rds', path,
+        id: entry.file_id, name: entry.file_name, mimeType: entry.connector_type || 'aws-rds', path: entry.file_name,
         isFolder: entry.is_folder || false, parseable: !entry.is_folder, ext: 'DB', sizeBytes: entry.file_size_bytes || 0,
-        mediaType: 'document', appProperties: {}, tooBig: false, parentId: entry.parent_folder_id || '',
+        mediaType: 'document', appProperties: {}, tooBig: false, parentId: '', // flat root
     };
 }
 

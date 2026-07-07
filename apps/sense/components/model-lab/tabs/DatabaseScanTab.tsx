@@ -22,12 +22,11 @@ interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) 
 
 /** Convert a FileCatalogEntry (DB table) to a DriveItem so ConnectorPreviewUI can render it */
 function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
-    let path = entry.full_path || entry.file_name;
-    // Flatten DB paths to skip intermediate schema folders
-    if (!entry.is_folder && entry.parent_folder_id) {
-        path = `${entry.parent_folder_id}/${entry.file_name}`;
-    }
-    
+    // For DB tables we always flatten to root. The path MUST NOT contain a '/'
+    // because ConnectorPreviewUI's root filter is: !item.path.includes('/').
+    // Using entry.file_name directly ensures tables appear at root level.
+    const path = entry.file_name;
+
     return {
         id: entry.file_id,
         name: entry.file_name,
@@ -40,7 +39,7 @@ function catalogEntryToDriveItem(entry: FileCatalogEntry): DriveItem {
         mediaType: 'document',
         appProperties: {},
         tooBig: false,
-        parentId: entry.parent_folder_id || '',
+        parentId: '', // Flat root — no folder navigation for DB tables
     };
 }
 
@@ -126,7 +125,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
   const fetchCatalog = async (dbType: DbType) => {
     try {
-        const res = await apiClient.getDbCatalog(token || '', dbType);
+        if (!creds.database) return;
+        const res = await apiClient.getCatalog(creds.database, token || '');
         setCatalogData(res.files || []);
         setLastSession(res.last_session || null);
     } catch { /* non-fatal */ }
@@ -226,17 +226,30 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       try {
         let res: AnalysisResponse;
         if (mode === 'metadata') {
-          // Metadata scan hits the new endpoint which returns a CatalogResponse.
-          // We extract the table's entry and mock an AnalysisResponse to keep the UI flow happy.
-          const catalogRes = await apiClient.scanMetadata({ ...creds, connector_type: dbType, table: tableName }, token || '');
+          // Trigger the background async scan job
+          const startRes = await apiClient.scanConnectorAsync(dbType, { ...creds, table: tableName }, token || '');
+          const jobId = startRes.job_id;
+          
+          // Long-poll the job status until it succeeds or fails
+          let currentStatus = 'queued';
+          while (currentStatus === 'queued' || currentStatus === 'running') {
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              const statusRes = await apiClient.getScanStatus(jobId, token || '');
+              currentStatus = statusRes.status;
+              if (currentStatus === 'failed') throw new Error(statusRes.error || 'Async scan failed.');
+          }
+
+          // Once complete, fetch the updated catalog for this database
+          const catalogRes = await apiClient.getCatalog(creds.database, token || '');
           const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === tableName);
           const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
           totalPiiFound += flaggedColumns.length;
+          
           res = {
             total_pii_found: flaggedColumns.length,
             pii_counts: flaggedColumns.map((c: any) => ({ 'PII Type': c.matched_rule || 'PII', Count: 1 })),
             rows_scanned: 0,
-            metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns } // Mock metadata to pass down
+            metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns }
           } as AnalysisResponse & { metadata?: any };
         } else {
           res = dbType === 'postgresql'
