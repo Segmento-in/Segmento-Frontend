@@ -568,6 +568,15 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
+    async scanMetadata(payload: any, token: string): Promise<CatalogResponse> {
+        const response = await fetch(`${this.baseURL}/api/connectors/metadata-scan`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(payload),
+        });
+        return this.handleResponse(response);
+    }
+
 
     async listMysqlTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql/list-tables`, {
