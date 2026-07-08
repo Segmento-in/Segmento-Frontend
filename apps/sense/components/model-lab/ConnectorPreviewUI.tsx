@@ -412,7 +412,7 @@ export default function ConnectorPreviewUI({
 
                             const sr = scanResults.find(r => r.file_id === item.id);
                             const actionState = piiActions[item.id];
-                            const needsTagPrompt = sr && sr.pii_detected && (sr.pii_count || 0) > 0 && actionState !== 'ignored' && actionState !== 'tagged';
+                            const needsTagPrompt = mode !== 'database' && sr && sr.pii_detected && (sr.pii_count || 0) > 0 && actionState !== 'ignored' && actionState !== 'tagged';
 
                             return (
                                 <React.Fragment key={item.id}>
@@ -607,16 +607,29 @@ function FileRow({
                 ? 'bg-blue-50/50 dark:bg-blue-900/20 cursor-pointer'
                 : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30 cursor-pointer';
 
-    const isMetadataRow = cat?.metadata?.scan_mode === 'metadata_only' || scanResult?.result?.metadata?.scan_mode === 'metadata_only';
+    const isMetadataRow = ['metadata_only', 'metadata_and_sampling'].includes(cat?.metadata?.scan_mode ?? '') || ['metadata_only', 'metadata_and_sampling'].includes(scanResult?.result?.metadata?.scan_mode ?? '');
     const flaggedColumns = cat?.metadata?.flagged_columns || scanResult?.result?.metadata?.flagged_columns || [];
+    
+    // Normalize PII breakdown data
+    const liveCounts = scanResult?.result?.pii_counts;
+    const catCounts = cat?.metadata?.pii_types;
+    let breakdown: { label: string, count: number }[] = [];
+    if (liveCounts && Array.isArray(liveCounts)) {
+        breakdown = liveCounts.map(c => ({ label: c['PII Type'], count: c['Count'] as number })).filter(c => c.count > 0);
+    } else if (catCounts) {
+        breakdown = Object.entries(catCounts).map(([label, count]) => ({ label, count: count as number })).filter(c => c.count > 0);
+    }
+    const hasDetail = breakdown.length > 0;
+    const isExpandable = (hasDetail && mode === 'database') || isMetadataRow;
+    
     const [expanded, setExpanded] = useState(false);
 
     const handleRowClick = () => {
-        if (isMetadataRow) {
+        if (isExpandable) {
             setExpanded(!expanded);
             return;
         }
-        if (scanResult) onOpenFile(item.id);
+        if (scanResult && mode !== 'database') onOpenFile(item.id);
         else if (!isScanning && item.parseable) onToggle(item.id);
     };
 
@@ -701,7 +714,7 @@ function FileRow({
                         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                         <span className="text-[9px] text-blue-500 font-mono">scanning</span>
                     </div>
-                ) : scanResult ? (
+                ) : scanResult && mode !== 'database' ? (
                     // ── Scanned: show Analyze button prominently ──────────
                     <button
                         onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
@@ -710,24 +723,55 @@ function FileRow({
                         <BarChart3 className="w-3 h-3" />
                         Analyze
                     </button>
-                ) : isSelected ? (
-                    <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center shadow">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-white" />
-                    </div>
                 ) : (() => {
-                    const rawType = cat?.scan_type ?? null;
+                    const rawType = scanResult?.result?.metadata?.scan_mode ?? cat?.scan_type ?? null;
                     const mapped = rawType ? (SCAN_TYPE_MAP[rawType] ?? SCAN_TYPE_MAP[rawType.toUpperCase()] ?? SCAN_TYPE_MAP[rawType.toLowerCase()] ?? DEFAULT_SCAN_TYPE) : DEFAULT_SCAN_TYPE;
-                    if (mapped === DEFAULT_SCAN_TYPE && item.parseable) {
+                    
+                    if (mapped !== DEFAULT_SCAN_TYPE) {
+                        return (
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${mapped.className}`}>
+                                {mapped.label}
+                            </span>
+                        );
+                    }
+                    if (isSelected) {
+                        return (
+                            <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center shadow">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                            </div>
+                        );
+                    }
+                    if (item.parseable) {
                         return <span className="text-[10px] text-slate-400">Select</span>;
                     }
-                    return (
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${mapped.className}`}>
-                            {mapped.label}
-                        </span>
-                    );
+                    return <span className="text-[10px] text-slate-400">—</span>;
                 })()}
             </div>
         </div>
+        
+        {/* ── PII Breakdown for Database Scans ── */}
+        <AnimatePresence>
+            {expanded && hasDetail && mode === 'database' && (
+                <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
+                >
+                    <div className="px-16 py-4 flex flex-wrap gap-2">
+                        {breakdown.map(b => (
+                            <div
+                                key={b.label}
+                                className="flex items-center justify-between gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-lg text-xs shadow-sm"
+                            >
+                                <span className="text-slate-600 dark:text-slate-400 font-medium">{b.label}</span>
+                                <span className="font-bold text-red-600 dark:text-red-400">{b.count}</span>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
         
         {/* ── Schema Map View for Metadata Scans ── */}
         <AnimatePresence>
@@ -862,7 +906,7 @@ function renderResultCells(row: ConnectorResultRow): React.JSX.Element[] {
 function ResultRow({ row, isMetadataScan }: { row: ConnectorResultRow, isMetadataScan?: boolean }) {
     const [expanded, setExpanded] = useState(false);
     const hasDetail = !!(row.detail && row.detail.breakdown.length > 0);
-    const isMetadataRow = isMetadataScan || row.metadata?.scan_mode === 'metadata_only';
+    const isMetadataRow = isMetadataScan || ['metadata_only', 'metadata_and_sampling'].includes(row.metadata?.scan_mode);
     const flaggedColumns = row.metadata?.flagged_columns || [];
     
     // Determine what panel to show on click
