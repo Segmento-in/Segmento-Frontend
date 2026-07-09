@@ -649,25 +649,22 @@ export class APIClient {
 
 
 
-    async scanConnectorAsync(connectorType: string, payload: any, token: string): Promise<{ job_id: string; status: string }> {
-        const finalPayload = { ...payload, connector_type: connectorType };
-        const response = await fetch(`${this.baseURL}/api/scan/async`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-            body: JSON.stringify(finalPayload),
-        });
-        return this.handleResponse(response);
-    }
+    // RETIRED (TICKET-6): scanConnectorAsync removed — async job queue path deleted.
+    // Use scanMetadata() for metadata-only scans (synchronous).
 
-    async getScanStatus(jobId: string, token: string): Promise<{ job_id: string; status: string; result?: any; error?: string }> {
-        const response = await fetch(`${this.baseURL}/api/scan/status/${jobId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        return this.handleResponse(response);
-    }
+    // RETIRED (TICKET-6): getScanStatus removed — no job queue.
 
-    async getCatalog(dbName: string, token: string): Promise<CatalogResponse> {
-        const response = await fetch(`${this.baseURL}/api/catalog/${dbName}`, {
+    /**
+     * getCatalog — reads unified /db/catalog endpoint.
+     * Returns ALL scan types (Full Load, Sampling, Metadata, Incremental) for a DB.
+     * @param dbName   database name to filter by
+     * @param token    Bearer token
+     * @param connectorType  optional — 'postgresql' | 'mysql' | 'mariadb' | 'mongodb'
+     */
+    async getCatalog(dbName: string, token: string, connectorType?: string): Promise<CatalogResponse> {
+        const params = new URLSearchParams({ db_name: dbName });
+        if (connectorType) params.append('connector_type', connectorType);
+        const response = await fetch(`${this.baseURL}/db/catalog?${params.toString()}`, {
             headers: { Authorization: `Bearer ${token}` }
         });
         return this.handleResponse(response);

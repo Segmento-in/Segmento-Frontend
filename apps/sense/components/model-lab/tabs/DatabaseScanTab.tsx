@@ -127,7 +127,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   const fetchCatalog = async (dbType: DbType) => {
     try {
         if (!creds.database) return;
-        const res = await apiClient.getCatalog(creds.database, token || '');
+        // T6: pass connectorType so /db/catalog filters by both db_name + connector_type
+        const res = await apiClient.getCatalog(creds.database, token || '', dbType);
         setCatalogData(res.files || []);
         setLastSession(res.last_session || null);
     } catch { /* non-fatal */ }
@@ -242,30 +243,25 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
       try {
         let res: AnalysisResponse;
         if (mode === 'metadata_only') {
-          // Trigger the background async scan job
-          const startRes = await apiClient.scanConnectorAsync(dbType, { ...creds, table: tableName, scan_mode: mode }, token || '');
-          const jobId = startRes.job_id;
-          
-          // Long-poll the job status until it succeeds or fails
-          let currentStatus = 'queued';
-          while (currentStatus === 'queued' || currentStatus === 'running') {
-              await new Promise(resolve => setTimeout(resolve, 2000));
-              const statusRes = await apiClient.getScanStatus(jobId, token || '');
-              currentStatus = statusRes.status;
-              if (currentStatus === 'failed') throw new Error(statusRes.error || 'Async scan failed.');
-          }
-
-          // Once complete, fetch the updated catalog for this database
-          const catalogRes = await apiClient.getCatalog(creds.database, token || '');
-          const fileEntry = catalogRes.files.find(f => !f.is_folder && f.file_name === tableName);
-          const flaggedColumns = fileEntry?.metadata?.flagged_columns || [];
+          // T6: synchronous metadata scan — no async job queue, no polling
+          const catalogRes = await apiClient.scanMetadata(
+            { connector_type: dbType, ...creds, table: tableName, scan_mode: mode },
+            token || ''
+          );
+          const fileEntry = catalogRes.files.find(
+            (f: any) => !f.is_folder && f.file_name === tableName
+          );
+          // T7: read scan_mode from metadata (canonical tag value)
+          const flaggedColumns: any[] = fileEntry?.metadata?.flagged_columns || [];
           totalPiiFound += flaggedColumns.length;
-          
           res = {
             total_pii_found: flaggedColumns.length,
             pii_counts: flaggedColumns.map((c: any) => ({ 'PII Type': c.matched_rule || 'PII', Count: 1 })),
             rows_scanned: 0,
-            metadata: { scan_mode: 'metadata_only', flagged_columns: flaggedColumns }
+            metadata: {
+              scan_mode: fileEntry?.metadata?.scan_mode || 'METADATA_ONLY',
+              flagged_columns: flaggedColumns,
+            },
           } as AnalysisResponse & { metadata?: any };
         } else {
           res = dbType === 'postgresql'

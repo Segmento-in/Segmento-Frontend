@@ -22,17 +22,19 @@ type SortDir = 'asc' | 'desc';
 // UBIQUITOUS_LANGUAGE.md) and distinct Tailwind color classes.
 
 const SCAN_TYPE_MAP: Record<string, { label: string; className: string }> = {
-    // Existing mappings — preserve exact existing colors
+    // Legacy navigation-type values (kept for backwards compat)
     'incremental':           { label: 'Incremental Scan',              className: 'bg-purple-100 text-purple-700' },
-    'external':              { label: 'Full Load Scan',                className: 'bg-slate-100 text-slate-700' },   // Legacy fallback
+    'external':              { label: 'Full Load Scan',                className: 'bg-slate-100 text-slate-700' },
+    // Canonical UL values (written by TICKET-3 supabase_client)
     'FULL_LOAD':             { label: 'Full Load Scan',                className: 'bg-blue-100 text-blue-700' },
-    // New canonical mappings
-    'metadata_only':         { label: 'Metadata-Only Scan',           className: 'bg-gray-100 text-gray-700' },
     'METADATA_ONLY':         { label: 'Metadata-Only Scan',           className: 'bg-gray-100 text-gray-700' },
-    'sampling':              { label: 'Sampling Scan',                 className: 'bg-cyan-100 text-cyan-700' },
+    'metadata_only':         { label: 'Metadata-Only Scan',           className: 'bg-gray-100 text-gray-700' },
     'SAMPLING':              { label: 'Sampling Scan',                 className: 'bg-cyan-100 text-cyan-700' },
-    'metadata_and_sampling': { label: 'Metadata-Only & Sampling Scan', className: 'bg-indigo-100 text-indigo-700' },
-    'METADATA_AND_SAMPLING': { label: 'Metadata-Only & Sampling Scan', className: 'bg-indigo-100 text-indigo-700' },
+    'sampling':              { label: 'Sampling Scan',                 className: 'bg-cyan-100 text-cyan-700' },
+    'METADATA_AND_SAMPLING': { label: 'Metadata & Sampling Scan',     className: 'bg-indigo-100 text-indigo-700' },
+    'metadata_and_sampling': { label: 'Metadata & Sampling Scan',     className: 'bg-indigo-100 text-indigo-700' },
+    // TICKET-7: Incremental canonical value
+    'INCREMENTAL':           { label: 'Incremental Scan',             className: 'bg-purple-100 text-purple-700' },
 };
 
 const DEFAULT_SCAN_TYPE = { label: '—', className: 'bg-transparent text-gray-400' };
