@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { apiClient, OutOfCreditsError, AnalysisResponse, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 import { Loader2, UploadCloud, AlertCircle, ArrowLeft, File } from 'lucide-react';
+import { getFileTypeIcon } from '@/components/model-lab/localUpload/fileTypeIcons';
 import ConnectorPreviewUI from '@/components/model-lab/ConnectorPreviewUI';
 import DocumentViewerModal from '@/components/model-lab/DocumentViewerModal';
 
@@ -43,6 +44,9 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
+    // T2: Resolve per-format icon, chip color, and hover border class
+    const { Icon, bgColorClass, iconColorClass, hoverBorderClass } = getFileTypeIcon(type.ext);
+
     return (
         <div
             ref={cardRef}
@@ -50,7 +54,8 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
             onMouseLeave={onMouseLeave}
             onClick={handleClick}
             style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
-            className={`group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-blue-500/30 flex flex-col items-center justify-center text-center gap-4 h-full overflow-hidden relative ${isScanning ? 'opacity-90 pointer-events-none' : 'active:scale-95'}`}
+            // T3: hover:-translate-y-0.5 adds CSS-only lift; hoverBorderClass adds family-tinted border glow
+            className={`group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-transform duration-150 hover:-translate-y-0.5 ${hoverBorderClass} flex flex-col items-center justify-center text-center gap-4 h-full overflow-hidden relative ${isScanning ? 'opacity-90 pointer-events-none' : 'active:scale-95'}`}
         >
             <input 
                 type="file" 
@@ -62,11 +67,12 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
             />
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center border border-slate-200/50 group-hover:scale-110 group-hover:border-blue-200 transition-all duration-500 relative z-10 shadow-sm">
+            {/* T2: Icon Chip — tinted background from Format Icon Family color */}
+            <div className={`w-14 h-14 rounded-2xl ${bgColorClass} flex items-center justify-center border border-slate-200/50 group-hover:scale-110 group-hover:border-blue-200 transition-all duration-500 relative z-10 shadow-sm`}>
                 {isScanning ? (
                     <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
                 ) : (
-                    <File className="w-6 h-6 text-slate-400 group-hover:text-blue-500 transition-colors" />
+                    <Icon className={`w-6 h-6 ${iconColorClass}`} />
                 )}
             </div>
             <div className="relative z-10">
