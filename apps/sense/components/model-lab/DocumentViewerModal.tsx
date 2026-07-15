@@ -21,15 +21,34 @@ interface Props {
 }
 
 // Derive PIIAnalytics-compatible pii_counts from scan_data
-function derivePiiCounts(scan_data: any): Array<{ 'PII Type': string; Count: number }> {
+function derivePiiCounts(scan_data: any): Array<{ 'PII Type': string; Count: number; matched_rule?: string; contributing_models?: string[] }> {
     if (!scan_data?.per_model) return [];
     const typeTotals: Record<string, number> = {};
+    const repMatches: Record<string, any> = {};
+
     Object.values(scan_data.per_model).forEach((m: any) => {
         Object.entries(m.type_counts || {}).forEach(([label, count]: [string, any]) => {
             typeTotals[label] = (typeTotals[label] || 0) + count;
         });
+
+        if (m.predictions) {
+            m.predictions.forEach((p: any) => {
+                if (p.result !== 'FN' && !repMatches[p.label]) {
+                    repMatches[p.label] = {
+                        matched_rule: p.matched_rule,
+                        contributing_models: p.contributing_models
+                    };
+                }
+            });
+        }
     });
-    return Object.entries(typeTotals).map(([label, count]) => ({ 'PII Type': label, Count: count }));
+
+    return Object.entries(typeTotals).map(([label, count]) => ({ 
+        'PII Type': label, 
+        Count: count,
+        matched_rule: repMatches[label]?.matched_rule,
+        contributing_models: repMatches[label]?.contributing_models
+    }));
 }
 
 function deriveSchema(scan_data: any): Array<{ Column: string; Type: string }> {
@@ -57,6 +76,11 @@ export default function DocumentViewerModal({
     const [textLoading, setTextLoading] = useState(false);
     const [textError, setTextError] = useState<string | null>(null);
     const [page, setPage] = useState(0);
+
+    // ── Capability checks ─────────────────────────────────────────────────────
+    const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
+    const canPreviewText = isDriveFile;
+    const canTag = isDriveFile;
 
     // ── Tagging state ─────────────────────────────────────────────────────────
     const [isTagging, setIsTagging] = useState(false);
@@ -87,8 +111,8 @@ export default function DocumentViewerModal({
         if (activeTab !== 'text') return;
         if (chunks.length > 0 || textLoading) return; // already fetched
 
-        // Local upload — no download needed
-        if (authType === 'local') return;
+        // Only Drive files support fetching raw content chunks currently
+        if (!canPreviewText) return;
 
         let mounted = true;
         setTextLoading(true);
@@ -238,8 +262,8 @@ export default function DocumentViewerModal({
                         </div>
 
                         <div className="flex items-center gap-3 shrink-0">
-                            {/* Tag button — always shown for Drive files */}
-                            {authType !== 'local' && (
+                            {/* Tag button — only shown for capable files (e.g. Drive) */}
+                            {canTag && (
                                 <button
                                     onClick={handleTagFile}
                                     disabled={isTagging || tagState === 'success'}
@@ -384,9 +408,9 @@ export default function DocumentViewerModal({
                         {/* Text Tab */}
                         {activeTab === 'text' && (
                             <div className="p-6 lg:p-10">
-                                {authType === 'local' && scanResult.result ? (
+                                {!canPreviewText && scanResult.result ? (
                                     <div className="text-sm text-slate-500 italic">
-                                        Text preview is not available for local uploads. Use the Analytics tab.
+                                        Text preview is not available for this connector. Use the Analytics tab.
                                     </div>
                                 ) : textLoading ? (
                                     <div className="flex flex-col items-center justify-center py-24 text-slate-500">

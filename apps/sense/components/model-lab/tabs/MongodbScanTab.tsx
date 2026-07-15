@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowLeft, Download, Database, Eye, EyeOff, Search, Shield } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
+import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
@@ -67,6 +68,7 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
   const [lastSession, setLastSession] = useState<any>(null);
   const [filterMode, setFilterMode] = useState<'all' | 'pii' | 'clean' | 'unscanned'>('all');
   const [resultSearch, setResultSearch] = useState('');
+  const [viewerFileId, setViewerFileId] = useState<string | null>(null);
 
   const accentRing = 'focus:ring-green-500';
   const accentBtn = 'bg-green-600 hover:bg-green-700';
@@ -133,6 +135,45 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
     return { scanned: scanned.length, pii, clean: scanned.length - pii, totalPii: scanned.reduce((s, e) => s + (e.result?.total_pii_found ?? 0), 0) };
   }, [scanEntries]);
 
+  const liveScanResults = useMemo(() => {
+    return scanEntries
+      .filter(e => e.status === 'scanned' || e.status === 'error')
+      .map(e => ({
+        file_id: e.tableName,
+        pii_detected: (e.result?.total_pii_found ?? 0) > 0,
+        pii_count: e.result?.total_pii_found ?? 0,
+        result: e.result as AnalysisResponse,
+        error: e.error
+      }));
+  }, [scanEntries]);
+
+  const getViewerScanResult = (id: string) => {
+    const live = liveScanResults.find(r => r.file_id === id);
+    if (live) return live;
+    const cat = catalogData.find(c => c.file_id === id);
+    if (cat) {
+      const piiTypes = cat.metadata?.pii_types || {};
+      const piiCount = Object.values(piiTypes).reduce((a: any, b: any) => a + b, 0) as number;
+      return {
+        file_id: cat.file_id,
+        fileId: cat.file_id,
+        file_name: cat.file_name,
+        mime_type: cat.connector_type || 'mongodb',
+        pii_detected: cat.classification === 'SENSITIVE',
+        pii_count: piiCount,
+        scan_data: {
+          per_model: { catalog: { type_counts: piiTypes } },
+          ranked: (cat.metadata?.flagged_columns || []).map((col: string, idx: number) => ({
+            model_key: col,
+            pii_count: 1,
+            rank: idx + 1
+          }))
+        }
+      };
+    }
+    return null;
+  };
+
   const catalogItems = useMemo(() => catalogData.map(catalogEntryToDriveItem), [catalogData]);
 
   return (
@@ -197,10 +238,19 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />
               <DashboardStatCard label="Total Items" value={stats.totalPii} valueColor="text-amber-600" />
             </div>
-            <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={[]} onOpenFile={() => {}} connectorType="mongodb" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={lastScanMode === 'metadata'} />
+            <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={liveScanResults} onOpenFile={(id) => setViewerFileId(id)} connectorType="mongodb" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={lastScanMode === 'metadata'} />
           </motion.div>
         )}
       </AnimatePresence>
+      {viewerFileId && getViewerScanResult(viewerFileId) && (
+        <DocumentViewerModal
+          fileInfo={catalogItems.find(i => i.id === viewerFileId)!}
+          scanResult={getViewerScanResult(viewerFileId)! as any}
+          credentials={{}}
+          authType="mongodb"
+          onClose={() => setViewerFileId(null)}
+        />
+      )}
     </div>
   );
 }

@@ -8,7 +8,8 @@ import {
     Folder, Tag, Sparkles, ChevronRight, ChevronDown, Filter, ArrowUpDown,
     ArrowUp, ArrowDown, Loader2, Database, BarChart3
 } from 'lucide-react';
-import { DriveItem, DriveFileScanResult, FileCatalogEntry, ConnectorResultRow, ConnectorResultDetail } from '@/lib/apiClient';
+import { DriveItem, DriveFileScanResult, FileCatalogEntry, ConnectorResultRow, ConnectorResultDetail, PIIMatch } from '@/lib/apiClient';
+import { getModelLevelAnalysis } from '@/lib/piiReasons';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -615,9 +616,14 @@ function FileRow({
     // Normalize PII breakdown data
     const liveCounts = scanResult?.result?.pii_counts;
     const catCounts = cat?.metadata?.pii_types;
-    let breakdown: { label: string, count: number }[] = [];
+    let breakdown: { label: string, count: number, matched_rule?: string, contributing_models?: string[] }[] = [];
     if (liveCounts && Array.isArray(liveCounts)) {
-        breakdown = liveCounts.map(c => ({ label: c['PII Type'], count: c['Count'] as number })).filter(c => c.count > 0);
+        breakdown = liveCounts.map(c => ({ 
+            label: c['PII Type'], 
+            count: c['Count'] as number,
+            matched_rule: c.matched_rule,
+            contributing_models: c.contributing_models
+        })).filter(c => c.count > 0);
     } else if (catCounts) {
         breakdown = Object.entries(catCounts).map(([label, count]) => ({ label, count: count as number })).filter(c => c.count > 0);
     }
@@ -760,14 +766,24 @@ function FileRow({
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
                 >
-                    <div className="px-16 py-4 flex flex-wrap gap-2">
+                    <div className="px-16 py-4 flex flex-col gap-3">
                         {breakdown.map(b => (
                             <div
                                 key={b.label}
-                                className="flex items-center justify-between gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-lg text-xs shadow-sm"
+                                className="flex flex-col gap-2 p-3 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-lg text-xs shadow-sm"
                             >
-                                <span className="text-slate-600 dark:text-slate-400 font-medium">{b.label}</span>
-                                <span className="font-bold text-red-600 dark:text-red-400">{b.count}</span>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-slate-700 dark:text-slate-300 font-bold">{b.label}</span>
+                                    <span className="font-bold text-red-600 dark:text-red-400">{b.count}</span>
+                                </div>
+                                <div className="text-slate-500 dark:text-slate-400 italic">
+                                    {getModelLevelAnalysis({
+                                        label: b.label,
+                                        matched_rule: b.matched_rule,
+                                        contributing_models: b.contributing_models,
+                                        text: '', start: 0, end: 0, source: ''
+                                    })}
+                                </div>
                             </div>
                         ))}
                     </div>

@@ -637,10 +637,10 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                 )}
             </AnimatePresence>
 
-            {viewerFileId && (
+            {viewerFileId && scanResults.find(r => r.file_id === viewerFileId) && (
                 <DocumentViewerModal
                     fileInfo={items.find(i => i.id === viewerFileId)!}
-                    scanResult={scanResults.find(r => r.file_id === viewerFileId)!}
+                    scanResult={scanResults.find(r => r.file_id === viewerFileId)! as any}
                     credentials={credentials}
                     authType={authType}
                     onClose={() => setViewerFileId(null)}

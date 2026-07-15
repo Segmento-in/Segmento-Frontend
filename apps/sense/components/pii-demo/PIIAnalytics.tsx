@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { PIICount, SchemaInfo } from '@/lib/apiClient';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { getModelLevelAnalysis } from '@/lib/piiReasons';
 
 interface PIIAnalyticsProps {
     piiCounts: PIICount[];
@@ -61,9 +62,9 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                         <p className="text-slate-500 dark:text-gray-400">No PII data detected to visualize</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                         {/* Pie Chart */}
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-center lg:col-span-4">
                             <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
                                     <Pie
@@ -97,13 +98,14 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                         </div>
 
                         {/* Data Table */}
-                        <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-[#3E2F5B]/30">
-                            <table className="w-full">
+                        <div className="overflow-x-auto rounded-lg border border-slate-200 dark:border-[#3E2F5B]/30 lg:col-span-8">
+                            <table className="w-full text-sm">
                                 <thead className="bg-slate-50 dark:bg-[#3E2F5B]/20">
                                     <tr>
                                         <th className="text-left py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">PII Type</th>
                                         <th className="text-right py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">Count</th>
                                         <th className="text-right py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold">%</th>
+                                        <th className="text-left py-3 px-4 text-slate-600 dark:text-gray-300 font-semibold min-w-[250px]">Model Level Analysis</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,6 +125,17 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-indigo-600 dark:text-[#B3945B] font-semibold">{item.Count}</td>
                                                 <td className="py-3 px-4 text-right text-slate-500 dark:text-gray-400">{percentage}%</td>
+                                                <td className="py-3 px-4 text-slate-500 dark:text-gray-400 leading-relaxed min-w-[250px]">
+                                                    {getModelLevelAnalysis({
+                                                        label: item['PII Type'],
+                                                        matched_rule: item.matched_rule,
+                                                        contributing_models: item.contributing_models,
+                                                        text: '',
+                                                        start: 0,
+                                                        end: 0,
+                                                        source: ''
+                                                    })}
+                                                </td>
                                             </tr>
                                         );
                                     })}

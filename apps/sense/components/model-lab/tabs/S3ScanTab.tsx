@@ -5,7 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronRight,
     Loader2, Play, Eye, EyeOff, ArrowLeft, Download,
 } from 'lucide-react';
-import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError } from '@/lib/apiClient';
+import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
+import ConnectorPreviewUI from '../ConnectorPreviewUI';
+import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
@@ -45,7 +47,7 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     // RESULTS
     const [isScanning, setIsScanning] = useState(false);
     const [results, setResults]     = useState<FileScanResult[]>([]);
-    const [expandedFile, setExpandedFile] = useState<string | null>(null);
+    const [viewerFileId, setViewerFileId] = useState<string | null>(null);
 
     // ── Handlers ──────────────────────────────────────────────────────────
 
@@ -111,6 +113,32 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     };
 
     const resetToAuth = () => { changeStep('AUTH'); setError(null); setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]); };
+
+    const items: DriveItem[] = files.map(f => ({
+        id: f,
+        name: f,
+        mimeType: 's3',
+        path: f,
+        isFolder: false,
+        parseable: true,
+        ext: f.split('.').pop()?.toUpperCase() || 'S3',
+        sizeBytes: 0,
+        mediaType: 'document',
+        appProperties: {},
+        tooBig: false,
+        parentId: '',
+    }));
+
+    const mappedScanResults: DriveFileScanResult[] = results.map(r => ({
+        file_id: r.key,
+        fileId: r.key,
+        file_name: r.key,
+        mime_type: 's3',
+        pii_detected: r.result ? r.result.total_pii_found > 0 : false,
+        pii_count: r.result?.total_pii_found || 0,
+        result: r.result || undefined,
+        error: r.error || undefined,
+    }));
 
     // ── Shared card wrapper ────────────────────────────────────────────────
     const Card = ({ children }: { children: React.ReactNode }) => (
@@ -288,26 +316,18 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                                         </span>
                                     </div>
 
-                                    <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden max-h-[360px] overflow-y-auto">
-                                        {files.map(file => {
-                                            const isSelected = selectedFiles.has(file);
-                                            return (
-                                                <div
-                                                    key={file}
-                                                    onClick={() => toggleFile(file)}
-                                                    className={`flex items-center gap-3 p-3 cursor-pointer transition-colors border-b border-slate-100 dark:border-slate-800 last:border-0 ${
-                                                        isSelected ? 'bg-orange-50 dark:bg-orange-500/10' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
-                                                    }`}
-                                                >
-                                                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
-                                                        isSelected ? 'bg-orange-500 border-orange-500 text-white' : 'border-slate-300 dark:border-slate-600'
-                                                    }`}>
-                                                        {isSelected && <CheckCircle2 className="w-3 h-3" />}
-                                                    </div>
-                                                    <span className="text-sm text-slate-700 dark:text-slate-300 truncate font-mono">{file}</span>
-                                                </div>
-                                            );
-                                        })}
+                                    <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden h-[360px] flex flex-col">
+                                        <ConnectorPreviewUI
+                                            items={items}
+                                            selectedIds={selectedFiles}
+                                            onToggleSelection={toggleFile}
+                                            scanningIds={new Set()}
+                                            scanResults={[]}
+                                            onOpenFile={() => {}}
+                                            connectorType="S3"
+                                            filterMode="all"
+                                            className="flex-1 min-h-0"
+                                        />
                                     </div>
 
                                     <div className="flex justify-end mt-5">
@@ -383,77 +403,33 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                         )}
 
                         {/* Per-file results */}
-                        {results.map(r => (
-                            <FileResultCard
-                                key={r.key}
-                                fileKey={r.key}
-                                result={r.result}
-                                error={r.error}
-                                expanded={expandedFile === r.key}
-                                onToggle={() => setExpandedFile(p => p === r.key ? null : r.key)}
+                        <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden h-[500px] flex flex-col mt-4">
+                            <ConnectorPreviewUI
+                                items={items}
+                                selectedIds={new Set()}
+                                onToggleSelection={() => {}}
+                                scanningIds={new Set()}
+                                scanResults={mappedScanResults}
+                                onOpenFile={(id) => setViewerFileId(id)}
+                                connectorType="S3"
+                                filterMode="all"
+                                className="flex-1 min-h-0"
                             />
-                        ))}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
-    );
-}
 
-// ── Per-file result card ────────────────────────────────────────────────────
-function FileResultCard({
-    fileKey, result, error, expanded, onToggle,
-}: {
-    fileKey: string;
-    result: AnalysisResponse | null;
-    error: string | null;
-    expanded: boolean;
-    onToggle: () => void;
-}) {
-    const hasPii = result && result.total_pii_found > 0;
-
-    return (
-        <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm transition-all hover:shadow-md">
-            {/* Header row */}
-            <div onClick={onToggle} className="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors border-l-4 border-l-transparent hover:border-l-orange-400">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                    error ? 'bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400'
-                    : hasPii ? 'bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400'
-                    : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
-                }`}>
-                    {error ? <AlertCircle className="w-4 h-4" /> : hasPii ? <AlertCircle className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate font-mono">{fileKey}</p>
-                    {error && <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">Error: {error}</p>}
-                </div>
-                {!error && result && (
-                    <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-                        hasPii ? 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400'
-                        : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400'
-                    }`}>
-                        {hasPii ? `${result.total_pii_found} PII` : 'Clean'}
-                    </span>
-                )}
-                <ChevronRight className={`w-5 h-5 text-slate-400 transition-transform ${expanded ? 'rotate-90' : ''}`} />
-            </div>
-
-            {/* Expanded body */}
-            {expanded && !error && result && result.pii_counts && result.pii_counts.length > 0 && (
-                <div className="border-t border-slate-200 dark:border-slate-800 p-4 bg-slate-50 dark:bg-[#0F172A]">
-                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">
-                        PII Breakdown
-                    </p>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        {result.pii_counts.map((p: PIICount) => (
-                            <div key={p['PII Type']} className="flex items-center justify-between px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm">
-                                <span className="text-slate-600 dark:text-slate-400 truncate">{p['PII Type']}</span>
-                                <span className="font-bold text-red-600 dark:text-red-400 ml-2">{p.Count}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            {viewerFileId && mappedScanResults.find(r => r.file_id === viewerFileId) && (
+                <DocumentViewerModal
+                    fileInfo={items.find(i => i.id === viewerFileId)!}
+                    scanResult={mappedScanResults.find(r => r.file_id === viewerFileId)! as any}
+                    credentials={{}}
+                    authType="s3"
+                    onClose={() => setViewerFileId(null)}
+                />
             )}
         </div>
     );
 }
+

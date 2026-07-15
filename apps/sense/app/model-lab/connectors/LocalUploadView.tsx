@@ -152,6 +152,7 @@ export default function LocalUploadView() {
                 case 'parquet': result = await apiClient.uploadParquet(f, false, models); break;
                 case 'avro': result = await apiClient.uploadAvro(f, false, models); break;
                 case 'pdf': result = await apiClient.uploadPDF(f, 0, models); break;
+                case 'txt': result = await apiClient.uploadTXT(f, false, models); break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':

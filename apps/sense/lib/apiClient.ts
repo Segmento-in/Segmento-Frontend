@@ -11,11 +11,15 @@ export interface PIIMatch {
     start: number;
     end: number;
     source: string;
+    matched_rule?: string;
+    contributing_models?: string[];
 }
 
 export interface PIICount {
     'PII Type': string;
     Count: number;
+    matched_rule?: string;
+    contributing_models?: string[];
 }
 
 export interface SchemaInfo {
@@ -170,6 +174,8 @@ export interface EvaluatorPrediction {
     score: number;
     source: string;
     result?: 'TP' | 'FP' | 'FN';
+    matched_rule?: string;
+    contributing_models?: string[];
 }
 
 export interface MetricRow {
@@ -348,6 +354,20 @@ export class APIClient {
         formData.append('selected_models', selectedModels.join(','));
 
         const response = await fetch(`${this.baseURL}/api/upload/csv`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        return this.handleResponse(response);
+    }
+
+    async uploadTXT(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('mask', mask.toString());
+        formData.append('selected_models', selectedModels.join(','));
+
+        const response = await fetch(`${this.baseURL}/api/upload/txt`, {
             method: 'POST',
             body: formData,
         });

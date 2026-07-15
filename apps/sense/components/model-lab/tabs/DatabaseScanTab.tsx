@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
+import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
 
@@ -114,6 +115,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   const [scanningTableIds, setScanningTableIds] = useState<Set<string>>(new Set());
   const [lastScanMode, setLastScanMode] = useState<string>('full');
   const [selectedScanMode, setSelectedScanMode] = useState<'full' | 'sampling' | 'metadata_only' | 'metadata_and_sampling'>('full');
+  const [viewerFileId, setViewerFileId] = useState<string | null>(null);
 
   // Catalog data from Supabase (persisted across sessions)
   const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
@@ -363,6 +365,33 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     : 'bg-orange-500 border-orange-500';
 
   const inputCls = `w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 dark:text-white text-sm`;
+
+  const getViewerScanResult = (id: string) => {
+    const live = liveScanResults.find(r => r.file_id === id);
+    if (live) return live;
+    const cat = catalogData.find(c => c.file_id === id);
+    if (cat) {
+      const piiTypes = cat.metadata?.pii_types || {};
+      const piiCount = Object.values(piiTypes).reduce((a: any, b: any) => a + b, 0) as number;
+      return {
+        file_id: cat.file_id,
+        fileId: cat.file_id,
+        file_name: cat.file_name,
+        mime_type: cat.connector_type || 'database',
+        pii_detected: cat.classification === 'SENSITIVE',
+        pii_count: piiCount,
+        scan_data: {
+          per_model: { catalog: { type_counts: piiTypes } },
+          ranked: (cat.metadata?.flagged_columns || []).map((col: string, idx: number) => ({
+            model_key: col,
+            pii_count: 1,
+            rank: idx + 1
+          }))
+        }
+      };
+    }
+    return null;
+  };
 
   // catalogItems: convert catalog entries to DriveItem[] for ConnectorPreviewUI
   const catalogItems = useMemo(() => {
@@ -804,7 +833,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
               onToggleSelection={() => {}}
               scanningIds={scanningTableIds}
               scanResults={liveScanResults}
-              onOpenFile={() => {}}
+              onOpenFile={(id) => setViewerFileId(id)}
               connectorType="Database"
               catalogData={catalogData}
               lastSession={lastSession}
@@ -818,6 +847,15 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         )}
       </AnimatePresence>
 
+      {viewerFileId && getViewerScanResult(viewerFileId) && (
+        <DocumentViewerModal
+          fileInfo={catalogItems.find(i => i.id === viewerFileId)!}
+          scanResult={getViewerScanResult(viewerFileId)! as any}
+          credentials={{}}
+          authType={dbType}
+          onClose={() => setViewerFileId(null)}
+        />
+      )}
 
       {/* Floating selection pill for BROWSE */}
       <AnimatePresence>
