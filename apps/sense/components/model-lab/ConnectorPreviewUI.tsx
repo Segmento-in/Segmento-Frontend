@@ -327,7 +327,7 @@ export default function ConnectorPreviewUI({
                         </div>
                     ) : (
                         <AnimatePresence initial={false}>
-                            {rows.map(row => <ResultRow key={row.id} row={row} isMetadataScan={isMetadataScan} />)}
+                            {rows.map(row => <ResultRow key={row.id} row={row} isMetadataScan={isMetadataScan} onOpenFile={onOpenFile} />)}
                         </AnimatePresence>
                     )}
                 </div>
@@ -374,7 +374,7 @@ export default function ConnectorPreviewUI({
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Columns</div>
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">First Seen</div>
                         <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Last Scanned</div>
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Analysis</div>
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">Scan Type</div>
                     </>
                 ) : (
                     // ── Drive mode headers (unchanged) ─────────────────────
@@ -627,18 +627,12 @@ function FileRow({
     } else if (catCounts) {
         breakdown = Object.entries(catCounts).map(([label, count]) => ({ label, count: count as number })).filter(c => c.count > 0);
     }
-    const hasDetail = breakdown.length > 0;
-    const isExpandable = (hasDetail && mode === 'database') || isMetadataRow;
-    
-    const [expanded, setExpanded] = useState(false);
-
     const handleRowClick = () => {
-        if (isExpandable) {
-            setExpanded(!expanded);
+        if (scanResult) {
+            onOpenFile(item.id);
             return;
         }
-        if (scanResult && mode !== 'database') onOpenFile(item.id);
-        else if (!isScanning && item.parseable) onToggle(item.id);
+        if (!isScanning && item.parseable) onToggle(item.id);
     };
 
     return (
@@ -659,14 +653,26 @@ function FileRow({
                         </div>
                     )}
                 </div>
-                <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
-                        {item.name}
-                    </p>
-                    {cat?.full_path && (
-                        <p className="text-[10px] text-slate-400 truncate" title={cat.full_path}>
-                            {cat.full_path}
+                <div className="min-w-0 flex-1 flex items-center gap-3">
+                    <div className="min-w-0">
+                        <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
+                            {item.name}
                         </p>
+                        {cat?.full_path && (
+                            <p className="text-[10px] text-slate-400 truncate" title={cat.full_path}>
+                                {cat.full_path}
+                            </p>
+                        )}
+                    </div>
+                    {scanResult && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
+                            className="flex shrink-0 items-center gap-1 px-2 py-0.5 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider rounded-md transition-all active:scale-95"
+                            title="Analyze Results"
+                        >
+                            <BarChart3 className="w-3 h-3" />
+                            Analyze
+                        </button>
                     )}
                 </div>
             </div>
@@ -722,15 +728,6 @@ function FileRow({
                         <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                         <span className="text-[9px] text-blue-500 font-mono">scanning</span>
                     </div>
-                ) : scanResult && mode !== 'database' ? (
-                    // ── Scanned: show Analyze button prominently ──────────
-                    <button
-                        onClick={(e) => { e.stopPropagation(); onOpenFile(item.id); }}
-                        className="flex items-center gap-1 px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all hover:shadow-md active:scale-95"
-                    >
-                        <BarChart3 className="w-3 h-3" />
-                        Analyze
-                    </button>
                 ) : (() => {
                     const rawType = scanResult?.result?.metadata?.scan_mode ?? cat?.scan_type ?? null;
                     const mapped = rawType ? (SCAN_TYPE_MAP[rawType] ?? SCAN_TYPE_MAP[rawType.toUpperCase()] ?? SCAN_TYPE_MAP[rawType.toLowerCase()] ?? DEFAULT_SCAN_TYPE) : DEFAULT_SCAN_TYPE;
@@ -757,94 +754,7 @@ function FileRow({
             </div>
         </div>
         
-        {/* ── PII Breakdown for Database Scans ── */}
-        <AnimatePresence>
-            {expanded && hasDetail && mode === 'database' && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
-                >
-                    <div className="px-16 py-4 flex flex-col gap-3">
-                        {breakdown.map(b => (
-                            <div
-                                key={b.label}
-                                className="flex flex-col gap-2 p-3 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-lg text-xs shadow-sm"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <span className="text-slate-700 dark:text-slate-300 font-bold">{b.label}</span>
-                                    <span className="font-bold text-red-600 dark:text-red-400">{b.count}</span>
-                                </div>
-                                <div className="text-slate-500 dark:text-slate-400 italic">
-                                    {getModelLevelAnalysis({
-                                        label: b.label,
-                                        matched_rule: b.matched_rule,
-                                        contributing_models: b.contributing_models,
-                                        text: '', start: 0, end: 0, source: ''
-                                    })}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-        
-        {/* ── Schema Map View for Metadata Scans ── */}
-        <AnimatePresence>
-            {expanded && isMetadataRow && (
-                <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
-                >
-                    <div className="p-4 pl-12">
-                        <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
-                            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                            Schema Map View (Zero Trust)
-                        </div>
-                        {flaggedColumns.length === 0 ? (
-                            <div className="text-sm text-slate-500 italic bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                                No PII indicators found in schema.
-                            </div>
-                        ) : (
-                            <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
-                                <table className="w-full text-sm">
-                                    <thead className="bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs uppercase tracking-wider">
-                                        <tr>
-                                            <th className="px-4 py-2 text-left font-semibold">Column Name</th>
-                                            <th className="px-4 py-2 text-left font-semibold">Matched Rule</th>
-                                            <th className="px-4 py-2 text-left font-semibold">Confidence</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
-                                        {flaggedColumns.map((col: any, idx: number) => (
-                                            <tr key={idx}>
-                                                <td className="px-4 py-2.5 font-mono text-slate-700 dark:text-slate-300 text-xs">{col.name}</td>
-                                                <td className="px-4 py-2.5 text-slate-600 dark:text-slate-400">{col.matched_rule}</td>
-                                                <td className="px-4 py-2.5">
-                                                    {col.confidence === 'HIGH' ? (
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200">
-                                                            Sensitive
-                                                        </span>
-                                                    ) : (
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
-                                                            Review Required
-                                                        </span>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
+
         </motion.div>
     );
 }
@@ -921,118 +831,19 @@ function renderResultCells(row: ConnectorResultRow): React.JSX.Element[] {
 // but wraps them in a non-interactive, non-selectable container.
 // Includes an optional collapsible breakdown panel for rows with detail.
 
-function ResultRow({ row, isMetadataScan }: { row: ConnectorResultRow, isMetadataScan?: boolean }) {
-    const [expanded, setExpanded] = useState(false);
-    const hasDetail = !!(row.detail && row.detail.breakdown.length > 0);
-    const isMetadataRow = isMetadataScan || ['metadata_only', 'metadata_and_sampling'].includes(row.metadata?.scan_mode);
-    const flaggedColumns = row.metadata?.flagged_columns || [];
-    
-    // Determine what panel to show on click
-    const isExpandable = hasDetail || isMetadataRow;
-
+function ResultRow({ row, isMetadataScan, onOpenFile }: { row: ConnectorResultRow, isMetadataScan?: boolean, onOpenFile?: (id: string) => void }) {
     return (
         <div className="flex flex-col border-b border-slate-100 dark:border-slate-800/50">
             <div
-                onClick={() => isExpandable && setExpanded(!expanded)}
-                className={`grid gap-2 px-4 py-2.5 border-l-2 transition-all items-center border-l-transparent ${row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'} ${isExpandable ? 'cursor-pointer' : ''}`}
-                style={{ gridTemplateColumns: hasDetail ? '1fr 70px 130px 90px 100px 110px 100px 28px' : undefined }}
+                onClick={() => onOpenFile && onOpenFile(row.id)}
+                className={`grid gap-2 px-4 py-2.5 border-l-2 transition-all items-center border-l-transparent ${row.isScanning ? 'bg-blue-50/30' : 'hover:bg-slate-50/80 dark:hover:bg-slate-800/30'} cursor-pointer`}
             >
                 {/* 7 shared cells */}
                 <div className={`grid ${GRID} gap-2 col-span-full`}>
                     {renderResultCells(row)}
                 </div>
             </div>
-            {/* Expand chevron row */}
-            {hasDetail && (
-                <div className="border-b border-slate-100 dark:border-slate-800/50">
-                    <button
-                        onClick={() => setExpanded(e => !e)}
-                        className="w-full flex items-center gap-1.5 px-4 py-1 text-[10px] font-semibold text-slate-400 hover:text-slate-700 transition-colors"
-                    >
-                        <ChevronDown className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-                        {expanded ? 'Hide' : 'Show'} PII breakdown
-                    </button>
-                    <AnimatePresence>
-                        {expanded && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="overflow-hidden"
-                            >
-                                <div className="px-6 py-3 bg-red-50/40 flex flex-wrap gap-2">
-                                    {row.detail!.breakdown.map(b => (
-                                        <div
-                                            key={b.label}
-                                            className="flex items-center justify-between gap-2 px-3 py-1.5 bg-white border border-red-200 rounded-lg text-xs"
-                                        >
-                                            <span className="text-slate-600">{b.label}</span>
-                                            <span className="font-bold text-red-600">{b.count}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
-            )}
-            
-            {/* ── Schema Map View for Metadata Scans ── */}
-            {isMetadataRow && (
-                <AnimatePresence>
-                    {expanded && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="overflow-hidden bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800/50"
-                        >
-                            <div className="p-4 pl-12">
-                                <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                                    Schema Map View (Zero Trust)
-                                </div>
-                                {flaggedColumns.length === 0 ? (
-                                    <div className="text-sm text-slate-500 italic bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700">
-                                        No PII indicators found in schema.
-                                    </div>
-                                ) : (
-                                    <div className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden shadow-sm">
-                                        <table className="w-full text-sm">
-                                            <thead className="bg-slate-100 dark:bg-slate-800 text-slate-500 text-xs uppercase tracking-wider">
-                                                <tr>
-                                                    <th className="px-4 py-2 text-left font-semibold">Column Name</th>
-                                                    <th className="px-4 py-2 text-left font-semibold">Matched Rule</th>
-                                                    <th className="px-4 py-2 text-left font-semibold">Confidence</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-900">
-                                                {flaggedColumns.map((col: any, idx: number) => (
-                                                    <tr key={idx}>
-                                                        <td className="px-4 py-2.5 font-mono text-slate-700 dark:text-slate-300 text-xs">{col.name}</td>
-                                                        <td className="px-4 py-2.5 text-slate-600 dark:text-slate-400">{col.matched_rule}</td>
-                                                        <td className="px-4 py-2.5">
-                                                            {col.confidence === 'HIGH' ? (
-                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200">
-                                                                    Sensitive
-                                                                </span>
-                                                            ) : (
-                                                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
-                                                                    Review Required
-                                                                </span>
-                                                            )}
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            )}
+
         </div>
     );
 }

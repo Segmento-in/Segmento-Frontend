@@ -258,7 +258,11 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           totalPiiFound += flaggedColumns.length;
           res = {
             total_pii_found: flaggedColumns.length,
-            pii_counts: flaggedColumns.map((c: any) => ({ 'PII Type': c.matched_rule || 'PII', Count: 1 })),
+            pii_counts: flaggedColumns.map((c: any) => ({ 
+              'PII Type': c.matched_rule || 'PII', 
+              Count: 1,
+              llm_explanation: c.llm_explanation
+            })),
             rows_scanned: 0,
             metadata: {
               scan_mode: fileEntry?.metadata?.scan_mode || 'METADATA_ONLY',
@@ -380,10 +384,15 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         mime_type: cat.connector_type || 'database',
         pii_detected: cat.classification === 'SENSITIVE',
         pii_count: piiCount,
+        result: {
+          metadata: {
+            flagged_columns: cat.metadata?.flagged_columns || []
+          }
+        },
         scan_data: {
           per_model: { catalog: { type_counts: piiTypes } },
-          ranked: (cat.metadata?.flagged_columns || []).map((col: string, idx: number) => ({
-            model_key: col,
+          ranked: (cat.metadata?.flagged_columns || []).map((col: any, idx: number) => ({
+            model_key: col.name || col,
             pii_count: 1,
             rank: idx + 1
           }))

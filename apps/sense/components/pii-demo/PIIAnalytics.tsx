@@ -130,6 +130,7 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                                         label: item['PII Type'],
                                                         matched_rule: item.matched_rule,
                                                         contributing_models: item.contributing_models,
+                                                        llm_explanation: item.llm_explanation,
                                                         text: '',
                                                         start: 0,
                                                         end: 0,

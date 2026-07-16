@@ -4,13 +4,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     X, ChevronLeft, ChevronRight, Loader2, AlertCircle, Sparkles,
-    ExternalLink, ShieldAlert, ShieldCheck, BarChart3, Tag, CheckCircle2
+    ExternalLink, ShieldAlert, ShieldCheck, BarChart3, Tag, CheckCircle2, Network
 } from 'lucide-react';
 import { apiClient, DriveFileScanResult, DriveItem, EvaluatorPrediction } from '@/lib/apiClient';
 import { PII_LABEL_COLORS } from './ModelShowdown';
 import { useAuth } from '@/lib/authContext';
 import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
 import { Inspector } from '@/components/pii-demo/Inspector';
+import { getModelLevelAnalysis } from '@/lib/piiReasons';
 
 interface Props {
     fileInfo: DriveItem;
@@ -59,7 +60,7 @@ function deriveSchema(scan_data: any): Array<{ Column: string; Type: string }> {
     }));
 }
 
-type Tab = 'analytics' | 'text';
+type Tab = 'analytics' | 'text' | 'advanced';
 
 export default function DocumentViewerModal({
     fileInfo,
@@ -81,6 +82,7 @@ export default function DocumentViewerModal({
     const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
     const canPreviewText = isDriveFile;
     const canTag = isDriveFile;
+    const isDatabase = authType === 'postgresql' || authType === 'mysql';
 
     // ── Tagging state ─────────────────────────────────────────────────────────
     const [isTagging, setIsTagging] = useState(false);
@@ -90,6 +92,7 @@ export default function DocumentViewerModal({
     // ── Derived analytics data from scan_data ─────────────────────────────────
     const hasScanData = !!(scanResult.scan_data || scanResult.result);
     const piiCounts = useMemo(() => {
+        if ((scanResult as any).pii_counts) return (scanResult as any).pii_counts;
         if (scanResult.result?.pii_counts) return scanResult.result.pii_counts;
         return derivePiiCounts(scanResult.scan_data) as any;
     }, [scanResult]);
@@ -212,6 +215,79 @@ export default function DocumentViewerModal({
         if (cursor < text.length) nodes.push(<span key="end">{text.slice(cursor)}</span>);
         return <div className="whitespace-pre-wrap font-mono text-sm text-slate-800 dark:text-slate-200 leading-relaxed">{nodes}</div>;
     };
+
+    // ── Advanced Analytics block (Schema & Models) ────────────────────────────
+    const renderAdvancedAnalytics = () => (
+        <>
+            {/* ── PII Breakdown for Database Scans ── */}
+            <div className="flex flex-col gap-3">
+                {piiCounts.map((b: any) => (
+                    <div
+                        key={b['PII Type']}
+                        className="flex flex-col gap-2 p-4 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-xl text-sm shadow-sm"
+                    >
+                        <div className="flex items-center justify-between">
+                            <span className="text-slate-700 dark:text-slate-300 font-bold">{b['PII Type']}</span>
+                            <span className="font-bold text-red-600 dark:text-red-400">{b.Count}</span>
+                        </div>
+                        <div className="text-slate-500 dark:text-slate-400 italic">
+                            {getModelLevelAnalysis({
+                                label: b['PII Type'],
+                                matched_rule: b.matched_rule,
+                                contributing_models: b.contributing_models,
+                                llm_explanation: b.llm_explanation,
+                                text: '', start: 0, end: 0, source: ''
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* ── Schema Map View for Metadata Scans ── */}
+            <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+                <div className="p-5 border-b border-slate-200 dark:border-slate-800">
+                    <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                        Schema Map View (Zero Trust)
+                    </div>
+                </div>
+                {!scanResult.result?.metadata?.flagged_columns || scanResult.result.metadata.flagged_columns.length === 0 ? (
+                    <div className="p-5 text-sm text-slate-500 italic">
+                        No PII indicators found in schema.
+                    </div>
+                ) : (
+                    <table className="w-full text-sm">
+                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs uppercase tracking-wider">
+                            <tr>
+                                <th className="px-5 py-3 text-left font-semibold">Column Name</th>
+                                <th className="px-5 py-3 text-left font-semibold">Matched Rule</th>
+                                <th className="px-5 py-3 text-left font-semibold">Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                            {(scanResult.result?.metadata?.flagged_columns || []).map((col: any, idx: number) => (
+                                <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                    <td className="px-5 py-3 font-mono text-slate-700 dark:text-slate-300 text-xs">{col.name}</td>
+                                    <td className="px-5 py-3 text-slate-600 dark:text-slate-400">{col.matched_rule}</td>
+                                    <td className="px-5 py-3">
+                                        {col.confidence === 'HIGH' ? (
+                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200">
+                                                Sensitive
+                                            </span>
+                                        ) : (
+                                            <span className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
+                                                Review Required
+                                            </span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+        </>
+    );
 
     // ── Render ────────────────────────────────────────────────────────────────
     return (
@@ -337,6 +413,19 @@ export default function DocumentViewerModal({
                             <Sparkles className="w-4 h-4" />
                             Highlighted Text
                         </button>
+                        {!isDatabase && (
+                            <button
+                                onClick={() => setActiveTab('advanced')}
+                                className={`flex items-center gap-2 pb-3 pt-3 text-sm font-semibold border-b-2 transition-colors -mb-px ${
+                                    activeTab === 'advanced'
+                                        ? 'border-blue-600 text-blue-600'
+                                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                                }`}
+                            >
+                                <Network className="w-4 h-4" />
+                                Model Breakdown
+                            </button>
+                        )}
                     </div>
 
                     {/* ── Body ─────────────────────────────────────────────── */}
@@ -347,52 +436,58 @@ export default function DocumentViewerModal({
                             <div className="p-6 lg:p-8">
                                 {hasScanData ? (
                                     <div className="flex flex-col gap-8 max-w-7xl mx-auto">
-                                        <PIIAnalytics
-                                            piiCounts={piiCounts}
-                                            schema={schemaRows}
-                                        />
-                                        {scanResult.result?.inspector && (
-                                            <Inspector inspectorData={scanResult.result.inspector} />
-                                        )}
-                                        {/* Model breakdown from scan_data */}
-                                        {scanResult.scan_data?.ranked && scanResult.scan_data.ranked.length > 0 && (
-                                            <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
-                                                <div className="px-5 py-3 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
-                                                    <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Model Detection Breakdown</h4>
-                                                </div>
-                                                <table className="w-full text-sm">
-                                                    <thead className="bg-slate-50/50 dark:bg-slate-800/50 text-xs text-slate-500 uppercase tracking-wider">
-                                                        <tr>
-                                                            <th className="px-4 py-2 text-left font-semibold">Rank</th>
-                                                            <th className="px-4 py-2 text-left font-semibold">Model</th>
-                                                            <th className="px-4 py-2 text-right font-semibold">PII Found</th>
-                                                            <th className="px-4 py-2 text-right font-semibold">Consensus Score</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                                                        {scanResult.scan_data.ranked.map((r: any) => (
-                                                            <tr key={r.model_key} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
-                                                                <td className="px-4 py-2.5">
-                                                                    <span className={`inline-flex w-6 h-6 items-center justify-center rounded-full text-[11px] font-bold ${
-                                                                        r.rank === 1 ? 'bg-amber-100 text-amber-700' :
-                                                                        r.rank === 2 ? 'bg-slate-100 text-slate-600' :
-                                                                        'bg-slate-50 text-slate-500'
-                                                                    }`}>{r.rank}</span>
-                                                                </td>
-                                                                <td className="px-4 py-2.5 font-mono font-medium text-slate-800 dark:text-slate-200">{r.model_key}</td>
-                                                                <td className="px-4 py-2.5 text-right">
-                                                                    <span className={`font-bold ${r.pii_count > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
-                                                                        {r.pii_count}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="px-4 py-2.5 text-right text-slate-500 font-mono text-xs">
-                                                                    {(r.accuracy * 100).toFixed(1)}%
-                                                                </td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                        {isDatabase ? (
+                                            renderAdvancedAnalytics()
+                                        ) : (
+                                            <>
+                                                <PIIAnalytics
+                                                    piiCounts={piiCounts}
+                                                    schema={schemaRows}
+                                                />
+                                                {scanResult.result?.inspector && (
+                                                    <Inspector inspectorData={scanResult.result.inspector} />
+                                                )}
+                                                {/* Model breakdown from scan_data */}
+                                                {scanResult.scan_data?.ranked && scanResult.scan_data.ranked.length > 0 && (
+                                                    <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                                                        <div className="px-5 py-3 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+                                                            <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Model Detection Breakdown</h4>
+                                                        </div>
+                                                        <table className="w-full text-sm">
+                                                            <thead className="bg-slate-50/50 dark:bg-slate-800/50 text-xs text-slate-500 uppercase tracking-wider">
+                                                                <tr>
+                                                                    <th className="px-4 py-2 text-left font-semibold">Rank</th>
+                                                                    <th className="px-4 py-2 text-left font-semibold">Model</th>
+                                                                    <th className="px-4 py-2 text-right font-semibold">PII Found</th>
+                                                                    <th className="px-4 py-2 text-right font-semibold">Consensus Score</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                                                                {scanResult.scan_data.ranked.map((r: any) => (
+                                                                    <tr key={r.model_key} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                                                        <td className="px-4 py-2.5">
+                                                                            <span className={`inline-flex w-6 h-6 items-center justify-center rounded-full text-[11px] font-bold ${
+                                                                                r.rank === 1 ? 'bg-amber-100 text-amber-700' :
+                                                                                r.rank === 2 ? 'bg-slate-100 text-slate-600' :
+                                                                                'bg-slate-50 text-slate-500'
+                                                                            }`}>{r.rank}</span>
+                                                                        </td>
+                                                                        <td className="px-4 py-2.5 font-mono font-medium text-slate-800 dark:text-slate-200">{r.model_key}</td>
+                                                                        <td className="px-4 py-2.5 text-right">
+                                                                            <span className={`font-bold ${r.pii_count > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
+                                                                                {r.pii_count}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td className="px-4 py-2.5 text-right text-slate-500 font-mono text-xs">
+                                                                            {((r.accuracy || 1) * 100).toFixed(1)}%
+                                                                        </td>
+                                                                    </tr>
+                                                                ))}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 ) : (
@@ -401,6 +496,19 @@ export default function DocumentViewerModal({
                                         <p className="font-medium text-slate-500">No analysis data available</p>
                                         <p className="text-sm mt-1 opacity-70">Scan this file to see PII analytics</p>
                                     </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Model Breakdown / Advanced Tab for non-database */}
+                        {activeTab === 'advanced' && (
+                            <div className="p-6 lg:p-8">
+                                {hasScanData ? (
+                                    <div className="flex flex-col gap-8 max-w-7xl mx-auto">
+                                        {renderAdvancedAnalytics()}
+                                    </div>
+                                ) : (
+                                    <div className="text-slate-500 text-sm">No analysis data available.</div>
                                 )}
                             </div>
                         )}

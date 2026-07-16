@@ -13,6 +13,7 @@ export interface PIIMatch {
     source: string;
     matched_rule?: string;
     contributing_models?: string[];
+    llm_explanation?: string;
 }
 
 export interface PIICount {
@@ -20,6 +21,7 @@ export interface PIICount {
     Count: number;
     matched_rule?: string;
     contributing_models?: string[];
+    llm_explanation?: string;
 }
 
 export interface SchemaInfo {

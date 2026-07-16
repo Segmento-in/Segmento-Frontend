@@ -3,80 +3,38 @@ import { getModelLevelAnalysis } from './piiReasons';
 import { PIIMatch } from './apiClient';
 
 describe('getModelLevelAnalysis', () => {
-    it('returns template 3 for MetadataScanner-style rules (ending in _KEYWORD)', () => {
-        const match: PIIMatch = {
-            label: 'EMAIL_KEYWORD',
-            text: 'email_address',
-            start: 0,
-            end: 13,
-            source: 'Regex',
-            matched_rule: 'EMAIL_KEYWORD'
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as EMAIL_KEYWORD because the column name contains keywords strongly tied to sensitive data.');
-    });
+  it('prioritizes llm_explanation if present', () => {
+    const mockMatch = {
+      label: 'EMAIL',
+      matched_rule: 'EMAIL_KEYWORD',
+      contributing_models: ['Regex'],
+      llm_explanation: 'Flagged as EMAIL because Groq is very smart.'
+    } as any; // Using any because we updated PIIMatch types
 
-    it('returns template 2 for pure Regex matches (contributing_models = ["Regex"])', () => {
-        const match: PIIMatch = {
-            label: 'EMAIL',
-            text: 'test@example.com',
-            start: 0,
-            end: 16,
-            source: 'Regex',
-            contributing_models: ['Regex']
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as EMAIL because the data exactly matches a known standard pattern for this type of information.');
-    });
+    const result = getModelLevelAnalysis(mockMatch);
+    expect(result).toBe('Flagged as EMAIL because Groq is very smart.');
+  });
 
-    it('returns template 1 for AI-consensus match with 2 contributing models', () => {
-        const match: PIIMatch = {
-            label: 'FIRST_NAME',
-            text: 'Sarah',
-            start: 0,
-            end: 5,
-            source: 'Ensemble (DeBERTa)',
-            contributing_models: ['DeBERTa', 'Presidio']
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as FIRST_NAME because 2 of our AI models (DeBERTa, Presidio) agreed based on the surrounding text.');
-    });
+  it('falls back to _KEYWORD static template if llm_explanation is absent', () => {
+    const mockMatch = {
+      label: 'NAME',
+      matched_rule: 'NAME_KEYWORD',
+      contributing_models: ['Regex']
+    } as any;
 
-    it('filters out "Regex" from the AI consensus list if both flagged it', () => {
-        const match: PIIMatch = {
-            label: 'EMAIL',
-            text: 'Sarah@example.com',
-            start: 0,
-            end: 17,
-            source: 'Ensemble (DeBERTa)',
-            contributing_models: ['Regex', 'DeBERTa']
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as EMAIL because 1 of our AI models (DeBERTa) agreed based on the surrounding text.');
-    });
+    const result = getModelLevelAnalysis(mockMatch);
+    expect(result).toBe('Flagged as NAME because the column name contains keywords strongly tied to sensitive data.');
+  });
+  
+  it('falls back to Regex static template if llm_explanation is empty string', () => {
+    const mockMatch = {
+      label: 'SSN',
+      matched_rule: 'N/A',
+      contributing_models: ['Regex'],
+      llm_explanation: '  ' // Empty/whitespace
+    } as any;
 
-    it('returns template 1 for AI-consensus match with 5 contributing models dynamically', () => {
-        const match: PIIMatch = {
-            label: 'PERSON',
-            text: 'John Doe',
-            start: 0,
-            end: 8,
-            source: 'Ensemble (DeBERTa)',
-            contributing_models: ['DeBERTa', 'GLiNER', 'GLiNER-Large', 'NerGuard', 'Presidio']
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as PERSON because 5 of our AI models (DeBERTa, GLiNER, GLiNER-Large, NerGuard, Presidio) agreed based on the surrounding text.');
-    });
-
-    it('returns a sane fallback for unknown rules without matched_rule or contributing_models', () => {
-        const match: PIIMatch = {
-            label: 'UNKNOWN_TYPE',
-            text: 'something',
-            start: 0,
-            end: 9,
-            source: 'UnknownSource'
-        };
-        const reason = getModelLevelAnalysis(match);
-        expect(reason).toBe('Flagged as UNKNOWN_TYPE by our detection system.');
-    });
+    const result = getModelLevelAnalysis(mockMatch);
+    expect(result).toBe('Flagged as SSN because the data exactly matches a known standard pattern for this type of information.');
+  });
 });

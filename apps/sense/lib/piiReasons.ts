@@ -1,7 +1,12 @@
 import { PIIMatch } from './apiClient';
 
-export function getModelLevelAnalysis(match: PIIMatch): string {
-    const { label, matched_rule, contributing_models } = match;
+export function getModelLevelAnalysis(match: PIIMatch | (PIIMatch & {llm_explanation?: string})): string {
+    const { label, matched_rule, contributing_models, llm_explanation } = match as any;
+
+    // 0. Intelligent SLM/LLM Explanation (Primary)
+    if (llm_explanation && llm_explanation.trim().length > 0) {
+        return llm_explanation;
+    }
 
     // 1. Metadata Scanner (ends with _KEYWORD)
     if (matched_rule && matched_rule.endsWith('_KEYWORD')) {
@@ -16,7 +21,7 @@ export function getModelLevelAnalysis(match: PIIMatch): string {
         }
 
         // Otherwise it's AI consensus (filter out Regex from the printed list if both flagged)
-        const aiModels = contributing_models.filter(m => m !== 'Regex');
+        const aiModels = contributing_models.filter((m: string) => m !== 'Regex');
         if (aiModels.length > 0) {
             const count = aiModels.length;
             const models = aiModels.join(', ');
