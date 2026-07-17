@@ -52,7 +52,7 @@ export function AIEngineCTA() {
             
             {/* Primary Button */}
             <Link
-              href="/demo"
+              href="/model-lab/connectors"
               className="inline-flex items-center gap-2.5 px-8 py-4 
               bg-[#0F172A] dark:bg-white 
               hover:bg-slate-800 dark:hover:bg-slate-200 

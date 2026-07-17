@@ -235,7 +235,7 @@ export function HeroSection() {
 
                                 {/* Demo Button */}
                                 <Link
-                                    href="/demo"
+                                    href="/model-lab/connectors"
                                     className="block w-full sm:w-auto"
                                 >
                                     <Button

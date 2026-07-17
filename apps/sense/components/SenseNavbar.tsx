@@ -45,7 +45,7 @@ export function SenseNavbar() {
         document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset";
     }, [mobileMenuOpen]);
 
-    const isInsideSense = pathname?.includes('/demo') || pathname?.includes('/ai-engine') || pathname?.includes('/model-lab');
+    const isInsideSense = pathname?.includes('/ai-engine') || pathname?.includes('/model-lab');
     const backUrl = isInsideSense ? "/" : "https://segmento.in";
     const backText = isInsideSense ? "BACK TO SENSE" : "BACK TO SEGMENTO";
 
@@ -169,23 +169,6 @@ export function SenseNavbar() {
                         )}
                     </div>
 
-                    {/* Thin divider before CLASSIFIER */}
-                    <div className="w-px h-4 bg-white/10 mx-1" />
-
-                    {/* CLASSIFIER */}
-                    <div className="relative flex items-center">
-                        <Link href="/demo">
-                            <div className="relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 text-slate-400 hover:text-white">
-                                <div className="flex items-center gap-1">
-                                    <Zap size={9} className="text-slate-400" />
-                                    <span className="text-[13px] font-bold">CLASSIFIER</span>
-                                </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-slate-500/70 font-mono">
-                                    LIVE DEMO
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
 
                     {/* Thin divider before AI ENGINE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
@@ -396,21 +379,6 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                {/* CLASSIFIER mobile entry */}
-                                <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-slate-500/30 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a]">
-                                        <div className="flex flex-col">
-                                            <div className="flex items-center gap-2">
-                                                <Zap size={12} className="text-slate-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">CLASSIFIER</span>
-                                            </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-slate-500/70 font-mono">
-                                                LIVE DEMO
-                                            </div>
-                                        </div>
-                                        <ChevronRight size={16} className="text-slate-400" />
-                                    </div>
-                                </Link>
 
                                 {/* AI ENGINE mobile entry */}
                                 <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>

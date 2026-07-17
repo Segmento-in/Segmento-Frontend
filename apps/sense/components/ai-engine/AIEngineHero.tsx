@@ -132,7 +132,7 @@ export function AIEngineHero() {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </a>
           <Link
-            href="/demo"
+            href="/model-lab/connectors"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white/8 hover:bg-white/12 text-white font-bold rounded-lg border border-white/15 hover:border-white/25 backdrop-blur-sm transition-all duration-200 active:scale-[0.98] group"
           >
             Try Sense Free
