@@ -120,24 +120,24 @@ export function SenseNavbar() {
                     {/* Thin divider before COMPARE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
 
-                    {/* COMPARE */}
+                    {/* AI ENGINE — special pill item */}
                     <div className="relative flex items-center">
-                        <Link href="/compare">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
+                        <Link href="/ai-engine">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
                                 }`}>
                                 <div className="flex items-center gap-1">
-                                    <BarChart2 size={9} className="text-yellow-400" />
-                                    <span className="text-[13px] font-bold">COMPARE</span>
+                                    <Sparkles size={9} className="text-purple-400" />
+                                    <span className="text-[13px] font-bold">AI ENGINE</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-yellow-500/70 font-mono">
-                                    VS OTHERS
+                                <div className="text-[6px] tracking-[0.28em] uppercase">
+                                    <GlitchText text="UNDER THE HOOD" />
                                 </div>
                             </div>
                         </Link>
-                        {pathname === '/compare' && (
+                        {pathname?.includes('/ai-engine') && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-yellow-700 rounded-full"
+                                className="absolute inset-0 bg-purple-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
@@ -173,24 +173,24 @@ export function SenseNavbar() {
                     {/* Thin divider before AI ENGINE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
 
-                    {/* AI ENGINE — special pill item */}
+                    {/* COMPARE */}
                     <div className="relative flex items-center">
-                        <Link href="/ai-engine">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
+                        <Link href="/compare">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
                                 }`}>
                                 <div className="flex items-center gap-1">
-                                    <Sparkles size={9} className="text-purple-400" />
-                                    <span className="text-[13px] font-bold">AI ENGINE</span>
+                                    <BarChart2 size={9} className="text-yellow-400" />
+                                    <span className="text-[13px] font-bold">COMPARE</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase">
-                                    <GlitchText text="UNDER THE HOOD" />
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-yellow-500/70 font-mono">
+                                    VS OTHERS
                                 </div>
                             </div>
                         </Link>
-                        {pathname?.includes('/ai-engine') && (
+                        {pathname === '/compare' && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-purple-700 rounded-full"
+                                className="absolute inset-0 bg-yellow-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}

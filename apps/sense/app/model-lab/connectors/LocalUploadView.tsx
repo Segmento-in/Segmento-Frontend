@@ -44,8 +44,8 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
-    // T2: Resolve per-format icon, chip color, and hover border class
-    const { Icon, bgColorClass, iconColorClass, hoverBorderClass } = getFileTypeIcon(type.ext);
+    // T2: Resolve per-format icon and hover border class
+    const { Icon, hoverBorderClass } = getFileTypeIcon(type.ext);
 
     return (
         <div
@@ -67,12 +67,12 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
             />
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
-            {/* T2: Icon Chip — tinted background from Format Icon Family color */}
-            <div className={`w-14 h-14 rounded-2xl ${bgColorClass} flex items-center justify-center border border-slate-200/50 group-hover:scale-110 group-hover:border-blue-200 transition-all duration-500 relative z-10 shadow-sm`}>
+            {/* Icon Container — transparent background, larger realistic logo */}
+            <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 relative z-10">
                 {isScanning ? (
-                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
                 ) : (
-                    <Icon className={`w-6 h-6 ${iconColorClass}`} />
+                    <Icon className="w-14 h-14 drop-shadow-sm" />
                 )}
             </div>
             <div className="relative z-10">

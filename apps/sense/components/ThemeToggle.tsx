@@ -29,29 +29,21 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="
-        w-11
-        h-11
-        rounded-xl
-        border
-        border-slate-300
-        dark:border-cyan-400/20
-        bg-white
-        dark:bg-slate-800
-        flex
-        items-center
-        justify-center
-        transition-all
-        duration-300
-        hover:bg-slate-100
-        dark:hover:bg-slate-700
-      "
+      className={`
+        relative inline-flex h-6 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none
+        ${theme === "dark" ? "bg-cyan-500" : "bg-slate-400"}
+      `}
+      role="switch"
+      aria-checked={theme === "dark"}
+      aria-label="Toggle Theme"
     >
-      {theme === "dark" ? (
-        <Sun className="w-5 h-5 text-cyan-300" />
-      ) : (
-        <Moon className="w-5 h-5 text-slate-700" />
-      )}
+      <span
+        aria-hidden="true"
+        className={`
+          pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out
+          ${theme === "dark" ? "translate-x-6" : "translate-x-0"}
+        `}
+      />
     </button>
   );
 }

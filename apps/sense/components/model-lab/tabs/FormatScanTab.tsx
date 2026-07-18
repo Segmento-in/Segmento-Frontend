@@ -29,10 +29,6 @@ export const CATEGORIES = [
             { ext: 'epub', label: 'eBook (.epub)',            accept: '.epub' },
             { ext: 'pptx', label: 'PowerPoint (.pptx)',      accept: '.pptx' },
             { ext: 'mp4',  label: '🎬 MP4 Video (.mp4)',      accept: '.mp4'  },
-            { ext: 'mkv',  label: '🎬 MKV Video (.mkv)',      accept: '.mkv'  },
-            { ext: 'avi',  label: '🎬 AVI Video (.avi)',      accept: '.avi'  },
-            { ext: 'mov',  label: '🎬 MOV Video (.mov)',      accept: '.mov'  },
-            { ext: 'webm', label: '🎬 WebM Video (.webm)',    accept: '.webm' },
         ],
     },
     {
@@ -45,8 +41,6 @@ export const CATEGORIES = [
             { ext: 'yaml',    label: 'YAML (.yaml,.yml)',     accept: '.yaml,.yml' },
             { ext: 'html',    label: 'HTML (.html)',          accept: '.html,.htm' },
             { ext: 'csv',     label: 'CSV (.csv)',            accept: '.csv' },
-            { ext: 'tsv',     label: 'TSV (.tsv)',            accept: '.tsv' },
-            { ext: 'ini',     label: 'INI Config (.ini)',     accept: '.ini' },
             { ext: 'toml',    label: 'TOML (.toml)',          accept: '.toml' },
             { ext: 'config',  label: 'Config (.cfg,.conf)',   accept: '.cfg,.conf,.config' },
             { ext: 'edifact', label: 'EDIFACT (.edi)',        accept: '.edi' },
@@ -81,7 +75,7 @@ export const TYPE_COLORS: Record<string, string> = {
 
 // ── Video format detection ────────────────────────────────────────────────────
 
-const VIDEO_TYPES = new Set(['mp4', 'mkv', 'avi', 'mov', 'webm']);
+const VIDEO_TYPES = new Set(['mp4']);
 
 // ── State shape (local to this tab) ──────────────────────────────────────────
 
