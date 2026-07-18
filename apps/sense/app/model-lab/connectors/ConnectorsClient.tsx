@@ -536,7 +536,7 @@ export default function ConnectorsClient() {
 
     const handleStepChange = (flowId: string, step: 'AUTH' | 'BROWSE' | 'CONFIG' | 'RESULTS') => {
         if (!requireAuth()) return;
-        
+
         if (configuring?.id === flowId) {
             setCurrentStep(step);
         }
@@ -555,127 +555,62 @@ export default function ConnectorsClient() {
     };
 
     return (
-        <div className="flex flex-1 min-h-0 bg-white text-slate-900">
+        <div className="flex flex-col flex-1 min-h-0 bg-white text-slate-900">
 
-            {/* ── LEFT SIDEBAR ──────────────────────────────────────────── */}
-            <aside className="w-60 shrink-0 border-r border-slate-200 bg-white flex flex-col overflow-y-auto z-30">
+            {/* ── TOP NAVIGATION BAR ──────────────────────────────────────── */}
+            <div className="bg-white border-b border-slate-200 shrink-0 z-30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-30 flex items-center justify-between relative">
 
-                {/* Sidebar header */}
-                <div className="px-4 pt-6 pb-4 border-b border-slate-100">
-                    <div className="flex items-center gap-2 mb-1">
-                        <Plug className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                        <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Data Connectors</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 pl-5 leading-snug">Scan cloud storage for PII</p>
-                </div>
+                    {/* Center: Navigation Tabs (Premium Navbar Style) */}
+                    <div className="flex-1 flex justify-center items-center gap-3 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-auto z-10">
+                        <button
+                            onClick={() => {
+                                if (configuring && currentStep !== 'AUTH') {
+                                    setProfile(configuring);
+                                    setConfiguring(null);
+                                    setHasResults(true);
+                                }
+                                setRightView('connectors');
+                            }}
+                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${(rightView === 'connectors' || rightView === 'scan')
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
+                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
+                                }`}
+                        >
+                            <LayoutGrid className="w-5 h-5" />
+                            <span>Connectors</span>
+                            {configuring && (
+                                <span className="w-2.5 h-2.5 rounded-full bg-blue-300 shrink-0 animate-pulse ml-1 shadow-[0_0_8px_rgba(147,197,253,0.8)]" />
+                            )}
+                        </button>
 
-                {/* Back to Model Lab */}
-                <div className="px-3 pt-3">
-                    <Link
-                        href="/model-lab"
-                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors group"
-                    >
-                        <span className="group-hover:-translate-x-0.5 transition-transform">←</span>
-                        Model Lab
-                    </Link>
-                </div>
-
-                {/* Divider */}
-                <div className="mx-4 mt-2 mb-2 border-t border-slate-100" />
-                <p className="px-4 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-300">Available</p>
-
-                {/* Navigation Buttons */}
-                <nav className="flex-1 px-3 pb-4 space-y-1 overflow-y-auto">
-
-
-                    {/* Connectors Button — always goes to the grid; parks in-progress flow to Profile */}
-                    <button
-                        onClick={() => {
-                            // If user is in a flow that's past AUTH (BROWSE/RESULTS), park it to Profile
-                            if (configuring && currentStep !== 'AUTH') {
-                                setProfile(configuring);
-                                setConfiguring(null);
-                                setHasResults(true);
-                            }
-                            setRightView('connectors');
-                        }}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${(rightView === 'connectors' || rightView === 'scan')
-                                ? 'bg-slate-900 shadow-md text-white'
-                                : 'text-slate-600 hover:bg-slate-100'
-                            }`}
-                    >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${(rightView === 'connectors' || rightView === 'scan') ? 'bg-white/10' : 'bg-slate-100 text-slate-500'
-                            }`}>
-                            <LayoutGrid className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold truncate">Connectors</p>
-                            <p className="text-[10px] truncate text-slate-400">Available Sources</p>
-                        </div>
-                        {/* Dot indicator when a scan flow is in progress */}
-                        {configuring && (
-                            <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 animate-pulse" />
-                        )}
-                    </button>
-
-                    {/* Local Upload Button */}
-                    <button
-                        onClick={() => {
-                            // If user is in a flow that's past AUTH (BROWSE/RESULTS), park it to Profile
-                            if (configuring && currentStep !== 'AUTH') {
-                                setProfile(configuring);
-                                setConfiguring(null);
-                                setHasResults(true);
-                            }
-                            setRightView('local-upload');
-                        }}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${rightView === 'local-upload'
-                                ? 'bg-slate-900 shadow-md text-white'
-                                : 'text-slate-600 hover:bg-slate-100'
-                            }`}
-                    >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-base shrink-0 ${rightView === 'local-upload' ? 'bg-white/10' : 'bg-slate-100 text-slate-500'
-                            }`}>
-                            <UploadCloud className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold truncate">Local Upload</p>
-                            <p className="text-[10px] truncate text-slate-400">Scan Browser Files</p>
-                        </div>
-                    </button>
-
-                </nav>
-
-                {/* Sidebar footer stats */}
-                <div className="px-4 py-4 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-3 text-[11px] text-slate-400">
-                        <div><span className="font-bold text-emerald-500">11+</span> AI models</div>
-                        <div className="w-px h-3 bg-slate-200" />
-                        <div><span className="font-bold text-slate-600">0</span> stored</div>
-                    </div>
-                    <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
-                        N
+                        <button
+                            onClick={() => {
+                                if (configuring && currentStep !== 'AUTH') {
+                                    setProfile(configuring);
+                                    setConfiguring(null);
+                                    setHasResults(true);
+                                }
+                                setRightView('local-upload');
+                            }}
+                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${rightView === 'local-upload'
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
+                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
+                                }`}
+                        >
+                            <UploadCloud className="w-5 h-5" />
+                            <span>File Handlers</span>
+                        </button>
                     </div>
                 </div>
-
-            </aside>
+            </div>
 
             {/* ── MAIN CONTENT ──────────────────────────────────────────────────── */}
             <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative">
 
                 {/* ── GRID VIEW ────────────────────────────────────────── */}
                 <div className={`flex-col flex-1 min-h-0 overflow-y-auto ${rightView === 'connectors' ? 'flex' : 'hidden'}`}>
-                    {/* Hero */}
-                    <div className="bg-white border-b border-slate-200">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
-                            <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-                                Data Connectors
-                            </h1>
-                            <p className="mt-4 text-base text-slate-500 max-w-2xl">
-                                Select a storage connector to scan files and objects for PII. Segmento Sense analyzes your data strictly in-memory — ensuring zero retention and maximum security.
-                            </p>
-                        </div>
-                    </div>
+
 
                     <div className="flex-1 bg-slate-50">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
@@ -710,128 +645,128 @@ export default function ConnectorsClient() {
                     // Deduplicate: profile and configuring may temporarily point to the same flow
                     .filter((f, idx, arr) => arr.findIndex(x => x.id === f.id) === idx)
                     .map((flow) => {
-                    const isProfile = profile?.id === flow.id;
-                    const isVisible = (rightView === 'results' && isProfile) ||
-                        (rightView === 'scan' && configuring?.id === flow.id);
+                        const isProfile = profile?.id === flow.id;
+                        const isVisible = (rightView === 'results' && isProfile) ||
+                            (rightView === 'scan' && configuring?.id === flow.id);
 
-                    const conn = CONNECTORS.find(c => c.id === flow.connector);
-                    if (!conn) return null;
+                        const conn = CONNECTORS.find(c => c.id === flow.connector);
+                        if (!conn) return null;
 
-                    // Profile flow: show its internal step (not hardcoded to RESULTS)
-                    // The DriveScanTab etc. maintain their own internal step, but the outer
-                    // wrapper uses flowStep for info-bar and layout. Use the saved currentStep
-                    // for profile when it was parked, or 'RESULTS' if it completed a scan.
-                    const flowStep = isProfile ? (currentStep !== 'AUTH' ? currentStep : 'RESULTS') : currentStep;
+                        // Profile flow: show its internal step (not hardcoded to RESULTS)
+                        // The DriveScanTab etc. maintain their own internal step, but the outer
+                        // wrapper uses flowStep for info-bar and layout. Use the saved currentStep
+                        // for profile when it was parked, or 'RESULTS' if it completed a scan.
+                        const flowStep = isProfile ? (currentStep !== 'AUTH' ? currentStep : 'RESULTS') : currentStep;
 
-                    return (
-                        <div key={flow.id} className={`flex-col flex-1 min-h-0 overflow-hidden ${isVisible ? 'flex' : 'hidden'}`}>
-                            {/* Compact info bar — only shown after AUTH */}
-                            {flowStep !== 'AUTH' && (
-                                <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
-                                    <div className="px-6 py-3 flex items-center gap-4">
-                                        <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
-                                            {conn.emoji}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
-                                            <p className="text-xs text-slate-500 truncate">{conn.description}</p>
-                                        </div>
-                                        <div className="flex items-center gap-3 shrink-0">
-                                            <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
-                                                {conn.authType}
-                                            </span>
-                                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wide">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                Connected
+                        return (
+                            <div key={flow.id} className={`flex-col flex-1 min-h-0 overflow-hidden ${isVisible ? 'flex' : 'hidden'}`}>
+                                {/* Compact info bar — only shown after AUTH */}
+                                {flowStep !== 'AUTH' && (
+                                    <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
+                                        <div className="px-6 py-3 flex items-center gap-4">
+                                            <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
+                                                {conn.emoji}
                                             </div>
-                                            {!isProfile && (
-                                                <button
-                                                    onClick={() => setConfiguring(null)}
-                                                    className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
-                                                >
-                                                    <ArrowLeft className="w-3.5 h-3.5" />
-                                                    Cancel
-                                                </button>
-                                            )}
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
+                                                <p className="text-xs text-slate-500 truncate">{conn.description}</p>
+                                            </div>
+                                            <div className="flex items-center gap-3 shrink-0">
+                                                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
+                                                    {conn.authType}
+                                                </span>
+                                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold uppercase tracking-wide">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                                    Connected
+                                                </div>
+                                                {!isProfile && (
+                                                    <button
+                                                        onClick={() => setConfiguring(null)}
+                                                        className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
+                                                    >
+                                                        <ArrowLeft className="w-3.5 h-3.5" />
+                                                        Cancel
+                                                    </button>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
-                            <div className={`flex flex-col ${flowStep === 'AUTH'
+                                {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
+                                <div className={`flex flex-col ${flowStep === 'AUTH'
                                     ? 'flex-1 bg-white border-b border-slate-200 overflow-y-auto'
                                     : 'flex-1 min-h-0 overflow-hidden'
-                                }`}>
-                                <div className={
-                                    flowStep === 'AUTH'
-                                        ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
-                                        : 'flex flex-col flex-1 min-h-0 h-full'
-                                }>
-                                    {/* LEFT hero panel — only visible in AUTH step */}
-                                    {flowStep === 'AUTH' && (
-                                        <div>
-                                            <button
-                                                onClick={() => setConfiguring(null)}
-                                                className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
-                                            >
-                                                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                                                Back to Connectors
-                                            </button>
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
-                                                <span className="h-2 w-2 rounded-full bg-slate-400" />
-                                                Not Connected
+                                    }`}>
+                                    <div className={
+                                        flowStep === 'AUTH'
+                                            ? 'max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start'
+                                            : 'flex flex-col flex-1 min-h-0 h-full'
+                                    }>
+                                        {/* LEFT hero panel — only visible in AUTH step */}
+                                        {flowStep === 'AUTH' && (
+                                            <div>
+                                                <button
+                                                    onClick={() => setConfiguring(null)}
+                                                    className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
+                                                >
+                                                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                                                    Back to Connectors
+                                                </button>
+                                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
+                                                    <span className="h-2 w-2 rounded-full bg-slate-400" />
+                                                    Not Connected
+                                                </div>
+                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
+                                                    {conn.titleLine1}
+                                                </h1>
+                                                <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
+                                                    {conn.titleLine2}
+                                                </h1>
+                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
+                                                    Connector
+                                                </h1>
+                                                <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
+                                                    {conn.description}
+                                                </p>
+                                                <div className="space-y-3">
+                                                    {conn.features.map(({ Icon, text }) => (
+                                                        <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
+                                                            <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
+                                                            <span>{text}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                            <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
-                                                {conn.titleLine1}
-                                            </h1>
-                                            <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
-                                                {conn.titleLine2}
-                                            </h1>
-                                            <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
-                                                Connector
-                                            </h1>
-                                            <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
-                                                {conn.description}
-                                            </p>
-                                            <div className="space-y-3">
-                                                {conn.features.map(({ Icon, text }) => (
-                                                    <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
-                                                        <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
-                                                        <span>{text}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
+                                        )}
 
-                                    {/* Scan tab — full width/height in BROWSE/RESULTS, right-column in AUTH */}
-                                    <div className={flowStep === 'AUTH' ? 'min-w-0' : 'flex flex-col flex-1 min-h-0 h-full'}>
-                                        {conn.id === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'aws-rds' && <AwsRdsScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'dynamodb' && <DynamoDbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'mongodb' && <MongodbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'mariadb' && <MariadbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'slack' && <SlackScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'gmail' && <GmailScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'zendesk' && <ZendeskScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'salesforce' && <SalesforceScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
-                                        {conn.id === 'glue' && <AwsGlueScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        {/* Scan tab — full width/height in BROWSE/RESULTS, right-column in AUTH */}
+                                        <div className={flowStep === 'AUTH' ? 'min-w-0' : 'flex flex-col flex-1 min-h-0 h-full'}>
+                                            {conn.id === 'drive' && <DriveScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 's3' && <S3ScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'azure' && <AzureScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'gcs' && <GCSScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'database' && <DatabaseScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'aws-rds' && <AwsRdsScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'dynamodb' && <DynamoDbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'mongodb' && <MongodbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'mariadb' && <MariadbScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'slack' && <SlackScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'gmail' && <GmailScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'zendesk' && <ZendeskScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'salesforce' && <SalesforceScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                            {conn.id === 'glue' && <AwsGlueScanTab modelCatalogue={modelCatalogue} onStepChange={(step) => handleStepChange(flow.id, step)} />}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
 
-            {/* ── LOCAL UPLOAD DIRECT VIEW ──────────────────────────────────────── */}
-            <div className={`flex-col flex-1 min-h-0 ${rightView === 'local-upload' ? 'flex' : 'hidden'}`}>
-                <LocalUploadView />
-            </div>
+                {/* ── LOCAL UPLOAD DIRECT VIEW ──────────────────────────────────────── */}
+                <div className={`flex-col flex-1 min-h-0 ${rightView === 'local-upload' ? 'flex' : 'hidden'}`}>
+                    <LocalUploadView />
+                </div>
 
             </div>
         </div>
