@@ -14,21 +14,20 @@ import { useRouter } from 'next/navigation';
 
 export const CATEGORIES = [
     {
-        key: 'unstructured',
-        label: '📄 Unstructured',
-        desc: 'Documents, emails, plain text, video',
+        key: 'structured',
+        label: '🗄️ Structured',
+        desc: 'Databases, data warehousing formats',
         types: [
-            { ext: 'txt',  label: 'Plain Text (.txt)',        accept: '.txt' },
-            { ext: 'pdf',  label: 'PDF Document (.pdf)',      accept: '.pdf' },
-            { ext: 'docx', label: 'Word Document (.docx)',    accept: '.docx' },
-            { ext: 'rtf',  label: 'Rich Text (.rtf)',         accept: '.rtf' },
-            { ext: 'odt',  label: 'OpenDocument (.odt)',      accept: '.odt' },
-            { ext: 'md',   label: 'Markdown (.md)',           accept: '.md' },
-            { ext: 'log',  label: 'Log File (.log)',          accept: '.log' },
-            { ext: 'eml',  label: 'Email (.eml)',             accept: '.eml' },
-            { ext: 'epub', label: 'eBook (.epub)',            accept: '.epub' },
-            { ext: 'pptx', label: 'PowerPoint (.pptx)',      accept: '.pptx' },
-            { ext: 'mp4',  label: '🎬 MP4 Video (.mp4)',      accept: '.mp4'  },
+            { ext: 'sqlite',  label: 'SQLite (.db,.sqlite)',  accept: '.sqlite,.db' },
+            { ext: 'sql',     label: 'SQL Script (.sql)',     accept: '.sql' },
+            { ext: 'parquet', label: 'Parquet (.parquet)',    accept: '.parquet' },
+            { ext: 'avro',    label: 'Avro (.avro)',          accept: '.avro' },
+            { ext: 'xlsx',    label: 'Excel 2007+ (.xlsx)',   accept: '.xlsx' },
+            { ext: 'xls',     label: 'Excel Legacy (.xls)',   accept: '.xls' },
+            { ext: 'orc',     label: 'ORC (.orc)',            accept: '.orc' },
+            { ext: 'hdf5',    label: 'HDF5 (.h5,.hdf5)',     accept: '.h5,.hdf5' },
+            { ext: 'feather', label: 'Feather (.feather)',    accept: '.feather' },
+            { ext: 'dta',     label: 'Stata (.dta)',          accept: '.dta' },
         ],
     },
     {
@@ -47,22 +46,23 @@ export const CATEGORIES = [
         ],
     },
     {
-        key: 'structured',
-        label: '🗄️ Structured',
-        desc: 'Databases, data warehousing formats',
+        key: 'unstructured',
+        label: '📄 Unstructured',
+        desc: 'Documents, emails, plain text, video',
         types: [
-            { ext: 'sqlite',  label: 'SQLite (.db,.sqlite)',  accept: '.sqlite,.db' },
-            { ext: 'sql',     label: 'SQL Script (.sql)',     accept: '.sql' },
-            { ext: 'parquet', label: 'Parquet (.parquet)',    accept: '.parquet' },
-            { ext: 'avro',    label: 'Avro (.avro)',          accept: '.avro' },
-            { ext: 'xlsx',    label: 'Excel 2007+ (.xlsx)',   accept: '.xlsx' },
-            { ext: 'xls',     label: 'Excel Legacy (.xls)',   accept: '.xls' },
-            { ext: 'orc',     label: 'ORC (.orc)',            accept: '.orc' },
-            { ext: 'hdf5',    label: 'HDF5 (.h5,.hdf5)',     accept: '.h5,.hdf5' },
-            { ext: 'feather', label: 'Feather (.feather)',    accept: '.feather' },
-            { ext: 'dta',     label: 'Stata (.dta)',          accept: '.dta' },
+            { ext: 'txt',  label: 'Plain Text (.txt)',        accept: '.txt' },
+            { ext: 'pdf',  label: 'PDF Document (.pdf)',      accept: '.pdf' },
+            { ext: 'docx', label: 'Word Document (.docx)',    accept: '.docx' },
+            { ext: 'rtf',  label: 'Rich Text (.rtf)',         accept: '.rtf' },
+            { ext: 'odt',  label: 'OpenDocument (.odt)',      accept: '.odt' },
+            { ext: 'md',   label: 'Markdown (.md)',           accept: '.md' },
+            { ext: 'log',  label: 'Log File (.log)',          accept: '.log' },
+            { ext: 'eml',  label: 'Email (.eml)',             accept: '.eml' },
+            { ext: 'epub', label: 'eBook (.epub)',            accept: '.epub' },
+            { ext: 'pptx', label: 'PowerPoint (.pptx)',      accept: '.pptx' },
+            { ext: 'mp4',  label: '🎬 MP4 Video (.mp4)',      accept: '.mp4'  },
         ],
-    },
+    }
 ];
 
 export const TYPE_COLORS: Record<string, string> = {
@@ -98,8 +98,8 @@ interface FormatScanState {
 }
 
 const INITIAL: FormatScanState = {
-    category: 'unstructured',
-    fileType: 'pdf',
+    category: 'structured',
+    fileType: 'sqlite',
     uploadedFile: null,
     selectedModels: ['regex', 'spacy', 'deberta'],
     isLoading: false,

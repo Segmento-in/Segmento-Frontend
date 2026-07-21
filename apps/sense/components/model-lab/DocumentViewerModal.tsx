@@ -222,12 +222,16 @@ export default function DocumentViewerModal({
             {/* ── PII Breakdown for Database Scans ── */}
             <div className="flex flex-col gap-3">
                 {piiCounts.map((b: any) => (
-                    <div
-                        key={b['PII Type']}
-                        className="flex flex-col gap-2 p-4 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-xl text-sm shadow-sm"
-                    >
+                    <div key={b['PII Type']} className="flex flex-col gap-2 p-4 bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/30 rounded-xl text-sm shadow-sm">
                         <div className="flex items-center justify-between">
-                            <span className="text-slate-700 dark:text-slate-300 font-bold">{b['PII Type']}</span>
+                            <div className="flex items-center gap-3">
+                                <span className="text-slate-700 dark:text-slate-300 font-bold">{b['PII Type']}</span>
+                                {b.pii_context && (
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-white text-rose-600 border border-rose-200 dark:bg-transparent dark:border-rose-800">
+                                        {b.pii_context}
+                                    </span>
+                                )}
+                            </div>
                             <span className="font-bold text-red-600 dark:text-red-400">{b.Count}</span>
                         </div>
                         <div className="text-slate-500 dark:text-slate-400 italic">

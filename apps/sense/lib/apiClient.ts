@@ -22,6 +22,7 @@ export interface PIICount {
     matched_rule?: string;
     contributing_models?: string[];
     llm_explanation?: string;
+    pii_context?: string;
 }
 
 export interface SchemaInfo {

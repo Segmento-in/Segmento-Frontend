@@ -3,6 +3,7 @@
 import React from 'react';
 import { PIICount, SchemaInfo } from '@/lib/apiClient';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { motion } from 'framer-motion';
 import { getModelLevelAnalysis } from '@/lib/piiReasons';
 
 interface PIIAnalyticsProps {
@@ -118,10 +119,15 @@ export const PIIAnalytics: React.FC<PIIAnalyticsProps> = ({ piiCounts, schema })
                                             >
                                                 <td className="py-3 px-4 text-slate-900 dark:text-white flex items-center">
                                                     <span
-                                                        className="w-3 h-3 rounded-full mr-2"
+                                                        className="w-3 h-3 rounded-full mr-2 shrink-0"
                                                         style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                                                     ></span>
-                                                    {item['PII Type']}
+                                                    <span className="font-medium mr-3">{item['PII Type']}</span>
+                                                    {item.pii_context && (
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-white text-rose-600 border border-rose-200 dark:bg-transparent dark:border-rose-800">
+                                                            {item.pii_context}
+                                                        </span>
+                                                    )}
                                                 </td>
                                                 <td className="py-3 px-4 text-right text-indigo-600 dark:text-[#B3945B] font-semibold">{item.Count}</td>
                                                 <td className="py-3 px-4 text-right text-slate-500 dark:text-gray-400">{percentage}%</td>
