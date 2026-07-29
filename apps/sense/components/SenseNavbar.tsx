@@ -345,24 +345,22 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                {/* COMPARE mobile entry */}
-                                <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-[#2e2b05] to-[#1a1903]">
+                                {/* AI ENGINE mobile entry */}
+                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <BarChart2 size={12} className="text-yellow-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
+                                                <Sparkles size={12} className="text-purple-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-yellow-500/70 font-mono">
-                                                VS OTHERS
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
+                                                <GlitchText text="UNDER THE HOOD" />
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-yellow-400" />
+                                        <ChevronRight size={16} className="text-purple-400" />
                                     </div>
                                 </Link>
-                            </div>
 
-                            <div className="mt-auto flex flex-col gap-3">
                                 {/* CONNECTORS mobile entry */}
                                 <Link href="/model-lab/connectors" onClick={() => setMobileMenuOpen(false)}>
                                     <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-[#2a1a05] to-[#1a1005]">
@@ -379,20 +377,19 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-
-                                {/* AI ENGINE mobile entry */}
-                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
+                                {/* COMPARE mobile entry */}
+                                <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-[#2e2b05] to-[#1a1903]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <Sparkles size={12} className="text-purple-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
+                                                <BarChart2 size={12} className="text-yellow-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
-                                                <GlitchText text="UNDER THE HOOD" />
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-yellow-500/70 font-mono">
+                                                VS OTHERS
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-purple-400" />
+                                        <ChevronRight size={16} className="text-yellow-400" />
                                     </div>
                                 </Link>
 
@@ -411,8 +408,6 @@ export function SenseNavbar() {
                                         <ChevronRight size={16} className="text-emerald-400" />
                                     </div>
                                 </Link>
-
-
                             </div>
                         </motion.div>
                     </>
