@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User, UploadCloud } from 'lucide-react';
+import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User } from 'lucide-react';
 import { apiClient, EvaluatorModel } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
@@ -48,6 +48,7 @@ const CONNECTORS = [
         titleLine1: 'Google',
         titleLine2: 'Drive',
         category: 'GOOGLE CLOUD',
+        filterCategory: 'cloud' as const,
         description: 'Browse Drive folders & scan files with AI models for PII detection in-memory.',
         authType: 'OAuth2 / Service Account',
         scanData: ['Drive files & documents', 'Folder structure & paths', 'File metadata & content'],
@@ -75,6 +76,7 @@ const CONNECTORS = [
         titleLine1: 'Amazon',
         titleLine2: 'S3',
         category: 'AWS',
+        filterCategory: 'cloud' as const,
         description: 'Connect to AWS S3 buckets and run AI-powered PII scans fully in-memory.',
         authType: 'IAM Access Keys',
         scanData: ['S3 objects & files', 'Bucket contents & paths', 'Object metadata & content'],
@@ -102,6 +104,7 @@ const CONNECTORS = [
         titleLine1: 'Azure',
         titleLine2: 'Blob Storage',
         category: 'MICROSOFT AZURE',
+        filterCategory: 'cloud' as const,
         description: 'Scan blobs from Azure Storage containers for PII entities, in-memory.',
         authType: 'Connection String',
         scanData: ['Blob containers & objects', 'Storage container paths', 'Blob metadata & content'],
@@ -129,6 +132,7 @@ const CONNECTORS = [
         titleLine1: 'Google Cloud',
         titleLine2: 'Storage',
         category: 'GOOGLE CLOUD',
+        filterCategory: 'cloud' as const,
         description: 'Browse GCS buckets and scan files for PII with zero data retention.',
         authType: 'Service Account JSON',
         scanData: ['GCS bucket objects', 'Storage bucket paths', 'File metadata & content'],
@@ -156,6 +160,7 @@ const CONNECTORS = [
         titleLine1: 'SQL',
         titleLine2: 'Database',
         category: 'DATABASES',
+        filterCategory: 'database' as const,
         description: 'Connect to PostgreSQL or MySQL, browse tables, and run PII scans fully in-memory.',
         authType: 'Host / User / Password',
         scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
@@ -183,6 +188,7 @@ const CONNECTORS = [
         titleLine1: 'AWS',
         titleLine2: 'RDS',
         category: 'AWS',
+        filterCategory: 'database' as const,
         description: 'Connect to managed PostgreSQL/MySQL instances on AWS RDS and run PII scans fully in-memory.',
         authType: 'Host / User / Password',
         scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
@@ -210,6 +216,7 @@ const CONNECTORS = [
         titleLine1: 'AWS',
         titleLine2: 'DynamoDB',
         category: 'AWS',
+        filterCategory: 'database' as const,
         description: 'Connect to DynamoDB tables using IAM credentials and run AI-powered PII scans in-memory.',
         authType: 'IAM Credentials',
         scanData: ['DynamoDB Items', 'Table properties', 'PII entities per attribute'],
@@ -237,6 +244,7 @@ const CONNECTORS = [
         titleLine1: 'Mongo',
         titleLine2: 'DB',
         category: 'DATABASES',
+        filterCategory: 'database' as const,
         description: 'Connect to MongoDB instances and scan collections for PII entities in-memory.',
         authType: 'Host / User / Password',
         scanData: ['Collections & Documents', 'BSON structure', 'Nested PII fields'],
@@ -264,6 +272,7 @@ const CONNECTORS = [
         titleLine1: 'Maria',
         titleLine2: 'DB',
         category: 'DATABASES',
+        filterCategory: 'database' as const,
         description: 'Connect to MariaDB, browse tables, and run PII scans fully in-memory.',
         authType: 'Host / User / Password',
         scanData: ['Table rows & columns', 'Schema metadata', 'PII entities per column'],
@@ -291,6 +300,7 @@ const CONNECTORS = [
         titleLine1: 'Slack',
         titleLine2: 'Workspace',
         category: 'ENTERPRISE',
+        filterCategory: 'social' as const,
         description: 'Connect to Slack channels and run AI-powered PII scans on messages in-memory.',
         authType: 'Bot OAuth Token',
         scanData: ['Channel messages', 'Sender details', 'PII entities per message'],
@@ -318,6 +328,7 @@ const CONNECTORS = [
         titleLine1: 'Google',
         titleLine2: 'Mail',
         category: 'ENTERPRISE',
+        filterCategory: 'social' as const,
         description: 'Connect to Gmail inboxes and scan emails for sensitive PII fully in-memory.',
         authType: 'Service Account / OAuth2',
         scanData: ['Email bodies & subjects', 'Sender/Recipient details', 'PII entities per email'],
@@ -345,6 +356,7 @@ const CONNECTORS = [
         titleLine1: 'Zendesk',
         titleLine2: 'Support',
         category: 'ENTERPRISE',
+        filterCategory: 'social' as const,
         description: 'Connect to Zendesk support and run AI-powered PII scans on tickets in-memory.',
         authType: 'API Token',
         scanData: ['Support tickets', 'Requester details', 'PII entities per ticket'],
@@ -372,6 +384,7 @@ const CONNECTORS = [
         titleLine1: 'Salesforce',
         titleLine2: 'CRM',
         category: 'ENTERPRISE',
+        filterCategory: 'social' as const,
         description: 'Connect to Salesforce CRM and scan records (Contacts/Leads) for sensitive PII fully in-memory.',
         authType: 'OAuth2 / Token',
         scanData: ['CRM Records', 'Field values', 'PII entities per record'],
@@ -399,6 +412,7 @@ const CONNECTORS = [
         titleLine1: 'AWS',
         titleLine2: 'Glue Catalog',
         category: 'DATALAKES',
+        filterCategory: 'cloud' as const,
         description: 'Connect to AWS Glue Data Catalog and scan schema definitions for sensitive indicators.',
         authType: 'Access Keys',
         scanData: ['Database schemas', 'Table structures', 'Column types and comments'],
@@ -423,6 +437,33 @@ const CONNECTORS = [
 
 type ConnectorId = typeof CONNECTORS[number]['id'];
 type Connector = typeof CONNECTORS[number];
+
+// ── Local File Uploader logo (inline SVG, brand colors, Ticket 2) ──────────────
+// ponytail: collapsed from 1,104-line asset to 3 dominant visual layers — identical at w-5 h-5
+function LocalFileUploaderLogoIcon({ className }: { className?: string }) {
+    return (
+        <svg
+            data-testid="local-file-uploader-logo"
+            className={className}
+            viewBox="0 0 554 554"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+        >
+            {/* White canvas */}
+            <rect width="554" height="554" fill="#FFFFFF" />
+            {/* Main blue brand body — dominant shape from the logo */}
+            <path fill="#1A5ED5" d="M218 186 C218 230 219 269 219 308 L337 308 L338 218 C334 217 331 215 329 219 C326 225 332 226 335 231 C332 230 330 229 327 228 C333 236 322 238 322 244 C318 240 311 238 312 231 C313 227 320 225 326 226 C324 221 324 217 330 214 L292 214 C290 213 287 212 287 212 L287 162 L240 162 L240 177 C240 183 238 185 232 185 C227 185 223 185 218 186 Z" />
+            {/* Upload arrow highlight */}
+            <path fill="#F9FBFD" d="M245 270 C255 258 265 247 275 235 C276 234 276 234 278 232 C288 245 299 257 310 270 L293 270 L293 308 L263 308 L263 270 Z" />
+            {/* Dark navy accent for depth */}
+            <path fill="#003ABA" d="M218 186 L218 308 M337 219 L337 308" stroke="#003ABA" strokeWidth="1" fillOpacity="0" />
+            {/* Bottom text area bar */}
+            <path fill="#1A5ED5" d="M207 309 L207 329 L346 329 L346 309 Z" />
+            {/* File area corner fold */}
+            <path fill="#1C5FD4" d="M287 162 L287 212 L337 212 L298 174 Z" />
+        </svg>
+    );
+}
 
 // ── 3-D tilt card ─────────────────────────────────────────────────────────────
 function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => void }) {
@@ -527,6 +568,8 @@ export default function ConnectorsClient() {
     // 'connectors' = connector grid, 'scan' = active configuring flow, 'results' = retained profile results, 'local-upload' = full right panel
     const [rightView, setRightView] = useState<'connectors' | 'scan' | 'results' | 'local-upload'>('connectors');
     const [hasResults, setHasResults] = useState(false);
+    // ponytail: local filter state — Connector Filter Bucket (Ticket 3), no global state needed
+    const [activeFilter, setActiveFilter] = useState<'all' | 'cloud' | 'database' | 'social'>('all');
     // Manage instances of scan flows
     const [configuring, setConfiguring] = useState<FlowState | null>(null);
     const [profile, setProfile] = useState<FlowState | null>(null);
@@ -563,6 +606,25 @@ export default function ConnectorsClient() {
 
                     {/* Center: Navigation Tabs (Premium Navbar Style) */}
                     <div className="flex-1 flex justify-center items-center gap-3 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-auto z-10">
+                        {/* ponytail: pure JSX reorder — File Handlers first, Connectors second (Ticket 1) */}
+                        <button
+                            onClick={() => {
+                                if (configuring && currentStep !== 'AUTH') {
+                                    setProfile(configuring);
+                                    setConfiguring(null);
+                                    setHasResults(true);
+                                }
+                                setRightView('local-upload');
+                            }}
+                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${rightView === 'local-upload'
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
+                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
+                                }`}
+                        >
+                            <LocalFileUploaderLogoIcon className="w-5 h-5" />
+                            <span>File Handlers</span>
+                        </button>
+
                         <button
                             onClick={() => {
                                 if (configuring && currentStep !== 'AUTH') {
@@ -583,24 +645,6 @@ export default function ConnectorsClient() {
                                 <span className="w-2.5 h-2.5 rounded-full bg-blue-300 shrink-0 animate-pulse ml-1 shadow-[0_0_8px_rgba(147,197,253,0.8)]" />
                             )}
                         </button>
-
-                        <button
-                            onClick={() => {
-                                if (configuring && currentStep !== 'AUTH') {
-                                    setProfile(configuring);
-                                    setConfiguring(null);
-                                    setHasResults(true);
-                                }
-                                setRightView('local-upload');
-                            }}
-                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${rightView === 'local-upload'
-                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
-                                }`}
-                        >
-                            <UploadCloud className="w-5 h-5" />
-                            <span>File Handlers</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -614,11 +658,28 @@ export default function ConnectorsClient() {
 
                     <div className="flex-1 bg-slate-50">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+                            {/* Connector Filter Bucket pill row — pattern copied from LocalUploadView pill row (Ticket 3) */}
+                            <div className="flex flex-wrap items-center gap-2 mb-8">
+                                {(['all', 'cloud', 'database', 'social'] as const).map((filter) => (
+                                    <button
+                                        key={filter}
+                                        onClick={() => setActiveFilter(filter)}
+                                        className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
+                                            activeFilter === filter
+                                                ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                                                : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        {filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)}
+                                    </button>
+                                ))}
+                            </div>
                             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
                                 Select a Connector
                             </p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {CONNECTORS.map((c) => (
+                                {/* ponytail: filter is a simple .filter() — no new abstraction needed */}
+                                {CONNECTORS.filter((c) => activeFilter === 'all' || c.filterCategory === activeFilter).map((c) => (
                                     <ConnectorCard
                                         key={c.id}
                                         conn={c}

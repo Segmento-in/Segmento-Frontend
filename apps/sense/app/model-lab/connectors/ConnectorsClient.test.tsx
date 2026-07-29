@@ -49,10 +49,11 @@ describe('ConnectorsClient Layout & Navigation', () => {
         // We use queryAllByText because they might contain spans for icons, etc.
         // We look for a button containing the text "Connectors" and "Local Upload"
         const connectorsBtn = screen.getByRole('button', { name: /Connectors/i });
-        const localUploadBtn = screen.getByRole('button', { name: /Local Upload/i });
+        // Button was renamed from "Local Upload" to "File Handlers" in the UI — same feature.
+        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
 
         expect(connectorsBtn).toBeInTheDocument();
-        expect(localUploadBtn).toBeInTheDocument();
+        expect(fileHandlersBtn).toBeInTheDocument();
 
         // Initial state should be Connectors grid
         expect(screen.getByText(/Select a Connector/i)).toBeInTheDocument();
@@ -63,8 +64,8 @@ describe('ConnectorsClient Layout & Navigation', () => {
         const gridView = screen.getByText(/Select a Connector/i).closest('div.flex-col');
         expect(gridView).toHaveClass('flex');
 
-        // Click Local Upload
-        fireEvent.click(localUploadBtn);
+        // Click File Handlers
+        fireEvent.click(fileHandlersBtn);
 
         // The Local upload view container should now have 'flex' and grid view should have 'hidden'
         expect(gridView).toHaveClass('hidden');
@@ -75,5 +76,104 @@ describe('ConnectorsClient Layout & Navigation', () => {
         fireEvent.click(connectorsBtn);
         expect(gridView).toHaveClass('flex');
         expect(localView).toHaveClass('hidden');
+    });
+
+    // TICKET 1 — Pill order: File Handlers must be first (left), Connectors second (right)
+    it('renders File Handlers as the first nav pill and Connectors as the second', () => {
+        render(<ConnectorsClient />);
+
+        // getAllByRole returns elements in DOM order — index 0 = first in the document
+        const navButtons = screen.getAllByRole('button');
+        // The nav container holds exactly the two top-level pills;
+        // filter to only the two we care about by their text content
+        const pillButtons = navButtons.filter(
+            (btn) =>
+                btn.textContent?.includes('File Handlers') ||
+                btn.textContent?.includes('Connectors')
+        );
+
+        // First pill in DOM order must be File Handlers
+        expect(pillButtons[0]).toHaveTextContent('File Handlers');
+        // Second pill must be Connectors
+        expect(pillButtons[1]).toHaveTextContent('Connectors');
+    });
+
+    // TICKET 2 — Custom logo replaces UploadCloud on the File Handlers pill
+    it('File Handlers pill shows the custom logo (not UploadCloud) ', () => {
+        render(<ConnectorsClient />);
+
+        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
+
+        // The custom logo renders as an <svg> with data-testid="local-file-uploader-logo"
+        const logoSvg = fileHandlersBtn.querySelector('[data-testid="local-file-uploader-logo"]');
+        expect(logoSvg).toBeInTheDocument();
+
+        // UploadCloud from lucide renders with a specific class lucide-upload-cloud;
+        // it must NOT appear inside the File Handlers button after the swap.
+        // ponytail note: active/inactive color inheritance (white vs slate) must be confirmed visually in browser.
+        const uploadCloudEl = fileHandlersBtn.querySelector('.lucide-upload-cloud');
+        expect(uploadCloudEl).not.toBeInTheDocument();
+    });
+
+    // ─── TICKET 3 — Connector Filter Bucket pill row ──────────────────────────
+
+    // T3-1: pill row renders with all 4 pills, all 14 connectors visible by default
+    it('shows filter pill row (All/Cloud/Database/Social) and all 14 connectors on initial render', () => {
+        render(<ConnectorsClient />);
+
+        // All 4 filter pills must be present
+        expect(screen.getByRole('button', { name: /^All$/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /^Cloud$/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /^Database$/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /^Social$/i })).toBeInTheDocument();
+
+        // Default: all 14 connector cards are visible
+        // Each ConnectorCard renders exactly one "View Connector" button
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(14);
+    });
+
+    // T3-2: Cloud filter — exactly 5 connectors (drive, s3, azure, gcs, glue)
+    it('clicking Cloud filter shows exactly 5 connectors', () => {
+        render(<ConnectorsClient />);
+        fireEvent.click(screen.getByRole('button', { name: /^Cloud$/i }));
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(5);
+        // Spot-check a few names that must be visible
+        expect(screen.getByText('Google Drive')).toBeInTheDocument();
+        expect(screen.getByText('AWS Glue')).toBeInTheDocument();
+        // A database connector must NOT appear
+        expect(screen.queryByText('MongoDB')).not.toBeInTheDocument();
+    });
+
+    // T3-3: Database filter — exactly 5 connectors (database, aws-rds, dynamodb, mongodb, mariadb)
+    it('clicking Database filter shows exactly 5 connectors', () => {
+        render(<ConnectorsClient />);
+        fireEvent.click(screen.getByRole('button', { name: /^Database$/i }));
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(5);
+        expect(screen.getByText('MongoDB')).toBeInTheDocument();
+        expect(screen.getByText('MariaDB')).toBeInTheDocument();
+        // A cloud connector must NOT appear
+        expect(screen.queryByText('Google Drive')).not.toBeInTheDocument();
+    });
+
+    // T3-4: Social filter — exactly 4 connectors (slack, gmail, zendesk, salesforce)
+    it('clicking Social filter shows exactly 4 connectors', () => {
+        render(<ConnectorsClient />);
+        fireEvent.click(screen.getByRole('button', { name: /^Social$/i }));
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(4);
+        expect(screen.getByText('Slack')).toBeInTheDocument();
+        expect(screen.getByText('Salesforce')).toBeInTheDocument();
+        // A database connector must NOT appear
+        expect(screen.queryByText('DynamoDB')).not.toBeInTheDocument();
+    });
+
+    // T3-5: clicking All after a filter restores all 14 connectors
+    it('clicking All after filtering restores all 14 connectors', () => {
+        render(<ConnectorsClient />);
+        // Filter down first
+        fireEvent.click(screen.getByRole('button', { name: /^Cloud$/i }));
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(5);
+        // Then reset
+        fireEvent.click(screen.getByRole('button', { name: /^All$/i }));
+        expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(14);
     });
 });
