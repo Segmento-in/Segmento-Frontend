@@ -120,24 +120,24 @@ export function SenseNavbar() {
                     {/* Thin divider before COMPARE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
 
-                    {/* AI ENGINE — special pill item */}
+                    {/* COMPARE */}
                     <div className="relative flex items-center">
-                        <Link href="/ai-engine">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
+                        <Link href="/compare">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
                                 }`}>
                                 <div className="flex items-center gap-1">
-                                    <Sparkles size={9} className="text-purple-400" />
-                                    <span className="text-[13px] font-bold">AI ENGINE</span>
+                                    <BarChart2 size={9} className="text-yellow-400" />
+                                    <span className="text-[13px] font-bold">COMPARE</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase">
-                                    <GlitchText text="UNDER THE HOOD" />
+                                <div className="text-[6px] tracking-[0.28em] uppercase text-yellow-500/70 font-mono">
+                                    VS OTHERS
                                 </div>
                             </div>
                         </Link>
-                        {pathname?.includes('/ai-engine') && (
+                        {pathname === '/compare' && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-purple-700 rounded-full"
+                                className="absolute inset-0 bg-yellow-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
@@ -173,24 +173,24 @@ export function SenseNavbar() {
                     {/* Thin divider before AI ENGINE */}
                     <div className="w-px h-4 bg-white/10 mx-1" />
 
-                    {/* COMPARE */}
+                    {/* AI ENGINE — special pill item */}
                     <div className="relative flex items-center">
-                        <Link href="/compare">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname === '/compare' ? 'text-white' : 'text-slate-400 hover:text-white'
+                        <Link href="/ai-engine">
+                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/ai-engine') ? 'text-white' : 'text-slate-400 hover:text-white'
                                 }`}>
                                 <div className="flex items-center gap-1">
-                                    <BarChart2 size={9} className="text-yellow-400" />
-                                    <span className="text-[13px] font-bold">COMPARE</span>
+                                    <Sparkles size={9} className="text-purple-400" />
+                                    <span className="text-[13px] font-bold">AI ENGINE</span>
                                 </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-yellow-500/70 font-mono">
-                                    VS OTHERS
+                                <div className="text-[6px] tracking-[0.28em] uppercase">
+                                    <GlitchText text="UNDER THE HOOD" />
                                 </div>
                             </div>
                         </Link>
-                        {pathname === '/compare' && (
+                        {pathname?.includes('/ai-engine') && (
                             <motion.div
                                 layoutId="nav-pill"
-                                className="absolute inset-0 bg-yellow-700 rounded-full"
+                                className="absolute inset-0 bg-purple-700 rounded-full"
                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                             />
                         )}
@@ -345,19 +345,19 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                {/* AI ENGINE mobile entry */}
-                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
+                                {/* COMPARE mobile entry */}
+                                <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-[#2e2b05] to-[#1a1903]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <Sparkles size={12} className="text-purple-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
+                                                <BarChart2 size={12} className="text-yellow-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
-                                                <GlitchText text="UNDER THE HOOD" />
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-yellow-500/70 font-mono">
+                                                VS OTHERS
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-purple-400" />
+                                        <ChevronRight size={16} className="text-yellow-400" />
                                     </div>
                                 </Link>
 
@@ -377,19 +377,19 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                {/* COMPARE mobile entry */}
-                                <Link href="/compare" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-[#2e2b05] to-[#1a1903]">
+                                {/* AI ENGINE mobile entry */}
+                                <Link href="/ai-engine" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-purple-500/30 bg-gradient-to-br from-[#1a0533] to-[#0d0a2e]">
                                         <div className="flex flex-col">
                                             <div className="flex items-center gap-2">
-                                                <BarChart2 size={12} className="text-yellow-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">COMPARE</span>
+                                                <Sparkles size={12} className="text-purple-300" />
+                                                <span className="text-sm font-black text-white tracking-widest uppercase">AI ENGINE</span>
                                             </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-yellow-500/70 font-mono">
-                                                VS OTHERS
+                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5">
+                                                <GlitchText text="UNDER THE HOOD" />
                                             </div>
                                         </div>
-                                        <ChevronRight size={16} className="text-yellow-400" />
+                                        <ChevronRight size={16} className="text-purple-400" />
                                     </div>
                                 </Link>
 
