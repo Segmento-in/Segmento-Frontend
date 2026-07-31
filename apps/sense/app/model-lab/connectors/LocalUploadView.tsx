@@ -89,11 +89,20 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
 
 export default function LocalUploadView() {
   type CategoryKey = typeof CATEGORIES[number]['key'];
-  
-  const [step, setStep] = useState<'select-type' | 'results' | 'error'>('select-type');
+  type ScanMode = 'full' | 'sampling' | 'metadata_only' | 'metadata_and_sampling';
+
+  const [step, setStep] = useState<'select-type' | 'select-scan-mode' | 'results' | 'error'>('select-type');
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('structured');
   const [selectedFileType, setSelectedFileType] = useState<string | null>(null);
   const [scanningType, setScanningType] = useState<string | null>(null);
+  const [selectedScanMode, setSelectedScanMode] = useState<ScanMode>('full');
+  const [isScanning, setIsScanning] = useState(false);  // T3: shows loading overlay after Start Scan click
+  // Files buffered at card-click stage, uploaded only after scan mode confirmed.
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+
+  // T2: only parquet and avro have a real file-format schema footer we can read.
+  // All other formats (CSV, JSON, TXT, PDF…) do not support metadata-only scanning.
+  const METADATA_CAPABLE_EXTS = new Set(['parquet', 'avro']);
 
   const { isLoggedIn, token } = useAuth();
   const router = useRouter();
@@ -110,7 +119,8 @@ export default function LocalUploadView() {
   const activeCategory = CATEGORIES.find(c => c.key === selectedCategory) || CATEGORIES[2]; // defaults to structured
   const activeTypeObj = activeCategory.types.find(t => t.ext === selectedFileType);
 
-  const handleFilesSelected = async (files: File[], ext: string) => {
+  // Step 1 → Step 2: save files + ext, go to scan-mode selector.
+  const handleFilesSelected = (files: File[], ext: string) => {
     if (!files || files.length === 0) return;
 
     if (!isLoggedIn) {
@@ -118,9 +128,23 @@ export default function LocalUploadView() {
       return;
     }
 
+    setPendingFiles(files);
+    setSelectedFileType(ext);
+    // T2: if the new file type can't do metadata scanning and the user had
+    // previously selected a metadata mode, reset it back to 'full'.
+    if (!METADATA_CAPABLE_EXTS.has(ext) && (selectedScanMode === 'metadata_only' || selectedScanMode === 'metadata_and_sampling')) {
+      setSelectedScanMode('full');
+    }
+    setStep('select-scan-mode');
+  };
+
+  // Step 2 → upload: deduct credits + trigger scans with chosen scan mode.
+  const startScan = async () => {
+    if (pendingFiles.length === 0) return;
+
     if (token) {
       try {
-        await apiClient.deductCredits(token, files.length);
+        await apiClient.deductCredits(token, pendingFiles.length);
       } catch (e) {
         if (e instanceof OutOfCreditsError) {
           setCreditsLeft(e.creditsRemaining);
@@ -130,10 +154,12 @@ export default function LocalUploadView() {
       }
     }
 
-    setUploadedFiles(files);
-    setScanningCount(files.length);
-    setSelectedFileType(ext);
-    setScanningType(ext);
+    // T3: show loading overlay immediately — before setting scanningType so
+    // the user sees feedback the instant they click, not after the API resolves.
+    setIsScanning(true);
+    setUploadedFiles(pendingFiles);
+    setScanningCount(pendingFiles.length);
+    setScanningType(selectedFileType);
   };
 
   useEffect(() => {
@@ -145,34 +171,37 @@ export default function LocalUploadView() {
             uploadedFiles.map(async (f) => {
               let result: AnalysisResponse;
               const models = ['ensemble', 'regex', 'nltk', 'spacy', 'presidio', 'gliner', 'deberta'];
-              
+              const mode = selectedScanMode;
+
               switch (scanningType) {
-                case 'csv': result = await apiClient.uploadCSV(f, false, models); break;
-                case 'json': result = await apiClient.uploadJSON(f, false, models); break;
-                case 'parquet': result = await apiClient.uploadParquet(f, false, models); break;
-                case 'avro': result = await apiClient.uploadAvro(f, false, models); break;
-                case 'pdf': result = await apiClient.uploadPDF(f, 0, models); break;
-                case 'txt': result = await apiClient.uploadTXT(f, false, models); break;
+                case 'csv':     result = await apiClient.uploadCSV(f, false, models, mode); break;
+                case 'json':    result = await apiClient.uploadJSON(f, false, models, mode); break;
+                case 'parquet': result = await apiClient.uploadParquet(f, false, models, mode); break;
+                case 'avro':    result = await apiClient.uploadAvro(f, false, models, mode); break;
+                case 'pdf':     result = await apiClient.uploadPDF(f, 0, models, mode); break;
+                case 'txt':     result = await apiClient.uploadTXT(f, false, models, mode); break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
                 case 'bmp':
-                case 'tiff': result = await apiClient.uploadImage(f, false); break;
-                default: result = await apiClient.uploadCSV(f, false, models); break; // fallback
+                case 'tiff':    result = await apiClient.uploadImage(f, false, mode); break;
+                default:        result = await apiClient.uploadCSV(f, false, models, mode); break;
               }
               return { file: f, result };
             })
           );
-          
+
           if (isMounted) {
             setScanResults(results);
             setScanningType(null);
+            setIsScanning(false);  // T3: hide loading overlay
             setStep('results');
           }
         } catch (err: any) {
           if (isMounted) {
             setScanError(err.message || 'Failed to scan files');
             setScanningType(null);
+            setIsScanning(false);  // T3: hide loading overlay on error
             setStep('error');
           }
         }
@@ -188,11 +217,19 @@ export default function LocalUploadView() {
   };
 
   const chooseDifferentFile = () => {
+    setPendingFiles([]);
     setUploadedFiles([]);
     setScanResults([]);
     setScanError(null);
     setStep('select-type');
   };
+
+  const goBackToTypeSelect = () => {
+    setPendingFiles([]);
+    setIsScanning(false);  // T3: clear loading state if user goes back
+    setStep('select-type');
+  };
+
 
   const driveItems: DriveItem[] = uploadedFiles.map(f => ({
     id: f.name,
@@ -280,7 +317,157 @@ export default function LocalUploadView() {
         </div>
       )}
 
+      {step === 'select-scan-mode' && (
+        <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
+          {/* Header — mirrors select-type hero */}
+          <div className="bg-white border-b border-slate-200 shrink-0">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+              <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+                Choose Scan Mode
+              </h1>
+              <p className="mt-4 text-base text-slate-500 max-w-2xl">
+                Select how deeply Sense should scan your{' '}
+                <span className="font-semibold text-slate-700 uppercase tracking-wide text-sm">
+                  {selectedFileType?.toUpperCase()}
+                </span>{' '}
+                file{pendingFiles.length > 1 ? 's' : ''} for PII.
+              </p>
+            </div>
+          </div>
 
+          {/* Scan-mode selector card */}
+          <div className="flex-1 bg-slate-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
+                Scan Mode
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+                {(
+                  [
+                    {
+                      value: 'full' as const,
+                      label: 'Full Data Scan',
+                      badge: 'Up to 5,000 rows',
+                      description: 'Scans a safety-bounded slice of every row for PII. Most thorough data-level analysis.',
+                      icon: '🔍',
+                    },
+                    {
+                      value: 'sampling' as const,
+                      label: 'Sampling Scan',
+                      badge: 'Up to 1,500 rows',
+                      description: 'Fast statistical sample — ideal for large files or quick validation runs.',
+                      icon: '⚡',
+                    },
+                    {
+                      value: 'metadata_only' as const,
+                      label: 'Metadata-Only',
+                      badge: 'Schema only',
+                      description: 'Reads column names and types without touching row data. Zero PII-model inference.',
+                      icon: '🏷️',
+                    },
+                    {
+                      value: 'metadata_and_sampling' as const,
+                      label: 'Hybrid',
+                      badge: 'Schema + Sample',
+                      description: 'Combines metadata column flagging with a 1,500-row data scan for maximum coverage.',
+                      icon: '🔀',
+                    },
+                  ] as const
+                )
+                  // T2: only show metadata modes for file types that have a real schema
+                  .filter((mode) =>
+                    mode.value === 'full' || mode.value === 'sampling'
+                      ? true
+                      : METADATA_CAPABLE_EXTS.has(selectedFileType ?? '')
+                  )
+                  .map((mode) => (
+                  <button
+                    key={mode.value}
+                    id={`scan-mode-${mode.value}`}
+                    onClick={() => setSelectedScanMode(mode.value)}
+                    disabled={isScanning}
+                    className={`text-left p-5 rounded-2xl border-2 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+                      selectedScanMode === mode.value
+                        ? 'border-slate-900 bg-white shadow-md'
+                        : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-2xl">{mode.icon}</span>
+                      {selectedScanMode === mode.value && (
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 bg-slate-100 px-2 py-0.5 rounded-full">
+                          Selected
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-black text-slate-900 text-sm mb-1">{mode.label}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">{mode.badge}</p>
+                    <p className="text-xs text-slate-500 leading-relaxed">{mode.description}</p>
+                  </button>
+                ))}
+              </div>
+
+              {/* File list preview */}
+              {pendingFiles.length > 0 && (
+                <div className="mb-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+                    Files to scan
+                  </p>
+                  <ul className="space-y-2">
+                    {pendingFiles.map((f) => (
+                      <li key={f.name} className="flex items-center gap-3 text-sm text-slate-700">
+                        <span className="w-6 h-6 bg-slate-100 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 uppercase shrink-0">
+                          {f.name.split('.').pop()}
+                        </span>
+                        <span className="font-medium truncate">{f.name}</span>
+                        <span className="text-slate-400 text-xs ml-auto shrink-0">
+                          {(f.size / 1024).toFixed(1)} KB
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* T3: Loading overlay — shown immediately after Start Scan click */}
+              {isScanning && (
+                <div className="mb-8 p-6 bg-slate-900 rounded-2xl flex items-center gap-4">
+                  <Loader2 className="w-6 h-6 text-white animate-spin shrink-0" />
+                  <div>
+                    <p className="text-white font-black text-sm">Scanning your file…</p>
+                    <p className="text-slate-400 text-xs mt-0.5">
+                      {pendingFiles[0]?.name} · {selectedScanMode.replace(/_/g, ' ')}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-4">
+                <button
+                  id="start-scan-btn"
+                  onClick={startScan}
+                  disabled={isScanning}
+                  className="px-8 py-3 bg-slate-900 hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-sm rounded-xl transition-colors shadow-sm flex items-center gap-2"
+                >
+                  {isScanning ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Scanning…</>
+                  ) : 'Start Scan'}
+                </button>
+                <button
+                  id="back-to-type-select-btn"
+                  onClick={goBackToTypeSelect}
+                  disabled={isScanning}
+                  className="px-6 py-3 bg-white hover:bg-slate-50 disabled:opacity-60 disabled:cursor-not-allowed text-slate-700 font-bold text-sm rounded-xl border border-slate-200 transition-colors"
+                >
+                  ← Back
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {step === 'results' && (
         <div className="flex flex-col flex-1 min-h-0 bg-slate-50 overflow-hidden">

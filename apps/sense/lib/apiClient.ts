@@ -350,11 +350,12 @@ export class APIClient {
 
     // ==================== FILE UPLOADS ====================
 
-    async uploadCSV(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadCSV(file: File, mask: boolean = false, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/csv`, {
             method: 'POST',
@@ -364,11 +365,12 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadTXT(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadTXT(file: File, mask: boolean = false, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/txt`, {
             method: 'POST',
@@ -378,11 +380,12 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadJSON(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadJSON(file: File, mask: boolean = false, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/json`, {
             method: 'POST',
@@ -392,11 +395,12 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadParquet(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadParquet(file: File, mask: boolean = false, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/parquet`, {
             method: 'POST',
@@ -406,11 +410,12 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadAvro(file: File, mask: boolean = false, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadAvro(file: File, mask: boolean = false, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/avro`, {
             method: 'POST',
@@ -420,11 +425,12 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadPDF(file: File, pageNumber: number = 0, selectedModels: string[] = []): Promise<AnalysisResponse> {
+    async uploadPDF(file: File, pageNumber: number = 0, selectedModels: string[] = [], scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('page_number', pageNumber.toString());
         formData.append('selected_models', selectedModels.join(','));
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/pdf`, {
             method: 'POST',
@@ -434,10 +440,11 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async uploadImage(file: File, mask: boolean = false): Promise<AnalysisResponse> {
+    async uploadImage(file: File, mask: boolean = false, scanMode: string = 'full'): Promise<AnalysisResponse> {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('mask', mask.toString());
+        formData.append('scan_mode', scanMode);
 
         const response = await fetch(`${this.baseURL}/api/upload/image`, {
             method: 'POST',
