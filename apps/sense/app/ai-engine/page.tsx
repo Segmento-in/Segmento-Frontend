@@ -6,6 +6,8 @@ import { ModelComparisonTable } from "@/components/ai-engine/ModelComparisonTabl
 import { WhyChooseSense } from "@/components/ai-engine/WhyChooseSense";
 import { IndustryContext } from "@/components/ai-engine/IndustryContext";
 import { AIEngineCTA } from "@/components/ai-engine/AIEngineCTA";
+import { ModelLabBanner } from "@/components/ai-engine/ModelLabBanner";
+import ModelLabClient from "@/app/model-lab/ModelLabClient";
 
 export const metadata: Metadata = {
   title: "Segmento Sense AI Engine | 18 Self-Hosted Models",
@@ -29,6 +31,10 @@ export default function AIEnginePage() {
       <WhyChooseSense />
       <IndustryContext />
       <AIEngineCTA />
+      
+      {/* Appended Model-Lab Dashboard Section */}
+      <ModelLabBanner />
+      <ModelLabClient hideHero={true} />
     </main>
   );
 }

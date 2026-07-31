@@ -106,9 +106,9 @@ export function SenseComparisonTable({ className = '' }: SenseComparisonTablePro
             {/* Background Ambient Glows */}
             <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-100/50 dark:bg-blue-500/10 blur-[120px] pointer-events-none transition-colors duration-500" />
 
-            <div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-indigo-100/40 dark:bg-indigo-500/10 blur-[100px] pointer-events-none transition-colors duration-500" />
+            <div className="absolute bottom-[-5%] right-[-5%] w-[90%] h-[60%] bg-indigo-100/40 dark:bg-indigo-500/10 blur-[100px] pointer-events-none transition-colors duration-500" />
 
-            <div className={`container relative mx-auto px-4 z-10 ${className ? 'max-w-full' : 'w-full max-w-[95vw] md:max-w-[98vw]'}`}>
+            <div className={`max-w-[1536px] relative mx-auto px-4 sm:px-6 lg:px-8 z-10 ${className}`}>
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}

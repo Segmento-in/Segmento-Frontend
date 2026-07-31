@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ModelLabClient from './ModelLabClient';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'Segmento Sense Model Lab | PII Model Benchmarking Observatory',
@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ModelLabPage() {
-    return (
-        <main className="min-h-screen bg-[#0B0F1A]">
-            <ModelLabClient />
-        </main>
-    );
+    redirect('/ai-engine');
 }

@@ -75,7 +75,7 @@ const DEFAULT_STATE: ModelLabState = {
     modelCatalogue: [],
 };
 
-export default function ModelLabClient() {
+export default function ModelLabClient({ hideHero }: { hideHero?: boolean } = {}) {
     const [state, setState] = useState<ModelLabState>(DEFAULT_STATE);
     const { isLoggedIn } = useAuth();
 
@@ -112,7 +112,7 @@ export default function ModelLabClient() {
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900">
-            <ModelLabHero />
+            {!hideHero && <ModelLabHero />}
             <ModelLabTabs
                 state={state}
                 update={update}

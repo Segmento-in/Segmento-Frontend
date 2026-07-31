@@ -196,31 +196,7 @@ export function SenseNavbar() {
                         )}
                     </div>
 
-                    {/* Thin divider before MODEL LAB */}
-                    <div className="w-px h-4 bg-white/10 mx-1" />
 
-                    {/* MODEL LAB — evaluator observatory */}
-                    <div className="relative flex items-center">
-                        <Link href="/model-lab">
-                            <div className={`relative z-10 px-5 py-1 rounded-full flex flex-col items-center gap-0 ${pathname?.includes('/model-lab') && !pathname?.includes('/connectors') ? 'text-white' : 'text-slate-400 hover:text-white'
-                                }`}>
-                                <div className="flex items-center gap-1">
-                                    <FlaskConical size={9} className="text-emerald-400" />
-                                    <span className="text-[13px] font-bold">MODEL LAB</span>
-                                </div>
-                                <div className="text-[6px] tracking-[0.28em] uppercase text-emerald-500/70 font-mono">
-                                    BENCHMARK
-                                </div>
-                            </div>
-                        </Link>
-                        {pathname?.includes('/model-lab') && !pathname?.includes('/connectors') && (
-                            <motion.div
-                                layoutId="nav-pill"
-                                className="absolute inset-0 bg-emerald-700 rounded-full"
-                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                            />
-                        )}
-                    </div>
                 </div>
 
                 {/* RIGHT SECTION */}
@@ -393,21 +369,7 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
-                                {/* MODEL LAB mobile entry */}
-                                <Link href="/model-lab" onClick={() => setMobileMenuOpen(false)}>
-                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-[#052015] to-[#051a0d]">
-                                        <div className="flex flex-col">
-                                            <div className="flex items-center gap-2">
-                                                <FlaskConical size={12} className="text-emerald-300" />
-                                                <span className="text-sm font-black text-white tracking-widest uppercase">MODEL LAB</span>
-                                            </div>
-                                            <div className="text-[8px] tracking-[0.3em] uppercase mt-0.5 text-emerald-500/70 font-mono">
-                                                BENCHMARK
-                                            </div>
-                                        </div>
-                                        <ChevronRight size={16} className="text-emerald-400" />
-                                    </div>
-                                </Link>
+
                             </div>
                         </motion.div>
                     </>
