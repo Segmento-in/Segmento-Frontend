@@ -36,7 +36,7 @@ const ENGINE_DEFAULTS: Record<EngineType, { port: string; label: string; accent:
 };
 
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">{children}</div>;
+  return <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">{children}</div>;
 }
 
 function StepBadge({ n, accentStep }: { n: number; accentStep: string }) {
@@ -46,8 +46,8 @@ function StepBadge({ n, accentStep }: { n: number; accentStep: string }) {
 function DashboardStatCard({ label, value, valueColor = 'text-slate-800' }: { label: string; value: number | string; valueColor?: string; }) {
   return (
     <div className="flex flex-col justify-center px-6 py-5 cursor-default select-none">
-      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500">{label}</p>
-      <p className={`text-4xl font-light leading-none tracking-tight ${valueColor}`}>{value}</p>
+      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`text-4xl font-light leading-none tracking-tight ${valueColor === 'text-slate-800' ? 'text-slate-800 dark:text-white' : valueColor}`}>{value}</p>
     </div>
   );
 }
@@ -81,7 +81,7 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
   const accentBtn = 'bg-indigo-600 hover:bg-indigo-700';
   const accentBg = 'bg-indigo-100 text-indigo-600';
   const accentStep = 'bg-indigo-100 text-indigo-600';
-  const inputCls = `w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 text-sm`;
+  const inputCls = `w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 dark:text-white text-sm`;
 
   const fetchCatalog = async () => {
     try {
@@ -147,7 +147,7 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
   return (
     <div className="flex flex-col flex-1 min-h-0 h-full">
       <OutOfCreditsModal open={outOfCredits} onClose={() => setOutOfCredits(false)} creditsRemaining={creditsLeft} />
-      {error && <div className="p-4 bg-red-50 border border-red-200 rounded-xl m-6 mb-0 shrink-0 text-red-700 text-sm">{error}</div>}
+      {error && <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl m-6 mb-0 shrink-0 text-red-700 dark:text-red-400 text-sm">{error}</div>}
       <AnimatePresence mode="wait">
         {step === 'AUTH' && (
           <motion.div key="auth" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-4xl mx-auto space-y-6 w-full p-6">
@@ -157,7 +157,7 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
                 <div className="flex gap-2">
                   {(['postgres', 'mysql', 'aurora'] as EngineType[]).map(t => (
                     <button key={t} onClick={() => setCreds(p => ({ ...p, engine: t, port: ENGINE_DEFAULTS[t].port }))} 
-                      className={`px-4 py-2 rounded-xl text-sm font-semibold border ${creds.engine === t ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-600 border-slate-200'}`}>
+                      className={`px-4 py-2 rounded-xl text-sm font-semibold border ${creds.engine === t ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:dark:border-slate-600'}`}>
                       {ENGINE_DEFAULTS[t].emoji} {ENGINE_DEFAULTS[t].label}
                     </button>
                   ))}
@@ -184,22 +184,22 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
         )}
 
         {step === 'BROWSE' && (
-          <motion.div key="browse" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col flex-1 min-h-0 bg-white">
-            <div className="flex items-center justify-between px-6 py-4 border-b">
-              <span className="font-bold">Select Tables ({selectedTableIds.size}/{tables.length})</span>
-              <button onClick={() => changeStep('AUTH')} className="text-sm text-slate-500">Change Credentials</button>
+          <motion.div key="browse" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col flex-1 min-h-0 bg-white dark:bg-slate-900">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+              <span className="font-bold dark:text-white">Select Tables ({selectedTableIds.size}/{tables.length})</span>
+              <button onClick={() => changeStep('AUTH')} className="text-sm text-slate-500 dark:text-slate-400 hover:dark:text-slate-300">Change Credentials</button>
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-2">
               {tables.map(t => (
                 <div key={t} onClick={() => setSelectedTableIds(p => { const n = new Set(p); n.has(t) ? n.delete(t) : n.add(t); return n; })}
-                  className={`p-3 rounded-xl border cursor-pointer ${selectedTableIds.has(t) ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200'}`}>
+                  className={`p-3 rounded-xl border cursor-pointer dark:text-slate-200 ${selectedTableIds.has(t) ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10' : 'border-slate-200 dark:border-slate-700'}`}>
                   {t}
                 </div>
               ))}
             </div>
             {selectedTableIds.size > 0 && (
-              <div className="p-4 border-t bg-slate-50 flex gap-4">
-                <button onClick={() => handleScan('metadata')} className="flex-1 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold">Metadata Scan</button>
+              <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 flex gap-4">
+                <button onClick={() => handleScan('metadata')} className="flex-1 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-lg text-sm font-bold">Metadata Scan</button>
                 <button onClick={() => handleScan('full')} className="flex-1 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold">Full Deep Scan</button>
               </div>
             )}
@@ -208,7 +208,7 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
 
         {step === 'RESULTS' && (
           <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col flex-1 min-h-0">
-            <div className="grid grid-cols-4 divide-x border-b bg-white shrink-0">
+            <div className="grid grid-cols-4 divide-x divide-slate-200 dark:divide-slate-800 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
               <DashboardStatCard label="Scanned" value={stats.scanned} />
               <DashboardStatCard label="PII Found" value={stats.pii} valueColor="text-rose-600" />
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />

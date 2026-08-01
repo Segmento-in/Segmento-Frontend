@@ -1,292 +1,272 @@
 {
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\next-env.d.ts": {
-    "mtime": 1778760501.63373,
-    "ast_hash": "29f60a376e12bf72b67d4994fcc84214",
-    "semantic_hash": "29f60a376e12bf72b67d4994fcc84214"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\next.config.ts": {
-    "mtime": 1780143068.8117287,
-    "ast_hash": "93781526b18a6f385334defa2010c375",
+  "app/about/page.tsx": {
+    "mtime": 1783518801.0705159,
+    "ast_hash": "1e761ba44387933f36c70a6dcfcf25cc",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\package.json": {
-    "mtime": 1780143068.8122356,
-    "ast_hash": "ebcea6fdefa722a57de40d78b07841b4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\postcss.config.mjs": {
-    "mtime": 1774352800.7086535,
-    "ast_hash": "f76ebbe853096bd5c029b754dad8eab8",
-    "semantic_hash": "f76ebbe853096bd5c029b754dad8eab8"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\tsconfig.json": {
-    "mtime": 1780143069.071923,
-    "ast_hash": "d741facdf83f9317483a8fa1199a83f4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\layout.tsx": {
-    "mtime": 1780143068.7518587,
-    "ast_hash": "877b055db3be461b7798a67aa7c7069b",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\page.tsx": {
-    "mtime": 1780143068.753544,
-    "ast_hash": "331a07d4bfac58c77f7306c58c3a7ed4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\about\\page.tsx": {
-    "mtime": 1780143068.7229888,
-    "ast_hash": "f041167ea4cf73a1a4c69330f21247a0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\api\\contact\\route.ts": {
-    "mtime": 1774352800.6779096,
+  "app/api/contact/route.ts": {
+    "mtime": 1783518801.0705159,
     "ast_hash": "dcd5e6ea522bc2af8a0b628128ef9517",
-    "semantic_hash": "dcd5e6ea522bc2af8a0b628128ef9517"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\blog\\page.tsx": {
-    "mtime": 1780143068.725016,
+  "app/blog/2025-moments/page.tsx": {
+    "mtime": 1783518801.0748537,
+    "ast_hash": "6bf5cb4fce38c3f240a2f8b34a76435d",
+    "semantic_hash": ""
+  },
+  "app/blog/page.tsx": {
+    "mtime": 1783518801.076381,
     "ast_hash": "7abcaca9ce1538b2f64f83e6d4f35a90",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\blog\\2025-moments\\page.tsx": {
-    "mtime": 1774352800.680316,
-    "ast_hash": "6bf5cb4fce38c3f240a2f8b34a76435d",
-    "semantic_hash": "6bf5cb4fce38c3f240a2f8b34a76435d"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\blog\\segmento-pulse-launch\\page.tsx": {
-    "mtime": 1780143068.7272508,
+  "app/blog/segmento-pulse-launch/page.tsx": {
+    "mtime": 1783518801.0780973,
     "ast_hash": "31c0709a67cdf381bbf24ceb87d364b0",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\careers\\page.tsx": {
-    "mtime": 1780143068.7293875,
+  "app/careers/page.tsx": {
+    "mtime": 1783518801.0786052,
     "ast_hash": "9cc557db1b08facb3c73318fc5887a26",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Chatbot.tsx": {
-    "mtime": 1776946941.714736,
-    "ast_hash": "506c179bcf96098f97b1617460bdf5ec",
-    "semantic_hash": "506c179bcf96098f97b1617460bdf5ec"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\CTASection.tsx": {
-    "mtime": 1780143068.7321732,
+  "app/components/CTASection.tsx": {
+    "mtime": 1783518801.0808394,
     "ast_hash": "125cf7ae58575e5cf35e1236c1b50631",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Features.tsx": {
-    "mtime": 1780143068.7331867,
+  "app/components/Chatbot.tsx": {
+    "mtime": 1783518801.0818605,
+    "ast_hash": "506c179bcf96098f97b1617460bdf5ec",
+    "semantic_hash": ""
+  },
+  "app/components/Features.tsx": {
+    "mtime": 1783518801.0818605,
     "ast_hash": "fa7de111215a048f357d114a8be3baec",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Footer.tsx": {
-    "mtime": 1780143068.7356896,
+  "app/components/Footer.tsx": {
+    "mtime": 1783518801.083435,
     "ast_hash": "6f98e85d970c87e703b8ba829adfc682",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Hero.tsx": {
-    "mtime": 1780143068.736701,
+  "app/components/Hero.tsx": {
+    "mtime": 1783518801.0848315,
     "ast_hash": "4c1c9b1b6c27bc948ba5abdba1e03709",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\HeroShells.tsx": {
-    "mtime": 1780143068.7380934,
+  "app/components/HeroShells.tsx": {
+    "mtime": 1783518801.0855346,
     "ast_hash": "9ee6914a0f0d4fcb206969f503f9536a",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\HowItWorks.tsx": {
-    "mtime": 1780143068.7391074,
+  "app/components/HowItWorks.tsx": {
+    "mtime": 1783518801.0865526,
     "ast_hash": "f00f738c12f4e32c7ce24b4c2b1fc900",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Navbar.tsx": {
-    "mtime": 1780143068.7417166,
-    "ast_hash": "ae6b6981a897ead4986522b064e7f3fe",
+  "app/components/Navbar.tsx": {
+    "mtime": 1785566291.3669276,
+    "ast_hash": "e454da283ecfed900b4700a33e4400fc",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\ProductShowcase.tsx": {
-    "mtime": 1780143068.7432284,
-    "ast_hash": "5213e369bc07a04ba8520e5751d7ee76",
+  "app/components/ProductShowcase.tsx": {
+    "mtime": 1783518801.0865526,
+    "ast_hash": "861267f186c562a91457df827fd94ed2",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\Stats.tsx": {
-    "mtime": 1780143068.744794,
+  "app/components/Stats.tsx": {
+    "mtime": 1783518801.0897312,
     "ast_hash": "231744f065364b35acc33221e3f044b9",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\components\\ThemeToggle.tsx": {
-    "mtime": 1780143068.7469182,
+  "app/components/ThemeToggle.tsx": {
+    "mtime": 1783518801.0897312,
     "ast_hash": "05dcb1dec040cf72b602c53ed099653a",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\contact\\page.tsx": {
-    "mtime": 1780143068.7484126,
+  "app/contact/page.tsx": {
+    "mtime": 1783518801.091036,
     "ast_hash": "d4aea32681688799105f4e62c954e8d5",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\lib\\db.ts": {
-    "mtime": 1774352800.6991744,
+  "app/layout.tsx": {
+    "mtime": 1783518801.092548,
+    "ast_hash": "877b055db3be461b7798a67aa7c7069b",
+    "semantic_hash": ""
+  },
+  "app/lib/db.ts": {
+    "mtime": 1783518801.0954027,
     "ast_hash": "e32a82f49a685614fea9b912921954b0",
-    "semantic_hash": "e32a82f49a685614fea9b912921954b0"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\lib\\emailService.ts": {
-    "mtime": 1774352800.701197,
+  "app/lib/emailService.ts": {
+    "mtime": 1783518801.0954027,
     "ast_hash": "a41bf5a47e60ea60291c01a0ff575fc7",
-    "semantic_hash": "a41bf5a47e60ea60291c01a0ff575fc7"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\lib\\fonts.ts": {
-    "mtime": 1780143068.752913,
+  "app/lib/fonts.ts": {
+    "mtime": 1783518801.097442,
     "ast_hash": "e8e796fc336127c16d863beea02ddea5",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\app\\solutions\\page.tsx": {
-    "mtime": 1780143068.7555487,
+  "app/page.tsx": {
+    "mtime": 1783518801.097442,
+    "ast_hash": "331a07d4bfac58c77f7306c58c3a7ed4",
+    "semantic_hash": ""
+  },
+  "app/solutions/page.tsx": {
+    "mtime": 1783518801.097442,
     "ast_hash": "246fdd1b4084e1d82183cf3335b1dff0",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\DESIGN.md": {
-    "mtime": 1780143068.719694,
+  "next.config.ts": {
+    "mtime": 1783518801.1313972,
+    "ast_hash": "93781526b18a6f385334defa2010c375",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1783518801.1319082,
+    "ast_hash": "ebcea6fdefa722a57de40d78b07841b4",
+    "semantic_hash": ""
+  },
+  "postcss.config.mjs": {
+    "mtime": 1783518801.1319082,
+    "ast_hash": "f76ebbe853096bd5c029b754dad8eab8",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1783518801.2540176,
+    "ast_hash": "d741facdf83f9317483a8fa1199a83f4",
+    "semantic_hash": ""
+  },
+  "DESIGN.md": {
+    "mtime": 1783518801.0683067,
     "ast_hash": "3d14037253662698a5afa5d66f6357b1",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\segmento_upgraded_blueprint.md": {
-    "mtime": 1780143069.0698109,
+  "segmento_upgraded_blueprint.md": {
+    "mtime": 1783518801.2540176,
     "ast_hash": "de032a2b4d9e390397458feb733f57f1",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\segmento_main_site_blueprint_v2.0_1.png": {
-    "mtime": 1780143069.046898,
-    "ast_hash": "6d017871cccfd0debcfca6a82aea9fa8",
-    "semantic_hash": "6d017871cccfd0debcfca6a82aea9fa8"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\segmento_main_site_blueprint_v2.0_2.png": {
-    "mtime": 1780143069.0670831,
-    "ast_hash": "82c8bd7e499d1f2e9fdf4087ec4ef234",
-    "semantic_hash": "82c8bd7e499d1f2e9fdf4087ec4ef234"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\brain.png": {
-    "mtime": 1774352800.723308,
-    "ast_hash": "8d01de09953a9e5dc95ad78ab675668e",
-    "semantic_hash": "8d01de09953a9e5dc95ad78ab675668e"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\brain1.png": {
-    "mtime": 1774352800.7284179,
-    "ast_hash": "31a050d0c0f3586cab82e5d374480db1",
-    "semantic_hash": "31a050d0c0f3586cab82e5d374480db1"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\hero-team.png": {
-    "mtime": 1780143068.915354,
-    "ast_hash": "4b6d70644d65f4b049f85b1896894943",
+  "public/hero-team.png": {
+    "mtime": 1783518801.153637,
+    "ast_hash": "8b39f885138fbe554643252ba5d23234",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\hero-workspace.png": {
-    "mtime": 1780143069.00373,
-    "ast_hash": "73ae7fbe603a0965d112dfaade7adc3d",
+  "public/hero-workspace.png": {
+    "mtime": 1783518801.177823,
+    "ast_hash": "b11c00af525d05a1cac9cf98957f763c",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\image7.png": {
-    "mtime": 1776946941.7466097,
-    "ast_hash": "cf6a7b8596369088fe3185e5b68a9a3a",
-    "semantic_hash": "cf6a7b8596369088fe3185e5b68a9a3a"
+  "public/images/Female-placeholder.jpg": {
+    "mtime": 1783518801.1814215,
+    "ast_hash": "cf310e37771698f4aaaebed98c035de2",
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\shadow.png": {
-    "mtime": 1776946941.747123,
-    "ast_hash": "545e991cdb3778789b37fc7016e786a0",
-    "semantic_hash": "545e991cdb3778789b37fc7016e786a0"
-  },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\director1.png": {
-    "mtime": 1774335285.0410936,
+  "public/images/director1.png": {
+    "mtime": 1783518801.1834526,
     "ast_hash": "1ee245eae71e9b83a70350bc7f199d67",
-    "semantic_hash": "1ee245eae71e9b83a70350bc7f199d67"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\hero-bg.png": {
-    "mtime": 1774335285.059708,
+  "public/images/hero-bg.png": {
+    "mtime": 1783518801.1920297,
     "ast_hash": "6fdc9e3b29960abafc974b4dc30d345d",
-    "semantic_hash": "6fdc9e3b29960abafc974b4dc30d345d"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\image.png": {
-    "mtime": 1774335285.0673394,
+  "public/images/image.png": {
+    "mtime": 1783518801.1920297,
     "ast_hash": "468cb851f8dc13e89797954d83fa9ce9",
-    "semantic_hash": "468cb851f8dc13e89797954d83fa9ce9"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo-compact.svg": {
-    "mtime": 1774335285.0717676,
+  "public/images/logo-compact.svg": {
+    "mtime": 1783518801.2013378,
     "ast_hash": "9d0fdfa0526a65a9b892b991e7e667cb",
-    "semantic_hash": "9d0fdfa0526a65a9b892b991e7e667cb"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo-final.png": {
-    "mtime": 1774335285.072757,
+  "public/images/logo-final.png": {
+    "mtime": 1783518801.2026205,
     "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
-    "semantic_hash": "3d9e7dcaba6c7b91ecf8831f769a877c"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo-final1.png": {
-    "mtime": 1780143069.0110993,
+  "public/images/logo-final1.png": {
+    "mtime": 1783518801.2048144,
     "ast_hash": "f66488840bf0c7211809f3b61f40afea",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo-main.png": {
-    "mtime": 1774335285.0747533,
+  "public/images/logo-main.png": {
+    "mtime": 1783518801.2084937,
     "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
-    "semantic_hash": "0e6e1cb0997faf0150a3835bdd7a9399"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo.png": {
-    "mtime": 1780143069.02722,
+  "public/images/logo.png": {
+    "mtime": 1783518801.2168834,
     "ast_hash": "01e9dabec27e5b256d7e2e479b676559",
     "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo.svg": {
-    "mtime": 1774335285.0858066,
+  "public/images/logo.svg": {
+    "mtime": 1783518801.2175324,
     "ast_hash": "a58b26a1fd82f9fc5f0e447d64705578",
-    "semantic_hash": "a58b26a1fd82f9fc5f0e447d64705578"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\logo_transparent.png": {
-    "mtime": 1774335285.0986338,
-    "ast_hash": "6b7888d440a25870bd2e286be107db86",
-    "semantic_hash": "6b7888d440a25870bd2e286be107db86"
+  "public/images/male-placeholder.jpg": {
+    "mtime": 1783518801.2190702,
+    "ast_hash": "45cb76edac6ebc7141eaff09e3b02398",
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\mem2.jpeg": {
-    "mtime": 1774335285.1006405,
+  "public/images/mem2.jpeg": {
+    "mtime": 1783518801.2190702,
     "ast_hash": "951e9ff0595ba892ef03f8e36abb906c",
-    "semantic_hash": "951e9ff0595ba892ef03f8e36abb906c"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\mohan.png": {
-    "mtime": 1774335285.1052127,
+  "public/images/mohan.png": {
+    "mtime": 1783518801.2205951,
     "ast_hash": "988f2eae0af21d9f2298934daa17ee77",
-    "semantic_hash": "988f2eae0af21d9f2298934daa17ee77"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\segmento-logo-new.png": {
-    "mtime": 1774335285.106758,
+  "public/images/segmento-logo-new.png": {
+    "mtime": 1783518801.2205951,
     "ast_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc",
-    "semantic_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\segmento-logo-optimized.svg": {
-    "mtime": 1774335285.10727,
+  "public/images/segmento-logo-optimized.svg": {
+    "mtime": 1783518801.2205951,
     "ast_hash": "3dc1428d703ac9d3f37b7f541ae296fe",
-    "semantic_hash": "3dc1428d703ac9d3f37b7f541ae296fe"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\segmento-logo.png": {
-    "mtime": 1774335285.1088376,
+  "public/images/segmento-logo.png": {
+    "mtime": 1783518801.2253058,
     "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": "82f5fa7610a490488e18cfe1b644b24c"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\segmento_logo.png": {
-    "mtime": 1774335285.1102033,
+  "public/images/segmento_logo.png": {
+    "mtime": 1783518801.2269728,
     "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": "82f5fa7610a490488e18cfe1b644b24c"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\shafi-profile.jpg": {
-    "mtime": 1774335285.1137948,
+  "public/images/shafi-profile.jpg": {
+    "mtime": 1783518801.2296157,
     "ast_hash": "47e734f5cfec64935b59564d97a1de57",
-    "semantic_hash": "47e734f5cfec64935b59564d97a1de57"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\thejesh.png": {
-    "mtime": 1774335285.1286705,
+  "public/images/thejesh.png": {
+    "mtime": 1783518801.2337346,
     "ast_hash": "330d291a88667dcb341bf284ce284f98",
-    "semantic_hash": "330d291a88667dcb341bf284ce284f98"
+    "semantic_hash": ""
   },
-  "C:\\Users\\Dell\\Desktop\\Segmento-app-website-dev\\frontend\\apps\\main-site\\public\\images\\vijayalakshmi.png": {
-    "mtime": 1774335285.1422584,
+  "public/images/vijayalakshmi.png": {
+    "mtime": 1783518801.2354205,
     "ast_hash": "f9a6abc15ca608766ac0a48ef1c20f41",
-    "semantic_hash": "f9a6abc15ca608766ac0a48ef1c20f41"
+    "semantic_hash": ""
+  },
+  "segmento_main_site_blueprint_v2.0_1.png": {
+    "mtime": 1783518801.245878,
+    "ast_hash": "6d017871cccfd0debcfca6a82aea9fa8",
+    "semantic_hash": ""
+  },
+  "segmento_main_site_blueprint_v2.0_2.png": {
+    "mtime": 1783518801.2524483,
+    "ast_hash": "82c8bd7e499d1f2e9fdf4087ec4ef234",
+    "semantic_hash": ""
   }
 }

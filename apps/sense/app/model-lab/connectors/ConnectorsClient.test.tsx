@@ -177,3 +177,77 @@ describe('ConnectorsClient Layout & Navigation', () => {
         expect(screen.getAllByRole('button', { name: /View Connector/i })).toHaveLength(14);
     });
 });
+
+describe('ConnectorsClient Dark Mode', () => {
+    it('applies dark mode classes to the Top Navigation Bar wrapper', () => {
+        render(<ConnectorsClient />);
+        // The nav bar wrapper is the first direct child of the root div
+        const navWrapper = screen.getByRole('button', { name: /File Handlers/i }).closest('div.border-b');
+        expect(navWrapper).toHaveClass('dark:bg-slate-900', 'dark:border-slate-800');
+    });
+
+    it('applies dark mode classes to the Grid View wrapper', () => {
+        render(<ConnectorsClient />);
+        const gridWrapper = screen.getByText(/Select a Connector/i).closest('div.bg-slate-50');
+        expect(gridWrapper).toHaveClass('dark:bg-slate-800');
+    });
+
+    it('applies dark mode classes to the inactive switcher tabs', () => {
+        render(<ConnectorsClient />);
+        // By default 'Connectors' is active, so 'File Handlers' is inactive
+        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
+        expect(fileHandlersBtn).toHaveClass('dark:text-slate-400', 'dark:hover:text-white', 'dark:hover:bg-slate-800');
+    });
+
+    it('applies inverted CTA styling to the active filter pill', () => {
+        render(<ConnectorsClient />);
+        // By default 'All' filter is active
+        const allPill = screen.getByRole('button', { name: /^All$/i });
+        expect(allPill).toHaveClass('dark:bg-white', 'dark:text-slate-900', 'dark:border-white');
+    });
+
+    it('applies dark mode classes to inactive filter pills', () => {
+        render(<ConnectorsClient />);
+        // 'Cloud' filter is inactive by default
+        const cloudPill = screen.getByRole('button', { name: /^Cloud$/i });
+        expect(cloudPill).toHaveClass('dark:bg-slate-900', 'dark:text-slate-400', 'dark:border-slate-800');
+    });
+
+    it('applies dark mode classes to the Connector Cards', () => {
+        render(<ConnectorsClient />);
+        // Get the first "View Connector" button, which is the CTA inside the card
+        const firstCta = screen.getAllByRole('button', { name: /View Connector/i })[0];
+        
+        // Assert CTA inversion
+        expect(firstCta).toHaveClass('dark:bg-white', 'dark:text-slate-900', 'dark:border-white');
+
+        // Check the card wrapper
+        const cardWrapper = firstCta.closest('div.group');
+        expect(cardWrapper).toHaveClass('dark:bg-slate-900', 'dark:border-slate-800');
+    });
+
+    it('applies dark mode classes to the Auth Panel elements', () => {
+        render(<ConnectorsClient />);
+        
+        // Open the Auth Panel by clicking a connector
+        const driveCta = screen.getAllByRole('button', { name: /View Connector/i })[0];
+        fireEvent.click(driveCta);
+
+        // 1. Auth Grid Wrapper (contains the grid-cols-1 lg:grid-cols-2)
+        // It's the parent of the max-w-7xl grid, so we can find the Back to Connectors button and go up
+        const backBtn = screen.getByRole('button', { name: /Back to Connectors/i });
+        const authGridWrapper = backBtn.closest('div.flex-col.border-b');
+        expect(authGridWrapper).toHaveClass('dark:bg-slate-900', 'dark:border-slate-800');
+
+        // 2. Back Button
+        expect(backBtn).toHaveClass('dark:text-slate-400', 'dark:hover:text-white');
+
+        // 3. Not Connected Badge
+        const notConnectedBadge = screen.getByText(/Not Connected/i).closest('div.border');
+        expect(notConnectedBadge).toHaveClass('dark:bg-slate-800', 'dark:text-slate-400', 'dark:border-slate-800');
+        
+        // 4. Hero Title (Connector)
+        const heroTitle = screen.getByRole('heading', { name: 'Connector', level: 1 });
+        expect(heroTitle).toHaveClass('dark:text-white');
+    });
+});

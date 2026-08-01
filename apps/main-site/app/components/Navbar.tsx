@@ -56,8 +56,8 @@ const navLinks: NavLink[] = [
         {
           label: "Data Intelligence",
           items: [
-            { name: "Segmento Pulse", subtitle: "Real-time news & trends engine", href: "/pulse", icon: Newspaper },
-            { name: "Data Classification", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
+            { name: "Segmento Pulse", subtitle: "Real-time news", href: "/pulse", icon: Newspaper },
+            { name: "Data Discovery &Classification", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
             { name: "Segmento Collect", subtitle: "AI-powered data collection platform", href: "/collect", icon: Database },
           ],
         },
@@ -71,7 +71,7 @@ const navLinks: NavLink[] = [
       ],
       featured: {
         label: "What's New",
-        title: "Segmento AI Suite v2",
+        title: "Segmento Pulse",
         description: "Explore our latest AI-powered data intelligence upgrades and new product features.",
         gradient: "linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 55%,#38bdf8 100%)",
         badge: "New Release",

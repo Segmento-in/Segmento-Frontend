@@ -491,7 +491,7 @@ function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => vo
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
             style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
-            className="group bg-white border border-slate-200 rounded-2xl p-7 cursor-pointer shadow-sm hover:shadow-xl flex flex-col"
+            className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-7 cursor-pointer shadow-sm hover:shadow-xl flex flex-col"
         >
             {/* Top row: icon + category */}
             <div className="flex items-start justify-between mb-6">
@@ -504,23 +504,23 @@ function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => vo
             </div>
 
             {/* Title */}
-            <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-slate-700 transition-colors leading-tight">
+            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors leading-tight">
                 {conn.label}
             </h3>
 
             {/* Description */}
-            <p className="text-sm text-slate-500 leading-relaxed mb-6 flex-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6 flex-1">
                 {conn.description}
             </p>
 
             {/* Scan data bullets */}
-            <div className="mb-7 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">
+            <div className="mb-7 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">
                     Scan Data
                 </p>
                 <ul className="space-y-2">
                     {conn.scanData.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-slate-600 font-medium">
+                        <li key={item} className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 font-medium">
                             <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${conn.accent.dot}`} />
                             {item}
                         </li>
@@ -532,7 +532,7 @@ function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => vo
             <button
                 onClick={onSelect}
                 className={`
-                    w-full py-3.5 rounded-xl border border-slate-900 bg-slate-900 text-white
+                    w-full py-3.5 rounded-xl border border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900
                     text-sm font-bold flex items-center justify-center gap-2
                     shadow-sm group-hover:shadow-lg transition-all duration-300
                     ${conn.accent.btn}
@@ -598,10 +598,10 @@ export default function ConnectorsClient() {
     };
 
     return (
-        <div className="flex flex-col flex-1 min-h-0 bg-white text-slate-900">
+        <div className="flex flex-col flex-1 min-h-0 bg-white text-slate-900 dark:bg-slate-900 dark:text-white">
 
             {/* ── TOP NAVIGATION BAR ──────────────────────────────────────── */}
-            <div className="bg-white border-b border-slate-200 shrink-0 z-30">
+            <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-30 flex items-center justify-between relative">
 
                     {/* Center: Navigation Tabs (Premium Navbar Style) */}
@@ -618,7 +618,7 @@ export default function ConnectorsClient() {
                             }}
                             className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${rightView === 'local-upload'
                                 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
+                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 bg-transparent'
                                 }`}
                         >
                             <LocalFileUploaderLogoIcon className="w-5 h-5" />
@@ -636,7 +636,7 @@ export default function ConnectorsClient() {
                             }}
                             className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${(rightView === 'connectors' || rightView === 'scan')
                                 ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                                : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 bg-transparent'
+                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 bg-transparent'
                                 }`}
                         >
                             <LayoutGrid className="w-5 h-5" />
@@ -656,7 +656,7 @@ export default function ConnectorsClient() {
                 <div className={`flex-col flex-1 min-h-0 overflow-y-auto ${rightView === 'connectors' ? 'flex' : 'hidden'}`}>
 
 
-                    <div className="flex-1 bg-slate-50">
+                    <div className="flex-1 bg-slate-50 dark:bg-slate-800">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
                             {/* Connector Filter Bucket pill row — pattern copied from LocalUploadView pill row (Ticket 3) */}
                             <div className="flex flex-wrap items-center gap-2 mb-8">
@@ -666,8 +666,8 @@ export default function ConnectorsClient() {
                                         onClick={() => setActiveFilter(filter)}
                                         className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
                                             activeFilter === filter
-                                                ? 'bg-slate-900 text-white border-slate-900 shadow-md'
-                                                : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                                                ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-white shadow-md'
+                                                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
                                         }`}
                                     >
                                         {filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -723,14 +723,14 @@ export default function ConnectorsClient() {
                             <div key={flow.id} className={`flex-col flex-1 min-h-0 overflow-hidden ${isVisible ? 'flex' : 'hidden'}`}>
                                 {/* Compact info bar — only shown after AUTH */}
                                 {flowStep !== 'AUTH' && (
-                                    <div className="bg-white border-b border-slate-200 shadow-sm shrink-0">
+                                    <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm shrink-0">
                                         <div className="px-6 py-3 flex items-center gap-4">
                                             <div className={`w-10 h-10 ${conn.accent.iconBg} rounded-xl flex items-center justify-center text-xl shrink-0`}>
                                                 {conn.emoji}
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-sm font-black text-slate-900 leading-tight">{conn.label}</p>
-                                                <p className="text-xs text-slate-500 truncate">{conn.description}</p>
+                                                <p className="text-sm font-black text-slate-900 dark:text-white leading-tight">{conn.label}</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{conn.description}</p>
                                             </div>
                                             <div className="flex items-center gap-3 shrink-0">
                                                 <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${conn.accent.badge}`}>
@@ -743,7 +743,7 @@ export default function ConnectorsClient() {
                                                 {!isProfile && (
                                                     <button
                                                         onClick={() => setConfiguring(null)}
-                                                        className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-slate-900 transition-colors px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-400"
+                                                        className="flex items-center gap-1.5 text-sm font-medium text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600"
                                                     >
                                                         <ArrowLeft className="w-3.5 h-3.5" />
                                                         Cancel
@@ -756,7 +756,7 @@ export default function ConnectorsClient() {
 
                                 {/* Layout: AUTH=hero+form grid | BROWSE/RESULTS=full-height flush */}
                                 <div className={`flex flex-col ${flowStep === 'AUTH'
-                                    ? 'flex-1 bg-white border-b border-slate-200 overflow-y-auto'
+                                    ? 'flex-1 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-y-auto'
                                     : 'flex-1 min-h-0 overflow-hidden'
                                     }`}>
                                     <div className={
@@ -769,30 +769,30 @@ export default function ConnectorsClient() {
                                             <div>
                                                 <button
                                                     onClick={() => setConfiguring(null)}
-                                                    className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors mb-8 group"
+                                                    className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 group"
                                                 >
                                                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
                                                     Back to Connectors
                                                 </button>
-                                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-slate-50 text-slate-500 text-[10px] font-mono mb-6 tracking-widest uppercase">
+                                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-mono mb-6 tracking-widest uppercase">
                                                     <span className="h-2 w-2 rounded-full bg-slate-400" />
                                                     Not Connected
                                                 </div>
-                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-2">
+                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-none mb-2">
                                                     {conn.titleLine1}
                                                 </h1>
                                                 <h1 className={`text-5xl sm:text-6xl font-black tracking-tight leading-none mb-2 ${conn.accent.titleColor}`}>
                                                     {conn.titleLine2}
                                                 </h1>
-                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 leading-none mb-6">
+                                                <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-none mb-6">
                                                     Connector
                                                 </h1>
-                                                <p className="text-base text-slate-500 leading-relaxed mb-8 max-w-md">
+                                                <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-8 max-w-md">
                                                     {conn.description}
                                                 </p>
                                                 <div className="space-y-3">
                                                     {conn.features.map(({ Icon, text }) => (
-                                                        <div key={text} className="flex items-start gap-3 text-sm text-slate-500">
+                                                        <div key={text} className="flex items-start gap-3 text-sm text-slate-500 dark:text-slate-300">
                                                             <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${conn.accent.featureIcon}`} />
                                                             <span>{text}</span>
                                                         </div>

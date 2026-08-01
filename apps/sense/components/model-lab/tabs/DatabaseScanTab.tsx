@@ -54,7 +54,7 @@ const DB_DEFAULTS: Record<DbType, { port: string; label: string; accent: string;
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">
       {children}
     </div>
   );
@@ -71,7 +71,7 @@ function StepBadge({ n, accentStep }: { n: number; accentStep: string }) {
 function DashboardStatCard({
   label,
   value,
-  valueColor = 'text-slate-800',
+  valueColor = 'text-slate-800 dark:text-white',
 }: {
   label: string;
   value: number | string;
@@ -79,7 +79,7 @@ function DashboardStatCard({
 }) {
   return (
     <div className="flex flex-col justify-center px-6 py-5 cursor-default select-none">
-      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500">
+      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500 dark:text-slate-400">
         {label}
       </p>
       <p className={`text-4xl font-light leading-none tracking-tight ${valueColor}`}>
@@ -368,7 +368,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     ? 'bg-indigo-600 border-indigo-600'
     : 'bg-orange-500 border-orange-500';
 
-  const inputCls = `w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 dark:text-white text-sm`;
+  const inputCls = `w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl ${accentRing} focus:ring-2 outline-none text-slate-900 dark:text-white text-sm`;
 
   const getViewerScanResult = (id: string) => {
     const live = liveScanResults.find(r => r.file_id === id);
@@ -596,7 +596,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             className="flex flex-col flex-1 min-h-0"
           >
             {/* ── Stat Strip ─────────────────────────────────────────── */}
-            <div className="grid grid-cols-4 divide-x divide-slate-200 border-b border-slate-200 bg-white shrink-0">
+            <div className="grid grid-cols-4 divide-x divide-slate-200 dark:divide-slate-800 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
               <DashboardStatCard label="Total Tables" value={tables.length} />
               <DashboardStatCard label="Database" value={creds.database} />
               <DashboardStatCard label="DB Type" value={DB_DEFAULTS[dbType].label} />
@@ -604,7 +604,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Filter tabs ────────────────────────────────────────── */}
-            <div className="flex items-center border-b border-slate-200 px-6 shrink-0 bg-white">
+            <div className="flex items-center border-b border-slate-200 dark:border-slate-800 px-6 shrink-0 bg-white dark:bg-slate-900">
               <div className="flex items-center gap-8">
                 {(['all', 'unscanned'] as FilterMode[]).map(key => (
                   <button
@@ -614,7 +614,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                         ? accent === 'indigo'
                           ? 'border-indigo-600 text-indigo-600'
                           : 'border-orange-500 text-orange-500'
-                        : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'
+                        : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:dark:text-slate-300 hover:border-slate-300 hover:dark:border-slate-600'
                       }`}
                   >
                     {key === 'all' ? 'All Tables' : 'Unscanned'}
@@ -624,21 +624,21 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Toolbar ────────────────────────────────────────────── */}
-            <div className="flex items-center justify-between px-6 py-3 shrink-0 border-b border-slate-100 bg-white">
-              <div className="flex items-center gap-2 px-3 py-2 bg-slate-100/80 rounded-lg w-64 border border-slate-200/50">
+            <div className="flex items-center justify-between px-6 py-3 shrink-0 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
+              <div className="flex items-center gap-2 px-3 py-2 bg-slate-100/80 dark:bg-slate-800 rounded-lg w-64 border border-slate-200/50 dark:border-slate-700">
                 <Search className="w-4 h-4 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search tables…"
                   value={resultSearch}
                   onChange={e => setResultSearch(e.target.value)}
-                  className="bg-transparent text-sm text-slate-700 outline-none w-full placeholder:text-slate-400"
+                  className="bg-transparent text-sm text-slate-700 dark:text-white outline-none w-full placeholder:text-slate-400"
                 />
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={resetToAuth}
-                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all border border-slate-200"
+                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-lg transition-all border border-slate-200 dark:border-slate-700"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   Change Credentials
@@ -654,9 +654,9 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Table list ─────────────────────────────────────────── */}
-            <div className="flex-1 overflow-y-auto bg-white">
+            <div className="flex-1 overflow-y-auto bg-white dark:bg-slate-900">
               <table className="w-full text-sm">
-                <thead className="sticky top-0 bg-slate-50 border-b border-slate-200 z-10">
+                <thead className="sticky top-0 bg-slate-50 dark:bg-slate-800/40 border-b border-slate-200 dark:border-slate-800 z-10">
                   <tr>
                     <th className="w-10 px-4 py-3 text-left">
                       <input
@@ -666,18 +666,18 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                         className="rounded"
                       />
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Table Name
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Classification
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                    <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                       Schema
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {tables
                     .filter(t =>
                       resultSearch ? t.toLowerCase().includes(resultSearch.toLowerCase()) : true,
@@ -686,7 +686,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                       <tr
                         key={tableName}
                         onClick={() => toggleTableSelection(tableName)}
-                        className={`cursor-pointer hover:bg-slate-50 transition-colors ${selectedTableIds.has(tableName) ? 'bg-indigo-50/40' : ''
+                        className={`cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors ${selectedTableIds.has(tableName) ? 'bg-indigo-50/40 dark:bg-indigo-500/10' : ''
                           }`}
                       >
                         <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
@@ -701,13 +701,13 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                           <div className="flex items-center gap-2">
                             <Database className={`w-4 h-4 shrink-0 ${accent === 'indigo' ? 'text-indigo-400' : 'text-orange-400'
                               }`} />
-                            <span className="font-mono text-sm font-medium text-slate-800">
+                            <span className="font-mono text-sm font-medium text-slate-800 dark:text-slate-300">
                               {tableName}
                             </span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-500 text-xs font-medium rounded-full">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-medium rounded-full">
                             Unscanned
                           </span>
                         </td>
@@ -729,26 +729,26 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             className="flex flex-col flex-1 min-h-0"
           >
             {/* ── Premium Dashboard Header ─ shrink-0 */}
-            <div className="flex items-center justify-between gap-3 bg-white border-b border-slate-200 px-6 py-3 shadow-sm shrink-0">
+            <div className="flex items-center justify-between gap-3 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 shadow-sm shrink-0">
               {/* Left: back + title + count */}
               <div className="flex items-center gap-3 shrink-0">
                 <button
                   onClick={resetToBrowse}
-                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all"
+                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-lg transition-all"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   Back
                 </button>
-                <div className="w-px h-5 bg-slate-200" />
+                <div className="w-px h-5 bg-slate-200 dark:bg-slate-700" />
                 <button
                   onClick={resetToAuth}
-                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all"
+                  className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-lg transition-all"
                 >
                   New Connection
                 </button>
                 <div className="w-px h-5 bg-slate-200" />
                 <div className="flex items-center gap-2">
-                  <h2 className="text-sm font-bold text-slate-800">Scan Results</h2>
+                  <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200">Scan Results</h2>
                   <span className={`text-xs font-semibold text-white ${accentCount} px-2 py-0.5 rounded-full tabular-nums`}>
                     {scanEntries.length}
                   </span>
@@ -756,14 +756,14 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
               </div>
 
               {/* Center: search */}
-              <div className="flex items-center gap-2 px-3 py-2 bg-slate-100/80 rounded-lg w-56 border border-slate-200/60 flex-shrink-0">
+              <div className="flex items-center gap-2 px-3 py-2 bg-slate-100/80 dark:bg-slate-800 rounded-lg w-56 border border-slate-200/60 dark:border-slate-700 flex-shrink-0">
                 <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 <input
                   type="text"
                   value={resultSearch}
                   onChange={e => setResultSearch(e.target.value)}
                   placeholder="Search results…"
-                  className="bg-transparent text-sm text-slate-700 outline-none w-full placeholder:text-slate-400"
+                  className="bg-transparent text-sm text-slate-700 dark:text-white outline-none w-full placeholder:text-slate-400"
                 />
               </div>
 
@@ -771,15 +771,15 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
               <div className="flex items-center gap-3 shrink-0">
                 {scanningTableIds.size > 0 ? (
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 ${accent === 'indigo'
-                      ? 'bg-indigo-50 text-indigo-600 border border-indigo-200'
-                      : 'bg-orange-50 text-orange-600 border border-orange-200'
+                      ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20'
+                      : 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/20'
                     } rounded-lg text-xs font-semibold`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${accent === 'indigo' ? 'bg-indigo-500' : 'bg-orange-500'
                       } animate-pulse`} />
                     Scanning {scanningTableIds.size} table{scanningTableIds.size !== 1 ? 's' : ''}…
                   </span>
                 ) : stats.scanned > 0 ? (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-semibold">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 rounded-lg text-xs font-semibold">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     Scan Complete
                   </span>
@@ -787,7 +787,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                 <button
                   disabled
                   title="Export coming soon"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 text-slate-400 text-sm font-semibold bg-white cursor-not-allowed opacity-60 select-none"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 text-sm font-semibold bg-white dark:bg-slate-800 cursor-not-allowed opacity-60 select-none"
                 >
                   <Download className="w-3.5 h-3.5" />
                   Export
@@ -796,7 +796,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Stat Strip ─ shrink-0 */}
-            <div className="grid grid-cols-4 divide-x divide-slate-200 border-b border-slate-200 bg-white shrink-0">
+            <div className="grid grid-cols-4 divide-x divide-slate-200 dark:divide-slate-800 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
               <DashboardStatCard label="Tables Scanned" value={stats.scanned} />
               <DashboardStatCard 
                 label={lastScanMode === 'metadata_only' ? "Potential PII Tables" : "PII Found"} 
@@ -812,7 +812,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Filter tabs ─ shrink-0 */}
-            <div className="flex items-center border-b border-slate-200 px-6 shrink-0 bg-white">
+            <div className="flex items-center border-b border-slate-200 dark:border-slate-800 px-6 shrink-0 bg-white dark:bg-slate-900">
               <div className="flex items-center gap-8">
                 {([
                   { key: 'all', label: 'All' },
@@ -826,7 +826,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
                         ? accent === 'indigo'
                           ? 'border-indigo-600 text-indigo-600'
                           : 'border-orange-500 text-orange-500'
-                        : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'
+                        : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 hover:dark:text-slate-300 hover:border-slate-300 hover:dark:border-slate-600'
                       }`}
                   >
                     {tab.label}

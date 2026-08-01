@@ -55,7 +55,7 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
             onClick={handleClick}
             style={{ transition: 'transform 0.18s ease-out, box-shadow 0.3s ease' }}
             // T3: hover:-translate-y-0.5 adds CSS-only lift; hoverBorderClass adds family-tinted border glow
-            className={`group bg-white border border-slate-200/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-transform duration-150 hover:-translate-y-0.5 ${hoverBorderClass} flex flex-col items-center justify-center text-center gap-4 h-full overflow-hidden relative ${isScanning ? 'opacity-90 pointer-events-none' : 'active:scale-95'}`}
+            className={`group bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 rounded-2xl p-6 cursor-pointer shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-transform duration-150 hover:-translate-y-0.5 ${hoverBorderClass} flex flex-col items-center justify-center text-center gap-4 h-full overflow-hidden relative ${isScanning ? 'opacity-90 pointer-events-none' : 'active:scale-95'}`}
         >
             <input 
                 type="file" 
@@ -65,7 +65,7 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
                 ref={fileInputRef}
                 onChange={handleFileChange}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 dark:from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             
             {/* Icon Container — transparent background, larger realistic logo */}
             <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 relative z-10">
@@ -76,10 +76,10 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
                 )}
             </div>
             <div className="relative z-10">
-              <h3 className="text-[15px] font-black text-slate-900 group-hover:text-blue-600 transition-colors leading-tight">
+              <h3 className="text-[15px] font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
                   {isScanning ? 'Scanning...' : type.label.split(' (')[0]}
               </h3>
-              <div className="mt-2.5 text-[9px] text-slate-500 font-mono bg-slate-100/80 border border-slate-200/60 px-2.5 py-1 rounded-lg uppercase tracking-widest truncate max-w-[120px] mx-auto group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors">
+              <div className="mt-2.5 text-[9px] text-slate-500 dark:text-slate-400 font-mono bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-800/60 px-2.5 py-1 rounded-lg uppercase tracking-widest truncate max-w-[120px] mx-auto group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:border-blue-100 dark:group-hover:border-blue-800/50 transition-colors">
                   {type.accept}
               </div>
             </div>
@@ -256,7 +256,7 @@ export default function LocalUploadView() {
   }));
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 bg-slate-50 relative w-full">
+    <div className="flex flex-col flex-1 min-h-0 bg-slate-50 dark:bg-slate-800 relative w-full">
       <OutOfCreditsModal
         open={outOfCredits}
         onClose={() => setOutOfCredits(false)}
@@ -266,21 +266,21 @@ export default function LocalUploadView() {
       {step === 'select-type' && (
         <div className="flex-col flex-1 min-h-0 overflow-y-auto flex">
           {/* Hero Header matching Connectors grid */}
-          <div className="bg-white border-b border-slate-200 shrink-0">
+          <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
-              <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 Local Upload
               </h1>
-              <p className="mt-4 text-base text-slate-500 max-w-2xl">
+              <p className="mt-4 text-base text-slate-500 dark:text-slate-400 max-w-2xl">
                 Select a file format to securely scan local files in your browser. Files are processed entirely in-memory ensuring zero retention and maximum security.
               </p>
             </div>
           </div>
 
           {/* Grid Container */}
-          <div className="flex-1 bg-slate-50">
+          <div className="flex-1 bg-slate-50 dark:bg-slate-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500 mb-5">
                 Select File Type
               </p>
               
@@ -292,8 +292,8 @@ export default function LocalUploadView() {
                     onClick={() => setSelectedCategory(cat.key as CategoryKey)}
                     className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
                       selectedCategory === cat.key
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-md'
-                        : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                        ? 'bg-slate-900 dark:bg-slate-700 text-white border-slate-900 dark:border-slate-600 shadow-md'
+                        : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                   >
                     {cat.label}
@@ -320,14 +320,14 @@ export default function LocalUploadView() {
       {step === 'select-scan-mode' && (
         <div className="flex flex-col flex-1 min-h-0 overflow-y-auto">
           {/* Header — mirrors select-type hero */}
-          <div className="bg-white border-b border-slate-200 shrink-0">
+          <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
-              <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 Choose Scan Mode
               </h1>
-              <p className="mt-4 text-base text-slate-500 max-w-2xl">
+              <p className="mt-4 text-base text-slate-500 dark:text-slate-400 max-w-2xl">
                 Select how deeply Sense should scan your{' '}
-                <span className="font-semibold text-slate-700 uppercase tracking-wide text-sm">
+                <span className="font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wide text-sm">
                   {selectedFileType?.toUpperCase()}
                 </span>{' '}
                 file{pendingFiles.length > 1 ? 's' : ''} for PII.
@@ -336,9 +336,9 @@ export default function LocalUploadView() {
           </div>
 
           {/* Scan-mode selector card */}
-          <div className="flex-1 bg-slate-50">
+          <div className="flex-1 bg-slate-50 dark:bg-slate-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
+              <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500 mb-5">
                 Scan Mode
               </p>
 
@@ -389,35 +389,35 @@ export default function LocalUploadView() {
                     disabled={isScanning}
                     className={`text-left p-5 rounded-2xl border-2 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed ${
                       selectedScanMode === mode.value
-                        ? 'border-slate-900 bg-white shadow-md'
-                        : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow'
+                        ? 'border-slate-900 dark:border-white bg-white dark:bg-slate-800 shadow-md'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-3">
                       <span className="text-2xl">{mode.icon}</span>
                       {selectedScanMode === mode.value && (
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 bg-slate-100 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
                           Selected
                         </span>
                       )}
                     </div>
-                    <p className="font-black text-slate-900 text-sm mb-1">{mode.label}</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">{mode.badge}</p>
-                    <p className="text-xs text-slate-500 leading-relaxed">{mode.description}</p>
+                    <p className="font-black text-slate-900 dark:text-white text-sm mb-1">{mode.label}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2">{mode.badge}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{mode.description}</p>
                   </button>
                 ))}
               </div>
 
               {/* File list preview */}
               {pendingFiles.length > 0 && (
-                <div className="mb-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
+                <div className="mb-8 p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500 mb-3">
                     Files to scan
                   </p>
                   <ul className="space-y-2">
                     {pendingFiles.map((f) => (
-                      <li key={f.name} className="flex items-center gap-3 text-sm text-slate-700">
-                        <span className="w-6 h-6 bg-slate-100 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 uppercase shrink-0">
+                      <li key={f.name} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
+                        <span className="w-6 h-6 bg-slate-100 dark:bg-slate-800 rounded-lg flex items-center justify-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase shrink-0">
                           {f.name.split('.').pop()}
                         </span>
                         <span className="font-medium truncate">{f.name}</span>
@@ -449,7 +449,7 @@ export default function LocalUploadView() {
                   id="start-scan-btn"
                   onClick={startScan}
                   disabled={isScanning}
-                  className="px-8 py-3 bg-slate-900 hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-sm rounded-xl transition-colors shadow-sm flex items-center gap-2"
+                  className="px-8 py-3 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-sm rounded-xl transition-colors shadow-sm flex items-center gap-2"
                 >
                   {isScanning ? (
                     <><Loader2 className="w-4 h-4 animate-spin" /> Scanning…</>
@@ -459,7 +459,7 @@ export default function LocalUploadView() {
                   id="back-to-type-select-btn"
                   onClick={goBackToTypeSelect}
                   disabled={isScanning}
-                  className="px-6 py-3 bg-white hover:bg-slate-50 disabled:opacity-60 disabled:cursor-not-allowed text-slate-700 font-bold text-sm rounded-xl border border-slate-200 transition-colors"
+                  className="px-6 py-3 bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl border border-slate-200 dark:border-slate-800 transition-colors"
                 >
                   ← Back
                 </button>
@@ -470,21 +470,21 @@ export default function LocalUploadView() {
       )}
 
       {step === 'results' && (
-        <div className="flex flex-col flex-1 min-h-0 bg-slate-50 overflow-hidden">
-          <div className="bg-white border-b border-slate-200 shrink-0 shadow-sm">
+        <div className="flex flex-col flex-1 min-h-0 bg-slate-50 dark:bg-slate-800 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 shadow-sm">
              <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center border border-emerald-100">
+                    <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center border border-emerald-100 dark:border-emerald-800/50">
                         <File className="w-5 h-5" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-black text-slate-900 leading-tight">Scan Results</h2>
-                        <p className="text-xs text-slate-500 font-medium">Local Upload • {scanningCount} file{scanningCount !== 1 ? 's' : ''}</p>
+                        <h2 className="text-lg font-black text-slate-900 dark:text-white leading-tight">Scan Results</h2>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Local Upload • {scanningCount} file{scanningCount !== 1 ? 's' : ''}</p>
                     </div>
                 </div>
                 <button 
                   onClick={chooseDifferentFile} 
-                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-colors shadow-sm"
+                  className="px-4 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 dark:text-slate-900 text-white text-sm font-bold rounded-xl transition-colors shadow-sm"
                 >
                   Scan New Files
                 </button>
@@ -505,12 +505,12 @@ export default function LocalUploadView() {
       )}
 
       {step === 'error' && (
-        <div className="flex-1 bg-white flex flex-col items-center justify-center text-center p-12">
-          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-8 border border-red-100">
-              <AlertCircle className="w-10 h-10 text-red-500" />
+        <div className="flex-1 bg-white dark:bg-slate-900 flex flex-col items-center justify-center text-center p-12">
+          <div className="w-20 h-20 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-8 border border-red-100 dark:border-red-800/50">
+              <AlertCircle className="w-10 h-10 text-red-500 dark:text-red-400" />
           </div>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-3">Scan Failed</h2>
-          <p className="text-slate-500 mb-10 max-w-md mx-auto text-base">
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-3">Scan Failed</h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-10 max-w-md mx-auto text-base">
             {scanError || 'An unexpected error occurred while scanning your files.'}
           </p>
           <div className="flex items-center gap-4">
@@ -522,7 +522,7 @@ export default function LocalUploadView() {
             </button>
             <button
               onClick={chooseDifferentFile}
-              className="px-8 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors"
+              className="px-8 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 text-slate-700 font-bold rounded-xl transition-colors"
             >
               Choose Different File
             </button>

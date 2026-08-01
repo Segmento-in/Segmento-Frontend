@@ -13,14 +13,15 @@ interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) 
 type Step = 'AUTH' | 'RESULTS';
 
 function Card({ children }: { children: React.ReactNode }) {
-  return <div className="bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">{children}</div>;
+  return <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm">{children}</div>;
 }
 
 function DashboardStatCard({ label, value, valueColor = 'text-slate-800' }: { label: string; value: number | string; valueColor?: string; }) {
+  const finalValueColor = valueColor === 'text-slate-800' ? 'text-slate-800 dark:text-white' : valueColor;
   return (
     <div className="flex flex-col justify-center px-6 py-5 cursor-default select-none">
-      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500">{label}</p>
-      <p className={`text-4xl font-light leading-none tracking-tight ${valueColor}`}>{value}</p>
+      <p className="text-[11px] font-bold uppercase tracking-wider mb-1.5 text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`text-4xl font-light leading-none tracking-tight ${finalValueColor}`}>{value}</p>
     </div>
   );
 }
@@ -123,7 +124,7 @@ export default function GmailScanTab({ modelCatalogue, onStepChange }: Props) {
   return (
     <div className="flex flex-col flex-1 min-h-0 h-full">
       <OutOfCreditsModal open={outOfCredits} onClose={() => setOutOfCredits(false)} creditsRemaining={creditsLeft} />
-      {error && <div className="p-4 bg-red-50 border border-red-200 rounded-xl m-6 mb-0 shrink-0 text-red-700 text-sm">{error}</div>}
+      {error && <div className="p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-xl m-6 mb-0 shrink-0 text-red-700 dark:text-red-400 text-sm">{error}</div>}
       <AnimatePresence mode="wait">
         {step === 'AUTH' && (
           <motion.div key="auth" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-4xl mx-auto space-y-6 w-full p-6">
@@ -168,7 +169,7 @@ export default function GmailScanTab({ modelCatalogue, onStepChange }: Props) {
                       </label>
                       <div className="flex gap-2">
                           <input type="password" value={oauthToken} onChange={(e) => setOauthToken(e.target.value)} placeholder="ya29.a0Ael9sF..." className="flex-1 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
-                          <button onClick={handleOauthSubmit} className="px-4 py-2 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-white transition-colors">Apply</button>
+                          <button onClick={handleOauthSubmit} className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">Apply</button>
                       </div>
                       {credentials?.access_token != null && <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Token applied</p>}
                   </div>
@@ -184,17 +185,17 @@ export default function GmailScanTab({ modelCatalogue, onStepChange }: Props) {
 
         {step === 'RESULTS' && (
           <motion.div key="results" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col flex-1 min-h-0">
-            <div className="flex items-center justify-between gap-3 bg-white border-b border-slate-200 px-6 py-3 shadow-sm shrink-0">
-                <button onClick={() => changeStep('AUTH')} className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-all">
+            <div className="flex items-center justify-between gap-3 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 shadow-sm shrink-0">
+                <button onClick={() => changeStep('AUTH')} className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-lg transition-all">
                     <ArrowLeft className="w-3.5 h-3.5" /> Back
                 </button>
-                <div className="w-px h-5 bg-slate-200" />
-                <h2 className="text-sm font-bold text-slate-800 flex-1">Gmail Inbox Scan</h2>
+                <div className="w-px h-5 bg-slate-200 dark:bg-slate-700" />
+                <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex-1">Gmail Inbox Scan</h2>
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-semibold">
                     <CheckCircle2 className="w-3.5 h-3.5" /> Scan Complete
                 </span>
             </div>
-            <div className="grid grid-cols-3 divide-x border-b bg-white shrink-0">
+            <div className="grid grid-cols-3 divide-x divide-slate-200 dark:divide-slate-800 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
               <DashboardStatCard label="Emails Scanned" value={scanResult?.rows_scanned || 0} />
               <DashboardStatCard label="Total PII Found" value={scanResult?.total_pii_found || 0} valueColor={scanResult?.total_pii_found ? "text-rose-600" : "text-emerald-600"} />
               <DashboardStatCard label="Status" value={scanResult?.total_pii_found ? 'SENSITIVE' : 'CLEAN'} valueColor={scanResult?.total_pii_found ? "text-rose-600" : "text-emerald-600"} />

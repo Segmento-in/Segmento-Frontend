@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function AIEnginePage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-slate-900">
       <AIEngineHero />
       <ModelStats />
       <ModelCardGrid />
