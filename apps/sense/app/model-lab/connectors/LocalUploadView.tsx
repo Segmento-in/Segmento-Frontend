@@ -87,7 +87,7 @@ function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScan
     );
 }
 
-export default function LocalUploadView() {
+export default function LocalUploadView({ setRightView }: { setRightView: (view: 'connectors' | 'scan' | 'results' | 'local-upload') => void }) {
   type CategoryKey = typeof CATEGORIES[number]['key'];
   type ScanMode = 'full' | 'sampling' | 'metadata_only' | 'metadata_and_sampling';
 
@@ -268,6 +268,13 @@ export default function LocalUploadView() {
           {/* Hero Header matching Connectors grid */}
           <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+              <button
+                  onClick={() => setRightView('connectors')}
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 group"
+              >
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                  Back to Connectors
+              </button>
               <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 Local Upload
               </h1>
@@ -322,6 +329,13 @@ export default function LocalUploadView() {
           {/* Header — mirrors select-type hero */}
           <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-16">
+              <button
+                  onClick={() => setRightView('connectors')}
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 group"
+              >
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                  Back to Connectors
+              </button>
               <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 Choose Scan Mode
               </h1>
@@ -473,13 +487,22 @@ export default function LocalUploadView() {
         <div className="flex flex-col flex-1 min-h-0 bg-slate-50 dark:bg-slate-800 overflow-hidden">
           <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 shadow-sm">
              <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center border border-emerald-100 dark:border-emerald-800/50">
-                        <File className="w-5 h-5" />
-                    </div>
-                    <div>
-                        <h2 className="text-lg font-black text-slate-900 dark:text-white leading-tight">Scan Results</h2>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Local Upload • {scanningCount} file{scanningCount !== 1 ? 's' : ''}</p>
+                <div className="flex items-center gap-6">
+                    <button
+                        onClick={() => setRightView('connectors')}
+                        className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors group border-r border-slate-200 dark:border-slate-800 pr-6"
+                    >
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                        Back to Connectors
+                    </button>
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center border border-emerald-100 dark:border-emerald-800/50">
+                            <File className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-black text-slate-900 dark:text-white leading-tight">Scan Results</h2>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Local Upload • {scanningCount} file{scanningCount !== 1 ? 's' : ''}</p>
+                        </div>
                     </div>
                 </div>
                 <button 
@@ -505,7 +528,16 @@ export default function LocalUploadView() {
       )}
 
       {step === 'error' && (
-        <div className="flex-1 bg-white dark:bg-slate-900 flex flex-col items-center justify-center text-center p-12">
+        <div className="flex-1 bg-white dark:bg-slate-900 flex flex-col items-center justify-center text-center p-12 relative">
+          <div className="absolute top-8 left-8">
+              <button
+                  onClick={() => setRightView('connectors')}
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors group"
+              >
+                  <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+                  Back to Connectors
+              </button>
+          </div>
           <div className="w-20 h-20 bg-red-50 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-8 border border-red-100 dark:border-red-800/50">
               <AlertCircle className="w-10 h-10 text-red-500 dark:text-red-400" />
           </div>

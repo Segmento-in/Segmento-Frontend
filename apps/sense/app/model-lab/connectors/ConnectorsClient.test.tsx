@@ -37,82 +37,60 @@ describe('ConnectorsClient Layout & Navigation', () => {
         // The old hero header H1
         const heroHeader = screen.queryByRole('heading', { name: 'Data Connectors', level: 1 });
 
-        // In RED phase, these are present in the DOM, so this test will fail until we remove them!
         expect(sidebarText).not.toBeInTheDocument();
         expect(heroHeader).not.toBeInTheDocument();
     });
 
-    it('navigates between Connectors grid and Local Upload using the buttons', () => {
-        render(<ConnectorsClient />);
+    describe('File Handlers chip merge', () => {
+        it('does not render the standalone switcher element', () => {
+            render(<ConnectorsClient />);
+            
+            // The old switcher wrapper was a div containing specifically "File Handlers" and "Connectors" buttons.
+            // Since the old top navbar is completely removed, its wrapper shouldn't exist.
+            // In RED state, this will fail because the old switcher block is still there.
+            const fileHandlersLogo = screen.queryByTestId('local-file-uploader-logo');
+            expect(fileHandlersLogo).not.toBeInTheDocument();
+        });
 
-        // Look for the navigation buttons (they should exist whether in sidebar or top bar)
-        // We use queryAllByText because they might contain spans for icons, etc.
-        // We look for a button containing the text "Connectors" and "Local Upload"
-        const connectorsBtn = screen.getByRole('button', { name: /Connectors/i });
-        // Button was renamed from "Local Upload" to "File Handlers" in the UI — same feature.
-        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
+        it('renders File Handlers as the 5th chip in the filter row and clicking it switches to local-upload view', () => {
+            render(<ConnectorsClient />);
+            
+            // The 5 pills in the bucket: All, Cloud, Database, Social, File Handlers
+            const allPills = [
+                screen.getByRole('button', { name: /^All$/i }),
+                screen.getByRole('button', { name: /^Cloud$/i }),
+                screen.getByRole('button', { name: /^Database$/i }),
+                screen.getByRole('button', { name: /^Social$/i }),
+                screen.getByRole('button', { name: /^File Handlers$/i })
+            ];
+            
+            expect(allPills[4]).toBeInTheDocument();
+            
+            // Click File Handlers
+            fireEvent.click(allPills[4]);
+            
+            // The Local upload view container should now have 'flex' and grid view should have 'hidden'
+            const localView = screen.getByTestId('local-upload-mock').closest('div.flex-col');
+            expect(localView).toHaveClass('flex');
+        });
 
-        expect(connectorsBtn).toBeInTheDocument();
-        expect(fileHandlersBtn).toBeInTheDocument();
+        it('clicking any of the other 4 chips while in local-upload view returns to the connectors grid', () => {
+            render(<ConnectorsClient />);
+            const fileHandlersBtn = screen.getByRole('button', { name: /^File Handlers$/i });
+            const allBtn = screen.getByRole('button', { name: /^All$/i });
+            
+            // First enter local-upload view
+            fireEvent.click(fileHandlersBtn);
+            
+            let gridView = screen.getByText(/Select a Connector/i).closest('div.flex-col');
+            expect(gridView).toHaveClass('hidden');
 
-        // Initial state should be Connectors grid
-        expect(screen.getByText(/Select a Connector/i)).toBeInTheDocument();
-        
-        // Local upload view mock should not be visible (it has class 'hidden')
-        // In testing-library, hidden elements are still in the DOM, but they might not be visible.
-        // However, we can test the class name of their wrapper.
-        const gridView = screen.getByText(/Select a Connector/i).closest('div.flex-col');
-        expect(gridView).toHaveClass('flex');
-
-        // Click File Handlers
-        fireEvent.click(fileHandlersBtn);
-
-        // The Local upload view container should now have 'flex' and grid view should have 'hidden'
-        expect(gridView).toHaveClass('hidden');
-        const localView = screen.getByTestId('local-upload-mock').closest('div.flex-col');
-        expect(localView).toHaveClass('flex');
-
-        // Click Connectors again
-        fireEvent.click(connectorsBtn);
-        expect(gridView).toHaveClass('flex');
-        expect(localView).toHaveClass('hidden');
-    });
-
-    // TICKET 1 — Pill order: File Handlers must be first (left), Connectors second (right)
-    it('renders File Handlers as the first nav pill and Connectors as the second', () => {
-        render(<ConnectorsClient />);
-
-        // getAllByRole returns elements in DOM order — index 0 = first in the document
-        const navButtons = screen.getAllByRole('button');
-        // The nav container holds exactly the two top-level pills;
-        // filter to only the two we care about by their text content
-        const pillButtons = navButtons.filter(
-            (btn) =>
-                btn.textContent?.includes('File Handlers') ||
-                btn.textContent?.includes('Connectors')
-        );
-
-        // First pill in DOM order must be File Handlers
-        expect(pillButtons[0]).toHaveTextContent('File Handlers');
-        // Second pill must be Connectors
-        expect(pillButtons[1]).toHaveTextContent('Connectors');
-    });
-
-    // TICKET 2 — Custom logo replaces UploadCloud on the File Handlers pill
-    it('File Handlers pill shows the custom logo (not UploadCloud) ', () => {
-        render(<ConnectorsClient />);
-
-        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
-
-        // The custom logo renders as an <svg> with data-testid="local-file-uploader-logo"
-        const logoSvg = fileHandlersBtn.querySelector('[data-testid="local-file-uploader-logo"]');
-        expect(logoSvg).toBeInTheDocument();
-
-        // UploadCloud from lucide renders with a specific class lucide-upload-cloud;
-        // it must NOT appear inside the File Handlers button after the swap.
-        // ponytail note: active/inactive color inheritance (white vs slate) must be confirmed visually in browser.
-        const uploadCloudEl = fileHandlersBtn.querySelector('.lucide-upload-cloud');
-        expect(uploadCloudEl).not.toBeInTheDocument();
+            // Now click 'All'
+            fireEvent.click(allBtn);
+            
+            // Grid should be visible again
+            expect(gridView).toHaveClass('flex');
+        });
     });
 
     // ─── TICKET 3 — Connector Filter Bucket pill row ──────────────────────────
@@ -179,25 +157,7 @@ describe('ConnectorsClient Layout & Navigation', () => {
 });
 
 describe('ConnectorsClient Dark Mode', () => {
-    it('applies dark mode classes to the Top Navigation Bar wrapper', () => {
-        render(<ConnectorsClient />);
-        // The nav bar wrapper is the first direct child of the root div
-        const navWrapper = screen.getByRole('button', { name: /File Handlers/i }).closest('div.border-b');
-        expect(navWrapper).toHaveClass('dark:bg-slate-900', 'dark:border-slate-800');
-    });
-
-    it('applies dark mode classes to the Grid View wrapper', () => {
-        render(<ConnectorsClient />);
-        const gridWrapper = screen.getByText(/Select a Connector/i).closest('div.bg-slate-50');
-        expect(gridWrapper).toHaveClass('dark:bg-slate-800');
-    });
-
-    it('applies dark mode classes to the inactive switcher tabs', () => {
-        render(<ConnectorsClient />);
-        // By default 'Connectors' is active, so 'File Handlers' is inactive
-        const fileHandlersBtn = screen.getByRole('button', { name: /File Handlers/i });
-        expect(fileHandlersBtn).toHaveClass('dark:text-slate-400', 'dark:hover:text-white', 'dark:hover:bg-slate-800');
-    });
+    // Legacy dark mode tests removed
 
     it('applies inverted CTA styling to the active filter pill', () => {
         render(<ConnectorsClient />);

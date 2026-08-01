@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, LayoutGrid, User } from 'lucide-react';
+import { ChevronRight, Plug, ArrowLeft, Shield, Cpu, Lock, Zap, User } from 'lucide-react';
 import { apiClient, EvaluatorModel } from '@/lib/apiClient';
 import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
@@ -438,32 +438,7 @@ const CONNECTORS = [
 type ConnectorId = typeof CONNECTORS[number]['id'];
 type Connector = typeof CONNECTORS[number];
 
-// ── Local File Uploader logo (inline SVG, brand colors, Ticket 2) ──────────────
-// ponytail: collapsed from 1,104-line asset to 3 dominant visual layers — identical at w-5 h-5
-function LocalFileUploaderLogoIcon({ className }: { className?: string }) {
-    return (
-        <svg
-            data-testid="local-file-uploader-logo"
-            className={className}
-            viewBox="0 0 554 554"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-        >
-            {/* White canvas */}
-            <rect width="554" height="554" fill="#FFFFFF" />
-            {/* Main blue brand body — dominant shape from the logo */}
-            <path fill="#1A5ED5" d="M218 186 C218 230 219 269 219 308 L337 308 L338 218 C334 217 331 215 329 219 C326 225 332 226 335 231 C332 230 330 229 327 228 C333 236 322 238 322 244 C318 240 311 238 312 231 C313 227 320 225 326 226 C324 221 324 217 330 214 L292 214 C290 213 287 212 287 212 L287 162 L240 162 L240 177 C240 183 238 185 232 185 C227 185 223 185 218 186 Z" />
-            {/* Upload arrow highlight */}
-            <path fill="#F9FBFD" d="M245 270 C255 258 265 247 275 235 C276 234 276 234 278 232 C288 245 299 257 310 270 L293 270 L293 308 L263 308 L263 270 Z" />
-            {/* Dark navy accent for depth */}
-            <path fill="#003ABA" d="M218 186 L218 308 M337 219 L337 308" stroke="#003ABA" strokeWidth="1" fillOpacity="0" />
-            {/* Bottom text area bar */}
-            <path fill="#1A5ED5" d="M207 309 L207 329 L346 329 L346 309 Z" />
-            {/* File area corner fold */}
-            <path fill="#1C5FD4" d="M287 162 L287 212 L337 212 L298 174 Z" />
-        </svg>
-    );
-}
+
 
 // ── 3-D tilt card ─────────────────────────────────────────────────────────────
 function ConnectorCard({ conn, onSelect }: { conn: Connector; onSelect: () => void }) {
@@ -600,55 +575,6 @@ export default function ConnectorsClient() {
     return (
         <div className="flex flex-col flex-1 min-h-0 bg-white text-slate-900 dark:bg-slate-900 dark:text-white">
 
-            {/* ── TOP NAVIGATION BAR ──────────────────────────────────────── */}
-            <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shrink-0 z-30">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-30 flex items-center justify-between relative">
-
-                    {/* Center: Navigation Tabs (Premium Navbar Style) */}
-                    <div className="flex-1 flex justify-center items-center gap-3 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-auto z-10">
-                        {/* ponytail: pure JSX reorder — File Handlers first, Connectors second (Ticket 1) */}
-                        <button
-                            onClick={() => {
-                                if (configuring && currentStep !== 'AUTH') {
-                                    setProfile(configuring);
-                                    setConfiguring(null);
-                                    setHasResults(true);
-                                }
-                                setRightView('local-upload');
-                            }}
-                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${rightView === 'local-upload'
-                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 bg-transparent'
-                                }`}
-                        >
-                            <LocalFileUploaderLogoIcon className="w-5 h-5" />
-                            <span>File Handlers</span>
-                        </button>
-
-                        <button
-                            onClick={() => {
-                                if (configuring && currentStep !== 'AUTH') {
-                                    setProfile(configuring);
-                                    setConfiguring(null);
-                                    setHasResults(true);
-                                }
-                                setRightView('connectors');
-                            }}
-                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-black tracking-wide transition-all duration-300 ${(rightView === 'connectors' || rightView === 'scan')
-                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25 scale-105'
-                                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 bg-transparent'
-                                }`}
-                        >
-                            <LayoutGrid className="w-5 h-5" />
-                            <span>Connectors</span>
-                            {configuring && (
-                                <span className="w-2.5 h-2.5 rounded-full bg-blue-300 shrink-0 animate-pulse ml-1 shadow-[0_0_8px_rgba(147,197,253,0.8)]" />
-                            )}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             {/* ── MAIN CONTENT ──────────────────────────────────────────────────── */}
             <div className="flex flex-col flex-1 min-h-0 overflow-hidden relative">
 
@@ -660,19 +586,32 @@ export default function ConnectorsClient() {
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
                             {/* Connector Filter Bucket pill row — pattern copied from LocalUploadView pill row (Ticket 3) */}
                             <div className="flex flex-wrap items-center gap-2 mb-8">
-                                {(['all', 'cloud', 'database', 'social'] as const).map((filter) => (
-                                    <button
-                                        key={filter}
-                                        onClick={() => setActiveFilter(filter)}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
-                                            activeFilter === filter
-                                                ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-white shadow-md'
-                                                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
-                                        }`}
-                                    >
-                                        {filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)}
-                                    </button>
-                                ))}
+                                {(['all', 'cloud', 'database', 'social', 'file-handlers'] as const).map((filter) => {
+                                    const isActive = filter === 'file-handlers'
+                                        ? rightView === 'local-upload'
+                                        : activeFilter === filter && rightView !== 'local-upload';
+                                        
+                                    return (
+                                        <button
+                                            key={filter}
+                                            onClick={() => {
+                                                if (filter === 'file-handlers') {
+                                                    setRightView('local-upload');
+                                                } else {
+                                                    setActiveFilter(filter);
+                                                    setRightView('connectors');
+                                                }
+                                            }}
+                                            className={`px-4 py-2 rounded-full text-sm font-bold transition-all border ${
+                                                isActive
+                                                    ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-slate-900 dark:border-white shadow-md'
+                                                    : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                            }`}
+                                        >
+                                            {filter === 'file-handlers' ? 'File Handlers' : filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1)}
+                                        </button>
+                                    );
+                                })}
                             </div>
                             <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-5">
                                 Select a Connector
@@ -826,7 +765,7 @@ export default function ConnectorsClient() {
 
                 {/* ── LOCAL UPLOAD DIRECT VIEW ──────────────────────────────────────── */}
                 <div className={`flex-col flex-1 min-h-0 ${rightView === 'local-upload' ? 'flex' : 'hidden'}`}>
-                    <LocalUploadView />
+                    <LocalUploadView setRightView={setRightView} />
                 </div>
 
             </div>
