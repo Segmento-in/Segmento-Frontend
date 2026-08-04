@@ -259,9 +259,12 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
           res = {
             total_pii_found: flaggedColumns.length,
             pii_counts: flaggedColumns.map((c: any) => ({ 
-              'PII Type': c.matched_rule || 'PII', 
+              'PII Type': c.matched_rule ? c.matched_rule.replace('_KEYWORD', '') : 'PII', 
               Count: 1,
-              llm_explanation: c.llm_explanation
+              llm_explanation: c.llm_explanation,
+              pii_context: c.pii_context,
+              matched_rule: c.matched_rule,
+              contributing_models: c.contributing_models || ['MetadataScanner']
             })),
             rows_scanned: 0,
             metadata: {
