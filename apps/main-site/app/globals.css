@@ -150,12 +150,12 @@
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="dark"] {
   /* Backgrounds — layered depth system */
-  --theme-bg: #0a0a0f;
-  /* page canvas — near black     */
-  --theme-bg-surface: #111118;
-  /* bento tile fill              */
-  --theme-bg-surface-high: #18181f;
-  /* nested inner cards           */
+  --theme-bg: #060b18;
+  /* page canvas — deep enterprise navy   */
+  --theme-bg-surface: #0b1222;
+  /* bento tile fill                      */
+  --theme-bg-surface-high: #111a32;
+  /* nested inner cards                   */
 
   /* Text */
   --theme-fg: #f0f0f5;
@@ -175,8 +175,8 @@
   --theme-secondary: #a0dcfd;
 
   /* Borders — thin and subtle on dark */
-  --theme-border: #2a2a3a;
-  --theme-border-subtle: #1e1e2a;
+  --theme-border: #1d2845;
+  --theme-border-subtle: #131c38;
 
   /* Status */
   --theme-success: #10e898;
@@ -184,7 +184,7 @@
   --theme-warning: #f59e0b;
 
   /* ── Nav & Generic Aliases ─────────────────────────────────────────── */
-  --nav-bg: rgba(10, 10, 15, 0.92);
+  --nav-bg: rgba(6, 11, 24, 0.93);
   --nav-text: var(--theme-fg);
 
   --color-brand: var(--theme-brand);
@@ -199,7 +199,7 @@
   --color-button: var(--theme-brand);
 
   /* ── Mega-menu panel — dark ────────────────────────────────────────── */
-  --mega-bg: #1a2540;
+  --mega-bg: #0f1e3d;
   --mega-border: rgba(255, 255, 255, 0.08);
   --mega-item-hover: rgba(255, 255, 255, 0.06);
   --mega-icon-bg: rgba(255, 255, 255, 0.07);
@@ -231,9 +231,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* Subtle radial glow from the top — gives the page depth on dark mode */
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,
-        rgba(91, 110, 245, 0.06),
-        transparent);
+    background-image:
+      radial-gradient(ellipse 90% 55% at 50% -10%,
+        rgba(91, 110, 245, 0.13),
+        transparent 70%),
+      radial-gradient(ellipse 40% 30% at 80% 10%,
+        rgba(56, 76, 211, 0.06),
+        transparent 60%);
   }
 
   /* Headlines use Syne — the display typeface */
@@ -600,7 +604,7 @@
      Sticky navbar glassmorphism effect per ui-ux-pro-max skill.
    ─────────────────────────────────────────────────────────────────────── */
   .glass-nav {
-    background: rgba(10, 10, 15, 0.75);
+    background: rgba(6, 11, 24, 0.75);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--theme-border-subtle);

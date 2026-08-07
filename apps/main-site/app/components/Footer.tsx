@@ -17,11 +17,11 @@ const footerLinks = [
   {
     title: "Products",
     links: [
-      { name: "Segmento Pulse", href: "/pulse" },
-      { name: "Segmento Sense", href: "/sense" },
-      { name: "Segmento Resolve", href: "/resolve" },
-      { name: "Segmento SprintQL", href: "/sprintql" },
-      { name: "Segmento Collect", href: "/collect" },
+      { name: "Segmento Pulse", href: "/pulse", newTab: true },
+      { name: "Segmento Sense", href: "/sense", newTab: true },
+      { name: "Segmento Resolve", href: "/resolve", newTab: true },
+      { name: "Segmento SprintQL", href: "/sprintql", newTab: true },
+      { name: "Segmento Collect", href: "/collect", newTab: true },
     ],
   },
   {
@@ -97,6 +97,7 @@ export default function Footer() {
                   <li key={idx}>
                     <Link
                       href={link.href}
+                      {...('newTab' in link && link.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
                       style={{ color: "var(--theme-fg-subtle)" }}
                     >
@@ -157,7 +158,7 @@ export default function Footer() {
 
         /* BACKGROUND */
         [data-theme="dark"] .footer-wrapper {
-          background: #000000 !important;
+          background: #050a16 !important;
           border-color: #1f2937 !important;
         }
 

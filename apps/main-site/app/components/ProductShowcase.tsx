@@ -51,7 +51,7 @@ const PRODUCTS = [
     label: 'Data Pipelines',
     headline: 'Every source. One pipeline.',
     description: 'Collect aggregates data from 12+ source types through intelligent connectors. Automate ingestion, unify workflows, and recover anything within a 24-hour window.',
-    link: 'collect',
+    link: '/collect',
     accent: '#06b6d4',
     tags: ['GDPR', 'DPDP'],
     Shell: CollectShell,
@@ -84,7 +84,7 @@ const PRODUCTS = [
     label: 'Request Management',
     headline: 'No more lost tickets. No more missed SLAs.',
     description: 'Resolve turns chaotic data requests into a structured, trackable pipeline. Your team sees everything. Nothing slips through.',
-    link: 'resolve',
+    link: '/resolve',
     accent: '#10b981',
     tags: ['DSAR', 'GDPR', 'HIPAA', 'DPDP'],
     Shell: ResolveShell,
@@ -95,7 +95,7 @@ const PRODUCTS = [
     label: 'Team Workflows',
     headline: 'Retrospectives that actually drive change.',
     description: 'SprintQL makes retros fast, collaborative, and actionable. Capture feedback, vote on ideas, and convert decisions into items your team will actually follow through on.',
-    link: 'sprintql',
+    link: '/sprintql',
     accent: '#a855f7',
     tags: ['Team', 'Agile', 'Collaborative'],
     Shell: SprintQLShell,
@@ -181,6 +181,8 @@ export default function ProductShowcase() {
                   {/* CTA */}
                   <Link
                     href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn-primary mt-2"
                     style={{ background: p.accent, color: '#fff', boxShadow: `0 4px 24px ${p.accent}40`, border: 'none' }}
                   >

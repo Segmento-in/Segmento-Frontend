@@ -9,7 +9,7 @@ import {
   Newspaper, Shield, Database, Ticket, Users,
   ShoppingCart, Heart, Monitor, Building2, Factory,
   GraduationCap, Radio, BookOpen, FileText,
-  Briefcase, Phone, Info, Rss, ArrowRight, Sparkles,
+  Briefcase, Phone, Info, Rss, Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -56,16 +56,21 @@ const navLinks: NavLink[] = [
         {
           label: "Data Intelligence",
           items: [
-            { name: "Segmento Pulse", subtitle: "Real-time news", href: "/pulse", icon: Newspaper },
-            { name: "Data Discovery And Classification", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield },
-            { name: "Segmento Collect", subtitle: "AI-powered data collection platform", href: "/collect", icon: Database },
+            { name: "Data Discovery & Classification", subtitle: "AI-enabled data classification", href: "/sense", icon: Shield, isExternal: true },
+            { name: "Segmento Collect", subtitle: "AI-powered data collection platform", href: "/collect", icon: Database, isExternal: true },
           ],
         },
         {
           label: "Workflow Tools",
           items: [
-            { name: "Segmento Resolve", subtitle: "Data request & ticket management", href: "/resolve", icon: Ticket },
-            { name: "Segmento SprintQL", subtitle: "Collaborative retrospective management", href: "/sprintql", icon: Users },
+            { name: "Segmento Resolve", subtitle: "AI-enabled data request & ticket management system", href: "/resolve", icon: Ticket, isExternal: true },
+            { name: "Segmento SprintQL", subtitle: "AI-Enabled Collaborative Retrospective Management System", href: "/sprintql", icon: Users, isExternal: true },
+          ],
+        },
+        {
+          label: "News and Updates",
+          items: [
+            { name: "Segmento Pulse", subtitle: "Real-time news & updates", href: "/pulse", icon: Newspaper, isExternal: true },
           ],
         },
       ],
@@ -73,7 +78,7 @@ const navLinks: NavLink[] = [
         label: "What's New",
         title: "Segmento Pulse",
         description: "Explore our latest AI-powered data intelligence upgrades and new product features.",
-        gradient: "linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 55%,#38bdf8 100%)",
+        gradient: "linear-gradient(135deg,#1e308a 0%,#384cd3 45%,#3b4ed6 75%,#5b6ef5 100%)",
         badge: "New Release",
         href: "/pulse",
       },
@@ -141,14 +146,15 @@ const navLinks: NavLink[] = [
 
 function FeaturedCard({ f }: { f: MegaFeatured }) {
   return (
-    <div style={{ width: 220, flexShrink: 0 }}>
+    <div style={{ width: 195, flexShrink: 0 }}>
       <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "var(--mega-label)", marginBottom: 12 }}>
         {f.label}
       </p>
-      <Link href={f.href} style={{ display: "block", textDecoration: "none" }}>
+      <Link href={f.href} target="_blank" rel="noopener noreferrer" style={{ display: "block", textDecoration: "none" }}>
         <div style={{ background: f.gradient, height: 126, borderRadius: 12, position: "relative", marginBottom: 10, overflow: "hidden" }}>
           {f.badge && (
-            <span style={{ position: "absolute", top: 10, left: 12, fontSize: 10, fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.18)", backdropFilter: "blur(8px)", padding: "3px 10px", borderRadius: 100, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <span style={{ position: "absolute", top: 10, left: 12, fontSize: 10, fontWeight: 700, color: "#fff", background: "rgba(255,255,255,0.18)", backdropFilter: "blur(8px)", padding: "3px 10px", borderRadius: 100, letterSpacing: "0.06em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 5 }}>
+              <Newspaper style={{ width: 10, height: 10 }} />
               {f.badge}
             </span>
           )}
@@ -188,7 +194,7 @@ function MegaPanel({
         top: "calc(100% + 8px)",
         left,
         zIndex: 50,
-        minWidth: menu.featured ? 740 : 560,
+        minWidth: menu.featured ? 860 : 560,
         maxWidth: "min(920px, calc(100vw - 48px))",
       }}
     >
@@ -218,9 +224,9 @@ function MegaPanel({
         gap: 0,
       }}>
         {/* Sections */}
-        <div style={{ display: "flex", gap: 36, flex: 1 }}>
+        <div style={{ display: "flex", gap: 24, flex: 1 }}>
           {menu.sections.map((section) => (
-            <div key={section.label} style={{ minWidth: 185, flex: 1 }}>
+            <div key={section.label} style={{ minWidth: 160, flex: 1 }}>
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "var(--mega-label)", marginBottom: 10, paddingLeft: 10 }}>
                 {section.label}
               </p>
@@ -253,7 +259,7 @@ function MegaPanel({
         {/* Featured column */}
         {menu.featured && (
           <>
-            <div style={{ width: 1, background: "var(--mega-border)", margin: "0 28px", flexShrink: 0 }} />
+            <div style={{ width: 1, background: "var(--mega-border)", margin: "0 20px", flexShrink: 0 }} />
             <FeaturedCard f={menu.featured} />
           </>
         )}
@@ -307,7 +313,7 @@ export default function Navbar() {
     const triggerCenter = tRect.left - cRect.left + tRect.width / 2;
 
     const menu = navLinks.find(l => l.name === name)?.megaMenu;
-    const panelW = menu?.featured ? 740 : 560;
+    const panelW = menu?.featured ? 860 : 560;
 
     let left = triggerCenter - panelW / 2;
     left = Math.max(0, Math.min(left, cRect.width - panelW));
@@ -395,12 +401,6 @@ export default function Navbar() {
             {/* Desktop Right */}
             <div className="hidden md:flex items-center gap-3 shrink-0">
               <ThemeToggle />
-              <Link href="/contact"
-                className="flex items-center gap-1.5 px-5 py-2.5 text-sm font-bold rounded-full transition-all duration-200 active:scale-[0.97] text-white shadow-sm"
-                style={{ background: "var(--color-brand)" }}
-              >
-                Get Started <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
 
             {/* Mobile Actions */}
@@ -479,15 +479,6 @@ export default function Navbar() {
                     )}
                   </div>
                 ))}
-                <div className="pt-4">
-                  <Link href="/contact"
-                    className="block w-full py-4 text-white text-center font-black rounded-2xl shadow-lg active:scale-[0.98] transition-transform"
-                    style={{ background: "var(--color-brand)" }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Get Started
-                  </Link>
-                </div>
               </div>
             </motion.div>
           )}
