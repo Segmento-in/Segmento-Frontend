@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import mapImage from "@/public/Map_of_countries.png";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import {
@@ -10,12 +11,22 @@ import {
   Zap, Command, Shield
 } from "lucide-react";
 
+const GLOBAL_HUBS: Array<{ country: string; city: string; note?: string }> = [
+  { country: "USA", city: "SF Bay Area", note: "Global HQ" },
+  { country: "China", city: "Shenzhen" },
+  { country: "India", city: "Gurgaon" },
+  { country: "Nigeria", city: "Lagos" },
+  { country: "Kenya", city: "Nairobi" },
+  { country: "Uganda", city: "Kampala" },
+  { country: "Tanzania", city: "Arusha" },
+];
+
 export default function ContactPage() {
   return (
     <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      <section className="pt-24 pb-24" style={{ background: "var(--theme-bg)" }}>
+      <section className="pt-24 pb-20" style={{ background: "var(--theme-bg)" }}>
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-start">
 
@@ -107,6 +118,82 @@ export default function ContactPage() {
               </div>
 
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Global Presence & World Map Section ── */}
+      <section className="pb-24" style={{ background: "var(--theme-bg)" }}>
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <div className="chip w-fit mx-auto" style={{ marginBottom: "1.25rem" }}>
+              Global Presence
+            </div>
+            <h2 className="text-headline-md" style={{ marginBottom: "0.75rem" }}>
+              Where We <span style={{ color: "var(--theme-brand)" }}>Operate</span>
+            </h2>
+            <p className="text-body-lg mx-auto" style={{ maxWidth: "32rem" }}>
+              Connecting enterprise data intelligence and compliance across our global hubs.
+            </p>
+          </div>
+
+          {/* Map Card */}
+          <div
+            className="bento-tile overflow-hidden mb-8"
+            style={{ padding: "1.5rem", borderRadius: "2rem" }}
+          >
+            <div
+              className="w-full flex items-center justify-center rounded-xl overflow-hidden p-2 sm:p-6"
+              style={{ background: "#ffffff" }}
+            >
+              <Image
+                src={mapImage}
+                alt="Segmento Global Presence Map"
+                className="w-full h-auto object-contain max-h-[520px]"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Hub Tags Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {GLOBAL_HUBS.map((hub) => (
+              <div
+                key={hub.country + hub.city}
+                className="p-4 rounded-xl border flex flex-col justify-between"
+                style={{
+                  background: "var(--theme-bg-surface)",
+                  borderColor: "var(--theme-border-subtle)",
+                }}
+              >
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span
+                    className="text-[11px] font-bold uppercase tracking-wider"
+                    style={{
+                      fontFamily: "var(--font-dm-mono, monospace)",
+                      color: "var(--theme-brand)",
+                    }}
+                  >
+                    {hub.country}
+                  </span>
+                  {hub.note && (
+                    <span
+                      className="text-[10px] uppercase tracking-wider"
+                      style={{
+                        fontFamily: "var(--font-dm-mono, monospace)",
+                        color: "var(--theme-fg-muted)",
+                      }}
+                    >
+                      {hub.note}
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm font-bold text-foreground">
+                  {hub.city}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

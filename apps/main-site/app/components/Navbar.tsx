@@ -74,14 +74,6 @@ const navLinks: NavLink[] = [
           ],
         },
       ],
-      featured: {
-        label: "What's New",
-        title: "Segmento Pulse",
-        description: "Explore our latest AI-powered data intelligence upgrades and new product features.",
-        gradient: "linear-gradient(135deg,#1e308a 0%,#384cd3 45%,#3b4ed6 75%,#5b6ef5 100%)",
-        badge: "New Release",
-        href: "/pulse",
-      },
     },
   },
   {
@@ -453,17 +445,55 @@ export default function Navbar() {
                         <AnimatePresence>
                           {mobileMenuOpen === link.name && (
                             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                              <div className="grid grid-cols-1 gap-1 pt-2">
-                                {link.megaMenu.sections.flatMap(s => s.items).map((item) => (
-                                  <Link key={item.name} href={item.href}
-                                    className="block px-4 py-3 rounded-xl text-sm font-bold transition-all"
-                                    style={{ background: "var(--color-background-secondary)", color: "var(--color-body)" }}
-                                    onClick={() => setIsOpen(false)}
-                                  >
-                                    {item.name}
-                                  </Link>
-                                ))}
-                              </div>
+                              {link.name === "Products" ? (
+                                <div className="space-y-3 pt-2">
+                                  {link.megaMenu.sections.map((section) => (
+                                    <div key={section.label} className="space-y-1">
+                                      <p className="text-[11px] font-bold uppercase tracking-wider px-3 pt-1 text-[var(--mega-label)]">
+                                        {section.label}
+                                      </p>
+                                      <div className="grid grid-cols-1 gap-1">
+                                        {section.items.map((item) => {
+                                          const Comp = item.isExternal ? "a" : Link;
+                                          const props = item.isExternal
+                                            ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
+                                            : { href: item.href };
+                                          return (
+                                            <Comp
+                                              key={item.name}
+                                              {...(props as any)}
+                                              className="block px-4 py-2.5 rounded-xl transition-all"
+                                              style={{ background: "var(--color-background-secondary)", color: "var(--color-body)" }}
+                                              onClick={() => setIsOpen(false)}
+                                            >
+                                              <p className="text-sm font-bold" style={{ color: "var(--color-heading)" }}>
+                                                {item.name}
+                                              </p>
+                                              {item.subtitle && (
+                                                <p className="text-xs mt-0.5" style={{ color: "var(--color-body)", opacity: 0.8 }}>
+                                                  {item.subtitle}
+                                                </p>
+                                              )}
+                                            </Comp>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="grid grid-cols-1 gap-1 pt-2">
+                                  {link.megaMenu.sections.flatMap(s => s.items).map((item) => (
+                                    <Link key={item.name} href={item.href}
+                                      className="block px-4 py-3 rounded-xl text-sm font-bold transition-all"
+                                      style={{ background: "var(--color-background-secondary)", color: "var(--color-body)" }}
+                                      onClick={() => setIsOpen(false)}
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
                             </motion.div>
                           )}
                         </AnimatePresence>

@@ -48,10 +48,7 @@ const footerLinks = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: "#", size: "w-5 h-5" },
-  { icon: Twitter, href: "#", size: "w-5 h-5" },
   { icon: Github, href: "https://github.com/Segmento-in", size: "w-5 h-5" },
-  { icon: Youtube, href: "#", size: "w-6 h-6" },
   { icon: Linkedin, href: "https://www.linkedin.com/company/segmento-india", size: "w-5 h-5" },
 ];
 
@@ -145,7 +142,7 @@ export default function Footer() {
 
             {/* Copyright */}
             <p className="text-[11px] font-medium text-center" style={{ color: "var(--theme-fg-muted)" }}>
-              © {currentYear} Segmento Inc. All rights reserved.
+              © {currentYear} Segmento Inc.
             </p>
           </div>
 

@@ -19,6 +19,7 @@
 | **News and Updates column** | The third mega-menu column under Products (introduced Task 1). Contains Segmento Pulse as its sole item. Positioned between Workflow Tools and the What's New banner card. |
 | **What's New banner card** | The featured card on the far right of the Products mega-menu. Rendered by the `FeaturedCard` component. Currently promotes Segmento Pulse with a brand-primary indigo gradient. |
 | **Featured card** | Generic term for the `MegaFeatured` data structure + `FeaturedCard` React component. Appears as a visual highlight tile on the right side of any mega-menu panel that has a `featured` property. |
+| **Mobile Products accordion** | The collapsible Products section inside the mobile drawer. Mirrors desktop structure: renders items grouped under 3 sub-headers (`Data Intelligence`, `Workflow Tools`, `News and Updates`) with subtitles, without the desktop `FeaturedCard` banner. |
 | **MegaSection** | TypeScript interface representing one mega-menu column (`label` + `items[]`). |
 | **MegaItem** | TypeScript interface representing one row inside a mega-menu column (`name`, `subtitle`, `href`, `icon`). |
 
@@ -64,3 +65,13 @@
 | **Hybrid B+C architecture** | The dark-mode implementation strategy: (B) `@theme inline` proxies pointing to `[data-theme]` vars for Tailwind utility classes, + (C) `@custom-variant dark` escape hatch for structural `dark:` prefixes. Background/surface colors should always use (B). |
 | **`isExternal: true`** | Flag on a `MegaItem` that causes the render to use `<a target="_blank" rel="noopener noreferrer">` instead of `<Link>`. Set on all 5 product nav items so product pages open in a new tab. Do NOT set on Solutions or Resources items. |
 | **`newTab: true`** | Flag on a footer link object in `footerLinks[]` in `Footer.tsx`. Causes a conditional `target="_blank" rel="noopener noreferrer"` spread on the shared `<Link>` renderer. Set only on Products column links. |
+
+---
+
+## Contact Page
+
+| Term | Definition |
+|------|------------|
+| **World Map section** | The static global presence section at the bottom of the contact page (`app/contact/page.tsx`). Houses `public/Map_of_countries.png` inside a bento-tile container and displays 7 international hubs. |
+| **`GLOBAL_HUBS`** | The canonical array of 7 global locations (USA, China, India, Nigeria, Kenya, Uganda, Tanzania) styled with DM Mono technical data typography (no consumer flag emojis). |
+

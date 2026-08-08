@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-08-01)
+# Graph Report - main-site  (2026-08-08)
 
 ## Corpus Check
-- 30 files · ~773,461 words
+- 31 files · ~774,348 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 326 nodes · 238 edges · 123 communities (44 shown, 79 thin omitted)
+- 332 nodes · 243 edges · 124 communities (45 shown, 79 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `14098d75`
+- Built from commit: `c20e58cb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -110,6 +110,7 @@
 - [[_COMMUNITY_Section Subtext|Section Subtext]]
 - [[_COMMUNITY_Section Subtext|Section Subtext]]
 - [[_COMMUNITY_Section Subtext|Section Subtext]]
+- [[_COMMUNITY_Ubiquitous Language — Segmento Main-Site|Ubiquitous Language — Segmento Main-Site]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 16 edges
@@ -130,15 +131,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (123 total, 79 thin omitted)
+## Communities (124 total, 79 thin omitted)
 
 ### Community 0 - "Pages & About"
 Cohesion: 0.07
 Nodes (16): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+8 more)
 
 ### Community 1 - "TSConfig Setup"
-Cohesion: 0.09
-Nodes (21): Caption (centered, below marquee), Caption text (small, centered below), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, KEY DESIGN RULES (Locked) (+13 more)
+Cohesion: 0.08
+Nodes (24): BENTO GRID LAYOUT, Caption (centered, below marquee), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, HERO TILE — 100% Client-Side Processing (+16 more)
 
 ### Community 2 - "Components & Main Page"
 Cohesion: 0.13
@@ -149,8 +150,8 @@ Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 4 - "dependencies"
-Cohesion: 0.12
-Nodes (16): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom (+8 more)
+Cohesion: 0.11
+Nodes (17): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+9 more)
 
 ### Community 5 - "Layout & Chatbot"
 Cohesion: 0.27
@@ -165,12 +166,12 @@ Cohesion: 0.60
 Nodes (3): ContactFormData, POST(), getAppwriteClient()
 
 ### Community 13 - "Next Config"
-Cohesion: 0.22
-Nodes (9): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+1 more)
+Cohesion: 0.25
+Nodes (8): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom
 
 ### Community 14 - "Env Declarations"
-Cohesion: 0.22
-Nodes (9): BENTO GRID LAYOUT, HERO TILE — 100% Client-Side Processing, MEDIUM TILE — Explainable AI, SECTION 3 — FEATURES ("Why Segmento?"), Section Heading, Section Label (pill tag), Section Subtext, SMALL TILE — Zero-Trust Data Handling (+1 more)
+Cohesion: 0.33
+Nodes (6): Caption text (small, centered below), Layout, Left Side — Compliance Badges (monochromatic icons), Right Side — Ecosystem Logos (grayed out, monochrome), SECTION 2 — TRUST STRIP, Separator
 
 ### Community 15 - "PostCSS Config"
 Cohesion: 0.22
@@ -196,8 +197,12 @@ Nodes (8): Layout, SECTION 5 — HOW IT WORKS, Section Heading, Section Label (p
 Cohesion: 0.29
 Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
 
+### Community 123 - "Ubiquitous Language — Segmento Main-Site"
+Cohesion: 0.33
+Nodes (5): Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
+
 ## Knowledge Gaps
-- **209 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+204 more)
+- **213 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+208 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **79 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -205,16 +210,16 @@ Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA 
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `TSConfig Setup` to `Env Declarations`, `PostCSS Config`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`, `SECTION 5 — HOW IT WORKS`, `SECTION 8 — CTA SECTION`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `Env Declarations` to `TSConfig Setup`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Why does `SECTION 6 — PRODUCT SHOWCASE` connect `PostCSS Config` to `TSConfig Setup`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `director`, `team`, `milestones` to the rest of the system?**
-  _209 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _213 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Pages & About` be split into smaller, more focused modules?**
   _Cohesion score 0.0677361853832442 - nodes in this community are weakly interconnected._
 - **Should `TSConfig Setup` be split into smaller, more focused modules?**
-  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
 - **Should `Components & Main Page` be split into smaller, more focused modules?**
   _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+- **Should `Dependencies` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._

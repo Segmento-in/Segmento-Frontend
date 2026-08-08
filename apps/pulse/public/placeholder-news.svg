@@ -1,10 +1,43 @@
-<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="200" fill="#f3f4f6" />
-  <rect width="400" height="200" fill="url(#pattern)" opacity="0.1" />
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <pattern id="pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="1" fill="#6b7280" />
-    </pattern>
+    <!-- Pulsing gradient background directly from PulseLogo (blue-500 to purple-600 with 20% opacity) -->
+    <linearGradient id="pulseGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.20" />
+      <stop offset="100%" stop-color="#9333EA" stop-opacity="0.20" />
+    </linearGradient>
   </defs>
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold" fill="#9ca3af">Segmento Pulse</text>
+
+  <!-- Neutral base background -->
+  <rect width="400" height="200" fill="#F3F4F6" />
+
+  <!-- PulseLogo rounded background container -->
+  <rect x="120" y="55" width="160" height="90" rx="16" fill="url(#pulseGlow)" />
+
+  <!-- Exact HeartbeatLogo mark from HeartbeatLogo.tsx -->
+  <g transform="translate(140, 70) scale(1.2)">
+    <svg viewBox="0 0 100 40" width="100" height="40">
+      <path
+        d="M 0 20 L 15 20 L 18 10 L 22 30 L 26 15 L 30 20 L 45 20 L 48 10 L 52 30 L 56 15 L 60 20 L 75 20 L 78 10 L 82 30 L 86 15 L 90 20 L 100 20"
+        stroke="#2563EB"
+        stroke-width="2.5"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <animate
+          attributeName="stroke-dasharray"
+          from="0,200"
+          to="200,0"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="opacity"
+          values="0.6;1;0.6"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </path>
+    </svg>
+  </g>
 </svg>
