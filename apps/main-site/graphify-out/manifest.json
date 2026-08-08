@@ -45,8 +45,8 @@
     "semantic_hash": ""
   },
   "app/components/Footer.tsx": {
-    "mtime": 1786102880.207441,
-    "ast_hash": "2ae4f79077c41a376c3379cedd5252ae",
+    "mtime": 1786168663.7521188,
+    "ast_hash": "b718fc9904d74e161e0b5538799ccda0",
     "semantic_hash": ""
   },
   "app/components/Hero.tsx": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1786103034.0739384,
-    "ast_hash": "6eb7bfb12f28f76a378683667c54b812",
+    "mtime": 1786171778.357862,
+    "ast_hash": "89c83681d030a6d8f4bf48afa978c319",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1783518801.091036,
-    "ast_hash": "d4aea32681688799105f4e62c954e8d5",
+    "mtime": 1786172470.3589914,
+    "ast_hash": "ad7532682d63e2c769efeefc8c5f142f",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -270,8 +270,13 @@
     "semantic_hash": ""
   },
   "UBIQUITOUS_LANGUAGE.md": {
-    "mtime": 1786101257.8691807,
-    "ast_hash": "d90631007812688c9880a68828c21f75",
+    "mtime": 1786172309.8571017,
+    "ast_hash": "707b2cc049dee5cb16de262e6f58623e",
+    "semantic_hash": ""
+  },
+  "public/Map_of_countries.png": {
+    "mtime": 1786170761.786543,
+    "ast_hash": "d6edfa19ad091f9d50eaf7d041bac455",
     "semantic_hash": ""
   }
 }

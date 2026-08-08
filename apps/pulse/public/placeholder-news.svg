@@ -11,10 +11,10 @@
   <rect width="400" height="200" fill="#F3F4F6" />
 
   <!-- PulseLogo rounded background container -->
-  <rect x="110" y="42" width="180" height="116" rx="16" fill="url(#pulseGlow)" />
+  <rect x="120" y="32" width="160" height="92" rx="16" fill="url(#pulseGlow)" />
 
-  <!-- Exact HeartbeatLogo mark from HeartbeatLogo.tsx -->
-  <g transform="translate(135, 54) scale(1.3)">
+  <!-- Exact HeartbeatLogo mark from HeartbeatLogo.tsx centered inside gradient container -->
+  <g transform="translate(136, 52) scale(1.28)">
     <svg viewBox="0 0 100 40" width="100" height="40">
       <path
         d="M 0 20 L 15 20 L 18 10 L 22 30 L 26 15 L 30 20 L 45 20 L 48 10 L 52 30 L 56 15 L 60 20 L 75 20 L 78 10 L 82 30 L 86 15 L 90 20 L 100 20"
@@ -41,15 +41,15 @@
     </svg>
   </g>
 
-  <!-- Branded Segmento Pulse typography -->
+  <!-- Branded Segmento Pulse typography positioned below the heartbeat container -->
   <text
     x="200"
-    y="136"
+    y="158"
     text-anchor="middle"
     font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-    font-size="12"
+    font-size="13"
     font-weight="700"
-    letter-spacing="1.5"
+    letter-spacing="2"
     fill="#1E293B"
   >
     SEGMENTO <tspan fill="#2563EB">PULSE</tspan>

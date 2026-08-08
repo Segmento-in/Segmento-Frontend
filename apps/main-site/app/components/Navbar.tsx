@@ -267,6 +267,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<string | null>(null);
+  const [mobileProductCategoryOpen, setMobileProductCategoryOpen] = useState<string | null>(null);
   const [panelLeft, setPanelLeft] = useState(0);
   const [arrowLeft, setArrowLeft] = useState(0);
   // Track dark/light for logo switching — driven by MutationObserver on html[data-theme]
@@ -398,7 +399,14 @@ export default function Navbar() {
             {/* Mobile Actions */}
             <div className="md:hidden flex items-center gap-2">
               <ThemeToggle />
-              <button className="p-2" style={{ color: "var(--nav-text)" }} onClick={() => setIsOpen(!isOpen)}>
+              <button
+                className="p-2"
+                style={{ color: "var(--nav-text)" }}
+                onClick={() => {
+                  setIsOpen(!isOpen);
+                  setMobileProductCategoryOpen(null);
+                }}
+              >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
@@ -433,7 +441,10 @@ export default function Navbar() {
                     {link.megaMenu ? (
                       <div className="space-y-2">
                         <button
-                          onClick={() => setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name)}
+                          onClick={() => {
+                            setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name);
+                            setMobileProductCategoryOpen(null);
+                          }}
                           className="w-full flex items-center justify-between text-xl font-black px-2"
                           style={{ color: "var(--color-heading)" }}
                         >
@@ -446,40 +457,66 @@ export default function Navbar() {
                           {mobileMenuOpen === link.name && (
                             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                               {link.name === "Products" ? (
-                                <div className="space-y-3 pt-2">
-                                  {link.megaMenu.sections.map((section) => (
-                                    <div key={section.label} className="space-y-1">
-                                      <p className="text-[11px] font-bold uppercase tracking-wider px-3 pt-1 text-[var(--mega-label)]">
-                                        {section.label}
-                                      </p>
-                                      <div className="grid grid-cols-1 gap-1">
-                                        {section.items.map((item) => {
-                                          const Comp = item.isExternal ? "a" : Link;
-                                          const props = item.isExternal
-                                            ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
-                                            : { href: item.href };
-                                          return (
-                                            <Comp
-                                              key={item.name}
-                                              {...(props as any)}
-                                              className="block px-4 py-2.5 rounded-xl transition-all"
-                                              style={{ background: "var(--color-background-secondary)", color: "var(--color-body)" }}
-                                              onClick={() => setIsOpen(false)}
+                                <div className="space-y-2 pt-2">
+                                  {link.megaMenu.sections.map((section) => {
+                                    const isCatOpen = mobileProductCategoryOpen === section.label;
+                                    return (
+                                      <div key={section.label} className="space-y-1">
+                                        <button
+                                          type="button"
+                                          onClick={() => setMobileProductCategoryOpen(isCatOpen ? null : section.label)}
+                                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all"
+                                          style={{ background: "var(--color-background-secondary)", color: "var(--color-heading)" }}
+                                        >
+                                          <span className="text-xs font-bold uppercase tracking-wider text-[var(--mega-label)]">
+                                            {section.label}
+                                          </span>
+                                          <motion.div animate={{ rotate: isCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                                            <ChevronDown className="w-4 h-4 opacity-50" />
+                                          </motion.div>
+                                        </button>
+                                        <AnimatePresence>
+                                          {isCatOpen && (
+                                            <motion.div
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: "auto", opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              transition={{ duration: 0.2 }}
+                                              className="overflow-hidden space-y-1 pt-1 pl-2"
                                             >
-                                              <p className="text-sm font-bold" style={{ color: "var(--color-heading)" }}>
-                                                {item.name}
-                                              </p>
-                                              {item.subtitle && (
-                                                <p className="text-xs mt-0.5" style={{ color: "var(--color-body)", opacity: 0.8 }}>
-                                                  {item.subtitle}
-                                                </p>
-                                              )}
-                                            </Comp>
-                                          );
-                                        })}
+                                              {section.items.map((item) => {
+                                                const Comp = item.isExternal ? "a" : Link;
+                                                const props = item.isExternal
+                                                  ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
+                                                  : { href: item.href };
+                                                return (
+                                                  <Comp
+                                                    key={item.name}
+                                                    {...(props as any)}
+                                                    className="block px-4 py-2.5 rounded-xl transition-all"
+                                                    style={{ background: "var(--color-background)", color: "var(--color-body)" }}
+                                                    onClick={() => {
+                                                      setIsOpen(false);
+                                                      setMobileProductCategoryOpen(null);
+                                                    }}
+                                                  >
+                                                    <p className="text-sm font-bold" style={{ color: "var(--color-heading)" }}>
+                                                      {item.name}
+                                                    </p>
+                                                    {item.subtitle && (
+                                                      <p className="text-xs mt-0.5" style={{ color: "var(--color-body)", opacity: 0.8 }}>
+                                                        {item.subtitle}
+                                                      </p>
+                                                    )}
+                                                  </Comp>
+                                                );
+                                              })}
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
                                       </div>
-                                    </div>
-                                  ))}
+                                    );
+                                  })}
                                 </div>
                               ) : (
                                 <div className="grid grid-cols-1 gap-1 pt-2">

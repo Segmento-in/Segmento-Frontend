@@ -11,16 +11,6 @@ import {
   Zap, Command, Shield
 } from "lucide-react";
 
-const GLOBAL_HUBS: Array<{ country: string; city: string; note?: string }> = [
-  { country: "USA", city: "SF Bay Area", note: "Global HQ" },
-  { country: "China", city: "Shenzhen" },
-  { country: "India", city: "Gurgaon" },
-  { country: "Nigeria", city: "Lagos" },
-  { country: "Kenya", city: "Nairobi" },
-  { country: "Uganda", city: "Kampala" },
-  { country: "Tanzania", city: "Arusha" },
-];
-
 export default function ContactPage() {
   return (
     <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
@@ -140,7 +130,7 @@ export default function ContactPage() {
 
           {/* Map Card */}
           <div
-            className="bento-tile overflow-hidden mb-8"
+            className="bento-tile overflow-hidden"
             style={{ padding: "1.5rem", borderRadius: "2rem" }}
           >
             <div
@@ -154,46 +144,6 @@ export default function ContactPage() {
                 priority
               />
             </div>
-          </div>
-
-          {/* Hub Tags Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {GLOBAL_HUBS.map((hub) => (
-              <div
-                key={hub.country + hub.city}
-                className="p-4 rounded-xl border flex flex-col justify-between"
-                style={{
-                  background: "var(--theme-bg-surface)",
-                  borderColor: "var(--theme-border-subtle)",
-                }}
-              >
-                <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <span
-                    className="text-[11px] font-bold uppercase tracking-wider"
-                    style={{
-                      fontFamily: "var(--font-dm-mono, monospace)",
-                      color: "var(--theme-brand)",
-                    }}
-                  >
-                    {hub.country}
-                  </span>
-                  {hub.note && (
-                    <span
-                      className="text-[10px] uppercase tracking-wider"
-                      style={{
-                        fontFamily: "var(--font-dm-mono, monospace)",
-                        color: "var(--theme-fg-muted)",
-                      }}
-                    >
-                      {hub.note}
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm font-bold text-foreground">
-                  {hub.city}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
