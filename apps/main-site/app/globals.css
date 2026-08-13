@@ -80,43 +80,88 @@
    Source: DESIGN.md color palette — "High-Contrast Light" foundation
    Personality: Brutalist Minimalism — functional, precise, airy
    ──────────────────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════════
+   LIGHT THEME — Colorful Pastel System
+   Canvas: Warm off-white. 5 product colors. Charcoal text (WCAG AA locked).
+   ──────────────────────────────────────────────────────────────────────── */
 [data-theme="light"] {
-  /* Backgrounds */
-  --theme-bg: #fcf8ff;
-  /* page canvas          */
-  --theme-bg-surface: #f0ecf4;
-  /* bento tile fill      */
-  --theme-bg-surface-high: #eae7ee;
-  /* nested inner cards   */
+  /* ── Page Canvas ── */
+  --theme-bg: #f9fafb;
+  /* warm off-white — Glopay-style airy canvas */
+  --theme-bg-surface: #ffffff;
+  /* pure white bento tile fill                */
+  --theme-bg-surface-high: #f3f4f6;
+  /* nested inner card fill                    */
 
-  /* Text */
-  --theme-fg: #1b1b20;
-  /* primary text — deep charcoal */
-  --theme-fg-subtle: #454654;
-  /* secondary text               */
-  --theme-fg-muted: #757686;
-  /* placeholder / captions       */
+  /* ── Text — WCAG AA locked (≥4.5:1 on all pastels) ── */
+  --theme-fg: #111827;
+  /* primary — deep charcoal, approved Q4       */
+  --theme-fg-subtle: #374151;
+  /* secondary — dark slate                     */
+  --theme-fg-muted: #6b7280;
+  /* placeholder / captions                     */
 
-  /* Brand — Electric Indigo */
-  --theme-brand: #384cd3;
-  --theme-brand-hover: #1c32be;
+  /* ── Brand — Cobalt Blue (Resolve product color lifted to brand) ── */
+  --theme-brand: #2563eb;
+  --theme-brand-hover: #1d4ed8;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(56, 76, 211, 0.15);
+  --theme-brand-glow: rgba(37, 99, 235, 0.18);
 
-  /* Secondary accent */
-  --theme-secondary: #236582;
+  /* ── Secondary accent ── */
+  --theme-secondary: #7c3aed;
 
-  /* Borders — 1px only, no heavy shadows per DESIGN.md */
-  --theme-border: #c5c5d7;
-  --theme-border-subtle: #e4e1e9;
+  /* ── Borders — soft, not structural ── */
+  --theme-border: #e5e7eb;
+  --theme-border-subtle: #f3f4f6;
 
-  /* Status */
-  --theme-success: #1a7f5a;
-  --theme-error: #ba1a1a;
-  --theme-warning: #7a5900;
+  /* ── Status ── */
+  --theme-success: #059669;
+  --theme-error: #dc2626;
+  --theme-warning: #d97706;
 
-  /* ── Nav & Generic Aliases ─────────────────────────────────────────── */
-  --nav-bg: rgba(252, 248, 255, 0.90);
+  /* ── Product Brand Colors (pastel backgrounds, charcoal text) ── */
+  /* Pulse — Amber Intelligence */
+  --product-pulse-bg: #fef9ee;
+  --product-pulse-border: #fde68a;
+  --product-pulse-accent: #d97706;
+  --product-pulse-icon-bg: #fef3c7;
+
+  /* Sense — Violet AI */
+  --product-sense-bg: #f5f3ff;
+  --product-sense-border: #ddd6fe;
+  --product-sense-accent: #7c3aed;
+  --product-sense-icon-bg: #ede9fe;
+
+  /* Collect — Emerald Pipelines */
+  --product-collect-bg: #f0fdf4;
+  --product-collect-border: #bbf7d0;
+  --product-collect-accent: #059669;
+  --product-collect-icon-bg: #dcfce7;
+
+  /* Resolve — Cobalt Trust */
+  --product-resolve-bg: #eff6ff;
+  --product-resolve-border: #bfdbfe;
+  --product-resolve-accent: #2563eb;
+  --product-resolve-icon-bg: #dbeafe;
+
+  /* SprintQL — Rose Collaboration */
+  --product-sprintql-bg: #fff1f2;
+  --product-sprintql-border: #fecdd3;
+  --product-sprintql-accent: #e11d48;
+  --product-sprintql-icon-bg: #ffe4e6;
+
+  /* ── Multi-layer ambient shadow (ui-ux-pro-max spec) ── */
+  --shadow-tile:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 12px 24px rgba(0, 0, 0, 0.04);
+  --shadow-tile-hover:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 24px 40px rgba(0, 0, 0, 0.08);
+
+  /* ── Nav & Generic Aliases ── */
+  --nav-bg: rgba(249, 250, 251, 0.92);
   --nav-text: var(--theme-fg);
 
   --color-brand: var(--theme-brand);
@@ -130,60 +175,100 @@
   --color-border-light: var(--theme-border-subtle);
   --color-button: var(--theme-brand);
 
-  /* ── Mega-menu panel ───────────────────────────────────────────────── */
+  /* ── Mega-menu panel ── */
   --mega-bg: #ffffff;
-  --mega-border: rgba(0, 0, 0, 0.08);
-  --mega-item-hover: #f4f6f9;
-  --mega-icon-bg: #f0f2f5;
-  --mega-icon-border: rgba(0, 0, 0, 0.07);
-  --mega-icon-color: #555565;
-  --mega-label: #9fa6b0;
+  --mega-border: rgba(0, 0, 0, 0.06);
+  --mega-item-hover: #f9fafb;
+  --mega-icon-bg: #f3f4f6;
+  --mega-icon-border: rgba(0, 0, 0, 0.06);
+  --mega-icon-color: #374151;
+  --mega-label: #9ca3af;
   --mega-title: #111827;
   --mega-subtitle: #6b7280;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DARK THEME
-   Source: Blueprint v2.0 visual language
-   Base: #0a0a0f · Brand: #5B6EF5 (Electric Indigo per DESIGN.md)
-   Personality: AI-native, deep dark, precise
+   DARK THEME — Deep Neon Equivalent
+   Pastels → neon glow equivalents. Same product color mapping, different luminance.
+   Canvas: Deep navy. Text: Off-white.
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="dark"] {
-  /* Backgrounds — layered depth system */
+  /* ── Page Canvas ── */
   --theme-bg: #060b18;
-  /* page canvas — deep enterprise navy   */
-  --theme-bg-surface: #0b1222;
-  /* bento tile fill                      */
-  --theme-bg-surface-high: #111a32;
-  /* nested inner cards                   */
+  /* deep enterprise navy           */
+  --theme-bg-surface: #0d1424;
+  /* bento tile fill                */
+  --theme-bg-surface-high: #131e36;
+  /* nested inner cards             */
 
-  /* Text */
-  --theme-fg: #f0f0f5;
-  /* primary text — off-white     */
-  --theme-fg-subtle: #a0a0b5;
-  /* secondary text               */
-  --theme-fg-muted: #6b6b82;
-  /* placeholder / captions       */
+  /* ── Text ── */
+  --theme-fg: #f1f5f9;
+  /* primary — bright off-white     */
+  --theme-fg-subtle: #94a3b8;
+  /* secondary                      */
+  --theme-fg-muted: #475569;
+  /* placeholder / captions         */
 
-  /* Brand — Electric Indigo (same hue, dark-optimized brightness) */
-  --theme-brand: #5b6ef5;
-  --theme-brand-hover: #4a5ce8;
+  /* ── Brand — Electric Blue (matched to Resolve dark glow) ── */
+  --theme-brand: #3b82f6;
+  --theme-brand-hover: #2563eb;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(91, 110, 245, 0.22);
+  --theme-brand-glow: rgba(59, 130, 246, 0.25);
 
-  /* Secondary accent — cyan/sky */
-  --theme-secondary: #a0dcfd;
+  /* ── Secondary accent ── */
+  --theme-secondary: #a78bfa;
 
-  /* Borders — thin and subtle on dark */
-  --theme-border: #1d2845;
-  --theme-border-subtle: #131c38;
+  /* ── Borders ── */
+  --theme-border: #1e293b;
+  --theme-border-subtle: #0f172a;
 
-  /* Status */
-  --theme-success: #10e898;
-  --theme-error: #ff4d4f;
+  /* ── Status ── */
+  --theme-success: #10b981;
+  --theme-error: #f43f5e;
   --theme-warning: #f59e0b;
 
-  /* ── Nav & Generic Aliases ─────────────────────────────────────────── */
+  /* ── Product Brand Colors — dark neon equivalents ── */
+  /* Pulse — Amber / Gold glow */
+  --product-pulse-bg: rgba(120, 53, 15, 0.25);
+  --product-pulse-border: rgba(217, 119, 6, 0.3);
+  --product-pulse-accent: #fbbf24;
+  --product-pulse-icon-bg: rgba(251, 191, 36, 0.12);
+
+  /* Sense — Violet neon */
+  --product-sense-bg: rgba(76, 29, 149, 0.25);
+  --product-sense-border: rgba(139, 92, 246, 0.3);
+  --product-sense-accent: #a78bfa;
+  --product-sense-icon-bg: rgba(167, 139, 250, 0.12);
+
+  /* Collect — Emerald neon */
+  --product-collect-bg: rgba(6, 78, 59, 0.25);
+  --product-collect-border: rgba(16, 185, 129, 0.3);
+  --product-collect-accent: #34d399;
+  --product-collect-icon-bg: rgba(52, 211, 153, 0.12);
+
+  /* Resolve — Cobalt neon */
+  --product-resolve-bg: rgba(30, 58, 138, 0.25);
+  --product-resolve-border: rgba(59, 130, 246, 0.3);
+  --product-resolve-accent: #60a5fa;
+  --product-resolve-icon-bg: rgba(96, 165, 250, 0.12);
+
+  /* SprintQL — Rose neon */
+  --product-sprintql-bg: rgba(136, 19, 55, 0.25);
+  --product-sprintql-border: rgba(244, 63, 94, 0.3);
+  --product-sprintql-accent: #fb7185;
+  --product-sprintql-icon-bg: rgba(251, 113, 133, 0.12);
+
+  /* ── Multi-layer ambient shadow (dark) ── */
+  --shadow-tile:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 12px 24px rgba(0, 0, 0, 0.15);
+  --shadow-tile-hover:
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 24px 40px rgba(59, 130, 246, 0.12);
+
+  /* ── Nav & Generic Aliases ── */
   --nav-bg: rgba(6, 11, 24, 0.93);
   --nav-text: var(--theme-fg);
 
@@ -198,14 +283,14 @@
   --color-border-light: var(--theme-border-subtle);
   --color-button: var(--theme-brand);
 
-  /* ── Mega-menu panel — dark ────────────────────────────────────────── */
-  --mega-bg: #0f1e3d;
-  --mega-border: rgba(255, 255, 255, 0.08);
-  --mega-item-hover: rgba(255, 255, 255, 0.06);
-  --mega-icon-bg: rgba(255, 255, 255, 0.07);
-  --mega-icon-border: rgba(255, 255, 255, 0.10);
+  /* ── Mega-menu panel — dark ── */
+  --mega-bg: #0d1424;
+  --mega-border: rgba(255, 255, 255, 0.07);
+  --mega-item-hover: rgba(255, 255, 255, 0.05);
+  --mega-icon-bg: rgba(255, 255, 255, 0.06);
+  --mega-icon-border: rgba(255, 255, 255, 0.09);
   --mega-icon-color: #94a3b8;
-  --mega-label: #64748b;
+  --mega-label: #475569;
   --mega-title: #f1f5f9;
   --mega-subtitle: #94a3b8;
 }
@@ -226,18 +311,18 @@
   body {
     background-color: var(--theme-bg);
     color: var(--theme-fg);
-    /* Mona Sans is the default body font */
     font-family: var(--font-mona-sans, system-ui, sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Subtle radial glow from the top — gives the page depth on dark mode */
+    /* Light mode: airy white canvas — no gradient overlay */
+  }
+
+  /* Dark mode: subtle top glow restores depth */
+  [data-theme="dark"] body {
     background-image:
-      radial-gradient(ellipse 90% 55% at 50% -10%,
-        rgba(91, 110, 245, 0.13),
-        transparent 70%),
-      radial-gradient(ellipse 40% 30% at 80% 10%,
-        rgba(56, 76, 211, 0.06),
-        transparent 60%);
+      radial-gradient(ellipse 80% 50% at 50% -10%,
+        rgba(59, 130, 246, 0.10),
+        transparent 70%);
   }
 
   /* Headlines use Syne — the display typeface */
@@ -321,26 +406,34 @@
     gap: var(--spacing-gutter, 1.5rem);
   }
 
-  /* A single tile — the fundamental unit of the bento layout */
+  /* A single tile — multi-layer ambient shadow per ui-ux-pro-max */
   .bento-tile {
     border-radius: var(--radius-bento);
-    /* 12px — DESIGN.md spec */
     border: 1px solid var(--theme-border);
-    /* 1px only — no shadows  */
     background-color: var(--theme-bg-surface);
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.04);
-    /* one soft lift layer */
+    box-shadow: var(--shadow-tile);
     padding: 1.5rem;
     overflow: hidden;
     position: relative;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+      box-shadow 0.25s cubic-bezier(0.32, 0.72, 0, 1),
+      transform 0.2s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
-  /* Hover: border shifts to brand (darkens), no expanding shadow — brutalist rule */
+  /* Hover: lift + brand border — premium physical press */
   .bento-tile:hover {
     border-color: var(--theme-brand);
-    box-shadow: 0px 4px 24px var(--theme-brand-glow);
+    box-shadow: var(--shadow-tile-hover);
+    transform: translateY(-2px);
   }
+
+  /* Product-colored tile variants */
+  .bento-tile-pulse   { background-color: var(--product-pulse-bg);   border-color: var(--product-pulse-border); }
+  .bento-tile-sense   { background-color: var(--product-sense-bg);   border-color: var(--product-sense-border); }
+  .bento-tile-collect { background-color: var(--product-collect-bg); border-color: var(--product-collect-border); }
+  .bento-tile-resolve { background-color: var(--product-resolve-bg); border-color: var(--product-resolve-border); }
+  .bento-tile-sprintql{ background-color: var(--product-sprintql-bg);border-color: var(--product-sprintql-border); }
 
   /* Nested inner card — tighter radius per DESIGN.md */
   .bento-tile-inner {

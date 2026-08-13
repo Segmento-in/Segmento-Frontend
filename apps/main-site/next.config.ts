@@ -48,6 +48,15 @@ const nextConfig: any = {
           ? 'http://127.0.0.1:3002'
           : 'https://sense.segmento.in')}/sense/:path*`,
       },
+      // ── Collect — PROXY (browser stays on segmento.in, not onrender.com) ──
+      {
+        source: '/collect',
+        destination: `${process.env.COLLECT_URL || 'https://segmento-collect.onrender.com'}`,
+      },
+      {
+        source: '/collect/:path*',
+        destination: `${process.env.COLLECT_URL || 'https://segmento-collect.onrender.com'}/:path*`,
+      },
     ];
   },
 
@@ -76,12 +85,7 @@ const nextConfig: any = {
         destination: 'https://segmento-retro-frontend.vercel.app/:path*',
         permanent: false,
       },
-      // Collect — always redirect (no local codebase)
-      {
-        source: '/collect',
-        destination: 'https://segmento-collect.onrender.com',
-        permanent: false,
-      },
+      // Collect — moved to rewrites() above (proxy, not redirect)
     ];
   },
 };
