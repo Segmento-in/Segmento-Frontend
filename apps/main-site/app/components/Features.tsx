@@ -17,15 +17,15 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] as const },
+  transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] as const },
 });
 
 // ── Mini Data-Flow Diagram (inside the large card) ──────────────────────────
 function DataFlowDiagram() {
   const nodes = [
-    { label: "Data", icon: <Database size={14} />, x: "10%", color: "#7c3aed" },
-    { label: "Secure local processes", icon: <Lock size={14} />, x: "45%", color: "#10e898" },
-    { label: "Secure local environment", icon: <Cloud size={14} />, x: "78%", color: "#a0dcfd" },
+    { label: "Data", icon: <Database size={14} />, x: "10%", color: "var(--theme-brand)" },
+    { label: "Secure local processes", icon: <Lock size={14} />, x: "45%", color: "var(--theme-success)" },
+    { label: "Secure local environment", icon: <Cloud size={14} />, x: "78%", color: "var(--product-resolve-accent)" },
   ];
 
   return (
@@ -34,9 +34,9 @@ function DataFlowDiagram() {
         marginTop: "1.5rem",
         position: "relative",
         height: 120,
-        background: "rgba(10,10,15,0.7)",
+        background: "var(--theme-bg-surface-high)",
         borderRadius: 10,
-        border: "1px solid rgba(124,58,237,0.15)",
+        border: "1px solid var(--theme-border)",
         overflow: "hidden",
       }}
     >
@@ -47,7 +47,7 @@ function DataFlowDiagram() {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px)",
+            "linear-gradient(var(--theme-brand-glow) 1px, transparent 1px), linear-gradient(90deg, var(--theme-brand-glow) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
@@ -63,7 +63,8 @@ function DataFlowDiagram() {
             left: `calc(${nodes[i].x} + 36px)`,
             width: `calc(${nodes[i + 1].x} - ${nodes[i].x} - 36px)`,
             height: 1,
-            background: "linear-gradient(90deg, rgba(124,58,237,0.5), rgba(16,232,152,0.5))",
+            background: `linear-gradient(90deg, ${nodes[i].color}, ${nodes[i + 1].color})`,
+            opacity: 0.5,
             transform: "translateY(-50%)",
           }}
         >
@@ -75,9 +76,10 @@ function DataFlowDiagram() {
               top: -3,
               width: 0,
               height: 0,
-              borderLeft: "6px solid rgba(16,232,152,0.7)",
+              borderLeft: `6px solid ${nodes[i + 1].color}`,
               borderTop: "3px solid transparent",
               borderBottom: "3px solid transparent",
+              opacity: 0.8,
             }}
           />
         </div>
@@ -103,8 +105,9 @@ function DataFlowDiagram() {
               width: 36,
               height: 36,
               borderRadius: 8,
-              background: `${node.color}18`,
-              border: `1px solid ${node.color}40`,
+              background: "var(--theme-bg-surface)",
+              border: `1px solid ${node.color}`,
+              opacity: 0.9,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -117,7 +120,7 @@ function DataFlowDiagram() {
             style={{
               fontSize: 9,
               fontFamily: "var(--font-dm-mono, monospace)",
-              color: "rgba(160,160,181,0.8)",
+              color: "var(--theme-fg-muted)",
               textAlign: "center",
               maxWidth: 70,
               lineHeight: 1.3,
@@ -133,7 +136,7 @@ function DataFlowDiagram() {
 }
 
 // ── AI Brain Visual (inside Explainable AI card) ──────────────────────────
-function BrainVisual({ accent = "#7c3aed" }: { accent?: string }) {
+function BrainVisual({ accent = "var(--theme-brand)" }: { accent?: string }) {
   return (
     <div
       style={{
@@ -155,7 +158,8 @@ function BrainVisual({ accent = "#7c3aed" }: { accent?: string }) {
             width: size,
             height: size,
             borderRadius: "50%",
-            border: `1px solid ${accent}${Math.round((0.35 - i * 0.1) * 255).toString(16).padStart(2,'0')}`,
+            border: `1px solid ${accent}`,
+            opacity: 0.35 - i * 0.1,
             animation: `pulse-ring ${1.5 + i * 0.4}s ease-in-out infinite`,
             animationDelay: `${i * 0.3}s`,
           }}
@@ -165,8 +169,8 @@ function BrainVisual({ accent = "#7c3aed" }: { accent?: string }) {
       <div
         style={{
           width: 48, height: 48, borderRadius: "50%",
-          background: `${accent}20`,
-          border: `1px solid ${accent}50`,
+          background: "var(--theme-bg-surface)",
+          border: `1px solid ${accent}`,
           display: "flex", alignItems: "center", justifyContent: "center",
           position: "relative", zIndex: 1,
         }}
@@ -182,19 +186,11 @@ function BrainVisual({ accent = "#7c3aed" }: { accent?: string }) {
 function CategoryChip({ label }: { label: string }) {
   return (
     <span
+      className="chip"
       style={{
-        display: "inline-flex",
-        alignItems: "center",
-        padding: "2px 10px",
-        borderRadius: 9999,
-        background: "rgba(124,58,237,0.1)",
-        border: "1px solid rgba(124,58,237,0.2)",
-        fontFamily: "var(--font-dm-mono, monospace)",
-        fontSize: "0.6875rem",
-        fontWeight: 600,
+        background: "var(--theme-brand-glow)",
+        border: "1px solid var(--theme-brand)",
         color: "var(--theme-brand)",
-        letterSpacing: "0.08em",
-        textTransform: "uppercase" as const,
         marginBottom: "0.75rem",
       }}
     >
@@ -209,8 +205,8 @@ export default function Features() {
     <section
       style={{
         background: "var(--theme-bg)",
-        paddingTop: "5rem",
-        paddingBottom: "5rem",
+        paddingTop: "8rem",
+        paddingBottom: "8rem",
       }}
     >
       <div className="section-container">
@@ -252,102 +248,114 @@ export default function Features() {
 
           {/* ══ CARD 1 — 100% Client-Side (Resolve/Cobalt — largest tile) ══ */}
           <motion.div
-            className="bento-col-4 bento-tile bento-tile-resolve md:row-span-2"
+            className="bento-col-4 md:row-span-2 group"
             {...fadeUp(0.08)}
-            style={{ display: "flex", flexDirection: "column", minHeight: 300 }}
           >
-            <Database size={22} style={{ color: "var(--product-resolve-accent)", marginBottom: "1rem" }} />
-            <CategoryChip label="Architecture" />
-            <h3 style={{
-              fontFamily: "var(--font-syne, sans-serif)",
-              fontSize: "1.4rem", fontWeight: 800,
-              color: "var(--theme-fg)", letterSpacing: "-0.02em",
-              marginBottom: "0.5rem", marginTop: "0.5rem",
-            }}>
-              Your data never leaves your walls.
-            </h3>
-            <p style={{
-              fontFamily: "var(--font-mona-sans, sans-serif)",
-              fontSize: "0.9rem", color: "var(--theme-fg-subtle)", lineHeight: 1.65,
-            }}>
-              Every scan, every classification, every redaction runs entirely on
-              your infrastructure. No raw data ever touches our servers.
-            </p>
-            <DataFlowDiagram />
+            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
+              <div className="bento-tile bento-tile-resolve h-full flex flex-col min-h-[300px]">
+                <Database size={22} style={{ color: "var(--product-resolve-accent)", marginBottom: "1rem" }} />
+                <CategoryChip label="Architecture" />
+                <h3 style={{
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontSize: "1.4rem", fontWeight: 800,
+                  color: "var(--theme-fg)", letterSpacing: "-0.02em",
+                  marginBottom: "0.5rem", marginTop: "0.5rem",
+                }}>
+                  Your data never leaves your walls.
+                </h3>
+                <p style={{
+                  fontFamily: "var(--font-mona-sans, sans-serif)",
+                  fontSize: "0.9rem", color: "var(--theme-fg-subtle)", lineHeight: 1.65,
+                }}>
+                  Every scan, every classification, every redaction runs entirely on
+                  your infrastructure. No raw data ever touches our servers.
+                </p>
+                <DataFlowDiagram />
+              </div>
+            </div>
           </motion.div>
 
           {/* ══ CARD 2 — Explainable AI (Sense/Violet) ══ */}
           <motion.div
-            className="bento-col-8 bento-tile bento-tile-sense"
+            className="bento-col-8 group"
             {...fadeUp(0.14)}
-            style={{ display: "flex", flexDirection: "column", minHeight: 200 }}
           >
-            <Brain size={22} style={{ color: "var(--product-sense-accent)", marginBottom: "1rem" }} />
-            <CategoryChip label="AI" />
-            <h3 style={{
-              fontFamily: "var(--font-syne, sans-serif)",
-              fontSize: "1.25rem", fontWeight: 800,
-              color: "var(--theme-fg)", letterSpacing: "-0.02em",
-              marginBottom: "0.5rem", marginTop: "0.5rem",
-            }}>
-              AI that explains itself.
-            </h3>
-            <p style={{
-              fontFamily: "var(--font-mona-sans, sans-serif)",
-              fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
-            }}>
-              No black boxes. Every classification comes with a clear reason your
-              team can trust, audit, and defend to regulators.
-            </p>
-            <BrainVisual accent="var(--product-sense-accent)" />
+            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
+              <div className="bento-tile bento-tile-sense h-full flex flex-col min-h-[200px]">
+                <Brain size={22} style={{ color: "var(--product-sense-accent)", marginBottom: "1rem" }} />
+                <CategoryChip label="AI" />
+                <h3 style={{
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontSize: "1.25rem", fontWeight: 800,
+                  color: "var(--theme-fg)", letterSpacing: "-0.02em",
+                  marginBottom: "0.5rem", marginTop: "0.5rem",
+                }}>
+                  AI that explains itself.
+                </h3>
+                <p style={{
+                  fontFamily: "var(--font-mona-sans, sans-serif)",
+                  fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
+                }}>
+                  No black boxes. Every classification comes with a clear reason your
+                  team can trust, audit, and defend to regulators.
+                </p>
+                <BrainVisual accent="var(--product-sense-accent)" />
+              </div>
+            </div>
           </motion.div>
 
           {/* ══ CARD 3 — Zero-Trust (Collect/Emerald) ══ */}
           <motion.div
-            className="bento-col-4 bento-tile bento-tile-collect"
+            className="bento-col-4 group"
             {...fadeUp(0.2)}
-            style={{ display: "flex", flexDirection: "column", gap: "0.5rem", minHeight: 180 }}
           >
-            <Shield size={22} style={{ color: "var(--product-collect-accent)", marginBottom: "0.5rem" }} />
-            <CategoryChip label="Privacy" />
-            <h3 style={{
-              fontFamily: "var(--font-syne, sans-serif)",
-              fontSize: "1.2rem", fontWeight: 800,
-              color: "var(--theme-fg)", letterSpacing: "-0.02em", marginTop: "0.25rem",
-            }}>
-              Zero-trust by default.
-            </h3>
-            <p style={{
-              fontFamily: "var(--font-mona-sans, sans-serif)",
-              fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
-            }}>
-              GDPR, HIPAA, and DPDP-ready from day one.
-              Your compliance posture, automated.
-            </p>
+            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
+              <div className="bento-tile bento-tile-collect h-full flex flex-col gap-2 min-h-[180px]">
+                <Shield size={22} style={{ color: "var(--product-collect-accent)", marginBottom: "0.5rem" }} />
+                <CategoryChip label="Privacy" />
+                <h3 style={{
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontSize: "1.2rem", fontWeight: 800,
+                  color: "var(--theme-fg)", letterSpacing: "-0.02em", marginTop: "0.25rem",
+                }}>
+                  Zero-trust by default.
+                </h3>
+                <p style={{
+                  fontFamily: "var(--font-mona-sans, sans-serif)",
+                  fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
+                }}>
+                  GDPR, HIPAA, and DPDP-ready from day one.
+                  Your compliance posture, automated.
+                </p>
+              </div>
+            </div>
           </motion.div>
 
           {/* ══ CARD 4 — Enterprise Scale (Pulse/Amber) ══ */}
           <motion.div
-            className="bento-col-4 bento-tile bento-tile-pulse"
+            className="bento-col-4 group"
             {...fadeUp(0.26)}
-            style={{ display: "flex", flexDirection: "column", gap: "0.5rem", minHeight: 180 }}
           >
-            <BarChart3 size={22} style={{ color: "var(--product-pulse-accent)", marginBottom: "0.5rem" }} />
-            <CategoryChip label="Scale" />
-            <h3 style={{
-              fontFamily: "var(--font-syne, sans-serif)",
-              fontSize: "1.2rem", fontWeight: 800,
-              color: "var(--theme-fg)", letterSpacing: "-0.02em", marginTop: "0.25rem",
-            }}>
-              Built to scale with you.
-            </h3>
-            <p style={{
-              fontFamily: "var(--font-mona-sans, sans-serif)",
-              fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
-            }}>
-              From 10 users to 10,000 — process millions of data events per second.
-              The architecture doesn’t flinch.
-            </p>
+            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
+              <div className="bento-tile bento-tile-pulse h-full flex flex-col gap-2 min-h-[180px]">
+                <BarChart3 size={22} style={{ color: "var(--product-pulse-accent)", marginBottom: "0.5rem" }} />
+                <CategoryChip label="Scale" />
+                <h3 style={{
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontSize: "1.2rem", fontWeight: 800,
+                  color: "var(--theme-fg)", letterSpacing: "-0.02em", marginTop: "0.25rem",
+                }}>
+                  Built to scale with you.
+                </h3>
+                <p style={{
+                  fontFamily: "var(--font-mona-sans, sans-serif)",
+                  fontSize: "0.875rem", color: "var(--theme-fg-subtle)", lineHeight: 1.6,
+                }}>
+                  From 10 users to 10,000 — process millions of data events per second.
+                  The architecture doesn’t flinch.
+                </p>
+              </div>
+            </div>
           </motion.div>
 
         </div>

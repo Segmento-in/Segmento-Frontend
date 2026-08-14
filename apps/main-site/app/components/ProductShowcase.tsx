@@ -52,7 +52,7 @@ const PRODUCTS = [
     headline: 'Every source. One pipeline.',
     description: 'Collect aggregates data from 12+ source types through intelligent connectors. Automate ingestion, unify workflows, and recover anything within a 24-hour window.',
     link: '/collect',
-    accent: '#06b6d4',
+    accent: 'var(--product-collect-accent)',
     tags: ['GDPR', 'DPDP'],
     Shell: CollectShell,
   },
@@ -63,7 +63,7 @@ const PRODUCTS = [
     headline: 'Find sensitive data. Before someone else does.',
     description: 'Sense uses explainable AI to detect, classify, and redact PII across documents and datasets — with client-side OCR that keeps your data on your infrastructure.',
     link: '/sense',
-    accent: '#8b5cf6',
+    accent: 'var(--product-sense-accent)',
     tags: ['HIPAA', 'GDPR', 'DPDP', 'Client-Side OCR'],
     Shell: SenseShell,
   },
@@ -74,7 +74,7 @@ const PRODUCTS = [
     headline: 'Know what\'s happening before it hits you.',
     description: 'Pulse tracks global data privacy news, regulatory changes, and emerging threats in real time. Built for compliance leads who can\'t afford to be caught off guard.',
     link: '/pulse',
-    accent: '#d97706',
+    accent: 'var(--product-pulse-accent)',
     tags: ['GDPR', 'DPDP', 'EU AI Act'],
     Shell: PulseShell,
   },
@@ -85,7 +85,7 @@ const PRODUCTS = [
     headline: 'No more lost tickets. No more missed SLAs.',
     description: 'Resolve turns chaotic data requests into a structured, trackable pipeline. Your team sees everything. Nothing slips through.',
     link: '/resolve',
-    accent: '#10b981',
+    accent: 'var(--product-resolve-accent)',
     tags: ['DSAR', 'GDPR', 'HIPAA', 'DPDP'],
     Shell: ResolveShell,
   },
@@ -96,7 +96,7 @@ const PRODUCTS = [
     headline: 'Retrospectives that actually drive change.',
     description: 'SprintQL makes retros fast, collaborative, and actionable. Capture feedback, vote on ideas, and convert decisions into items your team will actually follow through on.',
     link: '/sprintql',
-    accent: '#a855f7',
+    accent: 'var(--product-sprintql-accent)',
     tags: ['Team', 'Agile', 'Collaborative'],
     Shell: SprintQLShell,
   },
@@ -134,24 +134,28 @@ export default function ProductShowcase() {
             return (
               <motion.div
                 key={p.id}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center rounded-[2rem] p-8 lg:p-12 overflow-hidden relative"
+                style={{
+                  background: `linear-gradient(135deg, color-mix(in srgb, ${p.accent} 6%, var(--theme-bg-surface-high)) 0%, color-mix(in srgb, ${p.accent} 2%, var(--theme-bg-surface)) 100%)`,
+                  border: `1px solid color-mix(in srgb, ${p.accent} 15%, var(--theme-border))`,
+                  boxShadow: `var(--shadow-tile)`
+                }}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 {/* ── Text side ── */}
-                {/* On mobile, order-1 ensures text is always on top. On lg, resets to default document flow. */}
-                <div className={`col-span-1 lg:col-span-5 flex flex-col items-start gap-6 order-1 ${isEven ? 'lg:order-none' : 'lg:order-2'}`}>
+                <div className={`relative z-10 col-span-1 lg:col-span-5 flex flex-col items-start gap-6 order-1 ${isEven ? 'lg:order-none' : 'lg:order-2'}`}>
                   {/* Eyebrow */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     <span
                       className="text-label-caps"
                       style={{
                         padding: '4px 12px', borderRadius: 999,
-                        border: `1px solid ${p.accent}50`,
+                        border: `1px solid color-mix(in srgb, ${p.accent} 30%, transparent)`,
                         color: p.accent, fontSize: 11,
-                        background: `${p.accent}14`,
+                        background: `color-mix(in srgb, ${p.accent} 8%, transparent)`,
                       }}
                     >
                       {p.name} · {p.label}
@@ -184,33 +188,39 @@ export default function ProductShowcase() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-primary mt-2"
-                    style={{ background: p.accent, color: '#fff', boxShadow: `0 4px 24px ${p.accent}40`, border: 'none' }}
+                    style={{ background: p.accent, color: '#fff', boxShadow: `0 4px 24px color-mix(in srgb, ${p.accent} 25%, transparent)`, border: 'none' }}
                   >
                     Explore {p.name.replace('Segmento ', '')} <ArrowRight size={16} />
                   </Link>
                 </div>
 
                 {/* ── AppShell side ── */}
-                <div className={`col-span-1 lg:col-span-7 order-2 ${isEven ? 'lg:order-none' : 'lg:order-1'}`}>
+                <div className={`relative z-10 col-span-1 lg:col-span-7 order-2 ${isEven ? 'lg:order-none' : 'lg:order-1'}`}>
                   {/* Subtle background glow behind the AppShell */}
-                  <div className="relative w-full">
+                  <div className="relative w-full flex justify-center">
                     <div
                       aria-hidden
                       style={{
                         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                         width: '80%', height: '80%', borderRadius: '50%',
-                        background: p.accent, filter: 'blur(100px)', opacity: 0.15,
+                        background: p.accent, filter: 'blur(120px)', opacity: 0.15,
                         pointerEvents: 'none', zIndex: 0
                       }}
                     />
-                    <div className="relative z-10 w-full rounded-[12px] overflow-hidden" style={{ boxShadow: `0 20px 60px -10px ${p.accent}30` }}>
+                    
+                    {/* Inner Core (The AppShell itself) */}
+                    <div 
+                      className="relative z-10 w-full max-w-[650px] rounded-[10px] overflow-hidden" 
+                      style={{ 
+                        boxShadow: `0 20px 60px -10px color-mix(in srgb, ${p.accent} 25%, transparent), 0 0 0 1px color-mix(in srgb, ${p.accent} 10%, transparent)` 
+                      }}
+                    >
                       <ShellScaler>
                         <p.Shell />
                       </ShellScaler>
                     </div>
                   </div>
                 </div>
-
               </motion.div>
             )
           })}

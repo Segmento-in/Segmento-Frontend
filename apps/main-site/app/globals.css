@@ -694,6 +694,14 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  /* Light mode override for chips (T5) — violet tint */
+  [data-theme="light"] .chip {
+    background-color: rgba(124, 58, 237, 0.08);
+    border-color: rgba(124, 58, 237, 0.25);
+    color: #7c3aed;
   }
 
   /* PII redaction chip — used inside the Sense UI mockup (green) */
@@ -733,6 +741,31 @@
   /* Hero gradient — violet blush — light only — ponytail: CSS scoping via [data-theme] */
   [data-theme="light"] .hero-gradient-light {
     background: linear-gradient(180deg, #f9fafb 0%, #fdf4ff 55%, #f5f3ff 100%);
+  }
+
+  /* ── Partner Logo Strip (T6) ──────────────────────────────────────────── */
+  .partner-logo {
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  [data-theme="light"] .partner-logo {
+    opacity: 0.55;
+    filter: grayscale(1);
+  }
+
+  [data-theme="light"] .partner-logo:hover {
+    opacity: 1.0;
+    filter: grayscale(0);
+  }
+
+  [data-theme="dark"] .partner-logo {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+  }
+
+  [data-theme="dark"] .partner-logo:hover {
+    opacity: 1.0;
+    filter: grayscale(0);
   }
 
   /* ── Section Layout Helpers ────────────────────────────────────────────*/
