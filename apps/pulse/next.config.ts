@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 /**
  * pulse-ui-2: Parallel migration build.
@@ -9,6 +10,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
     basePath: '/pulse',
     output: 'standalone',
+    turbopack: {
+        root: path.resolve(__dirname, '../../../'),
+    },
     // Allow any remote image domain during parallel testing.
     images: {
         remotePatterns: [

@@ -6,7 +6,7 @@ import LocalUploadView from './LocalUploadView';
 import { apiClient } from '@/lib/apiClient';
 
 vi.mock('@/lib/apiClient', async (importOriginal) => {
-  const actual = await importOriginal();
+  const actual = await importOriginal() as any;
   return {
     ...actual,
     apiClient: {
