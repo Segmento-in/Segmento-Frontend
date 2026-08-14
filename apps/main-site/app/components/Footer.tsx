@@ -95,7 +95,7 @@ export default function Footer() {
                     <Link
                       href={link.href}
                       {...('newTab' in link && link.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                      className="hover:text-[#2563EB] transition-colors text-[13px] font-semibold group flex items-center"
+                      className="hover:text-[#7c3aed] transition-colors text-[13px] font-semibold group flex items-center"
                       style={{ color: "var(--theme-fg-subtle)" }}
                     >
                       {link.name}
@@ -117,7 +117,7 @@ export default function Footer() {
                 key={idx}
                 href={social.href}
                 whileHover={{ y: -3, scale: 1.1 }}
-                className="hover:text-[#2563EB] transition-colors p-1"
+                className="hover:text-[#7c3aed] transition-colors p-1"
                 style={{ color: "var(--theme-fg-muted)" }}
               >
                 <social.icon className={`${social.size} fill-current`} />
@@ -132,7 +132,7 @@ export default function Footer() {
                 <Link
                   key={item}
                   href={`/#${item.toLowerCase()}`}
-                  className="hover:text-[#2563EB] transition-colors relative group"
+                  className="hover:text-[#7c3aed] transition-colors relative group"
                 >
                   {item}
                   <span className="absolute -bottom-1 left-0 w-0 h-px transition-all group-hover:w-full" style={{ background: "var(--theme-border)" }} />

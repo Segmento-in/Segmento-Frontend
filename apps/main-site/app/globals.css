@@ -101,14 +101,14 @@
   --theme-fg-muted: #6b7280;
   /* placeholder / captions                     */
 
-  /* ── Brand — Cobalt Blue (Resolve product color lifted to brand) ── */
-  --theme-brand: #2563eb;
-  --theme-brand-hover: #1d4ed8;
+  /* ── Brand — Violet (Glopay-aligned primary accent) ── */
+  --theme-brand: #7c3aed;
+  --theme-brand-hover: #6d28d9;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(37, 99, 235, 0.18);
+  --theme-brand-glow: rgba(124, 58, 237, 0.15);
 
   /* ── Secondary accent ── */
-  --theme-secondary: #7c3aed;
+  --theme-secondary: #a855f7;
 
   /* ── Borders — soft, not structural ── */
   --theme-border: #e5e7eb;
@@ -194,11 +194,11 @@
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="dark"] {
   /* ── Page Canvas ── */
-  --theme-bg: #060b18;
+  --theme-bg: #0d0f14;
   /* deep enterprise navy           */
-  --theme-bg-surface: #0d1424;
+  --theme-bg-surface: #141720;
   /* bento tile fill                */
-  --theme-bg-surface-high: #131e36;
+  --theme-bg-surface-high: #1a1e2e;
   /* nested inner cards             */
 
   /* ── Text ── */
@@ -209,18 +209,18 @@
   --theme-fg-muted: #475569;
   /* placeholder / captions         */
 
-  /* ── Brand — Electric Blue (matched to Resolve dark glow) ── */
-  --theme-brand: #3b82f6;
-  --theme-brand-hover: #2563eb;
+  /* ── Brand — Violet neon (Glopay dark equivalent) ── */
+  --theme-brand: #a78bfa;
+  --theme-brand-hover: #8b5cf6;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(59, 130, 246, 0.25);
+  --theme-brand-glow: rgba(167, 139, 250, 0.25);
 
   /* ── Secondary accent ── */
-  --theme-secondary: #a78bfa;
+  --theme-secondary: #c4b5fd;
 
   /* ── Borders ── */
-  --theme-border: #1e293b;
-  --theme-border-subtle: #0f172a;
+  --theme-border: #1e2235;
+  --theme-border-subtle: #111420;
 
   /* ── Status ── */
   --theme-success: #10b981;
@@ -266,7 +266,7 @@
   --shadow-tile-hover:
     0 2px 4px rgba(0, 0, 0, 0.4),
     0 8px 16px rgba(0, 0, 0, 0.3),
-    0 24px 40px rgba(59, 130, 246, 0.12);
+    0 24px 40px rgba(167, 139, 250, 0.12);
 
   /* ── Nav & Generic Aliases ── */
   --nav-bg: rgba(6, 11, 24, 0.93);
@@ -284,7 +284,7 @@
   --color-button: var(--theme-brand);
 
   /* ── Mega-menu panel — dark ── */
-  --mega-bg: #0d1424;
+  --mega-bg: #141720;
   --mega-border: rgba(255, 255, 255, 0.07);
   --mega-item-hover: rgba(255, 255, 255, 0.05);
   --mega-icon-bg: rgba(255, 255, 255, 0.06);
@@ -321,7 +321,15 @@
   [data-theme="dark"] body {
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -10%,
-        rgba(59, 130, 246, 0.10),
+        rgba(167, 139, 250, 0.08),
+        transparent 70%);
+  }
+
+  /* Light mode: subtle violet ambient — ponytail: min viable tint */
+  [data-theme="light"] body {
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% -5%,
+        rgba(167, 139, 250, 0.08),
         transparent 70%);
   }
 
@@ -553,6 +561,17 @@
     transform: scale(0.97);
   }
 
+  /* Light mode: black CTA — Glopay max-contrast on pastel bg — ponytail: 3 rules */
+  [data-theme="light"] .btn-primary {
+    background-color: #111827;
+    color: #ffffff;
+  }
+
+  [data-theme="light"] .btn-primary:hover {
+    background-color: #1f2937;
+    box-shadow: 0 0 28px rgba(17, 24, 39, 0.20);
+  }
+
   /* Secondary outlined pill — ghost button */
   .btn-secondary {
     display: inline-flex;
@@ -705,8 +724,15 @@
 
   /* Light mode override for glass nav */
   [data-theme="light"] .glass-nav {
-    background: rgba(252, 248, 255, 0.80);
-    border-bottom: 1px solid var(--theme-border-subtle);
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /* Hero gradient — violet blush — light only — ponytail: CSS scoping via [data-theme] */
+  [data-theme="light"] .hero-gradient-light {
+    background: linear-gradient(180deg, #f9fafb 0%, #fdf4ff 55%, #f5f3ff 100%);
   }
 
   /* ── Section Layout Helpers ────────────────────────────────────────────*/

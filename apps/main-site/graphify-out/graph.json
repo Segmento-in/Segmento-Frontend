@@ -230,7 +230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_components_features",
-      "community": 26,
+      "community": 2,
       "norm_label": "features.tsx"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_components_features_fadeup",
-      "community": 26,
+      "community": 2,
       "norm_label": "fadeup()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_components_features_dataflowdiagram",
-      "community": 26,
+      "community": 2,
       "norm_label": "dataflowdiagram()"
     },
     {
@@ -260,37 +260,27 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "app_components_features_brainvisual",
-      "community": 26,
+      "community": 2,
       "norm_label": "brainvisual()"
-    },
-    {
-      "label": "IconBadge()",
-      "file_type": "code",
-      "source_file": "app/components/Features.tsx",
-      "source_location": "L186",
-      "_origin": "ast",
-      "id": "app_components_features_iconbadge",
-      "community": 26,
-      "norm_label": "iconbadge()"
     },
     {
       "label": "CategoryChip()",
       "file_type": "code",
       "source_file": "app/components/Features.tsx",
-      "source_location": "L209",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "app_components_features_categorychip",
-      "community": 26,
+      "community": 2,
       "norm_label": "categorychip()"
     },
     {
       "label": "Features()",
       "file_type": "code",
       "source_file": "app/components/Features.tsx",
-      "source_location": "L234",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "app_components_features_features",
-      "community": 26,
+      "community": 2,
       "norm_label": "features()"
     },
     {
@@ -1090,7 +1080,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "package_dependencies",
-      "community": 13,
+      "community": 4,
       "norm_label": "dependencies"
     },
     {
@@ -1100,7 +1090,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "package_dependencies_framer_motion",
-      "community": 13,
+      "community": 4,
       "norm_label": "framer-motion"
     },
     {
@@ -1110,7 +1100,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "package_dependencies_lucide_react",
-      "community": 13,
+      "community": 4,
       "norm_label": "lucide-react"
     },
     {
@@ -1120,7 +1110,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "package_dependencies_next",
-      "community": 13,
+      "community": 4,
       "norm_label": "next"
     },
     {
@@ -1130,7 +1120,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "package_dependencies_next_themes",
-      "community": 13,
+      "community": 4,
       "norm_label": "next-themes"
     },
     {
@@ -1140,7 +1130,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "package_dependencies_node_appwrite",
-      "community": 13,
+      "community": 4,
       "norm_label": "node-appwrite"
     },
     {
@@ -1150,7 +1140,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies_react",
-      "community": 13,
+      "community": 4,
       "norm_label": "react"
     },
     {
@@ -1160,7 +1150,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
-      "community": 13,
+      "community": 4,
       "norm_label": "react-dom"
     },
     {
@@ -1170,7 +1160,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "package_devdependencies",
-      "community": 4,
+      "community": 13,
       "norm_label": "devdependencies"
     },
     {
@@ -1180,7 +1170,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss_postcss",
-      "community": 4,
+      "community": 13,
       "norm_label": "@tailwindcss/postcss"
     },
     {
@@ -1190,7 +1180,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
-      "community": 4,
+      "community": 13,
       "norm_label": "@types/node"
     },
     {
@@ -1200,7 +1190,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
-      "community": 4,
+      "community": 13,
       "norm_label": "@types/react"
     },
     {
@@ -1210,7 +1200,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
-      "community": 4,
+      "community": 13,
       "norm_label": "@types/react-dom"
     },
     {
@@ -1220,7 +1210,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
-      "community": 4,
+      "community": 13,
       "norm_label": "eslint"
     },
     {
@@ -1230,7 +1220,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
-      "community": 4,
+      "community": 13,
       "norm_label": "eslint-config-next"
     },
     {
@@ -1240,7 +1230,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
-      "community": 4,
+      "community": 13,
       "norm_label": "tailwindcss"
     },
     {
@@ -1250,7 +1240,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
-      "community": 4,
+      "community": 13,
       "norm_label": "typescript"
     },
     {
@@ -2140,7 +2130,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_8_cta_section",
-      "community": 27,
+      "community": 1,
       "norm_label": "section 8 \u2014 cta section"
     },
     {
@@ -2150,7 +2140,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout_563",
-      "community": 27,
+      "community": 1,
       "norm_label": "layout"
     },
     {
@@ -2160,7 +2150,7 @@
       "source_location": "L566",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_heading",
-      "community": 27,
+      "community": 1,
       "norm_label": "heading"
     },
     {
@@ -2170,7 +2160,7 @@
       "source_location": "L571",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_subtext",
-      "community": 27,
+      "community": 1,
       "norm_label": "subtext"
     },
     {
@@ -2180,7 +2170,7 @@
       "source_location": "L577",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_primary_button",
-      "community": 27,
+      "community": 1,
       "norm_label": "primary button"
     },
     {
@@ -2190,7 +2180,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_secondary_button",
-      "community": 27,
+      "community": 1,
       "norm_label": "secondary button"
     },
     {
@@ -2200,7 +2190,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_trust_micro_line_below_buttons",
-      "community": 27,
+      "community": 1,
       "norm_label": "trust micro-line (below buttons)"
     },
     {
@@ -3465,17 +3455,6 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "source": "app_page",
-      "target": "app_components_ctasection_ctasection",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Chatbot.tsx",
@@ -3520,7 +3499,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Features.tsx",
-      "source_location": "L209",
+      "source_location": "L182",
       "weight": 1.0,
       "source": "app_components_features",
       "target": "app_components_features_categorychip",
@@ -3550,20 +3529,10 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Features.tsx",
-      "source_location": "L234",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "app_components_features",
       "target": "app_components_features_features",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/components/Features.tsx",
-      "source_location": "L186",
-      "weight": 1.0,
-      "source": "app_components_features",
-      "target": "app_components_features_iconbadge",
       "confidence_score": 1.0
     },
     {
@@ -3582,7 +3551,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Features.tsx",
-      "source_location": "L247",
+      "source_location": "L220",
       "weight": 1.0,
       "source": "app_components_features_features",
       "target": "app_components_features_fadeup",
@@ -5719,5 +5688,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2b9ba04cc4edca60facecdc1e13d68e9f7cdc22a"
+  "built_at_commit": "5497deeed5c03a432cf5e0e52c35c6063b88d6fe"
 }

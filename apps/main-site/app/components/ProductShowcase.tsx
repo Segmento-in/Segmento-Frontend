@@ -74,7 +74,7 @@ const PRODUCTS = [
     headline: 'Know what\'s happening before it hits you.',
     description: 'Pulse tracks global data privacy news, regulatory changes, and emerging threats in real time. Built for compliance leads who can\'t afford to be caught off guard.',
     link: '/pulse',
-    accent: '#3b82f6',
+    accent: '#d97706',
     tags: ['GDPR', 'DPDP', 'EU AI Act'],
     Shell: PulseShell,
   },

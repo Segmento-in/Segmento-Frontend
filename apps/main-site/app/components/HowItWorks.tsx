@@ -27,7 +27,7 @@ const STEPS = [
     subtitle: 'Automation & policy dashboard.',
     description:
       'Define redaction rules, set compliance policies, and automate enforcement. Full audit trail for every action.',
-    accent: '#5b6ef5',
+    accent: '#7c3aed',
   },
 ]
 

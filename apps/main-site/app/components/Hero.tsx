@@ -58,8 +58,8 @@ export default function Hero() {
   const product = PRODUCTS.find(p => p.id === active)!;
 
   return (
-    <section className="relative flex items-center overflow-hidden" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '5rem' }}>
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 65% 55% at 72% 30%, rgba(91,110,245,0.09), transparent),radial-gradient(ellipse 40% 30% at 15% 80%, rgba(160,220,253,0.04), transparent)' }} />
+    <section className="relative flex items-center overflow-hidden hero-gradient-light" style={{ minHeight: '100vh', paddingTop: '6rem', paddingBottom: '5rem' }}>
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 65% 55% at 72% 30%, rgba(124,58,237,0.07), transparent),radial-gradient(ellipse 40% 30% at 15% 80%, rgba(167,139,250,0.04), transparent)' }} />
 
       <div className="section-container w-full relative z-10">
         <div className="bento-grid items-center">
@@ -88,8 +88,8 @@ export default function Hero() {
                     style={{
                       padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: active === p.id ? 600 : 400,
                       fontFamily: 'inherit', cursor: 'pointer', transition: 'all 0.2s ease',
-                      border: `1px solid ${active === p.id ? 'rgba(91,110,245,0.6)' : 'var(--theme-border)'}`,
-                      background: active === p.id ? 'rgba(91,110,245,0.12)' : 'transparent',
+                      border: `1px solid ${active === p.id ? 'rgba(124,58,237,0.5)' : 'var(--theme-border)'}`,
+                      background: active === p.id ? 'rgba(124,58,237,0.12)' : 'transparent',
                       color: active === p.id ? 'var(--theme-brand)' : 'var(--theme-fg-muted)',
                     }}
                   >

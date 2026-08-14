@@ -23,7 +23,7 @@ const fadeUp = (delay = 0) => ({
 // ── Mini Data-Flow Diagram (inside the large card) ──────────────────────────
 function DataFlowDiagram() {
   const nodes = [
-    { label: "Data", icon: <Database size={14} />, x: "10%", color: "#5b6ef5" },
+    { label: "Data", icon: <Database size={14} />, x: "10%", color: "#7c3aed" },
     { label: "Secure local processes", icon: <Lock size={14} />, x: "45%", color: "#10e898" },
     { label: "Secure local environment", icon: <Cloud size={14} />, x: "78%", color: "#a0dcfd" },
   ];
@@ -36,7 +36,7 @@ function DataFlowDiagram() {
         height: 120,
         background: "rgba(10,10,15,0.7)",
         borderRadius: 10,
-        border: "1px solid rgba(91,110,245,0.15)",
+        border: "1px solid rgba(124,58,237,0.15)",
         overflow: "hidden",
       }}
     >
@@ -47,7 +47,7 @@ function DataFlowDiagram() {
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(91,110,245,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(91,110,245,0.04) 1px, transparent 1px)",
+            "linear-gradient(rgba(124,58,237,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,58,237,0.04) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
@@ -63,7 +63,7 @@ function DataFlowDiagram() {
             left: `calc(${nodes[i].x} + 36px)`,
             width: `calc(${nodes[i + 1].x} - ${nodes[i].x} - 36px)`,
             height: 1,
-            background: "linear-gradient(90deg, rgba(91,110,245,0.5), rgba(16,232,152,0.5))",
+            background: "linear-gradient(90deg, rgba(124,58,237,0.5), rgba(16,232,152,0.5))",
             transform: "translateY(-50%)",
           }}
         >
@@ -177,28 +177,6 @@ function BrainVisual({ accent = "#7c3aed" }: { accent?: string }) {
   );
 }
 
-// ── Small card icon badge ────────────────────────────────────────────────────
-function IconBadge({ icon, color = "#5b6ef5" }: { icon: React.ReactNode; color?: string }) {
-  return (
-    <div
-      style={{
-        width: 40,
-        height: 40,
-        borderRadius: 10,
-        background: `${color}18`,
-        border: `1px solid ${color}35`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color,
-        marginBottom: "1rem",
-        flexShrink: 0,
-      }}
-    >
-      {icon}
-    </div>
-  );
-}
 
 // ── Category label chip ──────────────────────────────────────────────────────
 function CategoryChip({ label }: { label: string }) {
@@ -209,12 +187,12 @@ function CategoryChip({ label }: { label: string }) {
         alignItems: "center",
         padding: "2px 10px",
         borderRadius: 9999,
-        background: "rgba(91,110,245,0.1)",
-        border: "1px solid rgba(91,110,245,0.2)",
+        background: "rgba(124,58,237,0.1)",
+        border: "1px solid rgba(124,58,237,0.2)",
         fontFamily: "var(--font-dm-mono, monospace)",
         fontSize: "0.6875rem",
         fontWeight: 600,
-        color: "#5b6ef5",
+        color: "var(--theme-brand)",
         letterSpacing: "0.08em",
         textTransform: "uppercase" as const,
         marginBottom: "0.75rem",

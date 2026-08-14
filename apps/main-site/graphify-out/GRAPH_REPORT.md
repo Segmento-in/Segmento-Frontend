@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-08-08)
+# Graph Report - main-site  (2026-08-14)
 
 ## Corpus Check
-- 31 files · ~789,298 words
+- 31 files · ~789,428 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 333 nodes · 244 edges · 124 communities (45 shown, 79 thin omitted)
+- 332 nodes · 242 edges · 122 communities (44 shown, 78 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b9ba04c`
+- Built from commit: `5497deee`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -38,8 +38,6 @@
 - [[_COMMUNITY_SECTION 1 — HERO|SECTION 1 — HERO]]
 - [[_COMMUNITY_SECTION 9 — FOOTER|SECTION 9 — FOOTER]]
 - [[_COMMUNITY_SECTION 5 — HOW IT WORKS|SECTION 5 — HOW IT WORKS]]
-- [[_COMMUNITY_Features.tsx|Features.tsx]]
-- [[_COMMUNITY_SECTION 8 — CTA SECTION|SECTION 8 — CTA SECTION]]
 - [[_COMMUNITY_next.config.ts|next.config.ts]]
 - [[_COMMUNITY_reasons|reasons]]
 - [[_COMMUNITY_NavItem|NavItem]]
@@ -131,27 +129,27 @@
 ## Import Cycles
 - None detected.
 
-## Communities (124 total, 79 thin omitted)
+## Communities (122 total, 78 thin omitted)
 
 ### Community 0 - "Pages & About"
 Cohesion: 0.07
 Nodes (16): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+8 more)
 
 ### Community 1 - "TSConfig Setup"
-Cohesion: 0.09
-Nodes (21): Caption (centered, below marquee), Caption text (small, centered below), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, KEY DESIGN RULES (Locked) (+13 more)
+Cohesion: 0.07
+Nodes (28): Caption (centered, below marquee), Caption text (small, centered below), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, Heading (+20 more)
 
 ### Community 2 - "Components & Main Page"
-Cohesion: 0.13
-Nodes (4): CTASection(), POLICIES, STEPS, STATS
+Cohesion: 0.10
+Nodes (5): fadeUp(), Features(), POLICIES, STEPS, STATS
 
 ### Community 3 - "Dependencies"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 4 - "dependencies"
-Cohesion: 0.11
-Nodes (17): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+9 more)
+Cohesion: 0.12
+Nodes (16): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom (+8 more)
 
 ### Community 5 - "Layout & Chatbot"
 Cohesion: 0.27
@@ -166,8 +164,8 @@ Cohesion: 0.60
 Nodes (3): ContactFormData, POST(), getAppwriteClient()
 
 ### Community 13 - "Next Config"
-Cohesion: 0.25
-Nodes (8): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom
+Cohesion: 0.22
+Nodes (9): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+1 more)
 
 ### Community 14 - "Env Declarations"
 Cohesion: 0.25
@@ -193,10 +191,6 @@ Nodes (8): Column: Company, Column: Compliance, Column: Legal, Column: Products,
 Cohesion: 0.22
 Nodes (9): BENTO GRID LAYOUT, HERO TILE — 100% Client-Side Processing, MEDIUM TILE — Explainable AI, SECTION 3 — FEATURES ("Why Segmento?"), Section Heading, Section Label (pill tag), Section Subtext, SMALL TILE — Zero-Trust Data Handling (+1 more)
 
-### Community 27 - "SECTION 8 — CTA SECTION"
-Cohesion: 0.29
-Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
-
 ### Community 123 - "Ubiquitous Language — Segmento Main-Site"
 Cohesion: 0.29
 Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
@@ -204,12 +198,12 @@ Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, The
 ## Knowledge Gaps
 - **214 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+209 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **79 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **78 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `TSConfig Setup` to `Env Declarations`, `PostCSS Config`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`, `SECTION 5 — HOW IT WORKS`, `SECTION 8 — CTA SECTION`?**
+- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `TSConfig Setup` to `Env Declarations`, `PostCSS Config`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`, `SECTION 5 — HOW IT WORKS`?**
   _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `SECTION 5 — HOW IT WORKS` to `TSConfig Setup`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
@@ -220,6 +214,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Pages & About` be split into smaller, more focused modules?**
   _Cohesion score 0.0677361853832442 - nodes in this community are weakly interconnected._
 - **Should `TSConfig Setup` be split into smaller, more focused modules?**
-  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
 - **Should `Components & Main Page` be split into smaller, more focused modules?**
-  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._

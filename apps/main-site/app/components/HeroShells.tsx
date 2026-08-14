@@ -2,12 +2,12 @@
 import { EyeOff, Lock } from 'lucide-react';
 
 const S = {
-  shell: { width: '100%', height: '100%', display: 'flex', flexDirection: 'column' as const, borderRadius: 10, border: '1px solid var(--theme-border)', background: 'var(--theme-bg-surface)', boxShadow: '0 32px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(91,110,245,0.12)', overflow: 'hidden', fontFamily: 'system-ui,sans-serif' },
+  shell: { width: '100%', height: '100%', display: 'flex', flexDirection: 'column' as const, borderRadius: 10, border: '1px solid var(--theme-border)', background: 'var(--theme-bg-surface)', boxShadow: '0 32px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(124,58,237,0.12)', overflow: 'hidden', fontFamily: 'system-ui,sans-serif' },
   chrome: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 14px', background: 'var(--theme-bg-surface-high)', borderBottom: '1px solid var(--theme-border-subtle)', flexShrink: 0 as const },
   urlbar: { flex: 1, margin: '0 12px', display: 'flex', alignItems: 'center', gap: 5, padding: '3px 10px', borderRadius: 5, background: 'var(--theme-bg)', border: '1px solid var(--theme-border-subtle)' },
   sidebar: { width: 110, flexShrink: 0 as const, background: '#0d0d14', borderRight: '1px solid var(--theme-border-subtle)', display: 'flex', flexDirection: 'column' as const },
   logoRow: { padding: '10px', display: 'flex', alignItems: 'center', gap: 6, borderBottom: '1px solid var(--theme-border-subtle)' },
-  logoBox: { width: 16, height: 16, borderRadius: 4, background: '#5b6ef5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#fff', fontWeight: 700 },
+  logoBox: { width: 16, height: 16, borderRadius: 4, background: 'var(--theme-brand)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: '#fff', fontWeight: 700 },
 };
 
 function Chrome({ url }: { url: string }) {
@@ -33,9 +33,9 @@ function Sidebar({ items, active = 0 }: { items: { e: string; l: string }[]; act
       </div>
       <nav style={{ padding: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
         {items.map((item, i) => (
-          <div key={item.l} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 6px', borderRadius: 5, background: i === active ? 'rgba(91,110,245,0.18)' : 'transparent' }}>
+          <div key={item.l} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 6px', borderRadius: 5, background: i === active ? 'rgba(124,58,237,0.18)' : 'transparent' }}>
             <span style={{ fontSize: 10 }}>{item.e}</span>
-            <span style={{ fontSize: 9, fontWeight: i === active ? 600 : 400, color: i === active ? '#5b6ef5' : '#6b6b82' }}>{item.l}</span>
+            <span style={{ fontSize: 9, fontWeight: i === active ? 600 : 400, color: i === active ? 'var(--theme-brand)' : '#6b6b82' }}>{item.l}</span>
           </div>
         ))}
       </nav>
@@ -89,8 +89,8 @@ export function SenseShell() {
               </div>
             ))}
           </div>
-          <div style={{ position: 'absolute', bottom: 10, left: 14, right: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', borderRadius: 8, background: 'rgba(91,110,245,0.06)', border: '1px solid rgba(91,110,245,0.15)' }}>
-            <span style={{ fontSize: 9, fontWeight: 600, color: '#5b6ef5', fontFamily: 'monospace' }}>18 AI Models · Self-Hosted</span>
+          <div style={{ position: 'absolute', bottom: 10, left: 14, right: 14, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 10px', borderRadius: 8, background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.15)' }}>
+            <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--theme-brand)', fontFamily: 'monospace' }}>18 AI Models · Self-Hosted</span>
             <span style={{ fontSize: 9, fontWeight: 700, color: '#10e898', fontFamily: 'monospace' }}>99.8% Confidence</span>
           </div>
         </div>
@@ -165,12 +165,12 @@ export function CollectShell() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center', position: 'relative', padding: '0 8px' }}>
             {[0, 1, 2, 3].map(i => (
               <div key={i} style={{ width: '100%', height: 1, background: 'var(--theme-border-subtle)', position: 'relative', display: 'flex', alignItems: 'center' }}>
-                <div className="flow-dot" style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: '#5b6ef5', left: 0, top: -3 }} />
-                <div className="flow-dot" style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: '#5b6ef5', left: 0, top: -3, animationDelay: `${i * 0.45}s` }} />
+                <div className="flow-dot" style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: 'var(--theme-brand)', left: 0, top: -3 }} />
+                <div className="flow-dot" style={{ position: 'absolute', width: 6, height: 6, borderRadius: '50%', background: 'var(--theme-brand)', left: 0, top: -3, animationDelay: `${i * 0.45}s` }} />
               </div>
             ))}
-            <div style={{ padding: '6px 12px', borderRadius: 8, background: 'rgba(91,110,245,0.15)', border: '1px solid rgba(91,110,245,0.4)', position: 'absolute' }}>
-              <span style={{ fontSize: 8, fontWeight: 700, color: '#5b6ef5', fontFamily: 'monospace' }}>Segmento Collect</span>
+            <div style={{ padding: '6px 12px', borderRadius: 8, background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.4)', position: 'absolute' }}>
+              <span style={{ fontSize: 8, fontWeight: 700, color: 'var(--theme-brand)', fontFamily: 'monospace' }}>Segmento Collect</span>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -214,7 +214,7 @@ export function ResolveShell() {
               {col.cards.map((card, i) => (
                 <div key={i} style={{ padding: '7px 8px', borderRadius: 6, background: 'var(--theme-bg-surface-high)', border: '1px solid var(--theme-border-subtle)', display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(91,110,245,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7, fontWeight: 700, color: '#5b6ef5' }}>{card.init}</div>
+                    <div style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(124,58,237,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 7, fontWeight: 700, color: 'var(--theme-brand)' }}>{card.init}</div>
                     <span style={{ fontSize: 8, fontWeight: 600, color: 'var(--theme-fg)' }}>{card.type}</span>
                   </div>
                   <span style={{ fontSize: 7, fontWeight: 600, fontFamily: 'monospace', color: card.slac }}>SLA: {card.sla}</span>
@@ -233,9 +233,9 @@ export function SprintQLShell() {
   const cols = [
     { label: 'Went Well 🟢', cards: [{ text: 'API response time improved 40%', votes: 5, color: '#10e898' }, { text: 'Zero P1 bugs this sprint', votes: 3, color: '#10e898' }] },
     { label: 'Improve 🟡', cards: [{ text: 'Deploy pipeline too slow', votes: 4, color: '#f59e0b' }, { text: 'Missing staging env docs', votes: 2, color: '#f59e0b' }] },
-    { label: 'Actions ⚡', cards: [{ text: 'Add caching layer to API', votes: 6, color: '#5b6ef5' }, { text: 'Write runbook for deploys', votes: 3, color: '#5b6ef5' }] },
+    { label: 'Actions ⚡', cards: [{ text: 'Add caching layer to API', votes: 6, color: '#7c3aed' }, { text: 'Write runbook for deploys', votes: 3, color: '#7c3aed' }] },
   ];
-  const cursors = [{ color: '#ef4444', x: 60, y: 30 }, { color: '#5b6ef5', x: 150, y: 80 }, { color: '#10e898', x: 260, y: 50 }];
+  const cursors = [{ color: '#ef4444', x: 60, y: 30 }, { color: '#7c3aed', x: 150, y: 80 }, { color: '#10e898', x: 260, y: 50 }];
   return (
     <Shell url="app.sprintql.io" items={items} active={0}>
       <div style={{ flex: 1, background: 'var(--theme-bg-surface)', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative' }}>
@@ -266,7 +266,7 @@ export function SprintQLShell() {
           ))}
         </div>
         <div style={{ padding: '6px 14px', borderTop: '1px solid var(--theme-border-subtle)', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#5b6ef5' }} className="urgency-live" />
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--theme-brand)' }} className="urgency-live" />
           <span style={{ fontSize: 8, color: 'var(--theme-fg-muted)', fontFamily: 'monospace' }}>Sarah is typing an action item...</span>
         </div>
       </div>

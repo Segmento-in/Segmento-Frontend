@@ -30,7 +30,7 @@ function Dot() {
         width: 4,
         height: 4,
         borderRadius: "50%",
-        background: "rgba(91,110,245,0.5)",
+        background: "rgba(124,58,237,0.4)",
         flexShrink: 0,
         margin: "0 28px",
         verticalAlign: "middle",

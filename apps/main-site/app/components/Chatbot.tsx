@@ -103,7 +103,7 @@ export default function Chatbot() {
                         <p className="mt-4 text-sm font-semibold text-slate-100">
                             I am <span className="font-bold">Segmento Bot</span>
                         </p>
-                        <p className="text-xs text-[#2563EB] font-bold mt-1">
+                        <p className="text-xs text-[#7c3aed] font-bold mt-1">
                             Ask me anything ✨
                         </p>
 
@@ -171,7 +171,7 @@ export default function Chatbot() {
                                 <div
                                     className={`px-4 py-3 rounded-2xl max-w-[80%] whitespace-pre-line shadow-sm text-sm font-medium ${
                                         msg.from === "user"
-                                            ? "bg-[#2563EB] text-white rounded-br-sm" 
+                                            ? "bg-[#7c3aed] text-white rounded-br-sm" 
                                             : "bg-black text-white rounded-bl-sm"
                                     }`}
                                 >
@@ -201,7 +201,7 @@ export default function Chatbot() {
                                 rounded-2xl
                                 text-sm
                                 focus:outline-none
-                                focus:ring-2 focus:ring-[#2563EB]
+                                focus:ring-2 focus:ring-[#7c3aed]
                             "
                         />
                         <button

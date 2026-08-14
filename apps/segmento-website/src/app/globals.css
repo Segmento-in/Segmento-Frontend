@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Mona Sans';
+  src: url('/fonts/Mona-Sans.woff2') format('woff2');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-surface: #fcf8ff;
+  --color-surface-dim: #dcd9e0;
+  --color-surface-bright: #fcf8ff;
+  --color-on-surface: #1b1b20;
+  
+  --color-primary: #384cd3;
+  --color-on-primary: #ffffff;
+  
+  --color-coral: #E8734A;
+  --color-on-coral: #ffffff;
+
+  --color-secondary-sky: #e0f0fa;
+  --color-on-secondary-sky: #1a3d52;
+  --color-secondary-sage: #e2e8e0;
+  --color-on-secondary-sage: #2c3b28;
+  --color-secondary-peach: #faece8;
+  --color-on-secondary-peach: #5c2d20;
+  --color-secondary-teal: #dcf2f0;
+  --color-on-secondary-teal: #1f4d4a;
+
+  --font-display: var(--font-syne), sans-serif;
+  --font-sans: "Mona Sans", sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
+}
+
+:root {
+  --background: var(--color-surface);
+  --foreground: var(--color-on-surface);
+}
+
+[data-theme="dark"] {
+  --background: #1b1b20;
+  --foreground: #fcf8ff;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Utilities for GSAP / Layout */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

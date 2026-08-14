@@ -35,33 +35,33 @@
     "semantic_hash": ""
   },
   "app/components/Chatbot.tsx": {
-    "mtime": 1783518801.0818605,
-    "ast_hash": "506c179bcf96098f97b1617460bdf5ec",
+    "mtime": 1786706888.9627643,
+    "ast_hash": "7aea9f74a17e3f55e7c2ebad67c002c4",
     "semantic_hash": ""
   },
   "app/components/Features.tsx": {
-    "mtime": 1786619548.054847,
-    "ast_hash": "11722c1afe214c9f8e771664a4acd262",
+    "mtime": 1786706792.15316,
+    "ast_hash": "cb743be49e8cc055b1a102d0cf4e0af5",
     "semantic_hash": ""
   },
   "app/components/Footer.tsx": {
-    "mtime": 1786168663.7521188,
-    "ast_hash": "b718fc9904d74e161e0b5538799ccda0",
+    "mtime": 1786706890.995685,
+    "ast_hash": "316254657aadcc4cf6c2cae8e48c41d8",
     "semantic_hash": ""
   },
   "app/components/Hero.tsx": {
-    "mtime": 1783518801.0848315,
-    "ast_hash": "4c1c9b1b6c27bc948ba5abdba1e03709",
+    "mtime": 1786706492.6488993,
+    "ast_hash": "bb53d1010a600e5acfd634d0f4e0c6b5",
     "semantic_hash": ""
   },
   "app/components/HeroShells.tsx": {
-    "mtime": 1783518801.0855346,
-    "ast_hash": "9ee6914a0f0d4fcb206969f503f9536a",
+    "mtime": 1786706772.528144,
+    "ast_hash": "889cabd7497b8329c198923c001758a7",
     "semantic_hash": ""
   },
   "app/components/HowItWorks.tsx": {
-    "mtime": 1783518801.0865526,
-    "ast_hash": "f00f738c12f4e32c7ce24b4c2b1fc900",
+    "mtime": 1786706797.1329248,
+    "ast_hash": "20756556cfc9987a9f1eee6caa3fc77c",
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
@@ -70,13 +70,13 @@
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
-    "mtime": 1786100509.566058,
-    "ast_hash": "4d675144cd22de652f2682e09b0c34ed",
+    "mtime": 1786706799.2116644,
+    "ast_hash": "9863206d3ed690fb3dcc70071b15b078",
     "semantic_hash": ""
   },
   "app/components/Stats.tsx": {
-    "mtime": 1783518801.0897312,
-    "ast_hash": "231744f065364b35acc33221e3f044b9",
+    "mtime": 1786706548.8543677,
+    "ast_hash": "cbadc99751f99324f70352db26d4bc81",
     "semantic_hash": ""
   },
   "app/components/ThemeToggle.tsx": {
@@ -1832,6 +1832,11 @@
   "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\window.svg": {
     "mtime": 1783518801.6036599,
     "ast_hash": "a2760511c65806022ad20adf74370ff3",
+    "semantic_hash": ""
+  },
+  "0f7e23cde23e9b7ac4c99104c980788c.webp": {
+    "mtime": 1786699627.467439,
+    "ast_hash": "4e92835e31c1053d1638b91cfe332bbe",
     "semantic_hash": ""
   }
 }
