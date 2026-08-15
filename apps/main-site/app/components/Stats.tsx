@@ -43,11 +43,14 @@ export default function StatsTicker() {
   return (
     <div
       style={{
-        background: "var(--theme-bg)",
-        borderTop: "1px solid var(--theme-border-subtle)",
-        borderBottom: "1px solid var(--theme-border-subtle)",
+        background: "#ffffff",
+        borderTop: "1px solid #e5e7eb",
+        borderBottom: "1px solid #e5e7eb",
         overflow: "hidden",
-        padding: "14px 0",
+        padding: "16px 0",
+        minHeight: "56px",
+        display: "flex",
+        alignItems: "center",
         position: "relative",
       }}
     >
@@ -60,7 +63,7 @@ export default function StatsTicker() {
           zIndex: 10,
           pointerEvents: "none",
           background:
-            "linear-gradient(90deg, var(--theme-bg) 0%, transparent 8%, transparent 92%, var(--theme-bg) 100%)",
+            "linear-gradient(90deg, #ffffff 0%, transparent 8%, transparent 92%, #ffffff 100%)",
         }}
       />
 
@@ -93,7 +96,7 @@ export default function StatsTicker() {
                       fontFamily: "var(--font-dm-mono, monospace)",
                       fontSize: "0.8125rem",
                       fontWeight: 700,
-                      color: "var(--theme-brand)",
+                      color: "#7c3aed",
                       letterSpacing: "-0.01em",
                       whiteSpace: "nowrap",
                     }}
@@ -104,8 +107,8 @@ export default function StatsTicker() {
                     style={{
                       fontFamily: "var(--font-mona-sans, sans-serif)",
                       fontSize: "0.8125rem",
-                      fontWeight: 500,
-                      color: "var(--theme-fg-subtle)",
+                      fontWeight: 600,
+                      color: "#374151",
                       letterSpacing: "0.01em",
                       whiteSpace: "nowrap",
                     }}

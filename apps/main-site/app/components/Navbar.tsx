@@ -342,16 +342,15 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-nav backdrop-blur-xl py-2 shadow-sm border-b border-[var(--color-border)]" : "bg-transparent py-4"
-        }`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-gray-200/80 bg-white/95 backdrop-blur-md shadow-xs py-2.5`}>
         {/* Container — relative anchor for mega panels */}
         <div ref={containerRef} className="max-w-7xl mx-auto px-6" style={{ position: "relative" }}>
           <div className="flex items-center justify-between h-14">
 
-            {/* Logo — src driven by React state, not CSS, so it works reliably on all pages + toggle */}
+            {/* Logo — dark logo for clean contrast on white navbar */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src={isDarkTheme ? "/images/logo-final1.png" : "/images/logo-final.png"}
+                src="/images/logo-final.png"
                 alt="Segmento"
                 width={180}
                 height={28}
@@ -368,9 +367,8 @@ export default function Navbar() {
                     <div key={link.name} onMouseEnter={() => handleEnter(link.name)} onMouseLeave={handleLeave}>
                       <button
                         ref={(el) => { if (el) triggerRefs.current.set(link.name, el); }}
-                        className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isActive ? "bg-black/8 text-[var(--nav-text)]" : "text-[var(--nav-text)] hover:bg-black/5"
+                        className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isActive ? "bg-purple-50 text-purple-700 font-bold" : "text-gray-800 hover:bg-gray-100 hover:text-purple-700"
                           }`}
-                        style={{ background: isActive ? "rgba(0,0,0,0.07)" : undefined }}
                       >
                         <span>{link.name}</span>
                         <motion.span animate={{ rotate: isActive ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -382,8 +380,7 @@ export default function Navbar() {
                 }
                 return (
                   <Link key={link.name} href={link.href!}
-                    className="px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 text-[var(--nav-text)] hover:bg-black/5"
-                    style={{ color: "var(--nav-text)" }}
+                    className="px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 text-gray-800 hover:bg-gray-100 hover:text-purple-700"
                   >
                     {link.name}
                   </Link>

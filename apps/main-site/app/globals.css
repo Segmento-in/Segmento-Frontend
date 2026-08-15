@@ -161,8 +161,8 @@
     0 24px 40px rgba(0, 0, 0, 0.08);
 
   /* ── Nav & Generic Aliases ── */
-  --nav-bg: rgba(249, 250, 251, 0.92);
-  --nav-text: var(--theme-fg);
+  --nav-bg: #ffffff;
+  --nav-text: #111827;
 
   --color-brand: var(--theme-brand);
   --color-brand-hover: var(--theme-brand-hover);
@@ -269,8 +269,8 @@
     0 24px 40px rgba(167, 139, 250, 0.12);
 
   /* ── Nav & Generic Aliases ── */
-  --nav-bg: rgba(6, 11, 24, 0.93);
-  --nav-text: var(--theme-fg);
+  --nav-bg: #ffffff;
+  --nav-text: #111827;
 
   --color-brand: var(--theme-brand);
   --color-brand-hover: var(--theme-brand-hover);
@@ -738,9 +738,22 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  /* Hero gradient — violet blush — light only — ponytail: CSS scoping via [data-theme] */
-  [data-theme="light"] .hero-gradient-light {
-    background: linear-gradient(180deg, #f9fafb 0%, #fdf4ff 55%, #f5f3ff 100%);
+  /* Hero background gradient — Segmento Logo Color Palette (Cyan, Magenta/Pink, Deep Blue, Amber/Orange, Teal) */
+  [data-theme="light"] .hero-gradient-theme {
+    background: radial-gradient(ellipse 70% 50% at 20% 15%, rgba(0, 198, 255, 0.08), transparent 70%),
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 42, 133, 0.07), transparent 60%),
+                radial-gradient(ellipse 50% 40% at 15% 80%, rgba(255, 138, 0, 0.06), transparent 60%),
+                radial-gradient(ellipse 60% 50% at 85% 85%, rgba(0, 82, 212, 0.07), transparent 60%),
+                linear-gradient(180deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+  }
+
+  [data-theme="dark"] .hero-gradient-theme {
+    background: radial-gradient(ellipse 70% 55% at 15% 15%, rgba(0, 198, 255, 0.16), transparent 65%),
+                radial-gradient(ellipse 65% 50% at 85% 20%, rgba(255, 42, 133, 0.14), transparent 60%),
+                radial-gradient(ellipse 55% 45% at 10% 85%, rgba(255, 138, 0, 0.11), transparent 55%),
+                radial-gradient(ellipse 65% 55% at 90% 85%, rgba(0, 82, 212, 0.18), transparent 60%),
+                radial-gradient(ellipse 45% 40% at 50% 45%, rgba(0, 210, 180, 0.08), transparent 50%),
+                linear-gradient(180deg, #060a17 0%, #090f22 50%, #070c1b 100%);
   }
 
   /* ── Partner Logo Strip (T6) ──────────────────────────────────────────── */
