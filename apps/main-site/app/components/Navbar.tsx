@@ -116,8 +116,8 @@ const navLinks: NavLink[] = [
         {
           label: "Company",
           items: [
-            { name: "Careers", subtitle: "Join our growing team", href: "/careers", icon: Briefcase },
             { name: "About", subtitle: "Our mission & story", href: "/about", icon: Info },
+            { name: "Careers", subtitle: "Join our growing team", href: "/careers", icon: Briefcase },
           ],
         },
       ],

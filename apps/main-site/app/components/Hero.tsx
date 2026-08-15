@@ -59,13 +59,18 @@ export default function Hero() {
 
   return (
     <section className="relative flex flex-col justify-center overflow-hidden hero-gradient-theme min-h-[calc(100vh-48px)] pt-20 pb-8 md:pt-24 md:pb-10">
-      {/* Ambient background glow from Segmento logo spectrum */}
+      {/* Dynamic Ambient Wash — scales and moves based on active product */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 60% 45% at 50% 10%, ${product.color}18, transparent 65%), radial-gradient(ellipse 50% 40% at 85% 40%, rgba(255,42,133,0.10), transparent 60%), radial-gradient(ellipse 45% 40% at 15% 75%, rgba(0,198,255,0.10), transparent 55%)`,
-        transition: 'background 0.5s ease',
+        background: `
+          radial-gradient(ellipse 80% 60% at 50% 0%, ${product.color}15, transparent 70%),
+          radial-gradient(ellipse 60% 50% at 85% 30%, var(--theme-brand-glow), transparent 60%),
+          radial-gradient(ellipse 50% 50% at 15% 80%, rgba(0,198,255,0.08), transparent 55%)
+        `,
+        transition: 'background 1s cubic-bezier(0.22, 1, 0.36, 1)',
       }} />
 
-      <div className="section-container w-full relative z-10 py-2 my-auto">
+      {/* Expanded container for massive screens to reduce empty white space */}
+      <div className="section-container max-w-[90rem] w-full relative z-10 py-2 my-auto">
         <div className="bento-grid items-center gap-8 md:gap-12 lg:gap-14 xl:gap-16">
 
           {/* LEFT */}
@@ -79,14 +84,22 @@ export default function Hero() {
 
             <motion.h1 className="text-display-lg" style={{ lineHeight: 1.15 }} {...fadeUp(0.12)}>
               The Data Platform<br />
-              <span style={{
-                background: 'linear-gradient(135deg, #00c6ff 0%, #0072ff 35%, #ff2a85 70%, #ff8a00 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                display: 'inline-block',
-              }}>
+              <motion.span
+                animate={{
+                  backgroundImage: [
+                    'linear-gradient(135deg, var(--theme-brand) 0%, #00c6ff 100%)',
+                    `linear-gradient(135deg, ${product.color} 0%, var(--theme-brand) 100%)`,
+                  ]
+                }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                style={{
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  display: 'inline-block',
+                }}
+              >
                 Built for what&apos;s next
-              </span>
+              </motion.span>
             </motion.h1>
 
             {/* Product tabs + animated blurb */}
@@ -136,8 +149,10 @@ export default function Hero() {
             <motion.div className="flex flex-wrap gap-4 pt-1" {...fadeUp(0.28)}>
               <Link
                 href="/contact"
-                className="btn-primary group relative overflow-hidden pl-5 pr-1.5 py-1.5 flex items-center gap-3"
+                className="btn-primary group relative overflow-hidden pl-5 pr-1.5 py-1.5 flex items-center gap-3 shadow-[0_0_40px_var(--theme-brand-glow)]"
               >
+                {/* Internal wash on hover inside the button */}
+                <div className="absolute inset-0 bg-white/20 dark:bg-black/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <span className="relative z-10 font-semibold tracking-tight">Book a Demo</span>
                 <div className="relative z-10 bg-white/20 dark:bg-black/20 p-2 rounded-full flex items-center justify-center group-hover:bg-white/30 dark:group-hover:bg-black/30 transition-colors">
                   <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform duration-300" />

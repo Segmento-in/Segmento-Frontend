@@ -203,13 +203,29 @@ function CategoryChip({ label }: { label: string }) {
 export default function Features() {
   return (
     <section
+      className="relative overflow-hidden"
       style={{
         background: "var(--theme-bg)",
         paddingTop: "8rem",
         paddingBottom: "8rem",
       }}
     >
-      <div className="section-container">
+      {/* Dynamic ambient wash that reveals as you scroll into the features */}
+      <motion.div 
+        aria-hidden 
+        className="absolute inset-0 pointer-events-none"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 1.5 }}
+        style={{
+          background: `
+            radial-gradient(circle at 10% 20%, var(--theme-brand-glow), transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(0, 198, 255, 0.05), transparent 40%)
+          `
+        }}
+      />
+      <div className="section-container relative z-10">
 
         {/* ── Section heading ─────────────────────────────────────────── */}
         <motion.div
@@ -248,11 +264,17 @@ export default function Features() {
 
           {/* ══ CARD 1 — 100% Client-Side (Resolve/Cobalt — largest tile) ══ */}
           <motion.div
-            className="bento-col-4 md:row-span-2"
+            className="bento-col-4 md:row-span-2 group"
             {...fadeUp(0.08)}
           >
-            <div className="double-bezel-shell h-full flex flex-col">
-              <div className="bento-tile bento-tile-resolve h-full flex flex-col min-h-[300px] grow">
+            <motion.div 
+              className="double-bezel-shell h-full flex flex-col relative overflow-hidden"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              {/* Internal Wash Glow on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--product-resolve-accent)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+              <div className="bento-tile bento-tile-resolve h-full flex flex-col min-h-[300px] grow relative z-10">
                 <Database size={22} style={{ color: "var(--product-resolve-accent)", marginBottom: "1rem" }} />
                 <CategoryChip label="Architecture" />
                 <h3 style={{
@@ -272,16 +294,22 @@ export default function Features() {
                 </p>
                 <DataFlowDiagram />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ══ CARD 2 — Explainable AI (Sense/Violet) ══ */}
           <motion.div
-            className="bento-col-8"
+            className="bento-col-8 group"
             {...fadeUp(0.14)}
           >
-            <div className="double-bezel-shell h-full flex flex-col">
-              <div className="bento-tile bento-tile-sense h-full flex flex-col min-h-[200px] grow">
+            <motion.div 
+              className="double-bezel-shell h-full flex flex-col relative overflow-hidden"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              {/* Internal Wash Glow on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--product-sense-accent)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+              <div className="bento-tile bento-tile-sense h-full flex flex-col min-h-[200px] grow relative z-10">
                 <Brain size={22} style={{ color: "var(--product-sense-accent)", marginBottom: "1rem" }} />
                 <CategoryChip label="AI" />
                 <h3 style={{
@@ -301,16 +329,22 @@ export default function Features() {
                 </p>
                 <BrainVisual accent="var(--product-sense-accent)" />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ══ CARD 3 — Zero-Trust (Collect/Emerald) ══ */}
           <motion.div
-            className="bento-col-4"
+            className="bento-col-4 group"
             {...fadeUp(0.2)}
           >
-            <div className="double-bezel-shell h-full flex flex-col">
-              <div className="bento-tile bento-tile-collect h-full flex flex-col gap-2 min-h-[180px] grow">
+            <motion.div 
+              className="double-bezel-shell h-full flex flex-col relative overflow-hidden"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              {/* Internal Wash Glow on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--product-collect-accent)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+              <div className="bento-tile bento-tile-collect h-full flex flex-col gap-2 min-h-[180px] grow relative z-10">
                 <Shield size={22} style={{ color: "var(--product-collect-accent)", marginBottom: "0.5rem" }} />
                 <CategoryChip label="Privacy" />
                 <h3 style={{
@@ -328,16 +362,22 @@ export default function Features() {
                   Your compliance posture, automated.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ══ CARD 4 — Enterprise Scale (Pulse/Amber) ══ */}
           <motion.div
-            className="bento-col-4"
+            className="bento-col-4 group"
             {...fadeUp(0.26)}
           >
-            <div className="double-bezel-shell h-full flex flex-col">
-              <div className="bento-tile bento-tile-pulse h-full flex flex-col gap-2 min-h-[180px] grow">
+            <motion.div 
+              className="double-bezel-shell h-full flex flex-col relative overflow-hidden"
+              whileHover={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              {/* Internal Wash Glow on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--product-pulse-accent)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+              <div className="bento-tile bento-tile-pulse h-full flex flex-col gap-2 min-h-[180px] grow relative z-10">
                 <BarChart3 size={22} style={{ color: "var(--product-pulse-accent)", marginBottom: "0.5rem" }} />
                 <CategoryChip label="Scale" />
                 <h3 style={{
@@ -355,7 +395,7 @@ export default function Features() {
                   The architecture doesn’t flinch.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
         </div>

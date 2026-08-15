@@ -85,28 +85,28 @@
    Canvas: Warm off-white. 5 product colors. Charcoal text (WCAG AA locked).
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="light"] {
-  /* ── Page Canvas — Vibrant Tinted Glass ── */
-  --theme-bg: #e6f0fa; /* Cool icy-blue/ash tint instead of white */
-  --theme-bg-surface: rgba(255, 255, 255, 0.45); /* frosted glass core */
-  --theme-bg-surface-high: rgba(255, 255, 255, 0.7); /* elevated frosted */
+  /* ── Page Canvas — Clean Premium Base for Dynamic Wash ── */
+  --theme-bg: #f8fafc; /* Crisp, sophisticated off-white base */
+  --theme-bg-surface: #ffffff; /* Pure white surface to contrast off-white bg */
+  --theme-bg-surface-high: #ffffff; /* Elevated white */
 
   /* ── Text — High Contrast ── */
   --theme-fg: #0f172a;
   --theme-fg-subtle: #334155;
   --theme-fg-muted: #64748b;
 
-  /* ── Brand — Deep Indigo/Blue (Logo inspired) ── */
-  --theme-brand: #0072ff;
-  --theme-brand-hover: #0056cc;
+  /* ── Brand — Electric Indigo (Premium AI vibe) ── */
+  --theme-brand: #4f46e5;
+  --theme-brand-hover: #4338ca;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(0, 114, 255, 0.2);
+  --theme-brand-glow: rgba(79, 70, 229, 0.25);
 
   /* ── Secondary accent ── */
   --theme-secondary: #00c6ff;
 
-  /* ── Borders — Glass highlights ── */
-  --theme-border: rgba(255, 255, 255, 0.5);
-  --theme-border-subtle: rgba(255, 255, 255, 0.2);
+  /* ── Borders — Structural Outlines ── */
+  --theme-border: rgba(15, 23, 42, 0.1);
+  --theme-border-subtle: rgba(15, 23, 42, 0.05);
 
   /* ── Status ── */
   --theme-success: #00d2b4;
@@ -319,12 +319,15 @@
         transparent 70%);
   }
 
-  /* Light mode: subtle violet ambient — ponytail: min viable tint */
+  /* Light mode: Immersive dynamic wash from the top */
   [data-theme="light"] body {
     background-image:
-      radial-gradient(ellipse 90% 60% at 50% -5%,
-        rgba(167, 139, 250, 0.08),
-        transparent 70%);
+      radial-gradient(ellipse 120% 70% at 50% -10%,
+        rgba(79, 70, 229, 0.12),
+        transparent 80%),
+      radial-gradient(ellipse 60% 50% at 90% 40%,
+        rgba(0, 198, 255, 0.05),
+        transparent 60%);
   }
 
   /* Headlines use Syne — the display typeface */
@@ -418,8 +421,8 @@
     transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.3s ease;
   }
   .double-bezel-shell:hover {
-    transform: translateY(-2px);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 32px 56px -12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 32px 56px -12px rgba(79, 70, 229, 0.15);
   }
 
   [data-theme="dark"] .double-bezel-shell {
@@ -427,6 +430,7 @@
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 24px 48px -12px rgba(0, 0, 0, 0.4);
   }
   [data-theme="dark"] .double-bezel-shell:hover {
+    transform: translateY(-4px) scale(1.01);
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 32px 56px -12px rgba(0, 0, 0, 0.6);
   }
 
@@ -753,11 +757,11 @@
 
   /* Hero background gradient — Segmento Logo Color Palette (Cyan, Magenta/Pink, Deep Blue, Amber/Orange, Teal) */
   [data-theme="light"] .hero-gradient-theme {
-    background: radial-gradient(ellipse 70% 50% at 20% 15%, rgba(0, 198, 255, 0.08), transparent 70%),
+    background: radial-gradient(ellipse 70% 60% at 20% 15%, rgba(79, 70, 229, 0.12), transparent 70%),
                 radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255, 42, 133, 0.07), transparent 60%),
                 radial-gradient(ellipse 50% 40% at 15% 80%, rgba(255, 138, 0, 0.06), transparent 60%),
-                radial-gradient(ellipse 60% 50% at 85% 85%, rgba(0, 82, 212, 0.07), transparent 60%),
-                linear-gradient(180deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+                radial-gradient(ellipse 60% 50% at 85% 85%, rgba(0, 198, 255, 0.09), transparent 60%),
+                linear-gradient(180deg, transparent 0%, #f8fafc 100%);
   }
 
   [data-theme="dark"] .hero-gradient-theme {
@@ -797,7 +801,7 @@
   /* ── Section Layout Helpers ────────────────────────────────────────────*/
   /* Max-width container with consistent horizontal padding */
   .section-container {
-    max-width: 80rem;
+    max-width: 90rem;
     /* 1280px */
     margin-left: auto;
     margin-right: auto;
