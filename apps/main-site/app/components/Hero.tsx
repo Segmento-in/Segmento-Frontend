@@ -136,15 +136,12 @@ export default function Hero() {
             <motion.div className="flex flex-wrap gap-4 pt-1" {...fadeUp(0.28)}>
               <Link
                 href="/contact"
-                className="btn-primary group relative overflow-hidden shadow-lg shadow-blue-500/25"
-                style={{
-                  background: 'linear-gradient(135deg, #0072ff 0%, #00c6ff 50%, #ff2a85 100%)',
-                  border: 'none',
-                  color: '#ffffff',
-                }}
+                className="btn-primary group relative overflow-hidden pl-5 pr-1.5 py-1.5 flex items-center gap-3"
               >
-                <span className="relative z-10 flex items-center gap-2 font-semibold">Book a Demo <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" /></span>
-                <div className="absolute inset-0 bg-white/20 dark:bg-black/20 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+                <span className="relative z-10 font-semibold tracking-tight">Book a Demo</span>
+                <div className="relative z-10 bg-white/20 dark:bg-black/20 p-2 rounded-full flex items-center justify-center group-hover:bg-white/30 dark:group-hover:bg-black/30 transition-colors">
+                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform duration-300" />
+                </div>
               </Link>
             </motion.div>
 
@@ -193,7 +190,7 @@ export default function Hero() {
             >
               <div className="absolute inset-0 rounded-[2.25rem] bg-gradient-to-tr from-white/40 to-transparent dark:from-white/5 pointer-events-none" />
               {/* Double Bezel Inner Core */}
-              <div className="relative rounded-[1.75rem] bg-[var(--theme-bg-surface)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden border border-[var(--theme-border)]">
+              <div className="relative rounded-[1.75rem] bg-[var(--theme-bg-surface)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden border border-[var(--theme-border)] backdrop-blur-2xl">
                 <div ref={wrapperRef} className="w-full overflow-hidden" style={{ height: `${DESIGN_H * scale}px` }}>
                   <div style={{ width: DESIGN_W, height: DESIGN_H, transformOrigin: 'top left', transform: `scale(${scale})` }}>
                     <AnimatePresence mode="wait">

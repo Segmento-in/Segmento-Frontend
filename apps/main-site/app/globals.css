@@ -85,80 +85,74 @@
    Canvas: Warm off-white. 5 product colors. Charcoal text (WCAG AA locked).
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="light"] {
-  /* ── Page Canvas ── */
-  --theme-bg: #f9fafb;
-  /* warm off-white — Glopay-style airy canvas */
-  --theme-bg-surface: #ffffff;
-  /* pure white bento tile fill                */
-  --theme-bg-surface-high: #f3f4f6;
-  /* nested inner card fill                    */
+  /* ── Page Canvas — Vibrant Tinted Glass ── */
+  --theme-bg: #e6f0fa; /* Cool icy-blue/ash tint instead of white */
+  --theme-bg-surface: rgba(255, 255, 255, 0.45); /* frosted glass core */
+  --theme-bg-surface-high: rgba(255, 255, 255, 0.7); /* elevated frosted */
 
-  /* ── Text — WCAG AA locked (≥4.5:1 on all pastels) ── */
-  --theme-fg: #111827;
-  /* primary — deep charcoal, approved Q4       */
-  --theme-fg-subtle: #374151;
-  /* secondary — dark slate                     */
-  --theme-fg-muted: #6b7280;
-  /* placeholder / captions                     */
+  /* ── Text — High Contrast ── */
+  --theme-fg: #0f172a;
+  --theme-fg-subtle: #334155;
+  --theme-fg-muted: #64748b;
 
-  /* ── Brand — Violet (Glopay-aligned primary accent) ── */
-  --theme-brand: #7c3aed;
-  --theme-brand-hover: #6d28d9;
+  /* ── Brand — Deep Indigo/Blue (Logo inspired) ── */
+  --theme-brand: #0072ff;
+  --theme-brand-hover: #0056cc;
   --theme-brand-fg: #ffffff;
-  --theme-brand-glow: rgba(124, 58, 237, 0.15);
+  --theme-brand-glow: rgba(0, 114, 255, 0.2);
 
   /* ── Secondary accent ── */
-  --theme-secondary: #a855f7;
+  --theme-secondary: #00c6ff;
 
-  /* ── Borders — soft, not structural ── */
-  --theme-border: #e5e7eb;
-  --theme-border-subtle: #f3f4f6;
+  /* ── Borders — Glass highlights ── */
+  --theme-border: rgba(255, 255, 255, 0.5);
+  --theme-border-subtle: rgba(255, 255, 255, 0.2);
 
   /* ── Status ── */
-  --theme-success: #059669;
-  --theme-error: #dc2626;
-  --theme-warning: #d97706;
+  --theme-success: #00d2b4;
+  --theme-error: #ff2a85;
+  --theme-warning: #ff8a00;
 
-  /* ── Product Brand Colors (pastel backgrounds, charcoal text) ── */
+  /* ── Product Brand Colors (Glassy pastel adaptations) ── */
   /* Pulse — Amber Intelligence */
-  --product-pulse-bg: #fef9ee;
-  --product-pulse-border: #fde68a;
-  --product-pulse-accent: #d97706;
-  --product-pulse-icon-bg: #fef3c7;
+  --product-pulse-bg: rgba(255, 138, 0, 0.08);
+  --product-pulse-border: rgba(255, 138, 0, 0.25);
+  --product-pulse-accent: #ff8a00;
+  --product-pulse-icon-bg: rgba(255, 138, 0, 0.15);
 
-  /* Sense — Violet AI */
-  --product-sense-bg: #f5f3ff;
-  --product-sense-border: #ddd6fe;
-  --product-sense-accent: #7c3aed;
-  --product-sense-icon-bg: #ede9fe;
+  /* Sense — Pink/Magenta AI */
+  --product-sense-bg: rgba(255, 42, 133, 0.08);
+  --product-sense-border: rgba(255, 42, 133, 0.25);
+  --product-sense-accent: #ff2a85;
+  --product-sense-icon-bg: rgba(255, 42, 133, 0.15);
 
-  /* Collect — Emerald Pipelines */
-  --product-collect-bg: #f0fdf4;
-  --product-collect-border: #bbf7d0;
-  --product-collect-accent: #059669;
-  --product-collect-icon-bg: #dcfce7;
+  /* Collect — Teal Pipelines */
+  --product-collect-bg: rgba(0, 210, 180, 0.08);
+  --product-collect-border: rgba(0, 210, 180, 0.25);
+  --product-collect-accent: #00d2b4;
+  --product-collect-icon-bg: rgba(0, 210, 180, 0.15);
 
   /* Resolve — Cobalt Trust */
-  --product-resolve-bg: #eff6ff;
-  --product-resolve-border: #bfdbfe;
-  --product-resolve-accent: #2563eb;
-  --product-resolve-icon-bg: #dbeafe;
+  --product-resolve-bg: rgba(0, 114, 255, 0.08);
+  --product-resolve-border: rgba(0, 114, 255, 0.25);
+  --product-resolve-accent: #0072ff;
+  --product-resolve-icon-bg: rgba(0, 114, 255, 0.15);
 
-  /* SprintQL — Rose Collaboration */
-  --product-sprintql-bg: #fff1f2;
-  --product-sprintql-border: #fecdd3;
-  --product-sprintql-accent: #e11d48;
-  --product-sprintql-icon-bg: #ffe4e6;
+  /* SprintQL — Cyan Collaboration */
+  --product-sprintql-bg: rgba(0, 198, 255, 0.08);
+  --product-sprintql-border: rgba(0, 198, 255, 0.25);
+  --product-sprintql-accent: #00c6ff;
+  --product-sprintql-icon-bg: rgba(0, 198, 255, 0.15);
 
-  /* ── Multi-layer ambient shadow (ui-ux-pro-max spec) ── */
+  /* ── Multi-layer ambient shadow (with top glass highlight) ── */
   --shadow-tile:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 0, 0, 0.04);
+    0 4px 12px -2px rgba(0, 10, 30, 0.04),
+    0 12px 32px -4px rgba(0, 10, 30, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
   --shadow-tile-hover:
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 24px 40px rgba(0, 0, 0, 0.08);
+    0 8px 24px -4px rgba(0, 114, 255, 0.12),
+    0 24px 48px -12px rgba(0, 114, 255, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 1);
 
   /* ── Nav & Generic Aliases ── */
   --nav-bg: #ffffff;
@@ -414,26 +408,45 @@
     gap: var(--spacing-gutter, 1.5rem);
   }
 
-  /* A single tile — multi-layer ambient shadow per ui-ux-pro-max */
+  /* ── Double-Bezel Architecture ─────────────────────────────────────── */
+  .double-bezel-shell {
+    position: relative;
+    padding: 0.375rem; /* 6px */
+    border-radius: 1.125rem; /* 18px outer */
+    background: rgba(0, 0, 0, 0.04);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 24px 48px -12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.3s ease;
+  }
+  .double-bezel-shell:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 32px 56px -12px rgba(0, 0, 0, 0.12);
+  }
+
+  [data-theme="dark"] .double-bezel-shell {
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 24px 48px -12px rgba(0, 0, 0, 0.4);
+  }
+  [data-theme="dark"] .double-bezel-shell:hover {
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 32px 56px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  /* A single tile — frosted glass over the iridescent canvas */
   .bento-tile {
-    border-radius: var(--radius-bento);
+    border-radius: 0.75rem; /* 12px inner (Concentric: 18px - 6px = 12px) */
     border: 1px solid var(--theme-border);
     background-color: var(--theme-bg-surface);
-    box-shadow: var(--shadow-tile);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     padding: 1.5rem;
     overflow: hidden;
     position: relative;
-    transition:
-      border-color 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-      box-shadow 0.25s cubic-bezier(0.32, 0.72, 0, 1),
-      transform 0.2s cubic-bezier(0.32, 0.72, 0, 1);
+    transition: border-color 0.3s cubic-bezier(0.32, 0.72, 0, 1), background-color 0.3s ease;
   }
 
-  /* Hover: lift + brand border — premium physical press */
-  .bento-tile:hover {
+  /* Hover: subtle internal color shift */
+  .double-bezel-shell:hover .bento-tile {
     border-color: var(--theme-brand);
-    box-shadow: var(--shadow-tile-hover);
-    transform: translateY(-2px);
   }
 
   /* Product-colored tile variants */

@@ -248,11 +248,11 @@ export default function Features() {
 
           {/* ══ CARD 1 — 100% Client-Side (Resolve/Cobalt — largest tile) ══ */}
           <motion.div
-            className="bento-col-4 md:row-span-2 group"
+            className="bento-col-4 md:row-span-2"
             {...fadeUp(0.08)}
           >
-            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
-              <div className="bento-tile bento-tile-resolve h-full flex flex-col min-h-[300px]">
+            <div className="double-bezel-shell h-full flex flex-col">
+              <div className="bento-tile bento-tile-resolve h-full flex flex-col min-h-[300px] grow">
                 <Database size={22} style={{ color: "var(--product-resolve-accent)", marginBottom: "1rem" }} />
                 <CategoryChip label="Architecture" />
                 <h3 style={{
@@ -277,11 +277,11 @@ export default function Features() {
 
           {/* ══ CARD 2 — Explainable AI (Sense/Violet) ══ */}
           <motion.div
-            className="bento-col-8 group"
+            className="bento-col-8"
             {...fadeUp(0.14)}
           >
-            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
-              <div className="bento-tile bento-tile-sense h-full flex flex-col min-h-[200px]">
+            <div className="double-bezel-shell h-full flex flex-col">
+              <div className="bento-tile bento-tile-sense h-full flex flex-col min-h-[200px] grow">
                 <Brain size={22} style={{ color: "var(--product-sense-accent)", marginBottom: "1rem" }} />
                 <CategoryChip label="AI" />
                 <h3 style={{
@@ -306,11 +306,11 @@ export default function Features() {
 
           {/* ══ CARD 3 — Zero-Trust (Collect/Emerald) ══ */}
           <motion.div
-            className="bento-col-4 group"
+            className="bento-col-4"
             {...fadeUp(0.2)}
           >
-            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
-              <div className="bento-tile bento-tile-collect h-full flex flex-col gap-2 min-h-[180px]">
+            <div className="double-bezel-shell h-full flex flex-col">
+              <div className="bento-tile bento-tile-collect h-full flex flex-col gap-2 min-h-[180px] grow">
                 <Shield size={22} style={{ color: "var(--product-collect-accent)", marginBottom: "0.5rem" }} />
                 <CategoryChip label="Privacy" />
                 <h3 style={{
@@ -333,11 +333,11 @@ export default function Features() {
 
           {/* ══ CARD 4 — Enterprise Scale (Pulse/Amber) ══ */}
           <motion.div
-            className="bento-col-4 group"
+            className="bento-col-4"
             {...fadeUp(0.26)}
           >
-            <div className="p-1.5 rounded-[1.25rem] bg-black/5 ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10 h-full">
-              <div className="bento-tile bento-tile-pulse h-full flex flex-col gap-2 min-h-[180px]">
+            <div className="double-bezel-shell h-full flex flex-col">
+              <div className="bento-tile bento-tile-pulse h-full flex flex-col gap-2 min-h-[180px] grow">
                 <BarChart3 size={22} style={{ color: "var(--product-pulse-accent)", marginBottom: "0.5rem" }} />
                 <CategoryChip label="Scale" />
                 <h3 style={{
