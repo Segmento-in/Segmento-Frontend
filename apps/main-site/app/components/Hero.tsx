@@ -71,7 +71,7 @@ export default function Hero() {
           {/* LEFT */}
           <div className="col-span-12 lg:col-span-6 flex flex-col gap-7 md:gap-8 lg:gap-9">
             <motion.div {...fadeUp(0.05)}>
-              <div className="chip w-fit" style={{ borderColor: 'rgba(0, 210, 180, 0.4)', background: 'rgba(0, 210, 180, 0.08)' }}>
+              <div className="chip w-fit py-1.5 px-3.5 text-xs md:text-sm" style={{ borderColor: 'rgba(0, 210, 180, 0.4)', background: 'rgba(0, 210, 180, 0.08)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#00d2b4', boxShadow: '0 0 8px #00d2b4' }} />
                 <span style={{ color: 'var(--theme-fg)', fontWeight: 500 }}>AI-Native · DPDP · GDPR Ready</span>
               </div>
@@ -99,9 +99,9 @@ export default function Hero() {
                       key={p.id}
                       onClick={() => setActive(p.id)}
                       style={{
-                        padding: '6px 16px',
+                        padding: '7px 18px',
                         borderRadius: 999,
-                        fontSize: 13,
+                        fontSize: 13.5,
                         fontWeight: isSelected ? 600 : 400,
                         fontFamily: 'inherit',
                         cursor: 'pointer',
@@ -150,8 +150,8 @@ export default function Hero() {
 
             <motion.div className="flex flex-wrap gap-2.5 pt-1" {...fadeUp(0.36)}>
               {(['GDPR · Ready', 'HIPAA · Compliant', 'DPDP · Certified'] as const).map(b => (
-                <span key={b} className="chip">
-                  <CheckCircle2 size={10} style={{ color: '#00d2b4', flexShrink: 0 }} />{b}
+                <span key={b} className="chip py-1 px-3 text-xs">
+                  <CheckCircle2 size={12} style={{ color: '#00d2b4', flexShrink: 0 }} />{b}
                 </span>
               ))}
             </motion.div>
@@ -163,8 +163,8 @@ export default function Hero() {
                   key={p.id}
                   onClick={() => setActive(p.id)}
                   style={{
-                    width: active === p.id ? 24 : 6,
-                    height: 6,
+                    width: active === p.id ? 28 : 7,
+                    height: 7,
                     borderRadius: 999,
                     border: 'none',
                     cursor: 'pointer',

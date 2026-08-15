@@ -1,1841 +1,313 @@
 {
   "app/about/page.tsx": {
-    "mtime": 1783518801.0705159,
-    "ast_hash": "1e761ba44387933f36c70a6dcfcf25cc",
+    "mtime": 1781962091.2258542,
+    "seen": 1786779632.0099452,
+    "ast_hash": "6d3bec64b7a4a0391236c10cc3989c7e",
     "semantic_hash": ""
   },
   "app/api/contact/route.ts": {
-    "mtime": 1783518801.0705159,
-    "ast_hash": "dcd5e6ea522bc2af8a0b628128ef9517",
+    "mtime": 1781962091.2267137,
+    "seen": 1786779632.0099552,
+    "ast_hash": "163c362729ccac21255ef11221e613c4",
     "semantic_hash": ""
   },
   "app/blog/2025-moments/page.tsx": {
-    "mtime": 1783518801.0748537,
-    "ast_hash": "6bf5cb4fce38c3f240a2f8b34a76435d",
+    "mtime": 1781962091.227354,
+    "seen": 1786779632.0099578,
+    "ast_hash": "18a46bdb9f0d6feed87e627f88a2a9d5",
     "semantic_hash": ""
   },
   "app/blog/page.tsx": {
-    "mtime": 1783518801.076381,
-    "ast_hash": "7abcaca9ce1538b2f64f83e6d4f35a90",
+    "mtime": 1781962091.2275777,
+    "seen": 1786779632.00996,
+    "ast_hash": "83524b6bad611e7fe11d8f93f60ffac6",
     "semantic_hash": ""
   },
   "app/blog/segmento-pulse-launch/page.tsx": {
-    "mtime": 1783518801.0780973,
-    "ast_hash": "31c0709a67cdf381bbf24ceb87d364b0",
+    "mtime": 1781962091.2278078,
+    "seen": 1786779632.009962,
+    "ast_hash": "0e7235747921d29d9e0668c530cc8025",
     "semantic_hash": ""
   },
   "app/careers/page.tsx": {
-    "mtime": 1783518801.0786052,
-    "ast_hash": "9cc557db1b08facb3c73318fc5887a26",
+    "mtime": 1781962091.2281618,
+    "seen": 1786779632.009963,
+    "ast_hash": "c587c1e7b791eae44c5c88e0378f9158",
     "semantic_hash": ""
   },
   "app/components/CTASection.tsx": {
-    "mtime": 1786619621.1657262,
+    "mtime": 1786758172.1748915,
+    "seen": 1786779632.009965,
     "ast_hash": "ac2512316dd4bd99c9a2aa40d497c4de",
     "semantic_hash": ""
   },
   "app/components/Chatbot.tsx": {
-    "mtime": 1786706888.9627643,
-    "ast_hash": "7aea9f74a17e3f55e7c2ebad67c002c4",
+    "mtime": 1786758172.175107,
+    "seen": 1786779632.009967,
+    "ast_hash": "c7f809575d7d91e5641139dbd7a5b928",
     "semantic_hash": ""
   },
   "app/components/Features.tsx": {
-    "mtime": 1786706792.15316,
-    "ast_hash": "cb743be49e8cc055b1a102d0cf4e0af5",
+    "mtime": 1786767645.7204146,
+    "seen": 1786779632.009969,
+    "ast_hash": "c9abd279acc862be3e0fefd534a03c48",
     "semantic_hash": ""
   },
   "app/components/Footer.tsx": {
-    "mtime": 1786706890.995685,
-    "ast_hash": "316254657aadcc4cf6c2cae8e48c41d8",
+    "mtime": 1786758172.175708,
+    "seen": 1786779632.00997,
+    "ast_hash": "b4d67923836f8b28f30d10e840960c0a",
     "semantic_hash": ""
   },
   "app/components/Hero.tsx": {
-    "mtime": 1786706492.6488993,
-    "ast_hash": "bb53d1010a600e5acfd634d0f4e0c6b5",
+    "mtime": 1786769225.7542868,
+    "seen": 1786779632.009971,
+    "ast_hash": "40905de1818d1995be678dcbd194adbe",
     "semantic_hash": ""
   },
   "app/components/HeroShells.tsx": {
-    "mtime": 1786706772.528144,
-    "ast_hash": "889cabd7497b8329c198923c001758a7",
+    "mtime": 1786758172.1762958,
+    "seen": 1786779632.009973,
+    "ast_hash": "1360bcdddd73aafa5c415bdd6cb7a82e",
     "semantic_hash": ""
   },
   "app/components/HowItWorks.tsx": {
-    "mtime": 1786706797.1329248,
-    "ast_hash": "20756556cfc9987a9f1eee6caa3fc77c",
+    "mtime": 1786758172.1766067,
+    "seen": 1786779632.009974,
+    "ast_hash": "bb033f8083397b8165c4a35231f104b2",
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1786192221.8734367,
-    "ast_hash": "7fc4fdd140f230f8909631f87da5969a",
+    "mtime": 1786768501.8971257,
+    "seen": 1786779632.0099761,
+    "ast_hash": "d5da982a4a5fdca763bb723d52f5ac96",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
-    "mtime": 1786706799.2116644,
-    "ast_hash": "9863206d3ed690fb3dcc70071b15b078",
+    "mtime": 1786758172.1775436,
+    "seen": 1786779632.009977,
+    "ast_hash": "f32b215a108c6fb1bd14c5fca275bd00",
     "semantic_hash": ""
   },
   "app/components/Stats.tsx": {
-    "mtime": 1786706548.8543677,
-    "ast_hash": "cbadc99751f99324f70352db26d4bc81",
+    "mtime": 1786768501.8966095,
+    "seen": 1786779632.0099788,
+    "ast_hash": "d29537a13264f5c0cc7fbdb484803011",
     "semantic_hash": ""
   },
   "app/components/ThemeToggle.tsx": {
-    "mtime": 1783518801.0897312,
-    "ast_hash": "05dcb1dec040cf72b602c53ed099653a",
+    "mtime": 1781962091.230383,
+    "seen": 1786779632.00998,
+    "ast_hash": "e2bb56d7ecdd13f30654905899aae867",
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1786193171.6091936,
-    "ast_hash": "47cb2b1dbc3f084ef591331c2db8d6da",
+    "mtime": 1786758172.178253,
+    "seen": 1786779632.0099819,
+    "ast_hash": "ff4b866419efa4b83e3ff1c62b40e697",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
-    "mtime": 1783518801.092548,
-    "ast_hash": "877b055db3be461b7798a67aa7c7069b",
+    "mtime": 1781962091.2309833,
+    "seen": 1786779632.009983,
+    "ast_hash": "ee21d2c59589a0947ad849f498eb2478",
     "semantic_hash": ""
   },
   "app/lib/db.ts": {
-    "mtime": 1783518801.0954027,
-    "ast_hash": "e32a82f49a685614fea9b912921954b0",
+    "mtime": 1781962091.231171,
+    "seen": 1786779632.009985,
+    "ast_hash": "61cde81735882576a4ea5d8673710768",
     "semantic_hash": ""
   },
   "app/lib/emailService.ts": {
-    "mtime": 1783518801.0954027,
-    "ast_hash": "a41bf5a47e60ea60291c01a0ff575fc7",
+    "mtime": 1781962091.2313235,
+    "seen": 1786779632.009987,
+    "ast_hash": "7da131e8be0e094a1668a8db191e33c5",
     "semantic_hash": ""
   },
   "app/lib/fonts.ts": {
-    "mtime": 1783518801.097442,
-    "ast_hash": "e8e796fc336127c16d863beea02ddea5",
+    "mtime": 1781962091.2314508,
+    "seen": 1786779632.009988,
+    "ast_hash": "d37cd34a47c503e123847e8846249ef9",
     "semantic_hash": ""
   },
   "app/page.tsx": {
-    "mtime": 1783518801.097442,
-    "ast_hash": "331a07d4bfac58c77f7306c58c3a7ed4",
+    "mtime": 1781962091.2315767,
+    "seen": 1786779632.00999,
+    "ast_hash": "ee7cbaeac24c10e592c6f792a0a563a8",
     "semantic_hash": ""
   },
   "app/solutions/page.tsx": {
-    "mtime": 1783518801.097442,
-    "ast_hash": "246fdd1b4084e1d82183cf3335b1dff0",
+    "mtime": 1781962091.2318501,
+    "seen": 1786779632.009991,
+    "ast_hash": "6caaf0dc56ce7bd897e6390c5e4a1a87",
     "semantic_hash": ""
   },
   "next.config.ts": {
-    "mtime": 1786437196.929124,
-    "ast_hash": "a3759e761b4a33fd4b83697e16ddc9a0",
+    "mtime": 1786758172.1823518,
+    "seen": 1786779632.009993,
+    "ast_hash": "9c95a35b3e095acf9fe9cc652b18d322",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1786102810.4456346,
-    "ast_hash": "685b255d4874796095c80c9f5aa632c6",
+    "mtime": 1786758172.182562,
+    "seen": 1786779632.009994,
+    "ast_hash": "62211600d1d60969eec1889b53b58c54",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
-    "mtime": 1783518801.1319082,
-    "ast_hash": "f76ebbe853096bd5c029b754dad8eab8",
+    "mtime": 1781962091.2386613,
+    "seen": 1786779632.009996,
+    "ast_hash": "0f8aa602547b154dc06be77b007c51d2",
     "semantic_hash": ""
   },
   "tsconfig.json": {
-    "mtime": 1783518801.2540176,
-    "ast_hash": "d741facdf83f9317483a8fa1199a83f4",
+    "mtime": 1781962091.35692,
+    "seen": 1786779632.0099971,
+    "ast_hash": "d7f9f94cbab9e5ccc8dc6b8628ed6d9a",
     "semantic_hash": ""
   },
   "DESIGN.md": {
-    "mtime": 1783518801.0683067,
-    "ast_hash": "3d14037253662698a5afa5d66f6357b1",
+    "mtime": 1781962091.2254653,
+    "seen": 1786779632.009999,
+    "ast_hash": "3652be22bd4729760dd29da1bbe6b8a4",
     "semantic_hash": ""
   },
   "segmento_upgraded_blueprint.md": {
-    "mtime": 1783518801.2540176,
-    "ast_hash": "de032a2b4d9e390397458feb733f57f1",
+    "mtime": 1781962091.3567586,
+    "seen": 1786779632.0100029,
+    "ast_hash": "1608a8101d9181d59a24c85fb0a5ec32",
     "semantic_hash": ""
   },
   "public/hero-team.png": {
-    "mtime": 1783518801.153637,
+    "mtime": 1781962091.2636456,
+    "seen": 1786779632.0100071,
     "ast_hash": "8b39f885138fbe554643252ba5d23234",
     "semantic_hash": ""
   },
   "public/hero-workspace.png": {
-    "mtime": 1783518801.177823,
+    "mtime": 1781962091.289529,
+    "seen": 1786779632.010009,
     "ast_hash": "b11c00af525d05a1cac9cf98957f763c",
     "semantic_hash": ""
   },
   "public/images/Female-placeholder.jpg": {
-    "mtime": 1783518801.1814215,
+    "mtime": 1781962091.289948,
+    "seen": 1786779632.01001,
     "ast_hash": "cf310e37771698f4aaaebed98c035de2",
     "semantic_hash": ""
   },
   "public/images/director1.png": {
-    "mtime": 1783518801.1834526,
+    "mtime": 1781962091.296471,
+    "seen": 1786779632.010012,
     "ast_hash": "1ee245eae71e9b83a70350bc7f199d67",
     "semantic_hash": ""
   },
   "public/images/hero-bg.png": {
-    "mtime": 1783518801.1920297,
+    "mtime": 1781962091.3033957,
+    "seen": 1786779632.0100129,
     "ast_hash": "6fdc9e3b29960abafc974b4dc30d345d",
     "semantic_hash": ""
   },
   "public/images/image.png": {
-    "mtime": 1783518801.1920297,
+    "mtime": 1781962091.3061645,
+    "seen": 1786779632.010015,
     "ast_hash": "468cb851f8dc13e89797954d83fa9ce9",
     "semantic_hash": ""
   },
-  "public/images/logo-compact.svg": {
-    "mtime": 1783518801.2013378,
-    "ast_hash": "9d0fdfa0526a65a9b892b991e7e667cb",
-    "semantic_hash": ""
-  },
   "public/images/logo-final.png": {
-    "mtime": 1783518801.2026205,
+    "mtime": 1781962091.3094804,
+    "seen": 1786779632.010016,
     "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
     "semantic_hash": ""
   },
   "public/images/logo-final1.png": {
-    "mtime": 1783518801.2048144,
+    "mtime": 1781962091.312903,
+    "seen": 1786779632.010017,
     "ast_hash": "f66488840bf0c7211809f3b61f40afea",
     "semantic_hash": ""
   },
   "public/images/logo-main.png": {
-    "mtime": 1783518801.2084937,
+    "mtime": 1781962091.3140757,
+    "seen": 1786779632.010018,
     "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
     "semantic_hash": ""
   },
   "public/images/logo.png": {
-    "mtime": 1783518801.2168834,
+    "mtime": 1781962091.322551,
+    "seen": 1786779632.01002,
     "ast_hash": "01e9dabec27e5b256d7e2e479b676559",
     "semantic_hash": ""
   },
   "public/images/logo.svg": {
-    "mtime": 1783518801.2175324,
-    "ast_hash": "a58b26a1fd82f9fc5f0e447d64705578",
+    "mtime": 1781962091.3231874,
+    "seen": 1786779632.01002,
+    "ast_hash": "e00fce3792dc4987a007931acddbe6bf",
     "semantic_hash": ""
   },
   "public/images/male-placeholder.jpg": {
-    "mtime": 1783518801.2190702,
+    "mtime": 1781962091.3233635,
+    "seen": 1786779632.0100229,
     "ast_hash": "45cb76edac6ebc7141eaff09e3b02398",
     "semantic_hash": ""
   },
   "public/images/mem2.jpeg": {
-    "mtime": 1783518801.2190702,
+    "mtime": 1781962091.3236759,
+    "seen": 1786779632.0100238,
     "ast_hash": "951e9ff0595ba892ef03f8e36abb906c",
     "semantic_hash": ""
   },
-  "public/images/mohan.png": {
-    "mtime": 1783518801.2205951,
-    "ast_hash": "988f2eae0af21d9f2298934daa17ee77",
-    "semantic_hash": ""
-  },
   "public/images/segmento-logo-new.png": {
-    "mtime": 1783518801.2205951,
+    "mtime": 1781962091.3273206,
+    "seen": 1786779632.010026,
     "ast_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc",
     "semantic_hash": ""
   },
-  "public/images/segmento-logo-optimized.svg": {
-    "mtime": 1783518801.2205951,
-    "ast_hash": "3dc1428d703ac9d3f37b7f541ae296fe",
-    "semantic_hash": ""
-  },
   "public/images/segmento-logo.png": {
-    "mtime": 1783518801.2253058,
+    "mtime": 1781962091.331659,
+    "seen": 1786779632.010027,
     "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
     "semantic_hash": ""
   },
   "public/images/segmento_logo.png": {
-    "mtime": 1783518801.2269728,
+    "mtime": 1781962091.3320465,
+    "seen": 1786779632.010029,
     "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
     "semantic_hash": ""
   },
   "public/images/shafi-profile.jpg": {
-    "mtime": 1783518801.2296157,
+    "mtime": 1781962091.3342195,
+    "seen": 1786779632.01003,
     "ast_hash": "47e734f5cfec64935b59564d97a1de57",
     "semantic_hash": ""
   },
-  "public/images/thejesh.png": {
-    "mtime": 1783518801.2337346,
-    "ast_hash": "330d291a88667dcb341bf284ce284f98",
-    "semantic_hash": ""
-  },
-  "public/images/vijayalakshmi.png": {
-    "mtime": 1783518801.2354205,
-    "ast_hash": "f9a6abc15ca608766ac0a48ef1c20f41",
-    "semantic_hash": ""
-  },
   "segmento_main_site_blueprint_v2.0_1.png": {
-    "mtime": 1783518801.245878,
+    "mtime": 1781962091.3498054,
+    "seen": 1786779632.0100322,
     "ast_hash": "6d017871cccfd0debcfca6a82aea9fa8",
     "semantic_hash": ""
   },
   "segmento_main_site_blueprint_v2.0_2.png": {
-    "mtime": 1783518801.2524483,
+    "mtime": 1781962091.3562503,
+    "seen": 1786779632.0100338,
     "ast_hash": "82c8bd7e499d1f2e9fdf4087ec4ef234",
     "semantic_hash": ""
   },
   "UBIQUITOUS_LANGUAGE.md": {
-    "mtime": 1786172309.8571017,
+    "mtime": 1786758172.174641,
+    "seen": 1786779632.010001,
     "ast_hash": "707b2cc049dee5cb16de262e6f58623e",
     "semantic_hash": ""
   },
   "public/Map_of_countries.png": {
-    "mtime": 1786170761.786543,
+    "mtime": 1786758172.185884,
+    "seen": 1786779632.010005,
     "ast_hash": "d6edfa19ad091f9d50eaf7d041bac455",
     "semantic_hash": ""
   },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\(auth)\\login\\page.tsx": {
-    "mtime": 1783518801.257174,
-    "ast_hash": "96a65aba283960f6433f300eb3c182dc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\(auth)\\register\\page.tsx": {
-    "mtime": 1783518801.2589974,
-    "ast_hash": "6aa9271556dba8b432d692e9b40f53d2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\api\\[...path]\\route.ts": {
-    "mtime": 1783518801.2601352,
-    "ast_hash": "d67450f92f42837eca1c1beecf7c9357",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\category\\[slug]\\loading.tsx": {
-    "mtime": 1783518801.2629657,
-    "ast_hash": "ed08438bdc798ea2b4ee965a6af0ae28",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\category\\[slug]\\page.tsx": {
-    "mtime": 1783518801.2629657,
-    "ast_hash": "5dfa36e988c1a93c9328ce106047f2b5",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\dashboard\\page.tsx": {
-    "mtime": 1783518801.2644794,
-    "ast_hash": "ce995b2458288b3f3bc4221a49d3c4cb",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\latest-articles\\loading.tsx": {
-    "mtime": 1783518801.2669978,
-    "ast_hash": "623e0aa61509354430d4f663282d2b9a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\latest-articles\\page.tsx": {
-    "mtime": 1783518801.2669978,
-    "ast_hash": "413eca5777e47810f649a9282b7db046",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\layout.tsx": {
-    "mtime": 1783518801.2691765,
-    "ast_hash": "d559e946afb16b7d3ea8b79bebcd669e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\loading.tsx": {
-    "mtime": 1783518801.2691765,
-    "ast_hash": "eaffcf3a762a7b7141db734c2c0e4a62",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\app\\page.tsx": {
-    "mtime": 1783518801.270702,
-    "ast_hash": "fa3b0182e00c12082223d149c4c1e494",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\ArticleDetailView.tsx": {
-    "mtime": 1783518801.270702,
-    "ast_hash": "3e1328a9af93b8478b7f609f8c05b552",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\ArticleInteraction.tsx": {
-    "mtime": 1783518801.270702,
-    "ast_hash": "0cbe031b6612904b3b2f67632c55db90",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\AudioPlayer.tsx": {
-    "mtime": 1783518801.270702,
-    "ast_hash": "bf70b398f267e25c2d7fba15e9e7bcfa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\AudioSummaryButton.tsx": {
-    "mtime": 1783518801.275277,
-    "ast_hash": "aba4deeb7c80bd78757df1d277bae802",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\CardEngagementStats.tsx": {
-    "mtime": 1783518801.2769675,
-    "ast_hash": "03a12ec3135a51984b018c33f6b42011",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\CommentSection.tsx": {
-    "mtime": 1783518801.2779827,
-    "ast_hash": "8d38815735da94d532a06b39428c61ed",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\HeartbeatLogo.tsx": {
-    "mtime": 1783518801.2779827,
-    "ast_hash": "5fe6d8b8c4d43be8a353500fe46c8b39",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\NewsletterCard.tsx": {
-    "mtime": 1783518801.2794976,
-    "ast_hash": "d05816227ec2084a803518be5b6a16fa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\NewsletterConfig.ts": {
-    "mtime": 1783518801.2810287,
-    "ast_hash": "01fbad50877481535acabeb357b7e70f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\NewsletterHub.tsx": {
-    "mtime": 1783518801.2815456,
-    "ast_hash": "4babab695d1bf44fecd34d5788faf8af",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\NewsletterModal.tsx": {
-    "mtime": 1783518801.2820594,
-    "ast_hash": "9509020d76c551806a2572835b0c2955",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\SubscriptionManager.tsx": {
-    "mtime": 1783518801.2820594,
-    "ast_hash": "38eb5b42ec53187db8d50de7dfc0db3d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\TimeDisplay.tsx": {
-    "mtime": 1783518801.2837393,
-    "ast_hash": "d7c58132fa663201fdcea001fa886007",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\ViewCounter.tsx": {
-    "mtime": 1783518801.2837393,
-    "ast_hash": "021e6c369856ec994ab8a0b00e87f485",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\canvas\\CardScene.tsx": {
-    "mtime": 1783518801.2853694,
-    "ast_hash": "6ae00d8dbe6ef686ba406e5c1eb27f4d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\canvas\\HeroScene.tsx": {
-    "mtime": 1783518801.287582,
-    "ast_hash": "7e308f86f20e285fbd0e5af7519a0f78",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\canvas\\ThreeLoaders.tsx": {
-    "mtime": 1783518801.287582,
-    "ast_hash": "b692e6f552e820900102a51bf9caf430",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\layout\\ArticlesByTopic.tsx": {
-    "mtime": 1783518801.2896285,
-    "ast_hash": "36f1ed8f5c9be98790e85063c7394cc6",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\layout\\FooterBar.tsx": {
-    "mtime": 1783518801.2896285,
-    "ast_hash": "bce42c2ff2f5ea9f119031288d4e74ae",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\layout\\HeroSection.tsx": {
-    "mtime": 1783518801.2910888,
-    "ast_hash": "88b48cc4e76a6283789ad72ed6f86d7d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\layout\\NavBar.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "3ef672febfd25b9767e72738ffc0d51a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\layout\\NewsletterCTA.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "79c6435bd8eb860920f11fe82e6e055f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\shared\\AuthorMetaBlock.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "b80b49743ef91e710f206544b40eb5e7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\shared\\CategoryBadge.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "bd731ddafaf9dec7b5138381afb3865b",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\shared\\PrimaryActionButton.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "e288da214557472815e9bd3a20143611",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\shared\\ThemeToggle.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "2f96592044dca182097a8755bc932252",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\ui\\button.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "269c4db9c616cf50bda10730f0e29bca",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\ui\\input.tsx": {
-    "mtime": 1783518801.2921798,
-    "ast_hash": "ccba3c57ef2e55d15f772918ac540b3b",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\views\\CategoryPage.tsx": {
-    "mtime": 1783518801.3003533,
-    "ast_hash": "ec422916d5c69b3e9784fc4ba197011b",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\components\\views\\HomePageClient.tsx": {
-    "mtime": 1783518801.3021376,
-    "ast_hash": "69fbb28200560e0c3f65b747b6b368b4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\hooks\\useEngagement.ts": {
-    "mtime": 1783518801.3037853,
-    "ast_hash": "9f9f18a09431777b53a900e3b7b424fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\hooks\\useInfiniteScroll.ts": {
-    "mtime": 1783518801.3037853,
-    "ast_hash": "d93dc84c4c8d7332b57821ed647c4254",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\analytics.ts": {
-    "mtime": 1783518801.3072133,
-    "ast_hash": "f60f6e4af5d8381a1fe46bcf42a609be",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\apiBase.ts": {
-    "mtime": 1783518801.3087125,
-    "ast_hash": "87588d0bbbad42f1c38d65e80d6a70bc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\dateUtils.ts": {
-    "mtime": 1783518801.3087125,
-    "ast_hash": "477767b29d73cd369223ba27bc6ab4ca",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\firebase.ts": {
-    "mtime": 1783518801.3103375,
-    "ast_hash": "e0d468137ef5b7e431b40d4db3f1c2a2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\newsApi.ts": {
-    "mtime": 1783518801.3115273,
-    "ast_hash": "752bb8d7da36fccf0a8da321144d2c18",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\userApi.ts": {
-    "mtime": 1783518801.3115273,
-    "ast_hash": "11e0680a772218888b619e02e7515710",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\lib\\utils.ts": {
-    "mtime": 1783518801.3140738,
-    "ast_hash": "b7369cc6ed1c89d3d06037e2e9947f8f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\next.config.ts": {
-    "mtime": 1783518801.3146513,
-    "ast_hash": "6538effbc042407ec4d3b3d7a50d9661",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\package.json": {
-    "mtime": 1783518801.3146513,
-    "ast_hash": "c6d7f736a9c517d77bd2d82d813404ff",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\postcss.config.mjs": {
-    "mtime": 1783518801.316635,
-    "ast_hash": "be2da0e8d1d254e14f658dd2cdedca34",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\shared\\idGenerator.ts": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "0a10e267161ad57ef9b7dc96e0f0e61b",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\shared\\utils.ts": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "b7369cc6ed1c89d3d06037e2e9947f8f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\tailwind.config.js": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "5ffcb32efef6e1698e76f56df801a510",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\tsconfig.json": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "2b9b17e4e1fef2b7ea28c8bb329c77df",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\ai-engine\\page.test.tsx": {
-    "mtime": 1785573300.9711077,
-    "ast_hash": "96eb8d7a8288632fb2ed5189005d53ab",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\ai-engine\\page.tsx": {
-    "mtime": 1785573311.5332224,
-    "ast_hash": "50336e8de8d4cb6bc92cf2a2d7157e9c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\compare\\page.tsx": {
-    "mtime": 1783518801.431711,
-    "ast_hash": "dd67dc10c8bc4c51d434b94dcd435027",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\contact\\page.tsx": {
-    "mtime": 1783518801.4335222,
-    "ast_hash": "793da4eaa2a9372e26c6c532596202e6",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\demo\\page.tsx": {
-    "mtime": 1784284932.7474585,
-    "ast_hash": "ef96a94cbc28b68dffd155f0ed50a8bf",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\layout.tsx": {
-    "mtime": 1783518801.4371595,
-    "ast_hash": "a1a1260a103797cb4fcdff072572e79a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\ModelLabClient.test.tsx": {
-    "mtime": 1785571532.3632586,
-    "ast_hash": "14e6da8cc9643b37627bed2d6ef2b87a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\ModelLabClient.tsx": {
-    "mtime": 1785571621.0676036,
-    "ast_hash": "eef461f791dc264ed845c979007f038d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\ConnectorsClient.test.tsx": {
-    "mtime": 1785586638.5823479,
-    "ast_hash": "85520d63d7ee396acfb4b163b88e8c6f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\ConnectorsClient.tsx": {
-    "mtime": 1785587341.1940663,
-    "ast_hash": "0fbe9ee5b99045cc3f55d52ba6c84f13",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\LocalUploadView.test.tsx": {
-    "mtime": 1785587361.746481,
-    "ast_hash": "a39e485919f9b78a1cac5e55cd484dc0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\LocalUploadView.tsx": {
-    "mtime": 1785587506.4883163,
-    "ast_hash": "1a920d017710b4e29e933205d5b3f1a4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\page.test.tsx": {
-    "mtime": 1785573298.9409223,
-    "ast_hash": "dab6ffc3126e545312dd85625fd2f57e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\connectors\\page.tsx": {
-    "mtime": 1785573309.5127954,
-    "ast_hash": "2d1eb12917c5a8da87ff29e5864daa60",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\model-lab\\page.tsx": {
-    "mtime": 1785493680.831719,
-    "ast_hash": "296297928cf181ba67b4fb24f39714e2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\page.tsx": {
-    "mtime": 1783518801.44206,
-    "ast_hash": "3621eabafd5845cfb08c872101e581dd",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\profile\\ProfileClient.tsx": {
-    "mtime": 1783518801.44206,
-    "ast_hash": "0a8e244fcdd4a8c5daa6a4fff9aa3088",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\app\\profile\\page.tsx": {
-    "mtime": 1783518801.44206,
-    "ast_hash": "594deaad60db6c770aa5a0e59eb2f8e8",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\AIEngineTeaser.tsx": {
-    "mtime": 1783518801.4465804,
-    "ast_hash": "cdce4f4a4f063252a1e182838ac56bcc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\AuthGate.tsx": {
-    "mtime": 1783518801.4465804,
-    "ast_hash": "6bae3a3b0c26f07d0c1484f618f1c0b2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\CTASection.tsx": {
-    "mtime": 1783518801.4502907,
-    "ast_hash": "c09f0e11a36b35098cd1987422bb3084",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\CounterSection.tsx": {
-    "mtime": 1783518801.4514253,
-    "ast_hash": "475e21b80766c9c47f967de1a3bb19ee",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\DocumentFeatures.tsx": {
-    "mtime": 1783518801.4519503,
-    "ast_hash": "b563c94f0e5af907cf80ed876d06108d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\EnterpriseSection.tsx": {
-    "mtime": 1783518801.4524615,
-    "ast_hash": "706b53d13543b1489f1daad77ca7e902",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\FAQSection.tsx": {
-    "mtime": 1783518801.4540374,
-    "ast_hash": "507f89591065b965179f0d38ecb62a5c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\FeatureGrid.tsx": {
-    "mtime": 1783518801.4540374,
-    "ast_hash": "0654df1f610492a6ee9c76debb0d51ac",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\FeaturesOverview.tsx": {
-    "mtime": 1783518801.4554873,
-    "ast_hash": "a0dedc85cb826a8b77882ad92ec27ef8",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\HeroSection.tsx": {
-    "mtime": 1784284836.781338,
-    "ast_hash": "4df4e5b05236dcd3e7b227572f7e1974",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\IndustryUseCases.tsx": {
-    "mtime": 1783518801.4554873,
-    "ast_hash": "c33f5addf4e2b9810e1eaa719764badb",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\OutOfCreditsModal.tsx": {
-    "mtime": 1783518801.4575071,
-    "ast_hash": "ab5684156f617566aa740c0ac1833401",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ProcessFlow.tsx": {
-    "mtime": 1783518801.4575071,
-    "ast_hash": "7de188ce9a94c2e013e4d60e791b3c18",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\SenseComparisonTable.test.tsx": {
-    "mtime": 1784373044.2365148,
-    "ast_hash": "5f07d1b180a79ebc1dba369b8a872949",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\SenseComparisonTable.tsx": {
-    "mtime": 1785496133.0762253,
-    "ast_hash": "9c64e56108be4fc7fd6855cceb6b4c18",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\SenseNavbar.tsx": {
-    "mtime": 1785493696.2065797,
-    "ast_hash": "a162bcd6bd4e62cc09ede158567f5016",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ThemeToggle.tsx": {
-    "mtime": 1784371014.5027783,
-    "ast_hash": "1be50b0038faa69e89c7565642870d4d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ToastProvider.tsx": {
-    "mtime": 1783518801.4603355,
-    "ast_hash": "a183a077c57abaa8b91fedaced115a54",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\TrustBar.tsx": {
-    "mtime": 1783518801.4603355,
-    "ast_hash": "13430cdab5c23c0ed21229685a6fe9e2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\AIEngineCTA.tsx": {
-    "mtime": 1784284858.8059258,
-    "ast_hash": "98febe0b6bad73120277860e3b60d403",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\AIEngineHero.tsx": {
-    "mtime": 1784284876.670124,
-    "ast_hash": "6d057f0dca6855476c3ba86604e0a907",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\IndustryContext.tsx": {
-    "mtime": 1783518801.4647374,
-    "ast_hash": "23f3e151872e06a019c9a6c42d3142b0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\ModelCardGrid.tsx": {
-    "mtime": 1783518801.4647374,
-    "ast_hash": "e8bd4228ef213242e5e92355fb8c9763",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\ModelComparisonTable.tsx": {
-    "mtime": 1785495432.6978927,
-    "ast_hash": "aa9a5c11bb8a4e3b35652c07b9b7cf76",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\ModelLabBanner.tsx": {
-    "mtime": 1785494869.9077618,
-    "ast_hash": "0afee0f609e1df91c9d071e4d3663cb8",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\ModelStats.tsx": {
-    "mtime": 1783518801.4676883,
-    "ast_hash": "07fe1c619d9761c16ff3c1a75658d263",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\ai-engine\\WhyChooseSense.tsx": {
-    "mtime": 1783518801.4692035,
-    "ast_hash": "3d1e3a808c5126733b408c25a83529d1",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\layout\\Footer.tsx": {
-    "mtime": 1783518801.4692035,
-    "ast_hash": "bbeb11e30ce43cb30627de957bac23c2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\layout\\Header.tsx": {
-    "mtime": 1783518801.4707212,
-    "ast_hash": "dbcce5d5a19281f39e06ce2f89757164",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\ConnectorPreviewUI.tsx": {
-    "mtime": 1784187801.1716104,
-    "ast_hash": "7e972238885afb3c13d32ad51335f07f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\DocumentViewerModal.test.tsx": {
-    "mtime": 1784191286.2498474,
-    "ast_hash": "5d46246b2a9ea8b8917b70972345c7a4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\DocumentViewerModal.tsx": {
-    "mtime": 1784632697.3224628,
-    "ast_hash": "0a2a8d61aa9f31367cfbdfb5c7a55a45",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\ModelLabHero.tsx": {
-    "mtime": 1783518801.4747503,
-    "ast_hash": "5fa6ff1cb309601a5e5992b467bd7afc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\ModelLabTabs.tsx": {
-    "mtime": 1783518801.47635,
-    "ast_hash": "fdbdb19518a651260237b9eb57b9f77d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\ModelShowdown.tsx": {
-    "mtime": 1783518801.4768682,
-    "ast_hash": "87cd024212f8b64caeded62179d02ae9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\localUpload\\fileTypeIcons.tsx": {
-    "mtime": 1784370574.1774495,
-    "ast_hash": "340a97830c57d099b1f51db727037d98",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\AwsGlueScanTab.tsx": {
-    "mtime": 1785583795.9677885,
-    "ast_hash": "2010142c202a94d8df1886cf2f2434c1",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\AwsRdsScanTab.tsx": {
-    "mtime": 1785583798.003245,
-    "ast_hash": "b4204c2f9fb0b2b6543b31e844842e2c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\AzureScanTab.tsx": {
-    "mtime": 1785581841.4252262,
-    "ast_hash": "3461226db88c7c8d7dd4c173ce33dbca",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\CompareTab.tsx": {
-    "mtime": 1783518801.4816256,
-    "ast_hash": "88c8386bd2b3e4104fb43a9497c04a1d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\DatabaseScanTab.tsx": {
-    "mtime": 1785847766.8690994,
-    "ast_hash": "a808dfb2b82a6e710aedc8f111bf6670",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\DocumentViewTab.tsx": {
-    "mtime": 1783518801.4827886,
-    "ast_hash": "cbe87cdea7fdfb4091a3c1502a56c3a7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\DriveScanTab.tsx": {
-    "mtime": 1785581951.2249963,
-    "ast_hash": "cd7e956447bb805784875a7bce763516",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\DynamoDbScanTab.tsx": {
-    "mtime": 1785583793.933473,
-    "ast_hash": "b2bdb698746d4e9195d2d47100daeb90",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\FailuresTab.tsx": {
-    "mtime": 1783518801.4849944,
-    "ast_hash": "07607c8e3146ff462a9e63abff9d132e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\FormatScanTab.tsx": {
-    "mtime": 1784632676.0966618,
-    "ast_hash": "29a82b97f6df76f42d3575a67ee44161",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\GCSScanTab.tsx": {
-    "mtime": 1785581731.655093,
-    "ast_hash": "07034f1fe957b1a7a6c8545f00e3bc82",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\GmailScanTab.tsx": {
-    "mtime": 1785584672.0259995,
-    "ast_hash": "1316b2bff35678199388f646a2e8971e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\MariadbScanTab.tsx": {
-    "mtime": 1785583791.6932063,
-    "ast_hash": "92c31f980e9ab5a8d53ea5576fcee163",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\MetricsTab.tsx": {
-    "mtime": 1783518801.4849944,
-    "ast_hash": "317ad460cf58038d12e8126a5fa328e8",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\MongodbScanTab.tsx": {
-    "mtime": 1785583780.9081812,
-    "ast_hash": "6c3b58405a629ad20d3b16285f3b335a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\S3ScanTab.tsx": {
-    "mtime": 1785581632.7643487,
-    "ast_hash": "109efcb3743a11281f264f5eefc11db2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\SalesforceScanTab.tsx": {
-    "mtime": 1785584786.3932612,
-    "ast_hash": "14e7c244fa446ea0a9bee4ec4827151a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\SlackScanTab.tsx": {
-    "mtime": 1785584703.191711,
-    "ast_hash": "fb8e2c891a3710efd5fbccbc45ebe708",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\UploadScanTab.tsx": {
-    "mtime": 1785571811.3334205,
-    "ast_hash": "c83a81b47484e36dace29ebb30a19d01",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\model-lab\\tabs\\ZendeskScanTab.tsx": {
-    "mtime": 1785584750.126067,
-    "ast_hash": "84e5f646067af9d94b8bc7b9a0b2fc0e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\ChessLoadingAnimation.tsx": {
-    "mtime": 1784289118.6359146,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\FileUpload.tsx": {
-    "mtime": 1784289095.7527287,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\Inspector.tsx": {
-    "mtime": 1783518801.4940317,
-    "ast_hash": "7a9a373251331d3539295c7c8398bbaa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\ModelSelector.tsx": {
-    "mtime": 1784289121.0384867,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\PIIAnalytics.tsx": {
-    "mtime": 1784632718.1041234,
-    "ast_hash": "1f613ace8267f369cc3dca3766db96bc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\SourceSidebar.tsx": {
-    "mtime": 1784289124.4321573,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\AzureBlobConnector.tsx": {
-    "mtime": 1784289127.926397,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\CloudStorageConnector.tsx": {
-    "mtime": 1784289131.2651658,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\ConfluenceConnector.tsx": {
-    "mtime": 1784289143.6194515,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\DatabaseConnector.tsx": {
-    "mtime": 1784289146.009888,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\GCSConnector.tsx": {
-    "mtime": 1784289149.9021776,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\GmailConnector.tsx": {
-    "mtime": 1784289155.2515745,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\GoogleDriveConnector.tsx": {
-    "mtime": 1784289158.47742,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\S3Connector.tsx": {
-    "mtime": 1784289160.9790187,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\pii-demo\\connectors\\SlackConnector.tsx": {
-    "mtime": 1784289165.4602127,
-    "ast_hash": "8270ba35c7ec56a9a18051d46db5a1fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\ActivityHeatmap.tsx": {
-    "mtime": 1783518801.5073273,
-    "ast_hash": "d913eff60ea6fa4789ae9b72b7c0f59e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\ConnectorsRanking.tsx": {
-    "mtime": 1783518801.5073273,
-    "ast_hash": "731f83e4cbe5baf079bb523e112fec8c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\PiiDonut.tsx": {
-    "mtime": 1783518801.5073273,
-    "ast_hash": "86b36e09058e59164ad878fc48af3b4a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\RiskScore.tsx": {
-    "mtime": 1783518801.5073273,
-    "ast_hash": "4ef71ccf4b8b78bb0c75ab151847064a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\ScanFeed.tsx": {
-    "mtime": 1783518801.510271,
-    "ast_hash": "041d872281dc3967c9a3087443d687aa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\StatsBar.tsx": {
-    "mtime": 1783518801.510271,
-    "ast_hash": "877e2e286043e63424b1ffacaa309ea1",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\components\\profile\\TopPiiBar.tsx": {
-    "mtime": 1783518801.5114467,
-    "ast_hash": "40f4403b51805f469b0525c0f7ad8047",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\eslint.config.mjs": {
-    "mtime": 1783518801.5114467,
-    "ast_hash": "ebb73057b62a5a821937d6e5e9620383",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\hooks\\useAuthGuard.ts": {
-    "mtime": 1783518801.5114467,
-    "ast_hash": "4971607402dd728bc18a3cda83a1da10",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\hooks\\useAutoRefresh.ts": {
-    "mtime": 1783518801.5140948,
-    "ast_hash": "167bbf361bb39eed6b57613928017640",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\ai-engine-data.ts": {
-    "mtime": 1783518801.5146637,
-    "ast_hash": "be8f79022e29118eef4e95e7f2e012af",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\apiClient.ts": {
-    "mtime": 1785412030.451689,
-    "ast_hash": "bb179b16a4aaf5cdb8eefec4d4dde9c9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\auth.ts": {
-    "mtime": 1783518801.516926,
-    "ast_hash": "4d1455311eb3b7490c271d3eb5b9b6e7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\authContext.tsx": {
-    "mtime": 1783518801.516926,
-    "ast_hash": "54661ffa9a9d64f28fa6069804b6a8aa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\comparison-data.ts": {
-    "mtime": 1783518801.5189617,
-    "ast_hash": "efce3532aced067322e32e9935aee306",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\piiReasons.test.ts": {
-    "mtime": 1784631033.310298,
-    "ast_hash": "b6bbcaf6c53569339a6ce7e44dc76aa5",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\lib\\piiReasons.ts": {
-    "mtime": 1784631022.0250292,
-    "ast_hash": "9d797c80480ad1ba92138f30767fd2e2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\next.config.ts": {
-    "mtime": 1783518801.5189617,
-    "ast_hash": "65fa1d7ec44ecf2bf95fa0f80e91611a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\package.json": {
-    "mtime": 1784191008.4898262,
-    "ast_hash": "3287f6c4672c59ff9688dcdfcc7eb74a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\postcss.config.mjs": {
-    "mtime": 1783518801.520717,
-    "ast_hash": "be2da0e8d1d254e14f658dd2cdedca34",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\scripts\\apply_light_mode.ps1": {
-    "mtime": 1783518801.6036599,
-    "ast_hash": "cc996a8d7a65aaf40cb5f2a4726dea70",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\tailwind.config.js": {
-    "mtime": 1783518801.6056895,
-    "ast_hash": "5afc92ed42e5aef8d467d84bc564523a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\tsconfig.json": {
-    "mtime": 1783518801.607545,
-    "ast_hash": "abcc1d2117ad9973e20328963ecf3285",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\types\\plotly.d.ts": {
-    "mtime": 1783518801.607545,
-    "ast_hash": "c22a9792b19571bc673556e407ca117e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\vitest.config.ts": {
-    "mtime": 1784190966.1571262,
-    "ast_hash": "22e6f8827f86155e28819e63bbf20318",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\logs.txt": {
-    "mtime": 1783518801.3140738,
-    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\.agents\\rules\\graphify.md": {
-    "mtime": 1783518801.4269915,
-    "ast_hash": "56d322bc02e948acf8a5abc7fd5d20ff",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\.agents\\workflows\\graphify.md": {
-    "mtime": 1783518801.42801,
-    "ast_hash": "84de69efd46ab0b8430393bd4188f8f2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\alibaba.png": {
-    "mtime": 1783518801.316635,
-    "ast_hash": "ca067d8c6862b2c2459302c92e5eb233",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\alibaba.svg": {
-    "mtime": 1783518801.3192499,
-    "ast_hash": "0eae241a2cfd35515fdda1862d533ba0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\aws.svg": {
-    "mtime": 1783518801.3202953,
-    "ast_hash": "fcced6508d5675ee885b7e9f2b22d5c6",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\azure.svg": {
-    "mtime": 1783518801.3202953,
-    "ast_hash": "285fd9ed53924ec3ad5c702e7977bb32",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\AWS.png": {
-    "mtime": 1783518801.3202953,
-    "ast_hash": "a1d8340b4f22ec4bb485db553b3a4596",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\Azure.png": {
-    "mtime": 1783518801.3202953,
-    "ast_hash": "bb0abeadf25635a39ebb09df669d7f9f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\Cloudflare.png": {
-    "mtime": 1783518801.3235836,
-    "ast_hash": "291bbd10230c8d115737b9c24ed55905",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\Digital Ocean.png": {
-    "mtime": 1783518801.3235836,
-    "ast_hash": "2b03827f9358d4f109fd6cb4469e0d1f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\Google Cloud.png": {
-    "mtime": 1783518801.3251388,
-    "ast_hash": "613ff9cf74efd5414d9458c8bf323b16",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\Oracle.png": {
-    "mtime": 1783518801.3262408,
-    "ast_hash": "b62531c5c651ad49485a38306453e8e9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\alibaba-cloud.png": {
-    "mtime": 1783518801.3272712,
-    "ast_hash": "414ee132c060a9fa16766bed055ec675",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\alibaba.png": {
-    "mtime": 1783518801.3277872,
-    "ast_hash": "ca067d8c6862b2c2459302c92e5eb233",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\alibaba.svg": {
-    "mtime": 1783518801.3277872,
-    "ast_hash": "0eae241a2cfd35515fdda1862d533ba0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\aws.svg": {
-    "mtime": 1783518801.329339,
-    "ast_hash": "fcced6508d5675ee885b7e9f2b22d5c6",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\azure.svg": {
-    "mtime": 1783518801.329339,
-    "ast_hash": "285fd9ed53924ec3ad5c702e7977bb32",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\cloudflare.svg": {
-    "mtime": 1783518801.3308585,
-    "ast_hash": "805d2f37e25238dafc8ff6bb1e049ef3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\digitalocean.svg": {
-    "mtime": 1783518801.3318863,
-    "ast_hash": "12ebeeffe2b906e791fdcf4ca6e0edd3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\gcp.svg": {
-    "mtime": 1783518801.3318863,
-    "ast_hash": "eb3845eca36dc53dd18f4f8cdefe1dfa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\huawei mobile cloud logs.jpg": {
-    "mtime": 1783518801.333429,
-    "ast_hash": "11cf07ca95b18c97675e6d4518f3f08a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\huawei.png": {
-    "mtime": 1783518801.333429,
-    "ast_hash": "6103f0181128fc887c9735fb14a816c7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\huawei.svg": {
-    "mtime": 1783518801.335248,
-    "ast_hash": "71bed6faf563c005dd26efde2fffc548",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\ibm.svg": {
-    "mtime": 1783518801.335248,
-    "ast_hash": "18d77c73ec0390048f49e5b92584aa08",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\oracle.svg": {
-    "mtime": 1783518801.335248,
-    "ast_hash": "366e2dbdb50833c9034355390a726197",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\salesforce.png": {
-    "mtime": 1783518801.335248,
-    "ast_hash": "524457c5f2381c13625f5046882aaecc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\salesforce.svg": {
-    "mtime": 1783518801.3377247,
-    "ast_hash": "73d1e6e00882f65bd957276a020a2483",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\tencent-cloud.png": {
-    "mtime": 1783518801.3377247,
-    "ast_hash": "5f1e90673897dc00f9474b7406373477",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\tencent.png": {
-    "mtime": 1783518801.3392375,
-    "ast_hash": "1e2e92120fd28b83ab232963d7956055",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloud-logos\\tencent.svg": {
-    "mtime": 1783518801.339753,
-    "ast_hash": "74318e4ba2d398847f1925f15cd49908",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\cloudflare.svg": {
-    "mtime": 1783518801.339753,
-    "ast_hash": "805d2f37e25238dafc8ff6bb1e049ef3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\digitalocean.svg": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "12ebeeffe2b906e791fdcf4ca6e0edd3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\gcp.svg": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "eb3845eca36dc53dd18f4f8cdefe1dfa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\huawei.png": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "6103f0181128fc887c9735fb14a816c7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\huawei.svg": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "71bed6faf563c005dd26efde2fffc548",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\ibm.svg": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "18d77c73ec0390048f49e5b92584aa08",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\director1.png": {
-    "mtime": 1783518801.3420608,
-    "ast_hash": "1ee245eae71e9b83a70350bc7f199d67",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\hero-bg.png": {
-    "mtime": 1783518801.3547318,
-    "ast_hash": "6fdc9e3b29960abafc974b4dc30d345d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\image.png": {
-    "mtime": 1783518801.3583791,
-    "ast_hash": "468cb851f8dc13e89797954d83fa9ce9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\logo-compact.svg": {
-    "mtime": 1783518801.3641262,
-    "ast_hash": "9d0fdfa0526a65a9b892b991e7e667cb",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\logo-final.png": {
-    "mtime": 1783518801.3646975,
-    "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\logo-main.png": {
-    "mtime": 1783518801.3667734,
-    "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\logo.png": {
-    "mtime": 1783518801.3702717,
-    "ast_hash": "01e9dabec27e5b256d7e2e479b676559",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\logo.svg": {
-    "mtime": 1783518801.3751786,
-    "ast_hash": "a58b26a1fd82f9fc5f0e447d64705578",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\segmento-logo-new.png": {
-    "mtime": 1783518801.3857281,
-    "ast_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\segmento-logo.png": {
-    "mtime": 1783518801.3892968,
-    "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\segmento_logo.png": {
-    "mtime": 1783518801.3892968,
-    "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\shafi-profile.jpg": {
-    "mtime": 1783518801.3943827,
-    "ast_hash": "47e734f5cfec64935b59564d97a1de57",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\thejesh.png": {
-    "mtime": 1783518801.4003053,
-    "ast_hash": "330d291a88667dcb341bf284ce284f98",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\images\\vijayalakshmi.png": {
-    "mtime": 1783518801.4040651,
-    "ast_hash": "f9a6abc15ca608766ac0a48ef1c20f41",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\logos\\partners.png": {
-    "mtime": 1783518801.4071143,
-    "ast_hash": "67deadf404f188e7559c7737f5adeb4a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\oracle.svg": {
-    "mtime": 1783518801.4086356,
-    "ast_hash": "366e2dbdb50833c9034355390a726197",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\placeholder-news.svg": {
-    "mtime": 1786192866.0909991,
-    "ast_hash": "7d211422fe4443c7024da768a75731af",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\alibaba.png": {
-    "mtime": 1783518801.4107797,
-    "ast_hash": "414ee132c060a9fa16766bed055ec675",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\aws.png": {
-    "mtime": 1783518801.4107797,
-    "ast_hash": "a1d8340b4f22ec4bb485db553b3a4596",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\azure.png": {
-    "mtime": 1783518801.4107797,
-    "ast_hash": "bb0abeadf25635a39ebb09df669d7f9f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\cloudflare.png": {
-    "mtime": 1783518801.412802,
-    "ast_hash": "291bbd10230c8d115737b9c24ed55905",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\digitalocean.png": {
-    "mtime": 1783518801.4143093,
-    "ast_hash": "2b03827f9358d4f109fd6cb4469e0d1f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\gcp.png": {
-    "mtime": 1783518801.4143093,
-    "ast_hash": "613ff9cf74efd5414d9458c8bf323b16",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\huawei.png": {
-    "mtime": 1783518801.4143093,
-    "ast_hash": "8e89027729efb70e9fa2b046fd50164f",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\oracle.png": {
-    "mtime": 1783518801.4143093,
-    "ast_hash": "b62531c5c651ad49485a38306453e8e9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\salesforce.png": {
-    "mtime": 1783518801.4168952,
-    "ast_hash": "524457c5f2381c13625f5046882aaecc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\pulse\\cloud-logos\\tencent.png": {
-    "mtime": 1783518801.4168952,
-    "ast_hash": "5f1e90673897dc00f9474b7406373477",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\salesforce.png": {
-    "mtime": 1783518801.4168952,
-    "ast_hash": "dc5b1b3c42d4249e4088b2700e4c0aed",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\salesforce.svg": {
-    "mtime": 1783518801.4192512,
-    "ast_hash": "73d1e6e00882f65bd957276a020a2483",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\tencent.png": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "1e2e92120fd28b83ab232963d7956055",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\pulse\\public\\tencent.svg": {
-    "mtime": 1783518801.4202662,
-    "ast_hash": "74318e4ba2d398847f1925f15cd49908",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\alibaba.png": {
-    "mtime": 1783518801.521994,
-    "ast_hash": "ca067d8c6862b2c2459302c92e5eb233",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\alibaba.svg": {
-    "mtime": 1783518801.521994,
-    "ast_hash": "0eae241a2cfd35515fdda1862d533ba0",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\aws.svg": {
-    "mtime": 1783518801.521994,
-    "ast_hash": "fcced6508d5675ee885b7e9f2b22d5c6",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\azure.svg": {
-    "mtime": 1783518801.5240016,
-    "ast_hash": "285fd9ed53924ec3ad5c702e7977bb32",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\cloudflare.svg": {
-    "mtime": 1783518801.5240016,
-    "ast_hash": "805d2f37e25238dafc8ff6bb1e049ef3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\digitalocean.svg": {
-    "mtime": 1783518801.5240016,
-    "ast_hash": "12ebeeffe2b906e791fdcf4ca6e0edd3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\gcp.svg": {
-    "mtime": 1783518801.5240016,
-    "ast_hash": "eb3845eca36dc53dd18f4f8cdefe1dfa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\huawei.png": {
-    "mtime": 1783518801.5261953,
-    "ast_hash": "6103f0181128fc887c9735fb14a816c7",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\huawei.svg": {
-    "mtime": 1783518801.527209,
-    "ast_hash": "71bed6faf563c005dd26efde2fffc548",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\ibm.svg": {
-    "mtime": 1783518801.5277374,
-    "ast_hash": "18d77c73ec0390048f49e5b92584aa08",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\oracle.svg": {
-    "mtime": 1783518801.5277374,
-    "ast_hash": "366e2dbdb50833c9034355390a726197",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\salesforce.png": {
-    "mtime": 1783518801.5292952,
-    "ast_hash": "dc5b1b3c42d4249e4088b2700e4c0aed",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\salesforce.svg": {
-    "mtime": 1783518801.5292952,
-    "ast_hash": "73d1e6e00882f65bd957276a020a2483",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\tencent.png": {
-    "mtime": 1783518801.5308127,
-    "ast_hash": "1e2e92120fd28b83ab232963d7956055",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\cloud-logos\\tencent.svg": {
-    "mtime": 1783518801.5318322,
-    "ast_hash": "74318e4ba2d398847f1925f15cd49908",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\file.svg": {
-    "mtime": 1783518801.5324495,
-    "ast_hash": "d09f95206c3fa0bb9bd9fefabfd0ea71",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\globe.svg": {
-    "mtime": 1783518801.5334668,
-    "ast_hash": "2aaafa6a49b6563925fe440891e32717",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\avro.svg": {
-    "mtime": 1784368298.1012766,
-    "ast_hash": "01e6bc069a8e82a34ee2dd41866b507c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\config.jpg": {
-    "mtime": 1784369123.2756958,
-    "ast_hash": "10a0df97c1e41feaaddfd57ca4526e04",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\csv.svg": {
-    "mtime": 1784367900.3046975,
-    "ast_hash": "f3c51e1488c042cba194c1e76fe73e94",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\dta.svg": {
-    "mtime": 1784368944.788,
-    "ast_hash": "60a080b95986a383c0c05337c37e7044",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\email.svg": {
-    "mtime": 1784369374.9254315,
-    "ast_hash": "d6b1aea37d752ddf8e34b7404bf67c9a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\feather.svg": {
-    "mtime": 1784368927.2665443,
-    "ast_hash": "3ccc92e0dfcb4df2f7900e1b73b33029",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\hdf5.png": {
-    "mtime": 1784368892.0667527,
-    "ast_hash": "3fcc91dcfd681f1b7cd95c40d54320e2",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\html.svg": {
-    "mtime": 1784369008.052011,
-    "ast_hash": "c162f544e098839e2f759e0d76dfe3b8",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\json.svg": {
-    "mtime": 1784367981.4205494,
-    "ast_hash": "e5d5523189dbd06fd1da539efca6fa63",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\local-file-uploader-logo.svg": {
-    "mtime": 1785325483.856033,
-    "ast_hash": "b97cb73aa32c38305bf7203173cca5be",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\log.svg": {
-    "mtime": 1784369352.7240999,
-    "ast_hash": "497b185cc2f7386d8f3a131055a4ce6c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\markdown.svg": {
-    "mtime": 1784369330.9223137,
-    "ast_hash": "14ae775d4039fe0f02178e766a085652",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\mp4.svg": {
-    "mtime": 1784369436.949055,
-    "ast_hash": "00af277a555654a0d055c1ab0643f5bc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\odt.svg": {
-    "mtime": 1784369294.3567913,
-    "ast_hash": "3af234205bd4db80d2ac29bfbf165148",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\orc.png": {
-    "mtime": 1784368814.520635,
-    "ast_hash": "44d1338ff1844c65ddfa52c920743694",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\parquet.png": {
-    "mtime": 1784368272.719601,
-    "ast_hash": "3dd190a33ad73094fcc1ffc685e7f60c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\pdf.svg": {
-    "mtime": 1784367826.5490284,
-    "ast_hash": "a33b826274b1bf6fc2345d543b6a1f23",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\ppt.svg": {
-    "mtime": 1784369416.3241882,
-    "ast_hash": "89b3e39ce8a420ae06303c8ca58d9c95",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\rtf.svg": {
-    "mtime": 1784369280.2548666,
-    "ast_hash": "91af66ec23b8a0e788d38dc9c17c660a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\sql-script.svg": {
-    "mtime": 1784368556.4679563,
-    "ast_hash": "88d54b740c82162c3180961efe37fb68",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\sqlite.svg": {
-    "mtime": 1784368350.5104632,
-    "ast_hash": "6c5cd0c9699925cc9e0d53490f5c87ea",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\toml.svg": {
-    "mtime": 1784369079.6443398,
-    "ast_hash": "988a2fcd3b38be50ff3c4ba6e76f75ba",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\tsx.svg": {
-    "mtime": 1784369056.9102464,
-    "ast_hash": "df745bfe5c6e784d6e0724793267e777",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\txt.svg": {
-    "mtime": 1784369245.8440952,
-    "ast_hash": "404510173550518bf81271f0750e5ab9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\word.svg": {
-    "mtime": 1784369267.3444803,
-    "ast_hash": "8fea7287ae0c8d2c961d11290bd7e5d4",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\xls.svg": {
-    "mtime": 1784368717.4742973,
-    "ast_hash": "658aea1be9b67930a1bc9ee515f9003a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\xlsx.svg": {
-    "mtime": 1784368687.0207648,
-    "ast_hash": "044d60612ee9e3ca038d26530a685091",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\xml.svg": {
-    "mtime": 1784368970.2588358,
-    "ast_hash": "b493da591d2c37acd0a9bbdfef5153a3",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\icons\\yaml.svg": {
-    "mtime": 1784368984.7098186,
-    "ast_hash": "27fffd0f2679cdabf24d8b912dc95994",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\director1.png": {
-    "mtime": 1783518801.5360756,
-    "ast_hash": "1ee245eae71e9b83a70350bc7f199d67",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\hero-bg.png": {
-    "mtime": 1783518801.5420413,
-    "ast_hash": "6fdc9e3b29960abafc974b4dc30d345d",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\image.png": {
-    "mtime": 1783518801.5420413,
-    "ast_hash": "468cb851f8dc13e89797954d83fa9ce9",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo-compact.svg": {
-    "mtime": 1783518801.5520432,
-    "ast_hash": "9d0fdfa0526a65a9b892b991e7e667cb",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo-final.png": {
-    "mtime": 1783518801.5536242,
-    "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo-main.png": {
-    "mtime": 1783518801.5546405,
-    "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo.png": {
-    "mtime": 1783518801.5629125,
-    "ast_hash": "01e9dabec27e5b256d7e2e479b676559",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo.svg": {
-    "mtime": 1783518801.5640576,
-    "ast_hash": "a58b26a1fd82f9fc5f0e447d64705578",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo_new.png": {
-    "mtime": 1783518801.5666952,
-    "ast_hash": "6b7888d440a25870bd2e286be107db86",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\logo_transparent.png": {
-    "mtime": 1783518801.572023,
-    "ast_hash": "6b7888d440a25870bd2e286be107db86",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\mem2.jpeg": {
-    "mtime": 1783518801.5726097,
-    "ast_hash": "951e9ff0595ba892ef03f8e36abb906c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\mohan.png": {
-    "mtime": 1783518801.5726097,
-    "ast_hash": "988f2eae0af21d9f2298934daa17ee77",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\segmento-logo-new.png": {
-    "mtime": 1783518801.577093,
-    "ast_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\segmento-logo-optimized.svg": {
-    "mtime": 1783518801.5776165,
-    "ast_hash": "3dc1428d703ac9d3f37b7f541ae296fe",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\segmento-logo.png": {
-    "mtime": 1783518801.57926,
-    "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\segmento_logo.png": {
-    "mtime": 1783518801.5805213,
-    "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\shafi-profile.jpg": {
-    "mtime": 1783518801.5821688,
-    "ast_hash": "47e734f5cfec64935b59564d97a1de57",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\team-member1.jpg": {
-    "mtime": 1783518801.5852711,
-    "ast_hash": "f78b6f1fc3035df8f42564c4d8bb3970",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\thejesh.png": {
-    "mtime": 1783518801.5899289,
-    "ast_hash": "330d291a88667dcb341bf284ce284f98",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\images\\vijayalakshmi.png": {
-    "mtime": 1783518801.592556,
-    "ast_hash": "f9a6abc15ca608766ac0a48ef1c20f41",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\logos\\dashboard.png": {
-    "mtime": 1783518801.5977554,
-    "ast_hash": "1a205b84aaa2404182349c33e84bb44a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\logos\\partners.png": {
-    "mtime": 1783518801.5977554,
-    "ast_hash": "67deadf404f188e7559c7737f5adeb4a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\next.svg": {
-    "mtime": 1783518801.601369,
-    "ast_hash": "8e061864f388b47f33a1c3780831193e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\placeholder-news.svg": {
-    "mtime": 1783518801.602067,
-    "ast_hash": "b57ceb4707075c5fb9063a08b379f9aa",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\vercel.svg": {
-    "mtime": 1783518801.6025832,
-    "ast_hash": "c0af2f507b369b085b35ef4bbe3bcf1e",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\HP\\Desktop\\Segmento\\Segmento-Frontend\\apps\\sense\\public\\window.svg": {
-    "mtime": 1783518801.6036599,
-    "ast_hash": "a2760511c65806022ad20adf74370ff3",
-    "semantic_hash": ""
-  },
   "0f7e23cde23e9b7ac4c99104c980788c.webp": {
-    "mtime": 1786699627.467439,
+    "mtime": 1786758172.1744213,
+    "seen": 1786779632.010004,
     "ast_hash": "4e92835e31c1053d1638b91cfe332bbe",
     "semantic_hash": ""
   }

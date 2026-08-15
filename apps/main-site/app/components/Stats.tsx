@@ -27,12 +27,12 @@ function Dot() {
       aria-hidden
       style={{
         display: "inline-block",
-        width: 4,
-        height: 4,
+        width: 5,
+        height: 5,
         borderRadius: "50%",
-        background: "rgba(124,58,237,0.4)",
+        background: "var(--theme-brand, rgba(124,58,237,0.5))",
         flexShrink: 0,
-        margin: "0 28px",
+        margin: "0 32px",
         verticalAlign: "middle",
       }}
     />
@@ -43,12 +43,12 @@ export default function StatsTicker() {
   return (
     <div
       style={{
-        background: "#ffffff",
-        borderTop: "1px solid #e5e7eb",
-        borderBottom: "1px solid #e5e7eb",
+        background: "var(--theme-bg-surface)",
+        borderTop: "1px solid var(--theme-border)",
+        borderBottom: "1px solid var(--theme-border)",
         overflow: "hidden",
-        padding: "16px 0",
-        minHeight: "56px",
+        padding: "22px 0",
+        minHeight: "72px",
         display: "flex",
         alignItems: "center",
         position: "relative",
@@ -63,7 +63,7 @@ export default function StatsTicker() {
           zIndex: 10,
           pointerEvents: "none",
           background:
-            "linear-gradient(90deg, #ffffff 0%, transparent 8%, transparent 92%, #ffffff 100%)",
+            "linear-gradient(90deg, var(--theme-bg-surface) 0%, transparent 8%, transparent 92%, var(--theme-bg-surface) 100%)",
         }}
       />
 
@@ -87,16 +87,16 @@ export default function StatsTicker() {
                   style={{
                     display: "inline-flex",
                     alignItems: "baseline",
-                    gap: 6,
-                    padding: "0 4px",
+                    gap: 8,
+                    padding: "0 6px",
                   }}
                 >
                   <span
                     style={{
                       fontFamily: "var(--font-dm-mono, monospace)",
-                      fontSize: "0.8125rem",
+                      fontSize: "0.95rem",
                       fontWeight: 700,
-                      color: "#7c3aed",
+                      color: "var(--theme-brand, #7c3aed)",
                       letterSpacing: "-0.01em",
                       whiteSpace: "nowrap",
                     }}
@@ -106,9 +106,9 @@ export default function StatsTicker() {
                   <span
                     style={{
                       fontFamily: "var(--font-mona-sans, sans-serif)",
-                      fontSize: "0.8125rem",
+                      fontSize: "0.95rem",
                       fontWeight: 600,
-                      color: "#374151",
+                      color: "var(--theme-fg-subtle, #374151)",
                       letterSpacing: "0.01em",
                       whiteSpace: "nowrap",
                     }}
