@@ -1,16 +1,16 @@
 # Graph Report - main-site  (2026-08-18)
 
 ## Corpus Check
-- 31 files · ~668,955 words
+- 31 files · ~553,248 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 231 nodes · 242 edges · 21 communities (20 shown, 1 thin omitted)
+- 233 nodes · 244 edges · 22 communities (21 shown, 1 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `dfd17003`
+- Built from commit: `4c53ecfb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,6 +23,7 @@
 - [[_COMMUNITY_layout.tsx|layout.tsx]]
 - [[_COMMUNITY_Hero.tsx|Hero.tsx]]
 - [[_COMMUNITY_include|include]]
+- [[_COMMUNITY_SECTION 8 — CTA SECTION|SECTION 8 — CTA SECTION]]
 - [[_COMMUNITY_route.ts|route.ts]]
 - [[_COMMUNITY_devDependencies|devDependencies]]
 - [[_COMMUNITY_SECTION 5 — HOW IT WORKS|SECTION 5 — HOW IT WORKS]]
@@ -52,15 +53,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (21 total, 1 thin omitted)
+## Communities (22 total, 1 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
 Cohesion: 0.07
 Nodes (16): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+8 more)
 
 ### Community 1 - "Segmento Main-Site — Upgraded Content Blueprint v2.0"
-Cohesion: 0.07
-Nodes (28): Caption (centered, below marquee), Caption text (small, centered below), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, Heading (+20 more)
+Cohesion: 0.08
+Nodes (23): Caption (centered, below marquee), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, KEY DESIGN RULES (Locked), Layout (+15 more)
 
 ### Community 2 - "app/page.tsx"
 Cohesion: 0.10
@@ -71,8 +72,8 @@ Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 4 - "dependencies"
-Cohesion: 0.12
-Nodes (16): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom (+8 more)
+Cohesion: 0.11
+Nodes (18): dependencies, framer-motion, lucide-react, next, next-themes, node-appwrite, react, react-dom (+10 more)
 
 ### Community 5 - "layout.tsx"
 Cohesion: 0.27
@@ -86,6 +87,10 @@ Nodes (11): fadeUp(), Hero(), PID, PRODUCTS, CollectShell(), PulseShell(), Resol
 Cohesion: 0.22
 Nodes (9): Product 1 — Segmento Pulse *(Left text / Right visual)*, Product 2 — Segmento Sense *(Right text / Left visual — alternates)*, Product 3 — Segmento Collect *(Left text / Right visual)*, Product 4 — Segmento Resolve *(Right text / Left visual — alternates)*, Product 5 — Segmento SprintQL *(Left text / Right visual)*, SECTION 6 — PRODUCT SHOWCASE, Section Heading, Section Label (+1 more)
 
+### Community 8 - "SECTION 8 — CTA SECTION"
+Cohesion: 0.29
+Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
+
 ### Community 9 - "route.ts"
 Cohesion: 0.60
 Nodes (3): ContactFormData, POST(), getAppwriteClient()
@@ -95,8 +100,8 @@ Cohesion: 0.22
 Nodes (9): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+1 more)
 
 ### Community 14 - "SECTION 5 — HOW IT WORKS"
-Cohesion: 0.25
-Nodes (8): Layout, SECTION 5 — HOW IT WORKS, Section Heading, Section Label (pill tag), Section Subtext, Step 1 — CONNECT, Step 2 — DETECT, Step 3 — CONTROL
+Cohesion: 0.33
+Nodes (6): Caption text (small, centered below), Layout, Left Side — Compliance Badges (monochromatic icons), Right Side — Ecosystem Logos (grayed out, monochrome), SECTION 2 — TRUST STRIP, Separator
 
 ### Community 17 - "DESIGN.md"
 Cohesion: 0.25
@@ -119,24 +124,24 @@ Cohesion: 0.29
 Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
 
 ## Knowledge Gaps
-- **137 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+132 more)
+- **139 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+134 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `include`, `SECTION 5 — HOW IT WORKS`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`, `SECTION 3 — FEATURES ("Why Segmento?")`?**
-  _High betweenness centrality (0.084) - this node is a cross-community bridge._
+- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `include`, `SECTION 8 — CTA SECTION`, `SECTION 5 — HOW IT WORKS`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`, `SECTION 3 — FEATURES ("Why Segmento?")`?**
+  _High betweenness centrality (0.082) - this node is a cross-community bridge._
 - **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `SECTION 3 — FEATURES ("Why Segmento?")` to `Segmento Main-Site — Upgraded Content Blueprint v2.0`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **Why does `SECTION 6 — PRODUCT SHOWCASE` connect `include` to `Segmento Main-Site — Upgraded Content Blueprint v2.0`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `director`, `team`, `milestones` to the rest of the system?**
-  _137 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _139 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Navbar.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.0677361853832442 - nodes in this community are weakly interconnected._
 - **Should `Segmento Main-Site — Upgraded Content Blueprint v2.0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
 - **Should `app/page.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._

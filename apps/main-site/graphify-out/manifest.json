@@ -45,8 +45,8 @@
     "semantic_hash": ""
   },
   "app/components/Footer.tsx": {
-    "mtime": 1786706890.995685,
-    "ast_hash": "316254657aadcc4cf6c2cae8e48c41d8",
+    "mtime": 1787051426.2779293,
+    "ast_hash": "acbf0da9a9b4070c630714b36084100e",
     "semantic_hash": ""
   },
   "app/components/Hero.tsx": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1786797064.17097,
-    "ast_hash": "7751ea47335e87cdb0e8b102e357bd09",
+    "mtime": 1787045378.3587787,
+    "ast_hash": "e8a8a74c949cbbc4c7f82c5ea9943ee9",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1786102810.4456346,
-    "ast_hash": "685b255d4874796095c80c9f5aa632c6",
+    "mtime": 1787047308.931612,
+    "ast_hash": "7430edf806fa1ee6d0b6d4a79c9d66b4",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -169,39 +169,9 @@
     "ast_hash": "1ee245eae71e9b83a70350bc7f199d67",
     "semantic_hash": ""
   },
-  "public/images/logo-final1.png": {
-    "mtime": 1783518801.2048144,
-    "ast_hash": "f66488840bf0c7211809f3b61f40afea",
-    "semantic_hash": ""
-  },
-  "public/images/logo-main.png": {
-    "mtime": 1783518801.2084937,
-    "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
-    "semantic_hash": ""
-  },
-  "public/images/logo.png": {
-    "mtime": 1783518801.2168834,
-    "ast_hash": "01e9dabec27e5b256d7e2e479b676559",
-    "semantic_hash": ""
-  },
-  "public/images/logo.svg": {
-    "mtime": 1783518801.2175324,
-    "ast_hash": "a58b26a1fd82f9fc5f0e447d64705578",
-    "semantic_hash": ""
-  },
   "public/images/male-placeholder.jpg": {
     "mtime": 1783518801.2190702,
     "ast_hash": "45cb76edac6ebc7141eaff09e3b02398",
-    "semantic_hash": ""
-  },
-  "public/images/segmento-logo-new.png": {
-    "mtime": 1783518801.2205951,
-    "ast_hash": "ed62a1ad74c4f5d2b7631ba68bfff4bc",
-    "semantic_hash": ""
-  },
-  "public/images/segmento-logo.png": {
-    "mtime": 1783518801.2253058,
-    "ast_hash": "82f5fa7610a490488e18cfe1b644b24c",
     "semantic_hash": ""
   },
   "public/images/segmento_logo.png": {
@@ -237,6 +207,11 @@
   "0f7e23cde23e9b7ac4c99104c980788c.webp": {
     "mtime": 1786699627.467439,
     "ast_hash": "4e92835e31c1053d1638b91cfe332bbe",
+    "semantic_hash": ""
+  },
+  "public/images/logo-final.png": {
+    "mtime": 1783518801.2026205,
+    "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
     "semantic_hash": ""
   }
 }

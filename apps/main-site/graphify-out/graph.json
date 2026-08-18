@@ -297,7 +297,7 @@
       "label": "footerLinks",
       "file_type": "code",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "app_components_footer_footerlinks",
       "community": 0,
@@ -307,7 +307,7 @@
       "label": "socialLinks",
       "file_type": "code",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "app_components_footer_sociallinks",
       "community": 0,
@@ -317,7 +317,7 @@
       "label": "Footer()",
       "file_type": "code",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L55",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "app_components_footer_footer",
       "community": 0,
@@ -1084,10 +1084,30 @@
       "norm_label": "dependencies"
     },
     {
-      "label": "framer-motion",
+      "label": "@splinetool/react-spline",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L12",
+      "_origin": "ast",
+      "id": "package_dependencies_splinetool_react_spline",
+      "community": 4,
+      "norm_label": "@splinetool/react-spline"
+    },
+    {
+      "label": "@splinetool/runtime",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "package_dependencies_splinetool_runtime",
+      "community": 4,
+      "norm_label": "@splinetool/runtime"
+    },
+    {
+      "label": "framer-motion",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "package_dependencies_framer_motion",
       "community": 4,
@@ -1097,7 +1117,7 @@
       "label": "lucide-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "package_dependencies_lucide_react",
       "community": 4,
@@ -1107,7 +1127,7 @@
       "label": "next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "package_dependencies_next",
       "community": 4,
@@ -1117,7 +1137,7 @@
       "label": "next-themes",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies_next_themes",
       "community": 4,
@@ -1127,7 +1147,7 @@
       "label": "node-appwrite",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_node_appwrite",
       "community": 4,
@@ -1137,7 +1157,7 @@
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 4,
@@ -1147,7 +1167,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 4,
@@ -1157,7 +1177,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 13,
@@ -1167,7 +1187,7 @@
       "label": "@tailwindcss/postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss_postcss",
       "community": 13,
@@ -1177,7 +1197,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 13,
@@ -1187,7 +1207,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 13,
@@ -1197,7 +1217,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 13,
@@ -1207,7 +1227,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 13,
@@ -1217,7 +1237,7 @@
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
       "community": 13,
@@ -1227,7 +1247,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 13,
@@ -1237,7 +1257,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 13,
@@ -1750,7 +1770,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_2_trust_strip",
-      "community": 1,
+      "community": 14,
       "norm_label": "section 2 \u2014 trust strip"
     },
     {
@@ -1760,7 +1780,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout",
-      "community": 1,
+      "community": 14,
       "norm_label": "layout"
     },
     {
@@ -1770,7 +1790,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
-      "community": 1,
+      "community": 14,
       "norm_label": "left side \u2014 compliance badges (monochromatic icons)"
     },
     {
@@ -1780,7 +1800,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_separator",
-      "community": 1,
+      "community": 14,
       "norm_label": "separator"
     },
     {
@@ -1790,7 +1810,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
-      "community": 1,
+      "community": 14,
       "norm_label": "right side \u2014 ecosystem logos (grayed out, monochrome)"
     },
     {
@@ -1800,7 +1820,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_caption_text_small_centered_below",
-      "community": 1,
+      "community": 14,
       "norm_label": "caption text (small, centered below)"
     },
     {
@@ -1910,7 +1930,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_5_how_it_works",
-      "community": 14,
+      "community": 1,
       "norm_label": "section 5 \u2014 how it works"
     },
     {
@@ -1920,7 +1940,7 @@
       "source_location": "L310",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_label_pill_tag_310",
-      "community": 14,
+      "community": 1,
       "norm_label": "section label (pill tag)"
     },
     {
@@ -1930,7 +1950,7 @@
       "source_location": "L315",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_heading_315",
-      "community": 14,
+      "community": 1,
       "norm_label": "section heading"
     },
     {
@@ -1940,7 +1960,7 @@
       "source_location": "L320",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_subtext_320",
-      "community": 14,
+      "community": 1,
       "norm_label": "section subtext"
     },
     {
@@ -1950,7 +1970,7 @@
       "source_location": "L327",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_step_1_connect",
-      "community": 14,
+      "community": 1,
       "norm_label": "step 1 \u2014 connect"
     },
     {
@@ -1960,7 +1980,7 @@
       "source_location": "L344",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_step_2_detect",
-      "community": 14,
+      "community": 1,
       "norm_label": "step 2 \u2014 detect"
     },
     {
@@ -1970,7 +1990,7 @@
       "source_location": "L361",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_step_3_control",
-      "community": 14,
+      "community": 1,
       "norm_label": "step 3 \u2014 control"
     },
     {
@@ -1980,7 +2000,7 @@
       "source_location": "L376",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout_376",
-      "community": 14,
+      "community": 1,
       "norm_label": "layout"
     },
     {
@@ -2130,7 +2150,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_8_cta_section",
-      "community": 1,
+      "community": 8,
       "norm_label": "section 8 \u2014 cta section"
     },
     {
@@ -2140,7 +2160,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout_563",
-      "community": 1,
+      "community": 8,
       "norm_label": "layout"
     },
     {
@@ -2150,7 +2170,7 @@
       "source_location": "L566",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_heading",
-      "community": 1,
+      "community": 8,
       "norm_label": "heading"
     },
     {
@@ -2160,7 +2180,7 @@
       "source_location": "L571",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_subtext",
-      "community": 1,
+      "community": 8,
       "norm_label": "subtext"
     },
     {
@@ -2170,7 +2190,7 @@
       "source_location": "L577",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_primary_button",
-      "community": 1,
+      "community": 8,
       "norm_label": "primary button"
     },
     {
@@ -2180,7 +2200,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_secondary_button",
-      "community": 1,
+      "community": 8,
       "norm_label": "secondary button"
     },
     {
@@ -2190,7 +2210,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_trust_micro_line_below_buttons",
-      "community": 1,
+      "community": 8,
       "norm_label": "trust micro-line (below buttons)"
     },
     {
@@ -2652,7 +2672,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L55",
+      "source_location": "L56",
       "weight": 1.0,
       "source": "app_components_footer",
       "target": "app_components_footer_footer",
@@ -2662,7 +2682,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "app_components_footer",
       "target": "app_components_footer_footerlinks",
@@ -2672,7 +2692,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/components/Footer.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "weight": 1.0,
       "source": "app_components_footer",
       "target": "app_components_footer_sociallinks",
@@ -3521,7 +3541,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "package",
       "target": "package_devdependencies",
@@ -3611,7 +3631,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_framer_motion",
@@ -3621,7 +3641,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_lucide_react",
@@ -3631,7 +3651,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_next",
@@ -3641,7 +3661,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_next_themes",
@@ -3651,7 +3671,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_node_appwrite",
@@ -3661,7 +3681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_react",
@@ -3671,7 +3691,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_react_dom",
@@ -3681,20 +3701,20 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L12",
       "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint",
+      "source": "package_dependencies",
+      "target": "package_dependencies_splinetool_react_spline",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L13",
       "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint_config_next",
+      "source": "package_dependencies",
+      "target": "package_dependencies_splinetool_runtime",
       "confidence_score": 1.0
     },
     {
@@ -3704,27 +3724,27 @@
       "source_location": "L27",
       "weight": 1.0,
       "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_config_next",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "package_devdependencies",
       "target": "package_devdependencies_tailwindcss",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L21",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss_postcss",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_node",
       "confidence_score": 1.0
     },
     {
@@ -3734,7 +3754,7 @@
       "source_location": "L23",
       "weight": 1.0,
       "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react",
+      "target": "package_devdependencies_tailwindcss_postcss",
       "confidence_score": 1.0
     },
     {
@@ -3744,6 +3764,26 @@
       "source_location": "L24",
       "weight": 1.0,
       "source": "package_devdependencies",
+      "target": "package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "package_devdependencies",
       "target": "package_devdependencies_types_react_dom",
       "confidence_score": 1.0
     },
@@ -3751,7 +3791,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_typescript",
@@ -4779,5 +4819,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "dfd170038db46200c778041f7e40e9cd6d981c7d"
+  "built_at_commit": "4c53ecfb4151ab8f104ee5446a229d4443e28946"
 }

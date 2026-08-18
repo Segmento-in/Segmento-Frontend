@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Twitter, Facebook, Youtube, Linkedin, Github } from "lucide-react";
+import Spline from '@splinetool/react-spline';
 
 const footerLinks = [
   {
@@ -57,6 +58,14 @@ export default function Footer() {
 
   return (
     <footer className="pt-16 pb-10 relative overflow-hidden border-t" style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border-subtle)" }}>
+
+      {/* 3D SPLINE BACKGROUND */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none overflow-hidden">
+        <div className="w-[900px] h-[700px] md:w-[900px] md:h-[1000px] opacity-40 dark:opacity-70 pointer-events-auto transform -translate-y-17 md:-translate-y-32 md:translate-x-29 transition-all duration-1000 -hue-rotate-90 saturate-150 contrast-125 dark:hue-rotate-0 dark:saturate-100 dark:contrast-100">
+          <Spline scene="https://prod.spline.design/ilOOXQS83G2irb-i/scene.splinecode" />
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* GRID */}
