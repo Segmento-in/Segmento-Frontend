@@ -71,11 +71,12 @@ export default function Footer() {
           >
             <Link href="/" className="flex items-center mb-3">
               <Image
-                src="/images/logo-final.png"
+                src="/images/segmento_logo.png"
                 alt="Segmento"
-                width={180}
-                height={28}
+                width={200}
+                height={32}
                 priority
+                style={{ objectFit: 'contain' }}
               />
             </Link>
           </motion.div>

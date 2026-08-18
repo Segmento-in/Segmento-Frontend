@@ -350,11 +350,12 @@ export default function Navbar() {
             {/* Logo — dark logo for clean contrast on white navbar */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src="/images/logo-final.png"
+                src="/images/segmento_logo.png"
                 alt="Segmento"
-                width={180}
-                height={28}
+                width={200}
+                height={32}
                 priority
+                style={{ objectFit: 'contain' }}
               />
             </Link>
 
@@ -398,7 +399,7 @@ export default function Navbar() {
               <ThemeToggle />
               <button
                 className="p-2"
-                style={{ color: "var(--nav-text)" }}
+                style={{ color: "var(--theme-fg)" }}
                 onClick={() => {
                   setIsOpen(!isOpen);
                   setMobileProductCategoryOpen(null);
@@ -424,130 +425,132 @@ export default function Navbar() {
           </AnimatePresence>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="fixed inset-0 top-[64px] md:hidden z-40 overflow-y-auto border-t"
-              style={{ background: "var(--color-background)", borderColor: "var(--color-border-light)" }}
-            >
-              <div className="p-6 space-y-4">
-                {navLinks.map((link) => (
-                  <div key={link.name} className="border-b pb-4 last:border-0" style={{ borderColor: "var(--color-border-light)" }}>
-                    {link.megaMenu ? (
-                      <div className="space-y-2">
-                        <button
-                          onClick={() => {
-                            setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name);
-                            setMobileProductCategoryOpen(null);
-                          }}
-                          className="w-full flex items-center justify-between text-xl font-black px-2"
-                          style={{ color: "var(--color-heading)" }}
-                        >
-                          <span>{link.name}</span>
-                          <motion.div animate={{ rotate: mobileMenuOpen === link.name ? 180 : 0 }}>
-                            <ChevronDown className="w-5 h-5 opacity-50" />
-                          </motion.div>
-                        </button>
-                        <AnimatePresence>
-                          {mobileMenuOpen === link.name && (
-                            <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                              {link.name === "Products" ? (
-                                <div className="space-y-2 pt-2">
-                                  {link.megaMenu.sections.map((section) => {
-                                    const isCatOpen = mobileProductCategoryOpen === section.label;
-                                    return (
-                                      <div key={section.label} className="space-y-1">
-                                        <button
-                                          type="button"
-                                          onClick={() => setMobileProductCategoryOpen(isCatOpen ? null : section.label)}
-                                          className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all"
-                                          style={{ background: "var(--color-background-secondary)", color: "var(--color-heading)" }}
-                                        >
-                                          <span className="text-xs font-bold uppercase tracking-wider text-[var(--mega-label)]">
-                                            {section.label}
-                                          </span>
-                                          <motion.div animate={{ rotate: isCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                                            <ChevronDown className="w-4 h-4 opacity-50" />
-                                          </motion.div>
-                                        </button>
-                                        <AnimatePresence>
-                                          {isCatOpen && (
-                                            <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: "auto", opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.2 }}
-                                              className="overflow-hidden space-y-1 pt-1 pl-2"
-                                            >
-                                              {section.items.map((item) => {
-                                                const Comp = item.isExternal ? "a" : Link;
-                                                const props = item.isExternal
-                                                  ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
-                                                  : { href: item.href };
-                                                return (
-                                                  <Comp
-                                                    key={item.name}
-                                                    {...(props as any)}
-                                                    className="block px-4 py-2.5 rounded-xl transition-all"
-                                                    style={{ background: "var(--color-background)", color: "var(--color-body)" }}
-                                                    onClick={() => {
-                                                      setIsOpen(false);
-                                                      setMobileProductCategoryOpen(null);
-                                                    }}
-                                                  >
-                                                    <p className="text-sm font-bold" style={{ color: "var(--color-heading)" }}>
-                                                      {item.name}
-                                                    </p>
-                                                    {item.subtitle && (
-                                                      <p className="text-xs mt-0.5" style={{ color: "var(--color-body)", opacity: 0.8 }}>
-                                                        {item.subtitle}
-                                                      </p>
-                                                    )}
-                                                  </Comp>
-                                                );
-                                              })}
-                                            </motion.div>
-                                          )}
-                                        </AnimatePresence>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              ) : (
-                                <div className="grid grid-cols-1 gap-1 pt-2">
-                                  {link.megaMenu.sections.flatMap(s => s.items).map((item) => (
-                                    <Link key={item.name} href={item.href}
-                                      className="block px-4 py-3 rounded-xl text-sm font-bold transition-all"
-                                      style={{ background: "var(--color-background-secondary)", color: "var(--color-body)" }}
-                                      onClick={() => setIsOpen(false)}
-                                    >
-                                      {item.name}
-                                    </Link>
-                                  ))}
-                                </div>
-                              )}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ) : (
-                      <Link href={link.href!}
-                        className="block px-2 text-xl font-black"
-                        style={{ color: "var(--color-heading)" }}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {link.name}
-                      </Link>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 top-[64px] md:hidden z-40 overflow-y-auto border-t"
+            style={{ background: "var(--theme-bg)", borderColor: "var(--theme-border-subtle)" }}
+          >
+            <div className="p-6 space-y-4">
+              {navLinks.map((link) => (
+                <div key={link.name} className="border-b pb-4 last:border-0" style={{ borderColor: "var(--theme-border-subtle)" }}>
+                  {link.megaMenu ? (
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(mobileMenuOpen === link.name ? null : link.name);
+                          setMobileProductCategoryOpen(null);
+                        }}
+                        className="w-full flex items-center justify-between text-xl font-black px-2"
+                        style={{ color: "var(--theme-fg)" }}
+                      >
+                        <span>{link.name}</span>
+                        <motion.div animate={{ rotate: mobileMenuOpen === link.name ? 180 : 0 }}>
+                          <ChevronDown className="w-5 h-5 opacity-50" />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {mobileMenuOpen === link.name && (
+                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                            {link.name === "Products" ? (
+                              <div className="space-y-2 pt-2">
+                                {link.megaMenu.sections.map((section) => {
+                                  const isCatOpen = mobileProductCategoryOpen === section.label;
+                                  return (
+                                    <div key={section.label} className="space-y-1">
+                                      <button
+                                        type="button"
+                                        onClick={() => setMobileProductCategoryOpen(isCatOpen ? null : section.label)}
+                                        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all"
+                                        style={{ background: "var(--theme-bg-surface-high)", color: "var(--theme-fg)" }}
+                                      >
+                                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--mega-label)]">
+                                          {section.label}
+                                        </span>
+                                        <motion.div animate={{ rotate: isCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                                          <ChevronDown className="w-4 h-4 opacity-50" />
+                                        </motion.div>
+                                      </button>
+                                      <AnimatePresence>
+                                        {isCatOpen && (
+                                          <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="overflow-hidden space-y-1 pt-1 pl-2"
+                                          >
+                                            {section.items.map((item) => {
+                                              const Comp = item.isExternal ? "a" : Link;
+                                              const props = item.isExternal
+                                                ? { href: item.href, target: "_blank", rel: "noopener noreferrer" }
+                                                : { href: item.href };
+                                              return (
+                                                <Comp
+                                                  key={item.name}
+                                                  {...(props as any)}
+                                                  className="block px-4 py-2.5 rounded-xl transition-all"
+                                                  style={{ background: "var(--theme-bg)", color: "var(--theme-fg-subtle)" }}
+                                                  onClick={() => {
+                                                    setIsOpen(false);
+                                                    setMobileProductCategoryOpen(null);
+                                                  }}
+                                                >
+                                                  <p className="text-sm font-bold" style={{ color: "var(--theme-fg)" }}>
+                                                    {item.name}
+                                                  </p>
+                                                  {item.subtitle && (
+                                                    <p className="text-xs mt-0.5" style={{ color: "var(--theme-fg-subtle)", opacity: 0.8 }}>
+                                                      {item.subtitle}
+                                                    </p>
+                                                  )}
+                                                </Comp>
+                                              );
+                                            })}
+                                          </motion.div>
+                                        )}
+                                      </AnimatePresence>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <div className="grid grid-cols-1 gap-1 pt-2">
+                                {link.megaMenu.sections.flatMap(s => s.items).map((item) => (
+                                  <Link key={item.name} href={item.href}
+                                    className="block px-4 py-3 rounded-xl text-sm font-bold transition-all"
+                                    style={{ background: "var(--theme-bg-surface-high)", color: "var(--theme-fg-subtle)" }}
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    {item.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link href={link.href!}
+                      className="block px-2 text-xl font-black"
+                      style={{ color: "var(--theme-fg)" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
