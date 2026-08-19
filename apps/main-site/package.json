@@ -27,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19.2.12",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.183.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "tailwindcss": "^4",
