@@ -350,7 +350,7 @@ export default function Navbar() {
             {/* Logo — dark logo for clean contrast on white navbar */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src="/images/segmento_logo.png"
+                src="/images/Segmento_logo_clean.png"
                 alt="Segmento"
                 width={200}
                 height={32}
@@ -398,8 +398,7 @@ export default function Navbar() {
             <div className="md:hidden flex items-center gap-2">
               <ThemeToggle />
               <button
-                className="p-2"
-                style={{ color: "var(--theme-fg)" }}
+                className="p-2 text-black"
                 onClick={() => {
                   setIsOpen(!isOpen);
                   setMobileProductCategoryOpen(null);

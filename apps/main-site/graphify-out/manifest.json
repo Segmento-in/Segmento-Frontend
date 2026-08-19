@@ -45,8 +45,8 @@
     "semantic_hash": ""
   },
   "app/components/Footer.tsx": {
-    "mtime": 1787051426.2779293,
-    "ast_hash": "acbf0da9a9b4070c630714b36084100e",
+    "mtime": 1787133332.8738906,
+    "ast_hash": "f4c35dbb500887622e48f6a9b2089300",
     "semantic_hash": ""
   },
   "app/components/Hero.tsx": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1787045378.3587787,
-    "ast_hash": "e8a8a74c949cbbc4c7f82c5ea9943ee9",
+    "mtime": 1787136543.4522095,
+    "ast_hash": "2a023541b34dbc47b3ef69e94a3273ce",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1786193171.6091936,
-    "ast_hash": "47cb2b1dbc3f084ef591331c2db8d6da",
+    "mtime": 1787137144.0919826,
+    "ast_hash": "0748ffb2cf1701a5404644e644653948",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1787047308.931612,
-    "ast_hash": "7430edf806fa1ee6d0b6d4a79c9d66b4",
+    "mtime": 1787136805.177997,
+    "ast_hash": "0f6adb97cb473c94727c4dfe5a3e883a",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -209,9 +209,149 @@
     "ast_hash": "4e92835e31c1053d1638b91cfe332bbe",
     "semantic_hash": ""
   },
-  "public/images/logo-final.png": {
-    "mtime": 1783518801.2026205,
-    "ast_hash": "3d9e7dcaba6c7b91ecf8831f769a877c",
+  "components/originkit/hero-23.tsx": {
+    "mtime": 1787052393.6221335,
+    "ast_hash": "53402f7405426d99a404408d72cd873f",
+    "semantic_hash": ""
+  },
+  "components/originkit/ui/hero-23/globe.tsx": {
+    "mtime": 1787052393.6273856,
+    "ast_hash": "b440b8525ecdb1f81972fac89bd31b99",
+    "semantic_hash": ""
+  },
+  "components/originkit/ui/hero-23/media-globe.tsx": {
+    "mtime": 1787052393.636177,
+    "ast_hash": "0c1b8d6fe17780b20e14697d81ed4db7",
+    "semantic_hash": ""
+  },
+  "components/originkit/ui/hero-23/scale-frame.tsx": {
+    "mtime": 1787052393.639606,
+    "ast_hash": "342a6fb85d86f96f11937de572409047",
+    "semantic_hash": ""
+  },
+  "components/originkit/ui/hero-23/sec1-hero.tsx": {
+    "mtime": 1787052393.6310935,
+    "ast_hash": "70a9f8b8202300e5224d7a24b98904a5",
+    "semantic_hash": ""
+  },
+  "components/originkit/ui/hero-23/stardust.tsx": {
+    "mtime": 1787052393.6336513,
+    "ast_hash": "559cb0850d90d7f0adac169a4db2a026",
+    "semantic_hash": ""
+  },
+  "spec.md": {
+    "mtime": 1787053137.3772151,
+    "ast_hash": "d34a6ef54a8ebafd1bdc16e3696c1667",
+    "semantic_hash": ""
+  },
+  "tickets.md": {
+    "mtime": 1787053317.2379794,
+    "ast_hash": "5e6e12984ad93b59dd7fec16f55e8b39",
+    "semantic_hash": ""
+  },
+  "public/images/logo-main.png": {
+    "mtime": 1783518801.2084937,
+    "ast_hash": "0e6e1cb0997faf0150a3835bdd7a9399",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/brand-1-mark.svg": {
+    "mtime": 1787052395.1815417,
+    "ast_hash": "6bdb2c7242accfea744af6314861311d",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/brand-1-type.svg": {
+    "mtime": 1787052395.015666,
+    "ast_hash": "7a3112815f3f6b2ea30c0d0690adf9a7",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/brand-2.svg": {
+    "mtime": 1787052395.542712,
+    "ast_hash": "52ae8222e7d56869a6b54bc41f6cd738",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/brand-3.svg": {
+    "mtime": 1787052395.237113,
+    "ast_hash": "9adaa26c6c7c72d0ec7d3892866e40ed",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/brand-4.svg": {
+    "mtime": 1787052395.581659,
+    "ast_hash": "f987e06870c23ab86ab99ed069780b26",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/corner-tl.svg": {
+    "mtime": 1787052396.0538738,
+    "ast_hash": "619652811cf6e683559e783cd3457d23",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/corner-tr.svg": {
+    "mtime": 1787052396.477234,
+    "ast_hash": "5225e798484ba70867cb06dc342a79a6",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/corners.svg": {
+    "mtime": 1787052396.3147776,
+    "ast_hash": "e4798adf71fd2d093defdd8663d865ea",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/dot.svg": {
+    "mtime": 1787052396.8621807,
+    "ast_hash": "5015aa5bc2c7dd44a6f90392f05e4df7",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-brazil.svg": {
+    "mtime": 1787052397.2146773,
+    "ast_hash": "6f4b713396177db548458c57db55d889",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-canada.svg": {
+    "mtime": 1787052396.9857657,
+    "ast_hash": "e2299e1744c170d86d2dc23d638eb142",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-ireland.svg": {
+    "mtime": 1787052397.5974238,
+    "ast_hash": "e8fca75c34136bea4f933f1892f914f7",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-liberia.svg": {
+    "mtime": 1787052398.551363,
+    "ast_hash": "c5748e9b49bd8bda6dc11185e867f3ab",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-sweden.svg": {
+    "mtime": 1787052397.613311,
+    "ast_hash": "7f74c0ab700e6865836436c3cea79ba9",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flag-taiwan.svg": {
+    "mtime": 1787052398.4298978,
+    "ast_hash": "8c72c89ec183300163bc0671cd52e939",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/flags-mask.svg": {
+    "mtime": 1787052397.8242543,
+    "ast_hash": "9dbf24b4e6597e6b8131835bba4aa1e4",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/logo.svg": {
+    "mtime": 1787052398.54721,
+    "ast_hash": "18162a697301abc72fe2adc52629ba39",
+    "semantic_hash": ""
+  },
+  "public/originkit/hero-23/menu.svg": {
+    "mtime": 1787052399.2799442,
+    "ast_hash": "42b787112c3c4b594e7a61db18c05aa9",
+    "semantic_hash": ""
+  },
+  "remove_subtext.py": {
+    "mtime": 1787133264.1280603,
+    "ast_hash": "218b95d94ccd02629793e932e417bb0e",
+    "semantic_hash": ""
+  },
+  "public/images/segmento_logo_clean.png": {
+    "mtime": 1787133274.3473647,
+    "ast_hash": "f825e09b9b408434674472f5ddc46d5f",
     "semantic_hash": ""
   }
 }

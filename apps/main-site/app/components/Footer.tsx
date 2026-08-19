@@ -80,7 +80,7 @@ export default function Footer() {
           >
             <Link href="/" className="flex items-center mb-3">
               <Image
-                src="/images/segmento_logo.png"
+                src="/images/Segmento_logo_clean.png"
                 alt="Segmento"
                 width={200}
                 height={32}

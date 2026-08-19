@@ -1,92 +1,133 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import mapImage from "@/public/Map_of_countries.png";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import {
-  Mail, MapPin, Globe, ShieldCheck,
-  Lock, CheckCircle2, Building2, Smartphone,
-  Zap, Command, Shield
-} from "lucide-react";
+import { MediaGlobe, MediaStardust } from "@/components/originkit/ui/hero-23/media-globe";
+import { Mail, MapPin } from "lucide-react";
+
+const STARDUST = {
+  particleDensity: 10,
+  minSize: 1,
+  maxSize: 1,
+  speed: 10,
+  particleSpeed: 1,
+  movement: 6,
+  angle: 184,
+  particleColor: "#FFFFFF33",
+  background: "transparent",
+} as const;
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen" style={{ background: "var(--theme-bg)", color: "var(--theme-fg)" }}>
+    <main className="min-h-[100dvh] relative flex flex-col" style={{ background: "#060606", color: "var(--theme-fg)" }}>
       <Navbar />
 
-      <section className="pt-24 pb-20" style={{ background: "var(--theme-bg)" }}>
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
+      <section className="relative flex-1 flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden w-full">
+        
+        {/* ============================================================== */}
+        {/* 3D SPLINE GLOBE BACKGROUND (Matches Image-2 Arc perfectly)     */}
+        {/* ============================================================== */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Stardust */}
+          <div className="absolute inset-0 opacity-50 dark:opacity-100 transition-all duration-1000 -hue-rotate-90 saturate-150 contrast-125 dark:hue-rotate-0 dark:saturate-100 dark:contrast-100">
+            <MediaStardust query="(min-width: 0px)" {...STARDUST} />
+          </div>
 
-            {/* Left: Contact Form Card - BENTO TILE THEME */}
-            <div className="bento-tile flex flex-col" style={{ padding: "3rem", borderRadius: "2rem" }}>
-              <h1 className="text-[36px] leading-[1.1] font-bold text-foreground mb-8 tracking-tight">
-                Contact Segmento
-              </h1>
+          {/* Half-Globe rising from the bottom */}
+          <div className="absolute bottom-[-10%] left-1/2 aspect-[898/447] w-[180%] sm:w-[120%] lg:w-[80%] -translate-x-1/2 overflow-clip pointer-events-auto transition-all duration-1000 -hue-rotate-90 saturate-150 contrast-125 dark:hue-rotate-0 dark:saturate-100 dark:contrast-100 z-0">
+            <div className="absolute left-1/2 top-0 aspect-[898/900] w-full -translate-x-1/2 overflow-clip rounded-[999px]">
+              <MediaGlobe query="(min-width: 0px)" />
+            </div>
+          </div>
+          
+          {/* Subtle bottom gradient to ground the globe */}
+          <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-[#060606] to-transparent z-10" />
+        </div>
 
-              <form className="space-y-5 flex-1">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="relative group">
-                    <label className="absolute -top-2.5 left-4 px-1 text-[10px] font-extrabold text-foreground-muted uppercase tracking-widest z-10" style={{ background: "var(--theme-bg-surface)" }}>
+        {/* ============================================================== */}
+        {/* FLOATING GLASSMORPHIC FORM (Foreground Z-10)                   */}
+        {/* ============================================================== */}
+        <div className="max-w-6xl w-full mx-auto px-6 lg:px-8 relative z-20 flex-1 flex flex-col justify-center">
+          
+          <div className="text-center mb-10 mt-8 lg:mt-0">
+            <h1 className="text-[40px] lg:text-[56px] leading-[1.1] font-bold text-white tracking-tight drop-shadow-xl">
+              Contact Segmento
+            </h1>
+            <p className="text-[16px] lg:text-[18px] text-white/60 max-w-2xl mx-auto mt-4 drop-shadow-md">
+              Get in touch with our global team. We're here to help you transform your data into actionable intelligence.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 items-start relative">
+            
+            {/* Left: Contact Form Card - LIQUID GLASS THEME */}
+            <div className="flex flex-col bg-[#0f0f0f]/60 backdrop-blur-2xl border border-white/10 shadow-2xl relative overflow-hidden group" style={{ padding: "3rem", borderRadius: "1.5rem" }}>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+              
+              <h2 className="text-[24px] leading-[1.1] font-bold text-white mb-8 tracking-tight relative z-10">
+                Send us a message
+              </h2>
+
+              <form className="space-y-5 flex-1 relative z-10">
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div className="relative group/input">
+                    <label className="absolute -top-2.5 left-4 px-1 text-[10px] font-extrabold text-white/60 uppercase tracking-widest z-10 bg-[#0f0f0f]/80 backdrop-blur-md rounded-sm">
                       Full Name
                     </label>
                     <div className="relative">
                       <input
                         type="text"
                         placeholder="Enter Your Full Name"
-                        className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
-                        style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                        className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:border-white/40 focus:bg-white/10 outline-none transition-all font-medium text-sm"
                       />
                     </div>
                   </div>
                   <input
                     type="email"
                     placeholder="Work Email"
-                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
-                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                    className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:border-white/40 focus:bg-white/10 outline-none transition-all font-medium text-sm"
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-5">
                   <input
                     type="text"
                     placeholder="Company Name"
-                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
-                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                    className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:border-white/40 focus:bg-white/10 outline-none transition-all font-medium text-sm"
                   />
                   <input
                     type="tel"
                     placeholder="Phone Number"
-                    className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all font-medium text-sm"
-                    style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                    className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:border-white/40 focus:bg-white/10 outline-none transition-all font-medium text-sm"
                   />
                 </div>
 
                 <textarea
                   rows={4}
                   placeholder="Message / Reason for Inquiry"
-                  className="w-full px-4 py-3 border rounded-xl text-foreground placeholder:text-foreground-muted focus:border-brand outline-none transition-all resize-none font-medium text-sm"
-                  style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}
+                  className="w-full px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:border-white/40 focus:bg-white/10 outline-none transition-all resize-none font-medium text-sm"
                 />
 
-                <button className="w-full py-4 bg-brand text-white text-md font-bold rounded-xl hover:opacity-90 active:scale-[0.98] transition-all mt-2 shadow-lg shadow-brand/20 uppercase tracking-wider">
-                  Send Message
+                <button className="w-full py-4 mt-2 relative flex items-center justify-center rounded-xl bg-white text-[#060606] font-bold text-sm tracking-wide transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] shadow-xl">
+                  SEND MESSAGE
                 </button>
               </form>
             </div>
 
-            {/* RIGHT SIDE */}
+            {/* RIGHT SIDE: Information Cards */}
             <div className="flex flex-col gap-6">
 
-              {/* Main Info Card - ADJUSTED TO CONTENT */}
-              <div className="bento-tile" style={{ padding: "2rem", borderRadius: "2rem" }}>
-                <div className="mb-8">
-                  <h3 className="text-[11px] font-black text-foreground-muted uppercase tracking-[0.3em] mb-6">Global Office Locations</h3>
+              {/* Main Info Card - LIQUID GLASS */}
+              <div className="bg-[#0f0f0f]/60 backdrop-blur-2xl border border-white/10 shadow-2xl relative overflow-hidden" style={{ padding: "2.5rem", borderRadius: "1.5rem" }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+                <div className="relative z-10">
+                  <h3 className="text-[11px] font-black text-white/50 uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
+                    Global Office Locations
+                    <div className="h-px bg-white/10 flex-1" />
+                  </h3>
                   <div className="grid sm:grid-cols-1 gap-8">
                     <LocationItem
-                      icon={<MapPin className="w-5 h-5 text-brand" />}
+                      icon={<MapPin className="w-5 h-5 text-white" />}
                       city="Vishakhapatnam"
                       address={`Aathidyam Restaurant, Waltair Uplands\nRama Talkies Opposite Road, Vishakhapatnam`}
                     />
@@ -94,16 +135,18 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Support Card - BORDERED */}
-              <div className="bento-tile flex items-center gap-6 group hover:border-brand hover:-translate-y-2 transition-all cursor-pointer" style={{ padding: "2rem", borderRadius: "1.5rem" }}>
-                <div className="w-14 h-14 rounded-2xl border transition-transform group-hover:scale-110 flex items-center justify-center" style={{ background: "var(--theme-bg-surface-high)", borderColor: "var(--theme-border-subtle)" }}>
-                  <Mail className="w-6 h-6 text-foreground group-hover:text-brand transition-colors" />
+              {/* Support Card - LIQUID GLASS */}
+              <div className="bg-[#0f0f0f]/60 backdrop-blur-2xl border border-white/10 shadow-2xl relative overflow-hidden flex items-center gap-6 group hover:border-white/30 hover:-translate-y-1 transition-all cursor-pointer" style={{ padding: "2rem", borderRadius: "1.5rem" }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+                
+                <div className="relative z-10 w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center transition-transform group-hover:scale-110">
+                  <Mail className="w-6 h-6 text-white transition-colors" />
                 </div>
 
-                <div>
-                  <p className="text-sm font-bold text-foreground">Direct Support</p>
-                  <p className="text-base text-brand font-bold my-0.5">info@segmento.in</p>
-                  <p className="text-xs text-foreground-subtle font-medium tracking-tight">24/7 Critical Support for Enterprise Clients</p>
+                <div className="relative z-10">
+                  <p className="text-sm font-bold text-white/80">Direct Support</p>
+                  <p className="text-base text-white font-bold my-0.5 group-hover:text-[#a0a0a0] transition-colors">info@segmento.in</p>
+                  <p className="text-xs text-white/50 font-medium tracking-tight">24/7 Critical Support for Enterprise Clients</p>
                 </div>
               </div>
 
@@ -111,44 +154,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
-      {/* ── Global Presence & World Map Section ── */}
-      <section className="pb-24" style={{ background: "var(--theme-bg)" }}>
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-12">
-            <div className="chip w-fit mx-auto" style={{ marginBottom: "1.25rem" }}>
-              Global Presence
-            </div>
-            <h2 className="text-headline-md" style={{ marginBottom: "0.75rem" }}>
-              Where We <span style={{ color: "var(--theme-brand)" }}>Operate</span>
-            </h2>
-            <p className="text-body-lg mx-auto" style={{ maxWidth: "32rem" }}>
-              Connecting enterprise data intelligence and compliance across our global hubs.
-            </p>
-          </div>
-
-          {/* Map Card */}
-          <div
-            className="bento-tile overflow-hidden"
-            style={{ padding: "1.5rem", borderRadius: "2rem" }}
-          >
-            <div
-              className="w-full flex items-center justify-center rounded-xl overflow-hidden p-2 sm:p-6"
-              style={{ background: "#ffffff" }}
-            >
-              <Image
-                src={mapImage}
-                alt="Segmento Global Presence Map"
-                className="w-full h-auto object-contain max-h-[520px]"
-                priority
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
     </main>
   );
 }
@@ -157,11 +162,13 @@ export default function ContactPage() {
 function LocationItem({ icon, city, address }: { icon: React.ReactNode, city: string, address: string }) {
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2">
-        <div className="text-brand">{icon}</div>
-        <p className="text-[16px] font-black text-foreground tracking-tight">{city}</p>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/5">
+          {icon}
+        </div>
+        <p className="text-[18px] font-bold text-white tracking-tight">{city}</p>
       </div>
-      <div className="text-[13px] text-foreground-subtle leading-relaxed font-medium pl-7">
+      <div className="text-[14px] text-white/60 leading-relaxed font-medium pl-13 ml-[52px]">
         {address.split('\n').map((line, i) => (
           <span key={i} className="block whitespace-nowrap">
             {line.trim()}
