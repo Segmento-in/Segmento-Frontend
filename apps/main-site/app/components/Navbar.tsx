@@ -350,7 +350,7 @@ export default function Navbar() {
             {/* Logo — dark logo for clean contrast on white navbar */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
-                src="/images/Segmento_logo_clean.png"
+                src="/images/segmento_logo_clean.png"
                 alt="Segmento"
                 width={200}
                 height={32}
