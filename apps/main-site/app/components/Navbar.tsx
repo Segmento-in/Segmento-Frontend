@@ -348,9 +348,9 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14">
 
             {/* Logo — dark logo for clean contrast on white navbar */}
-            <Link href="/" className="flex items-center shrink-0">
+            <Link href="/" className="flex items-center shrink-0 -ml-2 lg:-ml-6 transition-transform">
               <Image
-                src="/images/Segmento_logo_clean.png"
+                src="/images/segmento_logo_clean.png"
                 alt="Segmento"
                 width={200}
                 height={32}
