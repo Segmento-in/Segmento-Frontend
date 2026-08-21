@@ -29,6 +29,7 @@ import { motion } from "framer-motion";
 import { CategoryBadge } from "@/components/shared/CategoryBadge";
 import ArticleDetailView from "@/components/ArticleDetailView";
 import { formatDate } from "@/components/shared/AuthorMetaBlock";
+import { ArticleImage } from "@/components/shared/ArticleImage";
 
 // ── BASE CDN ─────────────────────────────────────────────────
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
@@ -308,15 +309,13 @@ export function HeroSection({
                             >
                                 {/* Illustration — taller 3:2 aspect ratio */}
                                 <div className={`aspect-[3/2] overflow-hidden flex items-center justify-center ${aestheticColors[idx % 5]}`}>
-                                    <img
-                                        src={card.imgSrc || "/pulse/placeholder-news.svg"}
-                                        alt={card.imgAlt || "Article"}
-                                        className="w-full h-full object-cover block"
-                                        loading="lazy"
-                                        onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
-                                        }}
-                                    />
+                                {/* Article Fallback Banner handled by ArticleImage — no manual onError needed */}
+                                <ArticleImage
+                                    src={card.imgSrc}
+                                    alt={card.imgAlt || "Article"}
+                                    className="w-full h-full object-cover block"
+                                    loading="lazy"
+                                />
                                 </div>
 
                                 {/* Card body */}
@@ -358,16 +357,14 @@ export function HeroSection({
                             >
                                 {/* Full-width SVG illustration — 16:9 */}
                                 <div className={`aspect-[16/9] overflow-hidden flex items-center justify-center ${aestheticColors[3]}`}>
-                                    <img
-                                        src={centerFeatured.imgSrc || "/pulse/placeholder-news.svg"}
-                                        alt={centerFeatured.imgAlt || "Featured Article"}
-                                        className="w-full h-full object-cover block"
-                                        loading="eager"
-                                        fetchPriority="high"
-                                        onError={(e) => {
-                                            (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
-                                        }}
-                                    />
+                                {/* Article Fallback Banner handled by ArticleImage — no manual onError needed */}
+                                <ArticleImage
+                                    src={centerFeatured.imgSrc}
+                                    alt={centerFeatured.imgAlt || "Featured Article"}
+                                    className="w-full h-full object-cover block"
+                                    loading="eager"
+                                    fetchPriority="high"
+                                />
                                 </div>
 
                                 {/* Card body */}
@@ -426,15 +423,13 @@ export function HeroSection({
                                 >
                                     {/* Small illustration — 4:3 */}
                                     <div className={`aspect-[4/3] overflow-hidden flex items-center justify-center ${aestheticColors[(idx + 1) % 5]}`}>
-                                        <img
-                                            src={card.imgSrc || "/pulse/placeholder-news.svg"}
-                                            alt={card.imgAlt || "Article"}
-                                            className="w-full h-full object-cover block"
-                                            loading="lazy"
-                                            onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).src = "/pulse/placeholder-news.svg";
-                                            }}
-                                        />
+                                    {/* Article Fallback Banner handled by ArticleImage — no manual onError needed */}
+                                    <ArticleImage
+                                        src={card.imgSrc}
+                                        alt={card.imgAlt || "Article"}
+                                        className="w-full h-full object-cover block"
+                                        loading="lazy"
+                                    />
                                     </div>
 
                                     {/* Card body */}

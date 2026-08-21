@@ -9,6 +9,7 @@ import { CategoryBadge } from "@/components/shared/CategoryBadge";
 import { fetchNewsByCategory, type Article } from "@/lib/newsApi";
 import ArticleDetailView from "@/components/ArticleDetailView";
 import { formatDate } from "@/components/shared/AuthorMetaBlock";
+import { ArticleImage } from "@/components/shared/ArticleImage";
 
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
 
@@ -188,8 +189,8 @@ export function ArticlesByTopic() {
                             onClick={(e) => handleClickModal(e, art)}>
 
                             <div className={`h-[160px] w-full flex items-center justify-center border-b border-gray-100 dark:border-slate-700/50 ${aestheticColors[idx % 5]}`}>
-                                {/* Simulating the specific grid + 3d cube vector pattern */}
-                                <img src={art.imgSrc} alt={art.title} className="w-[80%] h-[80%] object-contain" />
+                                {/* Article Fallback Banner handled by ArticleImage */}
+                                <ArticleImage src={art.imgSrc} alt={art.title} className="w-[80%] h-[80%] object-contain" />
                             </div>
 
                             <div style={{ padding: "20px" }}>

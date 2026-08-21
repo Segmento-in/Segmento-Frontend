@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-08-19)
+# Graph Report - main-site  (2026-08-21)
 
 ## Corpus Check
-- 40 files · ~569,104 words
+- 40 files · ~569,109 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 318 nodes · 355 edges · 28 communities (25 shown, 3 thin omitted)
+- 319 nodes · 356 edges · 28 communities (25 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e588db03`
+- Built from commit: `f35c6df3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -65,8 +65,8 @@ Cohesion: 0.06
 Nodes (17): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+9 more)
 
 ### Community 1 - "Segmento Main-Site — Upgraded Content Blueprint v2.0"
-Cohesion: 0.07
-Nodes (28): Caption (centered, below marquee), Caption text (small, centered below), COMPLETE SECTION ORDER (Final), Design Notes, DESIGN TOKENS (Non-negotiable), DRIBBBLE / MOBBIN MASTER SEARCH LIST, FULL PAGE FLOW, Heading (+20 more)
+Cohesion: 0.06
+Nodes (32): Caption (centered, below marquee), Column: Company, Column: Compliance, Column: Legal, Column: Products, COMPLETE SECTION ORDER (Final), Compliance badges row (bottom of footer), Copyright line (+24 more)
 
 ### Community 3 - "compilerOptions"
 Cohesion: 0.10
@@ -85,8 +85,8 @@ Cohesion: 0.17
 Nodes (11): fadeUp(), Hero(), PID, PRODUCTS, CollectShell(), PulseShell(), ResolveShell(), S (+3 more)
 
 ### Community 7 - "include"
-Cohesion: 0.22
-Nodes (9): Product 1 — Segmento Pulse *(Left text / Right visual)*, Product 2 — Segmento Sense *(Right text / Left visual — alternates)*, Product 3 — Segmento Collect *(Left text / Right visual)*, Product 4 — Segmento Resolve *(Right text / Left visual — alternates)*, Product 5 — Segmento SprintQL *(Left text / Right visual)*, SECTION 6 — PRODUCT SHOWCASE, Section Heading, Section Label (+1 more)
+Cohesion: 0.29
+Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
 
 ### Community 8 - "SECTION 8 — CTA SECTION"
 Cohesion: 0.22
@@ -97,8 +97,8 @@ Cohesion: 0.60
 Nodes (3): ContactFormData, POST(), getAppwriteClient()
 
 ### Community 13 - "devDependencies"
-Cohesion: 0.11
-Nodes (18): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/d3-geo, @types/node, @types/react (+10 more)
+Cohesion: 0.10
+Nodes (19): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/d3-geo, @types/node, @types/react (+11 more)
 
 ### Community 14 - "SECTION 5 — HOW IT WORKS"
 Cohesion: 0.08
@@ -133,15 +133,15 @@ Cohesion: 0.25
 Nodes (8): Announcement Badge (pill above headline), H1 Headline, Hero Visual — RIGHT SIDE (Critical), Primary CTA Button, Secondary CTA Button, SECTION 1 — HERO, Subheadline, Trust Line (small text below buttons)
 
 ### Community 24 - "SECTION 9 — FOOTER"
-Cohesion: 0.25
-Nodes (8): Column: Company, Column: Compliance, Column: Legal, Column: Products, Compliance badges row (bottom of footer), Copyright line, SECTION 9 — FOOTER, Tagline under logo
+Cohesion: 0.33
+Nodes (6): Caption text (small, centered below), Layout, Left Side — Compliance Badges (monochromatic icons), Right Side — Ecosystem Logos (grayed out, monochrome), SECTION 2 — TRUST STRIP, Separator
 
 ### Community 123 - "Ubiquitous Language — Segmento Main-Site"
 Cohesion: 0.29
 Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
 
 ## Knowledge Gaps
-- **174 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+169 more)
+- **175 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+170 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -155,10 +155,10 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `MediaStardust()` connect `stardust.tsx` to `SECTION 5 — HOW IT WORKS`?**
   _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `director`, `team`, `milestones` to the rest of the system?**
-  _174 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _175 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Navbar.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.058029689608636977 - nodes in this community are weakly interconnected._
 - **Should `Segmento Main-Site — Upgraded Content Blueprint v2.0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._

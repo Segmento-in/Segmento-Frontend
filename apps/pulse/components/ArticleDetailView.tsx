@@ -10,6 +10,7 @@ import CommentSection from '@/components/CommentSection';
 import ViewCounter from '@/components/ViewCounter';
 import { incrementArticleView } from '@/lib/analytics';
 import AudioSummaryButton from '@/components/AudioSummaryButton';
+import { ArticleImage } from '@/components/shared/ArticleImage';
 
 interface ArticleDetailViewProps {
     article: {
@@ -68,11 +69,11 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                 
                 {/* Image Header Area */}
                 <div className="relative h-[250px] xs:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] w-full">
-                    <img
+                    {/* Article Fallback Banner handled by ArticleImage — no manual onError needed */}
+                    <ArticleImage
                         src={article.image_url}
                         alt={article.title}
                         className="w-full h-full object-cover"
-                        onError={(e) => { e.currentTarget.src = "/pulse/placeholder-news.svg"; }}
                     />
                     {/* Gradient: Transitions from the dark brown up to transparent */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A31] via-[#5C3A31]/40 to-transparent flex flex-col justify-end p-6 sm:p-8">

@@ -468,7 +468,7 @@ export default function Navbar() {
                                         className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all"
                                         style={{ background: "var(--theme-bg-surface-high)", color: "var(--theme-fg)" }}
                                       >
-                                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--mega-label)]">
+                                        <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--theme-fg)" }}>
                                           {section.label}
                                         </span>
                                         <motion.div animate={{ rotate: isCatOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -523,7 +523,7 @@ export default function Navbar() {
                                 {link.megaMenu.sections.flatMap(s => s.items).map((item) => (
                                   <Link key={item.name} href={item.href}
                                     className="block px-4 py-3 rounded-xl text-sm font-bold transition-all"
-                                    style={{ background: "var(--theme-bg-surface-high)", color: "var(--theme-fg-subtle)" }}
+                                    style={{ background: "var(--theme-bg-surface-high)", color: "var(--theme-fg)" }}
                                     onClick={() => setIsOpen(false)}
                                   >
                                     {item.name}

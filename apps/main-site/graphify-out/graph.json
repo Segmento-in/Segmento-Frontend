@@ -1934,10 +1934,20 @@
       "norm_label": "@types/react-dom"
     },
     {
-      "label": "eslint",
+      "label": "@types/three",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L30",
+      "_origin": "ast",
+      "id": "package_devdependencies_types_three",
+      "community": 13,
+      "norm_label": "@types/three"
+    },
+    {
+      "label": "eslint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 13,
@@ -1947,7 +1957,7 @@
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
       "community": 13,
@@ -1957,7 +1967,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 13,
@@ -1967,7 +1977,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 13,
@@ -2500,7 +2510,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_2_trust_strip",
-      "community": 1,
+      "community": 24,
       "norm_label": "section 2 \u2014 trust strip"
     },
     {
@@ -2510,7 +2520,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout",
-      "community": 1,
+      "community": 24,
       "norm_label": "layout"
     },
     {
@@ -2520,7 +2530,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
-      "community": 1,
+      "community": 24,
       "norm_label": "left side \u2014 compliance badges (monochromatic icons)"
     },
     {
@@ -2530,7 +2540,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_separator",
-      "community": 1,
+      "community": 24,
       "norm_label": "separator"
     },
     {
@@ -2540,7 +2550,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
-      "community": 1,
+      "community": 24,
       "norm_label": "right side \u2014 ecosystem logos (grayed out, monochrome)"
     },
     {
@@ -2550,7 +2560,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_caption_text_small_centered_below",
-      "community": 1,
+      "community": 24,
       "norm_label": "caption text (small, centered below)"
     },
     {
@@ -2740,7 +2750,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_6_product_showcase",
-      "community": 7,
+      "community": 1,
       "norm_label": "section 6 \u2014 product showcase"
     },
     {
@@ -2750,7 +2760,7 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_label",
-      "community": 7,
+      "community": 1,
       "norm_label": "section label"
     },
     {
@@ -2760,7 +2770,7 @@
       "source_location": "L390",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_heading_390",
-      "community": 7,
+      "community": 1,
       "norm_label": "section heading"
     },
     {
@@ -2770,7 +2780,7 @@
       "source_location": "L395",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_subtext_395",
-      "community": 7,
+      "community": 1,
       "norm_label": "section subtext"
     },
     {
@@ -2780,7 +2790,7 @@
       "source_location": "L403",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
-      "community": 7,
+      "community": 1,
       "norm_label": "product 1 \u2014 segmento pulse *(left text / right visual)*"
     },
     {
@@ -2790,7 +2800,7 @@
       "source_location": "L429",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
-      "community": 7,
+      "community": 1,
       "norm_label": "product 2 \u2014 segmento sense *(right text / left visual \u2014 alternates)*"
     },
     {
@@ -2800,7 +2810,7 @@
       "source_location": "L455",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
-      "community": 7,
+      "community": 1,
       "norm_label": "product 3 \u2014 segmento collect *(left text / right visual)*"
     },
     {
@@ -2810,7 +2820,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
-      "community": 7,
+      "community": 1,
       "norm_label": "product 4 \u2014 segmento resolve *(right text / left visual \u2014 alternates)*"
     },
     {
@@ -2820,7 +2830,7 @@
       "source_location": "L506",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
-      "community": 7,
+      "community": 1,
       "norm_label": "product 5 \u2014 segmento sprintql *(left text / right visual)*"
     },
     {
@@ -2880,7 +2890,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_8_cta_section",
-      "community": 1,
+      "community": 7,
       "norm_label": "section 8 \u2014 cta section"
     },
     {
@@ -2890,7 +2900,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout_563",
-      "community": 1,
+      "community": 7,
       "norm_label": "layout"
     },
     {
@@ -2900,7 +2910,7 @@
       "source_location": "L566",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_heading",
-      "community": 1,
+      "community": 7,
       "norm_label": "heading"
     },
     {
@@ -2910,7 +2920,7 @@
       "source_location": "L571",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_subtext",
-      "community": 1,
+      "community": 7,
       "norm_label": "subtext"
     },
     {
@@ -2920,7 +2930,7 @@
       "source_location": "L577",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_primary_button",
-      "community": 1,
+      "community": 7,
       "norm_label": "primary button"
     },
     {
@@ -2930,7 +2940,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_secondary_button",
-      "community": 1,
+      "community": 7,
       "norm_label": "secondary button"
     },
     {
@@ -2940,7 +2950,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_trust_micro_line_below_buttons",
-      "community": 1,
+      "community": 7,
       "norm_label": "trust micro-line (below buttons)"
     },
     {
@@ -2950,7 +2960,7 @@
       "source_location": "L597",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_9_footer",
-      "community": 24,
+      "community": 1,
       "norm_label": "section 9 \u2014 footer"
     },
     {
@@ -2960,7 +2970,7 @@
       "source_location": "L599",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_tagline_under_logo",
-      "community": 24,
+      "community": 1,
       "norm_label": "tagline under logo"
     },
     {
@@ -2970,7 +2980,7 @@
       "source_location": "L604",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_column_products",
-      "community": 24,
+      "community": 1,
       "norm_label": "column: products"
     },
     {
@@ -2980,7 +2990,7 @@
       "source_location": "L611",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_column_company",
-      "community": 24,
+      "community": 1,
       "norm_label": "column: company"
     },
     {
@@ -2990,7 +3000,7 @@
       "source_location": "L617",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_column_legal",
-      "community": 24,
+      "community": 1,
       "norm_label": "column: legal"
     },
     {
@@ -3000,7 +3010,7 @@
       "source_location": "L622",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_column_compliance",
-      "community": 24,
+      "community": 1,
       "norm_label": "column: compliance"
     },
     {
@@ -3010,7 +3020,7 @@
       "source_location": "L628",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_compliance_badges_row_bottom_of_footer",
-      "community": 24,
+      "community": 1,
       "norm_label": "compliance badges row (bottom of footer)"
     },
     {
@@ -3020,7 +3030,7 @@
       "source_location": "L633",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_copyright_line",
-      "community": 24,
+      "community": 1,
       "norm_label": "copyright line"
     },
     {
@@ -5596,7 +5606,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_eslint",
@@ -5606,7 +5616,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_eslint_config_next",
@@ -5616,7 +5626,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_tailwindcss",
@@ -5676,7 +5686,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_three",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_typescript",
@@ -6814,5 +6834,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e588db030e6e9cc45b82d7cd2751b94453b01280"
+  "built_at_commit": "f35c6df3ffebfca1c9d49cab8556c8c7e7a327ea"
 }

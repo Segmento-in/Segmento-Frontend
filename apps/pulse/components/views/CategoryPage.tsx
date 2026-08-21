@@ -9,6 +9,7 @@ import ArticleDetailView from "@/components/ArticleDetailView";
 import Link from "next/link";
 import { fetchNewsByCategory } from "@/lib/newsApi";
 import { formatDate } from "@/components/shared/AuthorMetaBlock";
+import { ArticleImage } from "@/components/shared/ArticleImage";
 
 export type Article = {
     id: string;
@@ -264,7 +265,8 @@ export function CategoryPageTemplate({
                                     <a key={art.id} href={art.url || "#"} className={CARD_BASE_CLASSES}
                                         onClick={(e) => handleClickModal(e, art)}>
                                         <div className={`aspect-[16/10] overflow-hidden ${aestheticColors[idx % aestheticColors.length]}`}>
-                                            <img
+                                        {/* Article Fallback Banner handled by ArticleImage */}
+                                            <ArticleImage
                                                 src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                             />
@@ -297,7 +299,8 @@ export function CategoryPageTemplate({
                                     <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex flex-col sm:flex-row h-auto sm:h-[180px]`}
                                         onClick={(e) => handleClickModal(e, art)}>
                                         <div className={`w-full sm:w-[35%] h-[180px] sm:h-full overflow-hidden border-b sm:border-b-0 sm:border-r border-gray-100 dark:border-slate-700/50 ${aestheticColors[(idx + featuredArticles.length) % aestheticColors.length]}`}>
-                                            <img
+                                            {/* Article Fallback Banner handled by ArticleImage */}
+                                            <ArticleImage
                                                 src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                             />

@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1787136543.4522095,
-    "ast_hash": "2a023541b34dbc47b3ef69e94a3273ce",
+    "mtime": 1787226760.2687888,
+    "ast_hash": "7a7300632f3b9e87f7cef60a25bd1cc9",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1787136805.177997,
-    "ast_hash": "0f6adb97cb473c94727c4dfe5a3e883a",
+    "mtime": 1787137834.038995,
+    "ast_hash": "2a1c32b8ec7c313d8c25e943c7355c96",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {

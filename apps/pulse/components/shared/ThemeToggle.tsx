@@ -14,18 +14,16 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="relative w-12 h-6 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 p-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      className="relative flex items-center w-12 h-8 rounded-full border border-[var(--pulse-color-border-subtle)] bg-transparent hover:bg-[var(--pulse-color-bg-hover)] px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pulse-color-brand-accent)] transition-colors duration-200"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
-      {/* icons at ends */}
-      <div className="absolute inset-0 flex items-center justify-between px-1 text-xs text-white pointer-events-none">
-        <Sun className="w-4 h-4" />
-        <Moon className="w-4 h-4" />
+      <div className="absolute inset-0 flex items-center justify-between px-1.5 text-[var(--pulse-color-text-tertiary)] pointer-events-none">
+        <Sun className="w-4 h-4" strokeWidth={2} />
+        <Moon className="w-4 h-4" strokeWidth={2} />
       </div>
-      {/* sliding knob */}
       <div
-        className={`relative w-4 h-4 bg-white rounded-full shadow transform transition-transform ${
-          theme === 'dark' ? 'translate-x-6' : 'translate-x-0'
+        className={`relative z-10 w-5 h-5 rounded-full shadow-sm transform transition-transform duration-200 bg-[var(--pulse-color-text-secondary)] ${
+          theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
         }`}
       />
     </button>

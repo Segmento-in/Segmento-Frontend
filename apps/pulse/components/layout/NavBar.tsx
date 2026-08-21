@@ -149,19 +149,18 @@ export function NavBar() {
                                 )}
                                 <span className="hidden sm:block text-[13px] font-medium text-[var(--pulse-color-text-primary)]">Dashboard</span>
                             </Link>
-                            <a href="#" onClick={handleLogout} className="text-[13px] font-medium text-[var(--pulse-color-text-secondary)] no-underline">
+                            <a 
+                                href="#" 
+                                onClick={handleLogout} 
+                                className="flex items-center justify-center px-3 h-8 rounded-full text-[13px] sm:text-[14px] font-medium text-[var(--pulse-color-text-secondary)] hover:text-[var(--pulse-color-text-primary)] hover:bg-[var(--pulse-color-bg-hover)] transition-colors duration-200 no-underline whitespace-nowrap"
+                            >
                                 Sign Out
                             </a>
                         </div>
                     ) : (
                         <Link
                             href="/login"
-                            style={{
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                color: "var(--pulse-color-text-primary)",
-                                textDecoration: "none",
-                            }}
+                            className="flex items-center justify-center px-3 h-8 rounded-full text-[13px] sm:text-[14px] font-medium text-[var(--pulse-color-text-primary)] hover:bg-[var(--pulse-color-bg-hover)] transition-colors duration-200 no-underline whitespace-nowrap"
                         >
                             Sign In
                         </Link>
@@ -178,14 +177,13 @@ export function NavBar() {
     type="button"
     className="
       flex items-center justify-center
-      min-w-[36px] min-h-[36px] md:min-w-[40px] md:min-h-[40px]
-      px-2 py-2 sm:px-5 sm:py-2
+      h-8 px-2 sm:px-3
       rounded-full
-      bg-[var(--pulse-color-brand-accent)]
-      text-[var(--pulse-color-text-inverse)]
+      border border-[var(--pulse-color-border-subtle)] bg-transparent
+      text-[var(--pulse-color-text-secondary)] hover:text-[var(--pulse-color-text-primary)] hover:bg-[var(--pulse-color-bg-hover)]
       text-[13px] sm:text-[14px]
-      font-semibold
-      transition-all hover:opacity-85 active:scale-95
+      font-medium
+      transition-colors duration-200
       flex-shrink-0
     "
     aria-label="Back to Segmento"
