@@ -29,3 +29,12 @@ and commit messages. When a term here conflicts with an alias listed below, the 
 | Term | Definition | Aliases to avoid |
 | ---- | ---------- | ---------------- |
 | **ArticleImage** | The canonical shared React component (`components/shared/ArticleImage.tsx`) responsible for rendering all article images across the application. Accepts a neutral `src` prop (mapped from either `image_url` or `imgSrc` at each call site), shows the Article Fallback Banner immediately when `src` is missing or empty, and swaps to the Article Fallback Banner on load failure (`onError`) with no flash of a broken-image icon. No call site should render an article image via an inline `<img>` tag — all image rendering goes through `ArticleImage`. | Inline img tag, article img, fallback image component |
+
+---
+
+## Newsletter Acquisition
+
+| Term | Definition | Aliases to avoid |
+| ---- | ---------- | ---------------- |
+| **Persuade Banner** | The `NewsletterCTA.tsx` component rendered on the homepage. Designed for maximum conversion using high-fidelity motion, gradients, and persuasive copy (Persuade mode). Not to be confused with the quiet "Subscribe" button in the NavBar. | NewsletterCTA, Signup Banner |
+| **Global Newsletter Hub Overlay** | The modal overlay containing `NewsletterHub.tsx`, triggered by either the Persuade Banner or the NavBar's quiet Subscribe button. Displays `NewsletterCard`s for frequency selection. | Hub Modal, Signup Overlay |

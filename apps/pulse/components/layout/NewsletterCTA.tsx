@@ -14,92 +14,148 @@
 import { useState } from "react";
 import { PrimaryActionButton } from "@/components/shared/PrimaryActionButton";
 import NewsletterHub from "../NewsletterHub";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function NewsletterCTA() {
     const [isNewsletterHubOpen, setIsNewsletterHubOpen] = useState(false);
+    const shouldReduceMotion = useReducedMotion();
+
+    const transitionProps = shouldReduceMotion 
+        ? { duration: 0 } 
+        : { type: 'spring' as const, damping: 25, stiffness: 300 };
 
     return (
-        <section style={{
-            paddingBlock: "72px",
-            background: "var(--pulse-color-bg-surface-tint)",
-        }}>
-            <div className="pulse-container">
-                <div style={{
-                    background: "var(--pulse-color-bg-surface-dark)",
-                    borderRadius: "var(--pulse-radius-card)",
-                    padding: "56px 64px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "48px",
-                    overflow: "hidden",
-                    position: "relative",
-                }}>
-                    {/* Decorative background orbs */}
-                    <div style={{ position: "absolute", top: "-60px", right: "320px", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle,rgba(139,92,246,0.3) 0%,transparent 70%)", pointerEvents: "none" }} />
-                    <div style={{ position: "absolute", bottom: "-80px", right: "180px", width: "240px", height: "240px", borderRadius: "50%", background: "radial-gradient(circle,rgba(59,130,246,0.2) 0%,transparent 70%)", pointerEvents: "none" }} />
+        <section className="py-24 bg-[var(--pulse-color-bg-surface-tint)] relative overflow-hidden">
+            <div className="pulse-container relative z-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={transitionProps}
+                    className="relative bg-[var(--pulse-color-bg-surface-dark)] rounded-[var(--pulse-radius-card)] p-12 lg:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden shadow-2xl border border-white/5 dark:border-white/10"
+                >
+                    {/* Decorative floating orbs with parallax */}
+                    <motion.div 
+                        animate={shouldReduceMotion ? {} : { 
+                            y: [0, -20, 0],
+                            scale: [1, 1.05, 1],
+                            opacity: [0.3, 0.4, 0.3]
+                        }}
+                        transition={shouldReduceMotion ? {} : { 
+                            duration: 8, 
+                            repeat: Infinity,
+                            ease: "easeInOut" 
+                        }}
+                        className="absolute -top-20 right-[20%] w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.3)_0%,transparent_70%)] pointer-events-none blur-3xl" 
+                    />
+                    <motion.div 
+                        animate={shouldReduceMotion ? {} : { 
+                            y: [0, 30, 0],
+                            scale: [1, 1.1, 1],
+                            opacity: [0.2, 0.3, 0.2]
+                        }}
+                        transition={shouldReduceMotion ? {} : { 
+                            duration: 10, 
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 2
+                        }}
+                        className="absolute -bottom-32 right-10 w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.25)_0%,transparent_70%)] pointer-events-none blur-3xl" 
+                    />
 
                     {/* Left — text + form */}
-                    <div style={{ flex: 1, maxWidth: "520px", position: "relative" }}>
-                        <div style={{
-                            display: "inline-flex", alignItems: "center", gap: "8px",
-                            background: "rgba(255,255,255,0.1)",
-                            borderRadius: "9999px", padding: "4px 14px", marginBottom: "20px",
-                        }}>
-                            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10B981", display: "inline-block" }} />
-                            <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--pulse-color-text-muted)" }}>Newsletter · 3× Daily</span>
-                        </div>
+                    <div className="flex-1 max-w-2xl relative z-10">
+                        <motion.div 
+                            initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ ...transitionProps, delay: 0.1 }}
+                            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 mb-6 border border-white/10"
+                        >
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                            <span className="text-xs font-semibold text-[var(--pulse-color-text-inverse)] uppercase tracking-wider">Newsletter · 3× Daily</span>
+                        </motion.div>
 
-                        <h2 style={{
-                            color: "var(--pulse-color-text-inverse)",
-                            fontSize: "32px", fontWeight: 800,
-                            letterSpacing: "-0.02em", lineHeight: "1.2",
-                            marginBottom: "12px",
-                        }}>
+                        <motion.h2 
+                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ ...transitionProps, delay: 0.2 }}
+                            className="text-4xl lg:text-5xl font-extrabold text-[var(--pulse-color-text-inverse)] tracking-tight leading-[1.1] mb-6"
+                        >
                             Get the weekly Pulse digest delivered straight to your inbox.
-                        </h2>
+                        </motion.h2>
 
-                        <p style={{ color: "var(--pulse-color-text-muted)", fontSize: "15px", marginBottom: "32px", lineHeight: "1.6" }}>
+                        <motion.p 
+                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ ...transitionProps, delay: 0.3 }}
+                            className="text-[var(--pulse-color-text-muted)] text-lg lg:text-xl mb-10 max-w-lg leading-relaxed"
+                        >
                             Curated AI, Cloud, and Data intelligence from Segmento Pulse.
-                        </p>
+                        </motion.p>
 
-                        <div>
-                            <PrimaryActionButton
-                                onClick={() => setIsNewsletterHubOpen(true)}
-                                style={{ borderRadius: "var(--pulse-radius-pill)", margin: "4px 4px 4px 0", flexShrink: 0, fontSize: "16px", padding: "16px 24px" }}
-                                size="lg"
+                        <motion.div
+                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ ...transitionProps, delay: 0.4 }}
+                        >
+                            <motion.div
+                                whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+                                whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+                                className="inline-block relative group"
                             >
-                                Choose Subscription Schedule
-                            </PrimaryActionButton>
-                            <p style={{ fontSize: "13px", color: "#6B7280", marginTop: "16px" }}>
+                                <div className="absolute inset-0 bg-linear-to-r from-purple-500 to-blue-500 rounded-full blur-lg opacity-40 group-hover:opacity-75 transition-opacity duration-500" />
+                                <PrimaryActionButton
+                                    onClick={() => setIsNewsletterHubOpen(true)}
+                                    className="relative rounded-full text-lg px-8 py-4 bg-white text-gray-900 hover:bg-gray-50 hover:text-black border-none shadow-xl font-bold tracking-wide transition-all"
+                                    size="lg"
+                                >
+                                    Choose Subscription Schedule
+                                </PrimaryActionButton>
+                            </motion.div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-5 font-medium">
                                 We offer Morning, Midday, Evening, Weekly, and Monthly options.
                             </p>
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Right — geometric illustration */}
-                    <div style={{
-                        flexShrink: 0, width: "280px", height: "220px",
-                        position: "relative",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                        <div style={{ position: "absolute", width: "160px", height: "160px", border: "2px solid rgba(139,92,246,0.4)", borderRadius: "50%" }} />
-                        <div style={{ position: "absolute", width: "100px", height: "100px", border: "2px solid rgba(59,130,246,0.3)", borderRadius: "12px", transform: "rotate(45deg)" }} />
-                        <div style={{ position: "absolute", width: "60px", height: "60px", border: "2px solid rgba(16,185,129,0.4)", borderRadius: "50%", top: "30px", right: "60px" }} />
-                        <div style={{
-                            width: "56px", height: "56px",
-                            background: "rgba(255,255,255,0.08)",
-                            borderRadius: "12px",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            backdropFilter: "blur(4px)",
-                        }}>
-                            <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                    <motion.div 
+                        initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ ...transitionProps, delay: 0.3 }}
+                        className="shrink-0 w-64 h-64 lg:w-80 lg:h-80 relative flex items-center justify-center z-10 hidden md:flex"
+                    >
+                        <motion.div 
+                            animate={shouldReduceMotion ? {} : { rotate: 360 }}
+                            transition={shouldReduceMotion ? {} : { duration: 40, repeat: Infinity, ease: "linear" }}
+                            className="absolute w-48 h-48 lg:w-64 lg:h-64 border border-purple-500/30 rounded-full" 
+                        />
+                        <motion.div 
+                            animate={shouldReduceMotion ? {} : { rotate: -360 }}
+                            transition={shouldReduceMotion ? {} : { duration: 50, repeat: Infinity, ease: "linear" }}
+                            className="absolute w-32 h-32 lg:w-44 lg:h-44 border border-blue-500/30 rounded-2xl rotate-45" 
+                        />
+                        <motion.div 
+                            animate={shouldReduceMotion ? {} : { 
+                                y: [-10, 10, -10],
+                                rotate: [0, 90, 0]
+                            }}
+                            transition={shouldReduceMotion ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute w-12 h-12 lg:w-16 lg:h-16 border border-emerald-500/40 rounded-full top-8 right-8 lg:top-12 lg:right-12 bg-emerald-500/10 backdrop-blur-sm" 
+                        />
+                        <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-xl border border-white/20 shadow-2xl relative z-20">
+                            <svg className="w-8 h-8 lg:w-10 lg:h-10 text-white" fill="none" viewBox="0 0 24 24">
                                 <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </div>
 
             {/* Global Newsletter Hub Overlay */}
