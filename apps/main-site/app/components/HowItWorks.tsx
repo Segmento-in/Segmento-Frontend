@@ -183,12 +183,12 @@ function ConnectMockup({ accent }: { accent: string }) {
       >
         {[22, 50, 78].map((y, i) => (
           <g key={i}>
-            <line x1="95" y1={`${y}%`} x2="62%" y2="50%" stroke={`${accent}30`} strokeWidth="1" strokeDasharray="3 3" />
+            <line x1="95%" y1={`${y}%`} x2="62%" y2="50%" stroke={`${accent}30`} strokeWidth="1" strokeDasharray="3 3" />
             {/* Animated dot travelling along the line */}
             <motion.circle
               r="2.5" fill={accent}
               animate={{
-                cx: ['95', '62%'],
+                cx: ['95%', '62%'],
                 cy: [`${y}%`, '50%'],
               }}
               transition={{ repeat: Infinity, duration: 1.4, delay: i * 0.45, ease: 'easeInOut' }}

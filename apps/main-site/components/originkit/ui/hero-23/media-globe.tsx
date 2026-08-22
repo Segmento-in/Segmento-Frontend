@@ -23,7 +23,10 @@ const useMediaQuery = (query: string) => {
 
 /** Mounts the WebGL globe only when the viewport matches, so the
  *  mobile and desktop layouts never run two scenes at once. */
-export const MediaGlobe = ({ query }: { query: string }) => {
+export const MediaGlobe = ({
+  query,
+  ...props
+}: { query: string } & Partial<ComponentProps<typeof Globe>>) => {
   if (!useMediaQuery(query)) return null;
 
   // Component defaults stay as authored; only the framing scale is overridden
@@ -34,6 +37,7 @@ export const MediaGlobe = ({ query }: { query: string }) => {
       scale={9.7}
       initialLatitude={12}
       style={{ width: "100%", height: "100%" }}
+      {...props}
     />
   );
 };

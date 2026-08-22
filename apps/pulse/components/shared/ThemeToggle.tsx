@@ -11,20 +11,43 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
+  const isDark = theme === 'dark';
+
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="relative flex items-center w-12 h-8 rounded-full border border-[var(--pulse-color-border-subtle)] bg-transparent hover:bg-[var(--pulse-color-bg-hover)] px-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--pulse-color-brand-accent)] transition-colors duration-200"
-      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      className={`
+        relative w-14 h-7 flex items-center rounded-full p-1
+        transition-all duration-300
+        ${isDark ? "bg-cyan-500" : "bg-slate-300"}
+      `}
     >
-      <div className="absolute inset-0 flex items-center justify-between px-1.5 text-[var(--pulse-color-text-tertiary)] pointer-events-none">
-        <Sun className="w-4 h-4" strokeWidth={2} />
-        <Moon className="w-4 h-4" strokeWidth={2} />
-      </div>
+      {/* SUN ICON */}
+      <Sun
+        className={`
+          absolute left-1 w-4 h-4 text-yellow-500
+          transition-all duration-300
+          ${isDark ? "opacity-0" : "opacity-100"}
+        `}
+      />
+
+      {/* MOON ICON */}
+      <Moon
+        className={`
+          absolute right-1 w-4 h-4 text-white
+          transition-all duration-300
+          ${isDark ? "opacity-100" : "opacity-0"}
+        `}
+      />
+
+      {/* TOGGLE BALL */}
       <div
-        className={`relative z-10 w-5 h-5 rounded-full shadow-sm transform transition-transform duration-200 bg-[var(--pulse-color-text-secondary)] ${
-          theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
-        }`}
+        className={`
+          w-5 h-5 bg-white rounded-full shadow-md
+          transform transition-all duration-300
+          ${isDark ? "translate-x-7" : "translate-x-0"}
+        `}
       />
     </button>
   );

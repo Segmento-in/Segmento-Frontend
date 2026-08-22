@@ -355,7 +355,7 @@ export default function Navbar() {
                 width={200}
                 height={32}
                 priority
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
               />
             </Link>
 
