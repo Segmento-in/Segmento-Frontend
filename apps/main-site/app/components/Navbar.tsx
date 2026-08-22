@@ -348,14 +348,14 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14">
 
             {/* Logo — dark logo for clean contrast on white navbar */}
-            <Link href="/" className="flex items-center shrink-0 -ml-2 lg:-ml-6 transition-transform">
+            <Link href="/" className="flex items-center shrink-2 -ml-2 lg:-ml-6 transition-transform">
               <Image
                 src="/images/segmento_logo_clean.png"
                 alt="Segmento"
-                width={200}
-                height={32}
+                width={400}
+                height={52}
                 priority
-                style={{ objectFit: 'contain', width: 'auto', height: 'auto' }}
+                style={{ objectFit: 'contain', width: 250, height: 'auto' }}
               />
             </Link>
 

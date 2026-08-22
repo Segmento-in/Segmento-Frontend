@@ -60,13 +60,13 @@
     "semantic_hash": ""
   },
   "app/components/HowItWorks.tsx": {
-    "mtime": 1786706797.1329248,
-    "ast_hash": "20756556cfc9987a9f1eee6caa3fc77c",
+    "mtime": 1787390356.3257022,
+    "ast_hash": "cad07ff234812f9d896090f993140b7b",
     "semantic_hash": ""
   },
   "app/components/Navbar.tsx": {
-    "mtime": 1787226760.2687888,
-    "ast_hash": "7a7300632f3b9e87f7cef60a25bd1cc9",
+    "mtime": 1787399190.6096117,
+    "ast_hash": "437c2b919ea531065bf821bd26772c42",
     "semantic_hash": ""
   },
   "app/components/ProductShowcase.tsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1787137144.0919826,
-    "ast_hash": "0748ffb2cf1701a5404644e644653948",
+    "mtime": 1787399053.3011024,
+    "ast_hash": "7fa694688a7465ebaeff636c1e6ba413",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "components/originkit/ui/hero-23/media-globe.tsx": {
-    "mtime": 1787052393.636177,
-    "ast_hash": "0c1b8d6fe17780b20e14697d81ed4db7",
+    "mtime": 1787386331.0419474,
+    "ast_hash": "bc4ace21252ba33774821545026a5bf5",
     "semantic_hash": ""
   },
   "components/originkit/ui/hero-23/scale-frame.tsx": {
@@ -240,13 +240,13 @@
     "semantic_hash": ""
   },
   "spec.md": {
-    "mtime": 1787053137.3772151,
-    "ast_hash": "d34a6ef54a8ebafd1bdc16e3696c1667",
+    "mtime": 1787388747.655089,
+    "ast_hash": "98bfc6f913ca3937ee63ae0cde98c838",
     "semantic_hash": ""
   },
   "tickets.md": {
-    "mtime": 1787053317.2379794,
-    "ast_hash": "5e6e12984ad93b59dd7fec16f55e8b39",
+    "mtime": 1787388910.7447932,
+    "ast_hash": "c6a8e9e626f295844a8dd3925e0718f6",
     "semantic_hash": ""
   },
   "public/images/logo-main.png": {
@@ -352,6 +352,16 @@
   "public/images/segmento_logo_clean.png": {
     "mtime": 1787133274.3473647,
     "ast_hash": "f825e09b9b408434674472f5ddc46d5f",
+    "semantic_hash": ""
+  },
+  "app/lib/hooks/useBrandColorCycle.ts": {
+    "mtime": 1787389155.6604807,
+    "ast_hash": "0f2997cba818d675881af6956a15f6d6",
+    "semantic_hash": ""
+  },
+  ".originkit/INSTRUCTIONS.md": {
+    "mtime": 1787052408.6889966,
+    "ast_hash": "cc8c01717d6f33d39b4fe1a2c69b04db",
     "semantic_hash": ""
   }
 }

@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-08-21)
+# Graph Report - main-site  (2026-08-22)
 
 ## Corpus Check
-- 40 files · ~569,109 words
+- 42 files · ~569,851 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 319 nodes · 356 edges · 28 communities (25 shown, 3 thin omitted)
+- 332 nodes · 370 edges · 27 communities (26 shown, 1 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f35c6df3`
+- Built from commit: `b3e3edd6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -35,7 +35,6 @@
 - [[_COMMUNITY_Features.tsx|Features.tsx]]
 - [[_COMMUNITY_Tickets Contact Page 3D Integration|Tickets: Contact Page 3D Integration]]
 - [[_COMMUNITY_SECTION 1 — HERO|SECTION 1 — HERO]]
-- [[_COMMUNITY_SECTION 9 — FOOTER|SECTION 9 — FOOTER]]
 - [[_COMMUNITY_next.config.ts|next.config.ts]]
 - [[_COMMUNITY_Ubiquitous Language — Segmento Main-Site|Ubiquitous Language — Segmento Main-Site]]
 
@@ -54,19 +53,25 @@
 ## Surprising Connections (you probably didn't know these)
 - `POST()` --calls--> `getAppwriteClient()`  [EXTRACTED]
   app/api/contact/route.ts → app/lib/db.ts
+- `ContactPage()` --calls--> `useBrandColorCycle()`  [EXTRACTED]
+  app/contact/page.tsx → app/lib/hooks/useBrandColorCycle.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (28 total, 3 thin omitted)
+## Communities (27 total, 1 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
-Cohesion: 0.06
-Nodes (17): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+9 more)
+Cohesion: 0.07
+Nodes (16): director, milestones, team, openRoles, footerLinks, socialLinks, MegaFeatured, MegaItem (+8 more)
 
 ### Community 1 - "Segmento Main-Site — Upgraded Content Blueprint v2.0"
-Cohesion: 0.06
-Nodes (32): Caption (centered, below marquee), Column: Company, Column: Compliance, Column: Legal, Column: Products, COMPLETE SECTION ORDER (Final), Compliance badges row (bottom of footer), Copyright line (+24 more)
+Cohesion: 0.05
+Nodes (36): Caption (centered, below marquee), Caption text (small, centered below), Column: Company, Column: Compliance, Column: Legal, Column: Products, COMPLETE SECTION ORDER (Final), Compliance badges row (bottom of footer) (+28 more)
+
+### Community 2 - "app/page.tsx"
+Cohesion: 0.10
+Nodes (5): fadeUp(), Features(), POLICIES, STEPS, STATS
 
 ### Community 3 - "compilerOptions"
 Cohesion: 0.10
@@ -85,8 +90,8 @@ Cohesion: 0.17
 Nodes (11): fadeUp(), Hero(), PID, PRODUCTS, CollectShell(), PulseShell(), ResolveShell(), S (+3 more)
 
 ### Community 7 - "include"
-Cohesion: 0.29
-Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
+Cohesion: 0.20
+Nodes (9): Do not, Files written, Just installed, npm dependencies, Originkit — agent install brief, Required: Tailwind CSS, Section CSS, Tailwind must scan the components directory (+1 more)
 
 ### Community 8 - "SECTION 8 — CTA SECTION"
 Cohesion: 0.22
@@ -105,8 +110,8 @@ Cohesion: 0.08
 Nodes (23): inlineScale(), ScaleFrame(), AVATARS, Badge(), BIG_CARD, BIG_CARD_LEFT, BIG_CARD_RIGHT, BRAND_ART (+15 more)
 
 ### Community 15 - "stardust.tsx"
-Cohesion: 0.13
-Nodes (9): STARDUST, MediaGlobe(), MediaStardust(), useMediaQuery(), DEFAULTS, Particle, Rgba, Sparkles() (+1 more)
+Cohesion: 0.12
+Nodes (12): ContactPage(), hexToRgb(), BRAND_COLORS, useBrandColorCycle(), MediaGlobe(), MediaStardust(), useMediaQuery(), DEFAULTS (+4 more)
 
 ### Community 16 - "globe.tsx"
 Cohesion: 0.19
@@ -121,44 +126,44 @@ Cohesion: 0.25
 Nodes (8): Layout, SECTION 5 — HOW IT WORKS, Section Heading, Section Label (pill tag), Section Subtext, Step 1 — CONNECT, Step 2 — DETECT, Step 3 — CONTROL
 
 ### Community 19 - "spec.md"
-Cohesion: 0.29
-Nodes (6): Implementation Decisions, Out of Scope, Problem Statement, Solution, Testing Decisions, User Stories
+Cohesion: 0.25
+Nodes (7): Further Notes, Implementation Decisions, Out of Scope, Problem Statement, Solution, Testing Decisions, User Stories
+
+### Community 20 - "Features.tsx"
+Cohesion: 0.22
+Nodes (9): Product 1 — Segmento Pulse *(Left text / Right visual)*, Product 2 — Segmento Sense *(Right text / Left visual — alternates)*, Product 3 — Segmento Collect *(Left text / Right visual)*, Product 4 — Segmento Resolve *(Right text / Left visual — alternates)*, Product 5 — Segmento SprintQL *(Left text / Right visual)*, SECTION 6 — PRODUCT SHOWCASE, Section Heading, Section Label (+1 more)
 
 ### Community 21 - "Tickets: Contact Page 3D Integration"
-Cohesion: 0.40
-Nodes (4): 1. Remove Static Map Asset, 2. Inject 3D Stardust & Globe Background, 3. Apply Brand Theme Filtering & Z-Index Polish, Tickets: Contact Page 3D Integration
+Cohesion: 0.50
+Nodes (3): 1. Create `useBrandColorCycle` Hook, 2. Apply Dynamic Colors to Contact Page, Tickets: Dynamic Logo Colors Integration
 
 ### Community 23 - "SECTION 1 — HERO"
 Cohesion: 0.25
 Nodes (8): Announcement Badge (pill above headline), H1 Headline, Hero Visual — RIGHT SIDE (Critical), Primary CTA Button, Secondary CTA Button, SECTION 1 — HERO, Subheadline, Trust Line (small text below buttons)
-
-### Community 24 - "SECTION 9 — FOOTER"
-Cohesion: 0.33
-Nodes (6): Caption text (small, centered below), Layout, Left Side — Compliance Badges (monochromatic icons), Right Side — Ecosystem Logos (grayed out, monochrome), SECTION 2 — TRUST STRIP, Separator
 
 ### Community 123 - "Ubiquitous Language — Segmento Main-Site"
 Cohesion: 0.29
 Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
 
 ## Knowledge Gaps
-- **175 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+170 more)
+- **181 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+176 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `include`, `SECTION 8 — CTA SECTION`, `SECTION 5 — HOW IT WORKS`, `SECTION 1 — HERO`, `SECTION 9 — FOOTER`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `SECTION 8 — CTA SECTION`, `SECTION 5 — HOW IT WORKS`, `Features.tsx`, `SECTION 1 — HERO`?**
+  _High betweenness centrality (0.040) - this node is a cross-community bridge._
 - **Why does `MediaGlobe()` connect `stardust.tsx` to `SECTION 5 — HOW IT WORKS`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
-- **Why does `MediaStardust()` connect `stardust.tsx` to `SECTION 5 — HOW IT WORKS`?**
-  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+- **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `SECTION 8 — CTA SECTION` to `Segmento Main-Site — Upgraded Content Blueprint v2.0`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `director`, `team`, `milestones` to the rest of the system?**
-  _175 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _181 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Navbar.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.058029689608636977 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07311827956989247 - nodes in this community are weakly interconnected._
 - **Should `Segmento Main-Site — Upgraded Content Blueprint v2.0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
+- **Should `app/page.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._

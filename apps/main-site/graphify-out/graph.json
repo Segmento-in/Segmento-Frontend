@@ -180,7 +180,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_components_ctasection",
-      "community": 0,
+      "community": 2,
       "norm_label": "ctasection.tsx"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "app_components_ctasection_ctasection",
-      "community": 0,
+      "community": 2,
       "norm_label": "ctasection()"
     },
     {
@@ -230,7 +230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_components_features",
-      "community": 20,
+      "community": 2,
       "norm_label": "features.tsx"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "app_components_features_fadeup",
-      "community": 20,
+      "community": 2,
       "norm_label": "fadeup()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_components_features_dataflowdiagram",
-      "community": 20,
+      "community": 2,
       "norm_label": "dataflowdiagram()"
     },
     {
@@ -260,7 +260,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "app_components_features_brainvisual",
-      "community": 20,
+      "community": 2,
       "norm_label": "brainvisual()"
     },
     {
@@ -270,7 +270,7 @@
       "source_location": "L186",
       "_origin": "ast",
       "id": "app_components_features_categorychip",
-      "community": 20,
+      "community": 2,
       "norm_label": "categorychip()"
     },
     {
@@ -280,7 +280,7 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "app_components_features_features",
-      "community": 20,
+      "community": 2,
       "norm_label": "features()"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_components_stats",
-      "community": 0,
+      "community": 2,
       "norm_label": "stats.tsx"
     },
     {
@@ -700,7 +700,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_components_stats_stats",
-      "community": 0,
+      "community": 2,
       "norm_label": "stats"
     },
     {
@@ -710,7 +710,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "app_components_stats_dot",
-      "community": 0,
+      "community": 2,
       "norm_label": "dot()"
     },
     {
@@ -720,7 +720,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_components_stats_statsticker",
-      "community": 0,
+      "community": 2,
       "norm_label": "statsticker()"
     },
     {
@@ -754,20 +754,20 @@
       "norm_label": "page.tsx"
     },
     {
-      "label": "STARDUST",
+      "label": "hexToRgb()",
       "file_type": "code",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
-      "id": "app_contact_page_stardust",
+      "id": "app_contact_page_hextorgb",
       "community": 15,
-      "norm_label": "stardust"
+      "norm_label": "hextorgb()"
     },
     {
       "label": "ContactPage()",
       "file_type": "code",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L20",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "app_contact_page_contactpage",
       "community": 15,
@@ -777,7 +777,7 @@
       "label": "LocationItem()",
       "file_type": "code",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L162",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "app_contact_page_locationitem",
       "community": 15,
@@ -894,13 +894,43 @@
       "norm_label": "dmmono"
     },
     {
+      "label": "useBrandColorCycle.ts",
+      "file_type": "code",
+      "source_file": "app/lib/hooks/useBrandColorCycle.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_lib_hooks_usebrandcolorcycle",
+      "community": 15,
+      "norm_label": "usebrandcolorcycle.ts"
+    },
+    {
+      "label": "BRAND_COLORS",
+      "file_type": "code",
+      "source_file": "app/lib/hooks/useBrandColorCycle.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "app_lib_hooks_usebrandcolorcycle_brand_colors",
+      "community": 15,
+      "norm_label": "brand_colors"
+    },
+    {
+      "label": "useBrandColorCycle()",
+      "file_type": "code",
+      "source_file": "app/lib/hooks/useBrandColorCycle.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "app_lib_hooks_usebrandcolorcycle_usebrandcolorcycle",
+      "community": 15,
+      "norm_label": "usebrandcolorcycle()"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "app/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_page",
-      "community": 0,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -910,7 +940,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "app_page_home",
-      "community": 0,
+      "community": 2,
       "norm_label": "home()"
     },
     {
@@ -1217,7 +1247,7 @@
       "label": "MediaStardust()",
       "file_type": "code",
       "source_file": "components/originkit/ui/hero-23/media-globe.tsx",
-      "source_location": "L43",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "components_originkit_ui_hero_23_media_globe_mediastardust",
       "community": 15,
@@ -2214,6 +2244,106 @@
       "norm_label": "exclude"
     },
     {
+      "label": "INSTRUCTIONS.md",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "originkit_instructions",
+      "community": 7,
+      "norm_label": "instructions.md"
+    },
+    {
+      "label": "Originkit \u2014 agent install brief",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "originkit_instructions_originkit_agent_install_brief",
+      "community": 7,
+      "norm_label": "originkit \u2014 agent install brief"
+    },
+    {
+      "label": "Just installed",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "originkit_instructions_just_installed",
+      "community": 7,
+      "norm_label": "just installed"
+    },
+    {
+      "label": "Files written",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "originkit_instructions_files_written",
+      "community": 7,
+      "norm_label": "files written"
+    },
+    {
+      "label": "Required: Tailwind CSS",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "originkit_instructions_required_tailwind_css",
+      "community": 7,
+      "norm_label": "required: tailwind css"
+    },
+    {
+      "label": "Tailwind must scan the components directory",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "originkit_instructions_tailwind_must_scan_the_components_directory",
+      "community": 7,
+      "norm_label": "tailwind must scan the components directory"
+    },
+    {
+      "label": "Section CSS",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "originkit_instructions_section_css",
+      "community": 7,
+      "norm_label": "section css"
+    },
+    {
+      "label": "Wire it into the app",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L71",
+      "_origin": "ast",
+      "id": "originkit_instructions_wire_it_into_the_app",
+      "community": 7,
+      "norm_label": "wire it into the app"
+    },
+    {
+      "label": "npm dependencies",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "originkit_instructions_npm_dependencies",
+      "community": 7,
+      "norm_label": "npm dependencies"
+    },
+    {
+      "label": "Do not",
+      "file_type": "document",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "originkit_instructions_do_not",
+      "community": 7,
+      "norm_label": "do not"
+    },
+    {
       "label": "DESIGN.md",
       "file_type": "document",
       "source_file": "DESIGN.md",
@@ -2510,7 +2640,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_2_trust_strip",
-      "community": 24,
+      "community": 1,
       "norm_label": "section 2 \u2014 trust strip"
     },
     {
@@ -2520,7 +2650,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout",
-      "community": 24,
+      "community": 1,
       "norm_label": "layout"
     },
     {
@@ -2530,7 +2660,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_left_side_compliance_badges_monochromatic_icons",
-      "community": 24,
+      "community": 1,
       "norm_label": "left side \u2014 compliance badges (monochromatic icons)"
     },
     {
@@ -2540,7 +2670,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_separator",
-      "community": 24,
+      "community": 1,
       "norm_label": "separator"
     },
     {
@@ -2550,7 +2680,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_right_side_ecosystem_logos_grayed_out_monochrome",
-      "community": 24,
+      "community": 1,
       "norm_label": "right side \u2014 ecosystem logos (grayed out, monochrome)"
     },
     {
@@ -2560,7 +2690,7 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_caption_text_small_centered_below",
-      "community": 24,
+      "community": 1,
       "norm_label": "caption text (small, centered below)"
     },
     {
@@ -2750,7 +2880,7 @@
       "source_location": "L383",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_6_product_showcase",
-      "community": 1,
+      "community": 20,
       "norm_label": "section 6 \u2014 product showcase"
     },
     {
@@ -2760,7 +2890,7 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_label",
-      "community": 1,
+      "community": 20,
       "norm_label": "section label"
     },
     {
@@ -2770,7 +2900,7 @@
       "source_location": "L390",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_heading_390",
-      "community": 1,
+      "community": 20,
       "norm_label": "section heading"
     },
     {
@@ -2780,7 +2910,7 @@
       "source_location": "L395",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_subtext_395",
-      "community": 1,
+      "community": 20,
       "norm_label": "section subtext"
     },
     {
@@ -2790,7 +2920,7 @@
       "source_location": "L403",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_1_segmento_pulse_left_text_right_visual",
-      "community": 1,
+      "community": 20,
       "norm_label": "product 1 \u2014 segmento pulse *(left text / right visual)*"
     },
     {
@@ -2800,7 +2930,7 @@
       "source_location": "L429",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_2_segmento_sense_right_text_left_visual_alternates",
-      "community": 1,
+      "community": 20,
       "norm_label": "product 2 \u2014 segmento sense *(right text / left visual \u2014 alternates)*"
     },
     {
@@ -2810,7 +2940,7 @@
       "source_location": "L455",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_3_segmento_collect_left_text_right_visual",
-      "community": 1,
+      "community": 20,
       "norm_label": "product 3 \u2014 segmento collect *(left text / right visual)*"
     },
     {
@@ -2820,7 +2950,7 @@
       "source_location": "L481",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_4_segmento_resolve_right_text_left_visual_alternates",
-      "community": 1,
+      "community": 20,
       "norm_label": "product 4 \u2014 segmento resolve *(right text / left visual \u2014 alternates)*"
     },
     {
@@ -2830,7 +2960,7 @@
       "source_location": "L506",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_product_5_segmento_sprintql_left_text_right_visual",
-      "community": 1,
+      "community": 20,
       "norm_label": "product 5 \u2014 segmento sprintql *(left text / right visual)*"
     },
     {
@@ -2890,7 +3020,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_section_8_cta_section",
-      "community": 7,
+      "community": 1,
       "norm_label": "section 8 \u2014 cta section"
     },
     {
@@ -2900,7 +3030,7 @@
       "source_location": "L563",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_layout_563",
-      "community": 7,
+      "community": 1,
       "norm_label": "layout"
     },
     {
@@ -2910,7 +3040,7 @@
       "source_location": "L566",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_heading",
-      "community": 7,
+      "community": 1,
       "norm_label": "heading"
     },
     {
@@ -2920,7 +3050,7 @@
       "source_location": "L571",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_subtext",
-      "community": 7,
+      "community": 1,
       "norm_label": "subtext"
     },
     {
@@ -2930,7 +3060,7 @@
       "source_location": "L577",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_primary_button",
-      "community": 7,
+      "community": 1,
       "norm_label": "primary button"
     },
     {
@@ -2940,7 +3070,7 @@
       "source_location": "L582",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_secondary_button",
-      "community": 7,
+      "community": 1,
       "norm_label": "secondary button"
     },
     {
@@ -2950,7 +3080,7 @@
       "source_location": "L588",
       "_origin": "ast",
       "id": "segmento_upgraded_blueprint_trust_micro_line_below_buttons",
-      "community": 7,
+      "community": 1,
       "norm_label": "trust micro-line (below buttons)"
     },
     {
@@ -3097,7 +3227,7 @@
       "label": "Solution",
       "file_type": "document",
       "source_file": "spec.md",
-      "source_location": "L4",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "spec_solution",
       "community": 19,
@@ -3107,7 +3237,7 @@
       "label": "User Stories",
       "file_type": "document",
       "source_file": "spec.md",
-      "source_location": "L9",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "spec_user_stories",
       "community": 19,
@@ -3117,7 +3247,7 @@
       "label": "Implementation Decisions",
       "file_type": "document",
       "source_file": "spec.md",
-      "source_location": "L15",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "spec_implementation_decisions",
       "community": 19,
@@ -3127,7 +3257,7 @@
       "label": "Testing Decisions",
       "file_type": "document",
       "source_file": "spec.md",
-      "source_location": "L21",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "spec_testing_decisions",
       "community": 19,
@@ -3137,11 +3267,21 @@
       "label": "Out of Scope",
       "file_type": "document",
       "source_file": "spec.md",
-      "source_location": "L26",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "spec_out_of_scope",
       "community": 19,
       "norm_label": "out of scope"
+    },
+    {
+      "label": "Further Notes",
+      "file_type": "document",
+      "source_file": "spec.md",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "spec_further_notes",
+      "community": 19,
+      "norm_label": "further notes"
     },
     {
       "label": "tickets.md",
@@ -3154,44 +3294,34 @@
       "norm_label": "tickets.md"
     },
     {
-      "label": "Tickets: Contact Page 3D Integration",
+      "label": "Tickets: Dynamic Logo Colors Integration",
       "file_type": "document",
       "source_file": "tickets.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "tickets_tickets_contact_page_3d_integration",
+      "id": "tickets_tickets_dynamic_logo_colors_integration",
       "community": 21,
-      "norm_label": "tickets: contact page 3d integration"
+      "norm_label": "tickets: dynamic logo colors integration"
     },
     {
-      "label": "1. Remove Static Map Asset",
+      "label": "1. Create `useBrandColorCycle` Hook",
       "file_type": "document",
       "source_file": "tickets.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "tickets_1_remove_static_map_asset",
+      "id": "tickets_1_create_usebrandcolorcycle_hook",
       "community": 21,
-      "norm_label": "1. remove static map asset"
+      "norm_label": "1. create `usebrandcolorcycle` hook"
     },
     {
-      "label": "2. Inject 3D Stardust & Globe Background",
+      "label": "2. Apply Dynamic Colors to Contact Page",
       "file_type": "document",
       "source_file": "tickets.md",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
-      "id": "tickets_2_inject_3d_stardust_globe_background",
+      "id": "tickets_2_apply_dynamic_colors_to_contact_page",
       "community": 21,
-      "norm_label": "2. inject 3d stardust & globe background"
-    },
-    {
-      "label": "3. Apply Brand Theme Filtering & Z-Index Polish",
-      "file_type": "document",
-      "source_file": "tickets.md",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "tickets_3_apply_brand_theme_filtering_z_index_polish",
-      "community": 21,
-      "norm_label": "3. apply brand theme filtering & z-index polish"
+      "norm_label": "2. apply dynamic colors to contact page"
     }
   ],
   "links": [
@@ -4176,7 +4306,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L20",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "app_contact_page",
       "target": "app_contact_page_contactpage",
@@ -4186,20 +4316,42 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L162",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "app_contact_page",
-      "target": "app_contact_page_locationitem",
+      "target": "app_contact_page_hextorgb",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L8",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "app_contact_page",
-      "target": "app_contact_page_stardust",
+      "target": "app_contact_page_locationitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_contact_page",
+      "target": "app_lib_hooks_usebrandcolorcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_contact_page",
+      "target": "app_lib_hooks_usebrandcolorcycle_usebrandcolorcycle",
       "confidence_score": 1.0
     },
     {
@@ -4225,15 +4377,26 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "imports",
-      "context": "import",
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/contact/page.tsx",
-      "source_location": "L5",
+      "source_location": "L45",
       "weight": 1.0,
-      "source": "app_contact_page",
-      "target": "components_originkit_ui_hero_23_media_globe_mediastardust",
+      "source": "app_contact_page_contactpage",
+      "target": "app_contact_page_hextorgb",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/contact/page.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "app_contact_page_contactpage",
+      "target": "app_lib_hooks_usebrandcolorcycle_usebrandcolorcycle"
     },
     {
       "relation": "contains",
@@ -4347,6 +4510,26 @@
       "weight": 1.0,
       "source": "app_lib_fonts",
       "target": "app_lib_fonts_syne",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/lib/hooks/useBrandColorCycle.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_lib_hooks_usebrandcolorcycle",
+      "target": "app_lib_hooks_usebrandcolorcycle_brand_colors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/lib/hooks/useBrandColorCycle.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_lib_hooks_usebrandcolorcycle",
+      "target": "app_lib_hooks_usebrandcolorcycle_usebrandcolorcycle",
       "confidence_score": 1.0
     },
     {
@@ -4800,7 +4983,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/originkit/ui/hero-23/media-globe.tsx",
-      "source_location": "L43",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "components_originkit_ui_hero_23_media_globe",
       "target": "components_originkit_ui_hero_23_media_globe_mediastardust",
@@ -4854,7 +5037,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/originkit/ui/hero-23/media-globe.tsx",
-      "source_location": "L27",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "components_originkit_ui_hero_23_media_globe_mediaglobe",
       "target": "components_originkit_ui_hero_23_media_globe_usemediaquery",
@@ -4865,7 +5048,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/originkit/ui/hero-23/media-globe.tsx",
-      "source_location": "L47",
+      "source_location": "L51",
       "weight": 1.0,
       "source": "components_originkit_ui_hero_23_media_globe_mediastardust",
       "target": "components_originkit_ui_hero_23_media_globe_usemediaquery",
@@ -5905,6 +6088,96 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "originkit_instructions",
+      "target": "originkit_instructions_originkit_agent_install_brief",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "originkit_instructions_originkit_agent_install_brief",
+      "target": "originkit_instructions_do_not",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "originkit_instructions_originkit_agent_install_brief",
+      "target": "originkit_instructions_just_installed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "source": "originkit_instructions_originkit_agent_install_brief",
+      "target": "originkit_instructions_npm_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "originkit_instructions_originkit_agent_install_brief",
+      "target": "originkit_instructions_required_tailwind_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "originkit_instructions_originkit_agent_install_brief",
+      "target": "originkit_instructions_wire_it_into_the_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "originkit_instructions_just_installed",
+      "target": "originkit_instructions_files_written",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "originkit_instructions_required_tailwind_css",
+      "target": "originkit_instructions_section_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".originkit/INSTRUCTIONS.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "originkit_instructions_required_tailwind_css",
+      "target": "originkit_instructions_tailwind_must_scan_the_components_directory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "DESIGN.md",
       "source_location": "L113",
       "weight": 1.0,
@@ -6736,7 +7009,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "spec.md",
-      "source_location": "L15",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "spec",
+      "target": "spec_further_notes",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "spec.md",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "spec",
       "target": "spec_implementation_decisions",
@@ -6746,7 +7029,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "spec.md",
-      "source_location": "L26",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "spec",
       "target": "spec_out_of_scope",
@@ -6766,7 +7049,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "spec.md",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "spec",
       "target": "spec_solution",
@@ -6776,7 +7059,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "spec.md",
-      "source_location": "L21",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "spec",
       "target": "spec_testing_decisions",
@@ -6786,7 +7069,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "spec.md",
-      "source_location": "L9",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "spec",
       "target": "spec_user_stories",
@@ -6799,7 +7082,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "source": "tickets",
-      "target": "tickets_tickets_contact_page_3d_integration",
+      "target": "tickets_tickets_dynamic_logo_colors_integration",
       "confidence_score": 1.0
     },
     {
@@ -6808,31 +7091,21 @@
       "source_file": "tickets.md",
       "source_location": "L5",
       "weight": 1.0,
-      "source": "tickets_tickets_contact_page_3d_integration",
-      "target": "tickets_1_remove_static_map_asset",
+      "source": "tickets_tickets_dynamic_logo_colors_integration",
+      "target": "tickets_1_create_usebrandcolorcycle_hook",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tickets.md",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0,
-      "source": "tickets_tickets_contact_page_3d_integration",
-      "target": "tickets_2_inject_3d_stardust_globe_background",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tickets.md",
-      "source_location": "L19",
-      "weight": 1.0,
-      "source": "tickets_tickets_contact_page_3d_integration",
-      "target": "tickets_3_apply_brand_theme_filtering_z_index_polish",
+      "source": "tickets_tickets_dynamic_logo_colors_integration",
+      "target": "tickets_2_apply_dynamic_colors_to_contact_page",
       "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f35c6df3ffebfca1c9d49cab8556c8c7e7a327ea"
+  "built_at_commit": "b3e3edd6c75f99a00756a548bb4f25d7575218fb"
 }
