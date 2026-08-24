@@ -67,7 +67,7 @@ export function SenseNavbar() {
 
 
                         <img
-                            src="/images/logo.png"
+                            src="/images/segmento_logo_clean.png"
                             alt="Logo"
                             className="w-10 h-10 object-contain"
                         />

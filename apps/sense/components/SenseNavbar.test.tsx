@@ -50,7 +50,7 @@ describe("SenseNavbar — logo", () => {
         render(<SenseNavbar />);
         const logo = screen.getByRole("img", { name: /logo/i });
         // RED: will fail — current src is "/sense/images/logo.png"
-        expect(logo).toHaveAttribute("src", "/images/logo.png");
+        expect(logo).toHaveAttribute("src", "/images/segmento_logo_clean.png");
     });
 
     it("logo has no scale-150 distortion class", () => {
