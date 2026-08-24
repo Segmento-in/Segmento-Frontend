@@ -74,11 +74,11 @@ export default function LoginPage() {
             </div>
 
             {/* RIGHT PANEL: INTERACTION (The Action Surface) */}
-            <div className="relative flex items-center justify-center p-6 sm:p-12 lg:p-24 w-full h-full">
+            <div className="relative flex flex-col items-center justify-center p-6 sm:p-12 lg:p-24 w-full h-full min-h-[100dvh]">
                 
-                {/* Mobile Header Fallback */}
-                <div className="absolute top-8 left-8 lg:hidden z-20">
-                    <h2 className="text-2xl font-bold tracking-tighter" style={{ fontFamily: 'var(--font-brand, inherit)' }}>
+                {/* Mobile Header Fallback - Flowing natively instead of absolute */}
+                <div className="w-full max-w-md lg:hidden z-20 mb-8 text-center animate-in fade-in slide-in-from-top-4 duration-700">
+                    <h2 className="text-3xl font-bold tracking-tighter" style={{ fontFamily: 'var(--font-brand, inherit)' }}>
                         Segmento<span className="text-zinc-400 dark:text-zinc-500">Pulse</span>
                     </h2>
                 </div>
