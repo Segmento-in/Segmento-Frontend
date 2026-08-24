@@ -4,6 +4,7 @@
 
 :root {
   /* CSS Variables for theme */
+  --navbar-h: 64px;              /* fixed navbar height — used by HeroSection offset */
   --color-background: #ffffff;
   --color-foreground: #0a0a0a;
   --color-card: #ffffff;

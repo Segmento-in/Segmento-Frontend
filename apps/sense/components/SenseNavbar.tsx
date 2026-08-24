@@ -67,9 +67,9 @@ export function SenseNavbar() {
 
 
                         <img
-                            src="/sense/images/logo.png"
+                            src="/images/logo.png"
                             alt="Logo"
-                            className="w-18 h-18 object-contain scale-150 -mr-4"
+                            className="w-10 h-10 object-contain"
                         />
 
                     </div>
@@ -209,6 +209,7 @@ export function SenseNavbar() {
 
                     {/* MOBILE MENU BUTTON (FIRST) */}
                     <button
+                        aria-label="Toggle mobile menu"
                         className="lg:hidden text-white p-2.5 bg-white/5 rounded-xl border border-white/10 order-2"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
@@ -369,6 +370,37 @@ export function SenseNavbar() {
                                     </div>
                                 </Link>
 
+
+                                {/* AUTH ENTRY — Mobile drawer */}
+                                <a
+                                    href="/profile"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    <div className="w-full flex items-center justify-between px-5 py-4 rounded-2xl border border-blue-500/30 bg-gradient-to-br from-[#051025] to-[#030a1a]">
+                                        <div className="flex items-center gap-3">
+                                            {isLoggedIn ? (
+                                                <>
+                                                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-sm font-bold text-white">
+                                                        {user?.name?.[0]?.toUpperCase() ?? '?'}
+                                                    </span>
+                                                    <span className="text-sm font-black text-white tracking-widest uppercase">
+                                                        {user?.name?.split(' ')[0] ?? 'Me'}
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20 border border-blue-500/40">
+                                                        <UserCircle size={16} className="text-blue-400" />
+                                                    </span>
+                                                    <span className="text-sm font-black text-white tracking-widest uppercase">
+                                                        Sign In
+                                                    </span>
+                                                </>
+                                            )}
+                                        </div>
+                                        <ChevronRight size={16} className="text-blue-400" />
+                                    </div>
+                                </a>
 
                             </div>
                         </motion.div>

@@ -133,14 +133,14 @@ export function HeroSection() {
         <section
             className="
                 relative
-                min-h-screen
+                min-h-[100dvh]
                 flex
                 items-center
                 justify-center
                 bg-white
                 dark:bg-[#020617]
                 overflow-hidden
-                py-24
+                pt-20 pb-24 lg:py-24
                 transition-colors
                 duration-500
             "
