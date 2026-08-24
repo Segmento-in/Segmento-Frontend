@@ -1,5 +1,3 @@
-import { database } from "./firebase";
-import { ref, get } from "firebase/database";
 import { getApiBase } from './apiBase';
 
 export interface UserSubscription {
@@ -18,7 +16,7 @@ export interface UserSubscription {
  * Note: Uses SHA-256 hash of email as the key
  */
 export async function fetchUserSubscription(email: string): Promise<UserSubscription | null> {
-    if (!database || !email) return null;
+    if (!email) return null;
 
     try {
         // Use Backend API (Single Source of Truth)

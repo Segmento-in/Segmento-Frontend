@@ -38,3 +38,11 @@ and commit messages. When a term here conflicts with an alias listed below, the 
 | ---- | ---------- | ---------------- |
 | **Persuade Banner** | The `NewsletterCTA.tsx` component rendered on the homepage. Designed for maximum conversion using high-fidelity motion, gradients, and persuasive copy (Persuade mode). Not to be confused with the quiet "Subscribe" button in the NavBar. | NewsletterCTA, Signup Banner |
 | **Global Newsletter Hub Overlay** | The modal overlay containing `NewsletterHub.tsx`, triggered by either the Persuade Banner or the NavBar's quiet Subscribe button. Displays `NewsletterCard`s for frequency selection. | Hub Modal, Signup Overlay |
+
+---
+
+## Authentication Infrastructure
+
+| Term | Definition | Aliases to avoid |
+| ---- | ---------- | ---------------- |
+| **Appwrite Account** | The canonical native Appwrite authentication service used for identity management. All login, registration, and session management logic MUST use the `Account` SDK instance (`account.createEmailPasswordSession`, `account.get`). Firebase Auth has been entirely deprecated from the codebase. | Firebase Auth, Firebase User, Auth0, Supabase Auth |

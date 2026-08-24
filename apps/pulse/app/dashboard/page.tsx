@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { pulseAuth } from '@/lib/firebase';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { account } from '@/lib/appwrite';
+import { Models } from 'appwrite';
 import { fetchUserSubscription, UserSubscription } from '@/lib/userApi';
 import { User as UserIcon, Mail, ShieldCheck, Settings } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -11,30 +11,26 @@ import SubscriptionManager from '@/components/SubscriptionManager';
 
 export default function DashboardPage() {
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
     const [subscription, setSubscription] = useState<UserSubscription | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!pulseAuth) return;
-
-        const unsubscribe = onAuthStateChanged(pulseAuth, async (currentUser) => {
-            if (!currentUser) {
+        const loadUser = async () => {
+            try {
+                const currentUser = await account.get();
+                setUser(currentUser);
+                if (currentUser.email) {
+                    const subData = await fetchUserSubscription(currentUser.email);
+                    setSubscription(subData);
+                }
+            } catch (err) {
                 router.push('/login');
-                return;
+            } finally {
+                setLoading(false);
             }
-
-            setUser(currentUser);
-
-            if (currentUser.email) {
-                const subData = await fetchUserSubscription(currentUser.email);
-                setSubscription(subData);
-            }
-
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
+        };
+        loadUser();
     }, [router]);
 
     if (loading) {
@@ -75,7 +71,7 @@ export default function DashboardPage() {
                                     </div>
                                     <div>
                                         <h2 className="text-[18px] font-semibold text-[#201F1E] line-clamp-1">
-                                            {user.displayName || "Pulse User"}
+                                            {user.name || "Pulse User"}
                                         </h2>
                                         <span className="inline-flex items-center gap-1 mt-1 text-[12px] font-medium text-[#0078D4] bg-[#F3F2F1] px-2 py-0.5 rounded-sm">
                                             <ShieldCheck className="h-3 w-3" /> Standard Identity

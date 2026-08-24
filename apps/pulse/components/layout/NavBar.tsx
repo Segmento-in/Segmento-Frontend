@@ -17,8 +17,8 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { pulseAuth } from "@/lib/firebase";
+import { account } from "@/lib/appwrite";
+import { Models } from "appwrite";
 import { PulseLogo } from "../HeartbeatLogo";
 import NewsletterHub from "../NewsletterHub";
 import ThemeToggle from "../shared/ThemeToggle";
@@ -48,7 +48,7 @@ const CATEGORIES = [
 export function NavBar() {
     const pathname = usePathname();
     const router = useRouter();
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<Models.User<Models.Preferences> | null>(null);
     const [isNewsletterHubOpen, setIsNewsletterHubOpen] = useState(false);
 
     // Search state
@@ -78,17 +78,23 @@ export function NavBar() {
     };
 
     useEffect(() => {
-        if (!pulseAuth) return;
-        const unsubscribe = onAuthStateChanged(pulseAuth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
+        const checkSession = async () => {
+            try {
+                const currentUser = await account.get();
+                setUser(currentUser);
+            } catch (err) {
+                setUser(null);
+            }
+        };
+        checkSession();
     }, []);
 
     const handleLogout = async (e: React.MouseEvent) => {
         e.preventDefault();
         try {
-            if (pulseAuth) await signOut(pulseAuth);
+            await account.deleteSession('current');
+            setUser(null);
+            router.push('/');
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -140,11 +146,11 @@ export function NavBar() {
                     {user ? (
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                             <Link href="/dashboard" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
-                                {user.photoURL ? (
-                                    <img src={user.photoURL} alt="User" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
+                                {user.prefs && (user.prefs as any).photoURL ? (
+                                    <img src={(user.prefs as any).photoURL} alt="User" style={{ width: "24px", height: "24px", borderRadius: "50%" }} />
                                 ) : (
                                     <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: "var(--pulse-color-brand-purple)", color: "var(--pulse-color-text-inverse)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "bold" }}>
-                                        {user.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
+                                        {user.name?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase() || "U"}
                                     </div>
                                 )}
                                 <span className="hidden sm:block text-[13px] font-medium text-[var(--pulse-color-text-primary)]">Dashboard</span>
