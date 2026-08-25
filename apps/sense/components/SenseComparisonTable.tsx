@@ -252,7 +252,7 @@ export function SenseComparisonTable({ className = '' }: SenseComparisonTablePro
                             {/* Table Head */}
                             <thead className="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-sm">
                                 <tr className="border-b border-slate-200 dark:border-slate-700">
-                                    <th className="text-left py-6 px-8 text-xs font-black uppercase tracking-[0.25em] text-slate-400 w-[250px] md:w-[300px] bg-white/95 dark:bg-slate-900/95 sticky left-0 z-40 backdrop-blur-xl">
+                                    <th className="text-left py-4 px-4 md:py-6 md:px-8 text-xs font-black uppercase tracking-[0.25em] text-slate-400 w-[140px] sm:w-[200px] md:w-[300px] shrink-0 bg-white/95 dark:bg-slate-900/95 sticky left-0 z-40 backdrop-blur-xl">
                                         Criteria
                                     </th>
                                     <th className="py-6 px-6 text-center min-w-[200px] bg-blue-50/95 dark:bg-blue-900/30 backdrop-blur-xl relative">
@@ -329,9 +329,9 @@ export function SenseComparisonTable({ className = '' }: SenseComparisonTablePro
                                                         className="border-b border-slate-100 dark:border-slate-800/60 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-all duration-300 group"
                                                     >
                                                         {/* Criteria Label */}
-                                                        <td className="py-5 px-8 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/40 transition-colors sticky left-0 z-20 border-l-4 border-transparent group-hover:border-blue-400">
+                                                        <td className="py-4 px-4 md:py-5 md:px-8 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800/40 transition-colors sticky left-0 z-20 border-l-4 border-transparent group-hover:border-blue-400">
                                                             <div className="flex items-start gap-2">
-                                                                <span className="text-base font-bold text-slate-800 dark:text-slate-100 leading-snug">
+                                                                <span className="text-sm md:text-base font-bold text-slate-800 dark:text-slate-100 leading-snug">
                                                                     {row.label}
                                                                 </span>
                                                                 {row.insight && (
@@ -369,8 +369,8 @@ export function SenseComparisonTable({ className = '' }: SenseComparisonTablePro
                                                         </td>
 
                                                         {/* Segmento Value (highlighted hero column) */}
-                                                        <td className="py-5 px-6 text-center bg-blue-50/80 dark:bg-blue-900/20 group-hover:bg-blue-100/50 dark:group-hover:bg-blue-900/40 transition-colors relative">
-                                                            <span className="text-base font-black text-blue-700 dark:text-blue-400">
+                                                        <td className="py-4 px-4 md:py-5 md:px-6 text-center bg-blue-50/80 dark:bg-blue-900/20 group-hover:bg-blue-100/50 dark:group-hover:bg-blue-900/40 transition-colors relative">
+                                                            <span className="text-sm md:text-base font-black text-blue-700 dark:text-blue-400">
                                                                 {row.segmentoValue}
                                                             </span>
                                                         </td>
@@ -380,9 +380,9 @@ export function SenseComparisonTable({ className = '' }: SenseComparisonTablePro
                                                             (comp) => (
                                                                 <td
                                                                     key={comp.id}
-                                                                    className="py-5 px-6 text-center"
+                                                                    className="py-4 px-4 md:py-5 md:px-6 text-center"
                                                                 >
-                                                                    <span className="text-base font-medium text-slate-500 dark:text-slate-400">
+                                                                    <span className="text-sm md:text-base font-medium text-slate-500 dark:text-slate-400">
                                                                         {row.competitorValues[comp.id] || "—"}
                                                                     </span>
                                                                 </td>

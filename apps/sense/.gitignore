@@ -1,3 +1,5 @@
 .next/
 .env.local
 .env
+.venv/
+crop_logo.py

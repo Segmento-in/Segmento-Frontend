@@ -59,23 +59,21 @@ export function SenseNavbar() {
                 {/* LOGO */}
                 <Link
                     href="/"
-                    className="flex items-center gap-1.5 sm:gap-0 group whitespace-nowrap z-[110]"
+                    className="flex items-center gap-2 sm:gap-3 group whitespace-nowrap z-[110] shrink-0"
                 >
-                    <div className="relative flex items-center justify-center">
+                    <div className="relative flex items-center justify-center shrink-0">
                         <div className="absolute inset-0 group-hover:opacity-80 transition-opacity" />
-
 
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src="/sense/images/logo_transparent.png"
                             alt="Logo"
-                            className="h-15 sm:h-15 w-auto object-contain"
+                            className="h-8 sm:h-11 w-auto object-contain shrink-0"
                         />
-
                     </div>
 
-                    <div className="flex flex-col">
-                        <span className="text-white font-black text-lg tracking-tighter leading-none uppercase">
+                    <div className="flex flex-col shrink-0">
+                        <span className="text-white font-black text-base sm:text-lg tracking-tighter leading-none uppercase">
                             SEGMENTO
                         </span>
 
@@ -85,7 +83,7 @@ export function SenseNavbar() {
                                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
                             </span>
 
-                            <span className="text-slate-500 font-bold text-[9px] tracking-[0.3em] uppercase">
+                            <span className="text-slate-500 font-bold text-[8px] sm:text-[9px] tracking-[0.3em] uppercase">
                                 SENSE
                             </span>
                         </div>
@@ -217,17 +215,9 @@ export function SenseNavbar() {
                     </button>
 
                     {/* MOBILE BACK BUTTON (AFTER MENU) */}
-                    <a href={backUrl} className="md:hidden order-2">
-                        <button className="bg-blue-600 text-white px-3 py-2 rounded-lg text-[10px] font-bold flex items-center gap-1 whitespace-nowrap">
-                            <ArrowLeft size={14} />
-
-                            {/* Small screens */}
-                            <span className="xs:hidden">Back to segmento</span>
-
-                            {/* Normal mobile */}
-                            <span className="hidden xs:inline">
-                                {backText}
-                            </span>
+                    <a href={backUrl} className="md:hidden order-2 shrink-0 ml-2">
+                        <button className="bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 text-blue-400 p-2.5 rounded-xl flex items-center justify-center transition-colors">
+                            <ArrowLeft size={20} />
                         </button>
                     </a>
 
