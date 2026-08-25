@@ -6,7 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Zap, Menu, X, ChevronRight, Sparkles, FlaskConical, Network, Home, BarChart2, UserCircle } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import Image from "next/image";
 import { useAuth } from "@/lib/authContext";
 
 
@@ -60,16 +59,17 @@ export function SenseNavbar() {
                 {/* LOGO */}
                 <Link
                     href="/"
-                    className="flex items-center gap-0 group whitespace-nowrap z-[110]"
+                    className="flex items-center gap-1.5 sm:gap-0 group whitespace-nowrap z-[110]"
                 >
-                    <div className="relative">
+                    <div className="relative flex items-center justify-center">
                         <div className="absolute inset-0 group-hover:opacity-80 transition-opacity" />
 
 
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src="/images/segmento_logo_clean.png"
+                            src="/sense/images/logo_transparent.png"
                             alt="Logo"
-                            className="w-10 h-10 object-contain"
+                            className="h-15 sm:h-15 w-auto object-contain"
                         />
 
                     </div>
@@ -372,7 +372,7 @@ export function SenseNavbar() {
 
 
                                 {/* AUTH ENTRY — Mobile drawer */}
-                                <a
+                                <Link
                                     href="/profile"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
@@ -400,7 +400,7 @@ export function SenseNavbar() {
                                         </div>
                                         <ChevronRight size={16} className="text-blue-400" />
                                     </div>
-                                </a>
+                                </Link>
 
                             </div>
                         </motion.div>

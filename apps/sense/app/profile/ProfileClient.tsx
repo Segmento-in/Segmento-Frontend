@@ -152,9 +152,9 @@ export default function ProfileClient() {
     const firstName = user.name?.split(' ')[0] ?? user.email;
 
     return (
-      <div className="min-h-screen bg-[#020617] flex">
+      <div className="min-h-screen bg-[#020617] flex overflow-x-hidden">
         {/* Sidebar */}
-        <aside className="w-72 border-r border-slate-800 bg-[#020617] flex flex-col fixed inset-y-0 z-20">
+      <aside className="hidden md:flex w-72 border-r border-slate-800 bg-[#020617] flex-col fixed inset-y-0 pt-16 z-20">
           <div className="p-6 flex-1 overflow-y-auto scrollbar-thin">
             {/* Avatar */}
             <div className="flex flex-col items-center gap-4 mb-8">
@@ -208,10 +208,35 @@ export default function ProfileClient() {
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 ml-72 p-8 min-h-screen bg-slate-50 dark:bg-slate-950">
+        <main className="flex-1 ml-0 md:ml-72 p-4 md:p-8 pt-20 md:pt-24 min-h-screen bg-slate-50 dark:bg-slate-950 overflow-x-hidden">
           <div className="max-w-6xl mx-auto space-y-6">
-            <header className="mb-8">
-              <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Security Dashboard</h1>
+            {/* Mobile profile header — hidden on desktop */}
+            <div className="md:hidden mb-6 p-4 rounded-2xl border border-slate-800 bg-[#020617]">
+              {/* Row 1: avatar + info */}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-lg font-black select-none shrink-0">
+                  {initial}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-black text-white tracking-tight truncate">{user.name}</p>
+                  <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                  <p className="text-xs text-blue-400 font-semibold mt-0.5">
+                    {statsLoading ? '…' : `${stats?.remaining_credits ?? '—'} / ${stats?.total_credits ?? 100} credits`}
+                  </p>
+                </div>
+              </div>
+              {/* Row 2: sign out — always full width */}
+              <button
+                onClick={handleLogout}
+                disabled={logoutLoading}
+                className="w-full rounded-xl bg-white/[0.05] hover:bg-red-500/10 border border-white/[0.05] hover:border-red-500/30 text-white/60 hover:text-red-400 py-2.5 text-xs font-semibold transition-all duration-200 disabled:opacity-50"
+              >
+                {logoutLoading ? 'Signing out…' : 'Sign Out'}
+              </button>
+            </div>
+
+            <header className="mb-6 md:mb-8">
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Security Dashboard</h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Overview of your Segmento Sense activities</p>
             </header>
 

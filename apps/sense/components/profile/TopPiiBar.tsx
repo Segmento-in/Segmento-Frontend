@@ -51,6 +51,7 @@ export default function TopPiiBar({ stats }: Props) {
           plot_bgcolor: 'transparent',
           font: { color: textColor, size: 11 },
           margin: { t: 10, r: 20, b: 30, l: 120 },
+          autosize: true,
           xaxis: {
             showgrid: true,
             gridcolor: gridColor,
@@ -67,6 +68,7 @@ export default function TopPiiBar({ stats }: Props) {
         {
           responsive: true,
           displayModeBar: false,
+          autosizable: true,
         }
       );
     });

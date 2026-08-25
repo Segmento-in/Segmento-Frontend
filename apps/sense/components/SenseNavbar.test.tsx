@@ -43,14 +43,14 @@ vi.mock("@/lib/authContext", () => ({
     useAuth: () => mockUseAuth(),
 }));
 
-// ── T1: Logo path ──────────────────────────────────────────────────────────
+// ── T1: Logo path ──────────────────────────────────────────────────────────────────
 
 describe("SenseNavbar — logo", () => {
     it("renders logo with correct src (not the broken /sense/ prefix)", () => {
         render(<SenseNavbar />);
         const logo = screen.getByRole("img", { name: /logo/i });
-        // RED: will fail — current src is "/sense/images/logo.png"
-        expect(logo).toHaveAttribute("src", "/images/segmento_logo_clean.png");
+        // The plain img tag uses the full basePath-aware path
+        expect(logo).toHaveAttribute("src", "/sense/images/logo_transparent.png");
     });
 
     it("logo has no scale-150 distortion class", () => {

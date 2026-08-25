@@ -51,6 +51,7 @@ export default function PiiDonut({ stats }: Props) {
           plot_bgcolor: 'transparent',
           font: { color: textColor, size: 11 },
           margin: { t: 10, r: 10, b: 10, l: 10 },
+          autosize: true,
           showlegend: true,
           legend: {
             orientation: 'h',
@@ -63,6 +64,7 @@ export default function PiiDonut({ stats }: Props) {
         {
           responsive: true,
           displayModeBar: false,
+          autosizable: true,
         }
       );
     });
