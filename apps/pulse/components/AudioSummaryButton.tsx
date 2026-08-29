@@ -273,29 +273,32 @@ export default function AudioSummaryButton({
 
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", padding: "24px 0" }}>
+        <div className="flex flex-col items-center gap-2 relative">
             {/* Main Button Container */}
-            <div style={{ position: "relative", cursor: "pointer" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                {/* Rotating Message Bubble - Now Top Right */}
-                <div style={{ position: "absolute", top: "-56px", right: "-48px", zIndex: 20, display: "block" }}>
+            <div className="relative cursor-pointer group" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                {/* Rotating Message Bubble - Appears on Hover on Desktop, or handled better */}
+                <div className={cn(
+                    "absolute -top-12 left-1/2 -translate-x-1/2 z-20 pointer-events-none transition-all duration-300",
+                    isHovered ? "opacity-100 visible" : "opacity-0 invisible"
+                )}>
                     <div
                         className={cn(
-                            "px-4 py-2 rounded-xl border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400 dark:border-purple-700 dark:from-purple-900 dark:to-pink-900",
+                            "px-3 py-1.5 rounded-lg border border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 shadow-sm transition-all duration-400 dark:border-purple-700 dark:from-purple-900 dark:to-pink-900",
                             isFading ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
                         )}
                     >
-                        <p className="text-sm font-medium text-gray-700 whitespace-nowrap dark:text-gray-300">
+                        <p className="text-xs font-medium text-gray-700 whitespace-nowrap dark:text-gray-300">
                             {CATCHY_MESSAGES[messageIndex]}
                         </p>
                     </div>
-                    {/* Triangular tail pointing down-left to the button */}
-                    <div className="absolute left-4 -bottom-1.5 w-3 h-3 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 transform dark:from-pink-900 dark:to-purple-900 dark:border-purple-700" />
+                    {/* Triangular tail pointing down */}
+                    <div className="absolute left-1/2 -bottom-1 w-2 h-2 bg-gradient-to-br from-pink-50 to-purple-50 border-b border-r border-purple-200 rotate-45 -translate-x-1/2 dark:from-pink-900 dark:to-purple-900 dark:border-purple-700" />
                 </div>
 
                 {/* Ambient Glow Layer */}
                 <div style={{
-                    position: "absolute", inset: 0, borderRadius: "16px", filter: "blur(24px)",
-                    pointerEvents: "none", background: 'var(--gradient-audio)', opacity: 0.6
+                    position: "absolute", inset: 0, borderRadius: "16px", filter: "blur(16px)",
+                    pointerEvents: "none", background: 'var(--gradient-audio)', opacity: 0.4
                 }} />
 
                 {/* Pulse Ring */}
@@ -309,7 +312,7 @@ export default function AudioSummaryButton({
                         key={note.id}
                         style={{
                             position: "absolute", transform: "translate(-50%, -50%)",
-                            pointerEvents: "none", fontSize: "36px", zIndex: 10,
+                            pointerEvents: "none", fontSize: "24px", zIndex: 10,
                             top: `calc(50% - ${note.y}px)`, left: `calc(50% + ${note.x}px)`, opacity: 0,
                             transition: "all 2s ease-out"
                         }}
@@ -323,33 +326,32 @@ export default function AudioSummaryButton({
                     onClick={handleClick}
                     disabled={isResearch}
                     className={cn(
-                        "relative px-7 py-3.5 rounded-2xl font-semibold text-gray-800 border border-purple-200/50 dark:text-gray-200 dark:border-purple-700/50",
+                        "relative px-6 py-2.5 rounded-full font-semibold text-gray-800 border border-purple-200/50 dark:text-gray-200 dark:border-purple-700/50",
                         "transition-all duration-300 ease-out",
                         "hover:scale-105 hover:-translate-y-0.5",
                         "active:scale-100 active:translate-y-0",
-                        
                         "focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2",
-                        "animate-button-breathe flex items-center gap-3",
+                        "animate-button-breathe flex items-center gap-2",
                         isResearch ? "opacity-50 cursor-not-allowed" : ""
                     )}
                     style={{ background: 'var(--gradient-audio)' }}
                     aria-label="Play Audio Summary"
                 >
                     {/* Icon */}
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div className="flex items-center justify-center">
                         {isLoading ? (
-                            <Loader2 size={20} className="animate-spin" />
+                            <Loader2 size={16} className="animate-spin" />
                         ) : isPlaying ? (
-                            <Pause size={20} />
-                        ) : audioUrl ? ( // If audio is ready but paused/stopped
-                            <Play size={20} />
+                            <Pause size={16} />
+                        ) : audioUrl ? (
+                            <Play size={16} />
                         ) : (
-                            <Headphones size={20} />
+                            <Headphones size={16} />
                         )}
                     </div>
 
                     {/* Text */}
-                    <span>
+                    <span className="text-sm">
                         {isLoading ? "Generating..." :
                             isPlaying ? "Pause" :
                                 audioUrl ? "Resume" :
@@ -358,11 +360,11 @@ export default function AudioSummaryButton({
 
                     {/* Equalizer Bars */}
                     {!isLoading && (
-                        <div style={{ display: "flex", alignItems: "center", gap: "2px", height: "16px" }}>
+                        <div className="flex items-center gap-0.5 h-3 ml-1">
                             {[0, 1, 2, 3].map(i => (
                                 <div
                                     key={i}
-                                    style={{ width: "3px", height: isPlaying ? `${Math.random() * 10 + 6}px` : "10px", borderRadius: "99px", background: "#A855F7", transition: "height 100ms" }}
+                                    style={{ width: "2px", height: isPlaying ? `${Math.random() * 8 + 4}px` : "6px", borderRadius: "99px", background: "#A855F7", transition: "height 100ms" }}
                                 />
                             ))}
                         </div>
@@ -372,8 +374,8 @@ export default function AudioSummaryButton({
                 {/* Tooltip for Research Papers */}
                 {isResearch && isHovered && (
                     <div style={{
-                        position: "absolute", top: "-40px", left: "50%", transform: "translateX(-50%)",
-                        background: "rgba(0,0,0,0.8)", color: "#ffffff", fontSize: "12px", padding: "4px 8px",
+                        position: "absolute", top: "-32px", left: "50%", transform: "translateX(-50%)",
+                        background: "rgba(0,0,0,0.8)", color: "#ffffff", fontSize: "11px", padding: "4px 8px",
                         borderRadius: "4px", whiteSpace: "nowrap", pointerEvents: "none", zIndex: 50
                     }}>
                         Coming Soon
@@ -382,19 +384,19 @@ export default function AudioSummaryButton({
             </div>
 
             {/* Bottom Sub-label */}
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280", marginTop: "4px" }}>
-                <Volume2 size={14} />
+            <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mt-1">
+                <Volume2 size={12} />
                 <span>Tap to listen 150 words summary</span>
             </div>
 
             {/* Text Summary Box */}
             {textSummary && (
-                <div style={{ width: "100%", maxWidth: "448px", marginTop: "16px", padding: "20px", borderRadius: "12px", background: "rgba(250, 245, 255, 0.6)", border: "1px solid rgba(243, 232, 255, 0.5)", backdropFilter: "blur(4px)", color: "#374151", fontSize: "14px", lineHeight: 1.6, maxHeight: "240px", overflowY: "auto", boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)" }}>
-                    <h4 style={{ fontWeight: 600, color: "#581C87", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                        <span style={{ fontSize: "16px" }}>📝</span>
+                <div className="w-full max-w-md mt-4 p-4 rounded-xl bg-purple-50/50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-800/30 backdrop-blur-sm text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed max-h-48 overflow-y-auto shadow-sm">
+                    <h4 className="font-semibold text-purple-700 dark:text-purple-400 mb-2 flex items-center gap-2 text-xs uppercase tracking-wider">
+                        <span className="text-sm">📝</span>
                         Quick Summary
                     </h4>
-                    <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{textSummary}</p>
+                    <p className="whitespace-pre-wrap m-0">{textSummary}</p>
                 </div>
             )}
         </div>

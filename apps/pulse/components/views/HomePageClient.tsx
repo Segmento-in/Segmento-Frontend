@@ -18,13 +18,16 @@
  * No footer (removed per user directive).
  */
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import { X } from "lucide-react";
 import { NavBar } from "@/components/layout/NavBar";
 import { HeroSection } from "@/components/layout/HeroSection";
 import { NewsletterCTA } from "@/components/layout/NewsletterCTA";
 import { CategoryBadge } from "@/components/shared/CategoryBadge";
 import { ArticlesByTopic } from "@/components/layout/ArticlesByTopic";
 import { formatDate } from "@/components/shared/AuthorMetaBlock";
+import ArticleDetailView from "@/components/ArticleDetailView";
 
 // ── TOPIC SECTIONS DATA ─────────────────────────────────────────────
 const CDN = "https://prismic-main.cdn.prismic.io/prismic-main";
@@ -242,6 +245,16 @@ export function PulseBlogHomeClient({
     const ytScrollRef = useRef<HTMLDivElement>(null);
     const topicRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+    const [hoveredArticle, setHoveredArticle] = useState<any | null>(null);
+
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setHoveredArticle(null);
+        };
+        if (hoveredArticle) window.addEventListener('keydown', handleEsc);
+        return () => window.removeEventListener('keydown', handleEsc);
+    }, [hoveredArticle]);
+
     const scrollYT = (dir: "left" | "right") => {
         if (ytScrollRef.current) {
             ytScrollRef.current.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
@@ -305,6 +318,7 @@ export function PulseBlogHomeClient({
                                         key={vid.id}
                                         href={vid.url || "#"}
                                         className={`${CARD_BASE_CLASSES} flex-shrink-0 w-[300px] border-white/10 dark:border-white/10 bg-white dark:bg-slate-800`}
+                                        onClick={(e) => { e.preventDefault(); setHoveredArticle(vid); }}
                                     >
                                         <div className={`aspect-[4/3] overflow-hidden ${aestheticColors[idx % 5]}`}>
                                             <img src={vid.imgSrc} alt={vid.title} loading="lazy" className="w-full h-full object-cover" />
@@ -382,7 +396,8 @@ export function PulseBlogHomeClient({
                                     style={{ display: "flex", gap: "16px", overflowX: "auto", scrollbarWidth: "none", paddingBottom: "10px" }}
                                 >
                                     {section.articles.map((art, aIdx) => (
-                                        <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex-shrink-0 w-[calc(33.333%-11px)] min-w-[260px] bg-white dark:bg-slate-800`}>
+                                        <a key={art.id} href={art.url || "#"} className={`${CARD_BASE_CLASSES} flex-shrink-0 w-[calc(33.333%-11px)] min-w-[260px] bg-white dark:bg-slate-800`}
+                                           onClick={(e) => { e.preventDefault(); setHoveredArticle(art); }}>
                                             <div className={`aspect-[4/3] overflow-hidden ${aestheticColors[aIdx % 5]} flex items-center justify-center`}>
                                                 <img src={art.imgSrc} alt={art.imgAlt} loading="lazy"
                                                     className="w-full h-full object-cover" />
@@ -412,6 +427,40 @@ export function PulseBlogHomeClient({
                 <ArticlesByTopic />
 
             </main>
+
+            {/* OVERLAY PORTAL FOR ARTICLE MODAL */}
+            {hoveredArticle && typeof window !== 'undefined' && createPortal(
+                <div
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                    onClick={() => setHoveredArticle(null)}
+                >
+                    <div
+                        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => setHoveredArticle(null)}
+                            className="absolute top-4 right-4 z-50 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                        <ArticleDetailView
+                            article={{
+                                url: hoveredArticle.url || hoveredArticle.id,
+                                title: hoveredArticle.title,
+                                description: "Detailed summary omitted from this minimal view. The full details would populate beautifully here.",
+                                image_url: hoveredArticle.imgSrc,
+                                published_at: hoveredArticle.date,
+                                source: hoveredArticle.author,
+                                category: hoveredArticle.tag,
+                                id: hoveredArticle.id
+                            }}
+                            isModal={true}
+                        />
+                    </div>
+                </div>,
+                document.body
+            )}
         </>
     );
 }

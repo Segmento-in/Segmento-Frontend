@@ -29,6 +29,8 @@ and commit messages. When a term here conflicts with an alias listed below, the 
 | Term | Definition | Aliases to avoid |
 | ---- | ---------- | ---------------- |
 | **ArticleImage** | The canonical shared React component (`components/shared/ArticleImage.tsx`) responsible for rendering all article images across the application. Accepts a neutral `src` prop (mapped from either `image_url` or `imgSrc` at each call site), shows the Article Fallback Banner immediately when `src` is missing or empty, and swaps to the Article Fallback Banner on load failure (`onError`) with no flash of a broken-image icon. No call site should render an article image via an inline `<img>` tag — all image rendering goes through `ArticleImage`. | Inline img tag, article img, fallback image component |
+| **Editorial Layout** | The canonical, professional layout structure for the `ArticleDetailView.tsx` component, prioritizing readability with a Light/Dark mode compatible zinc/slate palette, placing the Title, Metadata, and Description above the Hero Image. | Brown theme, old design |
+| **Action Bar** | The horizontal, unified control bar located below the Hero Image in the Editorial Layout, consolidating the 'Read Full Article', 'AudioSummaryButton', and 'ArticleInteraction' components into a single visual block. | Buttons area, interaction section |
 
 ---
 
@@ -46,3 +48,14 @@ and commit messages. When a term here conflicts with an alias listed below, the 
 | Term | Definition | Aliases to avoid |
 | ---- | ---------- | ---------------- |
 | **Appwrite Account** | The canonical native Appwrite authentication service used for identity management. All login, registration, and session management logic MUST use the `Account` SDK instance (`account.createEmailPasswordSession`, `account.get`). Firebase Auth has been entirely deprecated from the codebase. | Firebase Auth, Firebase User, Auth0, Supabase Auth |
+
+---
+
+## Top Git Repositories
+
+| Term | Definition | Aliases to avoid |
+| ---- | ---------- | ---------------- |
+| **Top Git Repositories Category** | The dedicated category page (`/category/top-git-repositories`) presenting open-source projects in a grid. Implemented using the Next.js ISR pattern for cache consistency. | GitHub category, Repos page |
+| **RepoCard** | The canonical component for rendering a single repository in the Top Git Repositories grid. Includes click-to-track view logging and decoupled engagement (likes/dislikes) that operate independently of parent link navigation. | GitCard, Repository component |
+| **Click-to-Track View Model** | The engagement tracking strategy used by `RepoCard` where view metrics are logged exclusively via explicit user clicks on the card, preventing inflated metrics during page load. | Auto-tracking, mount tracking |
+| **Decoupled Engagement** | The event propagation guard pattern (`e.preventDefault()`, `e.stopPropagation()`) in `RepoCard` that isolates like/dislike interactions from the parent anchor tag, ensuring engagement is independent of outbound navigation. | Isolated clicks, separate buttons |

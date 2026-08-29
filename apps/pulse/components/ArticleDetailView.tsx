@@ -11,6 +11,7 @@ import ViewCounter from '@/components/ViewCounter';
 import { incrementArticleView } from '@/lib/analytics';
 import AudioSummaryButton from '@/components/AudioSummaryButton';
 import { ArticleImage } from '@/components/shared/ArticleImage';
+import { cn } from '@/shared/utils';
 
 interface ArticleDetailViewProps {
     article: {
@@ -48,72 +49,74 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
         }
     }, [article, isModal]);
 
-    // Theme Colors
-    const darkBrown = "#5C3A31";
-    const paperWhite = "#F9F7F2";
-
     return (
-        <div className={`container mx-auto px-3 xs:px-4 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 max-w-4xl ${isModal ? `bg-[${darkBrown}] rounded-2xl` : ''}`}>
+        <div className={cn(
+            "container mx-auto px-4 max-w-4xl py-8",
+            isModal && "py-0 px-0 max-w-full"
+        )}>
             
             {!isModal && (
                 <Link
                     href={props.backLink || "/news"}
-                    className="inline-flex items-center gap-2 text-[#5C3A31]/70 hover:text-[#5C3A31] mb-8 transition-colors font-medium"
+                    className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 mb-8 transition-colors font-medium"
                 >
                     <ArrowLeft className="w-4 h-4" />
                     <span>{props.backLabel || "Back to News"}</span>
                 </Link>
             )}
 
-            <article className={`bg-[${darkBrown}] rounded-2xl overflow-hidden ${isModal ? 'shadow-none' : 'shadow-2xl border border-[#E5E2DA]'}`}>
+            <article className={cn(
+                "bg-white dark:bg-zinc-950 overflow-hidden",
+                isModal ? "rounded-none" : "rounded-3xl shadow-sm border border-zinc-200 dark:border-zinc-800"
+            )}>
                 
-                {/* Image Header Area */}
-                <div className="relative h-[250px] xs:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] w-full">
-                    {/* Article Fallback Banner handled by ArticleImage — no manual onError needed */}
+                {/* HEADER SECTION (Editorial Layout) */}
+                <div className="p-6 sm:p-10 pb-6">
+                    <div className="flex flex-wrap items-center gap-3 mb-6 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+                        <span className="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
+                            {article.source}
+                        </span>
+                        <div className="flex items-center gap-1.5 font-bold uppercase tracking-tight text-xs">
+                            <TimeDisplay timestamp={article.published_at} />
+                        </div>
+                        <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-700"></span>
+                        <div className="flex items-center gap-1 font-bold text-xs">
+                            <ViewCounter
+                                articleUrl={article.url}
+                                articleId={article.id}
+                            />
+                        </div>
+                    </div>
+                    
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-zinc-900 dark:text-white mb-6 leading-tight tracking-tight">
+                        {article.title}
+                    </h1>
+
+                    <p className="text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 leading-relaxed font-serif italic border-l-4 border-zinc-300 dark:border-zinc-700 pl-6">
+                        {article.description}
+                    </p>
+                </div>
+
+                {/* HERO IMAGE */}
+                <div className="relative w-full aspect-video bg-zinc-100 dark:bg-zinc-900">
                     <ArticleImage
                         src={article.image_url}
                         alt={article.title}
                         className="w-full h-full object-cover"
                     />
-                    {/* Gradient: Transitions from the dark brown up to transparent */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A31] via-[#5C3A31]/40 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                        <div className="flex items-center gap-3 mb-3">
-                            <span className="bg-[#A66152] px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
-                                {article.source}
-                            </span>
-                            <div className="[&&_*]:!text-white/80 text-xs font-bold uppercase tracking-tight">
-                                <TimeDisplay timestamp={article.published_at} />
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <span className="w-1 h-1 rounded-full bg-white/40"></span>
-                                <ViewCounter
-                                    articleUrl={article.url}
-                                    articleId={article.id}
-                                    className="text-white/80 text-xs font-bold"
-                                />
-                            </div>
-                        </div>
-                        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#F9F7F2] mb-2 leading-tight">
-                            {article.title}
-                        </h1>
-                    </div>
                 </div>
 
-                {/* Content Area - Dark Brown Theme */}
-                <div className="p-6 sm:p-10 bg-[#5C3A31]">
-                    <p className="text-lg sm:text-xl text-[#F9F7F2]/90 font-serif leading-relaxed mb-8 italic border-l-4 border-[#A66152] pl-6">
-                        {article.description}
-                    </p>
-
-                    <div className="flex flex-col xs:flex-row justify-center mb-10 items-center gap-4">
+                {/* ACTION BAR */}
+                <div className="px-6 sm:px-10 py-6 border-b border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-6 bg-zinc-50 dark:bg-zinc-950/50">
+                    <div className="flex items-center justify-start gap-4 flex-1">
                         <a
                             href={article.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full xs:w-auto bg-[#F9F7F2] text-[#5C3A31] hover:bg-white px-8 py-3 rounded-full font-bold transition-all shadow-xl inline-flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 rounded-full font-bold transition-all shadow-sm transform hover:-translate-y-0.5"
                         >
-                            <span>Read Full Article</span>
-                            <ExternalLink className="w-2 h-4" />
+                            <span className="whitespace-nowrap">Read Article</span>
+                            <ExternalLink className="w-4 h-4 hidden sm:inline-block" />
                         </a>
 
                         <AudioSummaryButton
@@ -127,47 +130,22 @@ export default function ArticleDetailView({ article, isModal = false, onClose, .
                         />
                     </div>
                     
-                    {/* Interactions (Likes/Shares) - Styled to pop on brown */}
-                   {/* Initial State: Forced White icons and text.
-  Hover State: Keeps your existing logic.
-*/}
-{/* Initial State: Forced White icons (killing the powder blue).
-  Hover States: Specific colors for each interaction type.
-*/}
-<div className="bg-white/10 rounded-2xl p-4 mb-8 border border-white/10 transition-all duration-300">
-    <div className="
-        /* 1. FORCE WHITE INITIALLY (Kills Powder Blue) */
-        [&&_*]:!text-white [&&_svg]:!stroke-white [&&_svg]:!text-white 
-        
-        /* 2. TARGET INDIVIDUAL HOVERS (Specific Colors) */
-        /* Note: This assumes the internal buttons are in order or identifiable by their hover targets */
-        /* Like: Blue */
-        [&_button:nth-child(1):hover_*]:!text-blue-400 [&_button:nth-child(1):hover_svg]:!stroke-blue-400
-        
-        /* Dislike: Red */
-        [&_button:nth-child(2):hover_*]:!text-red-500 [&_button:nth-child(2):hover_svg]:!stroke-red-500
-        
-        /* Share: Green */
-        [&_button:last-child:hover_*]:!text-emerald-400 [&_button:last-child:hover_svg]:!stroke-emerald-400
-        
-        opacity-90 transition-all">
-        
-        <ArticleInteraction
-            articleUrl={article.url}
-            articleTitle={article.title}
-            category={article.category}
-            articleId={article.id}
-            autoTrackView={false}
-        />
-    </div>
-</div>
-
-                    {/* Comment Section */}
-                    <div className="mt-8 pt-8 border-t border-white/10">
-                        
-                        <CommentSection articleUrl={article.url} />
+                    <div className="flex items-center gap-2">
+                        <ArticleInteraction
+                            articleUrl={article.url}
+                            articleTitle={article.title}
+                            category={article.category}
+                            articleId={article.id}
+                            autoTrackView={false}
+                        />
                     </div>
                 </div>
+
+                {/* COMMENT SECTION */}
+                <div className="p-6 sm:p-10 bg-white dark:bg-zinc-950">
+                    <CommentSection articleUrl={article.url} />
+                </div>
+                
             </article>
         </div>
     );

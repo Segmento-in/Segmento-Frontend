@@ -43,6 +43,7 @@ const CATEGORIES = [
     { label: "MAGZINES", href: "/category/magzines" },
     { label: "ARTICLES", href: "/category/articles" },
     { label: "RESEARCH PAPERS", href: "/category/research-papers" },
+    { label: "TOP REPOSITORIES", href: "/category/top-git-repositories" },
 ];
 
 export function NavBar() {
