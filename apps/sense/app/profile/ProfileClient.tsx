@@ -65,6 +65,10 @@ export default function ProfileClient() {
   const [regError, setRegError]         = useState('');
   const [regLoading, setRegLoading]     = useState(false);
 
+  // Organization Account toggle
+  const [accountType, setAccountType]   = useState<'individual' | 'organization'>('individual');
+  const [regOrgName, setRegOrgName]     = useState('');
+
   // Logout state
   const [logoutLoading, setLogoutLoading] = useState(false);
 
@@ -102,7 +106,11 @@ export default function ProfileClient() {
 
     setRegLoading(true);
     try {
-      await register(regName, regEmail, regPassword);
+      if (accountType === 'organization') {
+        await register(regName, regEmail, regPassword, regOrgName);
+      } else {
+        await register(regName, regEmail, regPassword);
+      }
       // If we get here with no access_token, it means email confirmation is pending
       // authContext handles that case — check isLoggedIn
       if (!isLoggedIn) {
@@ -371,6 +379,56 @@ export default function ProfileClient() {
             {/* ── REGISTER ── */}
             {tab === 'register' && (
               <form onSubmit={handleRegister} className="space-y-4">
+                {/* Account type toggle */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Account Type</label>
+                  <div className="flex rounded-xl overflow-hidden border border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => setAccountType('individual')}
+                      className={`flex-1 py-2.5 text-xs font-black uppercase tracking-widest transition-colors ${
+                        accountType === 'individual'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white/[0.04] text-slate-500 hover:text-slate-300'
+                      }`}
+                    >
+                      Individual
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAccountType('organization')}
+                      className={`flex-1 py-2.5 text-xs font-black uppercase tracking-widest transition-colors ${
+                        accountType === 'organization'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white/[0.04] text-slate-500 hover:text-slate-300'
+                      }`}
+                    >
+                      Organization
+                    </button>
+                  </div>
+                </div>
+
+                {/* Organization Name — only visible when Organization selected */}
+                {accountType === 'organization' && (
+                  <div>
+                    <label
+                      htmlFor="reg-org-name"
+                      className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider"
+                    >
+                      Organization Name
+                    </label>
+                    <input
+                      id="reg-org-name"
+                      type="text"
+                      required
+                      value={regOrgName}
+                      onChange={(e) => setRegOrgName(e.target.value)}
+                      placeholder="Acme Corp"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-600 focus:outline-none focus:border-blue-500/60 focus:bg-white/[0.06] transition-all"
+                    />
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Full Name</label>
                   <input

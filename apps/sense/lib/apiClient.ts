@@ -1039,11 +1039,14 @@ export class APIClient {
         name: string,
         email: string,
         password: string,
+        organizationName?: string,
     ): Promise<{ access_token: string | null; user: AuthUser }> {
+        const body: Record<string, string> = { name, email, password };
+        if (organizationName) body.organization_name = organizationName;
         const response = await fetch(`${this.baseURL}/api/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password }),
+            body: JSON.stringify(body),
         });
         return this.handleResponse(response);
     }

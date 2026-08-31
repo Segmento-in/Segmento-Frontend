@@ -17,7 +17,7 @@ export type AuthContextType = {
   token: string | null;
   isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string, organizationName?: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -44,8 +44,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(result.user);
   };
 
-  const register = async (name: string, email: string, password: string): Promise<void> => {
-    const result = await api.register(name, email, password);
+  const register = async (name: string, email: string, password: string, organizationName?: string): Promise<void> => {
+    const result = await api.register(name, email, password, organizationName);
     // If Supabase requires email confirmation, result.access_token may be null
     if (result.access_token) {
       setAuthSession(result.access_token, result.user);

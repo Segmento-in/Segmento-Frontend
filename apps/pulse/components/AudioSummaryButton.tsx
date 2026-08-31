@@ -69,8 +69,9 @@ export default function AudioSummaryButton({
         if (!audioRef.current) {
             audioRef.current = new Audio();
             audioRef.current.onended = () => setIsPlaying(false);
-            audioRef.current.onerror = () => {
-                console.error("Audio playback error");
+            audioRef.current.onerror = (e) => {
+                const target = e.target as HTMLAudioElement;
+                console.error("Audio playback error:", target.error?.code, target.error?.message);
                 setIsPlaying(false);
                 setIsLoading(false);
             };
