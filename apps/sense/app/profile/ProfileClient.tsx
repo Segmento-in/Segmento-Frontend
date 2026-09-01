@@ -200,7 +200,10 @@ export default function ProfileClient() {
     // Redirect to Google via Supabase PKCE flow
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/auth/callback` },
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_CALLBACK_URL
+          ?? `${window.location.origin}/auth/callback`,
+      },
 
     });
   }
