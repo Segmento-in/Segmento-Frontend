@@ -16,7 +16,8 @@ export type AuthContextType = {
   user: AuthUser | null;
   token: string | null;
   isLoggedIn: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<{ access_token: string; user: AuthUser }>;
+  commitSession: (token: string, user: AuthUser) => void;
   register: (name: string, email: string, password: string, organizationName?: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -37,11 +38,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = async (email: string, password: string): Promise<void> => {
+  const login = async (email: string, password: string): Promise<{ access_token: string; user: AuthUser }> => {
     const result = await api.login(email, password);
-    setAuthSession(result.access_token, result.user);
-    setToken(result.access_token);
-    setUser(result.user);
+    // Persistence is deferred to the caller so it can run Account Mode Mismatch
+    // check before committing anything to localStorage or React state.
+    return result;
+  };
+
+  const commitSession = (tok: string, u: AuthUser): void => {
+    setAuthSession(tok, u);
+    setToken(tok);
+    setUser(u);
   };
 
   const register = async (name: string, email: string, password: string, organizationName?: string): Promise<void> => {
@@ -66,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isLoggedIn: Boolean(token), login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoggedIn: Boolean(token), login, commitSession, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

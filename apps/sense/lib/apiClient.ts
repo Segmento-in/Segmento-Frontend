@@ -1079,6 +1079,26 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
+    /**
+     * Exchange a verified Supabase OAuth access_token for a full Sense session.
+     * Calls POST /api/auth/oauth/sync (Ticket 2 backend endpoint).
+     * Throws on 409 (Account Mode Mismatch), 422, or 5xx — caller handles.
+     */
+    async oauthSync(
+        accessToken: string,
+        mode: string,
+        organizationName?: string,
+    ): Promise<import('./auth').AuthUser> {
+        const body: Record<string, string> = { access_token: accessToken, mode };
+        if (organizationName) body.organization_name = organizationName;
+        const response = await fetch(`${this.baseURL}/api/auth/oauth/sync`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        return this.handleResponse(response);
+    }
+
     // ==================== CREDITS ====================
 
     async getCredits(token: string): Promise<CreditsResponse> {

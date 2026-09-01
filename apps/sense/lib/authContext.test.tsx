@@ -80,3 +80,43 @@ describe('authContext — register() forwarding', () => {
     expect(mockApiRegister).toHaveBeenCalledWith('Solo User', 'solo@test.com', 'pass123', undefined);
   });
 });
+
+describe('authContext — login() forwarding & deferred persistence', () => {
+  const fakeUser = { id: 'u1', email: 'a@b.com', name: 'A', created_at: '', org_id: null, organization_name: null };
+
+  it('forwards email + password to apiClient.login and returns { access_token, user }', async () => {
+    mockApiLogin.mockResolvedValue({ access_token: 'tok-abc', user: fakeUser });
+
+    let capturedCtx: ReturnType<typeof useAuth> | null = null;
+    renderWithProvider((ctx) => { capturedCtx = ctx; });
+
+    // Infer from the context type directly — avoids nullable capturedCtx and org_id narrowing
+    let result: Awaited<ReturnType<ReturnType<typeof useAuth>['login']>> | undefined;
+    await act(async () => {
+      result = await capturedCtx!.login('a@b.com', 'password');
+    });
+
+    // Forwarding: apiClient.login called with exact args
+    expect(mockApiLogin).toHaveBeenCalledOnce();
+    expect(mockApiLogin).toHaveBeenCalledWith('a@b.com', 'password');
+
+    // Return shape: caller gets the token + user back
+    expect(result).toEqual({ access_token: 'tok-abc', user: fakeUser });
+  });
+
+  it('does NOT write to localStorage — persistence deferred to caller', async () => {
+    mockApiLogin.mockResolvedValue({ access_token: 'tok-abc', user: fakeUser });
+
+    let capturedCtx: ReturnType<typeof useAuth> | null = null;
+    renderWithProvider((ctx) => { capturedCtx = ctx; });
+
+    await act(async () => {
+      await capturedCtx!.login('a@b.com', 'password');
+    });
+
+    // authContext.login must NOT persist — ProfileClient decides after mismatch check
+    expect(localStorage.getItem('sense_access_token')).toBeNull();
+    expect(localStorage.getItem('sense_auth_user')).toBeNull();
+  });
+});
+

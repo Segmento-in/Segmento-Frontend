@@ -19,14 +19,17 @@ vi.mock('@/lib/apiClient', () => ({
   },
 }));
 
-// register fn exposed for assertion
-const mockRegister = vi.fn();
+// register + login + commitSession fns exposed for per-test assertion
+const mockRegister      = vi.fn();
+const mockLogin         = vi.fn();
+const mockCommitSession = vi.fn();
 
 vi.mock('@/lib/authContext', () => ({
   useAuth: () => ({
     user: null,
     isLoggedIn: false,
-    login: vi.fn(),
+    login: mockLogin,
+    commitSession: mockCommitSession,
     register: mockRegister,
     logout: vi.fn(),
     token: null,
@@ -55,6 +58,13 @@ describe('ProfileClient — organization toggle', () => {
   beforeEach(() => {
     mockRegister.mockReset();
     mockRegister.mockResolvedValue(undefined);
+    mockLogin.mockReset();
+    mockCommitSession.mockReset();
+    // Default: Individual account (no org_id)
+    mockLogin.mockResolvedValue({
+      access_token: 'tok',
+      user: { id: 'u1', email: 'a@b.com', name: 'A', created_at: '', org_id: null, organization_name: null },
+    });
   });
 
   // ── Test 1 ───────────────────────────────────────────────────────────────────
@@ -116,6 +126,138 @@ describe('ProfileClient — organization toggle', () => {
     await waitFor(() => {
       expect(mockRegister).toHaveBeenCalledTimes(1);
       expect(mockRegister).toHaveBeenCalledWith('Solo User', 'solo@test.com', 'pass123');
+    });
+  });
+});
+
+// ── Helpers (Sign-In tab) ─────────────────────────────────────────────────────
+
+function fillAndSubmitLogin() {
+  fireEvent.change(screen.getByPlaceholderText(/you@example\.com/i), { target: { value: 'a@b.com' } });
+  fireEvent.change(screen.getByPlaceholderText(/••••••••/i), { target: { value: 'secret99' } });
+  // Use id to avoid collision with the "Sign In" tab button
+  fireEvent.click(document.getElementById('login-submit')!);
+}
+
+// ── Tests — Sign-In Account Mode Selector ────────────────────────────────────
+
+describe('ProfileClient — Sign-In Account Mode Selector', () => {
+  beforeEach(() => {
+    mockLogin.mockReset();
+    mockCommitSession.mockReset();
+    // Default login response: Individual account (org_id null)
+    mockLogin.mockResolvedValue({
+      access_token: 'tok',
+      user: { id: 'u1', email: 'a@b.com', name: 'A', created_at: '', org_id: null, organization_name: null },
+    });
+  });
+
+  // ── Test 5 ───────────────────────────────────────────────────────────────────
+  it('Sign-In tab renders Account Mode Selector with Individual selected by default', () => {
+    render(<ProfileClient />);
+    // Sign-In tab is the default — no click needed
+    expect(screen.getByRole('button', { name: /^individual$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^organization$/i })).toBeInTheDocument();
+  });
+
+  // ── Test 6 ───────────────────────────────────────────────────────────────────
+  it('matching mode (Individual selected + login returns org_id null) → session persisted, no error', async () => {
+    render(<ProfileClient />);
+    // mockLogin already returns org_id: null (Individual) — toggle stays on Individual
+    fillAndSubmitLogin();
+    await waitFor(() => expect(mockLogin).toHaveBeenCalledTimes(1));
+    // No mismatch error rendered
+    expect(screen.queryByText(/individual.*organization|organization.*individual|account.*mismatch|wrong.*account/i)).not.toBeInTheDocument();
+  });
+
+  // ── Test 7 ───────────────────────────────────────────────────────────────────
+  it('mismatch: Individual selected but login returns an org_id → error shown, session NOT set', async () => {
+    // Override: login returns an Organization account
+    mockLogin.mockResolvedValue({
+      access_token: 'tok',
+      user: { id: 'u2', email: 'a@b.com', name: 'A', created_at: '', org_id: 'org-123', organization_name: 'Acme' },
+    });
+    render(<ProfileClient />);
+    // Leave toggle on Individual (default)
+    fillAndSubmitLogin();
+    await waitFor(() =>
+      expect(screen.getByText(/individual.*organization|organization.*individual|this account is.*organization|wrong.*account|account.*mismatch/i)).toBeInTheDocument()
+    );
+    // localStorage must NOT contain a token
+    expect(localStorage.getItem('sense_access_token')).toBeNull();
+  });
+
+  // ── Test 8 ───────────────────────────────────────────────────────────────────
+  it('mismatch: Organization selected but login returns org_id null → error shown, session NOT set', async () => {
+    // login returns Individual account (org_id null) — default mock
+    render(<ProfileClient />);
+    // Switch toggle to Organization
+    fireEvent.click(screen.getByRole('button', { name: /^organization$/i }));
+    fillAndSubmitLogin();
+    await waitFor(() =>
+      expect(screen.getByText(/individual.*organization|organization.*individual|this account is.*individual|wrong.*account|account.*mismatch/i)).toBeInTheDocument()
+    );
+    // localStorage must NOT contain a token
+    expect(localStorage.getItem('sense_access_token')).toBeNull();
+  });
+});
+
+// ── Google Sign-In Button Tests ───────────────────────────────────────────────
+// Mock supabaseClient at the module level using vi.hoisted() so the spy
+// is captured before any imports hoist the module.
+
+const { mockSignInWithOAuth } = vi.hoisted(() => ({
+  mockSignInWithOAuth: vi.fn().mockResolvedValue({ data: {}, error: null }),
+}));
+
+vi.mock('@/lib/supabaseClient', () => ({
+  supabase: {
+    auth: { signInWithOAuth: mockSignInWithOAuth },
+  },
+}));
+
+describe('ProfileClient — Google Sign-In button', () => {
+  beforeEach(() => {
+    mockSignInWithOAuth.mockReset();
+    mockSignInWithOAuth.mockResolvedValue({ data: {}, error: null });
+    localStorage.clear();
+  });
+
+  // ── Test 9 ───────────────────────────────────────────────────────────────────
+  it('Register tab: Organization mode + empty org name → Google button does NOT call signInWithOAuth', async () => {
+    render(<ProfileClient />);
+    // Go to Register tab
+    fireEvent.click(screen.getByRole('button', { name: /^register$/i }));
+    // Switch to Organization mode
+    fireEvent.click(screen.getByRole('button', { name: /^organization$/i }));
+    // Leave org name empty — click Google button
+    fireEvent.click(document.getElementById('reg-google')!);
+
+    // signInWithOAuth must NOT be called
+    expect(mockSignInWithOAuth).not.toHaveBeenCalled();
+    // An error message must appear
+    expect(screen.getByText(/organization name is required/i)).toBeInTheDocument();
+  });
+
+  // ── Test 10 ──────────────────────────────────────────────────────────────────
+  it('Register tab: Individual mode → clicking Google writes correct intent to localStorage and calls signInWithOAuth', async () => {
+    render(<ProfileClient />);
+    fireEvent.click(screen.getByRole('button', { name: /^register$/i }));
+    // Individual is already selected — click Google directly
+    fireEvent.click(document.getElementById('reg-google')!);
+
+    await waitFor(() => expect(mockSignInWithOAuth).toHaveBeenCalledTimes(1));
+
+    // Verify intent written before the OAuth call
+    const raw = localStorage.getItem('sense_oauth_intent');
+    expect(raw).not.toBeNull();
+    const intent = JSON.parse(raw!);
+    expect(intent.mode).toBe('individual');
+
+    // Verify signInWithOAuth called with correct args
+    expect(mockSignInWithOAuth).toHaveBeenCalledWith({
+      provider: 'google',
+      options: expect.objectContaining({ redirectTo: expect.stringContaining('/auth/callback') }),
     });
   });
 });
