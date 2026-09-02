@@ -201,10 +201,8 @@ export default function ProfileClient() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: process.env.NEXT_PUBLIC_CALLBACK_URL
-          ?? `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/sense/auth/callback`,
       },
-
     });
   }
 
