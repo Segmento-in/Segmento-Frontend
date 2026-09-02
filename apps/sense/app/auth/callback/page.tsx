@@ -48,14 +48,22 @@ function AuthCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | null>(null);
+  
+  const exchangeAttempted = React.useRef(false);
 
   useEffect(() => {
     async function handleCallback() {
-      const code = searchParams.get('code') ?? '';
+      if (exchangeAttempted.current) return;
+      
+      const code = searchParams.get('code');
+      if (!code) {
+        setError('No authentication code found in the URL.');
+        return;
+      }
+      
+      exchangeAttempted.current = true;
 
       // ── Step 1: Exchange PKCE code for Supabase session ───────────────────────
-      // exchangeCodeForSession(authCode: string) — takes the raw code string,
-      // not the full URL. Returns { data: { session }, error }.
       let accessToken: string;
       try {
         const { data, error: exchError } = await supabase.auth.exchangeCodeForSession(code);
@@ -63,10 +71,11 @@ function AuthCallbackInner() {
           throw exchError ?? new Error('No session returned from code exchange');
         }
         accessToken = data.session.access_token;
-      } catch {
+      } catch (err: any) {
         localStorage.removeItem(INTENT_KEY);
-        setError('Google sign-in failed, please try again.');
-        setTimeout(() => router.push('/profile'), 0);
+        console.error('exchangeCodeForSession error:', err);
+        setError(`Google sign-in failed: ${err?.message || 'Unknown error'}`);
+        // Remove immediate redirect so the error can be read
         return;
       }
 
@@ -91,9 +100,10 @@ function AuthCallbackInner() {
         router.push('/profile');
       } catch (err: any) {
         // 409 Account Mode Mismatch, 422 missing org name, 500, network errors
+        console.error('Backend sync error:', err);
         const msg: string = err?.message ?? 'Sign-in failed. Please try again.';
-        setError(msg);
-        setTimeout(() => router.push('/profile'), 0);
+        setError(`Backend sync failed: ${msg}`);
+        // Removed redirect so error stays visible
       }
     }
 
