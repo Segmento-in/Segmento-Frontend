@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { DriveItem, DriveFileScanResult, FileCatalogEntry, ConnectorResultRow, ConnectorResultDetail, PIIMatch } from '@/lib/apiClient';
 import { getModelLevelAnalysis } from '@/lib/piiReasons';
+import { useAuth } from '@/lib/authContext';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -216,6 +217,10 @@ export default function ConnectorPreviewUI({
     piiActions = {}, fileTagVisibility = {}, onTagFile, onIgnoreFile, onSetTagVisibility,
     filterMode = 'all', searchQuery = '', className, mode = 'drive', rows, isMetadataScan,
 }: Props) {
+    const { user } = useAuth();
+    // Organization Role Gating (positive capability pattern: fail-closed for non-admin org roles)
+    const canTag = !user?.role || user.role === 'admin';
+
     const [breadcrumbs, setBreadcrumbs] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: `${connectorType} Root` }
     ]);
@@ -451,20 +456,24 @@ export default function ConnectorPreviewUI({
                                                         <Maximize2 className="w-3 h-3" />
                                                         View Analysis
                                                     </button>
-                                                    <select
-                                                        value={fileTagVisibility[item.id] || 'api_only'}
-                                                        onChange={(e) => onSetTagVisibility && onSetTagVisibility(item.id, e.target.value as any)}
-                                                        className="px-2 py-1.5 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-700 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 outline-none"
-                                                    >
-                                                        <option value="api_only">API Only (Hidden)</option>
-                                                        <option value="api_and_human">Visible Description</option>
-                                                    </select>
-                                                    <button
-                                                        onClick={() => onTagFile && onTagFile(item.id)}
-                                                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors shadow-sm"
-                                                    >
-                                                        Apply Tag
-                                                    </button>
+                                                    {canTag && (
+                                                        <>
+                                                            <select
+                                                                value={fileTagVisibility[item.id] || 'api_only'}
+                                                                onChange={(e) => onSetTagVisibility && onSetTagVisibility(item.id, e.target.value as any)}
+                                                                className="px-2 py-1.5 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-700 rounded-md text-xs font-medium text-slate-700 dark:text-slate-300 outline-none"
+                                                            >
+                                                                <option value="api_only">API Only (Hidden)</option>
+                                                                <option value="api_and_human">Visible Description</option>
+                                                            </select>
+                                                            <button
+                                                                onClick={() => onTagFile && onTagFile(item.id)}
+                                                                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors shadow-sm"
+                                                            >
+                                                                Apply Tag
+                                                            </button>
+                                                        </>
+                                                    )}
                                                     <button
                                                         onClick={() => onIgnoreFile && onIgnoreFile(item.id)}
                                                         className="px-3 py-1.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-md transition-colors"

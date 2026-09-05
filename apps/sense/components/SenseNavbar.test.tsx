@@ -95,3 +95,85 @@ describe("SenseNavbar — mobile auth entry (authenticated)", () => {
         expect(profileLink).toHaveAttribute("href", "/profile");
     });
 });
+
+// ── Surface 1: Connectors nav pill role gating ────────────────────────────
+
+describe("SenseNavbar — Connectors nav pill gating", () => {
+    it("hides Connectors nav link for support role in desktop and mobile menu", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-sup", email: "support@acme.com", name: "Support Tech", role: "support" },
+        } as any);
+
+        render(<SenseNavbar />);
+
+        // Desktop and mobile Connectors links should not be present
+        expect(screen.queryByRole("link", { name: /connectors/i })).not.toBeInTheDocument();
+
+        // Open mobile drawer and check again
+        const hamburger = screen.getByLabelText("Toggle mobile menu");
+        fireEvent.click(hamburger);
+        expect(screen.queryByRole("link", { name: /connectors/i })).not.toBeInTheDocument();
+    });
+
+    it("shows Connectors nav link for admin role", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-adm", email: "admin@acme.com", name: "Admin Boss", role: "admin" },
+        } as any);
+
+        render(<SenseNavbar />);
+        expect(screen.getAllByRole("link", { name: /connectors/i }).length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("shows Connectors nav link for null role (Individual account)", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-ind", email: "ind@personal.com", name: "Solo User", role: null },
+        } as any);
+
+        render(<SenseNavbar />);
+        expect(screen.getAllByRole("link", { name: /connectors/i }).length).toBeGreaterThanOrEqual(1);
+    });
+});
+
+// ── Surface 2: Model Lab / AI Engine nav entry role gating ────────────────
+
+describe("SenseNavbar — Model Lab / AI Engine nav entry gating", () => {
+    it("hides AI Engine nav link for support role in desktop and mobile menu", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-sup", email: "support@acme.com", name: "Support Tech", role: "support" },
+        } as any);
+
+        render(<SenseNavbar />);
+
+        // Desktop and mobile AI Engine links should not be present
+        expect(screen.queryByRole("link", { name: /ai engine/i })).not.toBeInTheDocument();
+
+        // Open mobile drawer and check again
+        const hamburger = screen.getByLabelText("Toggle mobile menu");
+        fireEvent.click(hamburger);
+        expect(screen.queryByRole("link", { name: /ai engine/i })).not.toBeInTheDocument();
+    });
+
+    it("shows AI Engine nav link for admin role", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-adm", email: "admin@acme.com", name: "Admin Boss", role: "admin" },
+        } as any);
+
+        render(<SenseNavbar />);
+        expect(screen.getAllByRole("link", { name: /ai engine/i }).length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("shows AI Engine nav link for null role (Individual account)", () => {
+        mockUseAuth.mockReturnValue({
+            isLoggedIn: true,
+            user: { id: "usr-ind", email: "ind@personal.com", name: "Solo User", role: null },
+        } as any);
+
+        render(<SenseNavbar />);
+        expect(screen.getAllByRole("link", { name: /ai engine/i }).length).toBeGreaterThanOrEqual(1);
+    });
+});

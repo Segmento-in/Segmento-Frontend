@@ -12,9 +12,16 @@ vi.mock('next/navigation', () => ({
   useSearchParams: () => ({ get: vi.fn(() => null) }),
 }));
 
+const { mockUseAuth, mockGetProfileStats, mockGetCredits } = vi.hoisted(() => ({
+  mockUseAuth: vi.fn(),
+  mockGetProfileStats: vi.fn(),
+  mockGetCredits: vi.fn(),
+}));
+
 vi.mock('@/lib/apiClient', () => ({
   apiClient: {
-    getProfileStats: vi.fn(),
+    getProfileStats: mockGetProfileStats,
+    getCredits: mockGetCredits,
     register: vi.fn(),
   },
 }));
@@ -25,15 +32,7 @@ const mockLogin         = vi.fn();
 const mockCommitSession = vi.fn();
 
 vi.mock('@/lib/authContext', () => ({
-  useAuth: () => ({
-    user: null,
-    isLoggedIn: false,
-    login: mockLogin,
-    commitSession: mockCommitSession,
-    register: mockRegister,
-    logout: vi.fn(),
-    token: null,
-  }),
+  useAuth: () => mockUseAuth(),
 }));
 
 // Stub profile sub-components — not under test here
@@ -44,8 +43,21 @@ vi.mock('@/components/profile/ActivityHeatmap', () => ({ default: () => <div /> 
 vi.mock('@/components/profile/ScanFeed', () => ({ default: () => <div /> }));
 vi.mock('@/components/profile/RiskScore', () => ({ default: () => <div /> }));
 vi.mock('@/components/profile/TopPiiBar', () => ({ default: () => <div /> }));
+vi.mock('@/components/profile/AdminPanel', () => ({ default: () => <div data-testid="admin-panel">Admin Panel</div> }));
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
+
+beforeEach(() => {
+  mockUseAuth.mockReturnValue({
+    user: null,
+    isLoggedIn: false,
+    login: mockLogin,
+    commitSession: mockCommitSession,
+    register: mockRegister,
+    logout: vi.fn(),
+    token: null,
+  });
+});
 
 function goToRegisterTab() {
   // Use exact match to avoid hitting "Register here" link-button
@@ -261,3 +273,237 @@ describe('ProfileClient — Google Sign-In button', () => {
     });
   });
 });
+
+// ── Admin Panel Role Gating Tests ───────────────────────────────────────────
+
+describe('ProfileClient — Admin Panel role gating', () => {
+  beforeEach(() => {
+    mockGetProfileStats.mockReset();
+    mockGetCredits.mockReset();
+    mockGetCredits.mockResolvedValue({
+      credits_remaining: 100,
+      credits_used: 0,
+      last_restored_at: null,
+      weekly_allowance: 100,
+    });
+    mockGetProfileStats.mockResolvedValue({
+      total_scans: 0,
+      total_files_scanned: 0,
+      pii_fields_found: 0,
+      needs_review_pending: 0,
+      classification_breakdown: { sensitive: 0, non_sensitive: 0, needs_review: 0 },
+      risk_score: 0,
+      top_connectors: [],
+      recent_scans: [],
+      heatmap_data: [],
+      top_pii_categories: [],
+    });
+  });
+
+  it('renders Admin Panel when user role is admin', async () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-admin',
+        name: 'Admin User',
+        email: 'admin@acme.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: 'org-123',
+        organization_name: 'Acme Corp',
+        role: 'admin',
+      },
+      isLoggedIn: true,
+      token: 'admin-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    expect(await screen.findByTestId('admin-panel')).toBeInTheDocument();
+    await waitFor(() => expect(mockGetProfileStats).toHaveBeenCalledWith('admin-tok'));
+  });
+
+  it('does NOT render Admin Panel when user role is support', async () => {
+    mockGetCredits.mockResolvedValue({
+      credits_remaining: 100,
+      credits_used: 0,
+      last_restored_at: null,
+      weekly_allowance: 100,
+    });
+
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-support',
+        name: 'Support User',
+        email: 'support@acme.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: 'org-123',
+        organization_name: 'Acme Corp',
+        role: 'support',
+      },
+      isLoggedIn: true,
+      token: 'support-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    await waitFor(() => expect(mockGetCredits).toHaveBeenCalledWith('support-tok'));
+    expect(mockGetProfileStats).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('admin-panel')).not.toBeInTheDocument();
+  });
+
+  it('does NOT render Admin Panel when user role is null (Individual account)', async () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-solo',
+        name: 'Solo User',
+        email: 'solo@example.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: null,
+        organization_name: null,
+        role: null,
+      },
+      isLoggedIn: true,
+      token: 'solo-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    await waitFor(() => expect(mockGetProfileStats).toHaveBeenCalledWith('solo-tok'));
+    expect(screen.queryByTestId('admin-panel')).not.toBeInTheDocument();
+  });
+});
+
+// ── Surface 4: Profile Stats Dashboard Role Gating Tests ─────────────────────
+
+describe('ProfileClient — Surface 4: Profile Stats Dashboard role gating', () => {
+  beforeEach(() => {
+    mockGetProfileStats.mockReset();
+    mockGetCredits.mockReset();
+    mockGetProfileStats.mockResolvedValue({
+      total_credits: 100,
+      used_credits: 10,
+      remaining_credits: 90,
+      total_scans: 5,
+      total_files_scanned: 12,
+      pii_fields_found: 3,
+      needs_review_pending: 0,
+      classification_breakdown: { sensitive: 1, non_sensitive: 2, needs_review: 0 },
+      risk_score: 15,
+      top_connectors: [],
+      recent_scans: [],
+      heatmap_data: [],
+      top_pii_categories: [],
+    });
+    mockGetCredits.mockResolvedValue({
+      credits_remaining: 42,
+      credits_used: 58,
+      last_restored_at: null,
+      weekly_allowance: 100,
+    });
+  });
+
+  it('hides Security Dashboard and calls getCredits (not getProfileStats) for support role', async () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-support',
+        name: 'Support User',
+        email: 'support@acme.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: 'org-123',
+        organization_name: 'Acme Corp',
+        role: 'support',
+      },
+      isLoggedIn: true,
+      token: 'support-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    
+    // getCredits should be called for support, NOT getProfileStats
+    await waitFor(() => expect(mockGetCredits).toHaveBeenCalledWith('support-tok'));
+    expect(mockGetProfileStats).not.toHaveBeenCalled();
+
+    // Security Dashboard header & stats should NOT be rendered
+    expect(screen.queryByText('Security Dashboard')).not.toBeInTheDocument();
+
+    // Credit balance is still displayed from getCredits response (desktop sidebar and mobile header)
+    expect(screen.getAllByText(/42/).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('shows Security Dashboard and calls getProfileStats for admin role', async () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-admin',
+        name: 'Admin User',
+        email: 'admin@acme.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: 'org-123',
+        organization_name: 'Acme Corp',
+        role: 'admin',
+      },
+      isLoggedIn: true,
+      token: 'admin-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    
+    // getProfileStats should be called for admin, NOT getCredits
+    await waitFor(() => expect(mockGetProfileStats).toHaveBeenCalledWith('admin-tok'));
+    expect(mockGetCredits).not.toHaveBeenCalled();
+
+    // Security Dashboard should be rendered
+    expect(await screen.findByText('Security Dashboard')).toBeInTheDocument();
+
+    // Credit balance is displayed from getProfileStats response (90 / 100)
+    expect((await screen.findAllByText(/90/)).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('shows Security Dashboard and calls getProfileStats for null role (Individual account)', async () => {
+    mockUseAuth.mockReturnValue({
+      user: {
+        id: 'u-solo',
+        name: 'Solo User',
+        email: 'solo@example.com',
+        created_at: '2026-09-01T00:00:00Z',
+        org_id: null,
+        organization_name: null,
+        role: null,
+      },
+      isLoggedIn: true,
+      token: 'solo-tok',
+      login: mockLogin,
+      commitSession: mockCommitSession,
+      register: mockRegister,
+      logout: vi.fn(),
+    });
+
+    render(<ProfileClient />);
+    
+    // getProfileStats should be called for null role (Individual), NOT getCredits
+    await waitFor(() => expect(mockGetProfileStats).toHaveBeenCalledWith('solo-tok'));
+    expect(mockGetCredits).not.toHaveBeenCalled();
+
+    // Security Dashboard should be rendered
+    expect(await screen.findByText('Security Dashboard')).toBeInTheDocument();
+
+    // Credit balance is displayed from getProfileStats response (90 / 100)
+    expect((await screen.findAllByText(/90/)).length).toBeGreaterThanOrEqual(1);
+  });
+});
+

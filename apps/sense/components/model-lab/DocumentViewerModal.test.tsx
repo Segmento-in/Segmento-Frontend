@@ -1,12 +1,16 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import DocumentViewerModal from './DocumentViewerModal';
 
 // Mock dependencies
+const { mockUseAuth } = vi.hoisted(() => ({
+  mockUseAuth: vi.fn(),
+}));
+
 vi.mock('@/lib/authContext', () => ({
-  useAuth: () => ({ session: { user: { id: 'test-user' } } })
+  useAuth: () => mockUseAuth(),
 }));
 
 vi.mock('@/lib/apiClient', () => ({
@@ -24,6 +28,13 @@ vi.mock('@/components/pii-demo/Inspector', () => ({
 }));
 
 describe('DocumentViewerModal Tab Seams', () => {
+  beforeEach(() => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      token: null,
+      isLoggedIn: false,
+    });
+  });
   const mockFileInfo = {
     id: 'file-1',
     name: 'test.csv',
@@ -102,5 +113,84 @@ describe('DocumentViewerModal Tab Seams', () => {
     
     // And the donut chart mock shouldn't be
     expect(screen.queryByTestId('pii-analytics-mock')).not.toBeInTheDocument();
+  });
+});
+
+// ── Surface 3: PII tagging controls role gating ───────────────────────────
+
+describe('DocumentViewerModal — PII Tagging controls gating', () => {
+  const mockFileInfo = {
+    id: 'file-1',
+    name: 'test.csv',
+    mimeType: 'text/csv',
+    path: '/test.csv'
+  } as any;
+
+  const mockScanResult = {
+    file_id: 'file-1',
+    pii_detected: true,
+    pii_count: 5,
+    result: { pii_counts: [] },
+    scan_data: {}
+  } as any;
+
+  it('hides Tag File button when user has support role', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 'usr-sup', email: 'support@acme.com', role: 'support' },
+      token: 'valid-jwt',
+      isLoggedIn: true,
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="service_account"
+        onClose={() => {}}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: /tag in drive/i })).not.toBeInTheDocument();
+  });
+
+  it('shows Tag File button when user has admin role', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 'usr-adm', email: 'admin@acme.com', role: 'admin' },
+      token: 'valid-jwt',
+      isLoggedIn: true,
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="service_account"
+        onClose={() => {}}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /tag in drive/i })).toBeInTheDocument();
+  });
+
+  it('shows Tag File button when user has null role (Individual account)', () => {
+    mockUseAuth.mockReturnValue({
+      user: { id: 'usr-ind', email: 'solo@personal.com', role: null },
+      token: 'valid-jwt',
+      isLoggedIn: true,
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="service_account"
+        onClose={() => {}}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /tag in drive/i })).toBeInTheDocument();
   });
 });

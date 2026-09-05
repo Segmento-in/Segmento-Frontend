@@ -320,6 +320,37 @@ export interface ProfileStatsResponse {
     }>;
 }
 
+export interface OrgInvite {
+    id: string;
+    invited_email: string;
+    role: string;
+    token?: string;
+    invite_url?: string;
+    created_at: string | null;
+    expires_at: string | null;
+    status: 'pending' | 'used' | 'expired' | 'revoked';
+}
+
+export interface CreateInviteResponse {
+    invite_id: string;
+    token: string;
+    invite_url: string;
+    expires_at: string;
+}
+
+export interface OrgMember {
+    user_id: string;
+    email: string;
+    name: string;
+    role: 'admin' | 'support' | string;
+    joined_at: string;
+}
+
+export interface InvitePreviewResponse {
+    organization_name: string;
+    role: string;
+}
+
 /**
  * Thrown by `apiClient.deductCredits()` when the backend returns HTTP 402
  * (insufficient credits). Catch this specifically to show the OutOfCreditsModal.
@@ -1132,6 +1163,71 @@ export class APIClient {
         const response = await fetch(`${this.baseURL}/api/auth/profile-stats`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
+    // ==================== ORGANIZATION ROLES & INVITES ====================
+
+    async generateInvite(email: string, token: string): Promise<CreateInviteResponse> {
+        const response = await fetch(`${this.baseURL}/api/org/invites`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ email }),
+        });
+        return this.handleResponse(response);
+    }
+
+    async listInvites(token: string): Promise<OrgInvite[]> {
+        const response = await fetch(`${this.baseURL}/api/org/invites`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await this.handleResponse(response);
+        return data.invites ?? [];
+    }
+
+    async revokeInvite(inviteId: string, token: string): Promise<{ success: boolean }> {
+        const response = await fetch(`${this.baseURL}/api/org/invites/${inviteId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
+    async listMembers(token: string): Promise<OrgMember[]> {
+        const response = await fetch(`${this.baseURL}/api/org/members`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await this.handleResponse(response);
+        return data.members ?? [];
+    }
+
+    async removeMember(userId: string, token: string): Promise<{ success: boolean }> {
+        const response = await fetch(`${this.baseURL}/api/org/members/${userId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return this.handleResponse(response);
+    }
+
+    async previewInvite(token: string): Promise<InvitePreviewResponse> {
+        const response = await fetch(`${this.baseURL}/api/org/invites/${token}/preview`, {
+            method: 'GET',
+        });
+        return this.handleResponse(response);
+    }
+
+    async acceptInvite(token: string, authToken: string): Promise<AuthUser> {
+        const response = await fetch(`${this.baseURL}/api/org/invites/${token}/accept`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
         });
         return this.handleResponse(response);
     }

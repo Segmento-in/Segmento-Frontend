@@ -69,7 +69,7 @@ export default function DocumentViewerModal({
     authType,
     onClose
 }: Props) {
-    const { token } = useAuth();
+    const { token, user } = useAuth();
 
     // ── UI state ──────────────────────────────────────────────────────────────
     const [activeTab, setActiveTab] = useState<Tab>('analytics');
@@ -81,7 +81,8 @@ export default function DocumentViewerModal({
     // ── Capability checks ─────────────────────────────────────────────────────
     const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
     const canPreviewText = isDriveFile;
-    const canTag = isDriveFile;
+    // Organization Role Gating (positive capability pattern: fail-closed for non-admin org roles)
+    const canTag = isDriveFile && (!user?.role || user.role === 'admin');
     const isDatabase = authType === 'postgresql' || authType === 'mysql';
 
     // ── Tagging state ─────────────────────────────────────────────────────────

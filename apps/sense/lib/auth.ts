@@ -11,6 +11,7 @@ export type AuthUser = {
   created_at: string;
   org_id?: string | null;
   organization_name?: string | null;
+  role?: 'admin' | 'support' | null;
 };
 
 export function setAuthSession(token: string, user: AuthUser): void {
