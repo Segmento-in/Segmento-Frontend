@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { ID } from "node-appwrite"
 import { getAppwriteClient } from "@/app/lib/db"
+import { triggerWelcomeEmail } from "../../lib/emailService"
 
 interface ContactFormData {
     name: string
@@ -46,6 +47,12 @@ export async function POST(request: NextRequest) {
                 message: body.message,
             }
         )
+
+        try {
+            await triggerWelcomeEmail(body.name, body.email);
+        } catch (emailError) {
+            console.error("Isolated email trigger error:", emailError);
+        }
 
         return NextResponse.json(
             {

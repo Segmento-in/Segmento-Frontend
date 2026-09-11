@@ -51,3 +51,10 @@
 | **Linked Identity Check** | *(Existing term, reused here.)* Originally built for Google OAuth — decides whether an authentication event represents a genuinely new person or an existing identity gaining new context. Applied a second time in Org Invites: an invite accepted by an email matching an existing Individual account converts that account in place rather than creating a duplicate. | Account matching, identity merge |
 | **require_permission Dependency** | The FastAPI dependency (sits beside `_uid_from_auth()`) that gates a protected route by permission name. Default-allows any user with no org role (every Individual account, unconditionally) — this feature is designed to never restrict someone who isn't in an organization. | Permission check, role guard |
 | **Member Removal** | The act of an Admin removing a Support user from their org. Demotes them to a normal Individual account — clears `org_id`/`role`, keeps their own login and their own data untouched. Never deletes or deactivates the person's account; that would be a different, larger feature. | Kick, ban, deactivate |
+
+## Integrations
+
+| Term | Definition | Aliases to avoid |
+| --- | --- | --- |
+| **Brevo Provider** | The external transactional email service used across the platform. Configured via API keys and native fetch REST calls, avoiding heavy third-party SDK dependencies where possible. | Sendgrid, Mailchimp |
+| **Welcome Email** | The automated onboarding email sent to users immediately after successfully persisting their contact form submission. Fails safely without breaking the user experience. | Auto-responder, confirmation email |
