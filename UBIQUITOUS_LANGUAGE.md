@@ -58,3 +58,9 @@
 | --- | --- | --- |
 | **Brevo Provider** | The external transactional email service used across the platform. Configured via API keys and native fetch REST calls, avoiding heavy third-party SDK dependencies where possible. | Sendgrid, Mailchimp |
 | **Welcome Email** | The automated onboarding email sent to users immediately after successfully persisting their contact form submission. Fails safely without breaking the user experience. | Auto-responder, confirmation email |
+
+## Contact Page
+
+| Term | Definition | Aliases to avoid |
+| --- | --- | --- |
+| **Phone Number** | A field that exists in the UI and is captured in local form state, but is deliberately NOT sent to `/api/contact` or stored in Appwrite — this is a temporary scope decision pending a future decision on whether phone numbers should be captured as lead data. | N/A |

@@ -16,6 +16,43 @@ export default function ContactPage() {
   const [isLightMode, setIsLightMode] = useState(false);
   const { activeColor } = useBrandColorCycle();
 
+  const [formData, setFormData] = useState({ name: "", email: "", company: "", phone: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setErrorMessage("");
+
+    const { phone, ...payload } = formData;
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+      } else {
+        const data = await res.json();
+        setStatus("error");
+        setErrorMessage(data.error || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage("Network error. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
     
@@ -113,7 +150,17 @@ export default function ContactPage() {
                 Send us a message
               </h2>
 
-              <form className="space-y-5 flex-1 relative z-10">
+              <form onSubmit={handleSubmit} className="space-y-5 flex-1 relative z-10">
+                {status === "success" && (
+                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-600 dark:text-green-400 font-medium text-sm transition-colors">
+                    Message sent — we'll be in touch shortly.
+                  </div>
+                )}
+                {status === "error" && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600 dark:text-red-400 font-medium text-sm transition-colors">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div className="relative group/input">
                     <label className="absolute -top-2.5 left-4 px-1 text-[10px] font-extrabold text-gray-500 dark:text-gray-400 uppercase tracking-widest z-10 bg-white dark:bg-[#0f0f0f] rounded-sm transition-colors">
@@ -122,6 +169,10 @@ export default function ContactPage() {
                     <div className="relative">
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
                         placeholder="Enter Your Full Name"
                         className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-[rgb(var(--brand-rgb))] dark:focus:border-[rgb(var(--brand-rgb))] outline-none transition-all font-medium text-sm focus:ring-1 focus:ring-[rgb(var(--brand-rgb))]"
                       />
@@ -129,6 +180,10 @@ export default function ContactPage() {
                   </div>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
                     placeholder="Work Email"
                     className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-[rgb(var(--brand-rgb))] dark:focus:border-[rgb(var(--brand-rgb))] outline-none transition-all font-medium text-sm focus:ring-1 focus:ring-[rgb(var(--brand-rgb))]"
                   />
@@ -137,24 +192,38 @@ export default function ContactPage() {
                 <div className="grid md:grid-cols-2 gap-5">
                   <input
                     type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
                     placeholder="Company Name"
                     className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-[rgb(var(--brand-rgb))] dark:focus:border-[rgb(var(--brand-rgb))] outline-none transition-all font-medium text-sm focus:ring-1 focus:ring-[rgb(var(--brand-rgb))]"
                   />
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone Number"
                     className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-[rgb(var(--brand-rgb))] dark:focus:border-[rgb(var(--brand-rgb))] outline-none transition-all font-medium text-sm focus:ring-1 focus:ring-[rgb(var(--brand-rgb))]"
                   />
                 </div>
 
                 <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   rows={4}
                   placeholder="Message / Reason for Inquiry"
                   className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-[rgb(var(--brand-rgb))] dark:focus:border-[rgb(var(--brand-rgb))] outline-none transition-all resize-none font-medium text-sm focus:ring-1 focus:ring-[rgb(var(--brand-rgb))]"
                 />
 
-                <button className="w-full py-4 mt-2 relative flex items-center justify-center rounded-xl bg-[rgb(var(--brand-rgb))] dark:bg-white text-white dark:text-[#060606] font-bold text-sm tracking-wide transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] shadow-xl">
-                  SEND MESSAGE
+                <button 
+                  type="submit"
+                  disabled={status === "submitting"}
+                  className="w-full py-4 mt-2 relative flex items-center justify-center rounded-xl bg-[rgb(var(--brand-rgb))] dark:bg-white text-white dark:text-[#060606] font-bold text-sm tracking-wide transition-all hover:opacity-90 hover:-translate-y-[1px] active:scale-[0.98] shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {status === "submitting" ? "Sending..." : "SEND MESSAGE"}
                 </button>
               </form>
             </div>
