@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "app/api/contact/route.ts": {
-    "mtime": 1783518801.0705159,
-    "ast_hash": "dcd5e6ea522bc2af8a0b628128ef9517",
+    "mtime": 1789109816.036584,
+    "ast_hash": "85dae5433a7208b47c8c27883c85b34b",
     "semantic_hash": ""
   },
   "app/blog/2025-moments/page.tsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "app/contact/page.tsx": {
-    "mtime": 1787399053.3011024,
-    "ast_hash": "7fa694688a7465ebaeff636c1e6ba413",
+    "mtime": 1789117331.830125,
+    "ast_hash": "88b89847fddae737a881abc01708cf7d",
     "semantic_hash": ""
   },
   "app/layout.tsx": {
@@ -100,8 +100,8 @@
     "semantic_hash": ""
   },
   "app/lib/emailService.ts": {
-    "mtime": 1783518801.0954027,
-    "ast_hash": "a41bf5a47e60ea60291c01a0ff575fc7",
+    "mtime": 1789110966.4074826,
+    "ast_hash": "1f565baefa93cbf70f3aea6d902d0f56",
     "semantic_hash": ""
   },
   "app/lib/fonts.ts": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1787137834.038995,
-    "ast_hash": "2a1c32b8ec7c313d8c25e943c7355c96",
+    "mtime": 1789109561.9700162,
+    "ast_hash": "eb96eb605d6cfbf119374d5b815db574",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -352,6 +352,21 @@
   ".originkit/INSTRUCTIONS.md": {
     "mtime": 1787052408.6889966,
     "ast_hash": "cc8c01717d6f33d39b4fe1a2c69b04db",
+    "semantic_hash": ""
+  },
+  "app/lib/emailService.test.mjs": {
+    "mtime": 1789110635.434737,
+    "ast_hash": "27c1fee3dbacd8f5cafef2691349da71",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1789105647.239948,
+    "ast_hash": "01e8142356e15c3404e0d84c48187cd0",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1789105647.241062,
+    "ast_hash": "5c27369b226fcf2be8a6cfe52224e767",
     "semantic_hash": ""
   }
 }

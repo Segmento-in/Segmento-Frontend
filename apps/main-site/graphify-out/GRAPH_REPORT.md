@@ -1,16 +1,16 @@
-# Graph Report - main-site  (2026-08-22)
+# Graph Report - main-site  (2026-09-12)
 
 ## Corpus Check
-- 42 files · ~569,851 words
+- 45 files · ~486,761 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 332 nodes · 370 edges · 27 communities (26 shown, 1 thin omitted)
+- 338 nodes · 378 edges · 28 communities (26 shown, 2 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b3e3edd6`
+- Built from commit: `373f97eb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,6 +25,7 @@
 - [[_COMMUNITY_include|include]]
 - [[_COMMUNITY_SECTION 8 — CTA SECTION|SECTION 8 — CTA SECTION]]
 - [[_COMMUNITY_route.ts|route.ts]]
+- [[_COMMUNITY_emailService.ts|emailService.ts]]
 - [[_COMMUNITY_devDependencies|devDependencies]]
 - [[_COMMUNITY_SECTION 5 — HOW IT WORKS|SECTION 5 — HOW IT WORKS]]
 - [[_COMMUNITY_stardust.tsx|stardust.tsx]]
@@ -53,13 +54,15 @@
 ## Surprising Connections (you probably didn't know these)
 - `POST()` --calls--> `getAppwriteClient()`  [EXTRACTED]
   app/api/contact/route.ts → app/lib/db.ts
+- `POST()` --calls--> `triggerWelcomeEmail()`  [EXTRACTED]
+  app/api/contact/route.ts → app/lib/emailService.ts
 - `ContactPage()` --calls--> `useBrandColorCycle()`  [EXTRACTED]
   app/contact/page.tsx → app/lib/hooks/useBrandColorCycle.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (27 total, 1 thin omitted)
+## Communities (28 total, 2 thin omitted)
 
 ### Community 0 - "Navbar.tsx"
 Cohesion: 0.07
@@ -67,7 +70,7 @@ Nodes (16): director, milestones, team, openRoles, footerLinks, socialLinks, Meg
 
 ### Community 1 - "Segmento Main-Site — Upgraded Content Blueprint v2.0"
 Cohesion: 0.05
-Nodes (36): Caption (centered, below marquee), Caption text (small, centered below), Column: Company, Column: Compliance, Column: Legal, Column: Products, COMPLETE SECTION ORDER (Final), Compliance badges row (bottom of footer) (+28 more)
+Nodes (37): Caption (centered, below marquee), Caption text (small, centered below), Column: Company, Column: Compliance, Column: Legal, Column: Products, COMPLETE SECTION ORDER (Final), Compliance badges row (bottom of footer) (+29 more)
 
 ### Community 2 - "app/page.tsx"
 Cohesion: 0.10
@@ -78,8 +81,8 @@ Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 4 - "dependencies"
-Cohesion: 0.17
-Nodes (12): dependencies, d3-geo, framer-motion, lucide-react, next, next-themes, node-appwrite, react (+4 more)
+Cohesion: 0.09
+Nodes (21): dependencies, d3-geo, framer-motion, lucide-react, next, next-themes, node-appwrite, react (+13 more)
 
 ### Community 5 - "layout.tsx"
 Cohesion: 0.27
@@ -98,12 +101,16 @@ Cohesion: 0.22
 Nodes (9): BENTO GRID LAYOUT, HERO TILE — 100% Client-Side Processing, MEDIUM TILE — Explainable AI, SECTION 3 — FEATURES ("Why Segmento?"), Section Heading, Section Label (pill tag), Section Subtext, SMALL TILE — Zero-Trust Data Handling (+1 more)
 
 ### Community 9 - "route.ts"
-Cohesion: 0.60
-Nodes (3): ContactFormData, POST(), getAppwriteClient()
+Cohesion: 0.36
+Nodes (5): ContactFormData, POST(), getAppwriteClient(), __dirname, triggerWelcomeEmail()
+
+### Community 12 - "emailService.ts"
+Cohesion: 0.29
+Nodes (7): Heading, Layout, Primary Button, Secondary Button, SECTION 8 — CTA SECTION, Subtext, Trust micro-line (below buttons)
 
 ### Community 13 - "devDependencies"
-Cohesion: 0.10
-Nodes (19): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/d3-geo, @types/node, @types/react (+11 more)
+Cohesion: 0.18
+Nodes (11): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/d3-geo, @types/node, @types/react (+3 more)
 
 ### Community 14 - "SECTION 5 — HOW IT WORKS"
 Cohesion: 0.08
@@ -120,10 +127,6 @@ Nodes (16): DotsConfig, Globe(), GlobeProps, mapDensityUiToSpacing(), mapDetailT
 ### Community 17 - "DESIGN.md"
 Cohesion: 0.25
 Nodes (7): Brand & Style, Colors, Components, Elevation & Depth, Layout & Spacing, Shapes, Typography
-
-### Community 18 - "SECTION 5 — HOW IT WORKS"
-Cohesion: 0.25
-Nodes (8): Layout, SECTION 5 — HOW IT WORKS, Section Heading, Section Label (pill tag), Section Subtext, Step 1 — CONNECT, Step 2 — DETECT, Step 3 — CONTROL
 
 ### Community 19 - "spec.md"
 Cohesion: 0.25
@@ -146,24 +149,24 @@ Cohesion: 0.29
 Nodes (6): Contact Page, Design Tokens (Nav-specific), Navigation, Products, Theming Architecture, Ubiquitous Language — Segmento Main-Site
 
 ## Knowledge Gaps
-- **181 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+176 more)
+- **184 isolated node(s):** `director`, `team`, `milestones`, `ContactFormData`, `openRoles` (+179 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `SECTION 8 — CTA SECTION`, `SECTION 5 — HOW IT WORKS`, `Features.tsx`, `SECTION 1 — HERO`?**
-  _High betweenness centrality (0.040) - this node is a cross-community bridge._
+- **Why does `Segmento Main-Site — Upgraded Content Blueprint v2.0` connect `Segmento Main-Site — Upgraded Content Blueprint v2.0` to `SECTION 8 — CTA SECTION`, `Features.tsx`, `emailService.ts`, `SECTION 1 — HERO`?**
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
 - **Why does `MediaGlobe()` connect `stardust.tsx` to `SECTION 5 — HOW IT WORKS`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Why does `SECTION 3 — FEATURES ("Why Segmento?")` connect `SECTION 8 — CTA SECTION` to `Segmento Main-Site — Upgraded Content Blueprint v2.0`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `director`, `team`, `milestones` to the rest of the system?**
-  _181 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _184 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Navbar.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.07311827956989247 - nodes in this community are weakly interconnected._
 - **Should `Segmento Main-Site — Upgraded Content Blueprint v2.0` be split into smaller, more focused modules?**
-  _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
 - **Should `app/page.tsx` be split into smaller, more focused modules?**
   _Cohesion score 0.09523809523809523 - nodes in this community are weakly interconnected._

@@ -36,6 +36,7 @@ export default function AudioPlayer({ articleId, articleUrl, initialAudioUrl, ti
 
             // Handle errors
             audioRef.current.onerror = (e) => {
+                if (typeof e === 'string') return;
                 const target = e.target as HTMLAudioElement;
                 console.error("Audio playback error:", target.error?.code, target.error?.message);
                 setIsPlaying(false);
