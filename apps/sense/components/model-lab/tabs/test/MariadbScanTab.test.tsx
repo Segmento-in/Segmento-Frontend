@@ -3,7 +3,7 @@ import * as matchers from '@testing-library/jest-dom/matchers';
 expect.extend(matchers);
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import React from 'react';
-import MariadbScanTab from '../../MariadbScanTab';
+import MariadbScanTab from '../MariadbScanTab';
 import { apiClient } from '@/lib/apiClient';
 
 vi.mock('framer-motion', () => ({

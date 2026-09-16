@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useScanEstimate } from '../../useScanEstimate';
+import { useScanEstimate } from '../useScanEstimate';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 describe('useScanEstimate', () => {

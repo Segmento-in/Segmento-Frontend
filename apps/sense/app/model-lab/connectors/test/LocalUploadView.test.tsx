@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeAll } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import React from 'react';
-import LocalUploadView from '../../LocalUploadView';
+import LocalUploadView from '../LocalUploadView';
 import { apiClient } from '@/lib/apiClient';
 
 vi.mock('@/lib/apiClient', async (importOriginal) => {

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi } from 'vitest';
-import ConnectorsClient from '../../ConnectorsClient';
+import ConnectorsClient from '../ConnectorsClient';
 
 // Mock dependencies
 vi.mock('@/lib/authContext', () => ({

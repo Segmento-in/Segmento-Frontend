@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import React from 'react';
-import DriveScanTab from '../../DriveScanTab';
+import DriveScanTab from '../DriveScanTab';
 import { apiClient } from '@/lib/apiClient';
 
 vi.mock('framer-motion', () => ({
