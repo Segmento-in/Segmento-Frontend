@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, Play, Eye, EyeOff, ArrowLeft, Download } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
@@ -30,7 +31,7 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
     // BROWSE
     const [containers, setContainers] = useState<string[]>([]);
     const [selectedContainer, setSelectedContainer] = useState('');
-    const [blobs, setBlobs]           = useState<string[]>([]);
+    const [blobs, setBlobs]           = useState<{name: string, sizeBytes: number}[]>([]);
     const [selectedBlobs, setSelectedBlobs] = useState<Set<string>>(new Set());
     const [isLoadingBlobs, setIsLoadingBlobs] = useState(false);
 
@@ -103,15 +104,30 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
 
     const resetToAuth = () => { changeStep('AUTH'); setError(null); setContainers([]); setBlobs([]); setSelectedBlobs(new Set()); setResults([]); };
 
+    const totalBytes = React.useMemo(() => {
+        let sum = 0;
+        for (const f of blobs) {
+            if (selectedBlobs.has(f.name)) {
+                sum += f.sizeBytes;
+            }
+        }
+        return sum;
+    }, [blobs, selectedBlobs]);
+
+    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+        { type: 'bytes', value: totalBytes },
+        isScanning
+    );
+
     const items: DriveItem[] = blobs.map(f => ({
-        id: f,
-        name: f,
+        id: f.name,
+        name: f.name,
         mimeType: 'azure',
-        path: f,
+        path: f.name,
         isFolder: false,
         parseable: true,
-        ext: f.split('.').pop()?.toUpperCase() || 'AZURE',
-        sizeBytes: 0,
+        ext: f.name.split('.').pop()?.toUpperCase() || 'AZURE',
+        sizeBytes: f.sizeBytes,
         mediaType: 'document',
         appProperties: {},
         tooBig: false,
@@ -254,7 +270,7 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
                             {blobs.length > 0 && (
                                 <>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <button onClick={() => setSelectedBlobs(new Set(blobs))} className="text-sm text-sky-600 dark:text-sky-400 hover:underline">Select All</button>
+                                        <button onClick={() => setSelectedBlobs(new Set(blobs.map(f => f.name)))} className="text-sm text-sky-600 dark:text-sky-400 hover:underline">Select All</button>
                                         <span className="text-slate-300 dark:text-slate-600">|</span>
                                         <button onClick={() => setSelectedBlobs(new Set())} className="text-sm text-slate-500 dark:text-slate-400 hover:underline">Clear</button>
                                         <span className="ml-auto text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">{selectedBlobs.size} selected</span>
@@ -324,7 +340,13 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
                             <Card>
                                 <div className="flex flex-col items-center py-12">
                                     <Loader2 className="w-10 h-10 text-sky-500 animate-spin mb-4" />
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning blobs in-memory…</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning blobs in-memory…</p>
+                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                                    </div>
+                                    {isFirstExtension && (
+                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                                    )}
                                 </div>
                             </Card>
                         )}

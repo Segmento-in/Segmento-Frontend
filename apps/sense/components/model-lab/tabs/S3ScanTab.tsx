@@ -10,6 +10,7 @@ import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
 
@@ -40,7 +41,7 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     // BROWSE
     const [buckets, setBuckets]     = useState<string[]>([]);
     const [selectedBucket, setSelectedBucket] = useState('');
-    const [files, setFiles]         = useState<string[]>([]);
+    const [files, setFiles]         = useState<{name: string, sizeBytes: number}[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
     const [isLoadingFiles, setIsLoadingFiles] = useState(false);
 
@@ -48,6 +49,15 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     const [isScanning, setIsScanning] = useState(false);
     const [results, setResults]     = useState<FileScanResult[]>([]);
     const [viewerFileId, setViewerFileId] = useState<string | null>(null);
+
+    const totalBytes = React.useMemo(() => {
+        return files.filter(f => selectedFiles.has(f.name)).reduce((sum, f) => sum + f.sizeBytes, 0);
+    }, [files, selectedFiles]);
+
+    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+        { type: 'bytes', value: totalBytes },
+        isScanning
+    );
 
     // ── Handlers ──────────────────────────────────────────────────────────
 
@@ -59,7 +69,9 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
             setBuckets(res.buckets || []);
             setSelectedBucket(''); setFiles([]); setSelectedFiles(new Set());
             changeStep('BROWSE');
-        } catch (e: any) { setError(e.message || 'Failed to connect to AWS S3.'); }
+        } catch (e: any) { 
+            setError(e.message || 'Failed to connect to AWS S3.'); 
+        }
         finally { setIsConnecting(false); }
     };
 
@@ -115,14 +127,14 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
     const resetToAuth = () => { changeStep('AUTH'); setError(null); setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]); };
 
     const items: DriveItem[] = files.map(f => ({
-        id: f,
-        name: f,
+        id: f.name,
+        name: f.name,
         mimeType: 's3',
-        path: f,
+        path: f.name,
         isFolder: false,
         parseable: true,
-        ext: f.split('.').pop()?.toUpperCase() || 'S3',
-        sizeBytes: 0,
+        ext: f.name.split('.').pop()?.toUpperCase() || 'S3',
+        sizeBytes: f.sizeBytes,
         mediaType: 'document',
         appProperties: {},
         tooBig: false,
@@ -304,7 +316,7 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                             {files.length > 0 && (
                                 <>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <button onClick={() => setSelectedFiles(new Set(files))} className="text-sm text-orange-600 dark:text-orange-400 hover:underline">
+                                        <button onClick={() => setSelectedFiles(new Set(files.map(f => f.name)))} className="text-sm text-orange-600 dark:text-orange-400 hover:underline">
                                             Select All
                                         </button>
                                         <span className="text-slate-300 dark:text-slate-600">|</span>
@@ -397,7 +409,13 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                             <Card>
                                 <div className="flex flex-col items-center py-12">
                                     <Loader2 className="w-10 h-10 text-orange-500 animate-spin mb-4" />
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
+                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                                    </div>
+                                    {isFirstExtension && (
+                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                                    )}
                                 </div>
                             </Card>
                         )}

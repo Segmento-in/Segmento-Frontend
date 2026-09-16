@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Database, AlertCircle } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, GlueCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
@@ -63,6 +64,9 @@ export default function AwsGlueScanTab({ modelCatalogue, onStepChange }: Props) 
   const [scanningTableIds, setScanningTableIds] = useState<Set<string>>(new Set());
   const [catalogData, setCatalogData] = useState<FileCatalogEntry[]>([]);
   const [lastSession, setLastSession] = useState<any>(null);
+
+  const isScanning = scanningTableIds.size > 0;
+  const { formattedTimeRemaining, isFirstExtension } = useScanEstimate({ type: 'count', value: selectedTableIds.size }, isScanning);
 
   const accentRing = 'focus:ring-orange-500';
   const accentBtn = 'bg-orange-600 hover:bg-orange-700';
@@ -179,6 +183,22 @@ export default function AwsGlueScanTab({ modelCatalogue, onStepChange }: Props) 
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />
               <DashboardStatCard label="Total Items" value={stats.totalPii} valueColor="text-amber-600" />
             </div>
+            
+            {isScanning && stats.scanned === 0 && (
+                <div className="p-6">
+                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+                        <Loader2 className="w-10 h-10 text-orange-500 animate-spin mb-4" />
+                        <div className="flex items-center gap-2">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning schema metadata in-memory…</p>
+                            <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                        </div>
+                        {isFirstExtension && (
+                            <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                        )}
+                    </div>
+                </div>
+            )}
+            
             <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={[]} onOpenFile={() => {}} connectorType="glue" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={true} />
           </motion.div>
         )}

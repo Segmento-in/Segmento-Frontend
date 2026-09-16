@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Key, Loader2, Play, ArrowLeft, Download } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
@@ -30,7 +31,7 @@ export default function GCSScanTab({ modelCatalogue, onStepChange }: Props) {
     // BROWSE
     const [buckets, setBuckets]       = useState<string[]>([]);
     const [selectedBucket, setSelectedBucket] = useState('');
-    const [files, setFiles]           = useState<string[]>([]);
+    const [files, setFiles]           = useState<{name: string, sizeBytes: number}[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
     const [isLoadingFiles, setIsLoadingFiles] = useState(false);
 
@@ -124,15 +125,30 @@ export default function GCSScanTab({ modelCatalogue, onStepChange }: Props) {
         setBuckets([]); setFiles([]); setSelectedFiles(new Set()); setResults([]);
     };
 
+    const totalBytes = React.useMemo(() => {
+        let sum = 0;
+        for (const f of files) {
+            if (selectedFiles.has(f.name)) {
+                sum += f.sizeBytes;
+            }
+        }
+        return sum;
+    }, [files, selectedFiles]);
+
+    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+        { type: 'bytes', value: totalBytes },
+        isScanning
+    );
+
     const items: DriveItem[] = files.map(f => ({
-        id: f,
-        name: f,
+        id: f.name,
+        name: f.name,
         mimeType: 'gcs',
-        path: f,
+        path: f.name,
         isFolder: false,
         parseable: true,
-        ext: f.split('.').pop()?.toUpperCase() || 'GCS',
-        sizeBytes: 0,
+        ext: f.name.split('.').pop()?.toUpperCase() || 'GCS',
+        sizeBytes: f.sizeBytes,
         mediaType: 'document',
         appProperties: {},
         tooBig: false,
@@ -270,7 +286,7 @@ export default function GCSScanTab({ modelCatalogue, onStepChange }: Props) {
                             {files.length > 0 && (
                                 <>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <button onClick={() => setSelectedFiles(new Set(files))} className="text-sm text-amber-600 dark:text-amber-400 hover:underline">Select All</button>
+                                        <button onClick={() => setSelectedFiles(new Set(files.map(f => f.name)))} className="text-sm text-amber-600 dark:text-amber-400 hover:underline">Select All</button>
                                         <span className="text-slate-300 dark:text-slate-600">|</span>
                                         <button onClick={() => setSelectedFiles(new Set())} className="text-sm text-slate-500 dark:text-slate-400 hover:underline">Clear</button>
                                         <span className="ml-auto text-sm font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">{selectedFiles.size} selected</span>
@@ -340,7 +356,13 @@ export default function GCSScanTab({ modelCatalogue, onStepChange }: Props) {
                             <Card>
                                 <div className="flex flex-col items-center py-12">
                                     <Loader2 className="w-10 h-10 text-amber-500 animate-spin mb-4" />
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
+                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                                    </div>
+                                    {isFirstExtension && (
+                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                                    )}
                                 </div>
                             </Card>
                         )}

@@ -10,6 +10,7 @@ import { Loader2, UploadCloud, AlertCircle, ArrowLeft, File } from 'lucide-react
 import { getFileTypeIcon } from '@/components/model-lab/localUpload/fileTypeIcons';
 import ConnectorPreviewUI from '@/components/model-lab/ConnectorPreviewUI';
 import DocumentViewerModal from '@/components/model-lab/DocumentViewerModal';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 
 // ── 3-D tilt card for File Types ─────────────────────────────────────────────
 function FileTypeCard({ type, isScanning, onFilesSelected }: { type: any; isScanning: boolean; onFilesSelected: (files: File[]) => void }) {
@@ -99,6 +100,9 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
   const [isScanning, setIsScanning] = useState(false);  // T3: shows loading overlay after Start Scan click
   // Files buffered at card-click stage, uploaded only after scan mode confirmed.
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  
+  const totalBytes = pendingFiles.reduce((acc, f) => acc + f.size, 0);
+  const estimate = useScanEstimate({ type: 'bytes', value: totalBytes }, isScanning);
 
   // T2: only parquet and avro have a real file-format schema footer we can read.
   // All other formats (CSV, JSON, TXT, PDF…) do not support metadata-only scanning.
@@ -449,7 +453,13 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
                 <div className="mb-8 p-6 bg-slate-900 rounded-2xl flex items-center gap-4">
                   <Loader2 className="w-6 h-6 text-white animate-spin shrink-0" />
                   <div>
-                    <p className="text-white font-black text-sm">Scanning your file…</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-white font-black text-sm">Scanning your file…</p>
+                      <span className="text-emerald-400 font-mono text-sm">{estimate.formattedTimeRemaining}</span>
+                    </div>
+                    {estimate.isFirstExtension && (
+                      <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                    )}
                     <p className="text-slate-400 text-xs mt-0.5">
                       {pendingFiles[0]?.name} · {selectedScanMode.replace(/_/g, ' ')}
                     </p>

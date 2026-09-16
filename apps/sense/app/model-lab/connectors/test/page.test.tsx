@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import React from 'react';
-import ConnectorsPage from './page';
+import ConnectorsPage from '../../page';
 
 vi.mock('./ConnectorsClient', () => ({
   default: () => <div data-testid="connectors-client-mock" />

@@ -9,6 +9,7 @@ import { EvaluatorModel, VideoJobStatus, apiClient } from '@/lib/apiClient';
 import ModelShowdown, { getPiiColor } from '@/components/model-lab/ModelShowdown';
 import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 
 // ── File categories & types ───────────────────────────────────────────────────
 
@@ -127,6 +128,11 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
 
     const { isLoggedIn } = useAuth();
     const router = useRouter();
+    
+    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+        { type: 'bytes', value: s.uploadedFile?.size || 0 },
+        s.isLoading && !s.videoJobId
+    );
 
     const patch = (p: Partial<FormatScanState>) => setS(prev => ({ ...prev, ...p }));
 
@@ -407,10 +413,16 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
                             className="flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm transition-all shadow-lg shadow-emerald-200 dark:shadow-emerald-900/30"
                         >
                             {s.isLoading && !s.videoJobId ? (
-                                <>
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    {s.loadingStage || 'Processing…'}
-                                </>
+                                <div className="flex flex-col items-center justify-center gap-1">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        <span>{s.loadingStage || 'Processing…'}</span>
+                                        <span className="font-mono">{formattedTimeRemaining}</span>
+                                    </div>
+                                    {isFirstExtension && (
+                                        <span className="text-[10px] font-normal text-emerald-100">Taking a bit longer than usual...</span>
+                                    )}
+                                </div>
                             ) : s.isLoading && s.videoJobId ? (
                                 <>
                                     <Video size={15} className="animate-pulse" />

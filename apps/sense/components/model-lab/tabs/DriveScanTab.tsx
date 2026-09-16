@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAutoRefresh } from '@/hooks/useAutoRefresh';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 import {
     Cloud, Folder, CheckCircle2, XCircle, ChevronRight, Search, Play, Tag,
     AlertCircle, Loader2, RefreshCw, Key, ArrowLeft,
@@ -131,6 +132,22 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
         const unscannedFiles = Math.max(0, total - piiFiles - cleanFiles - newFiles);
         return { total, piiFiles, cleanFiles, newFiles, unscannedFiles, totalPiiEntities };
     }, [items, catalogData, lastSession, scanResults]);
+
+    const totalBytes = React.useMemo(() => {
+        let sum = 0;
+        for (const i of items) {
+            if (selectedIds.has(i.id)) {
+                sum += i.sizeBytes || 0;
+            }
+        }
+        return sum;
+    }, [items, selectedIds]);
+
+    const isScanning = scanningIds.size > 0;
+    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+        { type: 'bytes', value: totalBytes },
+        isScanning
+    );
 
     // ==================== HANDLERS ====================
 
@@ -595,6 +612,21 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                                 ))}
                             </div>
                         </div>
+
+                        {scanningIds.size > 0 && scanResults.length === 0 && (
+                            <div className="p-6">
+                                <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+                                    <Loader2 className="w-10 h-10 text-blue-500 animate-spin mb-4" />
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
+                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                                    </div>
+                                    {isFirstExtension && (
+                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                         {/* File table — takes all remaining height */}
                         <ConnectorPreviewUI

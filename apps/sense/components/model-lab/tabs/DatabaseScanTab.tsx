@@ -11,6 +11,7 @@ import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 
 interface TableScanEntry {
   tableName: string;
@@ -167,6 +168,12 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         error: e.error
       }));
   }, [scanEntries, dbType, creds.database]);
+
+  const isScanning = scanningTableIds.size > 0;
+  const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+    { type: 'count', value: selectedTableIds.size },
+    isScanning
+  );
 
 
 
@@ -772,7 +779,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
 
               {/* Right: status badge + export */}
               <div className="flex items-center gap-3 shrink-0">
-                {scanningTableIds.size > 0 ? (
+                {isScanning ? (
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 ${accent === 'indigo'
                       ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20'
                       : 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/20'
@@ -839,6 +846,22 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             </div>
 
             {/* ── Results table — shared ConnectorPreviewUI rows path ─ flex-1 overflow-y-auto */}
+            {/* Scanning placeholder */}
+            {isScanning && stats.scanned === 0 && (
+                <div className="p-6">
+                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+                        <Loader2 className={`w-10 h-10 ${accent === 'indigo' ? 'text-indigo-500' : 'text-orange-500'} animate-spin mb-4`} />
+                        <div className="flex items-center gap-2">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning tables in-memory…</p>
+                            <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                        </div>
+                        {isFirstExtension && (
+                            <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                        )}
+                    </div>
+                </div>
+            )}
+
             <ConnectorPreviewUI
               items={catalogItems}
               selectedIds={new Set()}

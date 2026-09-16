@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowLeft, Download, Database, Eye, EyeOff, Search, Shield } from 'lucide-react';
 import { apiClient, EvaluatorModel, AnalysisResponse, AwsRdsCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
+import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import { useAuth } from '@/lib/authContext';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
@@ -74,6 +75,9 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
   const [lastSession, setLastSession] = useState<any>(null);
   const [filterMode, setFilterMode] = useState<'all' | 'pii' | 'clean' | 'unscanned'>('all');
   const [resultSearch, setResultSearch] = useState('');
+
+  const isScanning = scanningTableIds.size > 0;
+  const { formattedTimeRemaining, isFirstExtension } = useScanEstimate({ type: 'count', value: selectedTableIds.size }, isScanning);
 
   const engine = creds.engine as EngineType;
   const accent = ENGINE_DEFAULTS[engine].accent;
@@ -214,6 +218,22 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
               <DashboardStatCard label="Clean" value={stats.clean} valueColor="text-emerald-600" />
               <DashboardStatCard label="Total Items" value={stats.totalPii} valueColor="text-amber-600" />
             </div>
+            
+            {isScanning && stats.scanned === 0 && (
+                <div className="p-6">
+                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+                        <Loader2 className={`w-10 h-10 animate-spin mb-4 text-${accent}-500`} />
+                        <div className="flex items-center gap-2">
+                            <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning tables in-memory…</p>
+                            <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
+                        </div>
+                        {isFirstExtension && (
+                            <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
+                        )}
+                    </div>
+                </div>
+            )}
+            
             <ConnectorPreviewUI items={catalogItems} selectedIds={new Set()} onToggleSelection={() => {}} scanningIds={scanningTableIds} scanResults={[]} onOpenFile={() => {}} connectorType="aws-rds" catalogData={catalogData} lastSession={lastSession} filterMode="all" searchQuery="" className="flex-1 min-h-0" mode="database" isMetadataScan={lastScanMode === 'metadata'} />
           </motion.div>
         )}
