@@ -209,4 +209,37 @@ describe('useScanEstimate', () => {
         });
         expect(result.current.timeRemainingSeconds).toBe(60);
     });
+
+    it('progressFraction starts near 0, approaches 1, and stays at 1 upon extension', () => {
+        const { result } = renderHook(() => useScanEstimate({ type: 'count', value: 4 }, true)); // starts at 60s
+        
+        // At start (0s elapsed, 60s total)
+        expect(result.current.progressFraction).toBe(0);
+        
+        // Partway through (30s elapsed, 60s total)
+        act(() => {
+            vi.advanceTimersByTime(30000);
+        });
+        expect(result.current.progressFraction).toBe(0.5);
+        
+        // Right before zero-crossing (59s elapsed, 60s total)
+        act(() => {
+            vi.advanceTimersByTime(29000);
+        });
+        // 59 / 60
+        expect(result.current.progressFraction).toBeCloseTo(59 / 60, 4);
+        
+        // Right after zero-crossing (61s elapsed)
+        act(() => {
+            vi.advanceTimersByTime(2000); // 59 + 2 = 61
+        });
+        // should be clamped at 1.0
+        expect(result.current.progressFraction).toBe(1);
+        
+        // After another 59s
+        act(() => {
+            vi.advanceTimersByTime(58000);
+        });
+        expect(result.current.progressFraction).toBe(1);
+    });
 });

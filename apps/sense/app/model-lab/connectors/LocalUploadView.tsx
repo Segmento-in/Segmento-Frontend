@@ -6,7 +6,8 @@ import { useAuth } from '@/lib/authContext';
 import { useRouter } from 'next/navigation';
 import { apiClient, OutOfCreditsError, AnalysisResponse, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 import OutOfCreditsModal from '@/components/OutOfCreditsModal';
-import { Loader2, UploadCloud, AlertCircle, ArrowLeft, File } from 'lucide-react';
+import { Search, Loader2, UploadCloud, AlertCircle, ArrowLeft, File, ArrowRight, ShieldCheck, Download, CheckCircle2, ChevronRight, FileDigit, Plus } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 import { getFileTypeIcon } from '@/components/model-lab/localUpload/fileTypeIcons';
 import ConnectorPreviewUI from '@/components/model-lab/ConnectorPreviewUI';
 import DocumentViewerModal from '@/components/model-lab/DocumentViewerModal';
@@ -451,19 +452,13 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
               {/* T3: Loading overlay — shown immediately after Start Scan click */}
               {isScanning && (
                 <div className="mb-8 p-6 bg-slate-900 rounded-2xl flex items-center gap-4">
-                  <Loader2 className="w-6 h-6 text-white animate-spin shrink-0" />
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-white font-black text-sm">Scanning your file…</p>
-                      <span className="text-emerald-400 font-mono text-sm">{estimate.formattedTimeRemaining}</span>
-                    </div>
-                    {estimate.isFirstExtension && (
-                      <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
-                    )}
-                    <p className="text-slate-400 text-xs mt-0.5">
-                      {pendingFiles[0]?.name} · {selectedScanMode.replace(/_/g, ' ')}
-                    </p>
-                  </div>
+                  <ScanningIndicator
+                    progressFraction={estimate.progressFraction}
+                    formattedTimeRemaining={estimate.formattedTimeRemaining}
+                    isFirstExtension={estimate.isFirstExtension}
+                    label="Scanning your file…"
+                    sublabel={`${pendingFiles[0]?.name} · ${selectedScanMode.replace(/_/g, ' ')}`}
+                  />
                 </div>
               )}
 

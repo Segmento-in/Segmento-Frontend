@@ -7,12 +7,14 @@ import { apiClient } from '@/lib/apiClient';
 
 vi.mock('framer-motion', () => ({
     motion: {
+        circle: ({ children, ...props }: any) => { const { initial, animate, exit, transition, ...rest } = props; return <circle {...rest}>{children}</circle>; },
         div: ({ children, ...props }: any) => {
             const { initial, animate, exit, transition, ...rest } = props;
             return <div {...rest}>{children}</div>;
         }
     },
-    AnimatePresence: ({ children }: any) => <>{children}</>
+    useReducedMotion: () => false,
+        AnimatePresence: ({ children }: any) => <>{children}</>
 }));
 
 vi.mock('@/lib/apiClient', async (importOriginal) => {

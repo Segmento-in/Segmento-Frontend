@@ -5,6 +5,7 @@ import {
     Upload, Play, RotateCcw, CheckCircle2, CheckSquare, Square,
     AlertCircle, Layers, FileText, Video, XCircle,
 } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 import { EvaluatorModel, VideoJobStatus, apiClient } from '@/lib/apiClient';
 import ModelShowdown, { getPiiColor } from '@/components/model-lab/ModelShowdown';
 import { useAuth } from '@/lib/authContext';
@@ -129,7 +130,7 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
     const { isLoggedIn } = useAuth();
     const router = useRouter();
     
-    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+    const { formattedTimeRemaining, isFirstExtension, progressFraction } = useScanEstimate(
         { type: 'bytes', value: s.uploadedFile?.size || 0 },
         s.isLoading && !s.videoJobId
     );
@@ -413,16 +414,12 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
                             className="flex-1 flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm transition-all shadow-lg shadow-emerald-200 dark:shadow-emerald-900/30"
                         >
                             {s.isLoading && !s.videoJobId ? (
-                                <div className="flex flex-col items-center justify-center gap-1">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        <span>{s.loadingStage || 'Processing…'}</span>
-                                        <span className="font-mono">{formattedTimeRemaining}</span>
-                                    </div>
-                                    {isFirstExtension && (
-                                        <span className="text-[10px] font-normal text-emerald-100">Taking a bit longer than usual...</span>
-                                    )}
-                                </div>
+                                <ScanningIndicator
+                                    progressFraction={progressFraction}
+                                    formattedTimeRemaining={formattedTimeRemaining}
+                                    isFirstExtension={isFirstExtension}
+                                    label={s.loadingStage || 'Processing…'}
+                                />
                             ) : s.isLoading && s.videoJobId ? (
                                 <>
                                     <Video size={15} className="animate-pulse" />

@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, ArrowLeft, Download, Database, Eye, EyeOff, Search, Shield } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 import { apiClient, EvaluatorModel, AnalysisResponse, AwsRdsCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
@@ -77,7 +78,7 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
   const [resultSearch, setResultSearch] = useState('');
 
   const isScanning = scanningTableIds.size > 0;
-  const { formattedTimeRemaining, isFirstExtension } = useScanEstimate({ type: 'count', value: selectedTableIds.size }, isScanning);
+  const { formattedTimeRemaining, isFirstExtension, progressFraction } = useScanEstimate({ type: 'count', value: selectedTableIds.size }, isScanning);
 
   const engine = creds.engine as EngineType;
   const accent = ENGINE_DEFAULTS[engine].accent;
@@ -222,14 +223,12 @@ export default function AwsRdsScanTab({ modelCatalogue, onStepChange }: Props) {
             {isScanning && stats.scanned === 0 && (
                 <div className="p-6">
                     <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-                        <Loader2 className={`w-10 h-10 animate-spin mb-4 text-${accent}-500`} />
-                        <div className="flex items-center gap-2">
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning tables in-memory…</p>
-                            <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
-                        </div>
-                        {isFirstExtension && (
-                            <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
-                        )}
+                        <ScanningIndicator
+                                        progressFraction={progressFraction}
+                                        formattedTimeRemaining={formattedTimeRemaining}
+                                        isFirstExtension={isFirstExtension}
+                                        label="Downloading and scanning tables in-memory…"
+                                    />
                     </div>
                 </div>
             )}

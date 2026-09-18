@@ -6,6 +6,7 @@ import {
   AlertCircle, CheckCircle2, ChevronRight, Loader2, Play,
   Eye, EyeOff, ArrowLeft, Download, Database, XCircle, Search, Shield
 } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 import { apiClient, EvaluatorModel, AnalysisResponse, DatabaseCredentials, FileCatalogEntry, DriveItem, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
 import DocumentViewerModal from '../DocumentViewerModal';
@@ -170,7 +171,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
   }, [scanEntries, dbType, creds.database]);
 
   const isScanning = scanningTableIds.size > 0;
-  const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+  const { formattedTimeRemaining, isFirstExtension, progressFraction } = useScanEstimate(
     { type: 'count', value: selectedTableIds.size },
     isScanning
   );
@@ -850,14 +851,12 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             {isScanning && stats.scanned === 0 && (
                 <div className="p-6">
                     <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-                        <Loader2 className={`w-10 h-10 ${accent === 'indigo' ? 'text-indigo-500' : 'text-orange-500'} animate-spin mb-4`} />
-                        <div className="flex items-center gap-2">
-                            <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning tables in-memory…</p>
-                            <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
-                        </div>
-                        {isFirstExtension && (
-                            <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
-                        )}
+                        <ScanningIndicator
+                                        progressFraction={progressFraction}
+                                        formattedTimeRemaining={formattedTimeRemaining}
+                                        isFirstExtension={isFirstExtension}
+                                        label="Downloading and scanning tables in-memory…"
+                                    />
                     </div>
                 </div>
             )}

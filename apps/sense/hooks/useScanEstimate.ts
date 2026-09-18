@@ -7,6 +7,7 @@ export type EstimateInput =
 export interface UseScanEstimateReturn {
   formattedTimeRemaining: string;
   timeRemainingSeconds: number;
+  progressFraction: number;
   rangeLabel: string;
   isFirstExtension: boolean;
   stop: () => void;
@@ -41,6 +42,8 @@ function formatTime(seconds: number) {
 
 export function useScanEstimate(input: EstimateInput, isInProgress: boolean): UseScanEstimateReturn {
     const [timeRemainingSeconds, setTimeRemainingSeconds] = useState(() => getBucketInfo(input).timeRemainingSeconds);
+    const [totalDurationSeconds, setTotalDurationSeconds] = useState(() => getBucketInfo(input).timeRemainingSeconds);
+    const [elapsedSeconds, setElapsedSeconds] = useState(0);
     const [rangeLabel, setRangeLabel] = useState(() => getBucketInfo(input).rangeLabel);
     const [isFirstExtension, setIsFirstExtension] = useState(false);
     
@@ -58,6 +61,8 @@ export function useScanEstimate(input: EstimateInput, isInProgress: boolean): Us
         stop();
         const info = getBucketInfo(input);
         setTimeRemainingSeconds(info.timeRemainingSeconds);
+        setTotalDurationSeconds(info.timeRemainingSeconds);
+        setElapsedSeconds(0);
         setRangeLabel(info.rangeLabel);
         setIsFirstExtension(false);
     }, [input, stop]);
@@ -66,6 +71,8 @@ export function useScanEstimate(input: EstimateInput, isInProgress: boolean): Us
         if (isInProgress && !prevIsInProgress.current) {
             const info = getBucketInfo(input);
             setTimeRemainingSeconds(info.timeRemainingSeconds);
+            setTotalDurationSeconds(info.timeRemainingSeconds);
+            setElapsedSeconds(0);
             setRangeLabel(info.rangeLabel);
             setIsFirstExtension(false);
         }
@@ -75,6 +82,7 @@ export function useScanEstimate(input: EstimateInput, isInProgress: boolean): Us
     useEffect(() => {
         if (isInProgress) {
             intervalRef.current = setInterval(() => {
+                setElapsedSeconds(prev => prev + 1);
                 setTimeRemainingSeconds(prev => {
                     if (prev <= 0) {
                         setIsFirstExtension(true);
@@ -93,6 +101,7 @@ export function useScanEstimate(input: EstimateInput, isInProgress: boolean): Us
     return {
         formattedTimeRemaining: formatTime(timeRemainingSeconds),
         timeRemainingSeconds,
+        progressFraction: totalDurationSeconds > 0 ? Math.min(1, elapsedSeconds / totalDurationSeconds) : 0,
         rangeLabel,
         isFirstExtension,
         stop,

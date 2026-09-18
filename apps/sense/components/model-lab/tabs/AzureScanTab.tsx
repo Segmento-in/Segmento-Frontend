@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle2, ChevronRight, Loader2, Play, Eye, EyeOff, ArrowLeft, Download } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 import { apiClient, EvaluatorModel, AnalysisResponse, PIICount, OutOfCreditsError, DriveItem, DriveFileScanResult } from '@/lib/apiClient';
 import { useScanEstimate } from '@/hooks/useScanEstimate';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
@@ -114,7 +115,7 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
         return sum;
     }, [blobs, selectedBlobs]);
 
-    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+    const { formattedTimeRemaining, isFirstExtension, progressFraction } = useScanEstimate(
         { type: 'bytes', value: totalBytes },
         isScanning
     );
@@ -339,14 +340,12 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
                         {isScanning && results.length === 0 && (
                             <Card>
                                 <div className="flex flex-col items-center py-12">
-                                    <Loader2 className="w-10 h-10 text-sky-500 animate-spin mb-4" />
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning blobs in-memory…</p>
-                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
-                                    </div>
-                                    {isFirstExtension && (
-                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
-                                    )}
+                                    <ScanningIndicator
+                                        progressFraction={progressFraction}
+                                        formattedTimeRemaining={formattedTimeRemaining}
+                                        isFirstExtension={isFirstExtension}
+                                        label="Downloading and scanning blobs in-memory…"
+                                    />
                                 </div>
                             </Card>
                         )}

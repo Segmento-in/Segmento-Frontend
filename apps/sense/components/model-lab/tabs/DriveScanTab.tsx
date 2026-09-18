@@ -9,6 +9,7 @@ import {
     AlertCircle, Loader2, RefreshCw, Key, ArrowLeft,
     ShieldAlert, ShieldCheck, Files, Sparkles, BarChart3, Download
 } from 'lucide-react';
+import ScanningIndicator from '@/components/model-lab/ScanningIndicator';
 
 import { apiClient, EvaluatorModel, DriveItem, DriveFileScanResult, FileCatalogEntry, OutOfCreditsError } from '@/lib/apiClient';
 import ConnectorPreviewUI from '../ConnectorPreviewUI';
@@ -144,7 +145,7 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
     }, [items, selectedIds]);
 
     const isScanning = scanningIds.size > 0;
-    const { formattedTimeRemaining, isFirstExtension } = useScanEstimate(
+    const { formattedTimeRemaining, isFirstExtension, progressFraction } = useScanEstimate(
         { type: 'bytes', value: totalBytes },
         isScanning
     );
@@ -616,14 +617,12 @@ export default function DriveScanTab({ modelCatalogue, onStepChange }: Props) {
                         {scanningIds.size > 0 && scanResults.length === 0 && (
                             <div className="p-6">
                                 <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-                                    <Loader2 className="w-10 h-10 text-blue-500 animate-spin mb-4" />
-                                    <div className="flex items-center gap-2">
-                                        <p className="text-slate-500 dark:text-slate-400 text-sm">Downloading and scanning files in-memory…</p>
-                                        <span className="text-emerald-500 dark:text-emerald-400 font-mono text-sm font-medium">{formattedTimeRemaining}</span>
-                                    </div>
-                                    {isFirstExtension && (
-                                        <p className="text-slate-400 text-xs mt-1">Taking a bit longer than usual...</p>
-                                    )}
+                                    <ScanningIndicator
+                                        progressFraction={progressFraction}
+                                        formattedTimeRemaining={formattedTimeRemaining}
+                                        isFirstExtension={isFirstExtension}
+                                        label="Downloading and scanning files in-memory…"
+                                    />
                                 </div>
                             </div>
                         )}
