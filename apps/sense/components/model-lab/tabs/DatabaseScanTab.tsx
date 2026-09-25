@@ -850,7 +850,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
             {/* Scanning placeholder */}
             {isScanning && stats.scanned === 0 && (
                 <div className="p-6">
-                    <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+                    <div className="flex flex-col items-center justify-center py-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
                         <ScanningIndicator
                                         progressFraction={progressFraction}
                                         formattedTimeRemaining={formattedTimeRemaining}

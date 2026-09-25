@@ -419,6 +419,7 @@ export default function FormatScanTab({ modelCatalogue }: Props) {
                                     formattedTimeRemaining={formattedTimeRemaining}
                                     isFirstExtension={isFirstExtension}
                                     label={s.loadingStage || 'Processing…'}
+                                    alwaysDark={true}
                                 />
                             ) : s.isLoading && s.videoJobId ? (
                                 <>

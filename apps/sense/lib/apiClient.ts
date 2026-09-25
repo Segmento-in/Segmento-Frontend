@@ -1064,6 +1064,23 @@ export class APIClient {
         });
         return this.handleResponse(response);
     }
+
+    async reviewEntity(
+        entityId: number,
+        action: 'approve' | 'correct',
+        token: string,
+        newLabel?: string
+    ): Promise<{ status: string; action: string; entity_id: number; new_label?: string }> {
+        const body: Record<string, string> = { action };
+        if (newLabel) body.new_label = newLabel;
+        const response = await fetch(`${this.baseURL}/api/evaluator/entities/${entityId}/review`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(body),
+        });
+        return this.handleResponse(response);
+    }
+
     // ==================== AUTH ====================
 
     async register(
@@ -1256,6 +1273,17 @@ export interface DriveItem {
     webViewLink?: string;
 }
 
+export interface EntityReview {
+    id?: number;
+    review_status?: string;
+    start: number;
+    end: number;
+    text: string;
+    winning_label: string;
+    flagged: boolean;
+    contributing_votes: Array<{ model: string; label: string }>;
+}
+
 export interface DriveFileScanResult {
     file_id?: string;
     fileId?: string; // Used by database connector map
@@ -1267,6 +1295,7 @@ export interface DriveFileScanResult {
     scan_data?: EvaluatorScanResponse | null;
     error?: string | null;
     result?: AnalysisResponse; // Used by database connector to pass full AnalysisResponse
+    entities?: EntityReview[];
 }
 
 export interface DriveFolderScanResponse {

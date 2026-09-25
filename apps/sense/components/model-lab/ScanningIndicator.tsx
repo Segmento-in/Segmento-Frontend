@@ -8,6 +8,7 @@ export interface ScanningIndicatorProps {
     label?: React.ReactNode;
     sublabel?: React.ReactNode;
     extensionNote?: string;
+    alwaysDark?: boolean;
 }
 
 export default function ScanningIndicator({
@@ -16,7 +17,8 @@ export default function ScanningIndicator({
     isFirstExtension,
     label = 'Processing…',
     sublabel,
-    extensionNote = 'Taking a bit longer than usual...'
+    extensionNote = 'Taking a bit longer than usual...',
+    alwaysDark = false
 }: ScanningIndicatorProps) {
     const shouldReduceMotion = useReducedMotion();
 
@@ -26,8 +28,13 @@ export default function ScanningIndicator({
     const clampedProgress = Math.max(0, Math.min(1, progressFraction));
     const strokeDashoffset = circumference - clampedProgress * circumference;
 
-    const ringColor = isFirstExtension ? 'text-amber-400' : 'text-emerald-400';
-    const bgColor = isFirstExtension ? 'text-amber-400/20' : 'text-emerald-400/20';
+    const ringColor = alwaysDark
+        ? (isFirstExtension ? 'text-amber-400' : 'text-emerald-400')
+        : (isFirstExtension ? 'text-amber-500 dark:text-amber-400' : 'text-emerald-500 dark:text-emerald-400');
+        
+    const bgColor = alwaysDark
+        ? (isFirstExtension ? 'text-amber-400/20' : 'text-emerald-400/20')
+        : (isFirstExtension ? 'text-amber-500/20 dark:text-amber-400/20' : 'text-emerald-500/20 dark:text-emerald-400/20');
 
     return (
         <div className="flex flex-col items-center justify-center gap-1.5" data-testid="scanning-indicator">
@@ -68,11 +75,11 @@ export default function ScanningIndicator({
                             data-state={isFirstExtension ? 'indeterminate' : 'determinate'}
                         />
                     </svg>
-                    <span className="font-mono text-xs font-bold z-10 text-white" data-testid="countdown-text">{formattedTimeRemaining}</span>
+                    <span className={`font-mono text-xs font-bold z-10 ${alwaysDark ? 'text-white' : 'text-slate-900 dark:text-white'}`} data-testid="countdown-text">{formattedTimeRemaining}</span>
                 </div>
                 <div className="flex flex-col">
-                    {label && <span className="font-bold text-sm text-white" data-testid="scanning-label">{label}</span>}
-                    {sublabel && <span className="text-slate-400 text-xs mt-0.5" data-testid="scanning-sublabel">{sublabel}</span>}
+                    {label && <span className={`font-bold text-sm ${alwaysDark ? 'text-white' : 'text-slate-900 dark:text-white'}`} data-testid="scanning-label">{label}</span>}
+                    {sublabel && <span className={`text-xs mt-0.5 ${alwaysDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400'}`} data-testid="scanning-sublabel">{sublabel}</span>}
                 </div>
             </div>
             
@@ -84,7 +91,11 @@ export default function ScanningIndicator({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
                         transition={{ duration: 0.3 }}
-                        className={isFirstExtension ? 'text-amber-200 text-xs font-normal text-center mt-2' : 'text-emerald-100 text-xs font-normal text-center mt-2'}
+                        className={`text-xs font-normal text-center mt-2 ${
+                            alwaysDark
+                                ? (isFirstExtension ? 'text-amber-200' : 'text-emerald-100')
+                                : (isFirstExtension ? 'text-amber-600 dark:text-amber-200' : 'text-emerald-600 dark:text-emerald-100')
+                        }`}
                     >
                         {extensionNote}
                     </motion.div>

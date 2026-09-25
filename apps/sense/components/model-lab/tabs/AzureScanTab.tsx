@@ -339,7 +339,7 @@ export default function AzureScanTab({ modelCatalogue, onStepChange }: Props) {
 
                         {isScanning && results.length === 0 && (
                             <Card>
-                                <div className="flex flex-col items-center py-12">
+                                <div className="flex flex-col items-center py-6">
                                     <ScanningIndicator
                                         progressFraction={progressFraction}
                                         formattedTimeRemaining={formattedTimeRemaining}

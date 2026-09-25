@@ -60,7 +60,7 @@ function deriveSchema(scan_data: any): Array<{ Column: string; Type: string }> {
     }));
 }
 
-type Tab = 'analytics' | 'text' | 'advanced';
+type Tab = 'analytics' | 'text' | 'advanced' | 'entities';
 
 export default function DocumentViewerModal({
     fileInfo,
@@ -89,6 +89,35 @@ export default function DocumentViewerModal({
     const [isTagging, setIsTagging] = useState(false);
     const [tagState, setTagState] = useState<'idle' | 'success' | 'error'>('idle');
     const [tagError, setTagError] = useState<string | null>(null);
+
+    // ── Entity Review state ───────────────────────────────────────────────────
+    const [reviewingEntityId, setReviewingEntityId] = useState<number | null>(null);
+    const [entityUpdates, setEntityUpdates] = useState<Record<number, { review_status?: string; winning_label?: string; }>>({});
+    const [reviewError, setReviewError] = useState<string | null>(null);
+
+    const handleReviewAction = async (entId: number, action: 'approve' | 'correct', newLabel?: string) => {
+        setReviewingEntityId(entId);
+        setReviewError(null);
+        try {
+            const res = await apiClient.reviewEntity(entId, action, token!, newLabel);
+            if (res.status === 'success') {
+                setEntityUpdates(prev => ({
+                    ...prev,
+                    [entId]: {
+                        review_status: action === 'approve' ? 'approved' : 'corrected',
+                        ...(action === 'correct' && res.new_label ? { winning_label: res.new_label } : {})
+                    }
+                }));
+            } else {
+                setReviewError(`Review failed: ${res.status}`);
+            }
+        } catch (e: any) {
+            console.error(e);
+            setReviewError(`Review failed: ${e.message || 'Failed to update entity status.'}`);
+        } finally {
+            setReviewingEntityId(null);
+        }
+    };
 
     // ── Derived analytics data from scan_data ─────────────────────────────────
     const hasScanData = !!(scanResult.scan_data || scanResult.result);
@@ -160,11 +189,11 @@ export default function DocumentViewerModal({
                 setTagState('success');
             } else {
                 setTagState('error');
-                setTagError(res.tagged[0]?.error || 'Tagging failed.');
+                setTagError(`Tagging failed: ${res.tagged[0]?.error || 'Unknown error'}. This usually means the OAuth token doesn't allow writing to Drive metadata. Try opening the file directly in Drive.`);
             }
         } catch (err: any) {
             setTagState('error');
-            setTagError(err.message || 'Tagging failed.');
+            setTagError(`Tagging failed: ${err.message || 'Unknown error'}. This usually means the OAuth token doesn't allow writing to Drive metadata. Try opening the file directly in Drive.`);
         } finally {
             setIsTagging(false);
         }
@@ -385,7 +414,7 @@ export default function DocumentViewerModal({
                     {tagState === 'error' && tagError && (
                         <div className="flex items-center gap-2 px-5 py-2.5 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs shrink-0">
                             <AlertCircle className="w-4 h-4 shrink-0" />
-                            <span><strong>Tagging failed:</strong> {tagError}. This usually means the OAuth token doesn't allow writing to Drive metadata. Try opening the file directly in Drive.</span>
+                            <span>{tagError}</span>
                         </div>
                     )}
 
@@ -418,6 +447,24 @@ export default function DocumentViewerModal({
                             <Sparkles className="w-4 h-4" />
                             Highlighted Text
                         </button>
+                        {scanResult.entities && (
+                            <button
+                                onClick={() => setActiveTab('entities')}
+                                className={`flex items-center gap-2 pb-3 pt-3 mr-4 text-sm font-semibold border-b-2 transition-colors -mb-px ${
+                                    activeTab === 'entities'
+                                        ? 'border-blue-600 text-blue-600'
+                                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                                }`}
+                            >
+                                <Tag className="w-4 h-4" />
+                                Flagged Entities
+                                {scanResult.entities.filter((e: any) => e.flagged).length > 0 && (
+                                    <span className="ml-1 px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full">
+                                        {scanResult.entities.filter((e: any) => e.flagged).length}
+                                    </span>
+                                )}
+                            </button>
+                        )}
                         {!isDatabase && (
                             <button
                                 onClick={() => setActiveTab('advanced')}
@@ -551,6 +598,103 @@ export default function DocumentViewerModal({
                                         {renderHighlightedText()}
                                     </div>
                                 )}
+                            </div>
+                        )}
+
+                        {/* Entities Tab */}
+                        {activeTab === 'entities' && scanResult.entities && (
+                            <div className="p-6 lg:p-8" data-testid="entities-tab">
+                                <div className="max-w-5xl mx-auto border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm bg-white dark:bg-slate-900">
+                                    <div className="p-5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+                                        <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                                            <Tag className="w-4 h-4 text-slate-500" />
+                                            Detected Entities
+                                        </div>
+                                    </div>
+                                    {reviewError && (
+                                        <div className="flex items-center gap-2 px-5 py-3 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs">
+                                            <AlertCircle className="w-4 h-4 shrink-0" />
+                                            <span data-testid="review-error-banner">{reviewError}</span>
+                                        </div>
+                                    )}
+                                    <table className="w-full text-sm">
+                                        <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 text-xs uppercase tracking-wider">
+                                            <tr>
+                                                <th className="px-5 py-3 text-left font-semibold">Entity Text</th>
+                                                <th className="px-5 py-3 text-left font-semibold">Label</th>
+                                                <th className="px-5 py-3 text-left font-semibold">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                                            {[...scanResult.entities]
+                                                .sort((a, b) => (a.flagged === b.flagged ? a.start - b.start : a.flagged ? -1 : 1))
+                                                .map((ent, idx) => {
+                                                    const status = ent.id ? (entityUpdates[ent.id]?.review_status || ent.review_status || 'unreviewed') : 'unreviewed';
+                                                    const currentLabel = ent.id ? (entityUpdates[ent.id]?.winning_label || ent.winning_label) : ent.winning_label;
+                                                    
+                                                    return (
+                                                        <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                                                            <td className="px-5 py-3 font-mono text-slate-800 dark:text-slate-200">{ent.text}</td>
+                                                            <td className="px-5 py-3 font-mono text-xs">
+                                                                <span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-600 dark:text-slate-400">
+                                                                    {currentLabel}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-5 py-3">
+                                                                {status === 'approved' ? (
+                                                                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase bg-emerald-50 text-emerald-600 border border-emerald-200">
+                                                                        <CheckCircle2 className="w-3 h-3" />
+                                                                        Approved
+                                                                    </span>
+                                                                ) : status === 'corrected' ? (
+                                                                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase bg-blue-50 text-blue-600 border border-blue-200">
+                                                                        <CheckCircle2 className="w-3 h-3" />
+                                                                        Corrected
+                                                                    </span>
+                                                                ) : (
+                                                                    <div className="flex items-center gap-3">
+                                                                        {ent.flagged && (
+                                                                            <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase bg-amber-50 text-amber-600 border border-amber-200">
+                                                                                <AlertCircle className="w-3 h-3" />
+                                                                                Needs Review
+                                                                            </span>
+                                                                        )}
+                                                                        {canTag && ent.id && (
+                                                                            <div className="flex items-center gap-2">
+                                                                                <button
+                                                                                    disabled={reviewingEntityId === ent.id}
+                                                                                    onClick={() => handleReviewAction(ent.id!, 'approve')}
+                                                                                    className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-emerald-600 rounded-md transition-colors disabled:opacity-50"
+                                                                                >
+                                                                                    Approve
+                                                                                </button>
+                                                                                <div className="flex items-center gap-1">
+                                                                                    <select
+                                                                                        disabled={reviewingEntityId === ent.id}
+                                                                                        onChange={(e) => {
+                                                                                            if (e.target.value) handleReviewAction(ent.id!, 'correct', e.target.value);
+                                                                                        }}
+                                                                                        className="px-2 py-1.5 text-xs border border-slate-200 rounded-md bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                                                                        aria-label="Correct label"
+                                                                                        defaultValue=""
+                                                                                    >
+                                                                                        <option value="" disabled>Correct...</option>
+                                                                                        {Object.keys(PII_LABEL_COLORS).filter(k => k !== 'DEFAULT' && !['FULL_NAME', 'GPE', 'DOB'].includes(k) && k !== currentLabel).map(label => (
+                                                                                            <option key={label} value={label}>{label}</option>
+                                                                                        ))}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         )}
                     </div>

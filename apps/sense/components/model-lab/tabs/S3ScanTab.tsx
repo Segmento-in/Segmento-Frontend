@@ -408,7 +408,7 @@ export default function S3ScanTab({ modelCatalogue, onStepChange }: Props) {
                         {/* Scanning placeholder */}
                         {isScanning && results.length === 0 && (
                             <Card>
-                                <div className="flex flex-col items-center py-12">
+                                <div className="flex flex-col items-center py-6">
                                     <ScanningIndicator
                                         progressFraction={progressFraction}
                                         formattedTimeRemaining={formattedTimeRemaining}

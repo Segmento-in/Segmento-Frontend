@@ -458,6 +458,7 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
                     isFirstExtension={estimate.isFirstExtension}
                     label="Scanning your file…"
                     sublabel={`${pendingFiles[0]?.name} · ${selectedScanMode.replace(/_/g, ' ')}`}
+                    alwaysDark={true}
                   />
                 </div>
               )}
