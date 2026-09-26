@@ -666,7 +666,7 @@ export default function DocumentViewerModal({
                                                                                     onClick={() => handleReviewAction(ent.id!, 'approve')}
                                                                                     className="px-3 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-emerald-600 rounded-md transition-colors disabled:opacity-50"
                                                                                 >
-                                                                                    Approve
+                                                                                    Correct
                                                                                 </button>
                                                                                 <div className="flex items-center gap-1">
                                                                                     <select
@@ -675,10 +675,10 @@ export default function DocumentViewerModal({
                                                                                             if (e.target.value) handleReviewAction(ent.id!, 'correct', e.target.value);
                                                                                         }}
                                                                                         className="px-2 py-1.5 text-xs border border-slate-200 rounded-md bg-white text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                                                                        aria-label="Correct label"
+                                                                                        aria-label="Wrong label"
                                                                                         defaultValue=""
                                                                                     >
-                                                                                        <option value="" disabled>Correct...</option>
+                                                                                        <option value="" disabled>Wrong</option>
                                                                                         {Object.keys(PII_LABEL_COLORS).filter(k => k !== 'DEFAULT' && !['FULL_NAME', 'GPE', 'DOB'].includes(k) && k !== currentLabel).map(label => (
                                                                                             <option key={label} value={label}>{label}</option>
                                                                                         ))}

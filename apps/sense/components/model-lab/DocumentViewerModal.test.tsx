@@ -294,7 +294,7 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
-      const approveBtn = screen.getByRole('button', { name: /approve/i });
+      const approveBtn = screen.getByRole('button', { name: /correct/i });
       fireEvent.click(approveBtn);
 
       expect(apiClient.reviewEntity).toHaveBeenCalledWith(99, 'approve', 'valid-jwt', undefined);
@@ -313,7 +313,7 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
       // Assume we have a select for correction
-      const select = screen.getByRole('combobox', { name: /correct label/i });
+      const select = screen.getByRole('combobox', { name: /wrong label/i });
       fireEvent.change(select, { target: { value: 'PERSON' } });
 
       expect(apiClient.reviewEntity).toHaveBeenCalledWith(99, 'correct', 'valid-jwt', 'PERSON');
@@ -332,7 +332,7 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
-      const select = screen.getByRole('combobox', { name: /correct label/i });
+      const select = screen.getByRole('combobox', { name: /wrong label/i });
       const options = Array.from(select.querySelectorAll('option')).map(o => o.value);
       
       expect(options).not.toContain('FULL_NAME');
@@ -349,7 +349,7 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
-      const approveBtn = screen.getByRole('button', { name: /approve/i });
+      const approveBtn = screen.getByRole('button', { name: /correct/i });
       fireEvent.click(approveBtn);
 
       await waitFor(() => {
@@ -378,11 +378,11 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
-      expect(screen.queryByRole('button', { name: /approve/i })).not.toBeInTheDocument();
-      expect(screen.queryByRole('combobox', { name: /correct label/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
     });
 
-    it('An UNFLAGGED entity with review_status "unreviewed" shows an active Approve button and Correct dropdown, but NO badge', () => {
+    it('An UNFLAGGED entity with review_status "unreviewed" shows an active Correct button and Wrong dropdown, but NO badge', () => {
       render(
         <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithUnflaggedEntity} credentials={{}} authType="service_account" onClose={() => {}} />
       );
@@ -390,8 +390,8 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       fireEvent.click(screen.getByText(/Flagged Entities/i));
       
       // Controls should be present
-      expect(screen.getByRole('button', { name: /approve/i })).toBeInTheDocument();
-      expect(screen.getByRole('combobox', { name: /correct label/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
       
       // Badge should NOT be present
       expect(screen.queryByText('Needs Review')).not.toBeInTheDocument();
