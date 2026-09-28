@@ -80,9 +80,10 @@ export default function DocumentViewerModal({
 
     // ── Capability checks ─────────────────────────────────────────────────────
     const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
+    const isEntityCapable = isDriveFile || authType === 'postgresql';
     const canPreviewText = isDriveFile;
     // Organization Role Gating (positive capability pattern: fail-closed for non-admin org roles)
-    const canTag = isDriveFile && (!user?.role || user.role === 'admin');
+    const canTag = isEntityCapable && (!user?.role || user.role === 'admin');
     const isDatabase = authType === 'postgresql' || authType === 'mysql';
 
     // ── Tagging state ─────────────────────────────────────────────────────────
@@ -373,7 +374,7 @@ export default function DocumentViewerModal({
 
                         <div className="flex items-center gap-3 shrink-0">
                             {/* Tag button — only shown for capable files (e.g. Drive) */}
-                            {canTag && (
+                            {isDriveFile && canTag && (
                                 <button
                                     onClick={handleTagFile}
                                     disabled={isTagging || tagState === 'success'}

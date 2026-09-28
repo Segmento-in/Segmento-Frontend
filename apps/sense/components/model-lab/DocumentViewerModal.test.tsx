@@ -396,5 +396,35 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       // Badge should NOT be present
       expect(screen.queryByText('Needs Review')).not.toBeInTheDocument();
     });
+
+    it('a PostgreSQL result with entities shows the Entities tab and a working Correct/Wrong control', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="postgresql" onClose={() => {}} />
+      );
+      
+      const entitiesTab = screen.getByText(/Flagged Entities/i);
+      expect(entitiesTab).toBeInTheDocument();
+      fireEvent.click(entitiesTab);
+      
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('a non-admin user still cannot trigger an active review control on a PostgreSQL entity', () => {
+      mockUseAuth.mockReturnValue({
+        user: { id: 'usr-sup', email: 'support@acme.com', role: 'support' },
+        token: 'valid-jwt',
+        isLoggedIn: true,
+      });
+
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="postgresql" onClose={() => {}} />
+      );
+      
+      fireEvent.click(screen.getByText(/Flagged Entities/i));
+      
+      expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
+    });
   });
 });
