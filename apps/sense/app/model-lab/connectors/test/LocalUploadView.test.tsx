@@ -17,8 +17,9 @@ vi.mock('@/lib/apiClient', async (importOriginal) => {
 });
 
 // Mock the Auth context to prevent "useAuth must be used inside <AuthProvider>"
+import * as authContext from '@/lib/authContext';
 vi.mock('@/lib/authContext', () => ({
-  useAuth: () => ({ isLoggedIn: true, token: 'mock-token', user: {} })
+  useAuth: vi.fn().mockReturnValue({ isLoggedIn: true, token: 'mock-token', user: {} })
 }));
 
 // Mock the next/navigation router
@@ -224,3 +225,27 @@ describe('Scan Estimate Loading UI', () => {
     });
   });
 });
+
+describe('Token forwarding', () => {
+  it('passes the token to apiClient.uploadCSV', async () => {
+    vi.mocked(authContext.useAuth).mockReturnValue({ isLoggedIn: true, token: 'tok-123', user: {} } as any);
+    
+    const { container } = render(<LocalUploadView setRightView={vi.fn()} />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    fireEvent.change(fileInput, { target: { files: [new File([''], 'test.csv', { type: 'text/csv' })] } });
+    
+    vi.mocked(apiClient.uploadCSV).mockResolvedValueOnce({ total_pii_found: 1 } as any);
+    fireEvent.click(screen.getByRole('button', { name: /Start Scan/i }));
+    
+    await waitFor(() => {
+      expect(apiClient.uploadCSV).toHaveBeenCalledWith(
+        expect.any(File),
+        false,
+        ['ensemble', 'regex', 'nltk', 'spacy', 'presidio', 'gliner', 'deberta'],
+        'full',
+        'tok-123'
+      );
+    });
+  });
+});
+

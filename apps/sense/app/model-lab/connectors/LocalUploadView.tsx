@@ -110,6 +110,10 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
   const METADATA_CAPABLE_EXTS = new Set(['parquet', 'avro']);
 
   const { isLoggedIn, token } = useAuth();
+  const tokenRef = useRef(token);
+  useEffect(() => {
+    tokenRef.current = token;
+  }, [token]);
   const router = useRouter();
 
   const [outOfCredits, setOutOfCredits] = useState(false);
@@ -178,19 +182,20 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
               const models = ['ensemble', 'regex', 'nltk', 'spacy', 'presidio', 'gliner', 'deberta'];
               const mode = selectedScanMode;
 
+              const t = tokenRef.current ?? undefined;
               switch (scanningType) {
-                case 'csv':     result = await apiClient.uploadCSV(f, false, models, mode); break;
-                case 'json':    result = await apiClient.uploadJSON(f, false, models, mode); break;
-                case 'parquet': result = await apiClient.uploadParquet(f, false, models, mode); break;
-                case 'avro':    result = await apiClient.uploadAvro(f, false, models, mode); break;
-                case 'pdf':     result = await apiClient.uploadPDF(f, 0, models, mode); break;
-                case 'txt':     result = await apiClient.uploadTXT(f, false, models, mode); break;
+                case 'csv':     result = await apiClient.uploadCSV(f, false, models, mode, t); break;
+                case 'json':    result = await apiClient.uploadJSON(f, false, models, mode, t); break;
+                case 'parquet': result = await apiClient.uploadParquet(f, false, models, mode, t); break;
+                case 'avro':    result = await apiClient.uploadAvro(f, false, models, mode, t); break;
+                case 'pdf':     result = await apiClient.uploadPDF(f, 0, models, mode, t); break;
+                case 'txt':     result = await apiClient.uploadTXT(f, false, models, mode, t); break;
                 case 'jpg':
                 case 'jpeg':
                 case 'png':
                 case 'bmp':
-                case 'tiff':    result = await apiClient.uploadImage(f, false, mode); break;
-                default:        result = await apiClient.uploadCSV(f, false, models, mode); break;
+                case 'tiff':    result = await apiClient.uploadImage(f, false, mode, t); break;
+                default:        result = await apiClient.uploadCSV(f, false, models, mode, t); break;
               }
               return { file: f, result };
             })
