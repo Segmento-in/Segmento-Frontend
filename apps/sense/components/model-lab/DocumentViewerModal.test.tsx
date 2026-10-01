@@ -426,5 +426,52 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
       expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
     });
+
+    it('a Local Upload result with entities shows the Entities tab and a working Correct/Wrong control', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="local" onClose={() => {}} />
+      );
+
+      const entitiesTab = screen.getByText(/Flagged Entities/i);
+      expect(entitiesTab).toBeInTheDocument();
+      fireEvent.click(entitiesTab);
+
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('an Individual account (null role) can review a Local Upload entity', () => {
+      mockUseAuth.mockReturnValue({
+        user: { id: 'usr-ind', email: 'solo@acme.com', role: null },
+        token: 'valid-jwt',
+        isLoggedIn: true,
+      });
+
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="local" onClose={() => {}} />
+      );
+
+      fireEvent.click(screen.getByText(/Flagged Entities/i));
+
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('a non-admin user still cannot trigger an active review control on a Local Upload entity', () => {
+      mockUseAuth.mockReturnValue({
+        user: { id: 'usr-sup', email: 'support@acme.com', role: 'support' },
+        token: 'valid-jwt',
+        isLoggedIn: true,
+      });
+
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="local" onClose={() => {}} />
+      );
+
+      fireEvent.click(screen.getByText(/Flagged Entities/i));
+
+      expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
+    });
   });
 });
