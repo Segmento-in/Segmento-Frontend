@@ -249,3 +249,43 @@ describe('Token forwarding', () => {
   });
 });
 
+describe('Entity mapping', () => {
+  it('maps entities from upload response to DocumentViewerModal', async () => {
+    const ConnectorPreviewUIModule = await import('@/components/model-lab/ConnectorPreviewUI');
+    const DocumentViewerModalModule = await import('@/components/model-lab/DocumentViewerModal');
+    const previewSpy = vi.spyOn(ConnectorPreviewUIModule, 'default');
+    const modalSpy = vi.spyOn(DocumentViewerModalModule, 'default');
+
+    const { container } = render(<LocalUploadView setRightView={vi.fn()} />);
+    const fileInput = container.querySelector('input[type="file"]') as HTMLInputElement;
+    fireEvent.change(fileInput, { target: { files: [new File([''], 'test.csv', { type: 'text/csv' })] } });
+    
+    const mockEntities = [{ id: 1, review_status: 'unreviewed', start: 0, end: 5, text: 'alice', winning_label: 'EMAIL', flagged: true, contributing_votes: [{ model: 'spacy', label: 'EMAIL' }] }];
+    
+    vi.mocked(apiClient.uploadCSV).mockResolvedValueOnce({ 
+      total_pii_found: 1, 
+      pii_counts: [],
+      entities: mockEntities
+    } as any);
+    
+    fireEvent.click(screen.getByRole('button', { name: /Start Scan/i }));
+    
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: /Scan Results/i })).toBeInTheDocument();
+    });
+
+    const props = previewSpy.mock.calls[previewSpy.mock.calls.length - 1][0];
+    act(() => {
+      props.onOpenFile('test.csv');
+    });
+
+    expect(modalSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        scanResult: expect.objectContaining({
+          entities: mockEntities
+        })
+      }),
+      undefined
+    );
+  });
+});

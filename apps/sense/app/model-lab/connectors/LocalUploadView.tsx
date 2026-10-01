@@ -262,7 +262,8 @@ export default function LocalUploadView({ setRightView }: { setRightView: (view:
     mime_type: sr.file.type,
     pii_detected: sr.result.total_pii_found > 0,
     pii_count: sr.result.total_pii_found,
-    result: sr.result
+    result: sr.result,
+    entities: sr.result.entities
   }));
 
   return (

@@ -51,6 +51,8 @@ export interface AnalysisResponse {
     rows_scanned?: number;
     /** Mocked metadata for zero-trust metadata scans */
     metadata?: any;
+    /** Flagged entities for human review (Local Upload, sampling and full modes). Additive. */
+    entities?: EntityReview[];
 }
 
 export interface DatabaseCredentials {
