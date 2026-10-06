@@ -148,6 +148,7 @@ export default function MariadbScanTab({ modelCatalogue, onStepChange }: Props) 
         pii_detected: (e.result?.total_pii_found ?? 0) > 0,
         pii_count: e.result?.total_pii_found ?? 0,
         result: e.result as AnalysisResponse,
+        entities: e.result?.entities,
         error: e.error
       }));
   }, [scanEntries]);
@@ -166,6 +167,7 @@ export default function MariadbScanTab({ modelCatalogue, onStepChange }: Props) 
         mime_type: cat.connector_type || 'mariadb',
         pii_detected: cat.classification === 'SENSITIVE',
         pii_count: piiCount,
+        entities: liveScanResults.find(r => r.file_id === cat.file_name)?.entities,
         scan_data: {
           per_model: { catalog: { type_counts: piiTypes } },
           ranked: (cat.metadata?.flagged_columns || []).map((col: string, idx: number) => ({
