@@ -54,7 +54,7 @@ vi.mock('@/components/OutOfCreditsModal', () => ({
   default: () => <div data-testid="out-of-credits-mock" />
 }));
 vi.mock('../../ConnectorPreviewUI', () => ({
-  default: ({ items, selectedIds, onToggleSelection }: any) => (
+  default: ({ items, selectedIds, onToggleSelection, onOpenFile }: any) => (
     <div data-testid="connector-preview-ui-mock">
       {items.map((item: any) => (
         <div key={item.id} data-testid={`item-${item.id}`}>
@@ -65,13 +65,23 @@ vi.mock('../../ConnectorPreviewUI', () => ({
           >
             {selectedIds.has(item.id) ? 'Selected' : 'Unselected'}
           </button>
+          <button 
+            data-testid={`open-${item.id}`} 
+            onClick={() => onOpenFile(item.id)}
+          >
+            Open File
+          </button>
         </div>
       ))}
     </div>
   )
 }));
 vi.mock('../../DocumentViewerModal', () => ({
-  default: () => <div data-testid="document-viewer-modal-mock" />
+  default: ({ scanResult }: any) => (
+    <div data-testid="document-viewer-modal-mock">
+      {scanResult?.entities?.length > 0 && <div>Flagged Entities</div>}
+    </div>
+  )
 }));
 
 describe('DatabaseScanTab - Step 1: Adapt to new pattern', () => {
@@ -219,3 +229,68 @@ describe('Scan Estimate Loading UI', () => {
     unmount();
   });
 });
+
+describe('F1-2: Entities passed to DocumentViewerModal', () => {
+  it('passes entities to the viewer when a table is scanned and opened', async () => {
+    let resolveScan: any;
+    vi.mocked(apiClient.scanConnector).mockImplementationOnce(() => new Promise(res => { resolveScan = res; }));
+    const { unmount } = render(<DatabaseScanTab modelCatalogue={[]} />);
+    
+    // Auth
+    fireEvent.change(screen.getByPlaceholderText(/localhost/i), { target: { value: 'localhost' } });
+    fireEvent.change(screen.getByPlaceholderText(/my_database/i), { target: { value: 'db' } });
+    fireEvent.change(screen.getByPlaceholderText(/db_user/i), { target: { value: 'user' } });
+    fireEvent.click(screen.getByRole('button', { name: /Connect & List Tables/i }));
+    
+    // Browse
+    await waitFor(() => expect(screen.getByText(/Total Tables/i)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('table_1')).toBeInTheDocument());
+    
+    // Select table_1
+    const checkboxes = screen.getAllByRole('checkbox');
+    await act(async () => { fireEvent.click(checkboxes[1]); });
+    
+    // Trigger scan
+    await waitFor(() => expect(screen.getByRole('button', { name: /Scan Now/i })).not.toBeDisabled());
+    await act(async () => {
+        fireEvent.click(screen.getByRole('button', { name: /Scan Now/i }));
+    });
+    
+    // Wait for RESULTS step
+    await waitFor(() => expect(screen.getByText('Downloading and scanning tables in-memory…')).toBeInTheDocument());
+    
+    // Resolve the scan with entities
+    await act(async () => { 
+      resolveScan({ 
+        total_pii_found: 1, 
+        entities: [{
+          id: 'ent-1',
+          start: 0,
+          end: 10,
+          text: 'John Doe',
+          winning_label: 'PERSON',
+          flagged: true,
+          review_status: 'unreviewed',
+          contributing_votes: {}
+        }]
+      }); 
+    });
+    
+    // Scan Complete should appear
+    await waitFor(() => {
+      expect(screen.getByText(/Scan Complete/i)).toBeInTheDocument();
+    });
+
+    // Open viewer for table_1 
+    const openBtn = screen.getByTestId('open-db.public.table_1');
+    await act(async () => {
+      fireEvent.click(openBtn);
+    });
+
+    // Check if DocumentViewerModal got entities
+    expect(screen.getByText('Flagged Entities')).toBeInTheDocument();
+    
+    unmount();
+  });
+});
+

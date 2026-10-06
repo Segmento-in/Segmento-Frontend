@@ -166,6 +166,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         pii_detected: (e.result?.total_pii_found ?? 0) > 0,
         pii_count: e.result?.total_pii_found ?? 0,
         result: e.result as AnalysisResponse,
+        entities: e.result?.entities,
         error: e.error
       }));
   }, [scanEntries, dbType, creds.database]);
