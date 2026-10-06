@@ -473,5 +473,55 @@ describe('DocumentViewerModal — Ticket 6 Entities Tab', () => {
       expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
       expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
     });
+
+    it('a MySQL result with entities shows the Entities tab and a working Correct/Wrong control', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="mysql" onClose={() => {}} />
+      );
+
+      const entitiesTab = screen.getByText(/Flagged Entities/i);
+      expect(entitiesTab).toBeInTheDocument();
+      fireEvent.click(entitiesTab);
+
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('a MariaDB result with entities shows the Entities tab and a working Correct/Wrong control', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="mariadb" onClose={() => {}} />
+      );
+
+      const entitiesTab = screen.getByText(/Flagged Entities/i);
+      expect(entitiesTab).toBeInTheDocument();
+      fireEvent.click(entitiesTab);
+
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('a MongoDB result with entities shows the Entities tab and a working Correct/Wrong control', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="mongodb" onClose={() => {}} />
+      );
+
+      const entitiesTab = screen.getByText(/Flagged Entities/i);
+      expect(entitiesTab).toBeInTheDocument();
+      fireEvent.click(entitiesTab);
+
+      expect(screen.getByRole('button', { name: /correct/i })).toBeInTheDocument();
+      expect(screen.getByRole('combobox', { name: /wrong label/i })).toBeInTheDocument();
+    });
+
+    it('a Glue result does NOT show the Correct control even when entities are present', () => {
+      render(
+        <DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResultWithEntity} credentials={{}} authType="glue" onClose={() => {}} />
+      );
+
+      fireEvent.click(screen.getByText(/Flagged Entities/i));
+
+      expect(screen.queryByRole('button', { name: /correct/i })).not.toBeInTheDocument();
+      expect(screen.queryByRole('combobox', { name: /wrong label/i })).not.toBeInTheDocument();
+    });
   });
 });

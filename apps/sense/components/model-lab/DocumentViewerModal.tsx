@@ -80,7 +80,7 @@ export default function DocumentViewerModal({
 
     // ── Capability checks ─────────────────────────────────────────────────────
     const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
-    const isEntityCapable = isDriveFile || authType === 'postgresql' || authType === 'local';
+    const isEntityCapable = isDriveFile || authType === 'postgresql' || authType === 'mysql' || authType === 'mariadb' || authType === 'mongodb' || authType === 'local';
     const canPreviewText = isDriveFile;
     // Organization Role Gating (positive capability pattern: fail-closed for non-admin org roles)
     const canTag = isEntityCapable && (!user?.role || user.role === 'admin');
