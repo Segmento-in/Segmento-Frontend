@@ -44,10 +44,58 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-// Mock the Auth context
+const { authState } = vi.hoisted(() => ({ authState: { token: 'mock-token' } }));
 vi.mock('@/lib/authContext', () => ({
-  useAuth: () => ({ isLoggedIn: true, token: 'mock-token', user: {} })
+  useAuth: () => ({ isLoggedIn: true, token: authState.token, user: {} })
 }));
+
+describe('Token forwarding to list-tables', () => {
+  let originalToken: string;
+  
+  beforeEach(() => {
+    originalToken = authState.token;
+    authState.token = 'tok-test';
+    apiClient.listMysqlTables = vi.fn().mockResolvedValue({ tables: ['mysql_table'] });
+  });
+
+  afterEach(() => {
+    authState.token = originalToken;
+  });
+
+  it('passes the login token to listPostgresTables', async () => {
+    render(<DatabaseScanTab modelCatalogue={[]} />);
+    fireEvent.change(screen.getByPlaceholderText(/localhost or 127.0.0.1/i), { target: { value: 'localhost' } });
+    fireEvent.change(screen.getByPlaceholderText(/my_database/i), { target: { value: 'db' } });      
+    fireEvent.change(screen.getByPlaceholderText(/db_user/i), { target: { value: 'user' } });        
+    
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Connect & List Tables/i }));
+    });
+    
+    expect(apiClient.listPostgresTables).toHaveBeenCalledWith(
+      expect.anything(),
+      'tok-test'
+    );
+  });
+
+  it('passes the login token to listMysqlTables', async () => {
+    const { container } = render(<DatabaseScanTab modelCatalogue={[]} />);
+    fireEvent.click(screen.getByRole('button', { name: /MySQL/i }));
+    
+    fireEvent.change(screen.getByPlaceholderText(/localhost or 127.0.0.1/i), { target: { value: 'localhost' } });
+    fireEvent.change(screen.getByPlaceholderText(/my_database/i), { target: { value: 'db' } });      
+    fireEvent.change(screen.getByPlaceholderText(/db_user/i), { target: { value: 'user' } });        
+    
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Connect & List Tables/i }));
+    });
+    
+    expect(apiClient.listMysqlTables).toHaveBeenCalledWith(
+      expect.anything(),
+      'tok-test'
+    );
+  });
+});
 
 // Mock child components
 vi.mock('@/components/OutOfCreditsModal', () => ({

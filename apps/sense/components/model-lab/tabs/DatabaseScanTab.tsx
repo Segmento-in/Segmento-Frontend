@@ -197,8 +197,8 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
     try {
       const res =
         dbType === 'postgresql'
-          ? await apiClient.listPostgresTables(creds)
-          : await apiClient.listMysqlTables(creds);
+          ? await apiClient.listPostgresTables(creds, token || undefined)
+          : await apiClient.listMysqlTables(creds, token || undefined);
       const tableList: string[] = res.tables || [];
       setTables(tableList);
       setSelectedTableIds(new Set());
