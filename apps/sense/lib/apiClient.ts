@@ -597,19 +597,19 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async listPostgresTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+    async listPostgresTables(credentials: DatabaseCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/postgresql/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
     }
 
-    async listMongodbCollections(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+    async listMongodbCollections(credentials: DatabaseCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mongodb/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
@@ -634,19 +634,19 @@ export class APIClient {
     }
 
 
-    async listMysqlTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+    async listMysqlTables(credentials: DatabaseCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mysql/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
     }
 
-    async listMariadbTables(credentials: DatabaseCredentials): Promise<{ tables: string[] }> {
+    async listMariadbTables(credentials: DatabaseCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/mariadb/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
@@ -655,10 +655,10 @@ export class APIClient {
 
 
 
-    async listAwsRdsTables(credentials: AwsRdsCredentials): Promise<{ tables: string[] }> {
+    async listAwsRdsTables(credentials: AwsRdsCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/aws-rds/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
@@ -683,10 +683,10 @@ export class APIClient {
         return this.handleResponse(response);
     }
 
-    async listGlueTables(credentials: GlueCredentials & { database_name: string }): Promise<{ tables: string[] }> {
+    async listGlueTables(credentials: GlueCredentials & { database_name: string }, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/glue/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
@@ -694,10 +694,10 @@ export class APIClient {
 
 
 
-    async listDynamoDbTables(credentials: DynamoDbCredentials): Promise<{ tables: string[] }> {
+    async listDynamoDbTables(credentials: DynamoDbCredentials, token?: string): Promise<{ tables: string[] }> {
         const response = await fetch(`${this.baseURL}/api/connect/dynamodb/list-tables`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
             body: JSON.stringify(credentials),
         });
         return this.handleResponse(response);
