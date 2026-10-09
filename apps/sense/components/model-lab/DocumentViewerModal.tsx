@@ -12,6 +12,9 @@ import { useAuth } from '@/lib/authContext';
 import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
 import { Inspector } from '@/components/pii-demo/Inspector';
 import { getModelLevelAnalysis } from '@/lib/piiReasons';
+import { TableProjectionView, PROJECTION_CONNECTORS } from './TableProjectionView';
+import { TableProjectionResponse } from '@/lib/apiClient';
+import { Table } from 'lucide-react';
 
 export interface ProjectionContext {
     scanMode: string;
@@ -67,14 +70,15 @@ function deriveSchema(scan_data: any): Array<{ Column: string; Type: string }> {
     }));
 }
 
-type Tab = 'analytics' | 'text' | 'advanced' | 'entities';
+type Tab = 'analytics' | 'text' | 'advanced' | 'entities' | 'table';
 
 export default function DocumentViewerModal({
     fileInfo,
     scanResult,
     credentials,
     authType,
-    onClose
+    onClose,
+    projectionContext
 }: Props) {
     const { token, user } = useAuth();
 
@@ -84,6 +88,26 @@ export default function DocumentViewerModal({
     const [textLoading, setTextLoading] = useState(false);
     const [textError, setTextError] = useState<string | null>(null);
     const [page, setPage] = useState(0);
+
+    // ── Table Projection state ────────────────────────────────────────────────
+    const canShowTableView = !!projectionContext && PROJECTION_CONNECTORS.includes(authType) && projectionContext.scanMode !== 'metadata_only';
+    
+    const [projStatus, setProjStatus] = useState<'idle' | 'loading' | 'error' | 'loaded'>('idle');
+    const [projData, setProjData] = useState<TableProjectionResponse | null>(null);
+    const [projError, setProjError] = useState<string | null>(null);
+    const projStartedRef = React.useRef(false);
+    const projMountedRef = React.useRef(true);
+    useEffect(() => { projMountedRef.current = true; return () => { projMountedRef.current = false; }; }, []);
+    useEffect(() => {
+      if (activeTab !== 'table' || !canShowTableView || !projectionContext) return;
+      if (projStatus !== 'idle' || projStartedRef.current) return;
+      projStartedRef.current = true;
+      setProjStatus('loading');
+      apiClient.projectConnector(authType, { ...projectionContext.connection, table: projectionContext.table, scan_mode: projectionContext.scanMode }, token || '')
+        .then((data) => { if (projMountedRef.current) { setProjData(data); setProjStatus('loaded'); } })
+        .catch((err: any) => { if (projMountedRef.current) { setProjError(typeof err?.message === 'string' && err.message.length < 200 ? err.message : 'Could not load rows.'); setProjStatus('error'); } });
+    }, [activeTab, canShowTableView, projectionContext, projStatus, authType, token]);
+    const handleProjRetry = () => { projStartedRef.current = false; setProjError(null); setProjStatus('idle'); };
 
     // ── Capability checks ─────────────────────────────────────────────────────
     const isDriveFile = authType === 'service_account' || authType === 'oauth2_token';
@@ -486,6 +510,19 @@ export default function DocumentViewerModal({
                                 Model Breakdown
                             </button>
                         )}
+                        {canShowTableView && (
+                            <button
+                                onClick={() => setActiveTab('table')}
+                                className={`flex items-center gap-2 pb-3 pt-3 text-sm font-semibold border-b-2 transition-colors -mb-px ${
+                                    activeTab === 'table'
+                                        ? 'border-blue-600 text-blue-600'
+                                        : 'border-transparent text-slate-500 hover:text-slate-800'
+                                }`}
+                            >
+                                <Table className="w-4 h-4" />
+                                Table View
+                            </button>
+                        )}
                     </div>
 
                     {/* ── Body ─────────────────────────────────────────────── */}
@@ -704,6 +741,15 @@ export default function DocumentViewerModal({
                                     </table>
                                 </div>
                             </div>
+                        )}
+                        
+                        {activeTab === 'table' && canShowTableView && (
+                            <TableProjectionView 
+                                status={projStatus === 'idle' ? 'loading' : projStatus} 
+                                data={projData} 
+                                errorMessage={projError} 
+                                onRetry={handleProjRetry} 
+                            />
                         )}
                     </div>
 

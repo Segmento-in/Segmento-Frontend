@@ -36,12 +36,30 @@ Scope: Segmento Sense frontend. Update this file in the same commit as any featu
 | **Review Status** | Where an Entity stands in human review: unreviewed, approved (AI label confirmed) or corrected (reviewer chose another label). | Resolution status, tag status |
 | **Review Action** | The reviewer's choice on a Flagged Entity: "Correct" confirms the AI label, "Wrong" picks a different label. | Human resolution, manual tag |
 
+## Table Projection
+
+| Term | Definition | Aliases to avoid |
+| ---- | ---------- | ---------------- |
+| **Table Projection** | The Displayed Rows of one table drawn as a grid in the Analysis Modal, with PII shown in place; the low-level view of a scan. | Table view (as a concept), data preview, grid view |
+| **Table View** | The visible tab label in the Analysis Modal that opens a Table Projection. Screen label only, never the concept name in code or docs. | Table Projection tab, Data Preview |
+| **Displayed Rows** | The rows a Table Projection shows: a fresh read of the table made when the Table View opens, 5 rows after Sampling and Metadata & Sampling scans and 50 otherwise. Not the scan's own rows. | Preview rows, first chunk |
+
+Scan mode names: screen label vs canonical term
+
+| Screen label | Canonical term |
+| ------------ | -------------- |
+| Full Data Scan | Full Load Scan |
+| Sampling Scan (5 rows) | Sampling Scan |
+| Metadata-Only Scan | Metadata-Only Scan |
+| Hybrid (Metadata + Sampling) | Metadata & Sampling Scan |
+
 ## Relationships
 
 - A **Connector** produces scan results that appear in a **Catalog View**; clicking a row opens the **Analysis Modal**.
 - The **Analysis Modal** of an **Entity-capable connector** shows the **Entities tab**.
 - Each **Entity** has one **Voting Record** and one **Review Status**.
 - A **Flagged Entity** waits for a **Review Action**: "Correct" gives status approved, "Wrong" gives status corrected.
+- A **Table Projection** shows **Displayed Rows** and never appears after a **Metadata-Only Scan**.
 
 ## Example dialogue
 
@@ -55,6 +73,8 @@ Scope: Segmento Sense frontend. Update this file in the same commit as any featu
 - The "Correct" button and the "corrected" status are different: Correct gives approved; Wrong gives corrected.
 - **Local Upload** and **File Handlers** name the same feature. Use Local Upload in code and docs; File Handlers only as the visible label.
 - "Result page" is vague. Say **Catalog View** (many items) or **Analysis Modal** (one item).
+- **Table Projection** vs **Table View**: the concept is Table Projection; Table View is only the screen label, like File Handlers vs Local Upload.
+- The Highlighted Text tab is a different, existing tab for Drive files; it is not renamed.
 
 ## Review coverage (as of 2026-10-06)
 

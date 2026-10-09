@@ -55,6 +55,44 @@ export interface AnalysisResponse {
     entities?: EntityReview[];
 }
 
+export interface CellFinding {
+    label: string;
+    start: number;
+    end: number;
+    score: number;
+}
+
+export interface ProjectionCell {
+    value: string;
+    findings: CellFinding[];
+}
+
+export interface ProjectionColumn {
+    name: string;
+    verdict: string | null;
+    verdict_cells: number;
+    flagged_cells: number;
+    total_cells: number;
+}
+
+export interface TableProjectionResponse {
+    scan_mode: string;
+    row_cap: number;
+    displayed_rows: number;
+    columns: ProjectionColumn[];
+    rows: ProjectionCell[][];
+}
+
+export interface ProjectionRequest {
+    host: string;
+    port: string;
+    database: string;
+    user: string;
+    password: string;
+    table: string;
+    scan_mode: string;
+}
+
 export interface DatabaseCredentials {
     host: string;
     port: string;
@@ -620,6 +658,19 @@ export class APIClient {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
             body: JSON.stringify(payload),
+        });
+        return this.handleResponse(response);
+    }
+
+    async projectConnector(
+        connectorType: string,
+        request: ProjectionRequest,
+        token: string
+    ): Promise<TableProjectionResponse> {
+        const response = await fetch(`${this.baseURL}/api/projection/${connectorType}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify(request),
         });
         return this.handleResponse(response);
     }
