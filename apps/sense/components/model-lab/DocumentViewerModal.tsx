@@ -13,12 +13,19 @@ import { PIIAnalytics } from '@/components/pii-demo/PIIAnalytics';
 import { Inspector } from '@/components/pii-demo/Inspector';
 import { getModelLevelAnalysis } from '@/lib/piiReasons';
 
+export interface ProjectionContext {
+    scanMode: string;
+    connection: { host: string; port: string; database: string; user: string; password: string };
+    table: string;
+}
+
 interface Props {
     fileInfo: DriveItem;
     scanResult: DriveFileScanResult;
     credentials: any;
     authType: string;
     onClose: () => void;
+    projectionContext?: ProjectionContext;
 }
 
 // Derive PIIAnalytics-compatible pii_counts from scan_data

@@ -19,6 +19,7 @@ interface TableScanEntry {
   status: 'unscanned' | 'scanning' | 'scanned' | 'error';
   result?: AnalysisResponse;
   error?: string;
+  scanMode?: string;
 }
 
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
@@ -291,7 +292,7 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         setScanEntries(prev =>
           prev.map(e =>
             e.tableName === tableName
-              ? { ...e, status: 'scanned', result: res }
+              ? { ...e, status: 'scanned', result: res, scanMode: mode }
               : e,
           ),
         );
@@ -882,15 +883,25 @@ export default function DatabaseScanTab({ modelCatalogue, onStepChange }: Props)
         )}
       </AnimatePresence>
 
-      {viewerFileId && getViewerScanResult(viewerFileId) && (
-        <DocumentViewerModal
-          fileInfo={catalogItems.find(i => i.id === viewerFileId)!}
-          scanResult={getViewerScanResult(viewerFileId)! as any}
-          credentials={{}}
-          authType={dbType}
-          onClose={() => setViewerFileId(null)}
-        />
-      )}
+      {viewerFileId && getViewerScanResult(viewerFileId) && (() => {
+        const activeEntry = scanEntries.find(e => getFileId(e.tableName) === viewerFileId);
+        const projectionContext = activeEntry && creds.host ? {
+          scanMode: activeEntry.scanMode || 'full',
+          connection: { host: creds.host, port: creds.port, database: creds.database, user: creds.user, password: creds.password },
+          table: activeEntry.tableName
+        } : undefined;
+
+        return (
+          <DocumentViewerModal
+            fileInfo={catalogItems.find(i => i.id === viewerFileId)!}
+            scanResult={getViewerScanResult(viewerFileId)! as any}
+            credentials={{}}
+            authType={dbType}
+            projectionContext={projectionContext}
+            onClose={() => setViewerFileId(null)}
+          />
+        );
+      })()}
 
       {/* Floating selection pill for BROWSE */}
       <AnimatePresence>
