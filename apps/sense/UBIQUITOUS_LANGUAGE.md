@@ -48,6 +48,8 @@ Scope: Segmento Sense frontend. Update this file in the same commit as any featu
 | **Column Verdict** | The one PII label a column gets: the label with the most Cell Findings in that column (tie goes to the higher average score), or none. | Column classification, dominant type |
 | **Column Badge** | A chip on a column header showing the Column Verdict and how many of the column's Displayed Rows carry that label, for example "EMAIL_ADDRESS · 3 of 5 cells", or "clean". Its tooltip also says how many Flagged Cells the column has. | Column tag, header label |
 | **Flagged Cell** | A cell with at least one Cell Finding of any label. | Sensitive cell, hit cell |
+| **Raw View** | Table Projection state that shows real cell values. This is the default. The Raw / Masked toggle switches it. | Unmasked mode |
+| **Masked View** | Table Projection state that replaces each PII span with ****** , computed locally from Cell Finding offsets. A cell with any unusable offset is masked whole. | Redacted mode |
 
 Scan mode names: screen label vs canonical term
 
@@ -65,6 +67,7 @@ Scan mode names: screen label vs canonical term
 - Each **Entity** has one **Voting Record** and one **Review Status**.
 - A **Flagged Entity** waits for a **Review Action**: "Correct" gives status approved, "Wrong" gives status corrected.
 - A **Table Projection** shows **Displayed Rows** and never appears after a **Metadata-Only Scan**.
+- **Masked View** is computed from **Cell Finding** offsets on the client; **Raw View** needs no extra call.
 
 ## Example dialogue
 

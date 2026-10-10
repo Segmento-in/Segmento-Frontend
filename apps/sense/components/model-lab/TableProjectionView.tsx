@@ -61,6 +61,48 @@ function renderCellWithFindings(value: string, findings: any[] = []) {
   return segments;
 }
 
+function renderMaskedCell(value: string, findings: ProjectionCell['findings']) {
+  if (!findings || findings.length === 0) return value;
+  for (const f of findings) {
+    if (!Number.isInteger(f.start) || !Number.isInteger(f.end) || f.start < 0 || f.end > value.length || f.start >= f.end) {
+      return <mark className="inline-block mx-0.5 px-1 rounded font-medium bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">******</mark>;
+    }
+  }
+  const sorted = [...findings].sort((a, b) => a.start - b.start);
+  const merged: { start: number; end: number; label: string }[] = [];
+  for (const f of sorted) {
+    if (merged.length === 0) {
+      merged.push({ start: f.start, end: f.end, label: f.label });
+    } else {
+      const last = merged[merged.length - 1];
+      if (f.start <= last.end) {
+        last.end = Math.max(last.end, f.end);
+      } else {
+        merged.push({ start: f.start, end: f.end, label: f.label });
+      }
+    }
+  }
+  const segments: React.ReactNode[] = [];
+  let cursor = 0;
+  merged.forEach((m, idx) => {
+    if (m.start > cursor) {
+      segments.push(<span key={`text-${idx}`}>{value.slice(cursor, m.start)}</span>);
+    }
+    const color = getPiiColors(m.label);
+    segments.push(
+      <mark key={`mark-${idx}`} title={m.label} className={`inline-block mx-0.5 px-1 rounded font-medium ${color.bg} ${color.text}`}>
+        ******
+        <span className="ml-1 text-[8px] uppercase opacity-70 align-top">{m.label}</span>
+      </mark>
+    );
+    cursor = m.end;
+  });
+  if (cursor < value.length) {
+    segments.push(<span key="end">{value.slice(cursor)}</span>);
+  }
+  return segments;
+}
+
 function ColumnBadge({ col }: { col: ProjectionColumn }) {
   const tip = col.total_cells === 1
     ? `${col.flagged_cells} of 1 cell contains PII`
@@ -90,9 +132,10 @@ interface TableProjectionViewProps {
   data: TableProjectionResponse | null;
   errorMessage: string | null;
   onRetry: () => void;
+  viewMode?: 'raw' | 'masked';
 }
 
-export function TableProjectionView({ status, data, errorMessage, onRetry }: TableProjectionViewProps) {
+export function TableProjectionView({ status, data, errorMessage, onRetry, viewMode }: TableProjectionViewProps) {
   if (status === 'loading') {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-slate-500 dark:text-slate-400 h-full min-h-[300px]">
@@ -172,7 +215,7 @@ export function TableProjectionView({ status, data, errorMessage, onRetry }: Tab
                     >
                       <div className="flex flex-col gap-1.5">
                         <span className="font-mono text-sm whitespace-pre-wrap break-words">
-                          {renderCellWithFindings(cell.value, (cell as any).findings)}
+                          {viewMode === 'raw' ? renderCellWithFindings(cell.value, cell.findings) : renderMaskedCell(cell.value, cell.findings)}
                         </span>
                       </div>
                     </td>

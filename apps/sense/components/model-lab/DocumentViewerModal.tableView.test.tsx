@@ -5,6 +5,7 @@ import React from 'react';
 import DocumentViewerModal from './DocumentViewerModal';
 import { apiClient } from '@/lib/apiClient';
 import { PII_LABEL_COLORS } from './ModelShowdown';
+import { TableProjectionView } from './TableProjectionView';
 
 const { mockUseAuth } = vi.hoisted(() => ({
   mockUseAuth: vi.fn(),
@@ -766,5 +767,291 @@ describe('DocumentViewerModal - Table Projection', () => {
     expect(badge).not.toHaveTextContent('secret@example.com');
     expect(badge).not.toHaveAttribute('title', expect.stringContaining('secret@example.com'));
     expect(badge).not.toHaveAttribute('aria-label', expect.stringContaining('secret@example.com'));
+  });
+  const S = "jane.secret@example.org";
+
+  it('masked 1: default is Raw: S is on screen; the Raw button has aria-pressed "true"; the Masked button has aria-pressed "false".', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Raw' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Masked' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('masked 2: click Masked: document.body.innerHTML does NOT contain S and DOES contain "******"; the plain text before and after the span is still on screen; getAllByRole(\'mark\') still has 1 mark.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    expect(document.body.innerHTML).not.toContain(S);
+    expect(document.body.innerHTML).toContain('******');
+    expect(screen.getByText(/prefix/)).toBeInTheDocument();
+    expect(screen.getByText(/suffix/)).toBeInTheDocument();
+    expect(screen.getAllByRole('mark')).toHaveLength(1);
+  });
+
+  it('masked 3: Masked, then click Raw: S is back and the Raw button is pressed again.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    expect(document.body.innerHTML).not.toContain(S);
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Raw' }));
+    expect(document.body.innerHTML).toContain(S);
+    expect(screen.getByRole('button', { name: 'Raw' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('masked 4: click Masked, switch to the "PII Analytics" tab, switch back to "Table View": still Masked (S not in document.body.innerHTML, Masked button pressed).', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    fireEvent.click(screen.getByText('PII Analytics'));
+    fireEvent.click(screen.getByText('Table View'));
+    
+    expect(document.body.innerHTML).not.toContain(S);
+    expect(screen.getByRole('button', { name: 'Masked' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('masked 5: projectConnector is called exactly once through: Masked, Raw, Masked, a tab switch and back.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Raw' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    fireEvent.click(screen.getByText('PII Analytics'));
+    fireEvent.click(screen.getByText('Table View'));
+    
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+  });
+
+  it('masked 6: one cell with two separate findings, and one cell with two adjacent findings (end of the first equals start of the second): all spans masked, none of the raw spans in document.body.innerHTML.', async () => {
+    const val1 = "abc jkl xyz";
+    const s1 = "abc";
+    const s2 = "xyz";
+    const aVal = "foobar";
+    const a1 = "foo";
+    const a2 = "bar";
+    
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 2,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 2 }],
+      rows: [
+        [{ value: val1, findings: [
+          { label: 'L1', start: val1.indexOf(s1), end: val1.indexOf(s1) + s1.length, score: 0.9 },
+          { label: 'L2', start: val1.indexOf(s2), end: val1.indexOf(s2) + s2.length, score: 0.9 }
+        ] }],
+        [{ value: aVal, findings: [
+          { label: 'L3', start: 0, end: 3, score: 0.9 },
+          { label: 'L4', start: 3, end: 6, score: 0.9 }
+        ] }]
+      ]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(3));
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    expect(document.body.innerHTML).not.toContain(s1);
+    expect(document.body.innerHTML).not.toContain(s2);
+    expect(document.body.innerHTML).not.toContain(a1);
+    expect(document.body.innerHTML).not.toContain(a2);
+  });
+
+  it('masked 7: overlapping findings that together cover a distinctive token: the union is masked, none of the token in document.body.innerHTML, the plain text around it is still there.', async () => {
+    const val = "the quickbrownfox jumps";
+    
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [
+        { label: 'L1', start: 4, end: 14, score: 0.9 },
+        { label: 'L2', start: 9, end: 17, score: 0.9 }
+      ] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(2));
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    expect(document.body.innerHTML).not.toContain("quickbrownfox");
+    expect(screen.getAllByText(/the/)[0]).toBeInTheDocument();
+    expect(screen.getByText(/jumps/)).toBeInTheDocument();
+  });
+
+  it('masked 8: three cells holding S, each with invalid findings: (a) end beyond value.length, (b) start negative, (c) start === end. In Masked: S is not in document.body.innerHTML and getAllByText(\'******\') has length 3 (whole cell masked).', async () => {
+    const val = S;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 3,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 3 }],
+      rows: [
+        [{ value: val, findings: [{ label: 'L1', start: 0, end: val.length + 5, score: 0.9 }] }],
+        [{ value: val, findings: [{ label: 'L1', start: -1, end: 5, score: 0.9 }] }],
+        [{ value: val, findings: [{ label: 'L1', start: 2, end: 2, score: 0.9 }] }]
+      ]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(4));
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    expect(document.body.innerHTML).not.toContain(S);
+    expect(screen.getAllByText('******')).toHaveLength(3);
+  });
+
+  it('masked 9: keyboard: both toggle buttons are <button> elements with type "button", are not disabled, and element.focus() makes document.activeElement that button. Do not use user-event.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(new RegExp(S))).toBeInTheDocument());
+    
+    const rawBtn = screen.getByRole('button', { name: 'Raw' });
+    const maskedBtn = screen.getByRole('button', { name: 'Masked' });
+    
+    expect(rawBtn).toHaveAttribute('type', 'button');
+    expect(maskedBtn).toHaveAttribute('type', 'button');
+    
+    expect(rawBtn).not.toBeDisabled();
+    expect(maskedBtn).not.toBeDisabled();
+    
+    act(() => {
+      rawBtn.focus();
+    });
+    expect(document.activeElement).toBe(rawBtn);
+    
+    act(() => {
+      maskedBtn.focus();
+    });
+    expect(document.activeElement).toBe(maskedBtn);
+  });
+
+  it('masked 10: fail closed: import { TableProjectionView } from \'./TableProjectionView\' (one added import line). Render it DIRECTLY with status "loaded", data holding S in a flagged cell, onRetry as a noop, and NO viewMode prop (cast the props with `as any`). S must NOT be in document.body.innerHTML.', () => {
+    const val = `prefix ${S} suffix`;
+    const data = {
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    };
+    
+    render(<TableProjectionView status="loaded" data={data as any} errorMessage={null} onRetry={() => {}} {...({} as any)} />);
+    
+    expect(document.body.innerHTML).not.toContain(S);
+  });
+
+  it('masked 11: three cells holding S with bad offsets that are NOT range errors: (a) start NaN, end 5; (b) start 2.5, end 8.5; (c) start undefined (cast with `as any`), end 5. In Masked: document.body.innerHTML contains none of "jane", "secret", "example.org", and getAllByText(\'******\') has length 3.', async () => {
+    const val = S;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 3,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 3 }],
+      rows: [
+        [{ value: val, findings: [{ label: 'L1', start: NaN, end: 5, score: 0.9 }] }],
+        [{ value: val, findings: [{ label: 'L1', start: 2.5, end: 8.5, score: 0.9 }] }],
+        [{ value: val, findings: [{ label: 'L1', start: undefined as any, end: 5, score: 0.9 }] }]
+      ]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(4));
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    expect(document.body.innerHTML).not.toContain("jane");
+    expect(document.body.innerHTML).not.toContain("secret");
+    expect(document.body.innerHTML).not.toContain("example.org");
+    expect(screen.getAllByText('******')).toHaveLength(3);
+  });
+
+  it('masked 12: value `prefix ${S} suffix`, one finding labelled EMAIL (offsets from indexOf). In Masked: the mark has every class of PII_LABEL_COLORS[\'EMAIL\'] bg and text; the mark\'s title attribute is exactly \'EMAIL\'; the mark text contains \'******\' and \'EMAIL\'; S is not in document.body.innerHTML.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(2));
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    expect(document.body.innerHTML).not.toContain(S);
+    const marks = document.querySelectorAll('mark');
+    expect(marks).toHaveLength(1);
+    const mark = marks[0];
+    expect(mark).toHaveClass(...PII_LABEL_COLORS['EMAIL'].bg.split(' '));
+    expect(mark).toHaveClass(...PII_LABEL_COLORS['EMAIL'].text.split(' '));
+    expect(mark).toHaveAttribute('title', 'EMAIL');
+    expect(mark.textContent).toContain('******');
+    expect(mark.textContent).toContain('EMAIL');
+  });
+
+  it('masked 13: in Raw View AND after clicking Masked, no element in document.body that has a title attribute has a title containing S.', async () => {
+    const val = `prefix ${S} suffix`;
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: val, findings: [{ label: 'EMAIL', start: val.indexOf(S), end: val.indexOf(S) + S.length, score: 0.9 }] }]]
+    });
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByRole('row')).toHaveLength(2));
+    
+    const rawElementsWithTitle = document.querySelectorAll('[title]');
+    rawElementsWithTitle.forEach(el => {
+      expect(el.getAttribute('title')).not.toContain(S);
+    });
+    
+    fireEvent.click(screen.getByRole('button', { name: 'Masked' }));
+    
+    const maskedElementsWithTitle = document.querySelectorAll('[title]');
+    maskedElementsWithTitle.forEach(el => {
+      expect(el.getAttribute('title')).not.toContain(S);
+    });
   });
 });

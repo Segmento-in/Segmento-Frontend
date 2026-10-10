@@ -95,6 +95,7 @@ export default function DocumentViewerModal({
     const [projStatus, setProjStatus] = useState<'idle' | 'loading' | 'error' | 'loaded'>('idle');
     const [projData, setProjData] = useState<TableProjectionResponse | null>(null);
     const [projError, setProjError] = useState<string | null>(null);
+    const [projViewMode, setProjViewMode] = useState<'raw' | 'masked'>('raw');
     const projStartedRef = React.useRef(false);
     const projMountedRef = React.useRef(true);
     useEffect(() => { projMountedRef.current = true; return () => { projMountedRef.current = false; }; }, []);
@@ -523,6 +524,34 @@ export default function DocumentViewerModal({
                                 Table View
                             </button>
                         )}
+                        {activeTab === 'table' && canShowTableView && (
+                            <div className="ml-auto flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+                                <button
+                                    type="button"
+                                    aria-pressed={projViewMode === 'raw'}
+                                    onClick={() => setProjViewMode('raw')}
+                                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                                        projViewMode === 'raw'
+                                            ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 shadow-sm'
+                                            : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                                    }`}
+                                >
+                                    Raw
+                                </button>
+                                <button
+                                    type="button"
+                                    aria-pressed={projViewMode === 'masked'}
+                                    onClick={() => setProjViewMode('masked')}
+                                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                                        projViewMode === 'masked'
+                                            ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 shadow-sm'
+                                            : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                                    }`}
+                                >
+                                    Masked
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     {/* ── Body ─────────────────────────────────────────────── */}
@@ -749,6 +778,7 @@ export default function DocumentViewerModal({
                                 data={projData} 
                                 errorMessage={projError} 
                                 onRetry={handleProjRetry} 
+                                viewMode={projViewMode}
                             />
                         )}
                     </div>
