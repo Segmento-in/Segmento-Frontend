@@ -418,7 +418,7 @@ describe('DocumentViewerModal - Table Projection', () => {
     expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
   });
 
-  it('case n (updated in ticket 4): column verdict not shown yet', async () => {
+  it('case n (updated in ticket 5): column verdict shown in the Column Badge', async () => {
     (apiClient.projectConnector as any).mockResolvedValue({
       scan_mode: 'sampling',
       row_cap: 5,
@@ -441,7 +441,7 @@ describe('DocumentViewerModal - Table Projection', () => {
     fireEvent.click(screen.getByText('Table View'));
     await waitFor(() => expect(screen.getByText('alice@example.com')).toBeInTheDocument());
     
-    expect(screen.queryByText('ZZ_COLUMN_VERDICT')).not.toBeInTheDocument();
+    expect(screen.getByText('ZZ_COLUMN_VERDICT · 1 of 1 cell')).toBeInTheDocument();
   });
 
   it('case o: 120 character cell value -> no truncate class', async () => {
@@ -609,5 +609,162 @@ describe('DocumentViewerModal - Table Projection', () => {
     
     const mark = screen.getByRole('mark');
     expect(mark).toHaveAttribute('title', 'SECRET_LABEL');
+  });
+  it('badge 1: verdict EMAIL_ADDRESS, verdict_cells 3, total_cells 5 -> badge text "EMAIL_ADDRESS · 3 of 5 cells".', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 5,
+      columns: [{ name: 'col1', verdict: 'EMAIL_ADDRESS', verdict_cells: 3, flagged_cells: 3, total_cells: 5 }],
+      rows: Array(5).fill([{ value: 'v', findings: [] }])
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    expect(badge).toHaveTextContent('EMAIL_ADDRESS · 3 of 5 cells');
+  });
+
+  it('badge 2: total_cells 1, verdict_cells 1, flagged_cells 1 -> text ends "1 of 1 cell" and title AND aria-label are "1 of 1 cell contains PII".', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col2', verdict: 'SOME_LABEL', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      rows: [[{ value: 'v', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    expect(badge).toHaveTextContent(/1 of 1 cell$/);
+    expect(badge).toHaveAttribute('title', '1 of 1 cell contains PII');
+    expect(badge).toHaveAttribute('aria-label', '1 of 1 cell contains PII');
+  });
+
+  it('badge 3: verdict null -> text "clean".', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 2,
+      columns: [{ name: 'col3', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 2 }],
+      rows: [[{ value: 'v', findings: [] }], [{ value: 'v', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    expect(badge).toHaveTextContent('clean');
+  });
+
+  it('badge 4: flagged_cells 4, total_cells 5 -> title AND aria-label are "4 of 5 cells contain PII".', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 5,
+      columns: [{ name: 'col4', verdict: 'A_LABEL', verdict_cells: 2, flagged_cells: 4, total_cells: 5 }],
+      rows: Array(5).fill([{ value: 'v', findings: [] }])
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    expect(badge).toHaveAttribute('title', '4 of 5 cells contain PII');
+    expect(badge).toHaveAttribute('aria-label', '4 of 5 cells contain PII');
+  });
+
+  it('badge 5: verdict EMAIL_ADDRESS -> badge has every class of PII_LABEL_COLORS[\'EMAIL\'] bg and text, and has NONE of the DEFAULT bg and text classes.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col5', verdict: 'EMAIL_ADDRESS', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      rows: [[{ value: 'v', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    const emailColor = PII_LABEL_COLORS['EMAIL'];
+    const defColor = PII_LABEL_COLORS['DEFAULT'];
+    
+    const expectedClasses = `${emailColor.bg} ${emailColor.text}`.split(' ');
+    expectedClasses.forEach(c => expect(badge).toHaveClass(c));
+    
+    const defClasses = `${defColor.bg} ${defColor.text}`.split(' ');
+    defClasses.forEach(c => {
+      if (!expectedClasses.includes(c)) {
+        expect(badge).not.toHaveClass(c);
+      }
+    });
+  });
+
+  it('badge 6: verdict ZZ_NOT_A_LABEL -> badge has every DEFAULT bg and text class.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col6', verdict: 'ZZ_NOT_A_LABEL', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      rows: [[{ value: 'v', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    const defColor = PII_LABEL_COLORS['DEFAULT'];
+    
+    const expectedClasses = `${defColor.bg} ${defColor.text}`.split(' ');
+    expectedClasses.forEach(c => expect(badge).toHaveClass(c));
+  });
+
+  it('badge 7: two columns -> exactly 2 badges, and both column names are still on screen.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [
+        { name: 'colA', verdict: 'LABEL1', verdict_cells: 1, flagged_cells: 1, total_cells: 1 },
+        { name: 'colB', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }
+      ],
+      rows: [[{ value: 'v', findings: [] }, { value: 'v', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getAllByTestId('column-badge')).toHaveLength(2));
+    
+    expect(screen.getByText('colA')).toBeInTheDocument();
+    expect(screen.getByText('colB')).toBeInTheDocument();
+  });
+
+  it('badge 8: a cell value "secret@example.com" with verdict EMAIL_ADDRESS -> badge textContent, title and aria-label do NOT contain "secret@example.com".', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col8', verdict: 'EMAIL_ADDRESS', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      rows: [[{ value: 'secret@example.com', findings: [{ label: 'EMAIL_ADDRESS', start: 0, end: 18, score: 0.9 }] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+    
+    const badge = screen.getByTestId('column-badge');
+    expect(badge).not.toHaveTextContent('secret@example.com');
+    expect(badge).not.toHaveAttribute('title', expect.stringContaining('secret@example.com'));
+    expect(badge).not.toHaveAttribute('aria-label', expect.stringContaining('secret@example.com'));
   });
 });

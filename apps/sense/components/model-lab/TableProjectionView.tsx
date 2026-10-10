@@ -60,6 +60,29 @@ function renderCellWithFindings(value: string, findings: any[] = []) {
 
   return segments;
 }
+
+function ColumnBadge({ col }: { col: ProjectionColumn }) {
+  const tip = col.total_cells === 1
+    ? `${col.flagged_cells} of 1 cell contains PII`
+    : `${col.flagged_cells} of ${col.total_cells} cells contain PII`;
+  if (col.verdict === null) {
+    return (
+      <span data-testid="column-badge" title={tip} aria-label={tip}
+        className="self-start px-2 py-0.5 rounded text-[11px] font-medium bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+        clean
+      </span>
+    );
+  }
+  const color = getPiiColors(col.verdict);
+  const cellWord = col.total_cells === 1 ? 'cell' : 'cells';
+  return (
+    <span data-testid="column-badge" title={tip} aria-label={tip}
+      className={`self-start px-2 py-0.5 rounded text-[11px] font-medium ${color.bg} ${color.text}`}>
+      {`${col.verdict} · ${col.verdict_cells} of ${col.total_cells} ${cellWord}`}
+    </span>
+  );
+}
+
 export const PROJECTION_CONNECTORS = ['postgresql'];
 
 interface TableProjectionViewProps {
@@ -129,6 +152,7 @@ export function TableProjectionView({ status, data, errorMessage, onRetry }: Tab
                 >
                   <div className="flex flex-col gap-1.5">
                     <span>{col.name}</span>
+                    <ColumnBadge col={col} />
                   </div>
                 </th>
               ))}
