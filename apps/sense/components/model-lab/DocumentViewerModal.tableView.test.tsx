@@ -4,6 +4,7 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import React from 'react';
 import DocumentViewerModal from './DocumentViewerModal';
 import { apiClient } from '@/lib/apiClient';
+import { PII_LABEL_COLORS } from './ModelShowdown';
 
 const { mockUseAuth } = vi.hoisted(() => ({
   mockUseAuth: vi.fn(),
@@ -417,12 +418,12 @@ describe('DocumentViewerModal - Table Projection', () => {
     expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
   });
 
-  it('case n: response with verdict chip and findings -> screen shows cell value, no verdict chips or findings', async () => {
+  it('case n (updated in ticket 4): column verdict not shown yet', async () => {
     (apiClient.projectConnector as any).mockResolvedValue({
       scan_mode: 'sampling',
       row_cap: 5,
       displayed_rows: 1,
-      columns: [{ name: 'colE', verdict: 'EMAIL_ADDRESS', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      columns: [{ name: 'colE', verdict: 'ZZ_COLUMN_VERDICT', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
       rows: [[{ value: 'alice@example.com', findings: [{ label: 'EMAIL_ADDRESS', start: 0, end: 17, score: 0.9 }] }]]
     });
     
@@ -440,7 +441,7 @@ describe('DocumentViewerModal - Table Projection', () => {
     fireEvent.click(screen.getByText('Table View'));
     await waitFor(() => expect(screen.getByText('alice@example.com')).toBeInTheDocument());
     
-    expect(screen.queryByText('EMAIL_ADDRESS')).not.toBeInTheDocument();
+    expect(screen.queryByText('ZZ_COLUMN_VERDICT')).not.toBeInTheDocument();
   });
 
   it('case o: 120 character cell value -> no truncate class', async () => {
@@ -469,5 +470,144 @@ describe('DocumentViewerModal - Table Projection', () => {
     
     const cellElement = screen.getByText(longValue);
     expect(cellElement).not.toHaveClass('truncate');
+  });
+
+  it('highlight 1: a cell with one finding -> exactly one <mark> in the grid whose own text is the span; the plain text before and after it is still there.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'prefix alice@example.com suffix', findings: [{ label: 'EMAIL', start: 7, end: 24, score: 0.9 }] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/prefix/)).toBeInTheDocument());
+    
+    const marks = screen.getAllByRole('mark');
+    expect(marks).toHaveLength(1);
+    expect(marks[0]).toHaveTextContent('alice@example.com');
+    const container = screen.getByText(/prefix/).parentElement;
+    expect(container?.textContent?.replace('EMAIL', '')).toBe('prefix alice@example.com suffix');
+  });
+
+  it('highlight 2: a cell with two findings -> two marks; the text between them is preserved.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'bob@example.com and charlie@example.com', findings: [
+        { label: 'EMAIL', start: 0, end: 15, score: 0.9 },
+        { label: 'EMAIL', start: 20, end: 39, score: 0.9 }
+      ] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/and/)).toBeInTheDocument());
+    
+    const marks = screen.getAllByRole('mark');
+    expect(marks).toHaveLength(2);
+    expect(marks[0]).toHaveTextContent('bob@example.com');
+    expect(marks[1]).toHaveTextContent('charlie@example.com');
+    const container = screen.getByText(/and/).parentElement;
+    expect(container?.textContent?.replace(/EMAIL/g, '')).toBe('bob@example.com and charlie@example.com');
+  });
+
+  it('highlight 3: a clean cell -> no <mark> in that cell.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'clean text', findings: [] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText('clean text')).toBeInTheDocument());
+    
+    const marks = screen.queryAllByRole('mark');
+    expect(marks).toHaveLength(0);
+  });
+
+  it('highlight 4: an unknown label -> the mark classes equal the DEFAULT entry bg and text classes.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'some text', findings: [{ label: 'ZZ_NOT_A_LABEL', start: 0, end: 9, score: 0.9 }] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/some text/)).toBeInTheDocument());
+    
+    const mark = screen.getByRole('mark');
+    const def = PII_LABEL_COLORS['DEFAULT'];
+    const expectedClasses = `${def.bg} ${def.text}`.split(' ');
+    expectedClasses.forEach(c => expect(mark).toHaveClass(c));
+  });
+
+  it('highlight 5: an EMAIL_ADDRESS mark does NOT carry the DEFAULT colour classes; it carries the EMAIL colours.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'dave@example.com', findings: [{ label: 'EMAIL_ADDRESS', start: 0, end: 16, score: 0.9 }] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/dave@example.com/)).toBeInTheDocument());
+    
+    const mark = screen.getByRole('mark');
+    const emailColor = PII_LABEL_COLORS['EMAIL'];
+    const expectedClasses = `${emailColor.bg} ${emailColor.text}`.split(' ');
+    expectedClasses.forEach(c => expect(mark).toHaveClass(c));
+  });
+
+  it('highlight 6: out-of-range offsets, start >= end, and overlapping findings -> no crash; invalid ones render as plain text; the text stays intact.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'unique_text', findings: [
+        { label: 'EMAIL', start: -5, end: 2, score: 0.9 }, // out of bounds
+        { label: 'EMAIL', start: 2, end: 1, score: 0.9 }, // start >= end
+        { label: 'EMAIL', start: 10, end: 15, score: 0.9 }, // out of bounds
+        { label: 'EMAIL', start: 0, end: 4, score: 0.9 }, // valid
+        { label: 'EMAIL', start: 1, end: 3, score: 0.9 } // overlapping
+      ] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/ique_tex/)).toBeInTheDocument());
+    
+    const container = screen.getByText(/ique_tex/).parentElement;
+    expect(container?.textContent?.replace(/EMAIL/g, '')).toBe('unique_text');
+  });
+
+  it('highlight 7: the mark title equals the label and does not contain the cell text.', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'col', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'secret text', findings: [{ label: 'SECRET_LABEL', start: 0, end: 11, score: 0.9 }] }]]
+    });
+    
+    render(<DocumentViewerModal fileInfo={mockFileInfo} scanResult={mockScanResult} credentials={{}} authType="postgresql" projectionContext={validContext} onClose={() => {}} />);
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByText(/secret text/)).toBeInTheDocument());
+    
+    const mark = screen.getByRole('mark');
+    expect(mark).toHaveAttribute('title', 'SECRET_LABEL');
   });
 });

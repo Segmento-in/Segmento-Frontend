@@ -43,6 +43,8 @@ Scope: Segmento Sense frontend. Update this file in the same commit as any featu
 | **Table Projection** | The Displayed Rows of one table drawn as a grid in the Analysis Modal, with PII shown in place; the low-level view of a scan. | Table view (as a concept), data preview, grid view |
 | **Table View** | The visible tab label in the Analysis Modal that opens a Table Projection. Screen label only, never the concept name in code or docs. | Table Projection tab, Data Preview |
 | **Displayed Rows** | The rows a Table Projection shows: a fresh read of the table made when the Table View opens, 5 rows after Sampling and Metadata & Sampling scans and 50 otherwise. Not the scan's own rows. | Preview rows, first chunk |
+| **PII Highlight** | A coloured mark on the PII text inside one cell of a Table Projection. | Highlighted text (that is an existing tab), cell marking |
+| **Cell Finding** | One detected PII span located by row, column, label and character offsets inside a single cell. | Cell match, cell entity |
 
 Scan mode names: screen label vs canonical term
 
@@ -75,6 +77,7 @@ Scan mode names: screen label vs canonical term
 - "Result page" is vague. Say **Catalog View** (many items) or **Analysis Modal** (one item).
 - **Table Projection** vs **Table View**: the concept is Table Projection; Table View is only the screen label, like File Handlers vs Local Upload.
 - The Highlighted Text tab is a different, existing tab for Drive files; it is not renamed.
+- **Entity vs Cell Finding**: both are detected spans. An Entity has offsets into one text blob of scan sample text and no row or column. A Cell Finding has row, column and cell offsets. Do not call one by the other's name.
 
 ## Review coverage (as of 2026-10-06)
 

@@ -1,7 +1,65 @@
 import React from 'react';
 import { TableProjectionResponse, ProjectionColumn, ProjectionCell } from '@/lib/apiClient';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { PII_LABEL_COLORS } from './ModelShowdown';
 
+const ALIAS_MAP: Record<string, string> = {
+  'EMAIL_ADDRESS': 'EMAIL'
+};
+
+function getPiiColors(label: string) {
+  const upper = (label || '').toUpperCase();
+  if (PII_LABEL_COLORS[upper]) return PII_LABEL_COLORS[upper];
+  if (ALIAS_MAP[upper] && PII_LABEL_COLORS[ALIAS_MAP[upper]]) return PII_LABEL_COLORS[ALIAS_MAP[upper]];
+  return PII_LABEL_COLORS['DEFAULT'];
+}
+
+function renderCellWithFindings(value: string, findings: any[] = []) {
+  if (!findings || findings.length === 0) {
+    return value;
+  }
+
+  const validFindings = findings
+    .map(f => ({
+      ...f,
+      start: Math.max(0, f.start),
+      end: Math.min(value.length, f.end)
+    }))
+    .filter(f => f.start < f.end && f.start < value.length && f.end > 0)
+    .sort((a, b) => a.start - b.start);
+
+  const nonOverlapping = [];
+  let lastEnd = -1;
+  for (const f of validFindings) {
+    if (f.start >= lastEnd) {
+      nonOverlapping.push(f);
+      lastEnd = f.end;
+    }
+  }
+
+  const segments: React.ReactNode[] = [];
+  let cursor = 0;
+  
+  nonOverlapping.forEach((f, i) => {
+    if (f.start > cursor) {
+      segments.push(<span key={`text-${i}`}>{value.slice(cursor, f.start)}</span>);
+    }
+    const color = getPiiColors(f.label);
+    segments.push(
+      <mark key={`mark-${i}`} title={f.label} className={`inline-block mx-0.5 px-1 rounded font-medium ${color.bg} ${color.text}`}>
+        {value.slice(f.start, f.end)}
+        <span className="ml-1 text-[8px] uppercase opacity-70 align-top">{f.label}</span>
+      </mark>
+    );
+    cursor = f.end;
+  });
+
+  if (cursor < value.length) {
+    segments.push(<span key="end">{value.slice(cursor)}</span>);
+  }
+
+  return segments;
+}
 export const PROJECTION_CONNECTORS = ['postgresql'];
 
 interface TableProjectionViewProps {
@@ -89,7 +147,9 @@ export function TableProjectionView({ status, data, errorMessage, onRetry }: Tab
                       className="px-5 py-4 text-slate-600 dark:text-slate-300 align-top"
                     >
                       <div className="flex flex-col gap-1.5">
-                        <span className="font-mono text-sm whitespace-pre-wrap break-words">{cell.value}</span>
+                        <span className="font-mono text-sm whitespace-pre-wrap break-words">
+                          {renderCellWithFindings(cell.value, (cell as any).findings)}
+                        </span>
                       </div>
                     </td>
                   );
