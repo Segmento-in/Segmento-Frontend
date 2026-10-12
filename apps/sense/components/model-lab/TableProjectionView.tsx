@@ -125,7 +125,7 @@ function ColumnBadge({ col }: { col: ProjectionColumn }) {
   );
 }
 
-export const PROJECTION_CONNECTORS = ['postgresql', 'mysql'];
+export const PROJECTION_CONNECTORS = ['postgresql', 'mysql', 'mariadb'];
 
 interface TableProjectionViewProps {
   status: 'loading' | 'error' | 'loaded';
