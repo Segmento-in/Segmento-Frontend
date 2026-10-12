@@ -98,7 +98,21 @@ describe('DocumentViewerModal - Table Projection', () => {
     expect(screen.queryByText('Table View')).not.toBeInTheDocument();
   });
 
-  it('case c: authType mysql with a context -> no tab', () => {
+  it('case c: authType slack with a context -> no tab (updated in ticket 8, mysql is now supported)', () => {
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="slack"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    expect(screen.queryByText('Table View')).not.toBeInTheDocument();
+  });
+
+  it('mysql 1: authType mysql, scanMode sampling -> tab visible', () => {
     render(
       <DocumentViewerModal
         fileInfo={mockFileInfo}
@@ -109,7 +123,165 @@ describe('DocumentViewerModal - Table Projection', () => {
         onClose={() => {}}
       />
     );
+    expect(screen.getByText('Table View')).toBeInTheDocument();
+  });
+
+  it('mysql 2: clicking tab calls projectConnector ONCE with exact mysql payload', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 0, columns: [], rows: []
+    });
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    
+    fireEvent.click(screen.getByText('Table View'));
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+    expect(apiClient.projectConnector).toHaveBeenCalledWith(
+      'mysql',
+      { host: 'h', port: 'p', database: 'd', user: 'u', password: 'pw', table: 't1', scan_mode: 'sampling' },
+      'fake-token'
+    );
+  });
+
+  it('mysql 3: loading state visible while request pending for mysql', async () => {
+    const deferred = createDeferred();
+    (apiClient.projectConnector as any).mockReturnValue(deferred.promise);
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    
+    fireEvent.click(screen.getByText('Table View'));
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  it('mysql 4: zero rows -> "No rows found." for mysql', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 0, columns: [], rows: []
+    });
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    fireEvent.click(screen.getByText('Table View'));
+    
+    await waitFor(() => {
+      expect(screen.getByText('No rows found.')).toBeInTheDocument();
+    });
+  });
+
+  it('mysql 5: loaded -> shows rows text for mysql', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling',
+      row_cap: 5,
+      displayed_rows: 1,
+      columns: [{ name: 'colM', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'mysql_value', findings: [] }]]
+    });
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => {
+      expect(screen.getByText('mysql_value')).toBeInTheDocument();
+    });
+  });
+
+  it('mysql 6: authType "mysql", projectionContext scanMode "metadata_only": NO "Table View" tab', () => {
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={{ ...validContext, scanMode: 'metadata_only' }}
+        onClose={() => {}}
+      />
+    );
     expect(screen.queryByText('Table View')).not.toBeInTheDocument();
+  });
+
+  it('mysql 7: authType "postgresql", scanMode sampling: the tab is visible; click it; apiClient.projectConnector is called ONCE and its first argument is \'postgresql\'', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'sampling', row_cap: 5, displayed_rows: 0, columns: [], rows: []
+    });
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="postgresql"
+        projectionContext={validContext}
+        onClose={() => {}}
+      />
+    );
+    
+    expect(screen.getByText('Table View')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Table View'));
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+    expect(apiClient.projectConnector).toHaveBeenCalledWith(
+      'postgresql',
+      expect.anything(),
+      expect.anything()
+    );
+  });
+
+  it('mysql 8: authType "mysql", scanMode "full": tab visible; click it; projectConnector called ONCE with exact payload', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full', row_cap: 50, displayed_rows: 0, columns: [], rows: []
+    });
+    
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mysql"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+    
+    expect(screen.getByText('Table View')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Table View'));
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+    expect(apiClient.projectConnector).toHaveBeenCalledWith(
+      'mysql',
+      { host: 'h', port: 'p', database: 'd', user: 'u', password: 'pw', table: 't1', scan_mode: 'full' },
+      'fake-token'
+    );
   });
 
   it('case d: authType postgresql, scanMode sampling -> tab visible, others still present', () => {
