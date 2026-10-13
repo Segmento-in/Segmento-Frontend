@@ -16,6 +16,7 @@ interface TableScanEntry {
   status: 'unscanned' | 'scanning' | 'scanned' | 'error';
   result?: AnalysisResponse;
   error?: string;
+  scanMode?: string;
 }
 
 interface Props { modelCatalogue: EvaluatorModel[]; onStepChange?: (step: Step) => void; }
@@ -124,7 +125,7 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
         } else {
           res = await apiClient.scanConnector('mongodb', { ...creds, table: t }, token || '');
         }
-        setScanEntries(prev => prev.map(e => e.tableName === t ? { ...e, status: 'scanned', result: res } : e));
+        setScanEntries(prev => prev.map(e => e.tableName === t ? { ...e, status: 'scanned', result: res, scanMode: mode === 'metadata' ? 'metadata_only' : 'full' } : e));
       } catch (e: any) {
         setScanEntries(prev => prev.map(entry => entry.tableName === t ? { ...entry, status: 'error', error: e.message } : entry));
       } finally {
@@ -182,6 +183,14 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
   };
 
   const catalogItems = useMemo(() => catalogData.map(catalogEntryToDriveItem), [catalogData]);
+
+  const activeTable = catalogData.find(c => c.file_id === viewerFileId)?.file_name || viewerFileId;
+  const activeEntry = scanEntries.find(e => e.tableName === activeTable);
+  const activeProjectionContext = activeEntry && creds.host ? {
+    scanMode: activeEntry.scanMode || 'full',
+    connection: { host: creds.host, port: creds.port, database: creds.database, user: creds.user, password: creds.password },
+    table: activeEntry.tableName,
+  } : undefined;
 
   return (
     <div className="flex flex-col flex-1 min-h-0 h-full">
@@ -269,6 +278,7 @@ export default function MongodbScanTab({ modelCatalogue, onStepChange }: Props) 
           scanResult={getViewerScanResult(viewerFileId)! as any}
           credentials={{}}
           authType="mongodb"
+          projectionContext={activeProjectionContext}
           onClose={() => setViewerFileId(null)}
         />
       )}

@@ -1403,5 +1403,182 @@ describe('DocumentViewerModal - Table Projection', () => {
     const badge = screen.getByTestId('column-badge');
     expect(badge.textContent).toContain('EMAIL_ADDRESS');
   });
+
+  it('mongodb 1: authType "mongodb", scanMode "full": the "Table View" tab is visible', () => {
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+    expect(screen.getByText('Table View')).toBeInTheDocument();
+  });
+
+  it('mongodb 2: authType "mongodb", scanMode "full", click "Table View": apiClient.projectConnector called ONCE with exact mongodb payload', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full', row_cap: 50, displayed_rows: 0, columns: [], rows: []
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Table View'));
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+    expect(apiClient.projectConnector).toHaveBeenCalledWith(
+      'mongodb',
+      { host: 'h', port: 'p', database: 'd', user: 'u', password: 'pw', table: 't1', scan_mode: 'full' },
+      'fake-token'
+    );
+  });
+
+  it('mongodb 3: loading state visible while the request is pending', async () => {
+    const deferred = createDeferred();
+    (apiClient.projectConnector as any).mockReturnValue(deferred.promise);
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Table View'));
+    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+  });
+
+  it('mongodb 4: zero rows gives "No rows found."', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full', row_cap: 50, displayed_rows: 0, columns: [], rows: []
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => {
+      expect(screen.getByText('No rows found.')).toBeInTheDocument();
+    });
+  });
+
+  it('mongodb 5: loaded gives the cell value text on screen', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full',
+      row_cap: 50,
+      displayed_rows: 1,
+      columns: [{ name: 'colMongo', verdict: null, verdict_cells: 0, flagged_cells: 0, total_cells: 1 }],
+      rows: [[{ value: 'mongodb_value', findings: [] }]]
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => {
+      expect(screen.getByText('mongodb_value')).toBeInTheDocument();
+    });
+  });
+
+  it('mongodb 6: authType "mongodb", scanMode "metadata_only": NO "Table View" tab', () => {
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'metadata_only' }}
+        onClose={() => {}}
+      />
+    );
+    expect(screen.queryByText('Table View')).not.toBeInTheDocument();
+  });
+
+  it('mongodb 7: authType "mariadb", scanMode "full": the tab is visible; click it; projectConnector called ONCE and its first argument is "mariadb"', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full', row_cap: 50, displayed_rows: 0, columns: [], rows: []
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mariadb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    expect(screen.getByText('Table View')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Table View'));
+    expect(apiClient.projectConnector).toHaveBeenCalledTimes(1);
+    expect(apiClient.projectConnector).toHaveBeenCalledWith(
+      'mariadb',
+      expect.anything(),
+      expect.anything()
+    );
+  });
+
+  it('mongodb 8: authType "mongodb", loaded with one email cell and a column with verdict EMAIL_ADDRESS, verdict_cells 1, total_cells 1, flagged_cells 1: exactly one <mark> in the grid whose own text is the email, AND one badge (data-testid "column-badge") whose text contains "EMAIL_ADDRESS"', async () => {
+    (apiClient.projectConnector as any).mockResolvedValue({
+      scan_mode: 'full',
+      row_cap: 50,
+      displayed_rows: 1,
+      columns: [{ name: 'col1', verdict: 'EMAIL_ADDRESS', verdict_cells: 1, flagged_cells: 1, total_cells: 1 }],
+      rows: [[{ value: 'alice@example.com', findings: [{ label: 'EMAIL_ADDRESS', start: 0, end: 17, score: 0.9 }] }]]
+    });
+
+    render(
+      <DocumentViewerModal
+        fileInfo={mockFileInfo}
+        scanResult={mockScanResult}
+        credentials={{}}
+        authType="mongodb"
+        projectionContext={{ ...validContext, scanMode: 'full' }}
+        onClose={() => {}}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Table View'));
+    await waitFor(() => expect(screen.getByTestId('column-badge')).toBeInTheDocument());
+
+    const marks = screen.getAllByRole('mark');
+    expect(marks).toHaveLength(1);
+    expect(marks[0]).toHaveTextContent('alice@example.com');
+
+    const badge = screen.getByTestId('column-badge');
+    expect(badge.textContent).toContain('EMAIL_ADDRESS');
+  });
 });
 
